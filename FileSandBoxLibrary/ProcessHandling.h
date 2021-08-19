@@ -1,6 +1,9 @@
 #pragma once
 
-#include <windows.h>
+
+#include "FilesandboxApi_DllStuff.h"
+
+#include <Windows.h>
 
 /// <summary>
 /// Each process that uses the api will have a structure allocated to it.

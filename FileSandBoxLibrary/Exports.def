@@ -1,0 +1,7 @@
+LIBRARY FILESANDBOXAPI
+	EXPORTS
+		FSDebugLoop
+		FSWaitForDebugEvent
+		FSContinueDebugEvent
+		FSStartup
+		FSCleanup

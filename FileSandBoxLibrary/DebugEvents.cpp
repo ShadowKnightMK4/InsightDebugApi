@@ -1,7 +1,7 @@
-#include "ClientCallers.h"
-#define FILESANDBOX_API_DLL FILESANDBOX_AP_DLL_EXPORT
-#include "DebugEvent.h"
 
+#include <Windows.h>
+#include "FileSandBoxApi.h"
+#include "FilesandboxApi_DllStuff.h"
 extern "C" {
 
 	/// <summary>
@@ -46,7 +46,7 @@ extern "C" {
 	}
 
 
-	BOOL FILESANDBOX_API_DLL FSDebugLoop(Client client, DebupEventCallbackApi UserRoutine, LPVOID CustomArg)
+	BOOL FILESANDBOX_API_DLL FSDebugLoop(Client* client, DebupEventCallbackApi UserRoutine, LPVOID CustomArg)
 	{
 		DEBUG_EVENT ThisLoop;
 		DWORD ContinueState = DBG_CONTINUE;
@@ -97,7 +97,7 @@ extern "C" {
 			return TRUE;
 		}
 	}
-	BOOL FILESANDBOX_API_DLL FSWaitForDebugEvent(Client client, LPDEBUG_EVENT Event, DWORD Timer)
+	BOOL FILESANDBOX_API_DLL FSWaitForDebugEvent(Client* client, LPDEBUG_EVENT Event, DWORD Timer)
 	{
 		if (client == nullptr)
 		{
@@ -110,7 +110,7 @@ extern "C" {
 		return WaitForDebugEventEx(Event, Timer);
 	}
 
-	BOOL FILESANDBOX_API_DLL FSContinueDebugEvent(Client client, LPDEBUG_EVENT Event, DWORD ContinueStatus)
+	BOOL FILESANDBOX_API_DLL FSContinueDebugEvent(Client* client, LPDEBUG_EVENT Event, DWORD ContinueStatus)
 	{
 		if (client == nullptr)
 		{

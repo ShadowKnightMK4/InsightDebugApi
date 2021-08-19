@@ -1,28 +1,17 @@
 #pragma once
 
-#include <Windows.h>
-
-#define FILESANDBOX_AP_DLL_IMPORT 1
-#define FILESANDBOX_AP_DLL_EXPORT 2
-
-#ifndef FILESANDBOX_API_DLL
-#error Please define FILESANDBOX_API_DLL to FILESANDBOX_AP_DLL_IMPORT (1) or FILESANDBOX_AP_DLL_IMPORT (2)
-#else
-
-#if FILESANDBOX_API_DLL==FILESANDBOX_AP_DLL_IMPORT
-	#undef FILESANDBOX_API_DLL
-	#define FILESANDBOX_API_DLL __declspec(dllimport)
-#elif FILESANDBOX_API_DLL==FILESANDBOX_AP_DLL_EXPORT
-	#undef FILESANDBOX_API_DLL
-	#define FILESANDBOX_API_DLL __declspec(dllexport)
-#else
-#error Please define FILESANDBOX_API_DLL to IMPORT or EXPORT
-#endif // FILESANDBOX_API_DLL=IMPORT
-
-#endif
-
-typedef int(_stdcall DebupEventCallbackApi)(LPDEBUG_EVENT CurEvent, DWORD* ContinueState, DWORD* WaitTime, LPVOID CustomArg);
+#include "FilesandboxApi_DllStuff.h"
 extern "C" {
+	/// <summary>
+/// Callback for FSDebugLoop
+/// CurEvent is event to process. Your routine gets this .
+///  IF NOT NULL, ContinueState is a pointer to a 4 byte dword. Use the Win32 Api ContinueDebugEvent() argument constants.  
+/// IF NOT NULL, Waittime is a pointer to a 4 byte dword. Specifies how long to wait with WaitForeDebugEventEx().  Use INFINITE to Wait until an event triggers
+/// CustomArg is something You'll be passing to FSDebugLoop().  This is passed unaltered to your routine.
+/// </summary>
+	typedef int(_stdcall DebupEventCallbackApi)(LPDEBUG_EVENT CurEvent, DWORD* ContinueState, DWORD* WaitTime, LPVOID CustomArg);
+
+
 	/// <summary>
 	/// Implements a debugger loop.
 	/// </summary>
@@ -30,7 +19,7 @@ extern "C" {
 	/// <param name="UserRoutine"></param>
 	/// <param name="CustomArg"></param>
 	/// <returns></returns>
-	BOOL FILESANDBOX_API_DLL FSDebugLoop(Client client, DebupEventCallbackApi UserRoutine, LPVOID CustomArg);
+	BOOL FILESANDBOX_API_DLL FSDebugLoop(Client* client, DebupEventCallbackApi UserRoutine, LPVOID CustomArg);
 	/// <summary>
 	/// Wraps WaitForDebugEventEx()
 	/// </summary>
@@ -38,7 +27,7 @@ extern "C" {
 	/// <param name="Event"></param>
 	/// <param name="Timer"></param>
 	/// <returns></returns>
-	BOOL FILESANDBOX_API_DLL FSWaitForDebugEvent(Client client, LPDEBUG_EVENT Event, DWORD Timer);
+	BOOL FILESANDBOX_API_DLL FSWaitForDebugEvent(Client* client, LPDEBUG_EVENT Event, DWORD Timer);
 	/// <summary>
 	/// Wraps ContinueDebugEvent()
 	/// </summary>
@@ -46,5 +35,5 @@ extern "C" {
 	/// <param name="Event"></param>
 	/// <param name="ContinueStatus"></param>
 	/// <returns></returns>
-	BOOL FILESANDBOX_API_DLL FSContinueDebugEvent(Client client, LPDEBUG_EVENT Event, DWORD ContinueStatus);
+	BOOL FILESANDBOX_API_DLL FSContinueDebugEvent(Client* client, LPDEBUG_EVENT Event, DWORD ContinueStatus);
 }

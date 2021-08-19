@@ -29,14 +29,25 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ProcessHandling.h">
-      <Filter>Resource Files</Filter>
+    <ClInclude Include="ClientCallers.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DebugEvent.h">
-      <Filter>Resource Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ClientCallers.h">
-      <Filter>Resource Files</Filter>
+    <ClInclude Include="FilesandboxApi_DllStuff.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="FileSandBoxApi.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ProcessHandling.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Exports.def">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

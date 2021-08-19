@@ -1,31 +1,46 @@
 
-#include <Windows.h>
 
-struct Client
-{
-	/// <summary>
-	/// When the DebugHelp Api is synched thru the API in this DLL, we use this to syync.
-	/// </summary>
-	CONDITION_VARIABLE DebugHelpSync;
-	CONDITION_VARIABLE Logg;
-	
-};
+
+#include <Windows.h>
+#include "FilesandboxApi_DllStuff.h"
+#include "ClientCallers.h"
+#include <debugapi.h>
+
 extern "C" {
 	/// <summary>
 	/// Return a Handle to the caller (that's actually a pointer to a structer to use with other calls.
 	/// </summary>
 	/// <param name="Id">How you want to ID yourself</param>
 	/// <returns></returns>
-	VOID* FSStartup(DWORD Id)
+	VOID* WINAPI FSStartup(DWORD Id)
 	{
-		return new Client();
+		return FSSTartupEx(Id, FALSE);
+	}
+
+	VOID* WINAPI FSSTartupEx(DWORD Id, BOOL WantDebugHelper)
+	{
+		Client* ret = new Client();
+		if (ret) {
+			ret->ID = Id;
+			// setup the helper 
+			if (WantDebugHelper)
+			{
+				InitializeConditionVariable(&ret->DebugHelpSyncVal);
+				ret->SyncDebugHelper = TRUE;
+			}
+			else
+			{
+				ret->SyncDebugHelper = FALSE;
+			}
+			
+		}
 	}
 
 	/// <summary>
 	/// Cleanup resources that were setup in FSStartup
 	/// </summary>
 	/// <param name="ID"></param>
-	VOID FSCleanup(Client* ID)
+	VOID WINAPI FSCleanup(Client* ID)
 	{
 		delete ID;
 	}

@@ -74,8 +74,42 @@ SOURCE Citing
 		Detours from
 			https://github.com/Microsoft/Detours
 
-			
 
+
+---------------------------------------------
+Commandments Blerb
+---------------------------------------------
+	After watching a certain show I thought of the idea of using a series of Yes/No options with the current setup of 
+		Custom Debugger,
+				HelperDll throws exception that contains information about the routine being called,
+				Custom Debugger Checks its commandment list and tells the helper dll to just return a certain value.
+
+		Requiements:
+				Target Process Must be debugable and be option to the way Detours Injects DLLs
+				Target Process can have been spawned with or hat the NtSetFormationThread with the hide from debugger attribute as sourced here
+					https://www.apriorit.com/dev-blog/367-anti-reverse-engineering-protection-techniques-to-use-before-releasing-software
+				If the call goes thru, the link between our custom debugger and helper dll is broken, these commandments wont work.
+					TODO: Consider A set of shared handles that receives the SEH instead or an alternative approach
+
+		List:
+				Commandment No Read
+						Should a call be seeing where read acess os done with a file, the routine fails with an ACCESS_DENIED error message
+				Commamd No Write
+					Should a call be seeing where write acess os done with a file, the routine fails with an ACCESS_DENIED error message
+				Command No Spawn Process
+					Should a call be done to try spawnng a process, he routine afils with an ACCESS_DENIED Error message.
+
+	Future Ideas:
+			Consider making a backup of the source or offering redirection to an arbirary 3rd party rather than just a yes or no.
+
+
+	Implemntation:
+				Detours is used on 
+						NtCreateFile, NtOpenFile,  NtCreateUserProcess
+						The detour collects the arguments, builds a command data structure and throws an exception for the debugger's use.
+						The debugger is free to inspect/ modify the structure.
+						The Debugger will need to set a certain flag and copy the structure pass into the debugged process.
+						The detoured routine interprets this data structure and changges its output acordingly.
 ------------------------------------------
 	License
 ------------------------------------------
