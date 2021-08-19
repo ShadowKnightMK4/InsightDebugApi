@@ -17,6 +17,12 @@ extern "C" {
 		return FSSTartupEx(Id, FALSE);
 	}
 
+	/// <summary>
+	/// Call to get a handle to use the other routines.
+	/// </summary>
+	/// <param name="Id"></param>
+	/// <param name="WantDebugHelper"></param>
+	/// <returns></returns>
 	VOID* WINAPI FSSTartupEx(DWORD Id, BOOL WantDebugHelper)
 	{
 		Client* ret = new Client();
