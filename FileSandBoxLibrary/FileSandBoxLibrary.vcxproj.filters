@@ -13,41 +13,116 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\ClassDefines">
+      <UniqueIdentifier>{223598d9-df55-441c-9e07-f871f6632576}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ClassSource">
+      <UniqueIdentifier>{e879678c-edaf-40a2-89dd-2f82f91a8bc1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\PublicWin32Exports">
+      <UniqueIdentifier>{fccf0de8-1781-41f9-86c6-0a6c94dfea8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\NonExports">
+      <UniqueIdentifier>{ea10169c-ecda-4faf-bc27-0bbb40bcc379}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\DllJunk">
+      <UniqueIdentifier>{0179eb3d-0a98-45b6-a547-a027d0f3947f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\PublicWin32Exports\ProcessRoutines">
+      <UniqueIdentifier>{5627b863-d5ae-4cfb-9bc8-03ce11c521e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\PublicWin32Exports\DebugEvents">
+      <UniqueIdentifier>{e627e445-4df6-4681-910c-261c186aa32c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\PublicWin32Exports\Misc">
+      <UniqueIdentifier>{57f3c625-02be-4a73-bb0e-4aa6004663f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\DebugEvent">
+      <UniqueIdentifier>{42c8b10f-2aee-454e-b57f-f048cf323ce3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="DllMain.cpp">
+    <ClCompile Include="RemoteStructureRoutines.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Client.cpp">
+      <Filter>Source Files\ClassSource</Filter>
+    </ClCompile>
+    <ClCompile Include="ProcessContextSingle.cpp">
+      <Filter>Source Files\ClassSource</Filter>
+    </ClCompile>
+    <ClCompile Include="PS_ProcessInformation.cpp">
+      <Filter>Source Files\ClassSource</Filter>
+    </ClCompile>
+    <ClCompile Include="ClientHandling.cpp">
+      <Filter>Source Files\PublicWin32Exports</Filter>
+    </ClCompile>
+    <ClCompile Include="ProcessHandlingInternal.cpp">
+      <Filter>Source Files\PublicWin32Exports\ProcessRoutines</Filter>
     </ClCompile>
     <ClCompile Include="DebugEvents.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\PublicWin32Exports\DebugEvents</Filter>
     </ClCompile>
-    <ClCompile Include="ClientCallers.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Utility.cpp">
+      <Filter>Source Files\PublicWin32Exports\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="DllMain.cpp">
+      <Filter>Source Files\PublicWin32Exports\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugEventInternal.cpp">
+      <Filter>Source Files\PublicWin32Exports\DebugEvents</Filter>
     </ClCompile>
     <ClCompile Include="ProcessHandling.cpp">
+      <Filter>Source Files\PublicWin32Exports\ProcessRoutines</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugLogTarget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ClientCallers.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DebugEvent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="FilesandboxApi_DllStuff.h">
+    <ClInclude Include="ClientHandling.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="FileSandBoxApi.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ProcessHandling.h">
+    <ClInclude Include="Utility.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Client.h">
+      <Filter>Header Files\ClassDefines</Filter>
+    </ClInclude>
+    <ClInclude Include="RemoteStructure.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PS_ProcessInformation.h">
+      <Filter>Header Files\ClassDefines</Filter>
+    </ClInclude>
+    <ClInclude Include="ProcessContext.h">
+      <Filter>Header Files\ClassDefines</Filter>
+    </ClInclude>
+    <ClInclude Include="ProcessHandling.h">
+      <Filter>Header Files\DllJunk</Filter>
+    </ClInclude>
+    <ClInclude Include="FilesandboxApi_DllStuff.h">
+      <Filter>Header Files\DllJunk</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugEvent.h">
+      <Filter>Header Files\DebugEvent</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugEventInternal.h">
+      <Filter>Header Files\DebugEvent</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugLogTarget.h">
+      <Filter>Header Files\ClassDefines</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Exports.def">
+    <None Include="OldExports.def">
       <Filter>Resource Files</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="NamingScheme.txt" />
   </ItemGroup>
 </Project>

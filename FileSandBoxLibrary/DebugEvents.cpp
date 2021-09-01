@@ -2,10 +2,14 @@
 #include <Windows.h>
 #include "FileSandBoxApi.h"
 #include "FilesandboxApi_DllStuff.h"
+#include "Client.h"
+
+#include "DebugEventInternal.h"
+
 extern "C" {
 
 	/// <summary>
-	/// Enable a priv on self.  NOT INTENDED TO BE EXPORTED
+	/// Enable a priv on self.  NOT INTENDED TO BE EXPORTED. 
 	/// </summary>
 	/// <param name="PrivNaem"></param>
 	/// <param name="Enable"></param>
@@ -46,60 +50,32 @@ extern "C" {
 	}
 
 
-	BOOL FILESANDBOX_API_DLL FSDebugLoop(Client* client, DebupEventCallbackApi UserRoutine, LPVOID CustomArg)
+	BOOL WINAPI FSContinueDebugEvent(DWORD ClientHandle, LPDEBUG_EVENT Event, DWORD ContinueStatus)
 	{
-		DEBUG_EVENT ThisLoop;
-		DWORD ContinueState = DBG_CONTINUE;
-		DWORD WaitTimer = INFINITE;
-		memset(&ThisLoop, 0, sizeof(DEBUG_EVENT));
-		if (UserRoutine == nullptr)
+		if (ClientHandle == 0)
 		{
-			SetLastError(ERROR_INVALID_ADDRESS);
 			return FALSE;
-
+		}
+		if (Event == nullptr)
+		{
+			return FALSE;
+		}
+		Client* ClientData = FSClientIdToPoint(ClientHandle);
+		if (ClientData != nullptr)
+		{
+			return FSContinueDebugEventInternal(ClientData, Event, ContinueStatus);
 		}
 		else
 		{
-			int UserDebugRoutineResult = 0;
-			while (TRUE)
-			{
-				if (FSWaitForDebugEvent(client, &ThisLoop, WaitTimer))
-				{
-					UserDebugRoutineResult = UserRoutine(&ThisLoop, &ContinueState, &WaitTimer, CustomArg);
-					if (UserDebugRoutineResult < 0)
-					{
-						DebugSetProcessKillOnExit(TRUE);
-						break;
-					}
-
-					if (UserDebugRoutineResult == 0)
-					{
-						DebugSetProcessKillOnExit(FALSE);
-						break;
-					}
-
-					if (UserDebugRoutineResult > 0)
-					{
-						if (!FSContinueDebugEvent(client, &ThisLoop, ContinueState))
-						{
-							break;
-						}
-					}
-
-
-
-				}
-				else
-				{
-					return FALSE;
-				}
-			}
-			return TRUE;
+			return FALSE;
 		}
 	}
-	BOOL FILESANDBOX_API_DLL FSWaitForDebugEvent(Client* client, LPDEBUG_EVENT Event, DWORD Timer)
+
+
+	BOOL WINAPI FSWaitForDebugEvent(DWORD ClientHandle, LPDEBUG_EVENT Event, DWORD Timer)
 	{
-		if (client == nullptr)
+
+		if (ClientHandle == 0)
 		{
 			return FALSE;
 		}
@@ -107,20 +83,45 @@ extern "C" {
 		{
 			return FALSE;
 		}
-		return WaitForDebugEventEx(Event, Timer);
+		Client* ClientData = FSClientIdToPoint(ClientHandle);
+		if (ClientData != nullptr) 
+		{
+			return FSWaitForDebugEventInternal(ClientData, Event, Timer);
+		}
+		else
+		{
+			return FALSE;
+		}
 	}
 
-	BOOL FILESANDBOX_API_DLL FSContinueDebugEvent(Client* client, LPDEBUG_EVENT Event, DWORD ContinueStatus)
+
+	
+	/// <summary>
+	/// The Public export for FSDebugLoop.   FSDebugLoop implements a single threaded debug loop to process DEBUG_EVENTS.    
+	/// </summary>
+	/// <param name="ClientIndex">Value returned FSStartup or FSSTartupEx</param>
+	/// <param name="UserRoutine">your routine to process the events</param>
+	/// <param name="CustomArg">custom arg passed to your routie</param>
+	/// <returns>TRUE if process exited with no issues.   DOES NOT RETURN Until process exists.</returns>
+	BOOL WINAPI FSDebugLoop(DWORD ClientIndex, DebupEventCallbackApi UserRoutine, LPVOID CustomArg)
 	{
-		if (client == nullptr)
+		if (UserRoutine == 0)
 		{
 			return FALSE;
 		}
-		if (Event == nullptr)
+		if (ClientIndex == 0)
 		{
 			return FALSE;
 		}
-		return ContinueDebugEvent(Event->dwProcessId, Event->dwThreadId, ContinueStatus);
+		Client* UserClient = FSClientIdToPoint(ClientIndex);
+		if (UserClient == nullptr)
+		{
+			return FALSE;
+		}
+		else
+		{
+			return FSDebugLoopInternal(UserClient, UserRoutine, CustomArg);
+		}
 	}
 	
 }

@@ -117,6 +117,7 @@ Commandments Blerb
 			3rd party licenes:
 					https://github.com/microsoft/Detours/blob/master/LICENSE.md
 					https://processhacker.sourceforge.io/gpl.php
+					https://www.codeproject.com/Articles/132742/Writing-Windows-Debugger-Part-2    <- idea to use events and a worker thread form there.
 			Quick overview:
 				Detours using the MIT license while Process Hacker is using the GPLv3 license with a special case for dynamic linking.
 				The file in the StaticIncludes ntpsapi.h is lfting from the Source specificed. I'm wondering is this would count as using Process Hacker source or Windows NT documented source?

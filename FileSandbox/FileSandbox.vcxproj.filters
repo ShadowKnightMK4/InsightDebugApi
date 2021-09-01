@@ -21,22 +21,13 @@
     <ClCompile Include="ProcessLauncher.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DebugEvent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="RemoteProcessStruct.cpp">
+    <ClCompile Include="DebugEventConsole.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="RemoteStructure.h">
       <Filter>Header Files</Filter>
     </ClCompile>
-    <ClCompile Include="ProcessContext.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Process.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="RemoteStructure.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -44,7 +35,7 @@
     <ClInclude Include="ProcessLauncher.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DebugEvent.h">
+    <ClInclude Include="DebugEventConsole.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ProcessContext.h">

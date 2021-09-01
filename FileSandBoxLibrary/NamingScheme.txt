@@ -1,0 +1,12 @@
+
+OUTSIDE USER
+	->	Client
+
+
+
+
+	FileSandBoxApi
+			Spawn Processes	-		Provide Options to Spawn and create processes as well as debug settings
+			Track Processes -		Provide Options to track spawned processed
+
+			

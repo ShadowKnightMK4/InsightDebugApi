@@ -1,4 +1,4 @@
-#include "DebugEvent.h"
+#include "DebugEventConsole.h"
 
 bool EnablePrivOnSelf(LPCTSTR PrivNaem, BOOL Enable)
 {
