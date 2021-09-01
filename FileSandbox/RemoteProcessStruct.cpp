@@ -1,448 +1,449 @@
  #include "RemoteStructure.h"
 
 
+extern "C" {
 
-namespace RemoteStructureRoutine
-{
-	/// <summary>
-	/// Allocate a buffer of MaxBuffer, read from the passed process's RemoteMemory allocate and return said buffer
-	/// </summary>
-	/// <param name="Process">0 is GetCurrentProcess(), True process handle needs PROCESS_VM_READ</param>
-	/// <param name="RemoteMemory">Virtual Memory location in the remote process</param>
-	/// <param name="MaxBuffer">MaxBuffer to allocate and read (UNICODE_STRING struct has this value)</param>
-	/// <returns>a buffer allocated with malloc() of MaxBuffer size with the data read from the remote process. Returns nullptr on error or bad argument</returns>
-	PWSTR ReadRemoteUnicodeStringBuffer(HANDLE Process, PWSTR RemoteMemory, USHORT MaxBuffer, USHORT DataSize)
+	namespace RemoteStructureRoutine
 	{
-		PWSTR ret = nullptr;
-		if (Process == 0)
+		/// <summary>
+		/// Allocate a buffer of MaxBuffer, read from the passed process's RemoteMemory allocate and return said buffer
+		/// </summary>
+		/// <param name="Process">0 is GetCurrentProcess(), True process handle needs PROCESS_VM_READ</param>
+		/// <param name="RemoteMemory">Virtual Memory location in the remote process</param>
+		/// <param name="MaxBuffer">MaxBuffer to allocate and read (UNICODE_STRING struct has this value)</param>
+		/// <returns>a buffer allocated with malloc() of MaxBuffer size with the data read from the remote process. Returns nullptr on error or bad argument</returns>
+		PWSTR ReadRemoteUnicodeStringBuffer(HANDLE Process, PWSTR RemoteMemory, USHORT MaxBuffer, USHORT DataSize)
 		{
-			Process = GetCurrentProcess();
+			PWSTR ret = nullptr;
+			if (Process == 0)
+			{
+				Process = GetCurrentProcess();
+			}
+			if (RemoteMemory == nullptr)
+			{
+				return nullptr;
+			}
+			if (MaxBuffer < DataSize)
+			{
+				return nullptr;
+			}
+			if (MaxBuffer != 0)
+			{
+				SIZE_T BytesRead = 0;
+				ret = reinterpret_cast<PWSTR>(malloc(MaxBuffer + sizeof(wchar_t)));
+				if (ret)
+				{
+					memset(ret, 0, MaxBuffer + sizeof(wchar_t));
+					if (!ReadProcessMemory(Process, RemoteMemory, ret, DataSize, &BytesRead))
+					{
+						free(ret);
+						return nullptr;
+					}
+					else
+					{
+						return ret;
+					}
+				}
+			}
+			return ret;
 		}
-		if (RemoteMemory == nullptr)
+
+		RTL_USER_PROCESS_PARAMETERS* RemoteReadUserProcessParameters(HANDLE Process, LPVOID RemoteMemory)
 		{
-			return nullptr;
-		}
-		if (MaxBuffer < DataSize)
-		{
-			return nullptr;
-		}
-		if (MaxBuffer != 0)
-		{
-			SIZE_T BytesRead = 0;
-			ret = reinterpret_cast<PWSTR>(malloc(MaxBuffer + sizeof(wchar_t)));
+			RTL_USER_PROCESS_PARAMETERS* ret = nullptr;
+			DWORD ProjectedSize = sizeof(RTL_USER_PROCESS_PARAMETERS);
+			DWORD BytesRead = 0;
+			if (Process == 0)
+			{
+				Process = GetCurrentProcess();
+			}
+			if (RemoteMemory == 0)
+			{
+				return nullptr;
+			}
+
+			ret = (RTL_USER_PROCESS_PARAMETERS*)malloc((ProjectedSize));
 			if (ret)
 			{
-				memset(ret, 0, MaxBuffer + sizeof(wchar_t));
-				if (!ReadProcessMemory(Process, RemoteMemory, ret, DataSize, &BytesRead))
+				if (!ReadProcessMemory(Process, RemoteMemory, ret, ProjectedSize, &BytesRead) || (BytesRead != ProjectedSize))
 				{
 					free(ret);
 					return nullptr;
 				}
 				else
 				{
-					return ret;
-				}
-			}
-		}
-		return ret;
-	}
 
-	RTL_USER_PROCESS_PARAMETERS* RemoteReadUserProcessParameters(HANDLE Process, LPVOID RemoteMemory)
-	{
-		RTL_USER_PROCESS_PARAMETERS* ret = nullptr;
-		DWORD ProjectedSize = sizeof(RTL_USER_PROCESS_PARAMETERS);
-		DWORD BytesRead = 0;
-		if (Process == 0)
-		{
-			Process = GetCurrentProcess();
-		}
-		if (RemoteMemory == 0)
-		{
-			return nullptr;
-		}
-
-		ret = (RTL_USER_PROCESS_PARAMETERS*)malloc((ProjectedSize));
-		if (ret)
-		{
-			if (!ReadProcessMemory(Process, RemoteMemory, ret, ProjectedSize, &BytesRead) || (BytesRead != ProjectedSize))
-			{
-				free(ret);
-				return nullptr;
-			}
-			else
-			{
-				
-				if (ret->CommandLine.Buffer != nullptr)
-				{
-					if ( (ret->CommandLine.Length == 0) || (((VOID*) ret->CommandLine.Buffer) == (VOID*)0xcccccccc))
+					if (ret->CommandLine.Buffer != nullptr)
 					{
-						ret->CommandLine.Buffer =  reinterpret_cast<PWSTR>(malloc(ret->CommandLine.MaximumLength));
-
-						if (ret->CommandLine.Buffer)
+						if ((ret->CommandLine.Length == 0) || (((VOID*)ret->CommandLine.Buffer) == (VOID*)0xcccccccc))
 						{
-							memset(ret->CommandLine.Buffer, 0, ret->CommandLine.MaximumLength);
+							ret->CommandLine.Buffer = reinterpret_cast<PWSTR>(malloc(ret->CommandLine.MaximumLength));
+
+							if (ret->CommandLine.Buffer)
+							{
+								memset(ret->CommandLine.Buffer, 0, ret->CommandLine.MaximumLength);
+							}
+							else
+							{
+								free(ret);
+								return nullptr;
+							}
 						}
 						else
 						{
-							free(ret);
-							return nullptr;
+							ret->CommandLine.Buffer = ReadRemoteUnicodeStringBuffer(Process, ret->CommandLine.Buffer, ret->CommandLine.MaximumLength, ret->CommandLine.Length);
+							if (ret->CommandLine.Buffer == nullptr)
+							{
+								free(ret);
+								return nullptr;
+							}
 						}
 					}
-					else
-					{
-						ret->CommandLine.Buffer = ReadRemoteUnicodeStringBuffer(Process, ret->CommandLine.Buffer, ret->CommandLine.MaximumLength, ret->CommandLine.Length);
-						if (ret->CommandLine.Buffer == nullptr)
-						{
-							free(ret);
-							return nullptr;
-						}
-					}
-				}
 
-				if (ret->ImagePathName.Buffer != nullptr)
-				{
-					if (ret->ImagePathName.Length == 0)
+					if (ret->ImagePathName.Buffer != nullptr)
 					{
-						ret->ImagePathName.Buffer = reinterpret_cast<PWSTR>(malloc(ret->ImagePathName.MaximumLength));
-						if (ret->ImagePathName.Buffer)
+						if (ret->ImagePathName.Length == 0)
 						{
-							memset(ret->ImagePathName.Buffer, 0, ret->ImagePathName.MaximumLength);
-						}
-						else
-						{
-							free(ret->CommandLine.Buffer);
-							free(ret);
-
-							return nullptr;
-						}
-					}
-					else
-					{
-						ret->ImagePathName.Buffer = ReadRemoteUnicodeStringBuffer(Process, ret->ImagePathName.Buffer, ret->ImagePathName.MaximumLength, ret->ImagePathName.Length);
-						if (ret->ImagePathName.Buffer == nullptr)
-						{
-							free(ret->ImagePathName.Buffer);
-							if (ret->CommandLine.Buffer != nullptr)
+							ret->ImagePathName.Buffer = reinterpret_cast<PWSTR>(malloc(ret->ImagePathName.MaximumLength));
+							if (ret->ImagePathName.Buffer)
+							{
+								memset(ret->ImagePathName.Buffer, 0, ret->ImagePathName.MaximumLength);
+							}
+							else
 							{
 								free(ret->CommandLine.Buffer);
+								free(ret);
+
+								return nullptr;
 							}
-							free(ret);
-							return nullptr;
+						}
+						else
+						{
+							ret->ImagePathName.Buffer = ReadRemoteUnicodeStringBuffer(Process, ret->ImagePathName.Buffer, ret->ImagePathName.MaximumLength, ret->ImagePathName.Length);
+							if (ret->ImagePathName.Buffer == nullptr)
+							{
+								free(ret->ImagePathName.Buffer);
+								if (ret->CommandLine.Buffer != nullptr)
+								{
+									free(ret->CommandLine.Buffer);
+								}
+								free(ret);
+								return nullptr;
+							}
 						}
 					}
 				}
 			}
+			return ret;
 		}
-		return ret;
-	}
 
-	
-		 
-/// <summary>
-	/// Cleanup a RTL_USER_PROCESS_PARAMETERS struct allocated by <see cref="RemoteReadUserProcessParameters">RemoteReadUserProcessParameters</see> call
-	/// </summary>
-	/// <param name="ptr"></param>
-	/// <returns></returns>
-	BOOL RemoteFreeUserProcessParameters(RTL_USER_PROCESS_PARAMETERS* ptr)
-	{
-		if (ptr)
+
+
+		/// <summary>
+			/// Cleanup a RTL_USER_PROCESS_PARAMETERS struct allocated by <see cref="RemoteReadUserProcessParameters">RemoteReadUserProcessParameters</see> call
+			/// </summary>
+			/// <param name="ptr"></param>
+			/// <returns></returns>
+		BOOL RemoteFreeUserProcessParameters(RTL_USER_PROCESS_PARAMETERS* ptr)
 		{
-			if (ptr->CommandLine.Buffer != nullptr)
+			if (ptr)
 			{
-				free(ptr->CommandLine.Buffer);
-			}
-			if (ptr->ImagePathName.Buffer != nullptr)
-			{
-				free(ptr->ImagePathName.Buffer);
-			}
-			free(ptr);
-			return TRUE;
-		}
-		return FALSE;
-	}
-
-
-
-	HANDLE DuplicateHandleToSelf(HANDLE RemoteProcess, HANDLE TargetHandle)
-	{
-		HANDLE ret = INVALID_HANDLE_VALUE;
-		if (RemoteProcess == 0)
-		{
-			RemoteProcess = GetCurrentProcess();
-		}
-		if (!DuplicateHandle(RemoteProcess, TargetHandle, GetCurrentProcess(), &ret, 0, FALSE, DUPLICATE_SAME_ACCESS))
-		{
-			return INVALID_HANDLE_VALUE;
-		}
-		return ret;
-	}
-
-
-	VOID* RemotePointerGet(HANDLE Process, VOID* Target, DWORD pointerSize)
-	{
-		{
-			VOID* Ret = nullptr;
-			SIZE_T size = 0;
-			if (Target != nullptr)
-			{
-				if (Process == nullptr)
+				if (ptr->CommandLine.Buffer != nullptr)
 				{
-					Process = GetCurrentProcess();
+					free(ptr->CommandLine.Buffer);
 				}
-				if ((pointerSize != 4) && (pointerSize != 8))
+				if (ptr->ImagePathName.Buffer != nullptr)
 				{
-					return nullptr;
+					free(ptr->ImagePathName.Buffer);
 				}
-				if (ReadProcessMemory(Process, Target, &Ret, pointerSize, &size))
+				free(ptr);
+				return TRUE;
+			}
+			return FALSE;
+		}
+
+
+
+		HANDLE DuplicateHandleToSelf(HANDLE RemoteProcess, HANDLE TargetHandle)
+		{
+			HANDLE ret = INVALID_HANDLE_VALUE;
+			if (RemoteProcess == 0)
+			{
+				RemoteProcess = GetCurrentProcess();
+			}
+			if (!DuplicateHandle(RemoteProcess, TargetHandle, GetCurrentProcess(), &ret, 0, FALSE, DUPLICATE_SAME_ACCESS))
+			{
+				return INVALID_HANDLE_VALUE;
+			}
+			return ret;
+		}
+
+
+		VOID* RemotePointerGet(HANDLE Process, VOID* Target, DWORD pointerSize)
+		{
+			{
+				VOID* Ret = nullptr;
+				SIZE_T size = 0;
+				if (Target != nullptr)
 				{
-					if (size != pointerSize)
+					if (Process == nullptr)
+					{
+						Process = GetCurrentProcess();
+					}
+					if ((pointerSize != 4) && (pointerSize != 8))
 					{
 						return nullptr;
 					}
+					if (ReadProcessMemory(Process, Target, &Ret, pointerSize, &size))
+					{
+						if (size != pointerSize)
+						{
+							return nullptr;
+						}
 
+					}
+				}
+				return Ret;
+			}
+		}
+
+		/// <summary>
+		/// Free UNICODE_STRING.  NOT INTENDED FOR GENERIC use outside of this function as it deals with the underylign implementation of how we allocate UNICODE_STRINGs as read from remote processes.
+		/// </summary>
+		/// <param name="ptr">ptr</param>
+		/// <param name="FreePtr">if TRUE, we free(ptr). If False we free(ptr->Buffer) only.</param>
+		/// <returns>true on ok and false if something went fooy</returns>
+		/// <remarks>For unicode strings that begun list as a pointer, set TreePtr to true.  For UnicodeStrings() that are containting within a larger structure that ARE NOT POIINTERS, set this to false. /<remarks>
+		BOOL RemoteFreeUnicodeString(UNICODE_STRING* ptr, BOOL FreePtr)
+		{
+			if (ptr != nullptr) {
+				if (ptr->Buffer != nullptr)
+				{
+					free(ptr->Buffer);
+				}
+				if (FreePtr)
+				{
+					free(ptr);
 				}
 			}
-			return Ret;
+			return FALSE;
 		}
-	}
-
-	/// <summary>
-	/// Free UNICODE_STRING.  NOT INTENDED FOR GENERIC use outside of this function as it deals with the underylign implementation of how we allocate UNICODE_STRINGs as read from remote processes.
-	/// </summary>
-	/// <param name="ptr">ptr</param>
-	/// <param name="FreePtr">if TRUE, we free(ptr). If False we free(ptr->Buffer) only.</param>
-	/// <returns>true on ok and false if something went fooy</returns>
-	/// <remarks>For unicode strings that begun list as a pointer, set TreePtr to true.  For UnicodeStrings() that are containting within a larger structure that ARE NOT POIINTERS, set this to false. /<remarks>
-	BOOL RemoteFreeUnicodeString(UNICODE_STRING* ptr, BOOL FreePtr)
-	{
-		if (ptr != nullptr) {
-			if (ptr->Buffer != nullptr)
-			{
-				free(ptr->Buffer);
-			}
-			if (FreePtr)
-			{
-				free(ptr);
-			}
-		}
-		return FALSE;
-	}
 
 
-	BOOL RemoteFreeUnicodeStringPart(UNICODE_STRING* ptr)
-	{
-		return RemoteFreeUnicodeString(ptr, FALSE);
-	}
-
-	BOOL RemoteFreeStandaloneUnicodeString(UNICODE_STRING* ptr)
-	{
-		return RemoteFreeUnicodeString(ptr, TRUE);
-	}
-
-
-	UNICODE_STRING* RemoteReadUnicodeString(HANDLE Process, LPVOID SourceLocation)
-	{
-		UNICODE_STRING* ret = 0;
-		if ((SourceLocation == nullptr))
+		BOOL RemoteFreeUnicodeStringPart(UNICODE_STRING* ptr)
 		{
+			return RemoteFreeUnicodeString(ptr, FALSE);
+		}
+
+		BOOL RemoteFreeStandaloneUnicodeString(UNICODE_STRING* ptr)
+		{
+			return RemoteFreeUnicodeString(ptr, TRUE);
+		}
+
+
+		UNICODE_STRING* RemoteReadUnicodeString(HANDLE Process, LPVOID SourceLocation)
+		{
+			UNICODE_STRING* ret = 0;
+			if ((SourceLocation == nullptr))
+			{
+				return ret;
+			}
+			if ((Process == 0))
+			{
+				Process = GetCurrentProcess();
+			}
+			ret = (UNICODE_STRING*)malloc(sizeof(UNICODE_STRING));
+			if (ret)
+			{
+				if (!RemoteStructureRoutine::RemoteReadUnicodeString(Process, SourceLocation, ret))
+				{
+					free(ret);
+					ret = 0;
+				}
+			}
 			return ret;
 		}
-		if ((Process == 0))
+
+		/// <summary>
+		/// Copys sizeof(UNICODE_STRING) bytes starting at SourceLocation in the Passed Process to The target location in the calling (that's you) process.
+		/// </summary>
+		/// <param name="Process">Can use 0 for GetCurrentProcess(), True Process Handles must have PROCESS_VM_READ at least</param>
+		/// <param name="SourceLocation">This is where to read from in the virtual memory of the passed processs's handle.</param>
+		/// <param name="TargetLocation">The results of the read are copied here. Also, the underling buffer in SourceLocation.Buffer is duplicating into TargetLocation as a seperate buffer.</param>
+		/// <returns>True if sucess and false if failure.</returns>
+		/// <remarks>This varient of the routine is used when reading UNICODE_STRINGS as part of a more complex data struvture..</remarks>
+		BOOL  RemoteReadUnicodeString(HANDLE Process, LPVOID SourceLocation, UNICODE_STRING* TargetLocation)
 		{
-			Process = GetCurrentProcess();
-		}
-		ret = (UNICODE_STRING*)malloc(sizeof(UNICODE_STRING));
-		if (ret)
-		{
-			if (!RemoteStructureRoutine::RemoteReadUnicodeString(Process, SourceLocation, ret))
+			PWSTR MyBuffer = 0;
+			if ((SourceLocation == nullptr) || (TargetLocation == nullptr))
 			{
-				free(ret);
-				ret = 0;
+				return FALSE;
 			}
-		}
-		return ret;
-	}
-
-	/// <summary>
-	/// Copys sizeof(UNICODE_STRING) bytes starting at SourceLocation in the Passed Process to The target location in the calling (that's you) process.
-	/// </summary>
-	/// <param name="Process">Can use 0 for GetCurrentProcess(), True Process Handles must have PROCESS_VM_READ at least</param>
-	/// <param name="SourceLocation">This is where to read from in the virtual memory of the passed processs's handle.</param>
-	/// <param name="TargetLocation">The results of the read are copied here. Also, the underling buffer in SourceLocation.Buffer is duplicating into TargetLocation as a seperate buffer.</param>
-	/// <returns>True if sucess and false if failure.</returns>
-	/// <remarks>This varient of the routine is used when reading UNICODE_STRINGS as part of a more complex data struvture..</remarks>
-	BOOL  RemoteReadUnicodeString(HANDLE Process, LPVOID SourceLocation, UNICODE_STRING* TargetLocation)
-	{
-		PWSTR MyBuffer = 0;
-		if ((SourceLocation == nullptr) || (TargetLocation == nullptr))
-		{
-			return FALSE;
-		}
-		if (Process == 0)
-		{
-			Process = GetCurrentProcess();
-		}
-		SIZE_T BytesRead = 0;
-		if ((!ReadProcessMemory(Process, SourceLocation, TargetLocation, sizeof(UNICODE_STRING), &BytesRead)) || (BytesRead != sizeof(UNICODE_STRING)))
-		{
-			ZeroMemory(TargetLocation, sizeof(UNICODE_STRING));
-			return FALSE;
-		}
-		else
-		{
-
-			if (Process == GetCurrentProcess())
+			if (Process == 0)
 			{
-				MyBuffer = _wcsdup(TargetLocation->Buffer);
-				if (MyBuffer)
-				{
-					TargetLocation->Buffer = MyBuffer;
-					return TRUE;
-				}
-				else
-				{
-					ZeroMemory(TargetLocation, sizeof(UNICODE_STRING));
-					return FALSE;
-				}
-
+				Process = GetCurrentProcess();
+			}
+			SIZE_T BytesRead = 0;
+			if ((!ReadProcessMemory(Process, SourceLocation, TargetLocation, sizeof(UNICODE_STRING), &BytesRead)) || (BytesRead != sizeof(UNICODE_STRING)))
+			{
+				ZeroMemory(TargetLocation, sizeof(UNICODE_STRING));
+				return FALSE;
 			}
 			else
 			{
-				MyBuffer = (PWSTR)malloc(TargetLocation->MaximumLength);
-				if (MyBuffer)
+
+				if (Process == GetCurrentProcess())
 				{
-					ZeroMemory(MyBuffer, TargetLocation->MaximumLength);
-					BytesRead = 0;
-					if (!ReadProcessMemory(Process, TargetLocation->Buffer, MyBuffer, TargetLocation->Length, &BytesRead) || (BytesRead != TargetLocation->Length))
+					MyBuffer = _wcsdup(TargetLocation->Buffer);
+					if (MyBuffer)
 					{
-						free(MyBuffer);
-						ZeroMemory(TargetLocation, sizeof(UNICODE_STRING));
-						return FALSE;
+						TargetLocation->Buffer = MyBuffer;
+						return TRUE;
 					}
 					else
 					{
-						TargetLocation->Buffer = MyBuffer;
-						if (TargetLocation->Length == TargetLocation->MaximumLength)
-						{
-							// a safety guard to ensure the string is null terminated
-							TargetLocation->Buffer[TargetLocation->Length - 1] = 0;
-						}
-						return TRUE;
+						ZeroMemory(TargetLocation, sizeof(UNICODE_STRING));
+						return FALSE;
 					}
-				}
-				return FALSE;
-			}
-		}
-	}
 
-	BOOL RemoteReadFreeObjectAttributes(OBJECT_ATTRIBUTES* ObjAttrib)
-	{
-		if (ObjAttrib == nullptr)
-		{
-			return FALSE;
-		}
-		if (ObjAttrib->ObjectName->Buffer != nullptr)
-		{
-			free(ObjAttrib->ObjectName->Buffer);
-		}
-		free(ObjAttrib);
-		return TRUE;
-	}
-
-	OBJECT_ATTRIBUTES* RemoteReadObjectAttributes(HANDLE Process, LPVOID TargetMemory, BOOL DuplHandles)
-	{
-		OBJECT_ATTRIBUTES* ret;
-		UNICODE_STRING* ObjectName;
-		SIZE_T BytesRead = 0;
-		if (Process == 0)
-		{
-			Process = GetCurrentProcess();
-		}
-		if (TargetMemory == nullptr)
-		{
-			return nullptr;
-		}
-		else
-		{
-			ret = (OBJECT_ATTRIBUTES*)malloc(sizeof(OBJECT_ATTRIBUTES));
-			if (ret != nullptr)
-			{
-				ZeroMemory(ret, sizeof(OBJECT_ATTRIBUTES));
-				if ((!ReadProcessMemory(Process, TargetMemory, ret, sizeof(UNICODE_STRING), &BytesRead)) || (BytesRead != sizeof(UNICODE_STRING)))
-				{
-					free(ret);
-					return nullptr;
-				}
-				ObjectName = RemoteStructureRoutine::RemoteReadUnicodeString(Process, ret->ObjectName);
-				if (ObjectName == nullptr)
-				{
-					ZeroMemory(ret, sizeof(OBJECT_ATTRIBUTES));
-					free(ret);
-					return nullptr;
 				}
 				else
 				{
-					ret->ObjectName = ObjectName;
-				}
-
-				if ((DuplHandles) && (GetCurrentProcess() != Process))
-				{
-					if (ret->RootDirectory != 0)
+					MyBuffer = (PWSTR)malloc(TargetLocation->MaximumLength);
+					if (MyBuffer)
 					{
-						ret->RootDirectory = DuplicateHandleToSelf(Process, ret->RootDirectory);
+						ZeroMemory(MyBuffer, TargetLocation->MaximumLength);
+						BytesRead = 0;
+						if (!ReadProcessMemory(Process, TargetLocation->Buffer, MyBuffer, TargetLocation->Length, &BytesRead) || (BytesRead != TargetLocation->Length))
+						{
+							free(MyBuffer);
+							ZeroMemory(TargetLocation, sizeof(UNICODE_STRING));
+							return FALSE;
+						}
+						else
+						{
+							TargetLocation->Buffer = MyBuffer;
+							if (TargetLocation->Length == TargetLocation->MaximumLength)
+							{
+								// a safety guard to ensure the string is null terminated
+								TargetLocation->Buffer[TargetLocation->Length - 1] = 0;
+							}
+							return TRUE;
+						}
 					}
+					return FALSE;
 				}
-				/*
-				* TODO Add code to copy the Security Descriptions
-				*
-				*/
-
-
-				return ret;
 			}
-
 		}
 
-	}
-
-	ULONG_PTR* RemoteReadArray(HANDLE Process, LPVOID TargetMemory, DWORD ElementCount)
-	{
-		DWORD BytesRead = 0;
-		ULONG_PTR* ret = nullptr;
-		if (Process == 0)
+		BOOL RemoteReadFreeObjectAttributes(OBJECT_ATTRIBUTES* ObjAttrib)
 		{
-			Process = GetCurrentProcess();
-		}
-		if (TargetMemory == 0)
-		{
-			return nullptr;
-		}
-		if (ElementCount == 0)
-		{
-			return nullptr;
-		}
-
-		ret = (ULONG_PTR*)malloc(sizeof(ULONG_PTR) * ElementCount);
-		if (ret)
-		{
-			memset(ret, 0, sizeof(ULONG_PTR) * ElementCount);
-
-			if (!ReadProcessMemory(Process, TargetMemory, ret, sizeof(ULONG_PTR) * ElementCount, &BytesRead) || (BytesRead != sizeof(ULONG_PTR) * ElementCount))
+			if (ObjAttrib == nullptr)
 			{
-				free(ret);
+				return FALSE;
+			}
+			if (ObjAttrib->ObjectName->Buffer != nullptr)
+			{
+				free(ObjAttrib->ObjectName->Buffer);
+			}
+			free(ObjAttrib);
+			return TRUE;
+		}
+
+		OBJECT_ATTRIBUTES* RemoteReadObjectAttributes(HANDLE Process, LPVOID TargetMemory, BOOL DuplHandles)
+		{
+			OBJECT_ATTRIBUTES* ret;
+			UNICODE_STRING* ObjectName;
+			SIZE_T BytesRead = 0;
+			if (Process == 0)
+			{
+				Process = GetCurrentProcess();
+			}
+			if (TargetMemory == nullptr)
+			{
 				return nullptr;
 			}
 			else
 			{
-				
+				ret = (OBJECT_ATTRIBUTES*)malloc(sizeof(OBJECT_ATTRIBUTES));
+				if (ret != nullptr)
+				{
+					ZeroMemory(ret, sizeof(OBJECT_ATTRIBUTES));
+					if ((!ReadProcessMemory(Process, TargetMemory, ret, sizeof(UNICODE_STRING), &BytesRead)) || (BytesRead != sizeof(UNICODE_STRING)))
+					{
+						free(ret);
+						return nullptr;
+					}
+					ObjectName = RemoteStructureRoutine::RemoteReadUnicodeString(Process, ret->ObjectName);
+					if (ObjectName == nullptr)
+					{
+						ZeroMemory(ret, sizeof(OBJECT_ATTRIBUTES));
+						free(ret);
+						return nullptr;
+					}
+					else
+					{
+						ret->ObjectName = ObjectName;
+					}
+
+					if ((DuplHandles) && (GetCurrentProcess() != Process))
+					{
+						if (ret->RootDirectory != 0)
+						{
+							ret->RootDirectory = DuplicateHandleToSelf(Process, ret->RootDirectory);
+						}
+					}
+					/*
+					* TODO Add code to copy the Security Descriptions
+					*
+					*/
+
+
+					return ret;
+				}
+
 			}
+
 		}
 
+		ULONG_PTR* WINAPI RemoteReadArray(HANDLE Process, LPVOID TargetMemory, DWORD ElementCount)
+		{
+			DWORD BytesRead = 0;
+			ULONG_PTR* ret = nullptr;
+			if (Process == 0)
+			{
+				Process = GetCurrentProcess();
+			}
+			if (TargetMemory == 0)
+			{
+				return nullptr;
+			}
+			if (ElementCount == 0)
+			{
+				return nullptr;
+			}
 
-		return ret;
-	}
+			ret = (ULONG_PTR*)malloc(sizeof(ULONG_PTR) * ElementCount);
+			if (ret)
+			{
+				memset(ret, 0, sizeof(ULONG_PTR) * ElementCount);
 
-		LPWSTR RemoteReadDebugString(HANDLE Process, LPDEBUG_EVENT Event)
+				if (!ReadProcessMemory(Process, TargetMemory, ret, sizeof(ULONG_PTR) * ElementCount, &BytesRead) || (BytesRead != sizeof(ULONG_PTR) * ElementCount))
+				{
+					free(ret);
+					return nullptr;
+				}
+				else
+				{
+
+				}
+			}
+
+
+			return ret;
+		}
+
+		LPWSTR WINAPI RemoteReadDebugString(HANDLE Process, LPDEBUG_EVENT Event)
 		{
 			LPWSTR Ret = nullptr;
 			DWORD StringSize = 0;
@@ -464,6 +465,7 @@ namespace RemoteStructureRoutine
 
 
 					Ret = (LPWSTR)malloc(StringSize + sizeof(wchar_t));
+					
 					if (Ret != nullptr)
 					{
 						memset(Ret, 0, StringSize + sizeof(wchar_t));
@@ -493,7 +495,7 @@ namespace RemoteStructureRoutine
 						if (BigMode)
 						{
 							// ensure string is null terminated.
-							Ret[StringSize-1] = 0;
+							Ret[StringSize - 1] = 0;
 						}
 					}
 
@@ -502,6 +504,20 @@ namespace RemoteStructureRoutine
 			}
 			return Ret;
 		}
+	}
+
+	/// <summary>
+	/// Intended for access for things that can import DLL routines BUT do not have memory access to CRT's free().  This wraps free() and is exported via several entries in the module .def file for the RemoteRead routines that can be done with a single to call free.
+	/// </summary>
+	/// <param name="ptr">non zero memory ptr.   If you pass null, the routine does nothing</param>
+	VOID WINAPI RemoteReadSimpleFree(VOID* ptr)
+	{
+		if (ptr)
+		{
+			free(ptr);
+		}
+	}
+
 }
 /*
 
