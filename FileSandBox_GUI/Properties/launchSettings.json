@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "FileSandBox_GUI": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}

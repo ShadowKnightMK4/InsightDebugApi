@@ -17,5 +17,28 @@ namespace FileSandBox_GUI
             InitializeComponent();
         }
 
+        DebugProcessGuiLauncher SpawnNewProcessGui;
+        private void allExceptHelperDllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void existingProcessToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void newProcessToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+           if (SpawnNewProcessGui == null)
+            {
+                SpawnNewProcessGui = new DebugProcessGuiLauncher();
+            }
+            
+            {
+                SpawnNewProcessGui.ResetGUI();
+                DialogResult result = SpawnNewProcessGui.ShowDialog(this);
+            }
+        }
     }
 }

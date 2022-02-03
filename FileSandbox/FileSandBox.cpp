@@ -171,13 +171,6 @@ int WINAPI DebugHandler(LPDEBUG_EVENT CurEvent, DWORD* ContStat, DWORD* WaitTime
 
 int main(int arc, char* argv[])
 {
-	DWORD Handle = FSStartup(1);
-	
-	DWORD dwProcessID = FS_SpawnProcessDebugSuspended(Handle, (wchar_t*) L"C:\\Windows\\System32\\notepad.exe", nullptr, 0, nullptr, nullptr, nullptr);
-	
-	FSDebugLoop(Handle, DebugHandler, 0);
-
-	FSCleanup(Handle);
 	return 0;
 	/*
 	PROCESS_INFORMATION Info;

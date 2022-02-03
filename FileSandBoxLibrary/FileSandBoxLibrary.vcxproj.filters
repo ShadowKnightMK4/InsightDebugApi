@@ -34,11 +34,20 @@
     <Filter Include="Source Files\PublicWin32Exports\DebugEvents">
       <UniqueIdentifier>{e627e445-4df6-4681-910c-261c186aa32c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\PublicWin32Exports\Misc">
-      <UniqueIdentifier>{57f3c625-02be-4a73-bb0e-4aa6004663f5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\DebugEvent">
       <UniqueIdentifier>{42c8b10f-2aee-454e-b57f-f048cf323ce3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ClassSourceCCall">
+      <UniqueIdentifier>{7a0a72f1-e707-4ca4-9f43-f25bb3e119cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\PublicWin32Exports\DetourPayloadHandling">
+      <UniqueIdentifier>{584f3222-3765-4c89-b43b-49778ff0b314}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\PublicWin32Exports\SymbolWrapperExports">
+      <UniqueIdentifier>{6152aeff-fe80-43e1-8cb2-5c0ceb1395a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\PublicWin32Exports\Misc">
+      <UniqueIdentifier>{57f3c625-02be-4a73-bb0e-4aa6004663f5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -46,9 +55,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Client.cpp">
-      <Filter>Source Files\ClassSource</Filter>
-    </ClCompile>
-    <ClCompile Include="ProcessContextSingle.cpp">
       <Filter>Source Files\ClassSource</Filter>
     </ClCompile>
     <ClCompile Include="PS_ProcessInformation.cpp">
@@ -66,7 +72,7 @@
     <ClCompile Include="Utility.cpp">
       <Filter>Source Files\PublicWin32Exports\Misc</Filter>
     </ClCompile>
-    <ClCompile Include="DllMain.cpp">
+    <ClCompile Include="Api_DllMain.cpp">
       <Filter>Source Files\PublicWin32Exports\Misc</Filter>
     </ClCompile>
     <ClCompile Include="DebugEventInternal.cpp">
@@ -77,6 +83,36 @@
     </ClCompile>
     <ClCompile Include="DebugLogTarget.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PS_ProcessInformationCCall.cpp">
+      <Filter>Source Files\ClassSourceCCall</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugDebugStructExports.cpp">
+      <Filter>Source Files\PublicWin32Exports\DebugEvents</Filter>
+    </ClCompile>
+    <ClCompile Include="CommandmentSettings.cpp">
+      <Filter>Source Files\PublicWin32Exports</Filter>
+    </ClCompile>
+    <ClCompile Include="DllMapper.cpp">
+      <Filter>Source Files\ClassSource</Filter>
+    </ClCompile>
+    <ClCompile Include="ProcessContextSingle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="InsightHunter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DetourPayloads.cpp">
+      <Filter>Source Files\PublicWin32Exports\DetourPayloadHandling</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugNotifyHelperStructWrappers.cpp">
+      <Filter>Source Files\PublicWin32Exports</Filter>
+    </ClCompile>
+    <ClCompile Include="SymbolInfo_Wrappers.cpp">
+      <Filter>Source Files\PublicWin32Exports\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="InsightSymbolCCall.cpp">
+      <Filter>Source Files\ClassSourceCCall</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -116,10 +152,25 @@
     <ClInclude Include="DebugLogTarget.h">
       <Filter>Header Files\ClassDefines</Filter>
     </ClInclude>
+    <ClInclude Include="CommandmentSettings.h">
+      <Filter>Header Files\ClassDefines</Filter>
+    </ClInclude>
+    <ClInclude Include="DllMapper.h">
+      <Filter>Header Files\ClassDefines</Filter>
+    </ClInclude>
+    <ClInclude Include="InsightHunter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="OldExports.def">
       <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Exports.def">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="ImageHlpModule_structExports.cpp">
+      <Filter>Source Files\PublicWin32Exports\Misc</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

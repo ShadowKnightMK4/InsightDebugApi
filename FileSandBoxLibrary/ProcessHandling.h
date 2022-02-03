@@ -9,7 +9,7 @@
 
 
 
-
+HANDLE WINAPI OpenProcessForQueryReadWrite(DWORD ProcessID);
 
 
 /// <summary>

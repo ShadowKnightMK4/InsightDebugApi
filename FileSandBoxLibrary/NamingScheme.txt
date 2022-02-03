@@ -1,16 +1,9 @@
 
-OUTSIDE USER
-	->	Client
 
 
-
-
-	FileSandBoxApi
-			Spawn Processes	-		Provide Options to Spawn and create processes as well as debug settings.
-			Track Processes -		Provide Options to track spawned processed.
-							-		Provide Options to have working threads managing tracking debug events and sending up from the event to the GUI.
-							-		fileHelperDll API
-
+	FileSandBoxApi.dll
+		The ""PS_ProcessInformation"" routines that are exported expose a C++ class that's the core of the dll.
+		RemoteRead
 
 
 

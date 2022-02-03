@@ -52,6 +52,7 @@ extern "C" {
 
 	BOOL WINAPI FSContinueDebugEvent(DWORD ClientHandle, LPDEBUG_EVENT Event, DWORD ContinueStatus)
 	{
+
 		if (ClientHandle == 0)
 		{
 			return FALSE;
@@ -60,15 +61,17 @@ extern "C" {
 		{
 			return FALSE;
 		}
-		Client* ClientData = FSClientIdToPoint(ClientHandle);
+		//Client* ClientData = FSClientIdToPoint(ClientHandle);
+		Client* ClientData = nullptr;
 		if (ClientData != nullptr)
 		{
-			return FSContinueDebugEventInternal(ClientData, Event, ContinueStatus);
+		//	return FSContinueDebugEventInternal(ClientData, Event, ContinueStatus);
 		}
 		else
 		{
 			return FALSE;
 		}
+		return FALSE;
 	}
 
 
@@ -83,7 +86,7 @@ extern "C" {
 		{
 			return FALSE;
 		}
-		Client* ClientData = FSClientIdToPoint(ClientHandle);
+		Client* ClientData = nullptr;
 		if (ClientData != nullptr) 
 		{
 			return FSWaitForDebugEventInternal(ClientData, Event, Timer);
@@ -113,7 +116,7 @@ extern "C" {
 		{
 			return FALSE;
 		}
-		Client* UserClient = FSClientIdToPoint(ClientIndex);
+		Client* UserClient = nullptr;
 		if (UserClient == nullptr)
 		{
 			return FALSE;

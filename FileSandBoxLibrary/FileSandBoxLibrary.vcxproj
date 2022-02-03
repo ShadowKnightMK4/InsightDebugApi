@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -130,7 +130,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;FILESANDBOX_AP_DLL_EXPORT;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;FILESANDBOX_AP_DLL_EXPORT;DBGHELP_TRANSLATE_TCHAR;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
@@ -147,6 +147,12 @@ del "$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\lib\FileSandBoxApi.dl
     <CustomBuildStep>
       <Message>Copying import library to the lb folder</Message>
     </CustomBuildStep>
+    <PostBuildEvent>
+      <Command>copy /B /Y $(OutDir)$(TargetName).*   $(SolutionDir)FileSandBox_GUI\Bin\$(Configuration)\net5.0-windows\</Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>Copying FileSandBox Api to the FileSandBox_GUI project's output folder also to Make Visual Studio load the write PDB file</Message>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -154,7 +160,7 @@ del "$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\lib\FileSandBoxApi.dl
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;FILESANDBOX_AP_DLL_EXPORT;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;FILESANDBOX_AP_DLL_EXPORT;DBGHELP_TRANSLATE_TCHAR;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
@@ -180,7 +186,7 @@ del "$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\lib\FileSandBoxApi.dl
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;FILESANDBOX_AP_DLL_EXPORT;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;FILESANDBOX_AP_DLL_EXPORT;DBGHELP_TRANSLATE_TCHAR;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
@@ -246,26 +252,38 @@ del "$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\lib\FileSandBoxApi.dl
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp" />
+    <ClCompile Include="CommandmentSettings.cpp" />
+    <ClCompile Include="DebugDebugStructExports.cpp" />
     <ClCompile Include="DebugEventInternal.cpp" />
     <ClCompile Include="DebugLogTarget.cpp" />
+    <ClCompile Include="DebugNotifyHelperStructWrappers.cpp" />
+    <ClCompile Include="DetourPayloads.cpp" />
+    <ClCompile Include="DllMapper.cpp" />
+    <ClCompile Include="InsightHunter.cpp" />
+    <ClCompile Include="InsightSymbolCCall.cpp" />
     <ClCompile Include="ProcessContextSingle.cpp" />
-    <ClCompile Include="DllMain.cpp" />
+    <ClCompile Include="Api_DllMain.cpp" />
     <ClCompile Include="DebugEvents.cpp" />
     <ClCompile Include="ClientHandling.cpp" />
     <ClCompile Include="ProcessHandling.cpp" />
     <ClCompile Include="ProcessHandlingInternal.cpp" />
+    <ClCompile Include="PS_ProcessInformationCCall.cpp" />
     <ClCompile Include="RemoteStructureRoutines.cpp" />
     <ClCompile Include="PS_ProcessInformation.cpp" />
+    <ClCompile Include="SymbolInfo_Wrappers.cpp" />
     <ClCompile Include="Utility.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h" />
     <ClInclude Include="ClientHandling.h" />
+    <ClInclude Include="CommandmentSettings.h" />
     <ClInclude Include="DebugEvent.h" />
     <ClInclude Include="DebugEventInternal.h" />
     <ClInclude Include="DebugLogTarget.h" />
+    <ClInclude Include="DllMapper.h" />
     <ClInclude Include="FileSandBoxApi.h" />
     <ClInclude Include="FilesandboxApi_DllStuff.h" />
+    <ClInclude Include="InsightHunter.h" />
     <ClInclude Include="ProcessContext.h" />
     <ClInclude Include="ProcessHandling.h" />
     <ClInclude Include="PS_ProcessInformation.h" />
@@ -273,6 +291,10 @@ del "$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\lib\FileSandBoxApi.dl
     <ClInclude Include="Utility.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Exports.def" />
+    <None Include="ImageHlpModule_structExports.cpp">
+      <FileType>CppClass</FileType>
+    </None>
     <None Include="OldExports.def" />
   </ItemGroup>
   <ItemGroup>

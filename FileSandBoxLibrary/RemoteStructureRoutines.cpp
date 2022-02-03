@@ -456,8 +456,16 @@ namespace RemoteStructureRoutine
 					BigMode = true;
 				}
 
+				if (Event->u.DebugString.fUnicode)
+				{
+					StringSize *= 2;
+				}
 
-				Ret = (LPWSTR)malloc(StringSize + sizeof(wchar_t));
+				
+				
+				Ret = (LPWSTR)malloc((StringSize + sizeof(wchar_t)));
+				
+			
 				if (Ret != nullptr)
 				{
 					memset(Ret, 0, StringSize + sizeof(wchar_t));
@@ -487,7 +495,7 @@ namespace RemoteStructureRoutine
 					if (BigMode)
 					{
 						// ensure string is null terminated.
-						Ret[StringSize] = 0;
+						Ret[StringSize-1] = 0;
 					}
 				}
 

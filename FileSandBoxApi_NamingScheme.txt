@@ -2,23 +2,3 @@
 
 This file describes how the naming scheme is Done.
 
-
-
-Most of the public facing routines will have an Internal varient. Let's consider an example.
-
-FSContinueDebugEvent() is exported in the model def file. 
-FSContinueDebugEventInternal()  is not exported.
-
-
-FSContinueDebugEventInternal() implements the logic for the FSContinueDebugEvent().
-FSContinueDebugEvent() takes a DWORD instead of the client structure and resolves that to an index contained within a DLL before calling FSContinueDebugEventInternal()
-
-
-
-Library Usage
-Call FSStatup() to grab an ID for your app to use.     This is an index to a client* structure.
-Call FSCleanup() when you are done.
-
-
-
-
