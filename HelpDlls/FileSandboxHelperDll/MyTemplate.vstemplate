@@ -1,0 +1,30 @@
+<VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
+  <TemplateData>
+    <Name>FileSandboxHelperDll</Name>
+    <Description>Starting Code to get started with building additional Detours Based DLLs for filesandbox</Description>
+    <ProjectType>VC</ProjectType>
+    <ProjectSubType>
+    </ProjectSubType>
+    <SortOrder>1000</SortOrder>
+    <CreateNewFolder>true</CreateNewFolder>
+    <DefaultName>FileSandboxHelperDll</DefaultName>
+    <ProvideDefaultName>true</ProvideDefaultName>
+    <LocationField>Enabled</LocationField>
+    <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
+    <Icon>__TemplateIcon.ico</Icon>
+  </TemplateData>
+  <TemplateContent>
+    <Project TargetFileName="FileSandboxHelperDll.vcxproj" File="FileSandboxHelperDll.vcxproj" ReplaceParameters="true">
+      <ProjectItem ReplaceParameters="false" TargetFileName="$projectname$.vcxproj.filters">FileSandboxHelperDll.vcxproj.filters</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="DetourFunctionStuff.cpp">DetourFunctionStuff.cpp</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="DllHelperTuning.cpp">DllHelperTuning.cpp</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="DllMain.cpp">DllMain.cpp</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="PrecompiledHeaders.cpp">PrecompiledHeaders.cpp</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="ReplacementFileFunctions.cpp">ReplacementFileFunctions.cpp</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="DetourFunctionStuff.h">DetourFunctionStuff.h</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="FileSandBoxHelperDll.h">FileSandBoxHelperDll.h</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="ReplacementFileFileFunctions.h">ReplacementFileFileFunctions.h</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="RequiredDetourExport.def">RequiredDetourExport.def</ProjectItem>
+    </Project>
+  </TemplateContent>
+</VSTemplate>

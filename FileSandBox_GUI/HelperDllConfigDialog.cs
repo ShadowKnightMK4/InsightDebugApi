@@ -16,5 +16,22 @@ namespace FileSandBox_GUI
         {
             InitializeComponent();
         }
+
+
+        
+        public string[] GetDllsToLoad
+        {
+            get
+            {
+                return DllsToLoad.ToArray();
+            }
+        }
+
+        List<string> DllsToLoad;
+        private void HelperDllConfigDialog_Load(object sender, EventArgs e)
+        {
+            Text = "Choose which Detours Dll to force spawned applications to Load";
+
+        }
     }
 }

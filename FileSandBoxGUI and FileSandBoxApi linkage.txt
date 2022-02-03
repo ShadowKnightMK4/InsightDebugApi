@@ -1,0 +1,32 @@
+
+
+The native dll.  FileSandBoxApi. exports a "C" level linking for public facing classes.
+Each class has a MakeInstance, CopyInstance and KillInstance exported routine to handle memory management.
+
+
+class PS_ProcessInformation.
+what is it:
+		  Handles Process Spawning (including the detours stuff)
+		  
+Where is it
+		Source is in PS_ProcessInformation.cpp:
+Public Native Access:
+		  the Native Dll exports a series of routine that call the C++ class routine and are named
+			"PS_ProcessInformation_XXXXXX" whear the routine is in question.  
+		  The Native DLL wrapper routines all are exported as WINAPI (stdcall) calling converntion..
+		  These wroutiens are local to PS_ProcessInformationCCall.cpp
+Mangaged Wrapper:
+		  Wrapper class in the FileScript GUI is named "PsProcessInformation" and located in "PsProcessInformation.cs"
+		  Imports that call the public native routiens are contained within NativeMethods.cs
+
+		  
+
+
+A Series of routines named RemoteReadXXXX and RemoteWriteXXXX exist.
+They take input a process handle, read (or write memory from the remote process) and return allocatd memory containing the 
+data structurei question. Each also have an approproate RemoteFreeXXXX routine that is intended to free the allocated memory.
+
+
+		 
+
+	

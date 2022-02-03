@@ -103,18 +103,21 @@
     <LibraryPath>$(SolutionDir)Code\$(Configuration)\$(PlatformTarget)\lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\program\</OutDir>
     <IncludePath>$(SolutionDir)\StaticIncludes;$(SolutionDir)Detours-master\src;V:\Windows Kits\10\Include\10.0.19041.0\km;$(IncludePath)</IncludePath>
+    <CustomBuildBeforeTargets>Clean</CustomBuildBeforeTargets>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <LibraryPath>$(SolutionDir)Code\$(Configuration)\$(PlatformTarget)\lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\program\</OutDir>
     <IncludePath>$(SolutionDir)\StaticIncludes;$(SolutionDir)Detours-master\src;V:\Windows Kits\10\Include\10.0.19041.0\km;$(IncludePath)</IncludePath>
+    <CustomBuildBeforeTargets>Clean</CustomBuildBeforeTargets>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseNoDebugGen|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <LibraryPath>$(SolutionDir)Code\$(Configuration)\$(PlatformTarget)\lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\program\</OutDir>
     <IncludePath>$(SolutionDir)\StaticIncludes;$(SolutionDir)Detours-master\src;V:\Windows Kits\10\Include\10.0.19041.0\km;$(IncludePath)</IncludePath>
+    <CustomBuildBeforeTargets>Clean</CustomBuildBeforeTargets>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -129,15 +132,25 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_X86_;x86;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_X86_;x86;_DEBUG;_CONSOLE;VERBOSE_DEBUG_LINK_OUTPUT;VERBOSE_DETOUR_OUTPUT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>FilesandboxClientDllProtocol.lib; Detours.lib; kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>FilesandboxClientDllProtocol.lib; Detours.lib; shlwapi.lib; ; Rpcrt4.lib; kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ModuleDefinitionFile>$(SolutionDir)$(ProjectName)\RequiredDetourExport.def</ModuleDefinitionFile>
     </Link>
+    <CustomBuildStep>
+      <Message>cleaning FileSandBoxHelperDll.* stuff from the gui output</Message>
+      <Command>del /Q $(SolutionDir)code\$(Configuration)\$(PlatformTarget)\program\FileSandBoxHelperDll.*   $(SolutionDir)FileSandBox_GUI\bin\$(Configuration)\net5.0-windows\*.*</Command>
+    </CustomBuildStep>
+    <PostBuildEvent>
+      <Command>xcopy /Y $(SolutionDir)code\$(Configuration)\$(PlatformTarget)\program\FileSandBoxHelperDll.*   $(SolutionDir)FileSandBox_GUI\bin\$(Configuration)\net5.0-windows\*.*</Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>Copying FileSandBoxHelperDll.Dll and PDB to the FileSandBoxGUI C# location output.</Message>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -153,9 +166,19 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>FilesandboxClientDllProtocol.lib; Detours.lib; kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>FilesandboxClientDllProtocol.lib; Detours.lib; shlwapi.lib; ; kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ModuleDefinitionFile>$(SolutionDir)$(ProjectName)\RequiredDetourExport.def</ModuleDefinitionFile>
     </Link>
+    <CustomBuildStep>
+      <Command>del /Q $(SolutionDir)code\$(Configuration)\$(PlatformTarget)\program\FileSandBoxHelperDll.*   $(SolutionDir)FileSandBox_GUI\bin\$(Configuration)\net5.0-windows\*.*</Command>
+      <Message>cleaning FileSandBoxHelperDll.* stuff from the gui output</Message>
+    </CustomBuildStep>
+    <PostBuildEvent>
+      <Command>xcopy /Y $(SolutionDir)code\$(Configuration)\$(PlatformTarget)\program\FileSandBoxHelperDll.*   $(SolutionDir)FileSandBox_GUI\bin\$(Configuration)\net5.0-windows\*.*</Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>Copying FileSandBoxHelperDll.Dll and PDB to the FileSandBoxGUI C# location output.</Message>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseNoDebugGen|Win32'">
     <ClCompile>
@@ -171,9 +194,19 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>false</GenerateDebugInformation>
-      <AdditionalDependencies>FilesandboxClientDllProtocol.lib; Detours.lib; kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>FilesandboxClientDllProtocol.lib; Detours.lib; shlwapi.lib; ; kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ModuleDefinitionFile>$(SolutionDir)$(ProjectName)\RequiredDetourExport.def</ModuleDefinitionFile>
     </Link>
+    <CustomBuildStep>
+      <Command>del /Q $(SolutionDir)code\$(Configuration)\$(PlatformTarget)\program\FileSandBoxHelperDll.*   $(SolutionDir)FileSandBox_GUI\bin\$(Configuration)\net5.0-windows\*.*</Command>
+      <Message>cleaning FileSandBoxHelperDll.* stuff from the gui output</Message>
+    </CustomBuildStep>
+    <PostBuildEvent>
+      <Command>xcopy /Y $(SolutionDir)code\$(Configuration)\$(PlatformTarget)\program\FileSandBoxHelperDll.*   $(SolutionDir)FileSandBox_GUI\bin\$(Configuration)\net5.0-windows\*.*</Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>Copying FileSandBoxHelperDll.Dll and PDB to the FileSandBoxGUI C# location output.</Message>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -222,14 +255,25 @@
   <ItemGroup>
     <ClCompile Include="DetourFunctionStuff.cpp" />
     <ClCompile Include="DllHelperTuning.cpp" />
-    <ClCompile Include="DllMain.cpp" />
+    <ClCompile Include="HelperDll_DllMain.cpp" />
+    <ClCompile Include="HelperDll_CommuncationPipes.cpp" />
+    <ClCompile Include="Commandments.cpp" />
     <ClCompile Include="PrecompiledHeaders.cpp" />
     <ClCompile Include="ReplacementFileFunctions.cpp" />
+    <ClCompile Include="ReplacementLoadLibraryStuff.cpp" />
+    <ClCompile Include="ReplacementProcessFunctions.cpp" />
+    <ClCompile Include="ReplacementStuffCommon.cpp" />
+    <ClCompile Include="StringWString.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="commandments.h" />
     <ClInclude Include="DetourFunctionStuff.h" />
     <ClInclude Include="FileSandBoxHelperDll.h" />
     <ClInclude Include="ReplacementFileFileFunctions.h" />
+    <ClInclude Include="ReplacementLoadLibraryStuff.h" />
+    <ClInclude Include="ReplacementProcessFunctions.h" />
+    <ClInclude Include="ReplacementStuffCommon.h" />
+    <ClInclude Include="StringWString.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="RequiredDetourExport.def" />

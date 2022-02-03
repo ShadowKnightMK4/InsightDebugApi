@@ -1,10 +1,91 @@
-// HelloWorld.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
 
+/*
+*   This is more a test dummy to modify and test stuff under  a smaller consideration. 
+*   Currently testing if I can recurisvly detour something
+*/
 #include <iostream>
 #include <Windows.h>
+
+#include "..\Detours-master\src\detours.h"
+typedef int (WINAPI* MessageBoxWPtr)(
+    HWND    hWnd,
+     LPCTSTR lpText,
+    PCTSTR lpCaption,
+               UINT    uType
+);
+
+
+MessageBoxWPtr Original;
+MessageBoxWPtr ZeroOriginal;
+MessageBoxWPtr FirstOriginal;
+MessageBoxWPtr SecondOriginal;
+
+
+
+int MessageBoxWDetour0(
+     HWND    hWnd,
+    LPCTSTR lpText,
+     LPCTSTR lpCaption,
+               UINT    uType
+)
+{
+    OutputDebugString(L"Calling the original");
+    return Original(hWnd, lpText, lpCaption, uType);
+}
+
+
+int WINAPI MessageBoxWDetour1(
+     HWND    hWnd,
+     LPCTSTR lpText,
+     LPCTSTR lpCaption,
+               UINT    uType
+)
+{
+    OutputDebugString(L"Hit Detour1");
+    return ZeroOriginal(hWnd, lpText, lpCaption, uType);
+}
+
+
+
+int WINAPI MessageBoxWDetour2(
+     HWND    hWnd,
+     LPCTSTR lpText,
+     LPCTSTR lpCaption,
+               UINT    uType
+)
+{
+    OutputDebugString(L"Hit Detour2");
+    return FirstOriginal(hWnd, lpText, lpCaption, uType);
+}
+
+
+int WINAPI MessageBoxWDetour3(
+    HWND    hWnd,
+    LPCTSTR lpText,
+    LPCTSTR lpCaption,
+    UINT    uType
+)
+{
+    OutputDebugString(L"Hit Detour3");
+    return SecondOriginal(hWnd, lpText, lpCaption, uType);
+}
+
+const wchar_t* SpecialSearchPath = L"A:\\;C:\\Users;F:\\SpecialDLLs";
+
 int main()
 {
+    
+    HMODULE Target = LoadLibraryA("kernel32.dll");
+
+    // TODO: get this value doring the load library thing.
+    UUID Injected;
+    Injected.Data1 = Injected.Data2 = Injected.Data3 = 0;
+    
+    
+    //DetourCopyPayloadToProcess(GetCurrentProcess(), Injected, SpecialSearchPath, (wcslen(SpecialSearchPath) + 1) * sizeof(wchar_t));
+    return 0;
+    /*
+    *   This is used to generate a bit of noisy stuff for the insite debugger thing to see.
     std::cout << "Hello World!\n";
     while (true)
     {
@@ -14,7 +95,7 @@ int main()
         std::cout << "ShellExecute Notepad.exe and awaiting it to close" << std::endl;
         std::cout << "Shell Execute returned " <<  ShellExecute(GetDesktopWindow(), L"open", L"C:\\Windows\\System32\\notepad.exe", L"HelloWorld.txt", L"C:\\Windows\\Temp\\", SW_SHOWNORMAL);
 
-    }
+    }*/
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

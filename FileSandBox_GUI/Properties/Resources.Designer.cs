@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FileSandBox_GUI.Properties {
+namespace FileSandBoxSheath.Properties {
     using System;
     
     

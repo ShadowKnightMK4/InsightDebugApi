@@ -24,7 +24,7 @@ wchar_t* WINAPI ConvertANSIString(const char * Original);
 /// <param name="Process">Process to read from. Needs PROCESS_QUERY_INFORMATION and PROCESS_VM_READ </param>
 /// <param name="Module">if nullptr, then the mainmodule, otherwise the name of the dll.</param>
 /// <returns></returns>
-wchar_t* GetModuleNameViaHandle(HANDLE Process, HMODULE Module);
+wchar_t* WINAPI GetModuleNameViaHandle(HANDLE Process, HMODULE Module);
 
 
 /// <summary>
@@ -32,4 +32,21 @@ wchar_t* GetModuleNameViaHandle(HANDLE Process, HMODULE Module);
 /// </summary>
 /// <param name="FileHandle">Handle to a file</param>
 /// <returns>returns a buffer allocatedw with malloc().   Use Free() to Free it when done.</returns>
-wchar_t* GetFileNameViaHandle(HANDLE FileHandle);
+wchar_t* WINAPI GetFileNameViaHandle(HANDLE FileHandle);
+
+/// <summary>
+/// Compares results from GetNativeSystemInfo and IsWOW64Process to try to figure it target is 32 or 64-bit that trigged the event. 
+/// IF NativeSystem is 32-bit then
+///			returns true;
+/// IF NativeSystem is 64-bit then
+///			if Wow64 is live on the target
+///				returns true
+///			if Wow64 is NOT live on the target
+///				return false
+/// IF IsWOW64Process not in kernel32.dll (GetProcAddress fails)
+///			return TRUE
+/// </summary>
+/// <param name="Ptr"></param>
+/// <returns></returns>
+BOOL WINAPI IsTargetProcessID32Bit(DWORD ProcessID);
+

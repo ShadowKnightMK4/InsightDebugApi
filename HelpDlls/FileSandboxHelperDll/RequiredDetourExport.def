@@ -1,0 +1,3 @@
+LIBRARY $safeprojectname$
+EXPORTS
+	DllMain @1

@@ -1,0 +1,7 @@
+These are names considered for the front facing (not source code) for the project.
+
+Running name: Filesandbox.
+
+
+// named after the symbol class on the native side which is named after the Bloodborne insight name.
+Considered name:  Insight Debugger 

@@ -7,9 +7,54 @@
 */
 
 
+/// <summary>
+/// During the Helper DLL alert exception, the debugger receives a copy of this structure to modify.
+/// Ad miniumm, it should hit ACK to indicate it understood the exception. 
+/// 
+/// IMPORTANT!!!!  Ensdure this structyurre in the help dll matchs the 
+/// </summary>
+struct DebugNotify_HelperStruct
+{
+	// currently set to 0.  Change this if modifyin struct that adds breaking stuff
+	DWORD Version;
+	/// <summary>
+	/// Debugger should set this to non-zero once execption is finished handling. 
+	/// </summary>
+	DWORD Ack;
+	/// <summary>
+	/// When modifying things controled with the UUIDs, set this to singled so the helper dll will actually reload them
+	/// </summary>
+	HANDLE KickerEvent;
+	/// <summary>
+	/// HelperDll generates a UUID for this instance and using RaiseException() to pass back to debugger.
+	/// Debugger is free to copy information via detours payloads to this guid. We look for  detours thing once back and process data once set
+	/// </summary>
+	UUID PayLoadInfo;
+	/// <summary>
+	/// This guid payload lets parent process force some changes to the search path info. These paths will always be desired by the LoadLibraryXXX routines and be added back in after calls reset Search PathInfo.
+	///	Path1;Path2; ect...
+	/// DON'T use quotes in the path.
+	/// Envoirment variables are ok, they will get expanded at runtime as needed
+	/// 
+	/// </summary>
+	UUID DllSearchPathInfo;
+	/// <summary>
+	/// "A"="B" case insensitive;
+	/// should a LoadLibraryXXX() routine get A, use B instead.
+	/// </summary>
+	UUID DllHardExceptionInfo;
+	/// <summary>
+	/// Parent process should use this guid and copy 
+	/// </summary>
+	UUID CommandmentSettings;
+};
+
+
+
+
 // the base exception
 #define SANDBOX_API_BASE_EXCEPTION (0xFBFFFFFF)
-#define CLEAR_BIT27 (~(1 << 27))
+#define CLEAR_BIT27 (~(1 << 28))
 // exception triggered when NTCreateFileCalledn = n & ~(1 << k)
 
 /*
@@ -17,6 +62,15 @@
 */
 //#define SANDBOX_API_FILE_RESOURCE ((SANDBOX_API_BASE_EXCEPTION-1) & CLEAR_BIT27)
 #define SANDBOX_API_FILE_NTCREATEFILE  (3825205246)
+
+// Thrown once stuff has been detoured OK in the helper dll.  Debugger needs to set an ACK value and receives a UUID from UuidCreateSequenction() to set the detours payload
+#define SANDBOX_API_PROCESS_HAS_HELPERDLL (3825205245)
+
+/*
+* NtOpenFile was called
+*/
+#define SANDBOX_API_FILE_NTOPENFILE (3825205244)
+
 
 // Not used currently
 #define SANDBOX_API_REG_RESOURCE ((SANDBOX_API_BASE_EXCEPTION-2) & CLEAR_BIT27)
@@ -27,6 +81,8 @@
 // on vista/later - raised when CreateUserProcess is about to be called.
 //#define SANDBOX_API_CREATE_USERPROCESS ((SANDBOX_API_BASE_EXCEPTION-4) & CLEAR_BIT27)
 #define SANDBOX_API_PROCESS_CREATEUSERPROCESS (3825205243)
+
+
 
 
 
@@ -53,7 +109,7 @@ public:
 	/// <summary>
 	/// Message Type
 	/// </summary>
-	DWORD ExeceptionMessage;
+	DWORD ExceptionMessage;
 	/// <summary>
 	/// Zero on throwning exception. Debugger should set to non-zero to indicate it understood the message. Leaving this at zero pretty much means the detoured routines just jump to the original one without any additional processing
 	/// </summary>
@@ -114,6 +170,14 @@ public:
 /// Use ExpMessage.PackedArgs[FILESANDBOX_NTCREATEFILE_EALENGTH]
 /// Use this to get a pointer to where the detoured NtCreateFile will store the results of the call.
 #define FILESANDBOX_NTCREATEFILE_EALENGTH (7)
+
+#define FILESANDBOX_NTOPENFILE_FILEHANDLE (0)
+#define FILESANDBOX_NTOPENFILE_DESIREDACCESS (1)
+#define FILESANDBOX_NTOPENFILE_OBJECTATTRIBUTES (2)
+#define FILESANDBOX_NTOPENFILE_IOSTATUSBLOCK (3)
+#define FILESANDBOX_NTOPENFILE_SHAREACCESS (4)
+#define FILESANDBOX_NTOPENFILE_OPENOPTIONS (5)
+
 
 /// The Packed Argument Location to to where the process handle will be stored when processing a SANDBOX_API_CREATE_USERPROCESS exception
 /// Use ExpMessage.PackedArgs[FILESANDBOX_NTCREATEUSERPROCESS_PROCESSHANDLE] 

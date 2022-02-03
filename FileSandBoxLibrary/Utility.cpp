@@ -86,7 +86,7 @@ wchar_t* WINAPI ConvertANSIString(const char * Original)
 }
 
 
-wchar_t* GetModuleNameViaHandle(HANDLE Process, HMODULE Module)
+wchar_t* WINAPI GetModuleNameViaHandle(HANDLE Process, HMODULE Module)
 {
 	wchar_t* Buffer = nullptr;
 	size_t BufferSize = 1024;
@@ -125,7 +125,7 @@ wchar_t* GetModuleNameViaHandle(HANDLE Process, HMODULE Module)
 }
 
 
-wchar_t* GetFileNameViaHandle(HANDLE FileHandle)
+wchar_t* WINAPI GetFileNameViaHandle(HANDLE FileHandle)
 {
 	wchar_t* Buffer = nullptr;
 	DWORD BufferSize = 0;
@@ -140,4 +140,141 @@ wchar_t* GetFileNameViaHandle(HANDLE FileHandle)
 
 	}
 	return Buffer;
+}
+
+BOOL Poke4(DWORD* LocalMemoryLocation, DWORD Value)
+{
+	if (LocalMemoryLocation == nullptr)
+	{
+		return FALSE;
+	}
+	*LocalMemoryLocation = Value;
+	return TRUE;
+}
+
+
+DWORD Peek4(DWORD* LocalMemoryLocation)
+{
+	if (LocalMemoryLocation == 0)
+	{
+		return 0;
+	}
+	else
+	{
+		return *LocalMemoryLocation;
+	}
+}
+
+
+SYSTEM_INFO Wow64_poss;
+SYSTEM_INFO Nativ_poss;
+/// <summary>
+/// thank you IsWow64Process
+/// </summary>
+typedef BOOL(WINAPI* LPFN_ISWOW64PROCESS) (HANDLE, PBOOL);
+
+LPFN_ISWOW64PROCESS Callback_toWOW64 = 0;
+HMODULE Kernel32 = 0;
+
+
+BOOL WINAPI IsTargetProcessID32Bit(DWORD dwProcessID)
+{
+	BOOL Checkme = FALSE;
+	bool is64Os = false;
+	static BOOL SysInfoCalled = false;
+	static BOOL SysNatCalled = false;
+	
+	if (dwProcessID == 0)
+	{
+		return FALSE;
+	}
+	if (SysInfoCalled == false)
+	{
+		GetSystemInfo(&Wow64_poss);
+		SysInfoCalled = true;
+	}
+
+	if (SysNatCalled == false)
+	{
+		GetNativeSystemInfo(&Nativ_poss);
+		SysNatCalled = true;
+	}
+
+
+	if (Kernel32 == 0)
+	{
+		Kernel32 = LoadLibrary(L"kernel32.dll");
+		if (Kernel32 == 0)
+		{
+			return 0; // propaly not a good idea
+		}
+		else
+		{
+			if (Callback_toWOW64 == 0)
+			{
+				Callback_toWOW64 = (LPFN_ISWOW64PROCESS)GetProcAddress(Kernel32, "IsWow64Process");
+			}
+
+			/// <summary>
+			///  we should in theory only need to check the natie system since wow is not existing on the current ssytem
+			/// </summary>
+			if (Callback_toWOW64 == 0)
+			{
+				switch (Nativ_poss.wProcessorArchitecture)
+				{
+				case PROCESSOR_ARCHITECTURE_ARM64:
+				case PROCESSOR_ARCHITECTURE_AMD64:
+				case PROCESSOR_ARCHITECTURE_IA64:
+					return FALSE;
+				default:
+					return TRUE;
+				}
+			}
+		}
+	}
+	switch (Nativ_poss.wProcessorArchitecture)
+	{
+	case PROCESSOR_ARCHITECTURE_ARM64:
+	case PROCESSOR_ARCHITECTURE_AMD64:
+	case PROCESSOR_ARCHITECTURE_IA64:
+		is64Os = true;
+	}
+
+	if (!is64Os)
+	{
+		return true;
+	}
+	else
+	{
+
+		HANDLE Check;
+		if (dwProcessID != 0)
+		{
+			Check = OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION, FALSE, dwProcessID);
+			if (Check)
+			{
+				if (Callback_toWOW64(Check, &Checkme))
+				{
+					if (Checkme == FALSE)
+					{
+						if (is64Os)
+						{
+							// CheckMe = false;
+						}
+						else
+						{
+							Checkme = TRUE;
+						}
+					}
+					else
+					{
+						Checkme = TRUE;
+					}
+				}
+				CloseHandle(Check);
+			}
+
+		}
+	}
+	return Checkme;
 }
