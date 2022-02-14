@@ -17,9 +17,9 @@ namespace FileSandBox_GUI
     static class Program
     {
         //typedef int(WINAPI* DebugEventCallBackRoutine)(LPDEBUG_EVENT lpCurEvent, DWORD* ContinueStatus, DWORD* WaitTimer, DWORD CustomArg);
-        static InsightHunter Insight;
+        
         static bool Quit = false;
-
+        static InsightHunter Insight;
         //public delegate bool SymbolSearchCallBackRoutine(IntPtr SymbolInfo);
         static SymbolSearchCallBackRoutine Tmp;
         static int StubCallback(IntPtr DebugEvent, IntPtr ContStat, IntPtr WaitTime, IntPtr Custom)
@@ -72,12 +72,13 @@ namespace FileSandBox_GUI
             {
                 Console.WriteLine(Debug.ProcessID + " Loaded Dll From \"" + Debug.GetDebugEventLoadDll().ImageName + "\"");
                 Console.WriteLine("BeginningEnumeration of loaded symbols");
-                Insight.EnumerateSymbols("*!*", Tmp);
+                Tmp = Callback;
+                 Insight.EnumerateSymbols("*!*", Tmp);
             }
 
             PsProcessInformation.Poke4(WaitTime, int.MaxValue);
             
-            if (Debug.EventType == FileSandBoxSheath.Wrappers.DebugEventType.ExitProcessEvent)
+            if (Debug.EventType == DebugEventType.ExitProcessEvent)
             {
 
                 List<IntPtr> input = new List<IntPtr>();
@@ -135,43 +136,21 @@ namespace FileSandBox_GUI
             test.ShowDialog();
 
             return;            */
-             PsProcessInformation TestRun = new PsProcessInformation();
-            //TestRun.ProcessName = Environment.GetFolderPath(Environment.SpecialFolder.System) + "\\cmd.exe";
-            TestRun.ProcessName = Environment.GetFolderPath(Environment.SpecialFolder.System) + "\\notepad.exe";
-            //TestRun.ProcessName = "C:\\Users\\Thoma\\source\\repos\\FileSandbox\\x64\\Debug\\HelloWorld.exe";
-            //estRun.ProcessName = "C:\\Users\\Thoma\\source\\repos\\FileSandbox\\x64\\Debug\\HelloWorld.exe";
-            TestRun.WorkingDirectory = "C:\\Users\\Thoma";
-            TestRun.CreationFlags = 0;
-            
-            TestRun.InheritDefaultEnviroment = true;
-             //TestRun.AddDetoursDll(Directory.GetCurrentDirectory() + "\\FileSandboxHelperDll.dll");
-            TestRun.SetExplicitEnviromentValue("BORG", "NO");
-            TestRun.EnableSymbolEngine = true;
-            
-            Console.WriteLine("Smybol status = " + TestRun.EnableSymbolEngine);
-
-            
-            
-            string[] Data = TestRun.DetourList;
-            TestRun.SetExplicitEnviromentValue("PROMPT", "WHAT MEASURE OF A KEYBOARD IS A PROMPT:>");
-            TestRun.DebugMode = DebugModeType.WorkerThread;
-            var FlagTest = TestRun.CreationFlags;
-            TestRun.CreationFlags = 2;
-            var Test = TestRun.ProcessName;
-            var TestWorkDir = TestRun.WorkingDirectory;
-            var ExpliEnv = TestRun.GetExplicitEnviromentValue("BORG");
-
-            
-            var DM = TestRun.DebugMode;
+             PsProcessInformation TestRun = PsProcessInformation.CreateInstance();
+            TestRun.ExtraFlags = PsProcessInformation.SpecialCaseFlags.DebugOnlyThis;
+            TestRun.WorkingDirectory = "C:\\Windows\\";
+            TestRun.ProcessName = "C:\\Windows\\system32\\notepad.exe";
             Tmp = new SymbolSearchCallBackRoutine(Callback);
 
-
+       
             
             TestRun.UserDebugCallRoutine = new PsProcessInformation.DebugEventCallBackRoutine(StubCallback);
+            TestRun.EnableSymbolEngine = true;
+            TestRun.DebugMode = DebugModeType.WorkerThread;
+            TestRun.ExtraFlags = PsProcessInformation.SpecialCaseFlags.DebugOnlyThis;
+            TestRun.CreationFlags = 2;
 
-          
-            
-
+            Insight = TestRun.GetSymbolHandler();
             var ProcessId= TestRun.SpawnProcess();
             
 

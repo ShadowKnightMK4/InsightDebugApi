@@ -227,16 +227,7 @@ namespace FileSandBoxSheath.Wrappers
 
 
 
-        /// <summary>
-        /// private value containing if dispose() was callsed
-        /// </summary>
-        private bool disposedValue;
-        /// <summary>
-        /// Was this class disposed?
-        /// </summary>
-        public bool IsDisposed { get { return disposedValue; } }
-
-        protected virtual void Dispose(bool disposing)
+        protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);
             if (!disposedValue)

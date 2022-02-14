@@ -76,7 +76,7 @@ extern "C" {
 		return nullptr;
 	}
 
-	CHAR* WINAPI ImageHlp_GetImageName(IMAGEHLP_MODULE* that)
+	CHAR* WINAPI ImageHlp_GetImageNameA(IMAGEHLP_MODULE* that)
 	{
 		if ((that != nullptr) && (that->SizeOfStruct == sizeof(IMAGEHLP_MODULE64)))
 		{
@@ -85,7 +85,7 @@ extern "C" {
 		return nullptr;
 	}
 
-	CHAR* WINAPI ImageHlp_GetLoadedImageName(IMAGEHLP_MODULE* that)
+	CHAR* WINAPI ImageHlp_GetLoadedImageNameA(IMAGEHLP_MODULE* that)
 	{
 		if ((that != nullptr) && (that->SizeOfStruct == sizeof(IMAGEHLP_MODULE64)))
 		{

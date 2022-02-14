@@ -60,7 +60,7 @@ namespace FileSandBoxSheath
         /// <returns></returns>
         public static string GetModuleNameViaHandle(IntPtr ProcessHandle, IntPtr HModule)
         {
-            IntPtr retPtr = NativeMethods.GetModuleNameViaHandleInternal(ProcessHandle, IntPtr.Zero);
+            IntPtr retPtr = NativeMethods.GetModuleNameViaHandleInternal(ProcessHandle, HModule );
             if (retPtr == IntPtr.Zero)
             {
                 return null;

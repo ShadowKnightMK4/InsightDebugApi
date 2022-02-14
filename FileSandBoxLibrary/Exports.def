@@ -41,6 +41,7 @@ LIBRARY FILESANDBOXAPI
 		RemoteFreeDebugString=RemoteRead_SimpleFree
 		RemoteRead_SimpleFree
 		RemoteReadPointer
+		UtilRequestDebugPriv=AskForDebugPriv
 		UtilGetModuleNameViaHandle=GetModuleNameViaHandle
 		UtilGetFileNameViaHandle=GetFileNameViaHandle
 		UtilFreeModuleNameViaHandle=RemoteRead_SimpleFree
@@ -121,5 +122,5 @@ LIBRARY FILESANDBOXAPI
 		ImageHlp_GetNumSyms
 		ImageHlp_GetSymType
 		ImageHlp_GetModuleName
-		ImageHlp_GetImageName
-		ImageHlp_GetLoadedImageName
+		ImageHlp_GetImageNameA
+		ImageHlp_GetLoadedImageNameA

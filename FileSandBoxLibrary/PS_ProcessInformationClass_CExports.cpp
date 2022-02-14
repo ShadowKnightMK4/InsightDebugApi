@@ -348,20 +348,16 @@ extern "C"
 	{
 		BOOL Ret = FALSE;
 		char* Ansi = nullptr;
-		if (that != nullptr)
+		if ( (that != nullptr) && (DllName != nullptr) )
 		{
-			if (DllName != nullptr)
-			{
 				Ansi = ConvertUnicodeString(DllName);
 				if (Ansi)
 				{
 					Ret = PS_ProcessInformation_AddDetoursDllA( that, Ansi);
 					free(Ansi);
 				}
-				return Ret;
-
-			}
 		}
+		return Ret;
 	}
 
 	/// <summary>

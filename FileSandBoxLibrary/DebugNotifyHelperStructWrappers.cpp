@@ -1,5 +1,6 @@
 #include <Windows.h>
 /// <summary>
+/// DebugNotifyHelperStructWrappers
 /// During the Helper DLL alert exception, the debugger receives a copy of this structure to modify.
 /// Ad miniumm, it should hit ACK to indicate it understood the exception. 
 /// 

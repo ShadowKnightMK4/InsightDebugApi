@@ -13,7 +13,7 @@
 
 
 /// <summary>
-/// This code attempts to let someone enumate the modules of the hProcess apssed. Mostly lifted from DetourEnumerateModules
+/// WARNING: BROKEN  This code attempts to let someone enumate the modules of the hProcess apssed. Mostly lifted from DetourEnumerateModules
 /// </summary>
 /// <param name="hProcess"></param>
 /// <param name="hModuleLast"></param>

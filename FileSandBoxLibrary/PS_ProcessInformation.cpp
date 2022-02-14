@@ -6,6 +6,7 @@
 #include <StaticIncludes.h>
 #include "InsightHunter.h"
 #include "../FilesandboxClientDllProtocol/HelperPayloadGuids.h"
+#include <sstream>
 /*
 * 09726c86073b4beeb1793f0793192459
 
@@ -92,11 +93,18 @@ void _cdecl PsPocessInformation_DebugWorkerthread(void* argument)
 
 	if (Args->that->EnableSymbols == true)
 	{
-		Args->that->Insight = new InsightHunter(Args->that->GetMainProcessHandle());
+		if (Args->that->Insight == nullptr)
+		{
+			Args->that->Insight = new InsightHunter(Args->that->GetMainProcessHandle());
+		}
+		else
+		{
+			Args->that->Insight->SetMainDebugTarget(Args->that->GetMainProcessHandle());
+		}
 	}
 	else
 	{
-		Args->that->Insight = nullptr;
+		
 	}
 	// Now process the events 
 	while (true)
@@ -107,15 +115,30 @@ void _cdecl PsPocessInformation_DebugWorkerthread(void* argument)
 			{
 				switch (lpEvent.dwDebugEventCode)
 				{
+				case EXIT_PROCESS_DEBUG_EVENT:
+				{
+					if (Args->that->Insight != nullptr)
+					{
+						Args->that->Insight->UnloadExeSymbolInfo(&lpEvent);
+					}
+				}
 				case UNLOAD_DLL_DEBUG_EVENT:
-					Args->that->Insight->UnLoadDllSymbolInfo(&lpEvent);
+					if (Args->that->Insight != nullptr)
+					{
+						Args->that->Insight->UnLoadDllSymbolInfo(&lpEvent);
+					}
 					break;
 				case LOAD_DLL_DEBUG_EVENT:
-					Args->that->Insight->LoadDllSymbolInfo(&lpEvent);
+					if (Args->that->Insight != nullptr)
+					{
+						Args->that->Insight->LoadDllSymbolInfo(&lpEvent);
+					}
 					break;
 				case CREATE_PROCESS_DEBUG_EVENT:
-					Args->that->Insight->LoadExeSymbolInfo(&lpEvent);
-					break;
+					if (Args->that->Insight != nullptr)
+					{
+						Args->that->Insight->LoadExeSymbolInfo(&lpEvent);
+					}
 					break;
 				}
 			}
@@ -327,7 +350,7 @@ PS_ProcessInformation::PS_ProcessInformation()
 	this->ProcessNameContainer = L"";
 	this->WorkingDirectory = L"";
 	
-	this->Insight = nullptr;
+	Insight = new InsightHunter();
 
 }
 
@@ -845,7 +868,15 @@ DWORD PS_ProcessInformation::GetSymbolStatus()
 
 InsightHunter* PS_ProcessInformation::GetSymbolHandlerPtr()
 {
-	return this->Insight;
+	if (Insight != nullptr)
+	{
+		return Insight;
+	}
+	else
+	{
+		Insight = new InsightHunter();
+		return Insight;
+	}
 }
 
 
