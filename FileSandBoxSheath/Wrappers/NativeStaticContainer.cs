@@ -12,6 +12,23 @@ namespace FileSandBoxSheath.Wrappers
     /// </summary>
     public abstract class NativeStaticContainer: IDisposable
     {
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+            if (obj is NativeStaticContainer)
+            {
+                return (((NativeStaticContainer)obj).Native == this.Native);
+            }
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return Native.GetHashCode();
+        }
         public NativeStaticContainer(IntPtr Native)
         {
             this.Native = Native;
@@ -51,7 +68,7 @@ namespace FileSandBoxSheath.Wrappers
         /// <summary>
         /// private value containing if dispose() was callsed
         /// </summary>
-        private bool disposedValue;
+        protected bool disposedValue;
         /// <summary>
         /// Was this class disposed?
         /// </summary>

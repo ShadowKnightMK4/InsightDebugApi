@@ -4,7 +4,6 @@
 #include <vector>
 #include <map>
 
-#include "Client.h"
 #include "InsightHunter.h"
 class Client;
 class PS_ProcessInformation;
@@ -68,6 +67,8 @@ struct WorkerThreadData
 	///  Callback provided to examine events and do stuff.  SymbolEngine is automatically handled via the InsightHunter classs provided you opt into the Debug Worker thread
 	/// </summary>
 	DebugEventCallBackRoutine UserCallback;
+
+	
 	/// <summary>
 	/// see msdn's ContinueDebugEvent
 	/// </summary>
@@ -209,6 +210,7 @@ public:
 
 	VOID SetDebugEventCallback(DebugEventCallBackRoutine Callback);
 	DebugEventCallBackRoutine GetDebugEventCallback();
+	VOID SetDebugEventCallBackCustomArg(LPVOID Arg);
 	/// <summary>
 	/// This pulses the event that the worker thead (if existant) waits on.
 	/// Pointless if debug events are not in a different thread.
@@ -382,7 +384,7 @@ private:
 
 
 	/// <summary>
-	/// Class for the symbol engine
+	/// Class for the symbol engine. Will Need to spawn a process WITH_DEBUG to get much use.
 	/// </summary>
 	InsightHunter* Insight;
 

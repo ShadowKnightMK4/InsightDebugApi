@@ -22,52 +22,25 @@
     <Filter Include="Source Files\PublicWin32Exports">
       <UniqueIdentifier>{fccf0de8-1781-41f9-86c6-0a6c94dfea8b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\NonExports">
-      <UniqueIdentifier>{ea10169c-ecda-4faf-bc27-0bbb40bcc379}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\DllJunk">
-      <UniqueIdentifier>{0179eb3d-0a98-45b6-a547-a027d0f3947f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\PublicWin32Exports\ProcessRoutines">
-      <UniqueIdentifier>{5627b863-d5ae-4cfb-9bc8-03ce11c521e8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\PublicWin32Exports\DebugEvents">
-      <UniqueIdentifier>{e627e445-4df6-4681-910c-261c186aa32c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\DebugEvent">
-      <UniqueIdentifier>{42c8b10f-2aee-454e-b57f-f048cf323ce3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\ClassSourceCCall">
-      <UniqueIdentifier>{7a0a72f1-e707-4ca4-9f43-f25bb3e119cc}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\PublicWin32Exports\DetourPayloadHandling">
       <UniqueIdentifier>{584f3222-3765-4c89-b43b-49778ff0b314}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\PublicWin32Exports\SymbolWrapperExports">
-      <UniqueIdentifier>{6152aeff-fe80-43e1-8cb2-5c0ceb1395a5}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\PublicWin32Exports\Misc">
       <UniqueIdentifier>{57f3c625-02be-4a73-bb0e-4aa6004663f5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\CLevelWrappers">
+      <UniqueIdentifier>{7a0a72f1-e707-4ca4-9f43-f25bb3e119cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Depreciated">
+      <UniqueIdentifier>{092f2dd2-a0bd-41c3-aaf3-9b613b871ee2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Depreciated">
+      <UniqueIdentifier>{e5344c1f-1b92-4fde-84d1-e4fd33e36b8d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="RemoteStructureRoutines.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Client.cpp">
-      <Filter>Source Files\ClassSource</Filter>
-    </ClCompile>
     <ClCompile Include="PS_ProcessInformation.cpp">
       <Filter>Source Files\ClassSource</Filter>
-    </ClCompile>
-    <ClCompile Include="ClientHandling.cpp">
-      <Filter>Source Files\PublicWin32Exports</Filter>
-    </ClCompile>
-    <ClCompile Include="ProcessHandlingInternal.cpp">
-      <Filter>Source Files\PublicWin32Exports\ProcessRoutines</Filter>
-    </ClCompile>
-    <ClCompile Include="DebugEvents.cpp">
-      <Filter>Source Files\PublicWin32Exports\DebugEvents</Filter>
     </ClCompile>
     <ClCompile Include="Utility.cpp">
       <Filter>Source Files\PublicWin32Exports\Misc</Filter>
@@ -75,58 +48,55 @@
     <ClCompile Include="Api_DllMain.cpp">
       <Filter>Source Files\PublicWin32Exports\Misc</Filter>
     </ClCompile>
-    <ClCompile Include="DebugEventInternal.cpp">
-      <Filter>Source Files\PublicWin32Exports\DebugEvents</Filter>
-    </ClCompile>
-    <ClCompile Include="ProcessHandling.cpp">
-      <Filter>Source Files\PublicWin32Exports\ProcessRoutines</Filter>
-    </ClCompile>
-    <ClCompile Include="DebugLogTarget.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PS_ProcessInformationCCall.cpp">
-      <Filter>Source Files\ClassSourceCCall</Filter>
-    </ClCompile>
-    <ClCompile Include="DebugDebugStructExports.cpp">
-      <Filter>Source Files\PublicWin32Exports\DebugEvents</Filter>
+    <ClCompile Include="PS_ProcessInformationClass_CExports.cpp">
+      <Filter>Source Files\CLevelWrappers</Filter>
     </ClCompile>
     <ClCompile Include="CommandmentSettings.cpp">
       <Filter>Source Files\PublicWin32Exports</Filter>
     </ClCompile>
-    <ClCompile Include="DllMapper.cpp">
-      <Filter>Source Files\ClassSource</Filter>
-    </ClCompile>
-    <ClCompile Include="ProcessContextSingle.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="InsightHunter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="DetourPayloads.cpp">
       <Filter>Source Files\PublicWin32Exports\DetourPayloadHandling</Filter>
     </ClCompile>
-    <ClCompile Include="DebugNotifyHelperStructWrappers.cpp">
-      <Filter>Source Files\PublicWin32Exports</Filter>
+    <ClCompile Include="InsightClass_CExports.cpp">
+      <Filter>Source Files\CLevelWrappers</Filter>
     </ClCompile>
-    <ClCompile Include="SymbolInfo_Wrappers.cpp">
+    <ClCompile Include="DebugStruct_CExports.cpp">
+      <Filter>Source Files\CLevelWrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="SymbolInfoStruct_CExports.cpp">
+      <Filter>Source Files\CLevelWrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugNotifyHelperStructWrappers.cpp">
+      <Filter>Source Files\CLevelWrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="InsightHunter.cpp">
+      <Filter>Source Files\ClassSource</Filter>
+    </ClCompile>
+    <ClCompile Include="ProcessContextSingle.cpp">
+      <Filter>Source Files\Depreciated</Filter>
+    </ClCompile>
+    <ClCompile Include="ProcessHandling.cpp">
       <Filter>Source Files\PublicWin32Exports\Misc</Filter>
     </ClCompile>
-    <ClCompile Include="InsightSymbolCCall.cpp">
-      <Filter>Source Files\ClassSourceCCall</Filter>
+    <ClCompile Include="RemoteStructureRoutines.cpp">
+      <Filter>Source Files\PublicWin32Exports\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageHlpModuleStruct_CExports.cpp">
+      <Filter>Source Files\CLevelWrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugLogTarget.cpp">
+      <Filter>Source Files\Depreciated</Filter>
+    </ClCompile>
+    <ClCompile Include="InsightSupport.cpp">
+      <Filter>Source Files\ClassSource</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ClientHandling.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="FileSandBoxApi.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Utility.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Client.h">
-      <Filter>Header Files\ClassDefines</Filter>
     </ClInclude>
     <ClInclude Include="RemoteStructure.h">
       <Filter>Header Files</Filter>
@@ -134,43 +104,25 @@
     <ClInclude Include="PS_ProcessInformation.h">
       <Filter>Header Files\ClassDefines</Filter>
     </ClInclude>
-    <ClInclude Include="ProcessContext.h">
-      <Filter>Header Files\ClassDefines</Filter>
-    </ClInclude>
-    <ClInclude Include="ProcessHandling.h">
-      <Filter>Header Files\DllJunk</Filter>
-    </ClInclude>
-    <ClInclude Include="FilesandboxApi_DllStuff.h">
-      <Filter>Header Files\DllJunk</Filter>
-    </ClInclude>
-    <ClInclude Include="DebugEvent.h">
-      <Filter>Header Files\DebugEvent</Filter>
-    </ClInclude>
-    <ClInclude Include="DebugEventInternal.h">
-      <Filter>Header Files\DebugEvent</Filter>
-    </ClInclude>
-    <ClInclude Include="DebugLogTarget.h">
-      <Filter>Header Files\ClassDefines</Filter>
-    </ClInclude>
     <ClInclude Include="CommandmentSettings.h">
       <Filter>Header Files\ClassDefines</Filter>
     </ClInclude>
-    <ClInclude Include="DllMapper.h">
-      <Filter>Header Files\ClassDefines</Filter>
+    <ClInclude Include="DebugLogTarget.h">
+      <Filter>Header Files\Depreciated</Filter>
+    </ClInclude>
+    <ClInclude Include="ProcessContext.h">
+      <Filter>Header Files\Depreciated</Filter>
     </ClInclude>
     <ClInclude Include="InsightHunter.h">
+      <Filter>Header Files\ClassDefines</Filter>
+    </ClInclude>
+    <ClInclude Include="InsightSupport.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="OldExports.def">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="Exports.def">
       <Filter>Resource Files</Filter>
-    </None>
-    <None Include="ImageHlpModule_structExports.cpp">
-      <Filter>Source Files\PublicWin32Exports\Misc</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

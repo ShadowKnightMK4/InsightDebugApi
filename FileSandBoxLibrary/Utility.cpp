@@ -1,9 +1,75 @@
 /*
-*	Utility.cpp   Houses code for a few generic routines.    Currently ProcessHandlingInternal.cpp uses the and they are exported for use.
+*	Utility.cpp   Houses code for a few generic routines.   
+
+	Currently mostly for ProcessHandlingInternal.cpp uses the and they are exported for use. Most are self contained.
 */
 #include "Utility.h"
 #include <Psapi.h>
 
+/// <summary>
+/// Enable a chosen priv on self.  NOT INTENDED TO BE EXPORTED. 
+/// </summary>
+/// <param name="PrivNaem">Name of the Privilege</param>
+/// <param name="Enable">TRUE to enable, FALSE to turn off.</param>
+/// <returns>True if it worked and false if it did nt</returns>
+bool EnablePrivOnSelf(LPCWSTR PrivNaem, BOOL Enable)
+{
+
+	// try asking for the debug priv and go gain.
+	TOKEN_PRIVILEGES priv;
+	LUID luid;
+	HANDLE SelfAccessHandle = INVALID_HANDLE_VALUE;
+	if (OpenProcessToken(GetCurrentProcess(), TOKEN_ADJUST_PRIVILEGES, &SelfAccessHandle))
+	{
+		if (LookupPrivilegeValue(nullptr, PrivNaem, &luid))
+		{
+			priv.PrivilegeCount = 1;
+			priv.Privileges[0].Luid = luid;
+			if (Enable)
+			{
+				priv.Privileges[0].Attributes = SE_PRIVILEGE_ENABLED;
+			}
+			else
+			{
+				priv.Privileges[0].Attributes = 0;
+			}
+			if (AdjustTokenPrivileges(SelfAccessHandle, false, &priv, sizeof(TOKEN_PRIVILEGES), nullptr, nullptr))
+			{
+				CloseHandle(SelfAccessHandle);
+				return TRUE;
+			}
+		}
+	}
+	if (SelfAccessHandle != INVALID_HANDLE_VALUE)
+	{
+		CloseHandle(SelfAccessHandle);
+	}
+	return FALSE;
+}
+
+/// <summary>
+/// Ask for the SeDebugPriv. I'm on the fence for exporting this as this is  aready made option for just loading the dll and asking for the priv.
+/// </summary>
+/// <returns></returns>
+BOOL WINAPI AskForDebugPriv()
+{
+	return EnablePrivOnSelf(SE_DEBUG_NAME, TRUE);
+}
+
+HANDLE WINAPI LocalHandleDup(HANDLE CurrentHandle, DWORD Access, BOOL CopyAccess)
+{
+	HANDLE Ret = 0;
+	DWORD Arg = 0;
+	if (CopyAccess)
+	{
+		Arg = DUPLICATE_SAME_ACCESS;
+	}
+	if (DuplicateHandle(GetCurrentProcess(), CurrentHandle, GetCurrentProcess(), &Ret, Access, FALSE, Arg))
+	{
+		return Ret;
+	}
+	return 0;
+}
 
 char* WINAPI ConvertUnicodeString(const wchar_t* Original)
 {

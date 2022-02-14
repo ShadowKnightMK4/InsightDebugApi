@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 #include "Utility.h"
+#include "InsightSupport.h"
 
 /// <summary>
 /// Callback for the SymbolSearch thing. This is intended to be filled by the DotNet side of things. return FALSE to quit the enum
@@ -21,11 +22,13 @@ public:
 	InsightHunter();
 	InsightHunter(HANDLE DebuggedProcess);
 	~InsightHunter();
+
+	
 	
 #pragma region Loading Symbols in response to debug events
 
 	/// <summary>
-	/// this routine is called to tell the symbol engine to load pdb data from a CREATE_PROCESS_DEBUG_EVENT
+	/// this routine is called to tell the symbol engine to load pdb data from a CREATE_PROCESS_DEBUG_EVENT.  This routine loads the symbols for  the EXE of the process.
 	/// </summary>
 	/// <param name="EventData"></param>
 	/// <returns></returns>
@@ -37,12 +40,18 @@ public:
 	/// <returns></returns>
 	bool LoadDllSymbolInfo(LPDEBUG_EVENT EventData);
 	/// <summary>
-	/// This is called to unload Dll Info from a UNLOAD_DLLD_DEBUG_EVENt
+	/// This is called to unload Dll Info from a UNLOAD_DLLD_DEBUG_EVENT. This routine clears the symbols loaded for *that* dll
 	/// </summary>
 	/// <param name="EventData"></param>
 	/// <returns></returns>
 	bool UnLoadDllSymbolInfo(LPDEBUG_EVENT EventData);
 
+	/// <summary>
+	/// This is called when receiving EXIT_PROCESS_DEBUG_EVENT. This routine clears all symbols loaded for the process in this class
+	/// </summary>
+	/// <param name="EventData"></param>
+	/// <returns></returns>
+	bool UnloadExeSymbolInfo(LPDEBUG_EVENT EventData);
 
 #pragma endregion
 
@@ -61,8 +70,26 @@ public:
 	bool RefreshModuleList();
 
 
+	/// <summary>
+	/// Enumerat Symbnols with a DotNet friendly called back. For format see MSDN's "SymEnumSymbolsExW" function.
+	/// </summary>
+	/// <param name="Callback"></param>
+	/// <param name="SearchString"></param>
+	/// <returns></returns>
 	BOOL EnumerateLoadedSymbols(SymbolSearchCallback* Callback, wchar_t* SearchString);
 
+	/// <summary>
+	/// Opens aprocess handle to TargetID and passes it to the other version
+	/// </summary>
+	/// <param name="TargetID"></param>
+	/// <returns></returns>
+	BOOL SetMainDebugTarget(DWORD TargetID);
+	/// <summary>
+	/// Specific  new core debug target i.e. app to load symbols for. Must be process handle.  CLEARS any previously loaded symbols.
+	/// </summary>
+	/// <param name="MainDebug"></param>
+	/// <returns></returns>
+	BOOL SetMainDebugTarget(HANDLE MainDebug);
 #pragma endregion
 #pragma region Thread and Window Sync
 
@@ -79,7 +106,25 @@ public:
 #pragma endregion
 private:
 
+#pragma region MemoryMangement
+	/// <summary>
+	/// Wipe current symbols either in ~Destroy() event or we're pointing insite to a new debug target.
+	/// </summary>
+	void ClearSymbolContainer();
+#pragma endregion
+
+	/// <summary>
+	/// If not setup, setup the symbol negine with the current settings. Any public: facing routine needs to be calling this is DebugHelpOnline is not set.
+	/// </summary>
+	BOOL InitializeSymbolEngineIfNot();
 	
+	/// <summary>
+	/// Common code between the LoadEXE and LoadDll routines.
+	/// </summary>
+	/// <param name="EventData"></param>
+	/// <returns></returns>
+	BOOL LoadModuleInfo(LPDEBUG_EVENT EventData);
+	BOOL UnloadModuleInfo();
 
 	/// <summary>
 	/// The public routines call this to sync access to the windows debug help symbol
@@ -93,11 +138,8 @@ private:
 	/// Houses the paths to check when loading symbol files
 	/// </summary>
 	std::vector<std::wstring> ModuleSearchPath;
-	static bool SymbolEngineLoaded;
-	/// <summary>
-	/// The main process debuging debugged
-	/// </summary>
-	HANDLE MainDebuggedProcess;
+
+
 	DWORD SymbolOptions;
 	/// <summary>
 	/// variable for syncng threads
@@ -107,9 +149,14 @@ private:
 	/// true if using thread sync
 	/// </summary>
 	BOOL EnableThreadSync;
+
 	/// <summary>
-	/// Handles received fromcreate process events.
+	/// Each process we get A CREATE_PROCESS_DEBUG_EVENT gets one where. 
+	/// KEY = processID.  
+	/// 
 	/// </summary>
-	std::vector<HANDLE> AdditionalProcessHandles;
+	std::map<DWORD, InsightSupport_SymbolHandle*> HandleContainer;
+
+
 };
 

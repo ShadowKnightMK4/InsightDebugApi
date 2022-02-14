@@ -1,6 +1,8 @@
 #include "RemoteStructure.h"
 /*
-* Contains routines to read various remote structures into the context of the calling process.
+* RemoteStructureRoutines.CPP
+* 
+* These routines will typicalled take a handle (or process id) and reaed as chunk of memory from it into the caller's process and return it.
 */
 
 namespace RemoteStructureRoutine

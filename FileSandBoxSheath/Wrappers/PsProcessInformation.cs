@@ -29,8 +29,21 @@ namespace FileSandBoxSheath
     /// choose an enviroment and spawn a process.
     /// This class is a wrapper for the C++ Class named "PS_ProcessInformation" implemented as a native dll in the source PS_ProcessInformation.cpp
     /// </summary>
-    public class PsProcessInformation : IDisposable
+    public class PsProcessInformation : NativeStaticContainer
     {
+        public PsProcessInformation(IntPtr That): base(That)
+        {
+        }
+
+        public PsProcessInformation(IntPtr That, bool FreeOnCleanup): base(That, FreeOnCleanup)
+        {
+
+        }
+        public override int GetHashCode()
+        {
+            return Native.GetHashCode();
+        }
+
         // typedef int(WINAPI* DebugEventCallBackRoutine)(LPDEBUG_EVENT lpCurEvent, DWORD* ContinueStatus, DWORD* WaitTimer, DWORD CustomArg);
         public delegate int DebugEventCallBackRoutine(IntPtr DebugEvent, IntPtr ContinueState, IntPtr WaitTimer, IntPtr CustomArg);
 
@@ -143,12 +156,20 @@ namespace FileSandBoxSheath
             CreateSuspended = 3,
         }
 
-        public PsProcessInformation()
+        /// <summary>
+        /// Create an instance of PsProcessInformation on  the naticve side and return a DotNot size class ready to use.
+        /// </summary>
+        /// <returns></returns>
+        public static PsProcessInformation CreateInstance()
         {
-            That = NativeMethods.CreatePsProcessInformation();
-            if (That == IntPtr.Zero)
+            IntPtr ret = NativeMethods.CreatePsProcessInformation();
+            if (ret == IntPtr.Zero)
             {
                 throw new InvalidOperationException("Native DLL FileSandbox Failed to instance a copy of its PS_ProcessCreation via the exported routine");
+            }
+            else
+            {
+                return new PsProcessInformation(ret);
             }
         }
 
@@ -160,7 +181,7 @@ namespace FileSandBoxSheath
         /// <returns>process id </returns>
         public Int32 SpawnProcess()
         {
-            return NativeMethods.PsProcessInformation_Spawn(That).ToInt32();
+            return NativeMethods.PsProcessInformation_Spawn(Native).ToInt32();
 
         }
 
@@ -170,7 +191,7 @@ namespace FileSandBoxSheath
         /// </summary>
         public void PulseDebugEventThead()
         {
-            NativeMethods.PsProcessInformation_PulseDebugEvent(That);
+            NativeMethods.PsProcessInformation_PulseDebugEvent(Native);
         }
 
 
@@ -180,7 +201,7 @@ namespace FileSandBoxSheath
         /// <returns></returns>
         public InsightHunter GetSymbolHandler()
         {
-            IntPtr ret = NativeMethods.PsProcessInformation_GetSymbolEngineClassPtr(That);
+            IntPtr ret = NativeMethods.PsProcessInformation_GetSymbolEngineClassPtr(Native);
             if (ret != IntPtr.Zero)
             {
                 return new InsightHunter(ret, false);
@@ -207,7 +228,7 @@ namespace FileSandBoxSheath
         /// <returns>true if command was sec ok (probably ALWAYS true)</returns>
         public bool SetCommandment(ProcessRestriction Cmd, bool Val)
         {
-            return NativeImports.NativeMethods.PsProcessInformation_SetCommandment(That, (uint)Cmd, Val);
+            return NativeImports.NativeMethods.PsProcessInformation_SetCommandment(Native, (uint)Cmd, Val);
         }
 
         /// <summary>
@@ -217,7 +238,7 @@ namespace FileSandBoxSheath
         /// <returns>ether the command's setting or false</returns>
         public bool GetCommandment(ProcessRestriction Cmd)
         {
-            return NativeMethods.PsProcesInformation_GetCommandment(That, (uint)Cmd);
+            return NativeMethods.PsProcesInformation_GetCommandment(Native, (uint)Cmd);
         }
         #endregion
 
@@ -232,11 +253,11 @@ namespace FileSandBoxSheath
         {
             get
             {
-                return NativeMethods.PsProcessInformation_GetDebugMode(That);
+                return NativeMethods.PsProcessInformation_GetDebugMode(Native);
             }
             set
             {
-                NativeMethods.PsProcessInformation_SetDebugMode(That, value);
+                NativeMethods.PsProcessInformation_SetDebugMode(Native, value);
             }
         }
 
@@ -249,16 +270,16 @@ namespace FileSandBoxSheath
         {
             get
             {
-                return (DebugEventCallBackRoutine)NativeMethods.PsProcessInformation_GetDebugCallbackRoutine(That);
+                return (DebugEventCallBackRoutine)NativeMethods.PsProcessInformation_GetDebugCallbackRoutine(Native);
             }
             set
             {
-                NativeMethods.PsProcessInformation_SetDebugCallbackRoutine(That, value);
+                NativeMethods.PsProcessInformation_SetDebugCallbackRoutine(Native, value);
                 BackUpCopy = value;
             }
         }
 
-
+   
 
 
 
@@ -269,7 +290,7 @@ namespace FileSandBoxSheath
         {
             get
             {
-                uint size = NativeMethods.PSProcessInformation_GetDetourListSize(That);
+                uint size = NativeMethods.PSProcessInformation_GetDetourListSize(Native);
                 if (size == 0)
                 {
                     return null;
@@ -279,7 +300,7 @@ namespace FileSandBoxSheath
                     List<string> ret = new List<string>();
                     for (uint step = 0; step < size; step++)
                     {
-                        IntPtr ListPtrEntry = (IntPtr)NativeMethods.PSProcessInformation_GetDetourListIndex(That, step);
+                        IntPtr ListPtrEntry = (IntPtr)NativeMethods.PSProcessInformation_GetDetourListIndex(Native, step);
                         ret.Add(Marshal.PtrToStringAnsi(ListPtrEntry));
                     }
                     return ret.ToArray();
@@ -296,11 +317,11 @@ namespace FileSandBoxSheath
         {
             get
             {
-                return Marshal.PtrToStringUni(NativeMethods.PsProcessInformation_GetProcessName(That));
+                return Marshal.PtrToStringUni(NativeMethods.PsProcessInformation_GetProcessName(Native));
             }
             set
             {
-                NativeMethods.PsProcessInformation_SetProcessName(That, value);
+                NativeMethods.PsProcessInformation_SetProcessName(Native, value);
             }
         }
 
@@ -311,11 +332,11 @@ namespace FileSandBoxSheath
         {
             get
             {
-                return Marshal.PtrToStringUni(NativeMethods.PsProcessInformation_GetProcessArgument(That));
+                return Marshal.PtrToStringUni(NativeMethods.PsProcessInformation_GetProcessArgument(Native));
             }
             set
             {
-                NativeMethods.PsProcessInformation_SetProcessArgument(That, value);
+                NativeMethods.PsProcessInformation_SetProcessArgument(Native, value);
             }
         }
 
@@ -326,11 +347,11 @@ namespace FileSandBoxSheath
         {
             get
             {
-                return Marshal.PtrToStringUni(NativeMethods.PsProcessInformation_GetWorkingDirectory(That));
+                return Marshal.PtrToStringUni(NativeMethods.PsProcessInformation_GetWorkingDirectory(Native));
             }
             set
             {
-                NativeMethods.PsProcessInformation_SetWorkingDirectory(That, value);
+                NativeMethods.PsProcessInformation_SetWorkingDirectory(Native, value);
             }
         }
 
@@ -342,7 +363,7 @@ namespace FileSandBoxSheath
         {
             set
             {
-                NativeMethods.PsProcessInformation_SetInheritDefaultEnviroment(That, value);
+                NativeMethods.PsProcessInformation_SetInheritDefaultEnviroment(Native, value);
             }
         }
 
@@ -353,11 +374,11 @@ namespace FileSandBoxSheath
         {
             get
             {
-                return NativeMethods.PsProcessInformation_GetSymbolHandling(That);
+                return NativeMethods.PsProcessInformation_GetSymbolHandling(Native);
             }
             set
             {
-                NativeMethods.PsProcessInformation_SetSymbolHandling(That, value);
+                NativeMethods.PsProcessInformation_SetSymbolHandling(Native, value);
             }
         }
 
@@ -370,7 +391,7 @@ namespace FileSandBoxSheath
         {
             get
             {
-                uint Val = NativeMethods.PsProcessInformation_GetCreationFlags(That);
+                uint Val = NativeMethods.PsProcessInformation_GetCreationFlags(Native);
                 if (ExtraFlags != SpecialCaseFlags.None)
                 {
                     if (ExtraFlags.HasFlag(SpecialCaseFlags.DebugOnlyThis))
@@ -420,7 +441,7 @@ namespace FileSandBoxSheath
                         Val |= 4;
                     }
                 }
-                NativeMethods.PsProcessInformation_SetCreationFlags(That, Val);
+                NativeMethods.PsProcessInformation_SetCreationFlags(Native, Val);
             }
         }
 
@@ -438,7 +459,7 @@ namespace FileSandBoxSheath
         /// <param name="Value"></param>
         public void SetExplicitEnviromentValue(string Name, string Value)
         {
-            NativeMethods.PsProcessInformation_SetExplicitEnviromentValue(That, Name, Value);
+            NativeMethods.PsProcessInformation_SetExplicitEnviromentValue(Native, Name, Value);
         }
 
         /// <summary>
@@ -448,7 +469,7 @@ namespace FileSandBoxSheath
         /// <returns>returns a string if the value existed or null if it does NOT</returns>
         public string GetExplicitEnviromentValue(string Name)
         {
-            return Marshal.PtrToStringUni(NativeMethods.PsProcessInformation_GetExplicitEnviromentValue(That, Name));
+            return Marshal.PtrToStringUni(NativeMethods.PsProcessInformation_GetExplicitEnviromentValue(Native, Name));
         }
 
 
@@ -459,7 +480,7 @@ namespace FileSandBoxSheath
         /// <param name="NewDllToForceLoad"></param>
         public void AddDetoursDll(string NewDllToForceLoad)
         {
-            NativeMethods.PsProcessInformation_AddDetourDllToLoad(That, NewDllToForceLoad);
+            NativeMethods.PsProcessInformation_AddDetourDllToLoad(Native, NewDllToForceLoad);
         }
 
         /// <summary>
@@ -467,7 +488,7 @@ namespace FileSandBoxSheath
         /// </summary>
         public void ResetDetoursDllList()
         {
-            NativeMethods.PsProcessInformation_ClearDetourList(That);
+            NativeMethods.PsProcessInformation_ClearDetourList(Native);
         }
 
 
@@ -477,7 +498,7 @@ namespace FileSandBoxSheath
         /// <param name="NewLocation"></param>
         public bool HelperDll_AddLoadLibraryPath(string NewLocation)
         {
-            return NativeMethods.PsProcessInformation_AddPriorityLoadLibraryPath(That, NewLocation);
+            return NativeMethods.PsProcessInformation_AddPriorityLoadLibraryPath(Native, NewLocation);
         }
 
         /// <summary>
@@ -485,7 +506,7 @@ namespace FileSandBoxSheath
         /// </summary>
         public void HelperDll_ClearLoadLibraryPath()
         {
-             NativeMethods.PsProcessInformation_ClearPriorityDllPath(That);
+             NativeMethods.PsProcessInformation_ClearPriorityDllPath(Native);
         }
 
         /// <summary>
@@ -495,7 +516,7 @@ namespace FileSandBoxSheath
         /// <returns></returns>
         public uint HelperDll_GetLoadLibraryPathCount()
         {
-            return NativeMethods.PsProcessInformation_GetProrityLoadLibraryPath_NumberOf(That);
+            return NativeMethods.PsProcessInformation_GetProrityLoadLibraryPath_NumberOf(Native);
         }
 
         /// <summary>
@@ -505,7 +526,7 @@ namespace FileSandBoxSheath
         /// <returns></returns>
         public string HelperDll_IndexLoadLibraryPath(int index)
         {
-            IntPtr ret = NativeMethods.PsProcessInformation_IndexPriorityDllPath(That, index);
+            IntPtr ret = NativeMethods.PsProcessInformation_IndexPriorityDllPath(Native, index);
             if (ret != IntPtr.Zero)
             {
                 return Marshal.PtrToStringUni(ret);
@@ -525,13 +546,9 @@ namespace FileSandBoxSheath
             Dispose(false);
         }
 
-        public virtual void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
+        
 
-        protected virtual void Dispose(bool Managed)
+        protected override void Dispose(bool Managed)
         {
             if (IsCleanned)
             {
@@ -541,13 +558,13 @@ namespace FileSandBoxSheath
             {
 
             }
-            if (That != IntPtr.Zero)
+            if (Native != IntPtr.Zero)
             {
-                NativeMethods.KillPSProcessInformation(That);
+                NativeMethods.KillPSProcessInformation(Native);
             }
             IsCleanned = true;
         }
-        IntPtr That = IntPtr.Zero;
+        
         /// <summary>
         /// Once the dipose()/ finalize() is ran, this is set to true
         /// </summary>

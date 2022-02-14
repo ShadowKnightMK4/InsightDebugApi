@@ -44,7 +44,7 @@ namespace FileSandBoxSheath.NativeImports
 
 
         [DllImport("FileSandBoxApi.dll", BestFitMapping = false, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi, EntryPoint = "SymbolInfoW_GetName", ExactSpelling = false)]
-        public static extern string SymbolInfo_GetName(IntPtr That);
+        public static extern IntPtr SymbolInfo_GetName(IntPtr That);
 
 
 

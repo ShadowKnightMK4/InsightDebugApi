@@ -251,51 +251,37 @@ del "$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\lib\FileSandBoxApi.dl
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Client.cpp" />
     <ClCompile Include="CommandmentSettings.cpp" />
-    <ClCompile Include="DebugDebugStructExports.cpp" />
-    <ClCompile Include="DebugEventInternal.cpp" />
+    <ClCompile Include="DebugStruct_CExports.cpp" />
     <ClCompile Include="DebugLogTarget.cpp" />
     <ClCompile Include="DebugNotifyHelperStructWrappers.cpp" />
     <ClCompile Include="DetourPayloads.cpp" />
-    <ClCompile Include="DllMapper.cpp" />
+    <ClCompile Include="ImageHlpModuleStruct_CExports.cpp" />
     <ClCompile Include="InsightHunter.cpp" />
-    <ClCompile Include="InsightSymbolCCall.cpp" />
+    <ClCompile Include="InsightClass_CExports.cpp" />
+    <ClCompile Include="InsightSupport.cpp" />
     <ClCompile Include="ProcessContextSingle.cpp" />
     <ClCompile Include="Api_DllMain.cpp" />
-    <ClCompile Include="DebugEvents.cpp" />
-    <ClCompile Include="ClientHandling.cpp" />
     <ClCompile Include="ProcessHandling.cpp" />
-    <ClCompile Include="ProcessHandlingInternal.cpp" />
-    <ClCompile Include="PS_ProcessInformationCCall.cpp" />
+    <ClCompile Include="PS_ProcessInformationClass_CExports.cpp" />
     <ClCompile Include="RemoteStructureRoutines.cpp" />
     <ClCompile Include="PS_ProcessInformation.cpp" />
-    <ClCompile Include="SymbolInfo_Wrappers.cpp" />
+    <ClCompile Include="SymbolInfoStruct_CExports.cpp" />
     <ClCompile Include="Utility.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Client.h" />
-    <ClInclude Include="ClientHandling.h" />
     <ClInclude Include="CommandmentSettings.h" />
-    <ClInclude Include="DebugEvent.h" />
-    <ClInclude Include="DebugEventInternal.h" />
     <ClInclude Include="DebugLogTarget.h" />
-    <ClInclude Include="DllMapper.h" />
     <ClInclude Include="FileSandBoxApi.h" />
-    <ClInclude Include="FilesandboxApi_DllStuff.h" />
     <ClInclude Include="InsightHunter.h" />
+    <ClInclude Include="InsightSupport.h" />
     <ClInclude Include="ProcessContext.h" />
-    <ClInclude Include="ProcessHandling.h" />
     <ClInclude Include="PS_ProcessInformation.h" />
     <ClInclude Include="RemoteStructure.h" />
     <ClInclude Include="Utility.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Exports.def" />
-    <None Include="ImageHlpModule_structExports.cpp">
-      <FileType>CppClass</FileType>
-    </None>
-    <None Include="OldExports.def" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="NamingScheme.txt" />

@@ -50,3 +50,16 @@ wchar_t* WINAPI GetFileNameViaHandle(HANDLE FileHandle);
 /// <returns></returns>
 BOOL WINAPI IsTargetProcessID32Bit(DWORD ProcessID);
 
+
+/// <summary>
+/// Ask for Windows Debug Priviledge and return if it was granted.
+/// </summary>
+/// <returns></returns>
+BOOL WINAPI AskForDebugPriv();
+
+
+/// <summary>
+/// Duplicate a handle in the local process to another local handle with the option of access specifying or keeping current access
+/// </summary>
+/// <returns>0 on failure and the new handle on ok.</returns>
+HANDLE WINAPI LocalHandleDup(HANDLE CurrentHandle, DWORD Access, BOOL CopyAccess);

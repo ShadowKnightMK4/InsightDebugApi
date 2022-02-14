@@ -5,3 +5,4 @@ Running name: Filesandbox.
 
 // named after the symbol class on the native side which is named after the Bloodborne insight name.
 Considered name:  Insight Debugger 
+Project Goals:  Symbol Engine + Windows Debug API wrapped in a DotNet Friendly Way.

@@ -7,7 +7,10 @@
 #include "Utility.h"
 
 
-
+/*
+* Older code from a different era in this lifecycle.
+* Depcreated but still may find some use.
+*/
 
 // Emit The PID of the process the debug event was received from
 #define PC_OUTPUT_EMIT_INCLUDE_PID (1)

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FileSandBoxSheath.NativeImports;
+using System.Runtime.InteropServices;
 namespace FileSandBoxSheath.Wrappers
 {
     /// <summary>
@@ -206,7 +207,7 @@ namespace FileSandBoxSheath.Wrappers
         {
             get
             {
-                return NativeMethods.SymbolInfo_GetName(Native);
+                return Marshal.PtrToStringUni(NativeMethods.SymbolInfo_GetName(Native));
             }
         }
 

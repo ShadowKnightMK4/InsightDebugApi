@@ -1,7 +1,3 @@
 
-Do detoured routines stack i.e. if I detour routine A with Detoured1 and then Detour the detour1
-routine with Detour2 will the execution be.
-
-TestDummy->DetourChainingRoutines
-Shows the Scenerio is a queue i.e.e First Detoured routine is last one executed (assuming original called)
+Currently on simpleCAPI github branch.
 

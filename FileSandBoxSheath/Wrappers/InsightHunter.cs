@@ -10,7 +10,8 @@ using FileSandBoxSheath;
 namespace FileSandBoxSheath.Wrappers
 {
     /// <summary>
-    /// A part of the symbol engine is known as InsightHunter in the FileSanboxNative api.  It is VERY VERY VERY tightly coupled with the PsProcessInformation class but distict enough to warenete wrappers. If you need not have symbol processing, disabling that is fine
+    /// A part of the symbol engine is known as InsightHunter in the FileSanboxNative api.  It is VERY VERY VERY tightly coupled with the PsProcessInformation class but distict enough to warenete wrappers. If you need not have symbol processing, disablying is fine.
+    /// NOTE: You'll need to spawn at least one pocess with <see cref="PsProcessInformation"/> to get much use out of this.
     /// </summary>
     public class InsightHunter: NativeStaticContainer
     {
