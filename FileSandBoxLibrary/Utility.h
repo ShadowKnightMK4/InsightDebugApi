@@ -63,3 +63,6 @@ BOOL WINAPI AskForDebugPriv();
 /// </summary>
 /// <returns>0 on failure and the new handle on ok.</returns>
 HANDLE WINAPI LocalHandleDup(HANDLE CurrentHandle, DWORD Access, BOOL CopyAccess);
+
+/// accessed in theadcontext and utility. If not zero, points to kernel32.dll
+extern HMODULE Kernel32;

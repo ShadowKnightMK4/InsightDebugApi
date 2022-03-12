@@ -7,20 +7,43 @@ using System.Text;
 using System.Threading.Tasks;
 using static FileSandBoxSheath.Wrappers.DebugEventRipInfo;
 
+/*
+ * This file: DebugEventNative.CPP wraps the C level wrappers in the native dll to 
+ */
 namespace FileSandBoxSheath.NativeImports
 {
     internal  static partial class NativeMethods
     {
+        /// <summary>
+        /// Return the Process ID contrained within the Native DEBUG_EVENT struct
+        /// </summary>
+        /// <param name="LPDebugEvent"></param>
+        /// <returns></returns>
         [DllImport("FileSandBoxApi.dll", BestFitMapping = false, CallingConvention = CallingConvention.Winapi, EntryPoint = "DebugEvent_GetProcessId", ExactSpelling = false)]
         public static extern uint DebugEvent_GetProcessID(IntPtr LPDebugEvent);
 
+        /// <summary>
+        /// Return the Thread ID contained within the Native DEBUG_EVENT struct
+        /// </summary>
+        /// <param name="LPDebugEvent"></param>
+        /// <returns></returns>
         [DllImport("FileSandBoxApi.dll", BestFitMapping = false, CallingConvention = CallingConvention.Winapi, EntryPoint = "DebugEvent_GetThreadId", ExactSpelling = false)]
         public static extern uint DebugEvent_GetThreadID(IntPtr LPDebugEvent);
 
+        /// <summary>
+        /// Return the Event Tuype Contrained within the DEBUG_EVENT struct
+        /// </summary>
+        /// <param name="LPDebugEvent"></param>
+        /// <returns></returns>
         [DllImport("FileSandBoxApi.dll", BestFitMapping = false, CallingConvention = CallingConvention.Winapi, EntryPoint = "DebugEvent_GetEventType", ExactSpelling = false)]
         public static extern DebugEventType DebugEvent_GetEventType(IntPtr LPDebugEvent);
 
 
+        /// <summary>
+        /// If the Event type is a RIP_EVENT ( <see cref="DebugEvent_GetEventType(IntPtr)"/> returns <see cref="DebugEventType.RipEvent"/>, returns the Type of Rip Event
+        /// </summary>
+        /// <param name="LPDebugEvent"></param>
+        /// <returns></returns>
         [DllImport("FileSandBoxApi.dll", BestFitMapping = false, CallingConvention = CallingConvention.Winapi, EntryPoint = "DebugEvent_RipGetErrorType", ExactSpelling = false)]
         public static extern RipErrorType DebugEvent_RipGetErrorType(IntPtr LPDebugEvent);
 

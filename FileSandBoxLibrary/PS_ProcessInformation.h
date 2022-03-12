@@ -60,7 +60,7 @@ typedef int(WINAPI* DebugEventCallBackRoutine)(LPDEBUG_EVENT lpCurEvent, DWORD* 
 struct WorkerThreadData
 {
 	/// <summary>
-	/// Is the hadnle that the caller needs to hit during their main / gui processing loo to send debug events back to windows
+	/// Is the handle that the caller needs to hit during their main / gui processing loop to send debug events back to windows
 	/// </summary>
 	HANDLE EventHandle;
 	/// <summary>
@@ -70,11 +70,11 @@ struct WorkerThreadData
 
 	
 	/// <summary>
-	/// see msdn's ContinueDebugEvent
+	/// see MSDN's ContinueDebugEvent
 	/// </summary>
 	DWORD ContinueState;
 	/// <summary>
-	/// see msdn's ContinueDebugEvet
+	/// see MSDN's ContinueDebugEvet
 	/// </summary>
 	DWORD WaitTImer;
 	/// <summary>
@@ -211,25 +211,52 @@ public:
 	VOID SetDebugEventCallback(DebugEventCallBackRoutine Callback);
 	DebugEventCallBackRoutine GetDebugEventCallback();
 	VOID SetDebugEventCallBackCustomArg(LPVOID Arg);
+
+
 	/// <summary>
 	/// This pulses the event that the worker thead (if existant) waits on.
 	/// Pointless if debug events are not in a different thread.
 	/// </summary>
 	void PulseDebugEventThread();
 	/// <summary>
-	/// Specify what to do when
+	/// Specify if the worker thread is spawned or not. Non Worker thread code is somewhat lagging
 	/// </summary>
 	/// <param name="dmMode"></param>
 	void SetDebugMode(DWORD dmMode);
 
 	
+	/// <summary>
+	/// Get the current debug mode stat for the worker thread
+	/// </summary>
+	/// <returns></returns>
 	DWORD GetDebugMode();
 
 
+	/// <summary>
+	/// After spawning your process, return the main thread handle
+	/// </summary>
+	/// <returns></returns>
 	HANDLE GetMainThreadHandle();
+	/// <summary>
+	/// After spawning your process, return the main process handle.
+	/// </summary>
+	/// <returns></returns>
 	HANDLE GetMainProcessHandle();
+	/// <summary>
+	/// Get the process id of your main process.
+	/// </summary>
+	/// <returns></returns>
 	DWORD GetProcessID();
+	/// <summary>
+	/// Get the thread id of your main process.
+	/// </summary>
+	/// <returns></returns>
 	DWORD GetThreadID();
+
+	/// <summary>
+	/// If you are spawning a process to debug, this will also ask for the debug priv when you do that. Default is FALSE
+	/// </summary>
+	VOID SetDebugPrivState(BOOL WantPriv);
 
 #pragma endregion
 
@@ -293,6 +320,22 @@ public:
 	InsightHunter* GetSymbolHandlerPtr();
 #pragma endregion
 
+#pragma Region Process Statistics
+	
+	DWORD GetPageFaultCount();
+	SIZE_T GetPeakWorkingSet();
+	SIZE_T GetWorkingSetSize();
+	SIZE_T GetQuotaPeakPagePoolUsage();
+	SIZE_T GetQuotaPagedPoolUsage();
+	SIZE_T GetQuotaPeakNonPageUsage();
+	SIZE_T GetQuotaNonPageUsage();
+	SIZE_T GetPageFileUsage();
+	SIZE_T GetPeakPageFileUsage();
+	SIZE_T GetPrivateUsage();
+
+	PROCESS_MEMORY_COUNTERS_EX* GetMemoryStatsBulkPtr();
+#pragma endregion
+
 private:
 	/// <summary>
 	/// Worker thread rotouine friend declartation. This actual is want spances-
@@ -301,7 +344,10 @@ private:
 	/// </summary>
 	friend void _cdecl PsPocessInformation_DebugWorkerthread(void* argument);
 	
-	
+	/// <summary>
+	/// if one of the GetXXXX() routines that fetchs memory info is called,  this ends up being called to refresh the private struct
+	/// </summary>
+	void RefreshMemoryStatistics();
 	/// <summary>
 	/// Common code for the sapwn process public rotuine. Implementation is here.   Argument is true when the worker thread creates the process but false when the public routine creations the process
 	/// </summary>
@@ -377,6 +423,11 @@ private:
 
 
 	std::map<DWORD, BOOL> CommandmentArray;
+
+	/// <summary>
+	/// Updated after requiested information in thsi structure.
+	/// </summary>
+	PROCESS_MEMORY_COUNTERS_EX ProcessMemoryStats;
 	/// <summary>
 	/// Enable symbol tracking or not.
 	/// </summary>
@@ -387,7 +438,10 @@ private:
 	/// Class for the symbol engine. Will Need to spawn a process WITH_DEBUG to get much use.
 	/// </summary>
 	InsightHunter* Insight;
-
+	/// <summary>
+	/// Default false.  If true and Proess creation flags include DEBUG_PROCESS | DEBUG_THIS_PROCESS, we will ask for debug priv
+	/// </summary>
+	bool RequestDebugPriv;
 };
 
 

@@ -37,6 +37,17 @@ LIBRARY FILESANDBOXAPI
 		PS_ProcessInformation_GetDebugEventCallback
 		Ps_ProcessInformation_SetSymbolHandling
 		Ps_ProcessInformation_GetSymbolHandling
+		Ps_ProcessInformation_GetPeakPageFileUsage
+		Ps_ProcessInformation_GetPageFileUsage
+		Ps_ProcessInformation_GetQuotNonPagePoolUsage
+		Ps_ProcessInformation_GetQuotaPeakNonPagePoolUsage
+		Ps_ProcessInformation_GetQuotaPagePoolUsage
+		Ps_ProcessInformation_GetQuotaPeakPagePoolUsage
+		Ps_ProcessInformation_GetWorkingSetSize
+		Ps_ProcessInformation_GetPeakWorkingSet
+		Ps_ProcessInformation_GetPageFaultCount
+		Ps_ProcessInformation_GetPrivateUsage
+		Ps_ProcessInformation_GetMemoryStatsBulkPtr
 		RemoteReadDebugString
 		RemoteFreeDebugString=RemoteRead_SimpleFree
 		RemoteRead_SimpleFree
@@ -52,6 +63,8 @@ LIBRARY FILESANDBOXAPI
 		UtilCloseProcessHandle=CloseHandle
 		UtilPoke4=Poke4
 		UtilPeek4=Peek4
+		UtilPoke8=Poke8
+		UtilPeek8=Peek8
 		UtilIsTargetProcessID32Bit=IsTargetProcessID32Bit
 		DebugEvent_AllocateStructure
 		DebugEvent_FreeStructure=RemoteRead_SimpleFree
@@ -82,7 +95,7 @@ LIBRARY FILESANDBOXAPI
 		DebugEvent_ExitProcessInfo_GetExitCode
 		DebugEvent_IsEventFrom32Bit
 		DetourEnumerateModulesEx
-		Ps_ProcesInformation_GetCommandment
+		Ps_ProcessInformation_GetCommandment
 		Ps_ProcessInformation_SetCommandment
 		Ps_ProcessInformation_AddPriorityDllPathW
 		Ps_ProcessInformation_AddPriorityDllPathA
@@ -114,6 +127,10 @@ LIBRARY FILESANDBOXAPI
 		Insight_GetThreadSync
 		Insight_SetParentWindow
 		Insight_EnumerateLoadedSymbolsW
+		Insight_GetSymbolOptions
+		Insight_SetSymbolOptions
+		Insight_GetImageHelpVersionData
+		Insight_SetImageHelpCompatability
 		ImageHlp_GetSizeOfStruct
 		ImageHlp_GetBaseOfImage
 		ImageHlp_GetImageSize
@@ -124,3 +141,20 @@ LIBRARY FILESANDBOXAPI
 		ImageHlp_GetModuleName
 		ImageHlp_GetImageNameA
 		ImageHlp_GetLoadedImageNameA
+		DebugHelp_ApiVerionStruct_GetMajor
+		DebugHelp_ApiVerionStruct_GetMinor
+		DebugHelp_ApiVerionStruct_GetRevision
+		ThreadContext_CreateInstance
+		ThreadContext_KillInstance
+		ThreadContext_DupInstance
+		ThreadContext_GetPriority
+		ThreadContext_SetPriority
+		ThreadContext_SetThreadDescriptionW
+		ThreadContext_GetThreadDescriptionW
+		ThreadContext_SetTargetThread
+		ThreadContext_ResumeThread
+		ThreadContext_SuspendThread
+		ThreadContext_GetThreadTimeCreationTime
+		ThreadContext_GetThreadTimeExitTime
+		ThreadContext_GetThreadTimeUserTime
+		ThreadContext_GetThreadTimeKernelTime

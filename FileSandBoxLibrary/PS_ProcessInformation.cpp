@@ -91,7 +91,7 @@ void _cdecl PsPocessInformation_DebugWorkerthread(void* argument)
 		_endthreadex(GetLastError());
 	}
 
-	if (Args->that->EnableSymbols == true)
+	if (Args->that->EnableSymbols == TRUE)
 	{
 		if (Args->that->Insight == nullptr)
 		{
@@ -166,6 +166,7 @@ void _cdecl PsPocessInformation_DebugWorkerthread(void* argument)
 
 	_endthreadex(0);
 }
+
 
 
 /// <summary>
@@ -498,8 +499,33 @@ DWORD PS_ProcessInformation::SpawnProcess()
 }
 
 
+void PS_ProcessInformation::RefreshMemoryStatistics()
+{
+	ZeroMemory(&this->ProcessMemoryStats, sizeof(PROCESS_MEMORY_COUNTERS_EX));
+	this->ProcessMemoryStats.cb = sizeof(PROCESS_MEMORY_COUNTERS_EX);
+
+	HANDLE ProcessHandle = 0;
+	__try
+	{
+		ProcessHandle = OpenProcesForQueryInformation(this->PInfo.dwProcessId);
+		if (ProcessHandle != INVALID_HANDLE_VALUE)
+		{
+			GetProcessMemoryInfo(ProcessHandle, (PPROCESS_MEMORY_COUNTERS)&this->ProcessMemoryStats, this->ProcessMemoryStats.cb);
+		}
+	}
+	__finally
+	{
+		if (ProcessHandle != INVALID_HANDLE_VALUE)
+		{
+			CloseHandle(ProcessHandle);
+		}
+	}
+
+}
+
 DWORD PS_ProcessInformation::SpawnProcessCommon(bool NoNotSpawnThread)
 {
+	bool DebugAskFailure = false;
 	wchar_t* Arguments;
 	LPCSTR* DetourListPtr;
 	const wchar_t* EnvBlocArg;
@@ -574,7 +600,29 @@ DWORD PS_ProcessInformation::SpawnProcessCommon(bool NoNotSpawnThread)
 
 		if (((dwCreationFlags & DEBUG_PROCESS) == DEBUG_PROCESS) || ((dwCreationFlags & DEBUG_ONLY_THIS_PROCESS) == DEBUG_ONLY_THIS_PROCESS))
 		{
-			if ((this->DebugModeHandle == PSINFO_DEBUGMODE_WORKERTHREADED))
+			/// <summary>
+			/// This code asks if we are to ask for debug priv and sets a flag if the priv was not granted.
+			/// </summary>
+			if (RequestDebugPriv)
+			{
+				if (!AskForDebugPriv())
+				{
+					PInfo.hProcess = PInfo.hThread = INVALID_HANDLE_VALUE;
+					PInfo.dwProcessId = PInfo.dwThreadId = 0;
+					DebugAskFailure = TRUE;
+				}
+				else
+				{
+					DebugAskFailure = FALSE;
+				}
+			}
+			else
+			{
+				// it didn't fail BUT we didn't ask for it. so we're still OK
+				DebugAskFailure = FALSE;
+			}
+
+			if ((this->DebugModeHandle == PSINFO_DEBUGMODE_WORKERTHREADED) && (DebugAskFailure == FALSE))
 			{
 				this->SyncData.ContinueState = this->SyncData.threadID = 0;
 				this->SyncData.EventHandle = CreateEvent(nullptr, FALSE, FALSE, nullptr);
@@ -694,7 +742,7 @@ VOID PS_ProcessInformation::CopyPayloads(HANDLE Target)
 	/// </summary>
 	for (auto stepper = CommandmentArray.begin(); stepper != CommandmentArray.end(); stepper++)
 	{
-		if (stepper._Ptr->_Myval.second == true)
+		if (stepper._Ptr->_Myval.second == TRUE)
 		{
 			ByteHappy.insert(ByteHappy.end(), stepper._Ptr->_Myval.first);
 		}
@@ -782,6 +830,11 @@ DWORD PS_ProcessInformation::GetProcessID()
 DWORD PS_ProcessInformation::GetThreadID()
 {
 	return PInfo.dwThreadId;
+}
+
+VOID PS_ProcessInformation::SetDebugPrivState(BOOL WantPriv)
+{
+	this->RequestDebugPriv = WantPriv;
 }
 
 BOOL PS_ProcessInformation::SetCommandment(DWORD CommandMent, BOOL Status)
@@ -877,6 +930,72 @@ InsightHunter* PS_ProcessInformation::GetSymbolHandlerPtr()
 		Insight = new InsightHunter();
 		return Insight;
 	}
+}
+
+DWORD PS_ProcessInformation::GetPageFaultCount()
+{
+	RefreshMemoryStatistics();
+	return this->ProcessMemoryStats.PageFaultCount;
+}
+
+SIZE_T PS_ProcessInformation::GetPeakWorkingSet()
+{
+	RefreshMemoryStatistics();
+	return this->ProcessMemoryStats.PeakWorkingSetSize;
+}
+
+SIZE_T PS_ProcessInformation::GetWorkingSetSize()
+{
+	RefreshMemoryStatistics();
+	return this->ProcessMemoryStats.WorkingSetSize;
+}
+
+SIZE_T PS_ProcessInformation::GetQuotaPeakPagePoolUsage()
+{
+	RefreshMemoryStatistics();
+	return this->ProcessMemoryStats.QuotaPagedPoolUsage;
+}
+
+SIZE_T PS_ProcessInformation::GetQuotaPagedPoolUsage()
+{
+	RefreshMemoryStatistics();
+	return this->ProcessMemoryStats.QuotaPagedPoolUsage;
+}
+
+SIZE_T PS_ProcessInformation::GetQuotaPeakNonPageUsage()
+{
+	RefreshMemoryStatistics();
+	return this->ProcessMemoryStats.QuotaPeakNonPagedPoolUsage;
+}
+
+SIZE_T PS_ProcessInformation::GetQuotaNonPageUsage()
+{
+	RefreshMemoryStatistics();
+	return this->ProcessMemoryStats.QuotaNonPagedPoolUsage;
+}
+
+SIZE_T PS_ProcessInformation::GetPageFileUsage()
+{
+	RefreshMemoryStatistics();
+	return this->ProcessMemoryStats.PagefileUsage;
+}
+
+SIZE_T PS_ProcessInformation::GetPeakPageFileUsage()
+{
+	RefreshMemoryStatistics();
+	return this->ProcessMemoryStats.PeakPagefileUsage;
+}
+
+SIZE_T PS_ProcessInformation::GetPrivateUsage()
+{
+	RefreshMemoryStatistics();
+	return this->ProcessMemoryStats.PrivateUsage;
+}
+
+PROCESS_MEMORY_COUNTERS_EX* PS_ProcessInformation::GetMemoryStatsBulkPtr()
+{
+	RefreshMemoryStatistics();
+	return &this->ProcessMemoryStats;
 }
 
 

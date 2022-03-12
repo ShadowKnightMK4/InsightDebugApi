@@ -1,3 +1,68 @@
 
 Currently on simpleCAPI github branch.
+Inproess of spellcehcking coments/ variable names as well as implenmenting ThreadContext
+
+
+Rename Project to InsightDebugger instead of FileSandBox
+	why? -> Project is kinda moving from the helperdll focus to Managed debug API in generally with the helper as an afterthought
+
+
+Before publish release,
+	Stablish ThreadContext, process context, and ensure symobl handler enough 
+		so that risk of an exception on the native side is minumal and the managed side has handlers for their problems.
+	Write up some samples to show different things.
+			Spawn a process
+			Spawn and debug a process
+			Fetch thread data
+			Set thread data.
+	Figure way to monitize it.
+		Suggestions?
+			MIT for personal / non commercial license with a Pay pal link included.
+			Commercial License 
+			Malware Analyis 
+		Personal
+				As it one has none plans to monitize this or distribute for cash.
+		Commerical
+				A Company wants to use this for something that does not deal with malware anaylsis
+		Malware Anaylis
+				Company / Personal is using this to do that.
+				Right reserced to suspend price (if any) for emergent threats.
+
+	Remove the FileSandBoxHelper DLL because it uses somethings that I'm not quite ready to release into the public.
+	-> Add writeup on how Detours can be used with this library.	- for example,   Routing NtCreateFileA/W to point to a zip file instread.
+
+
+
+Current Native pinvoke structure is placing everything in NativeMethods class.
+->	Decide on security impleincations / needs and move between 
+		SafeNativeMethods
+		UnsafeNativeMethods
+		NativeMethods
+
+What?s the different?
+	NativeMathodssbhu
+			(System.Security.SuppressUnmanagedCodeSecurityAttribute must not be applied to this class.)
+			Ok for wanywhere as a stackwalk is performed
+	SafeNativeMethods
+			(System.Security.SuppressUnmanagedCodeSecurityAttribute 
+			Stackwalk supprised
+			Callers need not perform full security review
+
+	UnsafeNativeMethods
+			Stackwalk suprosed
+			(System.Security.SuppressUnmanagedCodeSecurityAttribute is appplied
+			Risky methods.
+			A Calls need full security review before using this.
+
+
+Thoughts:
+	Understand the risk between the three.  
+	Need not be consisitant between repleases as public code in the sheetch does not export.
+
+
+	All the methods do have a bit of security risk as they deal with spawning, writing and reading to processes.
+
+	 The debug method privlage will be placed in UnsafeNativeMethods (if inported at all)
+
+
 

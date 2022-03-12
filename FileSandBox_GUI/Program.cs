@@ -11,6 +11,7 @@ using FileSandBox_GUI;
 using System.Collections;
 using System.Collections.Generic;
 using static FileSandBoxSheath.Wrappers.InsightHunter;
+using FileSandBoxSheath.Structs;
 
 namespace FileSandBox_GUI
 {
@@ -49,8 +50,10 @@ namespace FileSandBox_GUI
                 Console.WriteLine("Process");
 
                 Console.WriteLine("BeginningEnumeration of loaded symbols");
+
                 Insight.EnumerateSymbols("*!*", Tmp);
             }
+            
             if (Debug.EventType == FileSandBoxSheath.Wrappers.DebugEventType.ExceptionEvent)
             {
                 Console.Write(Debug.ProcessID + " Exception \"" + Debug.GetDebugEventExceptionInfo().ExceptionCode + "\" happend");
@@ -66,14 +69,27 @@ namespace FileSandBox_GUI
                 Console.WriteLine("\t Exception Type" + Enum.GetName(typeof(DebugExceptionTypes), Debug.GetDebugEventExceptionInfo().ExceptionCode));
                 PsProcessInformation.Poke4(ContStat, unchecked ( (int)PsProcessInformation.DebugContState.DebugExceptionNotHandled) );
             }
+
+            if (Debug.EventType == DebugEventType.CreateTheadEvent)
+            {
+                
+            }
             
 
             if (Debug.EventType == FileSandBoxSheath.Wrappers.DebugEventType.LoadDllEvent)
             {
                 Console.WriteLine(Debug.ProcessID + " Loaded Dll From \"" + Debug.GetDebugEventLoadDll().ImageName + "\"");
                 Console.WriteLine("BeginningEnumeration of loaded symbols");
-                Tmp = Callback;
-                 Insight.EnumerateSymbols("*!*", Tmp);
+                var test2 = Insight.DebugHelp_Version2;
+                var test1 = Insight.DebugHelp_Version;
+                test2.MajorVersion = 6;
+                test2.MinorVersion = 0;
+                test2.Revision = 0;
+                Insight.DebugHelp_Version2 = test2;
+
+                test2 = Insight.DebugHelp_Version2;
+                //Tmp = Callback;
+                 //Insight.EnumerateSymbols("*!*", Tmp);
             }
 
             PsProcessInformation.Poke4(WaitTime, int.MaxValue);
@@ -81,7 +97,7 @@ namespace FileSandBox_GUI
             if (Debug.EventType == DebugEventType.ExitProcessEvent)
             {
 
-                List<IntPtr> input = new List<IntPtr>();
+                List<IntPtr> input = new();
 
 
                 IntPtr ProcessHandle = IntPtr.Zero;
@@ -152,7 +168,10 @@ namespace FileSandBox_GUI
 
             Insight = TestRun.GetSymbolHandler();
             var ProcessId= TestRun.SpawnProcess();
-            
+
+            TestRun.CreationFlags = 2; 
+
+
 
             using (System.Diagnostics.Process Target = Process.GetProcessById(ProcessId))
             {

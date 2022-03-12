@@ -13,6 +13,66 @@ namespace FileSandBoxSheath.NativeImports
 
     internal  static partial class NativeMethods
     {
+        [DllImport("FileSandBoxApi.dll", BestFitMapping = false, CallingConvention = CallingConvention.Winapi, EntryPoint = "Ps_ProcessInformation_GetMemoryStatsBulkPtr", ExactSpelling = false)]
+        public static extern IntPtr PSProcessInformation_GetMemoryStatsBulkPtr(IntPtr That);
+
+
+        [DllImport("FileSandBoxApi.dll", BestFitMapping = false, CallingConvention = CallingConvention.Winapi, EntryPoint = "Ps_ProcessInformation_GetPrivateUsage", ExactSpelling = false)]
+        public static extern ulong PSProcessInformation_GetPrivateUsage(IntPtr That);
+
+
+
+
+        [DllImport("FileSandBoxApi.dll", BestFitMapping = false, CallingConvention = CallingConvention.Winapi, EntryPoint = "Ps_ProcessInformation_GetPeakPageFileUsage", ExactSpelling = false)]
+        public static extern ulong PSProcessInformation_GetPeakPageFileUsage(IntPtr That);
+
+
+        [DllImport("FileSandBoxApi.dll", BestFitMapping = false, CallingConvention = CallingConvention.Winapi, EntryPoint = "Ps_ProcessInformation_GetPageFileUsage", ExactSpelling = false)]
+        public static extern ulong PSProcessInformation_GetPageFileUsage(IntPtr That);
+
+
+
+        [DllImport("FileSandBoxApi.dll", BestFitMapping = false, CallingConvention = CallingConvention.Winapi, EntryPoint = "Ps_ProcessInformation_GetQuotNonPagePoolUsage", ExactSpelling = false)]
+        public static extern ulong PSProcessInformation_GetQuotNonPagePoolUsage(IntPtr That);
+
+
+
+
+        [DllImport("FileSandBoxApi.dll", BestFitMapping = false, CallingConvention = CallingConvention.Winapi, EntryPoint = "Ps_ProcessInformation_GetQuotaPeakNonPagePoolUsage", ExactSpelling = false)]
+        public static extern ulong PSProcessInformation_GetQuotaPeakNonPagePoolUsage(IntPtr That);
+
+
+
+
+
+        [DllImport("FileSandBoxApi.dll", BestFitMapping = false, CallingConvention = CallingConvention.Winapi, EntryPoint = "Ps_ProcessInformation_GetQuotaPagePoolUsage", ExactSpelling = false)]
+        public static extern ulong PSProcessInformation_GetQuotaPagePoolUsage(IntPtr That);
+
+
+
+
+        [DllImport("FileSandBoxApi.dll", BestFitMapping = false, CallingConvention = CallingConvention.Winapi, EntryPoint = "Ps_ProcessInformation_GetQuotaPeakPagePoolUsage", ExactSpelling = false)]
+        public static extern ulong PSProcessInformation_GetQuotaPeakPagePoolUsage(IntPtr That);
+
+
+
+
+
+        [DllImport("FileSandBoxApi.dll", BestFitMapping = false, CallingConvention = CallingConvention.Winapi, EntryPoint = "Ps_ProcessInformation_GetWorkingSetSize", ExactSpelling = false)]
+        public static extern ulong PSProcessInformation_GetWorkingSetSize(IntPtr That);
+
+
+
+
+        [DllImport("FileSandBoxApi.dll", BestFitMapping = false, CallingConvention = CallingConvention.Winapi, EntryPoint = "Ps_ProcessInformation_GetPeakWorkingSet", ExactSpelling = false)]
+        public static extern ulong PSProcessInformation_GetPeakWorkingSet(IntPtr That);
+
+
+
+
+        [DllImport("FileSandBoxApi.dll", BestFitMapping =false, CallingConvention = CallingConvention.Winapi,EntryPoint = "Ps_ProcessInformation_GetPageFaultCount", ExactSpelling =false)]
+        public static extern ulong PSProcessInformation_GetPageFaultCount(IntPtr That);
+
 
         [DllImport("FileSandBoxApi.dll", BestFitMapping = false, CallingConvention = CallingConvention.Winapi, EntryPoint = "PS_ProcessInformation_GetDetourListSize", ExactSpelling = false)]
         public static extern uint PSProcessInformation_GetDetourListSize(IntPtr that);

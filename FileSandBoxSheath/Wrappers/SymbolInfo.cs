@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 namespace FileSandBoxSheath.Wrappers
 {
     /// <summary>
-    /// Should be from the SymTagEnum at msdn https://docs.microsoft.com/en-us/previous-versions/visualstudio/visual-studio-2010/bkedss5f(v=vs.100)
+    /// Should be from the SymTagEnum at MSDN https://docs.microsoft.com/en-us/previous-versions/visualstudio/visual-studio-2010/bkedss5f(v=vs.100)
     /// </summary>
     public enum SymbolTagType: uint
     {
@@ -50,7 +50,7 @@ namespace FileSandBoxSheath.Wrappers
         /// </summary>
         Local =0x00000080,
         /// <summary>
-        /// The symbol is managed metadata.
+        /// The symbol is managed meta data.
         /// </summary>
         Metadata = 0x00020000,
         /// <summary>
@@ -89,7 +89,7 @@ namespace FileSandBoxSheath.Wrappers
     }
 
     /// <summary>
-    /// Wrappers imported for dealing with SymbolInfoW structs 
+    /// Wrappers imported for dealing with SymbolInfoW Native structures. 
     /// </summary>
     public class SymbolInfo : NativeStaticContainer
     {

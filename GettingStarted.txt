@@ -1,0 +1,18 @@
+
+This is a quick start for beginning to use the library.
+For C#, you're going to need to pick if you target x86 or x64 rather than Any - for now.
+For Native, either library is good.
+
+Files to include:
+	FileSandboxApi.dll			<- this is the library
+	FileSandboxSheath.dll		<- this is the c# wrapper
+
+
+On the Manged/Sheath class size
+->	ThreadContext		<- read and write information on threads.   Not directly tied to the lib as you can suppply your own handle.
+						<- has a native side queivelent.
+->  InsightHunter		<-  Class for dealing with and processing symbols with the debug help symbol engine
+						<-  Tired closely with PsProcessInformation
+						<- has a natie side equivelent
+-> PsProcessInformation <- Spawn processes and modify how they are setup.
+						<- Optionally get debug event data from them.

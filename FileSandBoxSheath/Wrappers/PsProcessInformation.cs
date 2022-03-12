@@ -1,4 +1,5 @@
 ﻿using FileSandBoxSheath.NativeImports;
+using FileSandBoxSheath.Structs;
 using FileSandBoxSheath.Wrappers;
 using System;
 using System.Collections.Generic;
@@ -14,11 +15,12 @@ namespace FileSandBoxSheath
     public enum DebugModeType
     {
         /// <summary>
-        /// Tells FIleSandbox's native DLL to Not Spwn any worker threads for debug handling.  If you don't implement a debug loop, you will never see your process show up. Irrevelant if the process is not being debugged
+        /// Tells FIleSandbox's native DLL to Not Spawn any worker threads for debug handling.  If you don't implement a debug loop, you will never see your process show up. Irrelevant if the process is not being debugged.
+        /// You're going to want the WorkerThread as development features in this thread are not exported yet for use without the worker thread.
         /// </summary>
         NoWorkerThread = 0,
         /// <summary>
-        /// When Spawning a process for debugger, FileSandBox.DLL implements a debug loop and offloads the loop to a worker thread.  Put a call to <see cref="PsProcessInformation.PulseDebugEventThead"/> to continue after handling your debug event on a regular basis.  Skipping that means, you're debugged process won't continue after the first event.
+        /// When Spawning a process for debugger, FileSandBox.DLL implements a debug loop and offloads the loop to a worker thread.  Put a call to <see cref="PsProcessInformation.PulseDebugEventThead"/> to continue after handling your debug event on a regular basis.  Skipping that means, your debugged process won't continue after the first event.
         /// </summary>
         WorkerThread = 1
 
@@ -26,8 +28,9 @@ namespace FileSandBoxSheath
 
 
     /// <summary>
-    /// choose an enviroment and spawn a process.
-    /// This class is a wrapper for the C++ Class named "PS_ProcessInformation" implemented as a native dll in the source PS_ProcessInformation.cpp
+    /// choose an environment and spawn a process.
+    /// This class is a wrapper for the C++ Class named "PS_ProcessInformation" implemented as a native DKK in the source PS_ProcessInformation.cpp
+    /// and said class is the functionally the  heart of the DLL.
     /// </summary>
     public class PsProcessInformation : NativeStaticContainer
     {
@@ -57,7 +60,7 @@ namespace FileSandBoxSheath
             /// </summary>
             DropFileReadRequests = 1,
             /// <summary>
-            /// report sucess BUT do not actually open the file for reading
+            /// report success BUT do not actually open the file for reading
             /// </summary>
             PositiveDenyFileReadRequests = 2,
             /// <summary>
@@ -66,15 +69,15 @@ namespace FileSandBoxSheath
             NegativeDenyFileReadRequest = 3,
 
             /// <summary>
-            /// Strip generiv write from NtOpen/ NtCreate
+            /// Strip generic write from NtOpen/ NtCreate
             /// </summary>
             DropFileWriteRequests = 4,
             /// <summary>
-            /// report sucess BUT do not actually open file for writing
+            /// report success BUT do not actually open file for writing
             /// </summary>
             PositiveDenyFileWriteRequest = 5,
             /// <summary>
-            /// report acces sdenied and don't open file
+            /// report access denied and don't open file
             /// </summary>
             NegativeDenyFileWriteRequests = 6,
 
@@ -85,13 +88,13 @@ namespace FileSandBoxSheath
             NegativeDenyProcessSpawn = 7,
 
             /// <summary>
-            /// force the process to load the helper dll.
+            /// force the process to load the helper DLL.
             /// </summary>
             CommandProcessProperate = 8,
 
 
             /// <summary>
-            ///  A theoritcal cap for the values. 
+            ///  A theoretical cap for the values. 
             /// </summary>
             CommadMaxValue = 255
         }
@@ -99,7 +102,7 @@ namespace FileSandBoxSheath
         public enum DebugContState : uint
         {
             /// <summary>
-            /// The event was processed ok and program execution can continue safely (Use to continue all events and if an Exception Was Handled
+            /// The event was processed OK and program execution can continue safely (Use to continue all events and if an Exception Was Handled
             /// </summary
             DebugContinueState = 0x00010002,
             /// <summary>
@@ -114,17 +117,17 @@ namespace FileSandBoxSheath
         }
 
         /// <summary>
-        /// Read a dword from local unmanaged memory and return it
+        /// Read a 4 byte value from local unmanaged memory and return it
         /// </summary>
         /// <param name="TargetLocalMemory">local virtual memory to read from</param>
-        /// <returns>returns the dword cast as an int</returns>
+        /// <returns>returns the 4 byte value cast as an uint</returns>
         public static uint Peek4(IntPtr TargetLocalMemory)
         {
-            return (uint)NativeImports.NativeMethods.Peek4(TargetLocalMemory);
+            return (uint)NativeMethods.Peek4(TargetLocalMemory);
         }
 
         /// <summary>
-        /// Write a 4 byte uint to the target local unmanaged memory.
+        /// Write a 4 byte value to the target local unmanaged memory.
         /// </summary>
         /// <param name="TargetLocalMemory"></param>
         /// <param name="value"></param>
@@ -134,12 +137,12 @@ namespace FileSandBoxSheath
         }
         /// <summary>
         /// I've read that the GC will sometimes collect function pointers passed to native routines that will need to call back.
-        /// This gets an assigmenet with calling <see cref="UserDebugCallRoutine"/> while sending the pointer into native land. This
+        /// This gets an assignment with calling <see cref="UserDebugCallRoutine"/> while sending the pointer into native land. This
         /// should in theory let the GC know that the pointer needs to be kept in memory.
         /// </summary>
         DebugEventCallBackRoutine BackUpCopy;
         /// <summary>
-        /// Used to make 'typeical' flags like ResumeThread, DebugProcess nd DebugOnlyThisProcess without needing to look values up
+        /// Used to make 'typical' flags like ResumeThread, DebugProcess and DebugOnlyThisProcess without needing to look values up. You also can just look the values up.
         /// </summary>
         [Flags]
         public enum SpecialCaseFlags
@@ -149,15 +152,21 @@ namespace FileSandBoxSheath
             /// </summary>
             None = 0,
             /// <summary>
-            /// DEBUG_ONLY_THIS_PROCESS eded
+            /// DEBUG_ONLY_THIS_PROCESS value
             /// </summary>
             DebugOnlyThis = 1,
+            /// <summary>
+            /// DEBUG_PROCESS (and spawned process)
+            /// </summary>
             DebugChild = 2,
-            CreateSuspended = 3,
+            /// <summary>
+            /// Create the process suspended first
+            /// </summary>
+            CreateSuspended = 4,
         }
 
         /// <summary>
-        /// Create an instance of PsProcessInformation on  the naticve side and return a DotNot size class ready to use.
+        /// Create an instance of PsProcessInformation on  the native side and return a DotNot size class ready to use.
         /// </summary>
         /// <returns></returns>
         public static PsProcessInformation CreateInstance()
@@ -176,18 +185,25 @@ namespace FileSandBoxSheath
 
         #region Exported Routines
         /// <summary>
-        /// Spawn the process contained within the udneryling class.  Return Value is the spawned process's ID on ok and 0 on falure.
+        /// Spawn the process contained within the underlying class.  Return Value is the spawned process's ID on OK and 0 on failure.
         /// </summary>
         /// <returns>process id </returns>
-        public Int32 SpawnProcess()
+        public int SpawnProcess()
         {
+            if (ExtraFlags != SpecialCaseFlags.None)
+            {
+                // the code that applies the special case flags as in the get property code for CreationFlags.
+
+                uint flags = CreationFlags;
+                CreationFlags = flags;
+            }
             return NativeMethods.PsProcessInformation_Spawn(Native).ToInt32();
 
         }
 
         /// <summary>
-        /// When  Spawning a process with a DEBUG option and nd <see cref="DebugMode"/> is set to <see cref="DebugModeType.WorkerThread"/>, the native dll spawns a thread to handle consuming events.
-        /// The thread also using an native Event object to sync giving the events back to the caller so that the caller's gui is not interuptted. Does not actually pulse event.
+        /// When  Spawning a process with a DEBUG option and  <see cref="DebugMode"/> is set to <see cref="DebugModeType.WorkerThread"/>, the native DLL spawns a thread to handle consuming events.
+        /// The thread also using an native Event object to sync giving the events back to the caller so that the caller's GUI is not interrupted. Does not actually pulse event.
         /// </summary>
         public void PulseDebugEventThead()
         {
@@ -210,7 +226,7 @@ namespace FileSandBoxSheath
         }
 
         /// <summary>
-        /// If you don't want the worker thred, you'll need to call this routien to update symbol engine eith new data when you get process debug events
+        /// If you don't want the worker thread, you'll need to call this routine to update symbol engine with new data when you get process debug events
         /// </summary>
         /// <param name="DebugEnvent"></param>
         /// <returns></returns>
@@ -221,11 +237,11 @@ namespace FileSandBoxSheath
         }
 
         /// <summary>
-        /// Modify a commandment that will effect the spawned process (requires helper dll)
+        /// Modify a commandment that will effect the spawned process (requires helper DLL)
         /// </summary>
         /// <param name="Cmd">pick one from <see cref="ProcessRestriction"/></param>
         /// <param name="Val">true means the effect is active, false if not</param>
-        /// <returns>true if command was sec ok (probably ALWAYS true)</returns>
+        /// <returns>true if command was sec OK (probably ALWAYS true)</returns>
         public bool SetCommandment(ProcessRestriction Cmd, bool Val)
         {
             return NativeImports.NativeMethods.PsProcessInformation_SetCommandment(Native, (uint)Cmd, Val);
@@ -242,12 +258,15 @@ namespace FileSandBoxSheath
         }
         #endregion
 
+        #region Process Statistics
+
+        #endregion
         #region Member Access 
 
 
 
         /// <summary>
-        /// Specifiy if you want the native dll to handling spaning the process or if you're code will.  Should you make it so your code will. You'll need to include WaitForDebugEvent() and ContinueDebugEvent() calls in a debugger loop
+        /// Specify if you want the native DLL to handling spawning the process or if you're code will.  Should you make it so your code will. You'll need to include WaitForDebugEvent() and ContinueDebugEvent() calls in a debugger loop
         /// </summary>
         public DebugModeType DebugMode
         {
@@ -264,7 +283,7 @@ namespace FileSandBoxSheath
 
         /// <summary>
         /// Get (or set) the routine that the debug worker thread will be calling.
-        /// null (or unasssinged) means use the default one which does nother with events, does not handle exceptions, and continues until it gets a single exit process debug event
+        /// null (or unassigned) means use the default one which does nothing with events, does not handle exceptions, and continues until it gets a single exit process debug event
         /// </summary>
         public DebugEventCallBackRoutine UserDebugCallRoutine
         {
@@ -326,7 +345,7 @@ namespace FileSandBoxSheath
         }
 
         /// <summary>
-        /// Contains the process argumentst that was / will be launched
+        /// Contains the process arguments that will be passed to the process when it is launched.
         /// </summary>
         public string ProcessArguments
         {
@@ -341,7 +360,7 @@ namespace FileSandBoxSheath
         }
 
         /// <summary>
-        ///  Set the starting directory
+        ///  Set the starting directory for the process to be launched
         /// </summary>
         public string WorkingDirectory
         {
@@ -357,7 +376,7 @@ namespace FileSandBoxSheath
 
 
         /// <summary>
-        /// Default is false.  If false, only enviromeent variables you explicity define will be in the spawned process.  If true, the spawned process will enherit your debugger enviroment variables BUT the explicit variables will overread the inheirited ones.
+        /// Default is false.  If false, only environment variables you explicitly define will be in the spawned process.  If true, the spawned process will inherit your debugger environment variables BUT the explicit variables you define will override the inherited ones.
         /// </summary>
         public bool InheritDefaultEnviroment
         {
@@ -368,7 +387,7 @@ namespace FileSandBoxSheath
         }
 
         /// <summary>
-        /// Enable or Disable the symbol engine. Symbol engine is active once first process starts.  Disabling the negine meains it will no longer get updates until renabling.  <see cref="DebugMode"/>  should be set to <see cref="DebugModeType.WorkerThread"/>
+        /// Enable or Disable the symbol engine. Symbol engine is active once first process starts.  Disabling the engine means it will no longer get updates until enabled again.  <see cref="DebugMode"/>  should be set to <see cref="DebugModeType.WorkerThread"/>
         /// </summary>
         public bool EnableSymbolEngine
         {
@@ -392,6 +411,7 @@ namespace FileSandBoxSheath
             get
             {
                 uint Val = NativeMethods.PsProcessInformation_GetCreationFlags(Native);
+                /*
                 if (ExtraFlags != SpecialCaseFlags.None)
                 {
                     if (ExtraFlags.HasFlag(SpecialCaseFlags.DebugOnlyThis))
@@ -413,12 +433,13 @@ namespace FileSandBoxSheath
                         /// CREATE_SUSPSENDED
                         Val |= 4;
                     }
-                }
+                }*/
                 return Val;
             }
             set
             {
                 uint Val = value;
+                
                 if (ExtraFlags != SpecialCaseFlags.None)
                 {
                     if (ExtraFlags.HasFlag(SpecialCaseFlags.DebugOnlyThis))
@@ -446,14 +467,27 @@ namespace FileSandBoxSheath
         }
 
         /// <summary>
-        /// Specify some specicase case flags. Or you can just directly Set CreationFlags itself.
+        /// Specify some specific case flags. Or you can just directly Set CreationFlags itself.
         /// Implemented only in the C# wrapper. NOT IMPLMENTING in the C++ code.
         /// </summary>
-        public SpecialCaseFlags ExtraFlags;
+        public SpecialCaseFlags ExtraFlags
+        {
+            get
+            {
+                uint Flags = CreationFlags;
+                return _ContainerFlag;
+            }
+            set
+            {
+                _ContainerFlag = value;
+                uint Flags = CreationFlags;
+            }
+        }
+        private SpecialCaseFlags _ContainerFlag;
 
 
         /// <summary>
-        /// Specify an explicit environmental value.  values that match the default envornment will overwrite it for the process
+        /// Specify an explicit environmental value.  values that match the default environment will overwrite it for the process
         /// </summary>
         /// <param name="Name"></param>
         /// <param name="Value"></param>
@@ -474,7 +508,7 @@ namespace FileSandBoxSheath
 
 
         /// <summary>
-        /// Add a dll to list of Detours Dlls to force the target process to load on spawn.
+        /// Add a DLL to list of Detours DLLs to force the target process to load on spawn.
         /// DOES NOT WORK if process is already running.
         /// </summary>
         /// <param name="NewDllToForceLoad"></param>
@@ -510,7 +544,7 @@ namespace FileSandBoxSheath
         }
 
         /// <summary>
-        /// return how many entries are in the helperdll's priority loadlibrary searwch path
+        /// return how many entries are in the helperdll's priority LoadLibrary search path
         /// 
         /// </summary>
         /// <returns></returns>
@@ -520,7 +554,7 @@ namespace FileSandBoxSheath
         }
 
         /// <summary>
-        /// return a string index pointed to the helper dfll's search path (or null) if index out of bounds
+        /// return a string index pointed to the helper DLL's search path (or null) if index out of bounds
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
@@ -535,11 +569,133 @@ namespace FileSandBoxSheath
             
         }
 
-       
+
 
         #endregion
+        #region Getting Memory information about your main running process
+        /// <summary>
+        /// Get all the memory stats in once call and return a struct containing them. May return null if it can't fetch it.
+        /// </summary>
+        public ProcessMemoryCount32? GetMemoryStatsBulk
+        {
+            get
+            {
+                IntPtr ret = NativeMethods.PSProcessInformation_GetMemoryStatsBulkPtr(Native);
+                if (ret != IntPtr.Zero)
+                {
+                    return Marshal.PtrToStructure<ProcessMemoryCount32>(ret);
+                }
+                return null;
+            }
+        }
+        /// <summary>
+        /// Number of Page Faults for the main process.
+        /// </summary>
+        public ulong PageFaultCount
+        {
+            get
+            {
+                return NativeMethods.PSProcessInformation_GetPageFaultCount(Native);
+            }
+        }
+        /// <summary>
+        /// Peaked working set size, in bytes
+        /// </summary>
+        public ulong PeakWorkingSet
+        {
+            get
+            {
+                return NativeMethods.PSProcessInformation_GetPeakWorkingSet(Native);
+            }
+        }
+        /// <summary>
+        /// Working set size, in bytes
+        /// </summary>
+        public ulong WorkingSet
+        {
+            get
+            {
+                return NativeMethods.PSProcessInformation_GetWorkingSetSize(Native);
+            }
+        }
+        /// <summary>
+        /// peaked page pool usage, in bytes
+        /// </summary>
+        public ulong QuotaPeakPagePoolUsage
+        {
+            get
+            {
+                return NativeMethods.PSProcessInformation_GetQuotaPeakPagePoolUsage(Native);
+            }
+        }
 
-        #region Descontructors
+        /// <summary>
+        /// current page pool usage, in bytes
+        /// </summary>
+        public ulong QuotaPagePoolUsage
+        {
+            get
+            {
+                return NativeMethods.PSProcessInformation_GetQuotaPagePoolUsage(Native);
+            }
+        }
+
+        /// <summary>
+        /// peaked nonpaged pool usage, in bytes
+        /// </summary>
+        public ulong QuotaPeakNonPagePoolUsage
+        {
+            get
+            {
+                return NativeMethods.PSProcessInformation_GetQuotaPeakNonPagePoolUsage(Native);
+            }
+        }
+        /// <summary>
+        /// current non page pool usage, in bytes
+        /// </summary>
+        public ulong QuotaNonPagePoolUsage
+        {
+            get
+            {
+                return NativeMethods.PSProcessInformation_GetQuotaPeakNonPagePoolUsage(Native);
+            }
+        }
+        /// <summary>
+        /// Commit change value for the process in bytes.  Note: MSDN Windows 7/ Server 2008 says check <see cref="PrivateUsage"/> instead
+        /// </summary>
+        public ulong PageFileUsage
+        {
+            get
+            {
+                return NativeMethods.PSProcessInformation_GetPageFileUsage(Native);
+            }
+        }
+
+        /// <summary>
+        /// Peak value of committed change during process lifetime
+        /// </summary>
+        public ulong PeakPageFileUsage
+        {
+            get
+            {
+                return NativeMethods.PSProcessInformation_GetPeakPageFileUsage(Native);
+            }
+        }
+
+        public ulong PrivateUsage
+        {
+            get
+            {
+                return NativeMethods.PSProcessInformation_GetPrivateUsage(Native);
+            }
+        }
+
+
+
+
+
+        #endregion
+        #region Deconstructors / Cleanup
 
         ~PsProcessInformation()
         {
@@ -566,7 +722,7 @@ namespace FileSandBoxSheath
         }
         
         /// <summary>
-        /// Once the dipose()/ finalize() is ran, this is set to true
+        /// Once the dispose()/ finalize() is ran, this is set to true
         /// </summary>
         bool IsCleanned = false;
         #endregion
