@@ -19,12 +19,33 @@ Mangaged Wrapper:
 		  Wrapper class in the FileScript GUI is named "PsProcessInformation" and located in "PsProcessInformation.cs"
 		  Imports that call the public native routiens are contained within NativeMethods.cs
 
-		  
+
+
+Structure Native Managed Guildines
+	IF simple, try using the managed marshalling			- Example API_VERSION
+	If has edge cases,   export Native wrappers to deal and handle translating for Managed size on the native size.		EXAMPLE SYMBOLINFOW
+	If complex, union -> export wrappers.		DEBUG_EVENT
+	The big one - CONTEXT* from SetThreadContext / GetThreadContext
+			This depends on the debugger state as well as the debugged state and if we can tell if target is 32 or 64 process.
+			We will also need to be aware of the current TYPE of processor we are executing on AMD / Intel and if Wow is a factor.
+			
+
+		Possible workflow.
+			not suitable for marshaling as the struct speneds on what target runs on
+			Custom class / C level wrapper? that is a middle man between managed and native. 
+
 
 
 A Series of routines named RemoteReadXXXX and RemoteWriteXXXX exist.
 They take input a process handle, read (or write memory from the remote process) and return allocatd memory containing the 
 data structurei question. Each also have an approproate RemoteFreeXXXX routine that is intended to free the allocated memory.
+
+
+
+Exception throwing Guidlines
+	On the native size	advoid if at all possible
+	On the managed size - enjoy it.
+
 
 
 		 

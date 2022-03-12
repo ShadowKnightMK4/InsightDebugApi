@@ -2,9 +2,28 @@
 #include "Utility.h"
 #include "ProcessHandling.h"
 
+/*
+* InsightHunter.cpp
+* 
+* header file: insighthunter.h
+* source (this): insighthunter.cpp
+* C level wrapper: InsightClass_CExports.cpp (Self contained and exported in Export.def)
+* C# Sheath class InsightHunter.cs
+* C# Sheath C Level Imports: InsightHUnterNative.Cpp (partial NativeMethods class)
+* 
+* 
+* What this is:
+* Public facing wrapps and symbol manamger accessable either sperately or directly with processcontext.cpp  
+* Providing a way to synch acces to debughelp 
+* 
+* 
+* Dependency class:
+* InsightSupport.cpp <-     This deals with the symbol loading and unloading in a class and wraps symobls into a container for a single process
+*					 <-		This is not intended to be publicly exported but is usable.  It's subject to change between releases a lot more.
+*/
 
 /// <summary>
-/// The main process debuging debugged
+/// The main process debuging debugged. While this is accessable to each individual InsightHunter instance, its shared getween them.
 /// </summary>
 HANDLE MainDebuggedProcess = 0;
 
@@ -76,7 +95,7 @@ bool InsightHunter::LoadExeSymbolInfo(LPDEBUG_EVENT EventData)
 		{
 			
 			this->HandleContainer.insert({ EventData->dwProcessId , new InsightSupport_SymbolHandle(MainDebuggedProcess, EventData) });
-				//std::pair<DWORD, InsightSupport_SymbolHandle>(EventData->dwProcessId,  EventData->dwDebugEventCode, new InsightSupport_SymbolHandle(MainDebuggedProcess, EventData )));
+				
 		}
 		EndThreadSync();
 	}
@@ -289,6 +308,61 @@ BOOL InsightHunter::SetMainDebugTarget(HANDLE MainDebug)
 
 }
 
+DWORD InsightHunter::SetSymbolOptions(DWORD Options)
+{
+	DWORD ret = 0;
+	BeginThreadSynch();
+	ret =  SymSetOptions(Options);
+	EndThreadSync();
+	return ret;
+}
+
+DWORD InsightHunter::GetSymbolOptions()
+{
+	DWORD ret = 0;
+	BeginThreadSynch();
+	ret =SymGetOptions();
+	EndThreadSync();
+	return ret;
+}
+
+VOID InsightHunter::SetDebugHelpVersionCompatability(USHORT Major, USHORT Minor, USHORT Revision)
+{
+	API_VERSION* LastCall = 0;
+	API_VERSION Discard;
+	Discard.MajorVersion = Major;
+	Discard.MinorVersion = Minor;
+	Discard.Revision = Revision;
+	Discard.Reserved = 0;
+	BeginThreadSynch();
+	LastCall = ImagehlpApiVersionEx(&Discard);
+	if (LastCall != 0)
+	{
+		this->ReadVersion = true;
+		CopyMemory(&this->VersionData, LastCall, sizeof(VersionData));
+	}
+	EndThreadSync();
+}
+
+API_VERSION* InsightHunter::GetDebugHelpVersionCompatability()
+{
+	if (ReadVersion)
+	{
+		return &VersionData;
+	}
+	else
+	{
+		BeginThreadSynch();
+		API_VERSION* tmp = ImagehlpApiVersion();
+		if (tmp != nullptr)
+		{
+			CopyMemory(&VersionData, tmp, sizeof(API_VERSION));
+		}
+		EndThreadSync();
+		return &VersionData;
+	}
+}
+
 bool InsightHunter::SetParentWindow(HWND Window)
 {
 	if (!DebugHelpOnline)
@@ -348,10 +422,7 @@ BOOL InsightHunter::InitializeSymbolEngineIfNot()
 }
 
 
-BOOL InsightHunter::LoadModuleInfo(LPDEBUG_EVENT EventData)
-{
-	return FALSE;
-}
+
 
 void InsightHunter::BeginThreadSynch()
 {

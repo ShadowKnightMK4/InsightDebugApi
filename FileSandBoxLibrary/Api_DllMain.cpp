@@ -1,6 +1,10 @@
 #include <StaticIncludes.h>
 
-
+/*
+*   Api_Dllmain.cpp
+* 
+*  DllMain for The Insight API.  Put per process/ per thread setup here.
+*/
 
 BOOL WINAPI DllMain(
     HINSTANCE hinstDLL,  // handle to DLL module

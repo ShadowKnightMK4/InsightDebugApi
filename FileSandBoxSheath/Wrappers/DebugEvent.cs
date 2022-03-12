@@ -16,17 +16,16 @@ namespace FileSandBoxSheath.Wrappers
     ///
     /// This file provides a wrapper between c# and the filesandboxapi.dll that deals with the debug event structure.
     /// The base class <see cref="DebugEventStaticContainer"/> is the root for the other classes in this file. It
-    /// handles holding an <see cref="IntPtr"/> that represents the unmanged DEBUG_EVENT structue.  This pointer gets
-    /// passes to various routines in the FileSandBoxApi dll which then return data bases on that pointer - usually about 
+    /// handles holding an <see cref="IntPtr"/> that represents the unmanaged DEBUG_EVENT structure.  This pointer gets
+    /// passes to various routines in the FileSandBoxApi DLL which then return data bases on that pointer - usually about 
     /// the DEBUG_EVENT struct.  Each DEBUG_EVENT in the MSDN documentation has its own C# class <see cref="DebugEventType"/>
     /// About Exceptions
-    ///     The MSDN docmentation has certain exceptions listed. Those have been added to the <see cref="DebugExceptionTypes"/> enum.
+    ///     The MSDN documentation has certain exceptions listed. Those have been added to the <see cref="DebugExceptionTypes"/> enum.
     ///     That's not actually exhaustive.  winbase.h lists MANY MANY MANY more.
-
-
-
+    
+    
     ///<summary>
-    /// Type of In Page exception flags.  You can check if the excepture is that at <see cref="DebugEventExceptionInfo.ExceptionCode"/>
+    /// Type of In Page exception flags.  You can check if the exception is that at <see cref="DebugEventExceptionInfo.ExceptionCode"/>
     /// </summary>
     public enum DebugExceptionInPage_Type
     {
@@ -35,17 +34,17 @@ namespace FileSandBoxSheath.Wrappers
         /// </summary>
         ReadException = 0,
         /// <summary>
-        /// Target process thead with the <see cref="DebugExceptionTypes.InPageError"/> tried writing to something it's not allowed too
+        /// Target process thread with the <see cref="DebugExceptionTypes.InPageError"/> tried writing to something it's not allowed too
         /// </summary>
         WriteException = 1,
         /// <summary>
-        /// Target process thread had a user mode DEP voilation.
+        /// Target process thread had a user mode DEP violation.
         /// </summary>
         DepException = 8,
     }
 
     ///<summary>
-    /// Enum for the exceptions specifies within the msdn documentation.  NOT EXHAUSTIVE. Sourced from minwinbase.h in Visual studio
+    /// Enum for the exceptions specifies within the MSDN documentation.  NOT EXHAUSTIVE. Sourced from minwinbase.h in Visual studio
     /// </summary>
     public enum DebugExceptionTypes: uint
     {
@@ -55,7 +54,7 @@ namespace FileSandBoxSheath.Wrappers
         /// </summary>
          AccessViolation =  0xC0000005,
          /// <summary>
-         /// Target tried accessing an array elemeny that's out of bounds (hardware supported bounds checking? according to MSDN documentation)
+         /// Target tried accessing an array element that's out of bounds (hardware supported bounds checking? according to MSDN documentation)
          /// </summary>
          ArrayBoundsExceeded = 0xC000008C,
          /// <summary>
@@ -67,27 +66,27 @@ namespace FileSandBoxSheath.Wrappers
          /// </summary>
          Datatyp_Misalighment = 0x80000002,
          /// <summary>
-         /// MSDN:  float point opereatation resulted in avalue to small to be respented.
+         /// MSDN:  float point operation resulted in a value to small to be represented.
          /// </summary>
          FloatPoint_Denormal_Operand = 0xC000008D,
          /// <summary>
-         /// Float divisision by zero
+         /// Float division by zero
          /// </summary>
          Float_DivideByZero = 0xC000008E,
+        /// <summary>
+        /// MSDN Can't represent a float as a decimal fraction precisely
+        /// </summary>
+        Float_InexactResult = 0xC000008F,
          /// <summary>
-         /// MSDN Can't respsent a float as a decimal fraction precisilay
-         /// </summary>
-         Float_InexactResult = 0xC000008F,
-         /// <summary>
-         /// float's exponant is too big
+         /// float's exponent is too big
          /// </summary>
          Float_Overflow = 0xC0000091,
          /// <summary>
-         /// Float point value over or underflowed after an aoperation
+         /// Float point value over or underflowed after an operation
          /// </summary>
          Float_StackCheck = 0xC0000092,
          /// <summary>
-         /// Float point is less that the magnitiue allowed
+         /// Float point is less that the magnitude allowed
          /// </summary>
          Float_Underflow = 0xC0000093,
          /// <summary>
@@ -95,7 +94,7 @@ namespace FileSandBoxSheath.Wrappers
          /// </summary>
          IllegalInstrution = 0xC000001D,
          /// <summary>
-         /// MSDN: Thread tried to access  a page that's not present and systen couldn't load page
+         /// MSDN: Thread tried to access  a page that's not present and system couldn't load page
          /// </summary>
          InPageError= 0xC0000006,
          /// <summary>
@@ -107,11 +106,11 @@ namespace FileSandBoxSheath.Wrappers
          /// </summary>
          Int_Overflow= 0xC0000095,
          /// <summary>
-         /// Exeption handled returned anvalid disposition
+         /// Exception handled returned invalid disposition
          /// </summary>
          InvalidDisposition= 0xC0000026,
          /// <summary>
-         /// Exception triggeed when attempting to continue an exception that says that's not possible
+         /// Exception triggered when attempting to continue an exception that says that's not possible
          /// </summary>
          NonContinuableException= 0xC0000025,
          /// <summary>
@@ -123,7 +122,7 @@ namespace FileSandBoxSheath.Wrappers
          /// </summary>
         StackOverflow = 0xC00000FD,
         /// <summary>
-        /// Conosole app: CTRL-C pressing the the target app
+        /// Console Window/Application: CTRL-C pressed the debugged application
         /// </summary>
          DebugConsoleControlC = 0xC000013A,
 
@@ -132,7 +131,7 @@ namespace FileSandBoxSheath.Wrappers
     }
     
     /// <summary>
-    /// If you've forced the helper dll to be loaded in the target, you'll get these in addition to the <see cref="DebugExceptionTypes"/>
+    /// If you've forced the helper DLL to be loaded in the target, you'll get these in addition to the <see cref="DebugExceptionTypes"/>
     /// </summary>
     public enum HelperDllExceptionType: uint
     {
@@ -164,11 +163,11 @@ namespace FileSandBoxSheath.Wrappers
         /// </summary>
         ExitProcessEvent = 5,
         /// <summary>
-        /// Event is a load dll event. <see cref="DebugEventLoadDllInfo"/>
+        /// Event is a load DLL event. <see cref="DebugEventLoadDllInfo"/>
         /// </summary>
         LoadDllEvent = 6,
         /// <summary>
-        /// Event is unload dll event.  <see cref="DebugEventUnloadDllInfo"/>
+        /// Event is unload DLL event.  <see cref="DebugEventUnloadDllInfo"/>
         /// </summary>
         UnloadDllEvent = 7,
         /// <summary>
@@ -189,11 +188,11 @@ namespace FileSandBoxSheath.Wrappers
         /// </summary>
         SleNoType = 0,
         /// <summary>
-        /// Invalid data passsed to function what caused app to fail
+        /// Invalid data passed to function what caused debugged application to fail
         /// </summary>
         SleError = 0x00000001,
         /// <summary>
-        /// Invalid data passed to a function maybe won't cause the app to fail
+        /// Invalid data passed to a function maybe won't cause the application to fail
         /// </summary>
         SleMinorError = 0x00000002,
         /// <summary>
@@ -207,7 +206,7 @@ namespace FileSandBoxSheath.Wrappers
 
 
     /// <summary>
-    /// Implements the basis of idiposal the other DebugEvent classes use.  Also exposes routines to read the ProcessID and ThreadID that triggered the event
+    /// Implements the basis of disposal the other DebugEvent classes use.  Also exposes routines to read the ProcessID and ThreadID that triggered the event
     /// </summary>
     public abstract class DebugEventStaticContainer : NativeStaticContainer
     {
@@ -219,7 +218,7 @@ namespace FileSandBoxSheath.Wrappers
         /// Constructor
         /// </summary>
         /// <param name="Native">Native pointer to the structure</param>
-        /// <param name="FreeOnCleanup">if true then the structure is freed via RemoteRead_SimpleFree(). Set TO FALSE if dealing with strucutres declared in C/C++ code vs dynamically allocated</param>
+        /// <param name="FreeOnCleanup">if true then the structure is freed via RemoteRead_SimpleFree(). Set TO FALSE if dealing with structures declared in C/C++ code vs dynamically allocated</param>
         public DebugEventStaticContainer(IntPtr Native, bool FreeOnCleanup): base(Native, FreeOnCleanup)
         {
             
@@ -239,7 +238,7 @@ namespace FileSandBoxSheath.Wrappers
 
                 if (this.FreeOnCleanup)
                 {
-                    NativeImports.NativeMethods.SimpleFree(Native);
+                    NativeMethods.SimpleFree(Native);
                 }
                 // TODO: set large fields to null
                 disposedValue = true;
@@ -287,7 +286,8 @@ namespace FileSandBoxSheath.Wrappers
         }
         
         /// <summary>
-        /// Makes a couple of calls to GetNativeSystemInfo() and asks IsWow64Process() if the this processID is running under it
+        /// Makes a couple of calls to GetNativeSystemInfo() and asks IsWow64Process() if the this processID is running under WOW or not.
+        /// This is NOT part of DebugEvent structure itself BUT is useful in letter the debugger know is the debugged application is 32-bit vs 64-bit
         /// </summary>
         public bool IsEventFrom32BitProcess
         {
@@ -313,7 +313,7 @@ namespace FileSandBoxSheath.Wrappers
         }
 
         /// <summary>
-        /// Get the Raw handle to the file. You should probably close this if the handle is valid once you no longer need it. If it's valid, msdn says you'll have read and write access
+        /// Get the Raw handle to the file. You should probably close this if the handle is valid once you no longer need it. If it's valid, MSDN  says you'll have read and write access
         /// </summary>
         public IntPtr FileHandle
         {
@@ -324,7 +324,7 @@ namespace FileSandBoxSheath.Wrappers
         }
 
         /// <summary>
-        /// Get the base address of where the dll was loaded in the debugged process.
+        /// Get the base address of where the DLL was loaded in the debugged process.
         /// </summary>
         public IntPtr DllBaseAddress
         {
@@ -357,7 +357,7 @@ namespace FileSandBoxSheath.Wrappers
 
 
         /// <summary>
-        /// Is the string in the address space specfied here valid?
+        /// Is the string in the address space specified here valid?
         /// </summary>
         public bool IsImageNameStringUnicode
         {
@@ -372,7 +372,7 @@ namespace FileSandBoxSheath.Wrappers
         }
 
         /// <summary>
-        /// return the debug info specified in the dll as a series of bytes. MSDN documentio nsays this should be codeview 4.0 format - whatever that is
+        /// return the debug info specified in the DLL as a series of bytes. MSDN documentation says this should be code view 4.0 format - whatever that is
         /// note: exists in the c# side only
         /// </summary>
         /// <returns></returns>
@@ -400,7 +400,7 @@ namespace FileSandBoxSheath.Wrappers
         }
 
         /// <summary>
-        /// This ignores the imagename struct entiraly as seen on MSDN LOAD_DLL_DEBUG_EVENT.  We jutch fetch name asssuming the Hfile is valid. Should the system not include the file handole, null is returned instead
+        /// This ignores the <see cref="ImageName"/>  underlying native struct member entirely as seen on MSDN LOAD_DLL_DEBUG_EVENT.  We simple fetch name - assuming the native hfile member is valid. Should the system not include the file handle, null is returned instead
         /// </summary>
         public string ImageName
         {
@@ -410,11 +410,15 @@ namespace FileSandBoxSheath.Wrappers
                 {
                     return HelperRoutines.GetFileNameViaHandle(FileHandle);
                 }
-                return null; ;
+                return null; 
             }
         }
     }
 
+    /// <summary>
+    /// Class Wrapper dealing with extracting Exception information from a <see cref="DebugEvent"/>.
+    /// TODO: Insert code on native side that remaps 32-bit handling to 64-bit and transparently deal with it there. Managed Side need not see the different.
+    /// </summary>
     public class DebugEventExceptionInfo : DebugEventStaticContainer
     {
         public DebugEventExceptionInfo(IntPtr Nat) : base(Nat)
@@ -454,7 +458,7 @@ namespace FileSandBoxSheath.Wrappers
         }
 
         /// <summary>
-        /// return the address where the excception happened in the 64 bit process.
+        /// return the address where the exception happened in the 64 bit process.
         /// </summary>
         public ulong ExceptionAddress64
         {
@@ -465,7 +469,7 @@ namespace FileSandBoxSheath.Wrappers
         }
 
         /// <summary>
-        /// return address where the esxception happend in the 32-bit process. Truncates the address if the process is 64-bit.
+        /// return address where the exception happens in the 32-bit process. Truncates the address if the process is 64-bit.
         /// </summary>
         public uint ExceptionAddress32
         {
@@ -526,7 +530,7 @@ namespace FileSandBoxSheath.Wrappers
         }
 
         /// <summary>
-        /// if NOT Null (IntPtr.zero),  handle should have THREAD_GET_CONTEXT/ THREAD_SET_CONTEXT and THREAD_SUSPEND_RESUME access to the thread per msdn documnetion.
+        /// if NOT Null (IntPtr.zero),  handle should have THREAD_GET_CONTEXT/ THREAD_SET_CONTEXT and THREAD_SUSPEND_RESUME access to the thread per MSDN documentation.
         /// </summary>
         public IntPtr ThreadHandle
         {
@@ -537,7 +541,7 @@ namespace FileSandBoxSheath.Wrappers
         }
 
         /// <summary>
-        /// Get the aprox start address
+        /// Get the approx start address
         /// </summary>
         public IntPtr ThreadStartAddress
         {
@@ -548,7 +552,7 @@ namespace FileSandBoxSheath.Wrappers
         }
 
         /// <summary>
-        /// get the thread locator base.   MSDN says offset 0x2C is the ThreadLocationStorage pointer which resumably would let you track what per thread stuff your target is doing.
+        /// get the thread location storage pointer here.   MSDN says offset 0x2C is the ThreadLocationStorage pointer which presumably would let you track what per thread stuff your target is doing.
         /// </summary>
         public IntPtr ThreadLocalBase
         {
@@ -597,7 +601,6 @@ namespace FileSandBoxSheath.Wrappers
             }
         }
     }
-
 
 
     public class DebugEventExitProcessInfo : DebugEventStaticContainer
@@ -664,7 +667,7 @@ namespace FileSandBoxSheath.Wrappers
         /// <summary>
         /// Returns the contents of the exefile that the debug create process game from. Will Be null if the CreateProcess Event did not include a valid hFile handle. 
         /// </summary>
-        /// <exception cref="IOException"> IO Related excewptions can be thrown if a problem occure. <see cref="File.ReadAllBytes(string)"/> to see the list</exception>
+        /// <exception cref="IOException"> IO Related exceptions can be thrown if a problem occurs in reading the main module's file contents. <see cref="File.ReadAllBytes(string)"/> to see the list</exception>
         public byte[] GetFileContents()
         {
             
@@ -701,7 +704,7 @@ namespace FileSandBoxSheath.Wrappers
         { }
 
         /// <summary>
-        /// Return the string messaged contained within the debug event. It's converted to unicode if ANSI on the NativeSide
+        /// Return the string messaged contained within the debug event. ANSI output strings are converted to Unicode on the Native side before being sent to the Managed side.
         /// </summary>
         public string OutputString
         {
@@ -720,7 +723,7 @@ namespace FileSandBoxSheath.Wrappers
                         return null;
                     }
                     ///
-                    /// <see cref="RemoteStructure.RemoteReadDebugString(IntPtr, IntPtr)"/> is assumed to free the unamanged memory after reading it
+                    /// <see cref="RemoteStructure.RemoteReadDebugString(IntPtr, IntPtr)"/> is assumed to free the unmanaged memory after reading it
                     ///
                     string Managed = RemoteStructure.RemoteReadDebugString(NativeHandle, Native);
                     NativeMethods.CloseHandle(NativeHandle);
@@ -732,7 +735,7 @@ namespace FileSandBoxSheath.Wrappers
     }
 
     /// <summary>
-    /// Providers a wrapper to excess the underlying structure. Assumes memory manamgement is done elsewhere.
+    /// Providers a wrapper to access the underlying structure. Assumes memory management is done elsewhere.
     /// </summary>
     public class DebugEventRipInfo: DebugEventStaticContainer
     {
@@ -748,7 +751,7 @@ namespace FileSandBoxSheath.Wrappers
 
 
         /// <summary>
-        /// Get the Error number tha caused the debugging RIP event.
+        /// Get the Error number that caused the debugging RIP event.
         /// </summary>
         public uint Error
             {
@@ -760,7 +763,7 @@ namespace FileSandBoxSheath.Wrappers
 
 
         /// <summary>
-        /// Should be one of the enums for <see cref="RipErrorType"/>. If It's zero, msdn documentation says only sdwError is set.
+        /// Should be one of the enum values for <see cref="RipErrorType"/>. If It's zero, MSDN documentation says only sdwError is set.
         /// </summary>
             public RipErrorType ErrorType
             {
@@ -782,7 +785,7 @@ namespace FileSandBoxSheath.Wrappers
         }
 
         /// <summary>
-        /// Creation.  Does NOT free the undyling pointer 
+        /// Creation.  Does NOT free the underling pointer 
         /// </summary>
         /// <param name="NativePtr"></param>
         public DebugEventUnloadDllInfo(IntPtr NativePtr) : base(NativePtr)
@@ -791,7 +794,7 @@ namespace FileSandBoxSheath.Wrappers
         }
 
         /// <summary>
-        /// The base address of the Dll that was previously loaded.
+        /// The base address of the DLL that was previously loaded.
         /// </summary>
         public IntPtr BaseOfDll
         {
@@ -799,12 +802,12 @@ namespace FileSandBoxSheath.Wrappers
             {
                 return NativeMethods.DebugEvent_UnloadDllInfo_GetBaseAddress(Native);
             }
-        }    
+        }
 
     }
 
     /// <summary>
-    /// This excapsolates the Native DebugEvent structure via calling exported C routines in filesandbox.dll.  IMPORTANT!!!! The LoadDLlDebugEvent does not close the passed handle if valid.
+    /// This encapsulates the Native DebugEvent structure via calling exported C routines in filesandbox.dll.  IMPORTANT!!!! The LoadDLlDebugEvent does not close the passed handle if valid.
     /// </summary>
     public class DebugEvent : DebugEventStaticContainer
     {
@@ -812,11 +815,11 @@ namespace FileSandBoxSheath.Wrappers
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="NativePtr">pass a native pointing containg a debug event structure.</param>
-        /// <param name="FreeOnDispose">Set this to true for chunks explicity allocated to the structure by malloc() ext... </param>
+        /// <param name="NativePtr">pass a native pointing contain a debug event structure.</param>
+        /// <param name="FreeOnDispose">Set this to true for chunks explicit allocated to the structure by C/C++'s malloc() ext... </param>
         public DebugEvent(IntPtr NativePtr, bool FreeOnDispose) : base(NativePtr, FreeOnDispose)
         {
-            
+
         }
 
         /// <summary>
@@ -828,7 +831,7 @@ namespace FileSandBoxSheath.Wrappers
             return new DebugEvent(NativeMethods.DebugEvent_AllocateStructure(), true);
         }
         /// <summary>
-        /// Creation.  Does NOT free the undyling pointer 
+        /// Creation.  Does NOT free the underling pointer 
         /// </summary>
         /// <param name="NativePtr"></param>
         public DebugEvent(IntPtr NativePtr) : base(NativePtr)
@@ -839,7 +842,7 @@ namespace FileSandBoxSheath.Wrappers
 
         protected override void Dispose(bool disposing)
         {
-            // we need t oclose the handle 
+            // we need to close the handle 
             if (NativeMethods.DebugEvent_GetEventType(Native) == DebugEventType.LoadDllEvent)
             {
 
@@ -850,31 +853,6 @@ namespace FileSandBoxSheath.Wrappers
 
 
         #region Wrapper Creation
-
-
-        /// <summary>
-        /// Get the Debug Rip Info.  Will thru InvalidOperation if not the correct event
-        /// </summary>
-        /// <returns></returns>
-        public DebugEventRipInfo GetDebugEventRipInfo()
-        {
-            if (NativeMethods.DebugEvent_GetEventType(Native) != DebugEventType.RipEvent)
-            {
-                throw new InvalidOperationException(string.Format(error_msg_bad_event_fetch, new object[] {"Rip Information", "Rip Struct" }));
-            }
-            return new DebugEventRipInfo(Native);
-        }
-
-        public DebugEventStringInfo GetDebugEventStringInfo()
-        {
-            if (NativeMethods.DebugEvent_GetEventType(Native) != DebugEventType.OutputDebugString)
-            {
-                throw new InvalidOperationException(string.Format(error_msg_bad_event_fetch, new object[] { "Debug String Information", " Debug String Struct" }));
-            }
-            
-            return new DebugEventStringInfo(Native);
-        }
-
         public DebugEventCreateProcessInfo GetDebugEventCreateProcessInfo()
         {
             if (NativeMethods.DebugEvent_GetEventType(Native) != DebugEventType.CreateProcessEvent)
@@ -883,6 +861,16 @@ namespace FileSandBoxSheath.Wrappers
             }
             return new DebugEventCreateProcessInfo(Native);
         }
+
+        public DebugEventCreateThreadInfo GetDebugEventCreateThreadInfo()
+        {
+            if (NativeMethods.DebugEvent_GetEventType(Native) != DebugEventType.CreateTheadEvent)
+            {
+                throw new InvalidOperationException(string.Format(error_msg_bad_event_fetch, new object[] { "Create Thread Information", " Create Thread Event" }));
+            }
+            return new DebugEventCreateThreadInfo(Native);
+        }
+
 
         public DebugEventExceptionInfo GetDebugEventExceptionInfo()
         {
@@ -893,16 +881,74 @@ namespace FileSandBoxSheath.Wrappers
             return new DebugEventExceptionInfo(Native);
         }
 
+        public DebugEventExitProcessInfo GetEventExitProcessInfo()
+        {
+            if (NativeMethods.DebugEvent_GetEventType(Native) != DebugEventType.ExitProcessEvent)
+            {
+                throw new InvalidOperationException(string.Format(error_msg_bad_event_fetch, new object[] { "Process Exit Information", " Process Exit Event" }));
+            }
+            return new DebugEventExitProcessInfo(Native);
+        }
+
+        public DebugEventExitThreadInfo GetEventExitThreadInfo()
+        {
+            if (NativeMethods.DebugEvent_GetEventType(Native) != DebugEventType.ExitThreadEvent)
+            {
+                throw new InvalidOperationException(string.Format(error_msg_bad_event_fetch, new object[] { "Thread Exit Information", " Thread Exit Event" }));
+            }
+            return new DebugEventExitThreadInfo(Native);
+        }
+
+
         public DebugEventLoadDllInfo GetDebugEventLoadDll()
         {
             if (NativeMethods.DebugEvent_GetEventType(Native) != DebugEventType.LoadDllEvent)
             {
-                throw new InvalidOperationException(string.Format(error_msg_bad_event_fetch, new object[] { "Dll Load Information", " Dll Load  Event" }));
+                throw new InvalidOperationException(string.Format(error_msg_bad_event_fetch, new object[] { "DLL Load Information", " DLL Load  Event" }));
             }
             return new DebugEventLoadDllInfo(Native);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public DebugEventStringInfo GetDebugEventStringInfo()
+        {
+            if (NativeMethods.DebugEvent_GetEventType(Native) != DebugEventType.OutputDebugString)
+            {
+                throw new InvalidOperationException(string.Format(error_msg_bad_event_fetch, new object[] { "Debug String Information", " Debug String Struct" }));
+            }
+
+            return new DebugEventStringInfo(Native);
+        }
+
+
+        /// <summary>
+        /// Get class suitable to reading DEBUG_EVENT_RIP_INFO from this class.  Will throw <see cref="InvalidOperationException"/> if not the correct event
+        /// </summary>
+        /// <exception cref="InvalidOperationException"> Is thrown when the contained even is not a <see cref=DebugEventType.RipEvent"/></exception>
+        /// <returns>If the contained event is <see cref="DebugEventType.RipEvent"/> returns a <see cref="DebugEventRipInfo"/> pointing to this event. </returns>
+        public DebugEventRipInfo GetDebugEventRipInfo()
+        {
+            if (NativeMethods.DebugEvent_GetEventType(Native) != DebugEventType.RipEvent)
+            {
+                throw new InvalidOperationException(string.Format(error_msg_bad_event_fetch, new object[] { "Rip Information", "Rip Struct" }));
+            }
+            return new DebugEventRipInfo(Native);
+        }
+
+        public DebugEventUnloadDllInfo GetDebugEventUnloadDllInfo()
+        {
+            if (NativeMethods.DebugEvent_GetEventType(Native) != DebugEventType.UnloadDllEvent)
+            {
+                throw new InvalidOperationException(string.Format(error_msg_bad_event_fetch, new object[] { "Dll free/unload Information", " Unload Dll Event" }));
+            }
+            return new DebugEventUnloadDllInfo(Native);
+        }
+
         #endregion
-        #region C# boiler plate dispse and the underlying struct
+        #region C# boiler plate dispose and the underlying struct
 
 
 

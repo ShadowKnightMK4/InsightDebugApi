@@ -90,6 +90,18 @@
     <ClCompile Include="InsightSupport.cpp">
       <Filter>Source Files\ClassSource</Filter>
     </ClCompile>
+    <ClCompile Include="ApiVersionStruct_CExports.cpp">
+      <Filter>Source Files\CLevelWrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="ThreadContext.cpp">
+      <Filter>Source Files\ClassSource</Filter>
+    </ClCompile>
+    <ClCompile Include="ContextStruct_CExports.cpp">
+      <Filter>Source Files\CLevelWrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="ThreadContextClass_CExports.cpp">
+      <Filter>Source Files\CLevelWrappers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FileSandBoxApi.h">
@@ -118,6 +130,9 @@
     </ClInclude>
     <ClInclude Include="InsightSupport.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ThreadContext.h">
+      <Filter>Header Files\ClassDefines</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -7,11 +7,16 @@
 #include <vector>
 #include "Utility.h"
 #include "InsightSupport.h"
+#include <Psapi.h>
 
 /// <summary>
 /// Callback for the SymbolSearch thing. This is intended to be filled by the DotNet side of things. return FALSE to quit the enum
 /// </summary>
 typedef BOOL (WINAPI* SymbolSearchCallback)(PSYMBOL_INFOW);
+/// <summary>
+/// Before a module or dll is loaded, this routine is called if set. Returning FALSE prevents loading and TRUE OKs it.
+/// </summary>
+typedef BOOL(WINAPI* SymbolLoadCallbackSignOff)(wchar_t* );
 
 /*
 * Insite hunter is the core class that lets one Load an managing symbols. You should only need one 
@@ -19,7 +24,14 @@ typedef BOOL (WINAPI* SymbolSearchCallback)(PSYMBOL_INFOW);
 class InsightHunter
 {
 public:
+	/// <summary>
+	/// Ininitial an instance - use SetMainDebugTarget() to set the process begin debugged
+	/// </summary>
 	InsightHunter();
+	/// <summary>
+	/// INtialize iwth a prvvious process we are debugging 
+	/// </summary>
+	/// <param name="DebuggedProcess"></param>
 	InsightHunter(HANDLE DebuggedProcess);
 	~InsightHunter();
 
@@ -71,7 +83,7 @@ public:
 
 
 	/// <summary>
-	/// Enumerat Symbnols with a DotNet friendly called back. For format see MSDN's "SymEnumSymbolsExW" function.
+	/// Enumerat Symbnols with a DotNet friendly called back. For SearchString Format see MSDN's "SymEnumSymbolsExW" function.
 	/// </summary>
 	/// <param name="Callback"></param>
 	/// <param name="SearchString"></param>
@@ -90,9 +102,46 @@ public:
 	/// <param name="MainDebug"></param>
 	/// <returns></returns>
 	BOOL SetMainDebugTarget(HANDLE MainDebug);
+
+#pragma endregion
+#pragma region Controlling Symbol Loading Context
+
+	/// <summary>
+	/// Thin wrapper for MSDN's SymSetOptions
+	/// </summary>
+	/// <param name="Options"></param>
+	/// <returns></returns>
+	DWORD SetSymbolOptions(DWORD Options);
+	/// <summary>
+	/// Thin wrapper for MSDN's SymGetOptions
+	/// </summary>
+	/// <returns></returns>
+	DWORD GetSymbolOptions();
+
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="Major"></param>
+	/// <param name="Minor"></param>
+	/// <param name="Revision"></param>
+	VOID SetDebugHelpVersionCompatability(USHORT Major, USHORT Minor, USHORT Revision);
+	API_VERSION* GetDebugHelpVersionCompatability();
+
+	/// <summary>
+	/// Specifiy a callback routine to validate or skip loading symbols
+	/// </summary>
+	/// <param name="UserCheckAgainst"></param>
+	VOID SetSymbolLoadCallback(SymbolLoadCallbackSignOff* UserCheckAgainst);
+	SymbolLoadCallbackSignOff* GetSymbolLoadCallBack();
+
 #pragma endregion
 #pragma region Thread and Window Sync
 
+	/// <summary>
+	/// Specify the parent window for the symbol engine.
+	/// </summary>
+	/// <param name="Window"></param>
+	/// <returns></returns>
 	bool SetParentWindow(HWND Window);
 	/// <summary>
 	/// If enabled, calls are synchroized accurress threads with a Critical Section for each instance of this class.  Can safely be set to false if you are not pontially accessing symbols from multile threads
@@ -114,17 +163,10 @@ private:
 #pragma endregion
 
 	/// <summary>
-	/// If not setup, setup the symbol negine with the current settings. Any public: facing routine needs to be calling this is DebugHelpOnline is not set.
+	/// If not setup, setup the symbol engine with the current settings. Any public: facing routine needs to be calling this is DebugHelpOnline is not set.
 	/// </summary>
 	BOOL InitializeSymbolEngineIfNot();
 	
-	/// <summary>
-	/// Common code between the LoadEXE and LoadDll routines.
-	/// </summary>
-	/// <param name="EventData"></param>
-	/// <returns></returns>
-	BOOL LoadModuleInfo(LPDEBUG_EVENT EventData);
-	BOOL UnloadModuleInfo();
 
 	/// <summary>
 	/// The public routines call this to sync access to the windows debug help symbol
@@ -140,7 +182,7 @@ private:
 	std::vector<std::wstring> ModuleSearchPath;
 
 
-	DWORD SymbolOptions;
+	
 	/// <summary>
 	/// variable for syncng threads
 	/// </summary>
@@ -153,10 +195,12 @@ private:
 	/// <summary>
 	/// Each process we get A CREATE_PROCESS_DEBUG_EVENT gets one where. 
 	/// KEY = processID.  
-	/// 
+	/// DATA = instance containing symbols loaded for *that* proecss id (DLL + EXE)
 	/// </summary>
 	std::map<DWORD, InsightSupport_SymbolHandle*> HandleContainer;
 
-
+	
+	bool ReadVersion = false;
+	API_VERSION VersionData;
 };
 

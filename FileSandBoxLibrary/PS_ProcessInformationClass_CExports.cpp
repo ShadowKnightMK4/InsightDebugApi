@@ -518,9 +518,12 @@ extern "C"
 	{
 		if (that != nullptr)
 		{
-			if ((that->GetPriorityLoadLibaryPath_NumberOf() < location) && (location >= 0))
+			if (location >= 0)
 			{
-				return that->GetPriorityLoadLibraryPath_Index(location);
+				if ((location < that->GetPriorityLoadLibaryPath_NumberOf()))
+				{
+					return that->GetPriorityLoadLibraryPath_Index(location);
+				}
 			}
 		}
 		return nullptr;
@@ -542,7 +545,7 @@ extern "C"
 		return FALSE;
 	}
 
-	BOOL WINAPI Ps_ProcesInformation_GetCommandment(PS_ProcessInformation* that, DWORD Cmd)
+	BOOL WINAPI Ps_ProcessInformation_GetCommandment(PS_ProcessInformation* that, DWORD Cmd)
 	{
 		if (that != nullptr)
 		{
@@ -551,5 +554,134 @@ extern "C"
 		return FALSE;
 	}
 
-	
+	/*
+
+	PROCESS_MEMORY_COUNTERS_EX* GetMemoryStatsBulkPtr();*/
+
+
+	PROCESS_MEMORY_COUNTERS_EX* WINAPI Ps_ProcessInformation_GetMemoryStatsBulkPtr(PS_ProcessInformation* that)
+	{
+		if (that != nullptr)
+		{
+			return that->GetMemoryStatsBulkPtr();
+		}
+		return nullptr;
+	}
+
+	SIZE_T WINAPI Ps_ProcessInformation_GetPrivateUsage(PS_ProcessInformation* that)
+	{
+		if (that != nullptr)
+		{
+			return that->GetPrivateUsage();
+		}
+		return 0;
+	}
+
+
+
+
+	SIZE_T WINAPI Ps_ProcessInformation_GetPageFaultCount(PS_ProcessInformation* that)
+	{
+		if (that != nullptr)
+		{
+			return that->GetPageFaultCount();
+		}
+		return 0;
+	}
+
+
+	SIZE_T WINAPI Ps_ProcessInformation_GetPeakWorkingSet(PS_ProcessInformation* that)
+	{
+		if (that != nullptr)
+		{
+			return that->GetPeakWorkingSet();
+		}
+		return 0;
+	}
+
+	SIZE_T WINAPI Ps_ProcessInformation_GetWorkingSetSize(PS_ProcessInformation* that)
+	{
+		if (that != nullptr)
+		{
+			return that->GetWorkingSetSize();
+		}
+		return 0;
+	}
+
+	SIZE_T WINAPI Ps_ProcessInformation_GetQuotaPeakPagePoolUsage(PS_ProcessInformation* that)
+	{
+		if (that != nullptr)
+		{
+			return that->GetQuotaPeakPagePoolUsage();
+		}
+		return 0;
+	}
+
+
+
+	SIZE_T WINAPI Ps_ProcessInformation_GetQuotaPagePoolUsage(PS_ProcessInformation* that)
+	{
+		if (that != nullptr)
+		{
+			return that->GetQuotaPagedPoolUsage();
+		}
+		return 0;
+	}
+
+
+
+	SIZE_T WINAPI Ps_ProcessInformation_GetQuotaPeakNonPagePoolUsage(PS_ProcessInformation* that)
+	{
+		if (that != nullptr)
+		{
+			return that->GetQuotaPeakNonPageUsage();
+		}
+		return 0;
+	}
+
+	SIZE_T WINAPI Ps_ProcessInformation_GetQuotNonPagePoolUsage(PS_ProcessInformation* that)
+	{
+		if (that != nullptr)
+		{
+			return that->GetQuotaNonPageUsage();
+		}
+		return 0;
+	}
+
+
+
+	SIZE_T WINAPI Ps_ProcessInformation_GetPageFileUsage(PS_ProcessInformation* that)
+	{
+		if (that != nullptr)
+		{
+			return that->GetPageFileUsage();
+		}
+		return 0;
+	}
+
+
+	SIZE_T WINAPI Ps_ProcessInformation_GetPeakPageFileUsage(PS_ProcessInformation* that)
+	{
+		if (that != nullptr)
+		{
+			return that->GetPeakPageFileUsage();
+		}
+		return 0;
+	}
+
+	BOOL WINAPI Ps_ProcessInformation_RequestDebugPriv(PS_ProcessInformation* that, BOOL Yes)
+	{
+		if (that != nullptr)
+		{
+			that->SetDebugPrivState(Yes);
+			return TRUE;
+		}
+		return FALSE;
+	}
+
+
+
+
+
+
 }

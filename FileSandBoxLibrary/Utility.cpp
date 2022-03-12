@@ -7,7 +7,7 @@
 #include <Psapi.h>
 
 /// <summary>
-/// Enable a chosen priv on self.  NOT INTENDED TO BE EXPORTED. 
+/// Enable a chosen priv on self.  NOT INTENDED TO BE EXPORTED.  We really use this to just enable debug priv
 /// </summary>
 /// <param name="PrivNaem">Name of the Privilege</param>
 /// <param name="Enable">TRUE to enable, FALSE to turn off.</param>
@@ -208,6 +208,45 @@ wchar_t* WINAPI GetFileNameViaHandle(HANDLE FileHandle)
 	return Buffer;
 }
 
+/// <summary>
+/// Write an 8 byte (QWORD sized) value to a specific location in the local virtual memory
+/// </summary>
+/// <param name="MemoryLocation">non null value pointing where to write too</param>
+/// <param name="value">value to write</param>
+/// <returns>true if it worked and false if you pass null</returns>
+BOOL Poke8(unsigned long long* MemoryLocation, long long value)
+{
+	if (MemoryLocation == nullptr)
+	{
+		return FALSE;
+	}
+	else
+	{
+		*MemoryLocation = value;
+		return TRUE;
+	}
+}
+
+/// <summary>
+/// Read an 8 byte (QWORD sized) value from a specific location in the local virtual memory
+/// </summary>
+/// <param name="MemoryLocation">Non null location  indicating where to read from</param>
+/// <returns>If you pass 0 for memory location, returns 0 otherwise returns the contents of the location</returns>
+unsigned long long Peek8(unsigned long long* MemoryLocation)
+{
+	if (MemoryLocation == nullptr)
+	{
+		return FALSE;
+	}
+	return *MemoryLocation;
+}
+
+/// <summary>
+/// Write a 4 byte (DWORD) sized value to the passed non null location
+/// </summary>
+/// <param name="MemoryLocation">non null value pointing where to write too</param>
+/// <param name="Value"></param>
+/// <returns>true if it worked and false if you pass null</returns>
 BOOL Poke4(DWORD* LocalMemoryLocation, DWORD Value)
 {
 	if (LocalMemoryLocation == nullptr)
@@ -218,7 +257,11 @@ BOOL Poke4(DWORD* LocalMemoryLocation, DWORD Value)
 	return TRUE;
 }
 
-
+/// <summary>
+/// Read a 4 byte (DWORD sized) value from a specific location in the local virtual memory
+/// </summary>
+/// <param name="MemoryLocation">Non null location  indicating where to read from</param>
+/// <returns>If you pass 0 for memory location, returns 0 otherwise returns the contents of the location</returns>
 DWORD Peek4(DWORD* LocalMemoryLocation)
 {
 	if (LocalMemoryLocation == 0)

@@ -76,7 +76,7 @@ InsightSupport_SymbolHandle::~InsightSupport_SymbolHandle()
 bool InsightSupport_SymbolHandle::LoadDll(HANDLE MainDebuggedProcess, LPDEBUG_EVENT EventData)
 {
 	IMAGEHLP_MODULEW64* tmp=0;
-	DWORD Est = 0;
+	DWORD64 Est = 0;
 	tmp = (IMAGEHLP_MODULEW64*)malloc(sizeof(IMAGEHLP_MODULEW64));
 	if (tmp != nullptr)
 	{

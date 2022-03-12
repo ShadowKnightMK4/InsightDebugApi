@@ -8,10 +8,15 @@ namespace FileSandBoxSheath.Wrappers
 {
 
     /// <summary>
-    /// encapsulates a native ptr to an unmanged structure that can potentially be freed with with a single call.
+    /// encapsulates a native pointer to an unmanaged structure that can potentially be freed with a single call to C/C++'s free(). If it needs special free requirements, overwrite <see cref="Dispose(bool)"/>
     /// </summary>
     public abstract class NativeStaticContainer: IDisposable
     {
+        /// <summary>
+        /// NativeStaticContrain compares both <see cref="Native"/> pointers and returns true if equal
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public override bool Equals(object obj)
         {
             if (obj == null)
@@ -20,24 +25,34 @@ namespace FileSandBoxSheath.Wrappers
             }
             if (obj is NativeStaticContainer)
             {
-                return (((NativeStaticContainer)obj).Native == this.Native);
+                return (((NativeStaticContainer)obj).Native == Native);
             }
             return false;
         }
 
+        /// <summary>
+        /// Grab a hash of the native pointer
+        /// </summary>
+        /// <returns></returns>
         public override int GetHashCode()
         {
             return Native.GetHashCode();
         }
+
+        /// <summary>
+        /// Create instance of this with the passed  Native Pointer
+        /// </summary>
+        /// <param name="Native"></param>
         public NativeStaticContainer(IntPtr Native)
         {
             this.Native = Native;
         }
         /// <summary>
-        /// Constructor
+        /// Create an instance of the class with the object to specify if we free it.
         /// </summary>
         /// <param name="Native">Native pointer to the structure</param>
-        /// <param name="FreeOnCleanup">if true then the structure is freed via RemoteRead_SimpleFree(). Set TO FALSE if dealing with strucutres declared in C/C++ code vs dynamically allocated</param>
+        /// <param name="FreeOnCleanup">if true then the structure is freed via RemoteRead_SimpleFree() which itself is a call to C/C++'s free() . Set TO FALSE if dealing with structures declared in C/C++ code vs dynamically allocated</param>
+        /// <remarks> FreeOnCleanup is a bit dependent on your knowledge of the native code. If the native pointer points to something dynamically allocated with malloc() / HeapAlloc(),  specify true.  If it's declared in the Native source directly or on the stack as a function variable, use false</remarks>
         public NativeStaticContainer(IntPtr Native, bool FreeOnCleanup)
         {
             this.Native = Native;
@@ -56,17 +71,17 @@ namespace FileSandBoxSheath.Wrappers
             }
         }
         /// <summary>
-        /// Holds a phyiscal unmanged pointer to a relevant structure. Child classes use this 
+        /// Holds a physical unmanaged pointer to a relevant structure. Child classes use this 
         /// </summary>
         protected readonly IntPtr Native;
         /// <summary>
-        /// Conditional free on dispose. Set this to true if you're manipulated a block of unmanaged memory dynmaicicly located by the api. Set to false if you're working with a previously allocated structure
+        /// Conditional free on dispose. Set this to true if you're manipulated a block of unmanaged memory dynamically located by the API. Set to false if you're working with a previously allocated structure
         /// </summary>
         protected readonly bool FreeOnCleanup;
 
 
         /// <summary>
-        /// private value containing if dispose() was callsed
+        /// protected value containing if dispose() was called
         /// </summary>
         protected bool disposedValue;
         /// <summary>
@@ -87,7 +102,7 @@ namespace FileSandBoxSheath.Wrappers
                 {
                     NativeImports.NativeMethods.SimpleFree(Native);
                 }
-                // TODO: set large fields to null
+                
                 disposedValue = true;
             }
         }

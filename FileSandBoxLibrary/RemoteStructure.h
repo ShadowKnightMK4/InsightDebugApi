@@ -10,7 +10,7 @@ namespace RemoteStructureRoutine
 #pragma region UserProcessParemeter
 
 		/// <summary>
-		/// Read and copy the RTL_USER_PROCESS_PARAMETERS stucture from the Target process into the calling process. Use <see cref="RemoteFreeUserProcessParameters">RemoteFreeUserProcessParameters</see> to free
+		/// Read and copy the RTL_USER_PROCESS_PARAMETERS structure from the Target process into the calling process. Use <see cref="RemoteFreeUserProcessParameters">RemoteFreeUserProcessParameters</see> to free
 		/// </summary>
 		/// <param name="Process">You may use 0 for a GetCurrentProcess() replacement.  If a true Process Handle, it neads at min PROCESS_VM_READ</param>
 		/// <param name="Target">Target location in the Passed Process (not yours) Handle's Virtual Memory. </param>
@@ -53,7 +53,7 @@ namespace RemoteStructureRoutine
 		/// </summary>
 		/// <param name="Process">Process to read from. Handle needs to have PROCESS_VM_READ rights</param>
 		/// <param name="Event">Event to extract from.</param>
-		/// <returns>allocates and returns a unicode string.  IF the Event contains an ANSI string, a is converted to Unicode before being returned.  Largested String possible returned is 0xfffe long If something goes wrong, nullptr is returned instead</returns>
+		/// <returns>allocates and returns a Unicode string.  IF the Event contains an ANSI string, a is converted to Unicode before being returned.  Largested String possible returned is 0xfffe long If something goes wrong, nullptr is returned instead</returns>
 		LPWSTR WINAPI RemoteReadDebugString(HANDLE Process, LPDEBUG_EVENT Event);
 #pragma endregion
 
@@ -103,7 +103,7 @@ namespace RemoteStructureRoutine
 		/// <param name="Process">If a true process handle, you must have PROCESS_VM_READ at least.  You may use 0 as a sub for GetCurrentProcess()</param>
 		/// <param name="SourceLocation">where to read from in the passed'process's virtual memory.</param>
 		/// <returns>returns a new block of memory containing a unicode string.  The buffer from the old UnicodeString is copied into the new one also.</returns>
-		/// <remarks>This varient of the routine is used when directly reading UNICODE_STRINGS from pointers or structures that pointer to UNICODE_STRINGS.</remarks>
+		/// <remarks>This variant of the routine is used when directly reading UNICODE_STRINGS from pointers or structures that pointer to UNICODE_STRINGS.</remarks>
 		//UNICODE_STRING* RemoteReadUnicodeString(HANDLE Process, LPVOID SourceLocation);
 
 		/// <summary>
@@ -138,6 +138,16 @@ namespace RemoteStructureRoutine
 		/// <param name="ptr">Pointer to a block of memory previously returned by RemoteReadObjectAttributes</param>
 		/// <returns></returns>
 		BOOL WINAPI RemoteFreeObjectAttributes(OBJECT_ATTRIBUTES* ptr);
+
+
+#pragma region Misc
+/// <summary>
+/// Exported as a variety of ways in the module def file.  This wraps C's free() so that users of the dll have a way to free() memory in the same way it's allocated for them.  Recommanded to call the RmoteReadFreeXXXX routine instead of this in case the way it's allocated is changed
+/// </summary>
+/// <param name="ptr">non null pointer to free</param>
+/// <returns>Returns nothing</returns>
+		VOID WINAPI RemoteRead_SimpleFree(VOID* ptr);
+#pragma endregion
 
 	}
 }

@@ -122,4 +122,34 @@ extern "C" {
 		return FALSE;
 	}
 
+	DWORD WINAPI Insight_GetSymbolOptions(InsightHunter* that)
+	{
+		if (that != nullptr)
+		{
+			return that->GetSymbolOptions();
+		}
+		return 0;
+	}
+
+	DWORD WINAPI Insight_SetSymbolOptions(InsightHunter* that, DWORD NewOptions)
+	{
+		if (that != nullptr)
+		{
+			return that->SetSymbolOptions(NewOptions);
+		}
+	}
+
+
+	API_VERSION* WINAPI Insight_GetImageHelpVersionData(InsightHunter* that)
+	{
+		return that->GetDebugHelpVersionCompatability();
+	}
+
+	BOOL WINAPI Insight_SetImageHelpCompatability(InsightHunter* that, USHORT Major, USHORT Minor, USHORT Revision)
+	{
+		that->SetDebugHelpVersionCompatability(Major, Minor, Revision);
+		return true;
+	}
+
+
 }

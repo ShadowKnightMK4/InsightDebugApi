@@ -2,7 +2,7 @@
 /*
 * RemoteStructureRoutines.CPP
 * 
-* These routines will typicalled take a handle (or process id) and reaed as chunk of memory from it into the caller's process and return it.
+* These routines will typically take a handle (or process id) and read as chunk of memory from it into the caller's process and return it.
 */
 
 namespace RemoteStructureRoutine
@@ -10,7 +10,7 @@ namespace RemoteStructureRoutine
 	/// <summary>
 	/// Allocate a buffer of MaxBuffer, read from the passed process's RemoteMemory allocate and return said buffer
 	/// </summary>
-	/// <param name="Process">0 is GetCurrentProcess(), True process handle needs PROCESS_VM_READ</param>
+	/// <param name="Process">Here 0 = GetCurrentProcess(), True process handle needs PROCESS_VM_READ</param>
 	/// <param name="RemoteMemory">Virtual Memory location in the remote process</param>
 	/// <param name="MaxBuffer">MaxBuffer to allocate and read (UNICODE_STRING struct has this value)</param>
 	/// <returns>a buffer allocated with malloc() of MaxBuffer size with the data read from the remote process. Returns nullptr on error or bad argument</returns>
@@ -211,7 +211,7 @@ namespace RemoteStructureRoutine
 
 
 	/// <summary>
-	/// Reads the UNICODE_STRING structure from the remote process into the calling process.  Duplicates the string from the remmote process into the calling process also and sets pointers correctly.
+	/// Reads the UNICODE_STRING structure from the remote process into the calling process.  Duplicates the string from the remote process into the calling process also and sets pointers correctly.
 	/// </summary>
 	/// <param name="Process"></param>
 	/// <param name="Deref"></param>
@@ -506,18 +506,14 @@ namespace RemoteStructureRoutine
 		}
 		return Ret;
 	}
-}
 
-/// <summary>
-/// Exported as a viarety of ways in the module def file.  This wraps free() and is intended for use for DLL users to be a simple way to free() memory Allocated by certain routines that only need to  call free()
-/// </summary>
-/// <param name="ptr"></param>
-/// <returns></returns>
-VOID WINAPI RemoteRead_SimpleFree(VOID* ptr)
-{
-	if (ptr != nullptr)
+
+	VOID WINAPI RemoteRead_SimpleFree(VOID* ptr)
 	{
-		free(nullptr);
+		if (ptr != nullptr)
+		{
+			free(nullptr);
+		}
 	}
 }
 /*

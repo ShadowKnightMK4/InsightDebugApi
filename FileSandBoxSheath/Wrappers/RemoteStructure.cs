@@ -37,6 +37,13 @@ namespace FileSandBoxSheath.Remote
                     return IntPtr.Zero;
             }
         }
+
+        /// <summary>
+        /// Extract a DebugString from an OUTPUT_DEBUG_EVENT
+        /// </summary>
+        /// <param name="ProcessHandle">Handle to the process</param>
+        /// <param name="DebugEventStruct">Pointer to a DebugEvent native structure</param>
+        /// <returns></returns>
         public static string RemoteReadDebugString(IntPtr ProcessHandle, IntPtr DebugEventStruct)
         {
             IntPtr RetPtr = NativeMethods.RemoteReadDebugStringInternal(ProcessHandle, DebugEventStruct);
