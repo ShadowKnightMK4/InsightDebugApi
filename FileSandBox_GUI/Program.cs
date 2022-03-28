@@ -1,7 +1,7 @@
-using FileSandBoxSheath;
+using InsightSheath;
 //using FileSandBoxSheath.NativeImports is intended for general use.;
-using FileSandBoxSheath.NativeImports;
-using FileSandBoxSheath.Wrappers;
+using InsightSheath.NativeImports;
+using InsightSheath.Wrappers;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -10,8 +10,8 @@ using System.Threading;
 using FileSandBox_GUI;
 using System.Collections;
 using System.Collections.Generic;
-using static FileSandBoxSheath.Wrappers.InsightHunter;
-using FileSandBoxSheath.Structs;
+using static InsightSheath.Wrappers.InsightHunter;
+using InsightSheath.Structs;
 
 namespace FileSandBox_GUI
 {
@@ -29,11 +29,11 @@ namespace FileSandBox_GUI
             PsProcessInformation.Poke4(ContStat, (int)PsProcessInformation.DebugContState.DebugContinueState);
 
             
-            if (Debug.EventType == FileSandBoxSheath.Wrappers.DebugEventType.OutputDebugString)
+            if (Debug.EventType == InsightSheath.Wrappers.DebugEventType.OutputDebugString)
             {
                 Console.WriteLine(Debug.ProcessID + "Says: " + Debug.GetDebugEventStringInfo().OutputString);
             }
-            if (Debug.EventType == FileSandBoxSheath.Wrappers.DebugEventType.CreateProcessEvent)
+            if (Debug.EventType == InsightSheath.Wrappers.DebugEventType.CreateProcessEvent)
             {
            
                 Console.WriteLine(Debug.ProcessID + " Spawned from " + Debug.GetDebugEventCreateProcessInfo().ImageName);
@@ -54,7 +54,7 @@ namespace FileSandBox_GUI
                 Insight.EnumerateSymbols("*!*", Tmp);
             }
             
-            if (Debug.EventType == FileSandBoxSheath.Wrappers.DebugEventType.ExceptionEvent)
+            if (Debug.EventType == InsightSheath.Wrappers.DebugEventType.ExceptionEvent)
             {
                 Console.Write(Debug.ProcessID + " Exception \"" + Debug.GetDebugEventExceptionInfo().ExceptionCode + "\" happend");
                 if (Debug.GetDebugEventExceptionInfo().IsFirstChanceException)
@@ -70,26 +70,43 @@ namespace FileSandBox_GUI
                 PsProcessInformation.Poke4(ContStat, unchecked ( (int)PsProcessInformation.DebugContState.DebugExceptionNotHandled) );
             }
 
+            if (Debug.EventType == DebugEventType.ExitThreadEvent)
+            {
+                using (var Tester = ThreadContext.CreateInstance(Debug.ThreadID))
+                {
+                    Console.Write("threadexit here");
+                }
+            }
             if (Debug.EventType == DebugEventType.CreateTheadEvent)
             {
-                
+                using (var Tester = ThreadContext.CreateInstance(Debug.GetDebugEventCreateThreadInfo().ThreadID))
+                {
+
+                    Tester.PriorityBoost = true;
+                    Tester.PriorityBoost = false;
+                    Tester.PriorityBoost = true;
+
+                    Tester.IdealProcessor = 1;
+                    Tester.IdealProcessor = 4;
+                    Tester.ProcessorAffinity = 1;
+                    Tester.ProcessorAffinity = 4;
+
+                    Tester.ThreadPriority = ThreadPriorityLevel.Highest;
+
+                    Console.Write("DebugHere");
+                    
+
+                }
+
+
             }
             
 
-            if (Debug.EventType == FileSandBoxSheath.Wrappers.DebugEventType.LoadDllEvent)
+            if (Debug.EventType == InsightSheath.Wrappers.DebugEventType.LoadDllEvent)
             {
                 Console.WriteLine(Debug.ProcessID + " Loaded Dll From \"" + Debug.GetDebugEventLoadDll().ImageName + "\"");
-                Console.WriteLine("BeginningEnumeration of loaded symbols");
-                var test2 = Insight.DebugHelp_Version2;
-                var test1 = Insight.DebugHelp_Version;
-                test2.MajorVersion = 6;
-                test2.MinorVersion = 0;
-                test2.Revision = 0;
-                Insight.DebugHelp_Version2 = test2;
 
-                test2 = Insight.DebugHelp_Version2;
-                //Tmp = Callback;
-                 //Insight.EnumerateSymbols("*!*", Tmp);
+
             }
 
             PsProcessInformation.Poke4(WaitTime, int.MaxValue);

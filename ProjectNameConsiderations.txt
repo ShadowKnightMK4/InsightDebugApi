@@ -1,8 +1,24 @@
 These are names considered for the front facing (not source code) for the project.
 
 Running name: Filesandbox.
+Inprog Name Change: Insight 
+
 
 
 // named after the symbol class on the native side which is named after the Bloodborne insight name.
 Considered name:  Insight Debugger 
 Project Goals:  Symbol Engine + Windows Debug API wrapped in a DotNet Friendly Way.
+
+
+Documebntation Goals:
+Minimum:
+	Public C# routines have a comment block
+Stretch
+	Internal Routines on the C# side have a blurb describing how the routine links and what it does.
+
+
+Native Size:
+Minium
+	The class routiens and public (NON C Level) wrappers have documentation
+Stretch
+	The C Level wrappers include doucmentation.

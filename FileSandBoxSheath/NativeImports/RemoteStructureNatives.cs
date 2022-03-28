@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FileSandBoxSheath.NativeImports
+namespace InsightSheath.NativeImports
 {
     internal static partial class NativeMethods
     {
@@ -20,7 +20,7 @@ namespace FileSandBoxSheath.NativeImports
 
         /// <summary>
         /// Imports RemoteFreeDEbugString() from the dll. Currently that forwards to "RemoteRead_SimpleFree" in the code. 
-        /// If the implmentation of RemoteReadDebugString changes, RemoteRead_SimpleFree may no longer free properly. USE RemoteFreeDebugString()
+        /// If the implementation of RemoteReadDebugString changes, RemoteRead_SimpleFree may no longer free properly. USE RemoteFreeDebugString()
         /// <param name="Memory">Pointer to a IntPtr returned by<see cref=">RemoteReadDebugStringInternl"/></param>
         [DllImport("FileSandBoxApi", CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, EntryPoint = "RemoteFreeDebugString")]
         public static extern void RemoteFreeDebugStringInternal(IntPtr Memory);
@@ -28,7 +28,7 @@ namespace FileSandBoxSheath.NativeImports
         // 	VOID* WINAPI RemoteReadPointer(HANDLE Process, VOID* Target, DWORD pointerSize)
 
         /// <summary>
-        /// Read a pointer (4 or 8 bytes) from the target process's virtual memory locaiton/
+        /// Read a pointer (4 or 8 bytes) from the target process's virtual memory location/
         /// </summary>
         /// <param name="TargetProcess">0 = self.  </param>
         /// <param name="TargetLocation">Virtual memory to read from</param>

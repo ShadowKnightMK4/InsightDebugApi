@@ -5,6 +5,9 @@
 #include <map>
 
 #include "InsightHunter.h"
+#include "ThreadContext.h"
+#include "ThreadSupport.h"
+
 class Client;
 class PS_ProcessInformation;
 
@@ -64,7 +67,7 @@ struct WorkerThreadData
 	/// </summary>
 	HANDLE EventHandle;
 	/// <summary>
-	///  Callback provided to examine events and do stuff.  SymbolEngine is automatically handled via the InsightHunter classs provided you opt into the Debug Worker thread
+	///  Callback provided to examine events and do stuff.  SymbolEngine is automatically handled via the InsightHunter classs provided you opt into the Debug Worker thread and EnableSymbol = true in this class
 	/// </summary>
 	DebugEventCallBackRoutine UserCallback;
 
@@ -88,7 +91,7 @@ struct WorkerThreadData
 	PS_ProcessInformation* that;
 };
 
-/// Do not spawn the process with a seperate thread.  
+/// Do not spawn the process with a separate thread.  
 #define PSINFO_DEBUGMODE_NOWORKERTHREAD (0)
 // SpawnProcess() creates a thread that spawns your target. 
 #define PSINFO_DEBUGMODE_WORKERTHREADED (1)
@@ -99,7 +102,7 @@ struct WorkerThreadData
 
 /// <summary>
 /// Each process spawned or tracked by the library uses this class. 
-/// It's .NET Wrapper is PsProcessInformation locatead in PsProcessInformation.cs of FileSandBox_GUI.
+/// It's .NET Wrapper is PsProcessInformation located in PsProcessInformation.cs of FileSandBox_GUI.
 /// </summary>
 class PS_ProcessInformation
 {
@@ -219,7 +222,7 @@ public:
 	/// </summary>
 	void PulseDebugEventThread();
 	/// <summary>
-	/// Specify if the worker thread is spawned or not. Non Worker thread code is somewhat lagging
+	/// Specify if the worker thread is spawned or not. Non Worker thread code is somewhat lagging and I recommand using the worker thread unless you have a reason not too.
 	/// </summary>
 	/// <param name="dmMode"></param>
 	void SetDebugMode(DWORD dmMode);
@@ -305,14 +308,64 @@ public:
 		VOID EmptyPriorityLoadLibaryPath();
 #pragma endregion
 
+#pragma region Thread API
+		/// <summary>
+		/// Return how many process(es) we've gotten CREATE_PROCESS_DEBUG_EVENTS for.
+		/// </summary>
+		/// <returns></returns>
+		DWORD GetProcessIDCount();
+
+		/// <summary>
+		/// Copy list of process ids to output. Will not copy more than outputsize. Returns 0 if fully copied and how many bytes needed to copy if not big enough
+		/// </summary>
+		/// <param name="Output"></param>
+		/// <param name="LargestOutputSize"></param>
+		/// <returns></returns>
+		DWORD GetProcessIDs(DWORD * Output, DWORD LargestOutputSize);
+
+
+		/// <summary>
+		/// </summary>
+		/// <param name="ProcessID">ID of process we've spawned. 0=first process </param>
+		/// <returns>If the process has not spawned yet or we don't have an entry, 0 is returned instead of how many threads we're aware off.</returns>
+		DWORD GetThreadListCount(DWORD ProcessID);
+		/// <summary>
+		/// Get how many thread (if any) we're aware off belonging to the main process.
+		/// </summary>
+		/// <returns>If the main process has not spawned yet or we don't have an entry, 0 is returned instead of how many threads we're aware off.</returns>
+		DWORD GetThreadListCount();
+
+
+		/// <summary>
+		/// Copy of list of threads we're aware of belonging to the passed process to the output buffer. Willl not copy copy than LargestBufferSize
+		/// </summary>
+		/// <param name="ProcessID"></param>
+		/// <param name="ThreadID"></param>
+		/// <param name="LargestOutputSize"></param>
+		/// <returns></returns>
+		DWORD GetThreadIDs(DWORD ProcessID, DWORD * ThreadID, DWORD LargestOutputSize);
+
+		/// <summary>
+		/// Grab one one the threadinsight classes instanced to the specificed thread nad process if we got it.
+		/// </summary>
+		/// <param name="ProcessID"></param>
+		/// <param name="ThreadID"></param>
+		/// <returns></returns>
+		ThreadInsight* GetThreadInsightPtr(DWORD ProcessID, DWORD ThreadID);
+
+#pragma endregion
 
 #pragma region SymbolHandling / InsightHunter
 	/// <summary>
-	/// If enabled, the worker thread will automaticcaly pass stuff to the symbol class
+	/// If enabled, the worker thread will automatically pass stuff to the symbol class
 	/// </summary>
 	/// <param name="NewStatus"></param>
 	/// <returns></returns>
 	DWORD SetSymbolStatus(DWORD NewStatus);
+	/// <summary>
+	/// Return if the symbol engine will automatically update in the worker thread
+	/// </summary>
+	/// <returns></returns>
 	DWORD GetSymbolStatus();
 	/// <summary>
 	/// receive a pointer to an instance of the symbol class contained within. 
@@ -320,7 +373,7 @@ public:
 	InsightHunter* GetSymbolHandlerPtr();
 #pragma endregion
 
-#pragma Region Process Statistics
+#pragma region Main Memory Process Statistics
 	
 	DWORD GetPageFaultCount();
 	SIZE_T GetPeakWorkingSet();
@@ -374,7 +427,13 @@ private:
 	/// </summary>
 	std::wstring WorkingDirectory;
 
+	/// <summary>
+	/// Future feature
+	/// </summary>
 	LPSECURITY_ATTRIBUTES lpProcessAttributes;
+	/// <summary>
+	/// Future feature
+	/// </summary>
 	LPSECURITY_ATTRIBUTES lpThreadAttributes;
 
 
@@ -433,7 +492,10 @@ private:
 	/// </summary>
 	BOOL EnableSymbols = false;
 
-
+	/// <summary>
+	/// Our database we care about for the lifetime of the process.
+	/// </summary>
+	ThreadContainer ProcessThreads;
 	/// <summary>
 	/// Class for the symbol engine. Will Need to spawn a process WITH_DEBUG to get much use.
 	/// </summary>

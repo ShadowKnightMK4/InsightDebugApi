@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 
-namespace FileSandBoxSheath.NativeImports
+namespace InsightSheath.NativeImports
 {
     internal static partial class NativeMethods
     {

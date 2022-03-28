@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FileSandBoxSheath.NativeImports
+namespace InsightSheath.NativeImports
 {
     internal static partial class NativeMethods
     {
@@ -55,7 +55,7 @@ namespace FileSandBoxSheath.NativeImports
         /// <summary>
         /// Short hand for asking for a native process handle that PROCESS_VM_READ | PROCESS_VM_WRITE access
         /// </summary>
-        /// <param name="ProcessID">id of the target process to open.  You can get this with <see cref="FileSandBoxSheath.Wrappers.DebugEventCreateProcessInfo"/> event handling among other things</param>
+        /// <param name="ProcessID">id of the target process to open.  You can get this with <see cref="InsightSheath.Wrappers.DebugEventCreateProcessInfo"/> event handling among other things</param>
         /// <returns>Returns Native handle with PROCESS_VM_READ + PROCESS_VM_WRITE access or null if you can't open it.</returns>
 
         [DllImport("FileSandBoxApi.dll", CallingConvention = CallingConvention.Winapi, EntryPoint = "UtilOpenProcessForMemory")]

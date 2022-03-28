@@ -9,10 +9,15 @@ Files to include:
 
 
 On the Manged/Sheath class size
-->	ThreadContext		<- read and write information on threads.   Not directly tied to the lib as you can suppply your own handle.
+->	ThreadContext		<- read and write information on threads.   Not directly tied to the lib as you can suppply your own handle and thread if
 						<- has a native side queivelent.
 ->  InsightHunter		<-  Class for dealing with and processing symbols with the debug help symbol engine
 						<-  Tired closely with PsProcessInformation
 						<- has a natie side equivelent
 -> PsProcessInformation <- Spawn processes and modify how they are setup.
 						<- Optionally get debug event data from them.
+						<- manly intended for spawning processes to debug.
+
+
+
+The Design goal of the Sheath is to be as minimal wrapper as feasibly possible while taking a bit of advantage of C#'s GC scheme.

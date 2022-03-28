@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FileSandBoxSheath.HelperDll
+namespace InsightSheath.HelperDll
 {
     /// <summary>
     /// Modify how the debugged app will deal with registry.  Requires helper dll

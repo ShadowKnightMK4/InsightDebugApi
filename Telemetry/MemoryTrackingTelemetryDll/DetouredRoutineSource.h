@@ -27,10 +27,10 @@ BOOL WINAPI HeapQueryInformationDetour(HANDLE HeapHandle,
 );
 
 LPVOID HeapReAllocDetour(
-	[in] HANDLE                 hHeap,
-	[in] DWORD                  dwFlags,
-	[in] _Frees_ptr_opt_ LPVOID lpMem,
-	[in] SIZE_T                 dwBytes
+	 HANDLE                 hHeap,
+	 DWORD                  dwFlags,
+	 _Frees_ptr_opt_ LPVOID lpMem,
+	SIZE_T                 dwBytes
 );
 
 BOOL WINAPI HeapSetnformationDetour(HANDLE HeapHandle,

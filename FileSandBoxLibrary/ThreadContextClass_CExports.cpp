@@ -153,6 +153,69 @@ extern "C" {
 		return nullptr;
 	}
 
+
+	DWORD WINAPI ThreadContext_GetTargetThreadId(ThreadInsight* that)
+	{
+		if (that != nullptr)
+		{
+			return that->GetTargetThreadId();
+		}
+	}
+
+	DWORD WINAPI ThreadContext_SetIdealProcessor(ThreadInsight* that, DWORD NewProcessor)
+	{
+		if (that != nullptr)
+		{
+			return that->SetIdealThreadProcessorMask(NewProcessor);
+		}
+		return (DWORD)-1;
+	}
+	DWORD WINAPI ThreadContext_GetIdealProcessor(ThreadInsight* that)
+	{
+		if (that != nullptr)
+		{
+			return that->GetIdealThreadProcessorMask();
+		}
+		return (DWORD)-1;
+	}
+	
+	BOOL WINAPI ThreadContext_GetThreadPriorityBoostSetting(ThreadInsight* that)
+	{
+		if (that != nullptr)
+		{
+			return that->GetThreadPriorityBoostValue();
+		}
+		return FALSE;
+	}
+
+	BOOL WINAPI ThreadContext_SetThreadPriorityBoostSetting(ThreadInsight* that, BOOL NewValue)
+	{
+		if (that != nullptr)
+		{
+			return that->SetThreadPriorityBoostValue(NewValue);
+		}
+		return FALSE;
+	}
+	DWORD WINAPI ThreadContext_GetThreadProcessAffinityMask(ThreadInsight* that)
+	{
+		if (that != nullptr)
+		{
+			return that->GetIdealThreadProcessorMask();
+		}
+		return 0;
+	}
+
+	DWORD WINAPI ThreadContext_SetThreadProcessAffinityMask(ThreadInsight* that, DWORD NewAffinityMask)
+	{
+		if (that != nullptr)
+		{
+			return that->SetIdealThreadProcessorMask(NewAffinityMask);
+		}
+		return 0;
+	}
+
+
+
 	BOOL WINAPI ThreadContext_SetTargetThread(ThreadInsight* that, HANDLE Thread, DWORD Flags)
 	{
 		if (that != nullptr)

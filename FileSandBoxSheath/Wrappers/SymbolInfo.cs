@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using FileSandBoxSheath.NativeImports;
+using InsightSheath.NativeImports;
 using System.Runtime.InteropServices;
-namespace FileSandBoxSheath.Wrappers
+namespace InsightSheath.Wrappers
 {
     /// <summary>
     /// Should be from the SymTagEnum at MSDN https://docs.microsoft.com/en-us/previous-versions/visualstudio/visual-studio-2010/bkedss5f(v=vs.100)

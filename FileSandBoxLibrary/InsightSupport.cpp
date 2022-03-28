@@ -2,10 +2,11 @@
 #include "Utility.h"
 #include "ProcessHandling.h"
 /*
-* InsightSuport.cpp
-* 
-* Classes in here support InsightHunter's class. This one is subject to change from release to release and may not be compataible with 
-* previous versions.  
+* nsightSuport.cpp
+* !!!!!!!!!!!!!!internal class!!!!!!!!!!!!!!!!
+*	Classes in here support InsightHunter's class. This one is subject to change from release to release and may not be compatible with 
+*    previous versions.  
+* !!!!!!!!!!!!!!internal class!!!!!!!!!!!!!!!!
 * 
 * The current implementation groups the main exe and loaded dlls in one area.  Additional Exes + load dlls in seperate processes will
 * get your own process.

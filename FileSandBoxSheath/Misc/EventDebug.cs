@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using FileSandBoxSheath.Wrappers;
+using InsightSheath.Wrappers;
 
-namespace FileSandBoxSheath.Misc
+namespace InsightSheath.Misc
 {
     /// <summary>
-    /// Implements an event debugger system for processing events.
+    /// Implements an event debugger system for processing events. You will need to link a way to call <see cref="EventDebugAssist.FireEvents(DebugEvent)"/> in order to actually make to the thing work
     /// </summary>
     public class EventDebugAssist
     {

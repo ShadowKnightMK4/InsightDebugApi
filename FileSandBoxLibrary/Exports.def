@@ -48,6 +48,7 @@ LIBRARY FILESANDBOXAPI
 		Ps_ProcessInformation_GetPageFaultCount
 		Ps_ProcessInformation_GetPrivateUsage
 		Ps_ProcessInformation_GetMemoryStatsBulkPtr
+		Ps_ProcessInformation_RequestDebugPriv
 		RemoteReadDebugString
 		RemoteFreeDebugString=RemoteRead_SimpleFree
 		RemoteRead_SimpleFree
@@ -158,3 +159,10 @@ LIBRARY FILESANDBOXAPI
 		ThreadContext_GetThreadTimeExitTime
 		ThreadContext_GetThreadTimeUserTime
 		ThreadContext_GetThreadTimeKernelTime
+		ThreadContext_GetTargetThreadId
+		ThreadContext_GetIdealProcessor
+		ThreadContext_SetIdealProcessor
+		ThreadContext_GetThreadPriorityBoostSetting
+		ThreadContext_SetThreadPriorityBoostSetting
+		ThreadContext_GetThreadProcessAffinityMask
+		ThreadContext_SetThreadProcessAffinityMask

@@ -142,6 +142,25 @@ void _cdecl PsPocessInformation_DebugWorkerthread(void* argument)
 					break;
 				}
 			}
+
+			/* Care about updating thread view here*/
+			switch (lpEvent.dwDebugEventCode)
+			{
+				case CREATE_THREAD_DEBUG_EVENT:
+				{
+					Args->that->ProcessThreads.ProcessCreateThreadDebugEvent(&lpEvent);
+					break;
+				}
+				case EXIT_PROCESS_DEBUG_EVENT:
+				{
+					Args->that->ProcessThreads.ProcessExitProcessDebugEvent(&lpEvent);
+				}
+				case EXIT_THREAD_DEBUG_EVENT:
+				{
+					Args->that->ProcessThreads.ProcessExitThreadDebugEvent(&lpEvent);
+					break;
+				}
+			}
 		}
 		WaitForSingleObject(Args->EventHandle, INFINITE);
 		ResetEvent(Args->EventHandle);
@@ -170,12 +189,13 @@ void _cdecl PsPocessInformation_DebugWorkerthread(void* argument)
 
 
 /// <summary>
-/// convert the map to a string suitable for an einvorment block, and add the inheirted block.   If the map defines something the inhertied block has already defined, the map one is kept
+/// convert the  map to a string suitable for an environment block, and add the inherited block. 
+/// If the map defines something the inherited block has already defined, the defined one in map one is kept
 /// </summary>
 /// <param name="Overwritten">from private PS_ProcessInformation.Environment</param>
 /// <param name="IncludeBase">Do you want the default eviroment  block included</param>
 /// <param name="Output">Place the results in this location ready to send to CreateProcessW</param>
-/// <remarks>I feel this can be glitchy.  I'm unsure of a better solution ATM. We try to read read and skip junk data at the start.</remarks>
+/// <remarks>I feel this can be glitchy.  I'm unsure of a better solution ATM. We try to read and skip junk data at the start.</remarks>
 void BuildEnviromentBlock(std::map<std::wstring, std::wstring>& Overwritten, BOOL IncludeBase, std::wstring& Output)
 {
 	std::map<std::wstring, std::wstring> InternalMap;
@@ -292,46 +312,109 @@ PS_ProcessInformation::~PS_ProcessInformation()
 
 PS_ProcessInformation::PS_ProcessInformation(const PS_ProcessInformation& Original)
 {
-	this->dwCreationFlags = Original.dwCreationFlags;
-	this->Enviroment = Original.Enviroment;
-	this->bInhertEnviroment = Original.bInhertEnviroment;
-	this->lpProcessAttributes = Original.lpProcessAttributes;
-	this->lpThreadAttributes = Original.lpThreadAttributes;
-	if ((Original.PInfo.hProcess != 0) && (Original.PInfo.hProcess != INVALID_HANDLE_VALUE))
-	{
-		if (DuplicateHandle(GetCurrentProcess(), Original.PInfo.hProcess, GetCurrentProcess(), &this->PInfo.hProcess, 0, FALSE, DUPLICATE_SAME_ACCESS))
-		{
+	ProcessNameContainer = Original.ProcessArgumentsContainer;
+	ProcessArgumentsContainer = Original.ProcessArgumentsContainer;
+	WorkingDirectory = Original.WorkingDirectory;
 
-		}
+	StartUpInfo = Original.StartUpInfo;
+
+	if (Original.lpProcessAttributes != NULL)
+	{
+		lpProcessAttributes = Original.lpProcessAttributes;
 	}
 	else
 	{
-		PInfo.hProcess = Original.PInfo.hProcess;
+		lpProcessAttributes = nullptr;
 	}
-	PInfo.dwProcessId = Original.PInfo.dwProcessId;
 
-	if ((Original.PInfo.hThread != 0) && (Original.PInfo.hThread != INVALID_HANDLE_VALUE))
+
+	if (Original.lpThreadAttributes != NULL)
 	{
-		if (DuplicateHandle(GetCurrentProcess(), Original.PInfo.hThread, GetCurrentProcess(), &this->PInfo.hThread, 0, FALSE, DUPLICATE_SAME_ACCESS))
-		{
-
-		}
+		lpThreadAttributes = Original.lpThreadAttributes;
 	}
 	else
 	{
-		PInfo.hProcess = Original.PInfo.hProcess;
+		lpThreadAttributes = nullptr;
 	}
-	PInfo.dwThreadId = Original.PInfo.dwThreadId;
 
-	CopyMemory(&StartUpInfo, &Original.StartUpInfo, sizeof(StartUpInfo));
-	this->ProcessNameContainer = Original.ProcessArgumentsContainer;
-	this->ProcessArgumentsContainer = Original.ProcessArgumentsContainer;
-	this->WorkingDirectory = Original.WorkingDirectory;
+	dwCreationFlags = Original.dwCreationFlags;
 
-	if (this->SyncData.threadID != 0)
+	if (Original.PInfo.dwProcessId != 0)
 	{
-		OutputDebugString(L"Warning SyncData struct is not defined yet for copying. Data leakage will accure with reapted assigment.");
+		PInfo.dwProcessId = Original.PInfo.dwProcessId;
 	}
+	else
+	{
+		PInfo.dwProcessId = 0;
+	}
+
+
+	if (Original.PInfo.dwThreadId != 0)
+	{
+		PInfo.dwThreadId = Original.PInfo.dwThreadId;
+	}
+
+
+	if (Original.PInfo.hProcess != 0)
+	{
+		DuplicateHandle(GetCurrentProcess(), Original.PInfo.hProcess, GetCurrentProcess(), &PInfo.hProcess, 0, FALSE, DUPLICATE_SAME_ACCESS);
+	}
+	else
+	{
+		PInfo.hProcess = 0;
+	}
+
+	if (Original.PInfo.hThread != 0)
+	{
+		DuplicateHandle(GetCurrentProcess(), Original.PInfo.hThread, GetCurrentProcess(), &PInfo.hThread, 0, FALSE, DUPLICATE_SAME_ACCESS);
+	}
+	else
+	{
+		PInfo.hProcess = 0;
+	}
+
+	bInhertEnviroment = Original.bInhertEnviroment;
+	DebugModeHandle = Original.DebugModeHandle;
+
+	for (auto stepper = Original.CommandmentArray.begin(); stepper != Original.CommandmentArray.end(); stepper++)
+	{
+		CommandmentArray[stepper._Ptr->_Myval.first] = stepper._Ptr->_Myval.second;
+	}
+	for (auto stepper = Original.Enviroment.begin(); stepper != Original.Enviroment.end(); stepper++)
+	{
+		Enviroment[stepper._Ptr->_Myval.first] = stepper._Ptr->_Myval.second;
+	}
+
+
+	for (auto stepper = Original.DetoursDll.begin(); stepper != Original.DetoursDll.end(); stepper++)
+	{
+		DetoursDll.push_back( stepper._Ptr->c_str());
+	}
+
+
+
+	for (auto stepper = Original.LoadLibraryPriorityFolders.begin(); stepper != Original.LoadLibraryPriorityFolders.end(); stepper++)
+	{
+		LoadLibraryPriorityFolders.push_back(stepper._Ptr->c_str());
+	}
+
+
+
+	for (auto stepper = Original.ForcedOverwrites.begin(); stepper != Original.ForcedOverwrites.end(); stepper++)
+	{
+		ForcedOverwrites[stepper._Ptr->_Myval.first] = stepper._Ptr->_Myval.second;
+	}
+
+
+
+
+	EnableSymbols = Original.EnableSymbols;
+
+	ProcessThreads = Original.ProcessThreads;
+	Insight = new InsightHunter(Original.Insight);
+
+	RequestDebugPriv = Original.RequestDebugPriv;
+
 }
 
 PS_ProcessInformation::PS_ProcessInformation()
@@ -905,7 +988,47 @@ VOID PS_ProcessInformation::EmptyPriorityLoadLibaryPath()
 	LoadLibraryPriorityFolders.clear();
 }
 
+DWORD PS_ProcessInformation::GetProcessIDCount()
+{
+	return this->ProcessThreads.ProcessCount();
+}
 
+DWORD PS_ProcessInformation::GetProcessIDs(DWORD* Output, DWORD LargestOutputSize)
+{
+	return 0;
+}
+
+DWORD PS_ProcessInformation::GetThreadListCount(DWORD ProcessID)
+{
+	return this->ProcessThreads.ThreadCount(ProcessID);
+}
+
+DWORD PS_ProcessInformation::GetThreadListCount()
+{
+	return this->ProcessThreads.ThreadCount(PInfo.dwProcessId);
+}
+
+
+
+
+DWORD PS_ProcessInformation::GetThreadIDs(DWORD ProcessID, DWORD* ThreadID, DWORD LargestOutputSize)
+{
+	if (ThreadID == nullptr)
+	{
+		return GetThreadListCount(ProcessID) * sizeof(DWORD);
+	}
+	ZeroMemory(ThreadID, LargestOutputSize);
+	if (LargestOutputSize < GetThreadListCount(ProcessID) * sizeof(DWORD))
+	{
+
+	}
+	return 0;
+}
+
+ThreadInsight* PS_ProcessInformation::GetThreadInsightPtr(DWORD ProcessID, DWORD ThreadID)
+{
+	return this->ProcessThreads.GetThreadInsightPtr(ProcessID, ThreadID);
+}
 
 DWORD PS_ProcessInformation::SetSymbolStatus(DWORD NewStatus)
 {

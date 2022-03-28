@@ -1,14 +1,15 @@
-﻿using FileSandBoxSheath.NativeImports;
-using FileSandBoxSheath.Structs;
-using FileSandBoxSheath.Wrappers;
+﻿using InsightSheath.NativeImports;
+using InsightSheath.Structs;
+using InsightSheath.Wrappers;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FileSandBoxSheath
+namespace InsightSheath
 {
 
     [Flags]
@@ -232,6 +233,8 @@ namespace FileSandBoxSheath
         /// <returns></returns>
         public bool UpdateSymbolEngine(IntPtr DebugEnvent)
         {
+         
+
             throw new NotImplementedException(nameof(UpdateSymbolEngine) + " is not implemented in PSProcessInformation.cs, the native version at PS_ProcessInformation.cpp AND the C linking code at PS_ProcessInformation.CCall.cpp.  You'll need to add code at all three spots. ");
 
         }
@@ -258,6 +261,20 @@ namespace FileSandBoxSheath
         }
         #endregion
 
+        #region Multi Process info
+        /// <summary>
+        /// Return a list of process ids the class has received via CREATE_PROCESS_DEBUG_EVENT
+        /// </summary>
+        /// <returns></returns>
+   
+        /// <summary>
+        /// Get a list of thread ids the class has received info about (CREATE_THREAD_DEBUG_EVENT) and return it. If there are know threads, you'll get nullinstead
+        /// </summary>
+        /// <param name="ProcessID"></param>
+      
+
+        #endregion
+
         #region Process Statistics
 
         #endregion
@@ -277,6 +294,26 @@ namespace FileSandBoxSheath
             set
             {
                 NativeMethods.PsProcessInformation_SetDebugMode(Native, value);
+            }
+        }
+
+        /// <summary>
+        /// Ask for the "SeDebugPriv" if spawning things to Debug PROCESS_DEBUG and PROCESS_DEBUG_ONLY_THIS
+        /// </summary>
+        public bool RequestDebugPriv
+        {
+            set
+            {
+                NativeMethods.PsProcessInformation_RequestDebugPriv(Native, value);
+            }
+            get
+            {
+                bool tmp = NativeMethods.PsProcessInformation_RequestDebugPriv(Native, false);
+                if (tmp != false)
+                {
+                    NativeMethods.PsProcessInformation_RequestDebugPriv(Native, tmp);
+                }
+                return tmp;
             }
         }
 
@@ -518,7 +555,7 @@ namespace FileSandBoxSheath
         }
 
         /// <summary>
-        /// Clear the detours list
+        /// Clear the detours list back to empty.
         /// </summary>
         public void ResetDetoursDllList()
         {
@@ -591,6 +628,8 @@ namespace FileSandBoxSheath
         /// <summary>
         /// Number of Page Faults for the main process.
         /// </summary>
+        /// <remarks>Why is this hidden? Performance reasons while viewing in visual studio's debugger visualizer and the data can be gotten with <see cref="GetMemoryStatsBulk"/></remarks>
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public ulong PageFaultCount
         {
             get
@@ -601,6 +640,8 @@ namespace FileSandBoxSheath
         /// <summary>
         /// Peaked working set size, in bytes
         /// </summary>
+        /// <remarks>Why is this hidden in Visual Studio's debug class Visualizer? Performance reasons while viewing in visual studio's debugger visualizer and the data can be gotten with <see cref="GetMemoryStatsBulk"/></remarks>
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public ulong PeakWorkingSet
         {
             get
@@ -611,6 +652,8 @@ namespace FileSandBoxSheath
         /// <summary>
         /// Working set size, in bytes
         /// </summary>
+        /// <remarks>Why is this hidden in Visual Studio's debug class Visualizer? Performance reasons while viewing in visual studio's debugger visualizer and the data can be gotten with <see cref="GetMemoryStatsBulk"/></remarks>
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public ulong WorkingSet
         {
             get
@@ -621,6 +664,8 @@ namespace FileSandBoxSheath
         /// <summary>
         /// peaked page pool usage, in bytes
         /// </summary>
+        /// <remarks>Why is this hidden in Visual Studio's debug class Visualizer? Performance reasons while viewing in visual studio's debugger visualizer and the data can be gotten with <see cref="GetMemoryStatsBulk"/></remarks>
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public ulong QuotaPeakPagePoolUsage
         {
             get
@@ -632,6 +677,8 @@ namespace FileSandBoxSheath
         /// <summary>
         /// current page pool usage, in bytes
         /// </summary>
+        /// <remarks>Why is this hidden in Visual Studio's debug class Visualizer? Performance reasons while viewing in visual studio's debugger visualizer and the data can be gotten with <see cref="GetMemoryStatsBulk"/></remarks>
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public ulong QuotaPagePoolUsage
         {
             get
@@ -643,6 +690,8 @@ namespace FileSandBoxSheath
         /// <summary>
         /// peaked nonpaged pool usage, in bytes
         /// </summary>
+        /// <remarks>Why is this hidden in Visual Studio's debug class Visualizer? Performance reasons while viewing in visual studio's debugger visualizer and the data can be gotten with <see cref="GetMemoryStatsBulk"/></remarks>
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public ulong QuotaPeakNonPagePoolUsage
         {
             get
@@ -653,6 +702,8 @@ namespace FileSandBoxSheath
         /// <summary>
         /// current non page pool usage, in bytes
         /// </summary>
+        /// <remarks>Why is this hidden in Visual Studio's debug class Visualizer? Performance reasons while viewing in visual studio's debugger visualizer and the data can be gotten with <see cref="GetMemoryStatsBulk"/></remarks>
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public ulong QuotaNonPagePoolUsage
         {
             get
@@ -663,6 +714,7 @@ namespace FileSandBoxSheath
         /// <summary>
         /// Commit change value for the process in bytes.  Note: MSDN Windows 7/ Server 2008 says check <see cref="PrivateUsage"/> instead
         /// </summary>
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public ulong PageFileUsage
         {
             get
@@ -674,6 +726,8 @@ namespace FileSandBoxSheath
         /// <summary>
         /// Peak value of committed change during process lifetime
         /// </summary>
+        /// <remarks>Why is this hidden in Visual Studio's debug class Visualizer? Performance reasons while viewing in visual studio's debugger visualizer and the data can be gotten with <see cref="GetMemoryStatsBulk"/></remarks>
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public ulong PeakPageFileUsage
         {
             get
@@ -681,7 +735,11 @@ namespace FileSandBoxSheath
                 return NativeMethods.PSProcessInformation_GetPeakPageFileUsage(Native);
             }
         }
-
+        /// <summary>
+        /// Private memory usage.
+        /// </summary>
+        /// <remarks>Why is this hidden Visual Studio's debug class Visualizer? Performance reasons while viewing in visual studio's debugger visualizer and the data can be gotten with <see cref="GetMemoryStatsBulk"/></remarks>
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public ulong PrivateUsage
         {
             get

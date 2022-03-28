@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FileSandBoxSheath.HelperDll
+namespace InsightSheath.HelperDll
 {
     /// <summary>
     /// when the HelperDll DllMain() reasies its first exception, it passes a pointer to a astructure of this kind. Debugger fills it out and writes it back to the target app. 

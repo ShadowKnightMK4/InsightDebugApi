@@ -5,10 +5,13 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-using FileSandBoxSheath.NativeImports;
+using InsightSheath.NativeImports;
 
-namespace FileSandBoxSheath
+namespace InsightSheath
 {
+    /// <summary>
+    /// Class contains various miscellaneous routines that while not tied directly to the library struct, are very useful in the library.
+    /// </summary>
     public static class HelperRoutines
     {
 
