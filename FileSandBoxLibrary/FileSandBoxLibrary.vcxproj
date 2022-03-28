@@ -271,6 +271,7 @@ del "$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\lib\FileSandBoxApi.dl
     <ClCompile Include="SymbolInfoStruct_CExports.cpp" />
     <ClCompile Include="ThreadContext.cpp" />
     <ClCompile Include="ThreadContextClass_CExports.cpp" />
+    <ClCompile Include="ThreadSupport.cpp" />
     <ClCompile Include="Utility.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -283,6 +284,7 @@ del "$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\lib\FileSandBoxApi.dl
     <ClInclude Include="PS_ProcessInformation.h" />
     <ClInclude Include="RemoteStructure.h" />
     <ClInclude Include="ThreadContext.h" />
+    <ClInclude Include="ThreadSupport.h" />
     <ClInclude Include="Utility.h" />
   </ItemGroup>
   <ItemGroup>

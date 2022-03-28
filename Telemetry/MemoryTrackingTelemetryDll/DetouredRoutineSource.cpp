@@ -64,8 +64,6 @@ HANDLE WINAPI GetProcessHeapDetour()
 //			GENERIC_RAISE_RESPONSE_DEBUG_FLAG((HANDLE), (TELEMETRY_GETPROCESSHEAP_RETURNED));
 			
 		}
-
-		}
 	}
 	else
 	{
@@ -92,12 +90,12 @@ LPVOID WINAPI HeapCompactDetour(HANDLE hHeap, DWORD dwFlags, SIZE_T dwBytes)
 
 HANDLE WINAPI HeapCreateDetour(DWORD flOptions, SIZE_T dwStartSize, SIZE_T dwMaxSize)
 {
-
+	return 0;
 }
 
 BOOL WINAPI HeapDestroyDetour(HANDLE hHeap) 
 {
-
+	return FALSE;
 }
 
 BOOL WINAPI HeapFreeDetour(HANDLE hHeap, DWORD dwFlags, LPVOID lpMem)
@@ -121,10 +119,10 @@ SIZE_T                 HeapInformationLength,
 	return FALSE;
 }
 LPVOID HeapReAllocDetour(
-	[in] HANDLE                 hHeap,
-	[in] DWORD                  dwFlags,
-	[in] _Frees_ptr_opt_ LPVOID lpMem,
-	[in] SIZE_T                 dwBytes
+	HANDLE                 hHeap,
+	DWORD                  dwFlags,
+	 _Frees_ptr_opt_ LPVOID lpMem,
+	 SIZE_T                 dwBytes
 ) 
 {
 	return 0;

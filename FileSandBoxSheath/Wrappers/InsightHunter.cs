@@ -1,8 +1,8 @@
-﻿using FileSandBoxSheath.Structs;
+﻿using InsightSheath.Structs;
 using System;
 using System.Runtime.InteropServices;
 
-namespace FileSandBoxSheath.Wrappers
+namespace InsightSheath.Wrappers
 {
     /// <summary>
     /// A part of the symbol engine is known as InsightHunter in the FileSanboxNative api.  It is VERY VERY VERY tightly coupled with the PsProcessInformation class but distict enough to warenete wrappers. If you need not have symbol processing, disablying is fine.

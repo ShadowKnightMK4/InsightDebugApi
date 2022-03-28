@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FileSandBoxSheath.Properties {
+namespace InsightSheath.Properties {
     using System;
     
     

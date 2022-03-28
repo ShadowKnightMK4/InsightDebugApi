@@ -4,9 +4,9 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
-using FileSandBoxSheath;
+using InsightSheath;
 
-namespace FileSandBoxSheath.NativeImports
+namespace InsightSheath.NativeImports
 {
 
 
@@ -190,7 +190,9 @@ namespace FileSandBoxSheath.NativeImports
         [DllImport("FileSandBoxApi.dll", BestFitMapping = false, CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, EntryPoint = "PS_ProcessInformation_SetCreationFlagDebugOnlyThisSuspended")]
         public static extern void PsProcessInformation_SetCreationFlagDebugOnlyThisSuspended(IntPtr That, uint NewFlags);
 
-
+        [DllImport("FileSandBoxApi.dll", BestFitMapping = false, CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, EntryPoint = "Ps_ProcessInformation_RequestDebugPriv")]
+       
+        public static extern bool PsProcessInformation_RequestDebugPriv(IntPtr That, bool NewMode);
 
         /// <summary>
         /// Wrap PS_ProcessInformation_GetCreationFlags
@@ -313,7 +315,8 @@ namespace FileSandBoxSheath.NativeImports
         public static extern void PsProcessInformation_ClearPriorityDllPath(IntPtr that);
 
 
-        
-        
+
+
+
     }
 }

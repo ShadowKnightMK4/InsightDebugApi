@@ -681,6 +681,46 @@ extern "C"
 
 
 
+	DWORD WINAPI PS_ProcessInformation_GetProcessIDCount(PS_ProcessInformation* that)
+	{
+		if (that != nullptr)
+		{
+			return that->GetProcessIDCount();
+		}
+		return 0;
+	}
+
+	DWORD WINAPI PS_ProcessInformation_GetThreadIDCount(PS_ProcessInformation* that)
+	{
+		if (that != nullptr)
+		{
+			return that->GetThreadListCount(0);
+		}
+		return 0;
+	}
+
+	DWORD WINAPI PS_ProcessInformation_GetThreadList(PS_ProcessInformation* that, DWORD ProcessID, DWORD* Output, DWORD OutputSize)
+	{
+		if (that != nullptr) {
+			if (Output != nullptr) {
+				return that->GetThreadIDs(ProcessID, Output, OutputSize);
+			}
+			else
+			{
+				return that->GetThreadListCount() * sizeof(DWORD);
+			}
+		}
+	}
+
+	ThreadInsight* PS_ProcessInformation_GetThreadInsightPtr(PS_ProcessInformation* that, DWORD ProcessID, DWORD dwThreadID)
+	{
+		if (that != nullptr)
+		{
+			
+		}
+		return 0;
+	}
+
 
 
 

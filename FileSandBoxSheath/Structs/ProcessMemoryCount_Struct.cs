@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FileSandBoxSheath.Structs
+namespace InsightSheath.Structs
 {
     /// <summary>
     /// Process Memory count for 32-bit process
@@ -38,7 +38,7 @@ namespace FileSandBoxSheath.Structs
         /// </summary>
         public uint QuotaPagedPoolUsage;
         /// <summary>
-        /// peaked nonpaged pool usage, in bytes
+        /// peaked non paged pool usage, in bytes
         /// </summary>
         public uint QuotaPeakedNonPagePoolUsage;
         /// <summary>
@@ -60,7 +60,7 @@ namespace FileSandBoxSheath.Structs
     }
 
     /// <summary>
-    /// Process Memory count for 32-bit process
+    /// Process Memory count for 64-bit process
     /// </summary>
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
     public struct ProcessMemoryCount64
@@ -68,46 +68,46 @@ namespace FileSandBoxSheath.Structs
         /// <summary>
         /// Size of this structure in unmanaged land.
         /// </summary>
-        public uint cb;
+        public ulong cb;
         /// <summary>
         /// Number of Page Faults for a given process.
         /// </summary>
-        public uint PageFaultCount;
+        public ulong PageFaultCount;
         /// <summary>
         /// Peaked working set size, in bytes
         /// </summary>
-        public uint PeakWorkingSetSize;
+        public ulong PeakWorkingSetSize;
         /// <summary>
         /// Working set size, in bytes
         /// </summary>
-        public uint WorkingSetSize;
+        public ulong WorkingSetSize;
         /// <summary>
         /// peaked page pool usage, in bytes
         /// </summary>
-        public uint QuotaPeakedPagedPoolUsage;
+        public ulong QuotaPeakedPagedPoolUsage;
         /// <summary>
         /// current page pool usage, in bytes
         /// </summary>
-        public uint QuotaPagedPoolUsage;
+        public ulong QuotaPagedPoolUsage;
         /// <summary>
-        /// peaked nonpaged pool usage, in bytes
+        /// peaked non paged pool usage, in bytes
         /// </summary>
-        public uint QuotaPeakedNonPagePoolUsage;
+        public ulong QuotaPeakedNonPagePoolUsage;
         /// <summary>
         /// current non page pool usage, in bytes
         /// </summary>
-        public uint QuotaNonPagePoolUsage;
+        public ulong QuotaNonPagePoolUsage;
         /// <summary>
         /// Commit change value for the process in bytes.  Note: MSDN Windows 7/ Server 2008 says check <see cref="PrivateUsage"/> instead
         /// </summary>
-        public uint PageFileUsage;
+        public ulong PageFileUsage;
         /// <summary>
         /// Peak value of committed change during process lifetime
         /// </summary>
-        public uint PeakPageFileUsaged;
+        public ulong PeakPageFileUsaged;
         /// <summary>
         /// same as <see cref="PageFileUsage"/>,  Current Commit Charge value in butes for this process.  This is the amount that the memory manage as allocated for this process.
         /// </summary>
-        public uint PrivateUsage;
+        public ulong PrivateUsage;
     }
 }

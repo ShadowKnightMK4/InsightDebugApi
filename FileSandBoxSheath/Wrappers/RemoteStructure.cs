@@ -1,4 +1,4 @@
-﻿using FileSandBoxSheath.NativeImports;
+﻿using InsightSheath.NativeImports;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FileSandBoxSheath.Remote
+namespace InsightSheath.Remote
 {
     /// <summary>
     /// Imports the RemoteRead and RemoteWrite structures for dealing with extracting data from the target process during various events.

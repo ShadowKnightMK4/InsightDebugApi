@@ -1,3 +1,0 @@
-LIBRARY FileSandboxHelperDll
-EXPORTS
-	DllMain @1

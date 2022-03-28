@@ -4,9 +4,9 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
-using static FileSandBoxSheath.Wrappers.InsightHunter;
+using static InsightSheath.Wrappers.InsightHunter;
 
-namespace FileSandBoxSheath.NativeImports
+namespace InsightSheath.NativeImports
 {
     /// <summary>
     /// Native methods is the catch all class for Imports from Native DLLs

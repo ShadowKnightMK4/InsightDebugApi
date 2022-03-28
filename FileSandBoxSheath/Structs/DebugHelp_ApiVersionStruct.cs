@@ -4,9 +4,9 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
-using FileSandBoxSheath.NativeImports;
-using FileSandBoxSheath.Wrappers;
-namespace FileSandBoxSheath.Structs
+using InsightSheath.NativeImports;
+using InsightSheath.Wrappers;
+namespace InsightSheath.Structs
 {
 
     /// <summary>

@@ -73,7 +73,7 @@ bool DetourRoutines()
 				DetourFail(L"GetProcessHeapDetours", result);
 			}
 
-			result = DetourAttach((PVOID*)&OriginalHeaAll, HeapAllocDetour);
+			result = DetourAttach((PVOID*)&OrignialHeapAlloc, HeapAllocDetour);
 			if (result != NO_ERROR)
 			{
 				SetLastError(result);

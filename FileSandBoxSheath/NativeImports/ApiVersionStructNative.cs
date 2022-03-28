@@ -6,9 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 /// <summary>
-/// NativeImports contains  one class - <see cref="FileSandBoxSheath.NativeImports.NativeMethods"/>.  This class is the import data between the C# sheath and the native side C level exports
+/// NativeImports contains  one class - <see cref="InsightSheath.NativeImports.NativeMethods"/>.  This class is the import data between the C# sheath and the native side C level exports
 /// </summary>
-namespace FileSandBoxSheath.NativeImports
+namespace InsightSheath.NativeImports
 {
 
     /// <summary>

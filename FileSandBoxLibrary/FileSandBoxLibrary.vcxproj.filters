@@ -102,6 +102,9 @@
     <ClCompile Include="ThreadContextClass_CExports.cpp">
       <Filter>Source Files\CLevelWrappers</Filter>
     </ClCompile>
+    <ClCompile Include="ThreadSupport.cpp">
+      <Filter>Source Files\ClassSource</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FileSandBoxApi.h">
@@ -133,6 +136,9 @@
     </ClInclude>
     <ClInclude Include="ThreadContext.h">
       <Filter>Header Files\ClassDefines</Filter>
+    </ClInclude>
+    <ClInclude Include="ThreadSupport.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

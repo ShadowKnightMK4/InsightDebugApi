@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FileSandBoxSheath.Structs
+namespace InsightSheath.Structs
 {
     class QueryWorkingStructs
     {

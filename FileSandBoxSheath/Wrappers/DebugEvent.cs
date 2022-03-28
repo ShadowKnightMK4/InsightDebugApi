@@ -4,12 +4,12 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using FileSandBoxSheath.NativeImports;
-using FileSandBoxSheath;
-using FileSandBoxSheath.Remote;
+using InsightSheath.NativeImports;
+using InsightSheath;
+using InsightSheath.Remote;
 using System.Runtime.InteropServices;
 
-namespace FileSandBoxSheath.Wrappers
+namespace InsightSheath.Wrappers
 {
 
 

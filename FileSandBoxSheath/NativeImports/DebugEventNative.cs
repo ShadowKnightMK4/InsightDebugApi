@@ -1,16 +1,16 @@
-﻿using FileSandBoxSheath.Wrappers;
+﻿using InsightSheath.Wrappers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
-using static FileSandBoxSheath.Wrappers.DebugEventRipInfo;
+using static InsightSheath.Wrappers.DebugEventRipInfo;
 
 /*
  * This file: DebugEventNative.CPP wraps the C level wrappers in the native dll to 
  */
-namespace FileSandBoxSheath.NativeImports
+namespace InsightSheath.NativeImports
 {
     internal  static partial class NativeMethods
     {

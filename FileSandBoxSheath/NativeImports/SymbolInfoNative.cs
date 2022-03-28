@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.InteropServices;
-using FileSandBoxSheath.Wrappers;
-namespace FileSandBoxSheath.NativeImports
+using InsightSheath.Wrappers;
+namespace InsightSheath.NativeImports
 {
     internal static partial class NativeMethods
     {
