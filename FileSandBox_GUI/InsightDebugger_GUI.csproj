@@ -43,8 +43,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FileSandBoxSheath\FileSandBoxSheath.csproj" />
-    <ProjectReference Include="..\FileSandBox_Forms\FileSandBox_Forms.csproj" />
+    <ProjectReference Include="..\FileSandBoxSheath\InsightSheath.csproj" />
   </ItemGroup>
 
   <ItemGroup>

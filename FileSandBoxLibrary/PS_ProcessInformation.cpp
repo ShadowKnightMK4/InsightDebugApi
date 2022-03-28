@@ -816,6 +816,10 @@ DWORD PS_ProcessInformation::SpawnProcessCommon(bool NoNotSpawnThread)
 
 VOID PS_ProcessInformation::CopyPayloads(HANDLE Target)
 {
+	/*
+	* I'm toying with an idea of using DetoursPayloads to copy data to telemetry/helper dlls but it's not ready for use yet.
+	*/
+	/*
 	std::vector<DWORD> ByteHappy;
 	std::wstring PriorityLoadLibrary;
 	std::wstringstream LoadLibraryForceOverwrides;
@@ -857,7 +861,7 @@ VOID PS_ProcessInformation::CopyPayloads(HANDLE Target)
 	if (LoadLibraryForceOverwrides.str().length() != 0)
 	{
 		DetourCopyPayloadToProcessEx(Target, HelperDll_PriorityLibraryPaths, LoadLibraryForceOverwrides.str().c_str(), (LoadLibraryForceOverwrides.str().length() + 1) * sizeof(wchar_t));
-	}
+	}*/
 }
 
 VOID  PS_ProcessInformation::SetDebugEventCallback(DebugEventCallBackRoutine Callback)

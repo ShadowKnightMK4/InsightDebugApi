@@ -1,53 +1,32 @@
 Welcome:
-	FileSandbox functionally uses the Windows Debugger API, structured Exception handling, and a helper DLL that Detours certain Nt routines to monitor
-	a target app.
+	Insight functionally uses the Windows Debugger API, structured Exception handling,  has support for using detours to forcible load DLLs in a newly spawned process.
+
+Included in the solution are these proejects.
 
 
-
-Detours
-	Pulled from Github-> Compiles as a static lib.
-FileSandboxConsole
-	NativeApp
-	App that using Detours to launch arbitrary app with the FileSandboxHelperDll inserted
-	The app itself implements a Debugloop and the helper dll Detours routines that will not trigger exceptions. These exceptions expose the arguments 
-	to the routine to the debugger via allocated memory. The debugger is free to modify and also has the option to tell the routine to NOT CALL the original
-	and just return a value.
-
-		Weakness:
-				Should a call to NtSetThreadAttribute or it CreateUserProcess be sucessfull with HideFromDebugger flag, the communcaition protocal will no longer work
-				as the commucation is done via SEH exceptions triggering and the debugger seeing them.
-FileSandboxHelperDll
-	DLL that Detours NtXXXX Api for Cretain File and Registry Routines to spy on what's being accessed.
-	Note that this will highly likely trigger Data Protect / Antivirus if used on a procected / core process.
-	REQUIRES Target to be able to be debugged.
-	Can let you modify arguments and inspect at runtime.
-HelperDllNoProcessSpawn
-	DLL that Detours NtCreateUserProcess to tell ACCESS_DENIED.  Does throw an exception for a debugger to catch to 
-	see what was attempted to ran
-HelperDllNoFileWrite
-	DLL that will strip GENERIC_WRITE out of NtCreateFile and NtOpenFile.
-HelperDllNoFileRead
-	DLL that will strip GENERIC_READ out of NtCreateFile and NtOpenFile
-
-FileSandBoxApi
-	Implements the various C++ classes that handle the Debugger Loop, process sawning and mode.
-	IMPORTANT:    Defaults to emitting itself to the normal output folder under "code"; HOWEVER, 
-	it also copies the resulting dll plus pdb file to make 	FILESANDBOX_GUI happy when compiling.
-	Deletiving this command means the C# project likely will pick up an old copy and possibly not have currect PDB files.
-FileSandBoxClientDllProtocol
-	StaticLib that houses the communication api code between FileSandBoxApi and FileSandBoxHelper.  
-	This mis mostly just a few data structures
-StaticIncludes
-	This library hows the Windows.h, and the nt stuff that not specific.
-FileSandBoxGui (TDB)
-	TODO C# Based Front End
-FileSandBoxSheath 
-	C# stub that implmenets and interference between FileSandBoxApi's native dllnessa and C#.
-	Your Target C# code build needs to match the version you built this one with. IE. for your c# project
-	Set CPU to x86 on this if using the x86 front end
-	and set CPU to x64 if using a x64 front end.
+DllHelpers
+	Telemetry Dlls	
+		IoDeviceTracking		   <- Detours CreateFile gang to give data on what the spawned process is attempting to access.
+								   <- If target process skips these and calls NtCreateFile / NtOpenFIle, it won't be caught.
+		MemoryTrackingTemetryDll   <- A better name would be Heaps detour.
+								   <- This gives detours the MSDN listed heap routines and sends data back to Insight.
 
 
+ExampleSamples
+	DetourChainingRoutines		  <- Shows what happens when detouring a routine you've already detoured.
+								  <- It's a last in first called thing.
+	HelloWorld					  <- Nosy app to generic debug stuff.
+
+FrontEnds
+	InsightSheath				  <-  this is a C# wrapper between InsightAPI.dll and C#.
+	InsightDebugger_GUI			  <-  this is the main project that I test features with.
+
+
+TopLevel
+	Detours
+		Pulled from Github-> Compiles as a static lib.
+
+	
 
 Builk of the core is FilesandboxApi.dll
 FileSandBoxGUI provides the C# based front.
@@ -111,48 +90,6 @@ SOURCE Citing
 		The Idea to use a CreatEvent object to sync so a GUI is still responsbile is from here
 			https://www.codeproject.com/articles/132742/writing-windows-debugger-part-2#Halt_at_SA
 
----------------------------------------------
-Commandments Blerb
----------------------------------------------
-	After watching a certain show I thought of the idea of using a series of Yes/No options with the current setup of 
-		Custom Debugger,
-				HelperDll throws exception that contains information about the routine being called,
-				Custom Debugger Checks its commandment list and tells the helper dll to just return a certain value.
-
-		Requiements:
-				Target Process Must be debugable and be option to the way Detours Injects DLLs
-				Target Process can have been spawned with or hat the NtSetFormationThread with the hide from debugger attribute as sourced here
-					https://www.apriorit.com/dev-blog/367-anti-reverse-engineering-protection-techniques-to-use-before-releasing-software
-				If the call goes thru, the link between our custom debugger and helper dll is broken, these commandments wont work.
-					TODO: Consider A set of shared handles that receives the SEH instead or an alternative approach
-
-		List:
-				Commandment No Read
-						Should a call be seeing where read acess os done with a file, the routine fails with an ACCESS_DENIED error message
-				Command No Write
-					Should a call be seeing where write acess os done with a file, the routine fails with an ACCESS_DENIED error message
-				Command No Spawn Process
-					Should a call be done to try spawnng a process, he routine afils with an ACCESS_DENIED Error message.
-				Command Inject Helper DLL
-					Should a process be spanned, we force the helper dll to be injected - causing the commandments to be injerited
-
-	Future Ideas:
-			Consider making a backup of the source or offering redirection to an arbirary 3rd party rather than just a yes or no.
-
-
-	Implemntation:
-				Detours is used on 
-						NtCreateFile, NtOpenFile,  NtCreateUserProcess
-						The detour collects the arguments, builds a command data structure and throws an exception for the debugger's use.
-						The debugger is free to inspect/ modify the structure.
-						The Debugger will need to set a certain flag and copy the structure pass into the debugged process.
-						The detoured routine interprets this data structure and changges its output acordingly.
-
-
-
-				The Commandments in the helper DLL are done via a pipe() that the debugger can write too and the relevent routines check on they do theri thing.
-
-
 
 ------------------------------------------
 	License
@@ -171,9 +108,3 @@ Commandments Blerb
 
 
 
-
-
-
-	Also There are plugin options.  Is this what you may want to use for your communcation between
-
-	Target Process with helper dll and the core process???
