@@ -1,62 +1,55 @@
 Welcome:
-	Insight functionally uses the Windows Debugger API, structured Exception handling,  has support for using detours to forcible load DLLs in a newly spawned process.
-
+	Insight functionally uses the Windows Debugger API, some BASIC Symbol browsing and has added detours to let one spawn processes with abritary dlls.
 Included in the solution are these proejects.
 
 
-DllHelpers
-	Telemetry Dlls	
-		IoDeviceTracking		   <- Detours CreateFile gang to give data on what the spawned process is attempting to access.
-								   <- If target process skips these and calls NtCreateFile / NtOpenFIle, it won't be caught.
-		MemoryTrackingTemetryDll   <- A better name would be Heaps detour.
-								   <- This gives detours the MSDN listed heap routines and sends data back to Insight.
 
-
-ExampleSamples
-	DetourChainingRoutines		  <- Shows what happens when detouring a routine you've already detoured.
-								  <- It's a last in first called thing.
-	HelloWorld					  <- Nosy app to generic debug stuff.
-
-FrontEnds
-	InsightSheath				  <-  this is a C# wrapper between InsightAPI.dll and C#.
-	InsightDebugger_GUI			  <-  this is the main project that I test features with.
-
-
-TopLevel
-	Detours
-		Pulled from Github-> Compiles as a static lib.
-
-	
-
-Builk of the core is FilesandboxApi.dll
-FileSandBoxGUI provides the C# based front.
-FileSandBoxSheath.dll is a C# wrapper for FileSandBoxApi.dll
-StaticIncludes contains some shared include files
-FileSandBoxClientDllProtocol houses the commnuncation for tge Helper Dll talking to the debugging app.
-FileSandboxHelperDll  is the Detour DLL that detours certain nt routines to let the debuugger modifiy action.
 
 -----------------------------------
 Build Configurations
 -----------------------------------
 	Release
-		Turns on stuff to recude code size, ect... 
+		Turns on stuff to reduce code size, ect... 
 	Debug
 		Debug the stuff. 
+	ReleaseTiny
+		Turns on stuff to max project files slw
 	ReleaseMD
 		Dont use this. The project got this from inputing Detours. I haven't removed it yet.
 	DebugMD
 		Dont use this. The project got this from inputing Detours. I haven't removed it yet.
 
-
 ---------------------------------------
-Build Folders
+Project Layout
 ---------------------------------------
-	If you assume %cd% is where the project is at, then
+	If you assume %cd% is where the project is extracted too then
 
-		%cd%\code								->  All Built stuff using Release/Debug configs
-			%cd%\code\debug						-> Contains binaries made with the debug
-				%cd%\code\debug\lib				-> contains NAtive static libraries made 
+	%cd%\ManagedSources				<- contrains the c# source.
+		%cd%\ManagedSources\Insight_GUI		<- This app is used when I'm working with the source. 
+		%cd%\ManagedSources\InsightSheath	<- This .NET 5.0 project provides a wrapper between C# and The native dll.
+
+
+	%cd%\NativeSources
+		%cd%\NativeSources\Detours-master	<- gotton from github and set to be build as a static library.
+							<- Includes the samples but they've not been built.
+		%cd%\NativeSources\InsightApiCore	<- This is the source for the core dll for the Insight API library.
+		%cd%\NativeSources\TelemetryDlls	<- Contains various dlls intended to show what having the ability to force dll loading on a target app can do.
+
+	%cd%\TestingAndSamples
+		%cd%\TestingAndSamples\HelloWorld		<- App to generate noise to generate debug events.
+		%cd%\TestingAndSamples\Sanmples\DetourChaining  <-  Demostrates how detours routines themselfs can be detoured.  The last replacement routine is the first
+								<-  one that is called (QUEUE).
+			
+---------------------------------------
+Build Project Folders
+---------------------------------------
+
+
+		%cd%\code						->  All Built stuff using Release/Debug configs
+			%cd%\code\debug					-> Contains binaries made with the debug
+				%cd%\code\debug\lib			-> contains built Native static libraries made 
 				%cd%\code\debug\program			-> contains Native EXE and DLLs made
+				%cd%\code\
 			%cd%\code\release					-> Contains Native binaries made with the release config
 				%cd%\code\release\lib			-> contains Native static libraries made 
 				%cd%\code\release\program		-> contains Native EXE and DLLs made

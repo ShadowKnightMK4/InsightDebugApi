@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <Configurations>Debug;Release</Configurations>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="HelperDll\**" />
+    <EmbeddedResource Remove="HelperDll\**" />
+    <None Remove="HelperDll\**" />
+  </ItemGroup>
+
+</Project>

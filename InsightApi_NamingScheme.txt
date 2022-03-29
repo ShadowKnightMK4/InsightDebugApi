@@ -1,0 +1,5 @@
+
+
+This file is to describe how the name various additional classes in the native and managaged side.
+
+

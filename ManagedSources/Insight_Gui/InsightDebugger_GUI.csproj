@@ -1,0 +1,75 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWindowsForms>false</UseWindowsForms>
+    <ApplicationIcon />
+    <StartupObject></StartupObject>
+    <Configurations>Debug;Release</Configurations>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="DebugProcessGuiLauncher.cs" />
+    <Compile Remove="DebugProcessGuiLauncher.Designer.cs" />
+    <Compile Remove="HelperDllConfigDialog.cs" />
+    <Compile Remove="HelperDllConfigDialog.Designer.cs" />
+    <Compile Remove="MainWindow.cs" />
+    <Compile Remove="MainWindow.Designer.cs" />
+    <Compile Remove="SingleLogWindow.cs" />
+    <Compile Remove="SingleLogWindow.Designer.cs" />
+    <Compile Remove="Utility.cs" />
+    <Compile Remove="Wrappers\PsProcessInformation.cs" />
+    <Compile Remove="Wrappers\PsProcessInformationNative.cs" />
+    <Compile Remove="Wrappers\RemoteStructure.cs" />
+    <Compile Remove="Wrappers\RemoteStructureNatives.cs" />
+    <Compile Remove="Wrappers\Utility.cs" />
+    <Compile Remove="Wrappers\UtilityNative.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="DebugProcessGuiLauncher.resx" />
+    <EmbeddedResource Remove="HelperDllConfigDialog.resx" />
+    <EmbeddedResource Remove="MainWindow.resx" />
+    <EmbeddedResource Remove="SingleLogWindow.resx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="FileSandBoxApi.dll" />
+    <None Remove="FileSandBoxApi.pdb" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\InsightSheath\InsightSheath.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="FileSandBoxApi.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Wrappers\" />
+  </ItemGroup>
+
+</Project>
