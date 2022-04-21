@@ -48,7 +48,7 @@ bool ThreadContainer::ProcessExitThreadDebugEvent(LPDEBUG_EVENT Event)
 			auto homeprocess = View.find(Event->dwProcessId);
 			if (homeprocess != View.end())
 			{
-				if (this->PurgePreference == true)
+				if (this->PurgePreference == TRUE)
 				{
 					RemoveSingleThread(Event->dwProcessId, Event->dwThreadId);
 				}

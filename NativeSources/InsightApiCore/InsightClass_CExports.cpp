@@ -129,6 +129,7 @@ extern "C" {
 		{
 			return that->EnumerateSourceFiles(Api, 0, Symbol);
 		}
+		return 0;
 	}
 	DWORD WINAPI Insight_GetSymbolOptions(InsightHunter* that)
 	{
@@ -145,6 +146,7 @@ extern "C" {
 		{
 			return that->SetSymbolOptions(NewOptions);
 		}
+		return 0;
 	}
 
 

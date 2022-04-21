@@ -74,11 +74,15 @@
     <LinkIncremental>true</LinkIncremental>
     <LibraryPath>$(SolutionDir)Code\$(Configuration)\$(PlatformTarget)\lib;$(LibraryPath)</LibraryPath>
     <IncludePath>$(SolutionDir)NativeSources\Detours-master\src;$(IncludePath)</IncludePath>
+    <OutDir>$(SolutionDir)\Code\$(Configuration)\$(PlatformTarget)\program\Telemetry\</OutDir>
+    <IntDir>$(SolutionDir)BuildFolder\$(ProjectName)\$(Configuration)\$(PlatformTarget)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <LibraryPath>$(SolutionDir)Code\$(Configuration)\$(PlatformTarget)\lib;$(LibraryPath)</LibraryPath>
     <IncludePath>$(SolutionDir)NativeSources\Detours-master\src;$(IncludePath)</IncludePath>
+    <OutDir>$(SolutionDir)\Code\$(Configuration)\$(PlatformTarget)\program\Telemetry\</OutDir>
+    <IntDir>$(SolutionDir)BuildFolder\$(ProjectName)\$(Configuration)\$(PlatformTarget)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>

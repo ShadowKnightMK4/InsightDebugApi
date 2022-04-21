@@ -1,4 +1,4 @@
-LIBRARY FILESANDBOXAPI
+LIBRARY INSIGHTAPI
 	EXPORTS
 		PS_ProcessInformation_MakeInstance
 		PS_ProcessInformation_DupInstance

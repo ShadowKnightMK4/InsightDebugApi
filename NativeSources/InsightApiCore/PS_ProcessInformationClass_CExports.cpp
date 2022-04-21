@@ -720,6 +720,7 @@ extern "C"
 				return that->GetThreadListCount() * sizeof(DWORD);
 			}
 		}
+		return 0;
 	}
 
 	ThreadInsight* PS_ProcessInformation_GetThreadInsightPtr(PS_ProcessInformation* that, DWORD ProcessID, DWORD dwThreadID)

@@ -112,6 +112,10 @@ bool InsightHunter::LoadExeSymbolInfo(LPDEBUG_EVENT EventData)
 		}
 		EndThreadSync();
 	}
+
+	{
+		return ret;
+	}
 }
 
 bool InsightHunter::LoadDllSymbolInfo(LPDEBUG_EVENT EventData)
@@ -274,10 +278,10 @@ BOOL InsightHunter::EnumerateLoadedSymbols(SymbolSearchCallback* DotNetCallback,
 	
 	{
 		BeginThreadSynch();
-		
 		ret = SymEnumSymbolsExW(MainDebuggedProcess, 0, SearchString, NativeSymbolCallback, DotNetCallback, SYMENUM_OPTIONS_DEFAULT);
 		DWORD debug = GetLastError();
 		EndThreadSync();
+		return ret;
 	}
 }
 
@@ -411,6 +415,7 @@ SymbolLoadCallbackSignOff* InsightHunter::GetSymbolLoadCallBack()
 
 bool InsightHunter::SetParentWindow(HWND Window)
 {
+	BOOL ret = FALSE;
 	if (!DebugHelpOnline)
 	{
 		if (!this->InitializeSymbolEngineIfNot())
@@ -421,8 +426,10 @@ bool InsightHunter::SetParentWindow(HWND Window)
 	else
 	{
 		BeginThreadSynch();
+		ret = SymSetParentWindow(Window);
 		EndThreadSync();
 	}
+	return TRUE;
 }
 
 bool InsightHunter::EnforceThreadSync(BOOL NewVal)

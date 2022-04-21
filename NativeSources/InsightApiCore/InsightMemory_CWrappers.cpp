@@ -124,6 +124,7 @@ extern "C" {
 		{
 			return that->GetPrivateUsage();
 		}
+		return 0;
 	}
 
 	PROCESS_MEMORY_COUNTERS_EX* InsightMemory_GetMemoryStatsBulk(InsightMemory* that)
