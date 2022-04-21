@@ -10,7 +10,7 @@ using InsightSheath.Structs;
 namespace InsightSheath.Wrappers
 {
     /// <summary>
-    /// Get memory data about an arbitrary process of your choie
+    /// Get memory data about an arbitrary process of your choice
     /// </summary>
     public class InsightMemory : NativeStaticContainer
     {
