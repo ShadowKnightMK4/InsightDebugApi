@@ -1,6 +1,7 @@
 Welcome:
 	Insight functionally uses the Windows Debugger API, some BASIC Symbol browsing and has added detours to let one spawn processes with abritary dlls.
-Included in the solution are these proejects.
+Included in the solution are these projects. You may find some referenses to FileSandBoxApi.  That's the only name I had for this project before making
+it public.
 
 
 
