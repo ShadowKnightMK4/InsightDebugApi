@@ -14,12 +14,16 @@
 /// </summary>
 typedef BOOL (WINAPI* SymbolSearchCallback)(PSYMBOL_INFOW);
 /// <summary>
+/// Callback for Enumerating source files. Return true to continue and false to quit
+/// </summary>
+typedef BOOL(WINAPI* SymbolSourceCallBack)(PSOURCEFILEW);
+/// <summary>
 /// Before a module or dll is loaded, this routine is called if set. Returning FALSE prevents loading and TRUE OKs it.
 /// </summary>
 typedef BOOL(WINAPI* SymbolLoadCallbackSignOff)(wchar_t* );
 
 /*
-* Insite hunter is the core class that lets one Load an managing symbols. You should only need one 
+* Insight hunter is the core class that lets one Load an managing symbols. You should only need one 
 */
 class InsightHunter
 {
@@ -77,7 +81,7 @@ public:
 	/// <returns></returns>
 	wchar_t* WalkSearchPath();
 	/// <summary>
-	/// Call the SymRefreshMoudleList() to refresh the currrent instance. 
+	/// Call the SymRefreshMoudleList() to refresh the current instance.  You're likely not going to need this unless you're manually updating the class
 	/// </summary>
 	bool RefreshModuleList();
 
@@ -91,7 +95,15 @@ public:
 	BOOL EnumerateLoadedSymbols(SymbolSearchCallback* Callback, wchar_t* SearchString);
 
 	/// <summary>
-	/// Opens aprocess handle to TargetID and passes it to the other version
+	/// Enumerate the source files loaded for the passed module
+	/// </summary>
+	/// <param name="Callback"></param>
+	/// <param name="Base"></param>
+	/// <param name="SearchString"></param>
+	/// <returns></returns>
+	BOOL EnumerateSourceFiles(SymbolSourceCallBack* Callback, ULONG64 Base, wchar_t* SearchString);
+	/// <summary>
+	/// Opens process handle to TargetID and passes it to the other version
 	/// </summary>
 	/// <param name="TargetID"></param>
 	/// <returns></returns>
@@ -119,20 +131,26 @@ public:
 	DWORD GetSymbolOptions();
 
 	/// <summary>
-	/// 
+	/// Specify how the Windows Symbol Engine will behave.
 	/// </summary>
 	/// <param name="Major"></param>
 	/// <param name="Minor"></param>
 	/// <param name="Revision"></param>
 	VOID SetDebugHelpVersionCompatability(USHORT Major, USHORT Minor, USHORT Revision);
+	/// <summary>
+	/// Get the current version of the Windows system symbol engine.
+	/// </summary>
+	/// <returns></returns>
 	API_VERSION* GetDebugHelpVersionCompatability();
 
 	/// <summary>
-	/// Specifiy a callback routine to validate or skip loading symbols
+	/// Specify a callback routine to validate or skip loading symbols
 	/// </summary>
-	/// <param name="UserCheckAgainst"></param>
+	/// <param name="UserCheckAgainst">Callback when attempting to load symbols</param>
 	VOID SetSymbolLoadCallback(SymbolLoadCallbackSignOff* UserCheckAgainst);
 	SymbolLoadCallbackSignOff* GetSymbolLoadCallBack();
+
+
 
 #pragma endregion
 #pragma region Thread and Window Sync
@@ -144,7 +162,7 @@ public:
 	/// <returns></returns>
 	bool SetParentWindow(HWND Window);
 	/// <summary>
-	/// If enabled, calls are synchroized accurress threads with a Critical Section for each instance of this class.  Can safely be set to false if you are not pontially accessing symbols from multile threads
+	/// If enabled, calls are synchronized access from threads with a Critical Section for each instance of this class.  Can safely be set to false if you are not potentially accessing symbols from multiple threads if you need too.
 	/// </summary>
 	bool EnforceThreadSync(BOOL NewVal);
 	/// <summary>
@@ -157,7 +175,7 @@ private:
 
 #pragma region MemoryMangement
 	/// <summary>
-	/// Wipe current symbols either in ~Destroy() event or we're pointing insite to a new debug target.
+	/// Wipe current symbols either in ~Destroy() event or we're pointing Insight to a new debug target.
 	/// </summary>
 	void ClearSymbolContainer();
 #pragma endregion
@@ -173,7 +191,7 @@ private:
 	/// </summary>
 	void BeginThreadSynch();
 	/// <summary>
-	/// the public routiens call this to end sync to the debug help routiens
+	/// the public routines call this to end sync to the debug help routines
 	/// </summary>
 	void EndThreadSync();
 	/// <summary>
@@ -184,7 +202,7 @@ private:
 
 	
 	/// <summary>
-	/// variable for syncng threads
+	/// variable for syncing threads
 	/// </summary>
 	CRITICAL_SECTION SyncVariable;
 	/// <summary>
@@ -195,7 +213,7 @@ private:
 	/// <summary>
 	/// Each process we get A CREATE_PROCESS_DEBUG_EVENT gets one where. 
 	/// KEY = processID.  
-	/// DATA = instance containing symbols loaded for *that* proecss id (DLL + EXE)
+	/// DATA = instance containing symbols loaded for *that* process id (DLL + EXE)
 	/// </summary>
 	std::map<DWORD, InsightSupport_SymbolHandle*> HandleContainer;
 

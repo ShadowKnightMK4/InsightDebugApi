@@ -45,7 +45,7 @@ namespace InsightSheath.NativeImports
         public static extern IntPtr ThreadContext_CreateInstance(IntPtr HandleOrThreadId, uint Flags);
 
         /// <summary>
-        /// Dispose of the C++ side of a class that has a .NET size and a NativedSide.
+        /// Dispose of the C++ side of <see cref="ThreadContext"/> class. Any pointer to this class is worthless after calling this. 
         /// </summary>
         /// <param name="That">Use the <see cref="NativeStaticContainer.NativePointer"/></param> belonging to a ThreadClass
         /// <returns>Returns true if it worked and false if not. </returns>

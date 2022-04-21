@@ -10,7 +10,7 @@ namespace InsightSheath.Wrappers
 {
     /// <summary>
     /// If you are wanting to control your debug message pump on the .NET side rather than native (why?), then these routines will help you 
-    /// glue everything together.  This class exists only in the sheath and is not duplicated in Native. Some routines here may be echoed in other classes
+    /// glue everything together.  This class exists only in the sheath and is not duplicated in Native. Some routines here may be echoed in other classes in the sheath
     /// </summary>
     public static class DebugWorkerThreadHelp
     {
@@ -38,7 +38,7 @@ namespace InsightSheath.Wrappers
         /// <param name="ThreadId"></param>
         /// <param name="ContinueState"></param>
         /// <returns></returns>
-        public static bool ContinueDebugEvent(uint ProcessId, uint ThreadId, PsProcessInformation.DebugContState ContinueState)
+        public static bool ContinueDebugEvent(uint ProcessId, uint ThreadId, InsightProcess.DebugContState ContinueState)
         {
             return ContinueDebugEventInternal(ProcessId, ThreadId, (uint)ContinueState);
         }

@@ -16,12 +16,12 @@ namespace InsightSheath
     public enum DebugModeType
     {
         /// <summary>
-        /// Tells FIleSandbox's native DLL to Not Spawn any worker threads for debug handling.  If you don't implement a debug loop, you will never see your process show up. Irrelevant if the process is not being debugged.
+        /// Tells Insight's native DLL to Not Spawn any worker threads for debug handling.  If you don't implement a debug loop, you will never see your process show up. Irrelevant if the process is not being debugged.
         /// You're going to want the WorkerThread as development features in this thread are not exported yet for use without the worker thread.
         /// </summary>
         NoWorkerThread = 0,
         /// <summary>
-        /// When Spawning a process for debugger, FileSandBox.DLL implements a debug loop and offloads the loop to a worker thread.  Put a call to <see cref="PsProcessInformation.PulseDebugEventThead"/> to continue after handling your debug event on a regular basis.  Skipping that means, your debugged process won't continue after the first event.
+        /// When Spawning a process for debugger, InsightApi.DLL implements a debug loop and offloads the loop to a worker thread.  Put a call to <see cref="InsightProcess.PulseDebugEventThead"/> to continue after handling your debug event on a regular basis.  Skipping that means, your debugged process won't continue after the first event.
         /// </summary>
         WorkerThread = 1
 
@@ -30,18 +30,25 @@ namespace InsightSheath
 
     /// <summary>
     /// choose an environment and spawn a process.
-    /// This class is a wrapper for the C++ Class named "PS_ProcessInformation" implemented as a native DKK in the source PS_ProcessInformation.cpp
-    /// and said class is the functionally the  heart of the DLL.
+    /// This class is a wrapper for the C++ Class named "PS_ProcessInformation" implemented as a native DLL in the source PS_ProcessInformation.cpp
+    /// and said class is the functionally the heart of the DLL.
     /// </summary>
-    public class PsProcessInformation : NativeStaticContainer
+    public class InsightProcess : NativeStaticContainer
     {
-        public PsProcessInformation(IntPtr That): base(That)
+        public InsightProcess(IntPtr That): base(That)
         {
+            if (That == IntPtr.Zero)
+            {
+                throw new ArgumentNullException(ConstructReceivedNullPointerOnConstructor_message("Argument", "PsProcessInformation.CreateInstance", nameof(Native)));
+            }
         }
 
-        public PsProcessInformation(IntPtr That, bool FreeOnCleanup): base(That, FreeOnCleanup)
+        public InsightProcess(IntPtr That, bool FreeOnCleanup): base(That, FreeOnCleanup)
         {
-
+            if (That == IntPtr.Zero)
+            {
+                throw new ArgumentNullException(ConstructReceivedNullPointerOnConstructor_message("Argument", "PsProcessInformation.CreateInstance", nameof(Native)));
+            }
         }
         public override int GetHashCode()
         {
@@ -170,16 +177,16 @@ namespace InsightSheath
         /// Create an instance of PsProcessInformation on  the native side and return a DotNot size class ready to use.
         /// </summary>
         /// <returns></returns>
-        public static PsProcessInformation CreateInstance()
+        public static InsightProcess CreateInstance()
         {
             IntPtr ret = NativeMethods.CreatePsProcessInformation();
             if (ret == IntPtr.Zero)
             {
-                throw new InvalidOperationException("Native DLL FileSandbox Failed to instance a copy of its PS_ProcessCreation via the exported routine");
+                throw new InvalidOperationException("Native DLL InsightApi Failed to instance a copy of its PS_ProcessCreation via the exported routine");
             }
             else
             {
-                return new PsProcessInformation(ret);
+                return new InsightProcess(ret);
             }
         }
 
@@ -441,7 +448,7 @@ namespace InsightSheath
 
 
         /// <summary>
-        /// Specify process creation flags (or get them).  Look at the CreateProcessA/W flags online for more info. 
+        /// Specify process creation flags (or get them).  Look at the CreateProcessA/W <see href="https://docs.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-createprocessa"/> flags online for more info. 
         /// </summary>
         public uint CreationFlags
         {
@@ -543,6 +550,16 @@ namespace InsightSheath
             return Marshal.PtrToStringUni(NativeMethods.PsProcessInformation_GetExplicitEnviromentValue(Native, Name));
         }
 
+        /// <summary>
+        /// Retrieve instance of the class that handles the startup info management. 
+        /// </summary>
+        /// <remarks>Should the Native size for this instance of StartupInfo change to be allocated, this routine will need to be updated to prevent a memeory leak.</remarks>
+        /// <returns></returns>
+        public StartupInfoExW GetStartupInfoClass()
+        {
+            /* Should the Native size for this instance of StartupInfo change to be allocated, the false in this statement will need to be changed to true*/
+            return new StartupInfoExW(NativeMethods.PsProcessInformation_GetStartupInfoClass(Native), false);
+        }
 
         /// <summary>
         /// Add a DLL to list of Detours DLLs to force the target process to load on spawn.
@@ -755,7 +772,7 @@ namespace InsightSheath
         #endregion
         #region Deconstructors / Cleanup
 
-        ~PsProcessInformation()
+        ~InsightProcess()
         {
             Dispose(false);
         }
@@ -766,7 +783,7 @@ namespace InsightSheath
         {
             if (IsCleanned)
             {
-                throw new ObjectDisposedException(nameof(PsProcessInformation));
+                throw new ObjectDisposedException(nameof(InsightProcess));
             }
             if (Managed)
             {

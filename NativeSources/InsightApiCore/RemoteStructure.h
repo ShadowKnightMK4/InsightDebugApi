@@ -149,7 +149,7 @@ namespace RemoteStructureRoutine
 /// </summary>
 /// <param name="ptr">non null pointer to free</param>
 /// <returns>Returns nothing</returns>
-		VOID WINAPI RemoteRead_SimpleFree(VOID* ptr);
+		BOOL WINAPI RemoteRead_SimpleFree(VOID* ptr);
 #pragma endregion
 
 	}

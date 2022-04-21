@@ -57,5 +57,11 @@ namespace InsightSheath.NativeImports
         [DllImport("InsightApi.Dll", BestFitMapping = false, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi, EntryPoint = "Insight_GetSymbolOptions", ExactSpelling = false)]
         public static extern SymbolOptionsFlags Insight_SetSymbolOptions(IntPtr That, SymbolOptionsFlags OptionMask);
 
+        
+        // BOOL WINAPI Insight_EnumerateLoadedSymbolsW(InsightHunter* that, wchar_t* Symbol, SymbolSearchCallback* Api)
+        [DllImport("InsightApi.Dll", BestFitMapping = false, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi, EntryPoint = "Insight_EnumerateSourceFiles", ExactSpelling = false)]
+        public static extern bool Insight_EnumerateSourceFilesW(IntPtr That, string SearchString, SymbolSourceCallbackRoutine DotNotCallback);
+
+
     }
 }

@@ -9,14 +9,42 @@ namespace InsightSheath.NativeImports
 {
     internal static partial class NativeMethods
     {
+        /// <summary>
+        /// Retrieve a potentially null pointer containing a Unicode string containing the name of the hmodule that belongs to process handle. You will need to free it by using <see cref="FreeModuleNameViaHandleInternal(IntPtr)"/>
+        /// </summary>
+        /// <param name="ProcessHandle">Win32 Process Handle to use. It must have at least PROCESS_QUERY_INFROMATION or PROCESS_QUERY_LIMITED_INFORMATION access right.</param>
+        /// <param name="ModuleHandle">HMODULe in question<param>
+        /// <returns>returns an Unicode string containing the name of the module if the call worked and IntPtr.Zero if it failed</returns>
         [DllImport("InsightApi.Dll", CallingConvention=CallingConvention.Winapi, EntryPoint ="UtilGetModuleNameViaHandle")]
         public static extern IntPtr GetModuleNameViaHandleInternal(IntPtr ProcessHandle, IntPtr ModuleHandle);
-        
-        [DllImport("InsightApi.Dll", CallingConvention = CallingConvention.Winapi, EntryPoint = "UtilFreeModuleNameViaHandle")]
-        public static extern IntPtr FreeModuleNameViaHandleInternal(IntPtr NativeStringPtr);
 
+        /// <summary>
+        /// Free a memory pointer returned by <see cref="GetModuleNameViaHandleInternal(IntPtr, IntPtr)"/>
+        /// </summary>
+        /// <param name="NativeStringPtr">pointer in question. null is ignored.</param>
+        /// <returns>Returns true if the call worked and false if it failed.</returns>
+        /// <remarks>This imports UtilFreeModuleNameViaHandle() which itself points to a routine called RemoteRead_SimpleFree() which itself is a wrapper to free().  You are free to directly just call RemoteRead_SimpleFree() but if the implemention changes, UtilFreeModuleNameViaHandle may not always be a forwarder to RemoteRead_SimpleFree  </remarks>
+        [DllImport("InsightApi.Dll", CallingConvention = CallingConvention.Winapi, EntryPoint = "UtilFreeModuleNameViaHandle")]
+        public static extern bool FreeModuleNameViaHandleInternal(IntPtr NativeStringPtr);
+
+        /// <summary>
+        /// Get a Unicode string containing the name of the file/device pointed to by FileHandle. Caller will need to free it.
+        /// </summary>
+        /// <param name="FileHandle">Win32 Handle in question</param>
+        /// <returns>Returns IntPtr containing a null terminated Unicode string or null if it failed.</returns>
         [DllImport("InsightApi.Dll", CallingConvention = CallingConvention.Winapi, EntryPoint = "UtilGetFileNameViaHandle")]
         public static extern IntPtr GetFileNameViaHandle(IntPtr FileHandle);
+
+
+        /// <summary>
+        /// Free a memory pointer returned by <see cref="GetFileNameViaHandle(IntPtr)(IntPtr, IntPtr)"/>
+        /// </summary>
+        /// <param name="NativeStringPtr">pointer in question. null is ignored.</param>
+        /// <returns>Returns true if the call worked and false if it failed.</returns>
+        /// <remarks>This imports UtilFreeFileNameViaHandle() which itself points to a routine called RemoteRead_SimpleFree() which itself is a wrapper to free().  You are free to directly just call RemoteRead_SimpleFree() but if the implemention changes, UtilFreeFileNameViaHandle may not always be a forwarder to RemoteRead_SimpleFree  </remarks>
+        [DllImport("InsightApi.Dll", CallingConvention = CallingConvention.Winapi, EntryPoint = "UtilFreeFileNameViaHandle")]
+        public static extern bool FreeFileNameViaHandleInternal(IntPtr NativeStringPtr);
+
         /// <summary>
         /// return a 4 DWORD value from a local unmanaged memory location
         /// </summary>
@@ -65,8 +93,8 @@ namespace InsightSheath.NativeImports
         public static extern IntPtr OpenProcesForQueryInformation(uint ProcessID);
 
         /// <summary>
-        /// Free a memory chuck that was allocated by the native dll with a single call. It is recommanded to NOT call this unless you know the underlying
-        /// block or structure has a single allocation. If multiple allocations happen, you'll be leaking memory.
+        /// Free a memory chuck that was allocated by the native DLL with a single call. It is recommended to NOT call this unless you know the underlying
+        /// block or structure was allocated via C's malloc(). If multiple allocations happen, you'll be leaking memory by calling this.
         /// </summary>
         /// <param name="NativeStringPtr"></param>
         /// <returns></returns>
@@ -75,7 +103,7 @@ namespace InsightSheath.NativeImports
 
 
         /// <summary>
-        /// Wrapper for Kernel32.DLL's CloseHandle
+        /// Wrapper for Kernel32.DLL's CloseHandle for user convenience 
         /// </summary>
         /// <param name="Handle"></param>
         /// <returns></returns>

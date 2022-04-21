@@ -7,6 +7,7 @@
 #include "InsightHunter.h"
 #include "ThreadContext.h"
 #include "ThreadSupport.h"
+#include "StarutpInfoStructHelper.h"
 
 class Client;
 class PS_ProcessInformation;
@@ -118,14 +119,14 @@ public:
 	/// <returns></returns>
 	const wchar_t* ProcessName();
 	/// <summary>
-	/// Asssign a new processs name to be spawned.  
-	/// DOES NOTHING once the process is spawned.
+	/// Assign a new process name to be spawned.  
+	/// Pointless if the process has already started.
 	/// </summary>
 	/// <param name="NewName">Replacement name</param>
 	void ProcessName(const wchar_t* NewName);
 
 	/// <summary>
-	/// Returns the argumentst to spawn the process with
+	/// Returns the arguments to spawn the process with
 	/// </summary>
 	/// <returns></returns>
 	const wchar_t* ProcessArguments();
@@ -141,7 +142,7 @@ public:
 	/// <returns></returns>
 	DWORD CreationFlags();
 	/// <summary>
-	/// Set the current creation falgs (CreateProcessW)
+	/// Set the current creation flags  (CreateProcessW)
 	/// </summary>
 	/// <param name="NewFlags"></param>
 	void CreationFlags(DWORD NewFlags);
@@ -151,13 +152,13 @@ public:
 	void CurrentDirectory(const wchar_t* NewCD);
 
 	/// <summary>
-	/// If true, we import the spawner enviroment on type of whatever's dene defined.
+	/// If true, we import the spawner environment on type of whatever's already defined.
 	/// </summary>
 	/// <param name="Yes"></param>
 	void ImportSpawnerEnviroment(BOOL Yes);
 
 	/// <summary>
-	/// Reset the Defined invorment to blank.
+	/// Reset the Defined environment to blank.
 	/// </summary>
 	void ClearEnviroment();
 	/// <summary>
@@ -191,7 +192,7 @@ public:
 	/// </summary>
 	void ClearDetoursDll();
 	/// <summary>
-	/// RISKY. Gets pointer to the private detttours liist anbd trusts cakker wib;uf
+	/// RISKY. Gets pointer to the private detours list and trusts caller won't abose it.
 	/// </summary>
 	/// <returns></returns>
 	const std::vector<std::string> GetDetourList();
@@ -206,6 +207,11 @@ public:
 	DWORD SpawnProcess();
 
 
+	/// <summary>
+	/// Return a pointer to the class that controls the StartupInfoW struct.
+	/// </summary>
+	/// <returns></returns>
+	StartupInfoWrapper* GetStartupInfoHandler();
 #pragma endregion
 
 
@@ -217,12 +223,12 @@ public:
 
 
 	/// <summary>
-	/// This pulses the event that the worker thead (if existant) waits on.
+	/// This pulses the event that the worker thread (if existent) waits on.
 	/// Pointless if debug events are not in a different thread.
 	/// </summary>
 	void PulseDebugEventThread();
 	/// <summary>
-	/// Specify if the worker thread is spawned or not. Non Worker thread code is somewhat lagging and I recommand using the worker thread unless you have a reason not too.
+	/// Specify if the worker thread is spawned or not. Non Worker thread code is somewhat lagging and I recommend using the worker thread unless you have a reason not too.
 	/// </summary>
 	/// <param name="dmMode"></param>
 	void SetDebugMode(DWORD dmMode);
@@ -391,18 +397,18 @@ public:
 
 private:
 	/// <summary>
-	/// Worker thread rotouine friend declartation. This actual is want spances-
+	/// Worker thread routine friend declaration. This actual routine is actual what spawns and pumps the debug message loop if opted into.
 	/// -+
 	/// 
 	/// </summary>
 	friend void _cdecl PsPocessInformation_DebugWorkerthread(void* argument);
 	
 	/// <summary>
-	/// if one of the GetXXXX() routines that fetchs memory info is called,  this ends up being called to refresh the private struct
+	/// if one of the GetXXXX() routines that fetch memory info is called,  this ends up being called to refresh the private struct
 	/// </summary>
 	void RefreshMemoryStatistics();
 	/// <summary>
-	/// Common code for the sapwn process public rotuine. Implementation is here.   Argument is true when the worker thread creates the process but false when the public routine creations the process
+	/// Common code for the spawn process public routine. Implementation is here.   Argument is true when the worker thread creates the process but false when the public routine creations the process
 	/// </summary>
 	DWORD SpawnProcessCommon(bool NoNotSpawnThread);
 
@@ -428,22 +434,22 @@ private:
 	std::wstring WorkingDirectory;
 
 	/// <summary>
-	/// Future feature
+	/// Future feature container. Will contrain process security attriutes
 	/// </summary>
 	LPSECURITY_ATTRIBUTES lpProcessAttributes;
 	/// <summary>
-	/// Future feature
+	/// Future feature containrer. Will contrain threas security attributes
 	/// </summary>
 	LPSECURITY_ATTRIBUTES lpThreadAttributes;
 
 
 
 	/// <summary>
-	/// Map for the enviroment.  MAP Key is enviroment name,  map value is the string to use>
+	/// Map for the environment.  MAP Key is environment name,  map value is the string to use>
 	/// </summary>
 	std::map<std::wstring, std::wstring> Enviroment;
 	/// <summary>
-	/// Holsd the list of Dlls that will be loaded via detours. 
+	/// Holds the list of Dlls that will be loaded via detours. 
 	/// </summary>
 	std::vector<std::string> DetoursDll;
 
@@ -463,7 +469,8 @@ private:
 	/// <summary>
 	/// Startup info for the process
 	/// </summary>
-	STARTUPINFO StartUpInfo;
+	//STARTUPINFO StartUpInfo;
+	StartupInfoWrapper StartUpInfo;
 	/// <summary>
 	/// After process is spawned, holds handles and ids of the main thread + the process itself
 	/// </summary>

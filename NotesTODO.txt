@@ -22,7 +22,7 @@ Before publish release,
 			Malware Analyis 
 		Personal
 				As it one has none plans to monitize this or distribute for cash.
-		Commerical
+		Commercial
 				A Company wants to use this for something that does not deal with malware anaylsis
 		Malware Anaylis
 				Company / Personal is using this to do that.

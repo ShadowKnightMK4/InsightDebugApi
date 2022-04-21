@@ -12,6 +12,7 @@ using System.Collections;
 using System.Collections.Generic;
 using static InsightSheath.Wrappers.InsightHunter;
 using InsightSheath.Structs;
+using System.Runtime.InteropServices;
 
 namespace FileSandBox_GUI
 {
@@ -23,10 +24,23 @@ namespace FileSandBox_GUI
         static InsightHunter Insight;
         //public delegate bool SymbolSearchCallBackRoutine(IntPtr SymbolInfo);
         static SymbolSearchCallBackRoutine Tmp;
+        static SymbolSourceCallbackRoutine Tmp2;
+        static bool SymbolSearchCallBackRoutineHandle(IntPtr Target)
+        {
+            var Symbol = new SymbolInfo(Target);
+            return true;
+        }
+
+        static bool SymbolSourceCallBackHandler(IntPtr Data)
+        {
+            var Info = Marshal.PtrToStructure<SourceFile>(Data);
+            Console.WriteLine(Info.FileName + " is loaded at " + Info.ModBase);
+            return true;
+        }
         static int StubCallback(IntPtr DebugEvent, IntPtr ContStat, IntPtr WaitTime, IntPtr Custom)
         {
             DebugEvent Debug = new DebugEvent(DebugEvent);
-            PsProcessInformation.Poke4(ContStat, (int)PsProcessInformation.DebugContState.DebugContinueState);
+            InsightProcess.Poke4(ContStat, (int)InsightProcess.DebugContState.DebugContinueState);
 
             
             if (Debug.EventType == InsightSheath.Wrappers.DebugEventType.OutputDebugString)
@@ -49,9 +63,20 @@ namespace FileSandBox_GUI
                 }
                 Console.WriteLine("Process");
 
-                Console.WriteLine("BeginningEnumeration of loaded symbols");
+         //       Console.WriteLine("BeginningEnumeration of loaded symbols");
+   
 
-                Insight.EnumerateSymbols("*!*", Tmp);
+
+            }
+
+            if (Debug.EventType == DebugEventType.LoadDllEvent)
+            {
+                SymbolSearchCallBackRoutine test = Callback;
+                SymbolSourceCallbackRoutine test2 = SymbolSourceCallBackHandler;
+
+                Insight.EnumerateSourceFiles("*!*", test2);
+
+            //    Insight.EnumerateSymbols("*!*", test);
             }
             
             if (Debug.EventType == InsightSheath.Wrappers.DebugEventType.ExceptionEvent)
@@ -67,7 +92,7 @@ namespace FileSandBox_GUI
                 }
 
                 Console.WriteLine("\t Exception Type" + Enum.GetName(typeof(DebugExceptionTypes), Debug.GetDebugEventExceptionInfo().ExceptionCode));
-                PsProcessInformation.Poke4(ContStat, unchecked ( (int)PsProcessInformation.DebugContState.DebugExceptionNotHandled) );
+                InsightProcess.Poke4(ContStat, unchecked ( (int)InsightProcess.DebugContState.DebugExceptionNotHandled) );
             }
 
             if (Debug.EventType == DebugEventType.ExitThreadEvent)
@@ -79,24 +104,9 @@ namespace FileSandBox_GUI
             }
             if (Debug.EventType == DebugEventType.CreateTheadEvent)
             {
-                using (var Tester = ThreadContext.CreateInstance(Debug.GetDebugEventCreateThreadInfo().ThreadID))
-                {
 
-                    Tester.PriorityBoost = true;
-                    Tester.PriorityBoost = false;
-                    Tester.PriorityBoost = true;
 
-                    Tester.IdealProcessor = 1;
-                    Tester.IdealProcessor = 4;
-                    Tester.ProcessorAffinity = 1;
-                    Tester.ProcessorAffinity = 4;
-
-                    Tester.ThreadPriority = ThreadPriorityLevel.Highest;
-
-                    Console.Write("DebugHere");
-                    
-
-                }
+  
 
 
             }
@@ -109,7 +119,7 @@ namespace FileSandBox_GUI
 
             }
 
-            PsProcessInformation.Poke4(WaitTime, int.MaxValue);
+            InsightProcess.Poke4(WaitTime, int.MaxValue);
             
             if (Debug.EventType == DebugEventType.ExitProcessEvent)
             {
@@ -169,25 +179,27 @@ namespace FileSandBox_GUI
             test.ShowDialog();
 
             return;            */
-             PsProcessInformation TestRun = PsProcessInformation.CreateInstance();
-            TestRun.ExtraFlags = PsProcessInformation.SpecialCaseFlags.DebugOnlyThis;
+             InsightProcess TestRun = InsightProcess.CreateInstance();
+            TestRun.ExtraFlags = InsightProcess.SpecialCaseFlags.DebugOnlyThis;
             TestRun.WorkingDirectory = "C:\\Windows\\";
-            TestRun.ProcessName = "C:\\Windows\\system32\\notepad.exe";
+            //TestRun.ProcessName = "C:\\Windows\\system32\\notepad.exe";
+            TestRun.ProcessName = "C:\\Users\\Thoma\\source\\repos\\InsightAPI\\code\\Debug\\x86\\program\\HelloWorld.exe";
             Tmp = new SymbolSearchCallBackRoutine(Callback);
 
        
             
-            TestRun.UserDebugCallRoutine = new PsProcessInformation.DebugEventCallBackRoutine(StubCallback);
+            TestRun.UserDebugCallRoutine = new InsightProcess.DebugEventCallBackRoutine(StubCallback);
             TestRun.EnableSymbolEngine = true;
             TestRun.DebugMode = DebugModeType.WorkerThread;
-            TestRun.ExtraFlags = PsProcessInformation.SpecialCaseFlags.DebugOnlyThis;
+            TestRun.ExtraFlags = InsightProcess.SpecialCaseFlags.DebugOnlyThis;
             TestRun.CreationFlags = 2;
 
             Insight = TestRun.GetSymbolHandler();
-            var ProcessId= TestRun.SpawnProcess();
 
-            TestRun.CreationFlags = 2; 
+      
+            TestRun.CreationFlags = 2;
 
+            var ProcessId = TestRun.SpawnProcess();
 
 
             using (System.Diagnostics.Process Target = Process.GetProcessById(ProcessId))

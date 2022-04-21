@@ -193,7 +193,7 @@ void _cdecl PsPocessInformation_DebugWorkerthread(void* argument)
 /// If the map defines something the inherited block has already defined, the defined one in map one is kept
 /// </summary>
 /// <param name="Overwritten">from private PS_ProcessInformation.Environment</param>
-/// <param name="IncludeBase">Do you want the default eviroment  block included</param>
+/// <param name="IncludeBase">Do you want the default environment  block included</param>
 /// <param name="Output">Place the results in this location ready to send to CreateProcessW</param>
 /// <remarks>I feel this can be glitchy.  I'm unsure of a better solution ATM. We try to read and skip junk data at the start.</remarks>
 void BuildEnviromentBlock(std::map<std::wstring, std::wstring>& Overwritten, BOOL IncludeBase, std::wstring& Output)
@@ -422,7 +422,10 @@ PS_ProcessInformation::PS_ProcessInformation()
 	PInfo.hProcess = PInfo.hThread = INVALID_HANDLE_VALUE;
 	PInfo.dwProcessId = PInfo.dwThreadId = 0;
 
-	ZeroMemory(&StartUpInfo, sizeof(StartUpInfo));
+	/* ZeroMemory(&StartUpInfo, sizeof(StartUpInfo));
+	* Unneeded sync StartUpInfo's become a lass
+	*/
+
 	ZeroMemory(&this->SyncData, sizeof(SyncData));
 
 	dwCreationFlags = 0;
@@ -643,9 +646,9 @@ DWORD PS_ProcessInformation::SpawnProcessCommon(bool NoNotSpawnThread)
 
 	/// <summary>
 	/// This copying and catching NULl for arguments is because MSDN documentation says CreateProcessW may modify the arguments sometimes.
-	/// If CreateProcessW does this and source read only memory, an exception may occure.  
+	/// If CreateProcessW does this and source read only memory, an exception may occur.  
 	/// </summary>
-		if ( (this->ProcessArgumentsContainer.length() == 0) || (this->ProcessArgumentsContainer[0] == 0))
+	if ( (this->ProcessArgumentsContainer.length() == 0) || (this->ProcessArgumentsContainer[0] == 0))
 	{
 		Arguments = nullptr;
 	}
@@ -657,11 +660,16 @@ DWORD PS_ProcessInformation::SpawnProcessCommon(bool NoNotSpawnThread)
 
 	
 
-	this->StartUpInfo.cb = sizeof(STARTUPINFOW);
+	/*this->StartUpInfo.cb = sizeof(STARTUPINFOW);
 	if (this->StartUpInfo.wShowWindow == 0)
 	{
 		this->StartUpInfo.wShowWindow = SW_SHOWNORMAL;
+	}*/
+	if (this->StartUpInfo.wShowWindow() == 0)
+	{
+		this->StartUpInfo.wShowWindow(SW_NORMAL);
 	}
+
 
 
 	BuildEnviromentBlock(this->Enviroment, this->bInhertEnviroment, EnvBlockContainer);
@@ -741,7 +749,7 @@ DWORD PS_ProcessInformation::SpawnProcessCommon(bool NoNotSpawnThread)
 					dwCreationFlags | CREATE_UNICODE_ENVIRONMENT,
 					(LPVOID)EnvBlocArg,
 					CurrDir,
-					& StartUpInfo,
+					 (LPSTARTUPINFOW) &((StartUpInfo.GetPtr())->StartupInfo),
 					& PInfo,
 					DetoursDll.size(),
 					//&DetourList[0],
@@ -763,7 +771,7 @@ DWORD PS_ProcessInformation::SpawnProcessCommon(bool NoNotSpawnThread)
 			dwCreationFlags | CREATE_UNICODE_ENVIRONMENT | CREATE_SUSPENDED,
 			(LPVOID)EnvBlocArg,
 			CurrDir,
-			&StartUpInfo,
+			(LPSTARTUPINFOW) & ((StartUpInfo.GetPtr())->StartupInfo),
 			&PInfo,
 			DetoursDll.size(),
 			//&DetourList[0],
@@ -791,7 +799,7 @@ DWORD PS_ProcessInformation::SpawnProcessCommon(bool NoNotSpawnThread)
 		dwCreationFlags | CREATE_UNICODE_ENVIRONMENT | CREATE_SUSPENDED,
 		(LPVOID)EnvBlocArg,
 		CurrDir,
-		&StartUpInfo,
+		(LPSTARTUPINFOW) & ((StartUpInfo.GetPtr())->StartupInfo),
 		&PInfo,
 		DetoursDll.size(),
 		//&DetourList[0],
@@ -862,6 +870,11 @@ VOID PS_ProcessInformation::CopyPayloads(HANDLE Target)
 	{
 		DetourCopyPayloadToProcessEx(Target, HelperDll_PriorityLibraryPaths, LoadLibraryForceOverwrides.str().c_str(), (LoadLibraryForceOverwrides.str().length() + 1) * sizeof(wchar_t));
 	}*/
+}
+
+StartupInfoWrapper* PS_ProcessInformation::GetStartupInfoHandler()
+{
+	return &this->StartUpInfo;
 }
 
 VOID  PS_ProcessInformation::SetDebugEventCallback(DebugEventCallBackRoutine Callback)

@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "InsightDebugger_GUI": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}

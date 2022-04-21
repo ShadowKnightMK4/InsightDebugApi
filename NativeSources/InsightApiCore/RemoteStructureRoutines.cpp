@@ -508,13 +508,16 @@ namespace RemoteStructureRoutine
 	}
 
 
-	VOID WINAPI RemoteRead_SimpleFree(VOID* ptr)
+	BOOL WINAPI RemoteRead_SimpleFree(VOID* ptr)
 	{
 		if (ptr != nullptr)
 		{
-			free(nullptr);
+			free(ptr);
+			return TRUE;
 		}
+		return FALSE;
 	}
+
 }
 /*
 

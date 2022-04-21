@@ -2,15 +2,22 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net5.0-windows</TargetFramework>
+    <TargetFramework>net5.0-windows7.0</TargetFramework>
     <UseWindowsForms>false</UseWindowsForms>
-    <ApplicationIcon />
-    <StartupObject></StartupObject>
+    <ApplicationIcon></ApplicationIcon>
+    <StartupObject>FileSandBox_GUI.Program</StartupObject>
     <Configurations>Debug;Release</Configurations>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageIcon>PrivateBuildIcon.png</PackageIcon>
+    <PackageIconUrl />
+    <PackageReleaseNotes>Private Build Version</PackageReleaseNotes>
+    <Win32Resource />
+    <RunPostBuildEvent>Always</RunPostBuildEvent>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <PlatformTarget>x86</PlatformTarget>
+    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
 
   <ItemGroup>
@@ -41,6 +48,10 @@
   <ItemGroup>
     <None Remove="FileSandBoxApi.dll" />
     <None Remove="FileSandBoxApi.pdb" />
+    <None Include="..\..\GitHubIgnore\PrivateBuildIcon.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
@@ -71,5 +82,9 @@
   <ItemGroup>
     <Folder Include="Wrappers\" />
   </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="copy $(SolutionDir)code\$(ConfigurationName)\x86\program\InsightApi.* $(ProjectDir)$(OutDir)&#xD;&#xA;REM Changing to 64-bit code build requires manually changing the x86 to x64" />
+  </Target>
 
 </Project>

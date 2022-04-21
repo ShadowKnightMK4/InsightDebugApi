@@ -23,17 +23,17 @@
 */
 
 /// <summary>
-/// The main process debuging debugged. While this is accessable to each individual InsightHunter instance, its shared getween them.
+/// The main process debugging debugged. While this is accessible to each individual InsightHunter instance, its shared between this. 
 /// </summary>
 HANDLE MainDebuggedProcess = 0;
 
 /// <summary>
-/// if we are debugging at least one porocess (syminitializeW) with debug handle
+/// if we are debugging at least one process (syminitializeW) with debug handle
 /// </summary>
 static volatile bool DebugHelpOnline = false;
 
 /// <summary>
-/// This routien pretty much just passes its thing to the DotNet callback.
+/// This routine pretty much just passes its thing to the DotNet callback and use used to call the .NET size of the symbol enumeration.
 /// </summary>
 /// <param name="pSynInfo"></param>
 /// <param name="SymbolSize"></param>
@@ -43,18 +43,31 @@ static volatile bool DebugHelpOnline = false;
 BOOL WINAPI  NativeSymbolCallback(PSYMBOL_INFOW pSynInfo,  ULONG SymbolSize, LPVOID DotNetCallback)
 {
 	return (*(SymbolSearchCallback)DotNetCallback)(pSynInfo);
-	
+}
+/// <summary>
+/// This routine is used to call the Managed size of Enumerating Source file data.
+/// </summary>
+/// <param name="pSourceFile"></param>
+/// <param name="DotNetCallback"></param>
+/// <returns></returns>
+BOOL WINAPI NativeSourceFileCallback(PSOURCEFILEW pSourceFile, LPVOID DotNetCallback)
+{
+	return (*((SymbolSourceCallBack)DotNetCallback))(pSourceFile);
 }
 
 
 InsightHunter::InsightHunter()
 {
 	InitializeCriticalSection(&this->SyncVariable);
+	this->EnableThreadSync = true;
+	this->VersionData.MajorVersion = this->VersionData.MinorVersion = this->VersionData.Reserved = this->VersionData.Revision = 0;
 }
 
 InsightHunter::InsightHunter(HANDLE DebuggedProcess)
 {
 	InitializeCriticalSection(&this->SyncVariable);
+	this->EnableThreadSync = true;
+	this->VersionData.MajorVersion = this->VersionData.MinorVersion = this->VersionData.Reserved = this->VersionData.Revision = 0;
 	SetMainDebugTarget(DebuggedProcess);
 }
 
@@ -258,11 +271,33 @@ BOOL InsightHunter::EnumerateLoadedSymbols(SymbolSearchCallback* DotNetCallback,
 			return FALSE;
 		}
 	}
-	else
+	
 	{
 		BeginThreadSynch();
+		
 		ret = SymEnumSymbolsExW(MainDebuggedProcess, 0, SearchString, NativeSymbolCallback, DotNetCallback, SYMENUM_OPTIONS_DEFAULT);
+		DWORD debug = GetLastError();
 		EndThreadSync();
+	}
+}
+
+BOOL InsightHunter::EnumerateSourceFiles(SymbolSourceCallBack* Callback, ULONG64 Base, wchar_t* SearchString)
+{
+	BOOL ret = FALSE;
+	if (!DebugHelpOnline)
+	{
+		if (!this->InitializeSymbolEngineIfNot())
+		{
+			return FALSE;
+		}
+	}
+
+
+	{
+		BeginThreadSynch();
+		ret = SymEnumSourceFilesW(MainDebuggedProcess, Base, SearchString, NativeSourceFileCallback, Callback);
+		EndThreadSync();
+		return ret;
 	}
 }
 
@@ -302,6 +337,7 @@ BOOL InsightHunter::SetMainDebugTarget(HANDLE MainDebug)
 		}
 		
 		EndThreadSync();
+		return TRUE;
 	}
 
 	return FALSE;
@@ -361,6 +397,16 @@ API_VERSION* InsightHunter::GetDebugHelpVersionCompatability()
 		EndThreadSync();
 		return &VersionData;
 	}
+}
+
+VOID InsightHunter::SetSymbolLoadCallback(SymbolLoadCallbackSignOff* UserCheckAgainst)
+{
+	return VOID();
+}
+
+SymbolLoadCallbackSignOff* InsightHunter::GetSymbolLoadCallBack()
+{
+	return nullptr;
 }
 
 bool InsightHunter::SetParentWindow(HWND Window)

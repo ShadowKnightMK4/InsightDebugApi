@@ -9,49 +9,6 @@ using System.Threading.Tasks;
 
 namespace InsightSheath.Wrappers
 {
-    /// <summary>
-    /// Possible Thread Priorities.  <see href="https://docs.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-setthreadpriority"/> 
-    /// </summary>
-    public enum ThreadPriority:int
-    {
-        /// <summary>
-        /// Current thread only:  Set background status
-        /// </summary>
-        BackgroundBegin = 0x0010000,
-        /// <summary>
-        /// Current thread only: end background status
-        /// </summary>
-        BackgroundEnd =   0x0020000,
-        /// <summary>
-        /// About Normal Priority
-        /// </summary>
-        AboveNormal = 1,
-        /// <summary>
-        /// Below Normal Priority
-        /// </summary>
-        BelowNormal = -1,
-        /// <summary>
-        /// Highest Priority 
-        /// </summary>
-        Highest = 2,
-        /// <summary>
-        /// Idle Priority
-        /// </summary>
-        Idle = -15,
-        /// <summary>
-        /// Lowest Priority
-        /// </summary>
-        Lowest = -2,
-        /// <summary>
-        /// Normal
-        /// </summary>
-        Normal = 0,
-        /// <summary>
-        /// Time Critical Priority
-        /// </summary>
-        Critical = 15
-
-    }
 
     
     /// <summary>
@@ -68,7 +25,6 @@ namespace InsightSheath.Wrappers
         /// <param name="threadId">id of thread to point this class to</param>
         public static ThreadContext CreateInstance(uint threadId)
         {
-            
             return new ThreadContext(NativeMethods.ThreadContext_CreateInstance(new IntPtr(threadId), 1));
         }
 
@@ -82,15 +38,15 @@ namespace InsightSheath.Wrappers
         }
 
         /// <summary>
-        /// This links an instance of the ThreadContext on the native side with your Managed code.  Do NOT USE for instancing a new context
+        /// This links an instance of the ThreadContext on the native side with your Managed code.  Use <see cref="CreateInstance()"/> to make a new instance. This constructor links your .Net Wrapper to a Native underlying instance of the C++ class.
         /// </summary>
-        /// <param name="Native"></param>
+        /// <param name="Native">A non null pointer to InsightApi's native class (currently housed in ThreadContext.cpp).</param>
         /// <exception cref="ArgumentNullException">If passing null, this is thrown</exception>
         public ThreadContext(IntPtr Native) : base(Native)
         {
             if (NativePointer == IntPtr.Zero)
             {
-                throw new ArgumentNullException(nameof(Native), new Exception(nameof(Native) + "Cannot be 0.  Use ThreadContext.CreateInstance() to make a new instance and use this to point this managed wrapper to a native instance of the class."));
+                throw new ArgumentNullException(ConstructReceivedNullPointerOnConstructor_message("Argument", "ThreadContext.CreateInstance", nameof(Native)));
             }
             
         }
@@ -100,11 +56,13 @@ namespace InsightSheath.Wrappers
         /// </summary>
         /// <param name="Native"></param>
         /// <param name="FreeOnCleanup">Ignored. Always false.  Dispose() has been overwritten to safely kill the instance</param>
+#pragma warning disable IDE0060 // Remove unused parameter
         public ThreadContext(IntPtr Native, bool FreeOnCleanup): base(Native, false)
+#pragma warning restore IDE0060 // Remove unused parameter
         {
             if (NativePointer == IntPtr.Zero)
             {
-                throw new ArgumentNullException(nameof(Native) + "Cannot be 0.  Use ThreadContext.CreateInstance() to make a new instance and use this to point this managed wrapper to a native instance of the class.");
+                throw new ArgumentNullException(ConstructReceivedNullPointerOnConstructor_message("Argument", "ThreadContext.CreateInstance", nameof(Native)));
             }
         }
         /// <summary>

@@ -14,7 +14,8 @@ Wow64SuspendThreadPtr InternalBase_Wow64SuspendThreadPtr = nullptr;
 Wow64GetThreadContextPtr InternalBase_Wow64GetThreadContextPtr = nullptr;
 Wow64SetThreadContextPtr InternalBase_Wow64SetThreadContextPtr = nullptr;
 
-/* IN the interest of attempting to run on systems that don't have wow64, we try loading and return false if we can't find the*/;
+/* IN the interest of attempting to run on systems that don't have wow64,
+we try loading and return false if we can't find the*/;
 bool LinkWowThreadContext()
 {
 	if (Kernel32 == 0)
@@ -337,8 +338,13 @@ DWORD ThreadInsight::SuspendThreadHandle()
 					}
 				}
 			}
-			return InternalBase_Wow64SuspendThreadPtr(this->ThreadHandle);
 		}
+
+		if (InternalBase_Wow64SuspendThreadPtr == nullptr)
+		{
+			return (DWORD)-1;
+		}
+		return InternalBase_Wow64SuspendThreadPtr(this->ThreadHandle);
 	}
 	else
 	{
@@ -348,7 +354,7 @@ DWORD ThreadInsight::SuspendThreadHandle()
 
 DWORD ThreadInsight::ResumeThreadHandle()
 {
-	return ResumeThread(ThreadHandle);
+	return ResumeThread(this->ThreadHandle);
 }
 
 WOW64_CONTEXT* ThreadInsight::Wow64GetContext()
@@ -398,7 +404,6 @@ DWORD ThreadInsight::GetTargetThreadId()
 
 DWORD ThreadInsight::GetIdealThreadProcessorMask()
 {
-	DWORD ret;
 	return SetIdealThreadProcessorMask(MAXIMUM_PROCESSORS);
 }
 

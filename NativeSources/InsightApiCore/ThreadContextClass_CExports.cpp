@@ -11,6 +11,10 @@ extern "C" {
 
 	ThreadInsight* WINAPI ThreadContext_DupInstance(ThreadInsight* that)
 	{
+		if (that != nullptr)
+		{
+			return new ThreadInsight(that);
+		}
 		return nullptr;
 	}
 

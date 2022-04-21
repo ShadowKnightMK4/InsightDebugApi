@@ -152,6 +152,12 @@ wchar_t* WINAPI ConvertANSIString(const char * Original)
 }
 
 
+/// <summary>
+/// Allocate a buffer big enough to contain the specified hmodule belonging to the specified process. CALLER will need to free.
+/// </summary>
+/// <param name="Process">Handle to process to read from. Will need PROCESS_QUERY_INFORMATION || PROCESS_QUERY_LIMITED_INFORMATION access rights</param>
+/// <param name="Module">hmodule in question</param>
+/// <returns>returns memory allocated in the local process containing a unicode string contraining the module's name</returns>
 wchar_t* WINAPI GetModuleNameViaHandle(HANDLE Process, HMODULE Module)
 {
 	wchar_t* Buffer = nullptr;

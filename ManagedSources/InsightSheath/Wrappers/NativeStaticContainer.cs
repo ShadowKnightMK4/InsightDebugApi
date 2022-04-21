@@ -8,14 +8,19 @@ namespace InsightSheath.Wrappers
 {
 
     /// <summary>
-    /// encapsulates a native pointer to an unmanaged structure that can potentially be freed with a single call to C/C++'s free(). If it needs special free requirements, overwrite <see cref="Dispose(bool)"/>
+    /// Encapsulates a native pointer to an unmanaged structure that can potentially be freed with a single call to C/C++'s free(). If said Native class needs special free requirements, overwrite <see cref="Dispose(bool)"/> with a a call to a routine to properly free it.
     /// </summary>
-    public abstract class NativeStaticContainer: IDisposable
+    public abstract class NativeStaticContainer : IDisposable
     {
+        protected const string ReceivedNullPointerOnConstructor = "{0} Cannot be 0.  Use {1} to make a new instance and use this to point this managed wrapper to a native instance of the class: ({2}}";
+        protected string ConstructReceivedNullPointerOnConstructor_message(string ArgumentPrefix, string AlternativeInstance, string ArgumentName)
+        {
+            return string.Format(ReceivedNullPointerOnConstructor, ArgumentPrefix, AlternativeInstance, ArgumentName);
+        }
         /// <summary>
         /// NativeStaticContrain compares both <see cref="Native"/> pointers and returns true if equal
         /// </summary>
-        /// <param name="obj"></param>
+        /// <param name="obj">the other one</param>
         /// <returns></returns>
         public override bool Equals(object obj)
         {
@@ -23,9 +28,9 @@ namespace InsightSheath.Wrappers
             {
                 return false;
             }
-            if (obj is NativeStaticContainer)
+            if (obj is NativeStaticContainer container)
             {
-                return (((NativeStaticContainer)obj).Native == Native);
+                return container.Native == Native;
             }
             return false;
         }
@@ -40,7 +45,7 @@ namespace InsightSheath.Wrappers
         }
 
         /// <summary>
-        /// Create instance of this with the passed  Native Pointer
+        /// Create instance of this with the passed Native Pointer. Subclasses of this should include routines to call the native class's functions.
         /// </summary>
         /// <param name="Native"></param>
         public NativeStaticContainer(IntPtr Native)
@@ -56,7 +61,7 @@ namespace InsightSheath.Wrappers
         public NativeStaticContainer(IntPtr Native, bool FreeOnCleanup)
         {
             this.Native = Native;
-            this.FreeOnCleanup = FreeOnCleanup;
+            this.FreeOnCleanupContainer = FreeOnCleanup;
         }
 
 
@@ -77,8 +82,18 @@ namespace InsightSheath.Wrappers
         /// <summary>
         /// Conditional free on dispose. Set this to true if you're manipulated a block of unmanaged memory dynamically located by the API. Set to false if you're working with a previously allocated structure
         /// </summary>
-        protected readonly bool FreeOnCleanup;
+        protected bool FreeOnCleanup
+        {
+            get
+            {
+                return FreeOnCleanupContainer;
+            }
+        }
 
+        /// <summary>
+        /// Holds the free on cleanup value.  Recommend only disposal() routines modify this.
+        /// </summary>
+        protected bool FreeOnCleanupContainer;
 
         /// <summary>
         /// protected value containing if dispose() was called

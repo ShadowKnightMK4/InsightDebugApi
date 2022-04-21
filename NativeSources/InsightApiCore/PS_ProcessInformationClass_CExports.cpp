@@ -5,6 +5,7 @@
 * The majority of these are thin wrappers to the underlying class.
 */
 #include "PS_ProcessInformation.h"
+#include "StarutpInfoStructHelper.h"
 #include "Utility.h"
 #include "InsightHunter.h"
 extern "C"
@@ -17,6 +18,15 @@ extern "C"
 	PS_ProcessInformation* WINAPI PS_ProcessInformation_MakeInstance()
 	{
 		return new PS_ProcessInformation();
+	}
+
+	StartupInfoWrapper* WINAPI PS_ProcessInformation_GetStartupInfoClass(PS_ProcessInformation* that)
+	{
+		if (that)
+		{
+			return that->GetStartupInfoHandler();
+		}
+		return nullptr;
 	}
 
 	/// <summary>

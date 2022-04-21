@@ -49,6 +49,7 @@ LIBRARY FILESANDBOXAPI
 		Ps_ProcessInformation_GetPrivateUsage
 		Ps_ProcessInformation_GetMemoryStatsBulkPtr
 		Ps_ProcessInformation_RequestDebugPriv
+		PS_ProcessInformation_GetStartupInfoClass
 		RemoteReadDebugString
 		RemoteFreeDebugString=RemoteRead_SimpleFree
 		RemoteRead_SimpleFree
@@ -128,6 +129,7 @@ LIBRARY FILESANDBOXAPI
 		Insight_GetThreadSync
 		Insight_SetParentWindow
 		Insight_EnumerateLoadedSymbolsW
+		Insight_EnumerateSourceFiles
 		Insight_GetSymbolOptions
 		Insight_SetSymbolOptions
 		Insight_GetImageHelpVersionData
@@ -166,3 +168,56 @@ LIBRARY FILESANDBOXAPI
 		ThreadContext_SetThreadPriorityBoostSetting
 		ThreadContext_GetThreadProcessAffinityMask
 		ThreadContext_SetThreadProcessAffinityMask
+		InsightMemory_MakeInstance
+		InsightMemory_DupInstance
+		InsightMemory_KillInstance
+		InsightMemory_SetTargetProcess
+		InsightMemory_UpdateMemoryStats
+		InsightMemory_GetPageFault
+		InsightMemory_GetPeakWorkingSetSize
+		InsightMemory_GetWorkingSetSize
+		InsightMemory_GetQuotaPeakPagedPoolUsage
+		InsightMemory_GetQuotaPagePoolUsage
+		InsightMemory_GetPeakPagePoolUsage
+		InsightMemory_GetPageFileUsage
+		InsightMemory_GetPeakPageFileUsage
+		InsightMemory_GetPrivateUsage
+		InsightMemory_GetMemoryStatsBulk
+		InsightMemory_SetAutoRefreshMemoryStats
+		InsightMemory_GetAutoRefreshMemoryStats
+		StartupInfo_MakeInstance
+		StartupInfo_DupInstance
+		StartupInfo_DeleteInstance
+		StartupInfo_GetlpDesktopW
+		StartupInfo_SetlpDesktopW
+		StartupUpInfo_GetlpTitleW
+		StartUpInfo_SetlpTitleW
+		StartupInfo_GetdwX
+		StartupInfo_SetdwX
+		StartupInfo_GetdwY
+		StartupInfo_SetdwY
+		StartupInfo_GetdwXCountChars
+		StartupInfo_SetdwXCountChars
+		StartupInfo_GetdwYCountChars
+		StartupInfo_SetdwYCountChars
+		StartupInfo_GetdwFillAttributes
+		StartupInfo_SetdwFillAttribute
+		StartupInfo_GetdwFlags
+		StartupInfo_SetdwFlags
+		StartupInfo_GetdwYSize
+		StartupInfo_SetdwYSize
+		StartupInfo_GetdwXSize
+		StartupInfo_SetdwXSize
+		StartupInfo_GetwShowWindow
+		StartupInfo_SetwShowWindow
+		StartupInfo_GethStdInput
+		StartupInfo_SethStdInput
+		StartupInfo_GethStdOutput
+		StartupInfo_SethStdOutput
+		StartupInfo_GethStdError
+		StartupInfo_SethStdError
+		StartupInfo_GetPointer
+
+
+
+

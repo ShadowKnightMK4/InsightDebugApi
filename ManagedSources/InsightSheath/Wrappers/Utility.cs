@@ -10,7 +10,7 @@ using InsightSheath.NativeImports;
 namespace InsightSheath
 {
     /// <summary>
-    /// Class contains various miscellaneous routines that while not tied directly to the library struct, are very useful in the library.
+    /// Class contains various miscellaneous routines that while not tied directly to the library's purpose, they are used throughout the Sheath and wrappers.
     /// </summary>
     public static class HelperRoutines
     {
@@ -58,7 +58,7 @@ namespace InsightSheath
 
         
         /// <summary>
-        /// Get a Process's name via its handle.   Handle needs PROCESSS_QUERY_INFOMRATION and VM_READ rights.
+        /// Get a Process's name via its handle.Handle needs PROCESSS_QUERY_INFOMRATION and VM_READ rights.
         /// </summary>
         /// <param name="ProcessHandle"></param>
         /// <returns></returns>
@@ -69,7 +69,7 @@ namespace InsightSheath
         /// <summary>
         /// Same as <see cref="GetProcessNameViaHandle(IntPtr)"/>
         /// </summary>
-        /// <param name="ProcessHandle"></param>
+        /// <param name="ProcessHandle">Process Handle to retrieve name from</param>
         /// <returns></returns>
         public static string GetModuleNameViaHandle(IntPtr ProcessHandle)
         {
@@ -79,7 +79,7 @@ namespace InsightSheath
         /// <summary>
         /// Get the module name (or the process name) of the process whose handle you have
         /// </summary>
-        /// <param name="ProcessHandle"></param>
+        /// <param name="ProcessHandle">Process Handle to source data from</param>
         /// <param name="HModule">if IntPTr.zero then <see cref="GetProcessNameViaHandle(IntPtr)"/> otherwise retrieved the name for specified hmodule</param>
         /// <returns></returns>
         public static string GetModuleNameViaHandle(IntPtr ProcessHandle, IntPtr HModule)
@@ -100,8 +100,8 @@ namespace InsightSheath
         /// <summary>
         /// Get a file name via a Native Handle. 
         /// </summary>
-        /// <param name="FileHandle"></param>
-        /// <returns></returns>
+        /// <param name="FileHandle">Win32 Handle in question</param>
+        /// <returns>returns either null or a string containing the name of fie file/IO device</returns>
         public static string GetFileNameViaHandle(IntPtr FileHandle)
         {
             IntPtr retPtr = NativeMethods.GetFileNameViaHandle(FileHandle);
@@ -112,7 +112,7 @@ namespace InsightSheath
             else
             {
                 string ret = Marshal.PtrToStringUni(retPtr);
-                NativeMethods.FreeModuleNameViaHandleInternal(retPtr);
+                NativeMethods.FreeFileNameViaHandleInternal(retPtr);
                 return ret;
             }
         }
@@ -120,7 +120,7 @@ namespace InsightSheath
         /// Open a process for Virtual Memory reading and writing
         /// </summary>
         /// <param name="ProcessId"></param>
-        /// <returns>Returns a handle with VM_READ | VM_RIGHT access to the passed process (or 0)</returns>
+        /// <returns>Returns a handle with PROCESS_VM_READ | PROCESS_VM_RIGHT access to the passed process (or 0)</returns>
 
         public static IntPtr OpenProcessForVirtualMemory(uint ProcessId)
         {
@@ -139,7 +139,7 @@ namespace InsightSheath
 
 
         /// <summary>
-        /// Some of the routines here return Native Handles.    This wraps CloseHandle() from kernel32 for convenience  
+        /// Some of the routines here return Native Handles. This wraps CloseHandle() from kernel32 for convenience  
         /// </summary>
         /// <param name="Handle"></param>
         /// <returns></returns>

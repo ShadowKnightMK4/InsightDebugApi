@@ -105,7 +105,8 @@
     </Link>
     <CustomBuildStep>
       <Command>copy "$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\Program\InsightApi.*"  "$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\lib\InsightApi.*"
-del "$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\lib\InsightApi.*"</Command>
+REM del "$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\lib\InsightApi.*"
+</Command>
     </CustomBuildStep>
     <CustomBuildStep>
       <Message>Copying InsightApi Output to library folder for InsightAPI GUI.</Message>
@@ -189,12 +190,16 @@ del "$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\lib\InsightApi.*"
     <ClCompile Include="ImageHlpModuleStruct_CExports.cpp" />
     <ClCompile Include="InsightHunter.cpp" />
     <ClCompile Include="InsightClass_CExports.cpp" />
+    <ClCompile Include="InsightMemory_CWrappers.cpp" />
+    <ClCompile Include="InsightMemory.cpp" />
     <ClCompile Include="InsightSupport.cpp" />
     <ClCompile Include="InsightDllMain.cpp" />
     <ClCompile Include="ProcessHandling.cpp" />
     <ClCompile Include="PS_ProcessInformationClass_CExports.cpp" />
     <ClCompile Include="RemoteStructureRoutines.cpp" />
     <ClCompile Include="PS_ProcessInformation.cpp" />
+    <ClCompile Include="StartupInfoExW_struct_cExports.cpp" />
+    <ClCompile Include="StartupInfoStructHelper.cpp" />
     <ClCompile Include="SymbolInfoStruct_CExports.cpp" />
     <ClCompile Include="ThreadContext.cpp" />
     <ClCompile Include="ThreadContextClass_CExports.cpp" />
@@ -205,10 +210,12 @@ del "$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\lib\InsightApi.*"
     <ClInclude Include="CommandmentSettings.h" />
     <ClInclude Include="DebugLogTarget.h" />
     <ClInclude Include="InsightHunter.h" />
+    <ClInclude Include="InsightMemory.h" />
     <ClInclude Include="InsightSupport.h" />
     <ClInclude Include="ProcessContext.h" />
     <ClInclude Include="PS_ProcessInformation.h" />
     <ClInclude Include="RemoteStructure.h" />
+    <ClInclude Include="StarutpInfoStructHelper.h" />
     <ClInclude Include="ThreadContext.h" />
     <ClInclude Include="ThreadSupport.h" />
     <ClInclude Include="Utility.h" />

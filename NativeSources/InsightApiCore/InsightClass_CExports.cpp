@@ -114,7 +114,7 @@ extern "C" {
 		return FALSE;
 	}
 
-	BOOL WINAPI Insight_EnumerateLoadedSymbolsW(InsightHunter* that, wchar_t* Symbol, SymbolSearchCallback* Api)
+	BOOL WINAPI Insight_EnumerateLoadedSymbolsW	(InsightHunter* that, wchar_t* Symbol, SymbolSearchCallback* Api)
 	{
 		if (that != nullptr)
 		{
@@ -123,6 +123,13 @@ extern "C" {
 		return FALSE;
 	}
 
+	BOOL WINAPI Insight_EnumerateSourceFiles(InsightHunter* that, wchar_t* Symbol, SymbolSourceCallBack* Api)
+	{
+		if (that != nullptr)
+		{
+			return that->EnumerateSourceFiles(Api, 0, Symbol);
+		}
+	}
 	DWORD WINAPI Insight_GetSymbolOptions(InsightHunter* that)
 	{
 		if (that != nullptr)

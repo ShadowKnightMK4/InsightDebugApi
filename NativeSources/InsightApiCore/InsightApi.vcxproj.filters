@@ -64,6 +64,18 @@
     <ClCompile Include="Utility.cpp">
       <Filter>Source Files\Utility</Filter>
     </ClCompile>
+    <ClCompile Include="InsightMemory.cpp">
+      <Filter>Source Files\Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="InsightMemory_CWrappers.cpp">
+      <Filter>Source Files\C Level Struct Wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="StartupInfoStructHelper.cpp">
+      <Filter>Source Files\Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="StartupInfoExW_struct_cExports.cpp">
+      <Filter>Source Files\C Level Struct Wrappers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="InsightHunter.h">
@@ -96,6 +108,12 @@
     <ClInclude Include="ThreadContext.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="InsightMemory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StarutpInfoStructHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="DllExportStuff">
@@ -116,14 +134,14 @@
     <Filter Include="Source Files\C Level Class Wrappers">
       <UniqueIdentifier>{b7379a3a-5c30-4d7e-ac7b-8670262fc069}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\C Level Struct Wrappers">
-      <UniqueIdentifier>{5b64991a-cc67-4951-88f7-30eb8374de33}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Depreciated">
       <UniqueIdentifier>{7e9d95fe-5fce-49ab-a164-01c37c8b08b4}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Utility">
       <UniqueIdentifier>{a92f8f6f-1312-44de-8cac-70416c0a7efb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\C Level Struct Wrappers">
+      <UniqueIdentifier>{5b64991a-cc67-4951-88f7-30eb8374de33}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

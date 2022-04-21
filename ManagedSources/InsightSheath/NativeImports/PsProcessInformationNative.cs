@@ -92,7 +92,8 @@ namespace InsightSheath.NativeImports
         [DllImport("InsightApi.Dll", BestFitMapping = false, CallingConvention = CallingConvention.Winapi, EntryPoint = "PS_ProcessInformation_DupInstance", ExactSpelling = false)]
         public static extern IntPtr CreatePsProcessInformation(IntPtr that);
 
-
+        [DllImport("InsightApi.Dll", BestFitMapping = false, CallingConvention = CallingConvention.Winapi, EntryPoint = "PS_ProcessInformation_GetStartupInfoClass", ExactSpelling = false)]
+        public static extern IntPtr PsProcessInformation_GetStartupInfoClass(IntPtr That);
         /// <summary>
         /// Wrap the PS_ProcessInformation_KillInstance routine
         /// </summary>

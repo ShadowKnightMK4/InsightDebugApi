@@ -6,7 +6,7 @@ namespace InsightSheath.Wrappers
 {
     /// <summary>
     /// A part of the symbol engine is known as InsightHunter in the FileSanboxNative api.  It is VERY VERY VERY tightly coupled with the PsProcessInformation class but distict enough to warenete wrappers. If you need not have symbol processing, disablying is fine.
-    /// NOTE: You'll need to spawn at least one pocess with <see cref="PsProcessInformation"/> to get much use out of this.
+    /// NOTE: You'll need to spawn at least one pocess with <see cref="InsightProcess"/> to get much use out of this.
     /// </summary>
     public class InsightHunter : NativeStaticContainer
     {
@@ -17,6 +17,10 @@ namespace InsightSheath.Wrappers
         /// <param name="">Your Routine should return TRUE to keep going and FALSE to quit</param>
         /// <returns></returns>
         public delegate bool SymbolSearchCallBackRoutine(IntPtr SymbolInfo);
+
+        /// Callback for Enumerating source files. Return true to continue and false to quit
+        //typedef BOOL(WINAPI* SymbolSourceCallBack)(PSOURCEFILEW);
+        public delegate bool SymbolSourceCallbackRoutine(IntPtr SourceInfo);
         /// <summary>
         /// Specifies combinations of flags to Set for the symbol engine as seein in MSDN's SymSetOptions
         /// </summary>
@@ -66,7 +70,7 @@ namespace InsightSheath.Wrappers
 
         #region public exported api
         /// <summary>
-        /// Not normally need to  be called (if using the working thread<see cref=DebugModeType.WorkerThread"/> in <see cref="PsProcessInformation"/>. This tells the symbol engine to load an exe's debug data in reponse to a CREATE_PROCESS_DEBUG_EVENT
+        /// Not normally need to  be called (if using the working thread<see cref=DebugModeType.WorkerThread"/> in <see cref="InsightProcess"/>. This tells the symbol engine to load an exe's debug data in reponse to a CREATE_PROCESS_DEBUG_EVENT
         /// </summary>
         /// <param name="debugEvent"><see cref="DebugEvent"/> class instance containing a <see cref="DebugEventType.CreateProcessEvent"/> event</param>
         /// <returns>true if ok, false on failuree</returns>
@@ -76,7 +80,7 @@ namespace InsightSheath.Wrappers
         }
 
         /// <summary>
-        /// Not normally need to  be called (if using the working thread<see cref=DebugModeType.WorkerThread"/> in <see cref="PsProcessInformation"/>. This tells the symbol engine to load an exe's debug data in reponse to a CREATE_PROCESS_DEBUG_EVENT
+        /// Not normally need to  be called (if using the working thread<see cref=DebugModeType.WorkerThread"/> in <see cref="InsightProcess"/>. This tells the symbol engine to load an exe's debug data in reponse to a CREATE_PROCESS_DEBUG_EVENT
         /// </summary>
         /// <param name="debugEvent"><see cref="DebugEvent"/> class instance containing a <see cref="DebugEventType.CreateProcessEvent"/> event</param>
         /// <returns>true if ok, false on failuree</returns>
@@ -88,7 +92,7 @@ namespace InsightSheath.Wrappers
 
 
         /// <summary>
-        /// Not normally need to  be called (if using the working thread<see cref=DebugModeType.WorkerThread"/> in <see cref="PsProcessInformation"/>. This tells the symbol engine to load an exe's debug data in resposne to a LOAD_DLL_DEBUG_EVENT
+        /// Not normally need to  be called (if using the working thread<see cref=DebugModeType.WorkerThread"/> in <see cref="InsightProcess"/>. This tells the symbol engine to load an exe's debug data in resposne to a LOAD_DLL_DEBUG_EVENT
         /// </summary>
         /// <param name="DebugEvent">class instance containing a <see cref="DebugEventType.LoadDllEvent"/> event</param>
         /// <returns>true if ok, false on failuree</returns>
@@ -100,7 +104,7 @@ namespace InsightSheath.Wrappers
 
 
         /// <summary>
-        /// Not normally need to  be called (if using the working thread<see cref=DebugModeType.WorkerThread"/> in <see cref="PsProcessInformation"/>. This tells the symbol engine to load an exe's debug data in resposne to a UNLOAD_DLL_DEBUG_EVENT
+        /// Not normally need to  be called (if using the working thread<see cref=DebugModeType.WorkerThread"/> in <see cref="InsightProcess"/>. This tells the symbol engine to load an exe's debug data in resposne to a UNLOAD_DLL_DEBUG_EVENT
         /// </summary>
         /// <param name="DebugEvent">class instance containing a <see cref="DebugEventType.UnloadDllEvent"/> event</param>
         /// <returns>true if it worked, false otherwise</returns>
@@ -127,9 +131,26 @@ namespace InsightSheath.Wrappers
         }
 
 
+        /// <summary>
+        /// Enumerate loaded symbols for the debugged exe
+        /// </summary>
+        /// <param name="SearchString"></param>
+        /// <param name="DotNetCallback"></param>
+        /// <returns></returns>
         public bool EnumerateSymbols(string SearchString, SymbolSearchCallBackRoutine DotNetCallback)
         {
             return NativeImports.NativeMethods.Insight_EnumerateLoadedSymbolsW(Native, SearchString, DotNetCallback);
+        }
+
+        /// <summary>
+        /// Enumerate loaded source files for symbol 
+        /// </summary>
+        /// <param name="SearchString"></param>
+        /// <param name="DotNetCallBack"></param>
+        /// <returns></returns>
+        public bool EnumerateSourceFiles(string SearchString, SymbolSourceCallbackRoutine DotNetCallBack)
+        {
+            return NativeImports.NativeMethods.Insight_EnumerateSourceFilesW(Native, SearchString, DotNetCallBack);
         }
         /// <summary>
         /// reload loaded modules.  

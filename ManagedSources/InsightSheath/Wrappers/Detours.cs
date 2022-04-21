@@ -8,7 +8,7 @@ namespace InsightSheath.Wrappers
 {
  
     /// <summary>
-    /// Indented to Expose Detours stuff that the software can use.
+    /// Intended for wrapps
     /// </summary>
     public static class Detours
     {
