@@ -108,29 +108,27 @@ SOURCE Citing
 		The Idea to use a CreateEvent object to sync so a GUI is from here
 			https://www.codeproject.com/articles/132742/writing-windows-debugger-part-2#Halt_at_SA
 
+		https://www.codeproject.com/Articles/132742/Writing-Windows-Debugger-Part-2    <- idea to use events and a worker thread form there.
+		https://www.codeproject.com/Articles/662735/Internals-of-Windows-Thread  <- learned about some of Windows thread
 
 
+		https://docs.microsoft.com/en-us/windows/win32/api/ <- the rather large MSDN documentation helped with the Windows API.
 ------------------------------------------
 	License
 ------------------------------------------
-Everyone is concerned for licenses. 
+Everyone is concerned for licenses.  You can find License information under the license folder.
 
-			Primary Licensee:
-
-			FOR INDIVIDUALS in a non company/profit setting where you won't be distributing this beyond a single machine.
-					No restrictions provided you site your source. 
-
-			For Students needing a 3rd party software library that is not required by the school,
-				No restrictions provided you cite your source.
-
+			Detours 3rd Party
+				https://github.com/microsoft/Detours/blob/master/LICENSE.md (also under %cd%\Licenses\Detours)
 				
-
-					
-
+			InsightAPI
+				Two flavors, a commercial and noncommercial one.  Individuals will likely fall under
+				the noncommercial one while people acting on behalf of a company likely will fall under
+				the commercial one. The current primary different is the noncommercial one does not let you
+				distribute InsightAPI for money.  The commercial one does once an appropriate agreement is reached.
+			TelemetryDlls
+				The included Telemetry Dlls are functionally under the MIT license.
 
 			3rd party license:
 					https://github.com/microsoft/Detours/blob/master/LICENSE.md
-					https://www.codeproject.com/Articles/132742/Writing-Windows-Debugger-Part-2    <- idea to use events and a worker thread form there.
-					https://www.codeproject.com/Articles/662735/Internals-of-Windows-Thread  <- learned about some of Windows thread
-
 
