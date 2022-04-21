@@ -50,14 +50,14 @@ Project Layout
 Native Build Project Folders
 ---------------------------------------
 %cd% is where one's extracted the project too.
-		%cd%\code						->  All Built stuff using Release/Debug configs
-			%cd%\code\debug					-> Contains binaries made with the debug
-				%cd%\code\debug\lib			-> contains built Native static libraries made 
-				%cd%\code\debug\program			-> contains Native EXE and DLLs made
-				%cd%\code\debug\program\Telemetry -> contains Native Dlls and PDBs of said dlls build for telemetry.
-			%cd%\code\release					-> Contains Native binaries made with the release config
-				%cd%\code\release\lib			-> contains Native static libraries made 
-				%cd%\code\release\program		-> contains Native EXE and DLLs made
+		%cd%\code									->  All Built stuff using Release/Debug configs
+			%cd%\code\debug							-> Contains binaries made with the debug
+				%cd%\code\debug\lib					-> contains built Native static libraries made 
+				%cd%\code\debug\program				-> contains Native EXE and DLLs made
+				%cd%\code\debug\program\Telemetry	-> contains Native Dlls and PDBs of said dlls build for telemetry.
+			%cd%\code\release						-> Contains Native binaries made with the release config
+				%cd%\code\release\lib				-> contains Native static libraries made 
+				%cd%\code\release\program			-> contains Native EXE and DLLs made
 				%cd%\code\release\program\Telemetry -> contains Native Dlls and PDBs of said dlls build for telemetry.
 
 ----------------------------------------
