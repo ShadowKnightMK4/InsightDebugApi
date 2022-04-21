@@ -1,9 +1,9 @@
 # Copyright (c) Thomas Paul Betterly 2022
 
 All rights reserved. This license Applies to InsightAPI's base project and InsightSheath wrapper.
-It does not cover code that lets 3rd party telemetry dlls communicate with Insight. Those may
+It does not cover code that lets 3rd party telemetry dlls that communicate with Insight. Those may
 fall under there own license. If you are an individual or student whose freely chosen to 
-work with Insight in a non Commericial way, this is your license.
+work with Insight in a non Commericial way, this is your license. One explicit right reserved includes the ability for me to change this license as needed.  The copy one gets when downloaded is the one you are using this project with unless another agreement is made.
 
 # Modified MIT License
 

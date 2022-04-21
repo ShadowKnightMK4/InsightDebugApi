@@ -2,8 +2,8 @@
 
 All rights reserved. This license Applies to InsightAPI's base project and InsightSheath wrapper.
 It does not cover code that lets 3rd party telemetry dlls communicate with Insight. Those may
-fall under there own license. If you're operating in a company/ corperate setting, this is the
-license that applies to you.
+fall under there own license. If you're operating in a company/ corporate setting, this is the
+license that applies to you. One explicit right reserved includes the ability for me to change this license as needed.  The copy one gets when downloaded is the one you are using this project with unless another agreement is made.
 
 # Commericial License
 
