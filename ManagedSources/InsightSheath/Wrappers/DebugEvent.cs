@@ -807,7 +807,7 @@ namespace InsightSheath.Wrappers
     }
 
     /// <summary>
-    /// This encapsulates the Native DebugEvent structure via calling exported C routines in filesandbox.dll.  IMPORTANT!!!! The LoadDLlDebugEvent does not close the passed handle if valid.
+    /// This encapsulates the Native DebugEvent structure via calling exported C routines in InsightAPI.dll.  IMPORTANT!!!! The LoadDLlDebugEvent does not close the passed handle if valid.
     /// </summary>
     public class DebugEvent : DebugEventStaticContainer
     {
@@ -816,8 +816,8 @@ namespace InsightSheath.Wrappers
         /// 
         /// </summary>
         /// <param name="NativePtr">pass a native pointing contain a debug event structure.</param>
-        /// <param name="FreeOnDispose">Set this to true for chunks explicit allocated to the structure by C/C++'s malloc() ext... </param>
-        public DebugEvent(IntPtr NativePtr, bool FreeOnDispose) : base(NativePtr, FreeOnDispose)
+        /// <param name="FreeOnCleanup">Set this to true for chunks explicit allocated to the structure by C/C++'s malloc() ext... </param>
+        public DebugEvent(IntPtr NativePtr, bool FreeOnCleanup) : base(NativePtr, FreeOnCleanup)
         {
 
         }
@@ -836,7 +836,7 @@ namespace InsightSheath.Wrappers
         /// <param name="NativePtr"></param>
         public DebugEvent(IntPtr NativePtr) : base(NativePtr)
         {
-
+            FreeOnCleanupContainer = false;
         }
 
 

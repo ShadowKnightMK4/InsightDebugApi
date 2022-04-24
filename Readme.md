@@ -132,10 +132,8 @@ Everyone is concerned for licenses.  You can find License information under the 
 				https://github.com/microsoft/Detours/blob/master/LICENSE.md (also under %cd%\Licenses\Detours)
 				
 			InsightAPI
-				Two flavors, a commercial and noncommercial one.  Individuals will likely fall under
-				the noncommercial one while people acting on behalf of a company likely will fall under
-				the commercial one. The current primary different is the noncommercial one does not let you
-				distribute InsightAPI for money.  The commercial one does once an appropriate agreement is reached.
+				 Found under the root\Licenses\InsightApi folder. Functionally should leave the public project as under the MIT license, BUT
+				 makes note that extensions and other telemetry DLLs may be under a separate one.
 			TelemetryDlls
 				The included Telemetry Dlls are functionally under the MIT license.
 

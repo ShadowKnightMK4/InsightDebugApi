@@ -1,22 +1,19 @@
 # Copyright (c) Thomas Paul Betterly 2022
 
-All rights reserved. This license Applies to InsightAPI's base project and InsightSheath wrapper.
-It does not cover code that lets 3rd party telemetry dlls that communicate with Insight. Those may
-fall under there own license. If you are an individual or student whose freely chosen to 
-work with Insight in a non Commericial way, this is your license. One explicit right reserved includes the ability for me to change this license as needed.  The copy one gets when downloaded is the one you are using this project with unless another agreement is made.
-
-# Modified MIT License
+All rights reserved. This License Covers both InsightAPI project and InsightSheath as
+downloaded from the public github. Extensions to commicate with certrain telemetry
+ dlls may be under different licenses. 
+# MIT License
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
 the Software without restriction, including without limitation the rights to
-use, copy, modify, merge, publish, distribute, sublicense, and to permit persons to
-whom the Software is furnished to do so, subject to the following conditions:
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+of the Software, and to permit persons to whom the Software is furnished to do
+so, subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
-
-You may not charge for a product that includes InsightApi/ InsightSheath.
 
 THE SOFTWARE IS PROVIDED *AS IS*, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,

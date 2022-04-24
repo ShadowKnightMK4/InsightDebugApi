@@ -47,7 +47,7 @@ namespace InsightSheath.Wrappers
         /// <summary>
         /// Create instance of this with the passed Native Pointer. Subclasses of this should include routines to call the native class's functions.
         /// </summary>
-        /// <param name="Native"></param>
+        /// <param name="Native">The Native pointer to keep track of.</param>
         public NativeStaticContainer(IntPtr Native)
         {
             this.Native = Native;
@@ -117,7 +117,7 @@ namespace InsightSheath.Wrappers
                 {
                     NativeImports.NativeMethods.SimpleFree(Native);
                 }
-                
+                object
                 disposedValue = true;
             }
         }
