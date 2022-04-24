@@ -132,8 +132,8 @@ Everyone is concerned for licenses.  You can find License information under the 
 				https://github.com/microsoft/Detours/blob/master/LICENSE.md (also under %cd%\Licenses\Detours)
 				
 			InsightAPI
-				 Found under the root\Licenses\InsightApi folder. Functionally should leave the public project as under the MIT license, BUT
-				 makes note that extensions and other telemetry DLLs may be under a separate one.
+				 Found in the root folder of the solution.  InsightAPI, InsightSheath, Telemetry DLLs including in the package
+				 fall under the MIT license.  
 			TelemetryDlls
 				The included Telemetry Dlls are functionally under the MIT license.
 

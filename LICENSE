@@ -1,5 +1,10 @@
 MIT License
 
+This license applies to the public Telemetry Dlls, InsightSheath, InsightAPI
+and the samples under the TestsAndSamples folder in the public release of this
+project. I do reserve the right for making  telemetry dlls/ extensions that may fall
+under a seperate license; however, the plan is to clearly mark them.
+
 Copyright (c) 2022 Thomas Paul Betterly
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
