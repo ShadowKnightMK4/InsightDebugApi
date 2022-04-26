@@ -13,7 +13,7 @@ namespace InsightSheath.Wrappers
     public abstract class NativeStaticContainer : IDisposable
     {
         protected const string ReceivedNullPointerOnConstructor = "{0} Cannot be 0.  Use {1} to make a new instance and use this to point this managed wrapper to a native instance of the class: ({2}}";
-        protected string ConstructReceivedNullPointerOnConstructor_message(string ArgumentPrefix, string AlternativeInstance, string ArgumentName)
+        protected static string ConstructReceivedNullPointerOnConstructor_message(string ArgumentPrefix, string AlternativeInstance, string ArgumentName)
         {
             return string.Format(ReceivedNullPointerOnConstructor, ArgumentPrefix, AlternativeInstance, ArgumentName);
         }
@@ -117,7 +117,7 @@ namespace InsightSheath.Wrappers
                 {
                     NativeImports.NativeMethods.SimpleFree(Native);
                 }
-                object
+                
                 disposedValue = true;
             }
         }

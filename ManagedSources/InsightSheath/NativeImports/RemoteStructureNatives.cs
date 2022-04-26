@@ -9,10 +9,34 @@ namespace InsightSheath.NativeImports
 {
     internal static partial class NativeMethods
     {
+
+        //RemoteReadStringW
+        
+
+
+        /// <summary>
+        /// Read a string from a remote process
+        /// </summary>
+        /// <param name="ProcessHandle">Handle for the remote process. It should be open for at least PROCESS_VM_READ rights.</param>
+        /// <param name="RemoteLocation">virtual memory in the remote process to read from</param>
+        /// <param name="char_count">how many chars in the string to read? </param>
+        /// <returns></returns>
+        [DllImport("InsightApi.dll", CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, EntryPoint = "RemotePoke4")]
+        public static extern bool RemotePoke4(IntPtr ProcessHandle, uint value , ulong remote_location);
+
+        /// <summary>
+        /// Read a string from a remote process
+        /// </summary>
+        /// <param name="ProcessHandle">Handle for the remote process. It should be open for at least PROCESS_VM_READ rights.</param>
+        /// <param name="RemoteLocation">virtual memory in the remote process to read from</param>
+        /// <param name="char_count">how many chars in the string to read? </param>
+        /// <returns></returns>
+        [DllImport("InsightApi.dll",CallingConvention= CallingConvention.Winapi, CharSet= CharSet.Unicode, EntryPoint = "RemoteReadStringW")]
+        public static extern string RemoteReadString(IntPtr ProcessHandle, IntPtr RemoteLocation, uint char_count);
         /// <summary>
         /// WWraps RemoteReadDebugString.  Return value is a string that needs to be freed afterwares.
         /// </summary>
-        /// <param name="ProcessHandle"></param>
+        /// <param name="ProcessHandle">Handle to the remote process. It should be open for at lead PROCESS_VM_READ rights</param>
         /// <param name="DebugEventPtr"></param>
         /// <returns></returns>
         [DllImport("InsightApi.Dll", CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, EntryPoint = "RemoteReadDebugString")]

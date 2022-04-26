@@ -38,6 +38,30 @@ namespace InsightSheath.Remote
             }
         }
 
+
+        /// <summary>
+        /// Idententy for reading HANDLEs to debugged process. This writes 4 byte value to the remote process in question at the location
+        /// </summary>
+        /// <param name="ProcessHandle">at minimum should have PROCESS_VM_READ</param>
+        /// <param name="value">value to write</param>
+        /// <param name="RemoteLocation">virtual memory in the TARGET process location to write too.</param>
+        /// <returns></returns>
+        public static bool RemotePoke4(IntPtr ProcessHandle, uint value, IntPtr RemoteLocation)
+        {
+            return NativeMethods.RemotePoke4(ProcessHandle, value, (ulong) RemoteLocation);
+        }
+        /// <summary>
+        /// Extract a string from the remote process.
+        /// </summary>
+        /// <param name="ProcessHandle">Process should be open for VM_READ rights at least</param>
+        /// <param name="StringLocation">virtual memory location in the remote process</param>
+        /// <param name="CharCount">how many chars in the string (unicode)</param>
+        /// <returns></returns>
+        public static string RemoteReadString(IntPtr ProcessHandle, IntPtr StringLocation, uint CharCount)
+        {
+            return NativeMethods.RemoteReadString(ProcessHandle, StringLocation, CharCount);
+        }
+
         /// <summary>
         /// Extract a DebugString from an OUTPUT_DEBUG_EVENT
         /// </summary>

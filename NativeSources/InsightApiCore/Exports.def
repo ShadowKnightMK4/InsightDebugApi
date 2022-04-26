@@ -53,7 +53,10 @@ LIBRARY INSIGHTAPI
 		RemoteReadDebugString
 		RemoteFreeDebugString=RemoteRead_SimpleFree
 		RemoteRead_SimpleFree
+		RemoteReadStringW
+		RemoteFreeStringW=RemoteRead_SimpleFree
 		RemoteReadPointer
+		RemotePoke4
 		UtilRequestDebugPriv=AskForDebugPriv
 		UtilGetModuleNameViaHandle=GetModuleNameViaHandle
 		UtilGetFileNameViaHandle=GetFileNameViaHandle

@@ -1,18 +1,14 @@
 using InsightSheath;
+using InsightSheath.Structs;
+using InsightSheath.Telemetry;
 //using FileSandBoxSheath.NativeImports is intended for general use.;
-using InsightSheath.NativeImports;
 using InsightSheath.Wrappers;
 using System;
-using System.Diagnostics;
-using System.IO;
-using System.Threading;
 //using System.Windows.Forms;
-using FileSandBox_GUI;
-using System.Collections;
 using System.Collections.Generic;
-using static InsightSheath.Wrappers.InsightHunter;
-using InsightSheath.Structs;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
+using static InsightSheath.Wrappers.InsightHunter;
 
 namespace FileSandBox_GUI
 {
@@ -81,18 +77,28 @@ namespace FileSandBox_GUI
             
             if (Debug.EventType == InsightSheath.Wrappers.DebugEventType.ExceptionEvent)
             {
-                Console.Write(Debug.ProcessID + " Exception \"" + Debug.GetDebugEventExceptionInfo().ExceptionCode + "\" happend");
-                if (Debug.GetDebugEventExceptionInfo().IsFirstChanceException)
+                if (Debug.IsIoDeviceTelemetryException())
                 {
-                    Console.WriteLine("\t and is a first chance\r\n");
+                    Console.WriteLine("Receive IoTelemetryException");
+                    using (var ExceptionData = Debug.GetDebugEventExceptionInfo())
+                    {
+                        if (ExceptionData.GetIoDeviceExceptionType() == IoDeviceTelemetryReaderExtensions.NotificationType.CreateFile)
+                        {
+                            var Info = ExceptionData.GetCreateFileSettings();
+
+                        }
+                     
+                    }
+                    InsightProcess.Poke4(ContStat, unchecked((int)InsightProcess.DebugContState.DebugContinueState));
                 }
-                else
+                else 
                 {
-                    Console.WriteLine("\t and was seen before\r\n");
+                    var Data = Debug.GetDebugEventExceptionInfo();
+                    var ArgList = Data.ExceptionParameter64;
+                    InsightProcess.Poke4(ContStat, unchecked((int)InsightProcess.DebugContState.DebugExceptionNotHandled));
                 }
 
-                Console.WriteLine("\t Exception Type" + Enum.GetName(typeof(DebugExceptionTypes), Debug.GetDebugEventExceptionInfo().ExceptionCode));
-                InsightProcess.Poke4(ContStat, unchecked ( (int)InsightProcess.DebugContState.DebugExceptionNotHandled) );
+                
             }
 
             if (Debug.EventType == DebugEventType.ExitThreadEvent)
@@ -182,8 +188,9 @@ namespace FileSandBox_GUI
              InsightProcess TestRun = InsightProcess.CreateInstance();
             TestRun.ExtraFlags = InsightProcess.SpecialCaseFlags.DebugOnlyThis;
             TestRun.WorkingDirectory = "C:\\Windows\\";
-            //TestRun.ProcessName = "C:\\Windows\\system32\\notepad.exe";
-            TestRun.ProcessName = "C:\\Users\\Thoma\\source\\repos\\InsightAPI\\code\\Debug\\x86\\program\\HelloWorld.exe";
+            TestRun.ProcessName = "C:\\Windows\\system32\\notepad.exe";
+            //TestRun.ProcessName = "C:\\Users\\Thoma\\source\\repos\\InsightAPI\\code\\Debug\\x86\\program\\HelloWorld.exe";
+            TestRun.AddDetoursDll("C:\\Users\\Thoma\\source\\repos\\InsightAPI\\code\\Debug\\x86\\program\\Telemetry\\IoDeviceTracking.dll");
             Tmp = new SymbolSearchCallBackRoutine(Callback);
 
        
@@ -197,7 +204,7 @@ namespace FileSandBox_GUI
             Insight = TestRun.GetSymbolHandler();
 
       
-            TestRun.CreationFlags = 2;
+            
 
             var ProcessId = TestRun.SpawnProcess();
 

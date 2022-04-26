@@ -441,19 +441,49 @@ namespace InsightSheath.Wrappers
 
         
 
-        public uint[] ExceptionParamter32
+        /// <summary>
+        /// Retrieve the contents of the exception parameter list for a 32-bit debugged process. 
+        /// </summary>
+        /// <remarks> The Native implementation prmotes the DWORD array into a (C# ulong)/(C++ dword64) array and returns a block of memory with that. Hense why the free</remarks>
+        public uint[] ExceptionParameter32
         {
             get
             {
-                List<uint> ret = new List<uint>();
-                IntPtr ptr = (IntPtr)NativeMethods.DebugEvent_ExceptionInfo_GetExceptionInformation(Native);
-
-                for (int step = 0; step < ExceptionParamterCount;step++)
+                IntPtr ptr = NativeMethods.DebugEvent_ExceptionInfo_GetExceptionInformation(Native);
+                if (ptr != IntPtr.Zero)
                 {
-                    ret.Add((uint)Marshal.ReadInt32(ptr));
-                    ptr = (IntPtr)(ptr.ToInt64() + 4);
+                    uint[] ret = new uint[ExceptionParamterCount];
+                    IntPtr stepper = ptr;
+                    for (int step = 0; step < ExceptionParamterCount; step++)
+                    {
+                        ret[step] = HelperRoutines.Peek4(stepper);
+                        stepper += sizeof(ulong);
+                    }
+                    NativeMethods.SimpleFree(ptr);
+                    return ret;
                 }
-                return ret.ToArray();
+                return null;
+            }
+        }
+
+        public ulong[] ExceptionParameter64
+        {
+            get
+            {
+                IntPtr ptr = NativeMethods.DebugEvent_ExceptionInfo_GetExceptionInformation(Native);
+                if (ptr != IntPtr.Zero)
+                {
+                    ulong[] ret = new ulong[ExceptionParamterCount];
+                    IntPtr stepper = ptr;
+                    for (int step = 0; step < ExceptionParamterCount; step++)
+                    {
+                        ret[step] = HelperRoutines.Peek4(stepper);
+                        stepper += sizeof(ulong);
+                    }
+                    NativeMethods.SimpleFree(ptr);
+                    return ret;
+                }
+                return null;
             }
         }
 
@@ -490,7 +520,7 @@ namespace InsightSheath.Wrappers
 
 
         /// <summary>
-        /// Return the Exception for the the exception that trigged.
+        /// Return the Exception for the exception that trigged.
         /// </summary>
         public  uint ExceptionCode
         {

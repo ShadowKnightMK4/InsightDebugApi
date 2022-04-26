@@ -57,8 +57,8 @@ namespace InsightSheath.NativeImports
         [DllImport("InsightApi.Dll", BestFitMapping = false, CallingConvention = CallingConvention.Winapi, EntryPoint = "DebugEvent_ExceptionInfo_GetFirstChance", ExactSpelling = false)]
         public static extern UInt32 DebugEvent_ExceptionInfo_GetFirstChance(IntPtr LPDebugEevent);
 
-        [DllImport("InsightApi.Dll", BestFitMapping = false, CallingConvention = CallingConvention.Winapi, EntryPoint = "DebugEvent_ExceptionInfo_GetFirstChance", ExactSpelling = false)]
-        public static extern UInt64 DebugEvent_ExceptionInfo_GetExceptionInformation(IntPtr LPDebugEevent);
+        [DllImport("InsightApi.Dll", BestFitMapping = false, CallingConvention = CallingConvention.Winapi, EntryPoint = "DebugEvent_ExceptionInfo_GetExceptionInformation", ExactSpelling = false)]
+        public static extern IntPtr DebugEvent_ExceptionInfo_GetExceptionInformation(IntPtr LPDebugEevent);
 
         [DllImport("InsightApi.Dll", BestFitMapping = false, CallingConvention = CallingConvention.Winapi, EntryPoint = "DebugEvent_ExceptionInfo_GetExceptionArgumentCount", ExactSpelling = false)]
         public static extern UInt32 DebugEvent_ExceptionInfo_GetExceptionArgumentCount(IntPtr LPDebugEevent);

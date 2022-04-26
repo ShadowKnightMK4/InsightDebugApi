@@ -58,6 +58,16 @@ namespace RemoteStructureRoutine
 		/// <param name="Event">Event to extract from.</param>
 		/// <returns>allocates and returns a Unicode string.  IF the Event contains an ANSI string, a is converted to Unicode before being returned.  Largested String possible returned is 0xfffe long If something goes wrong, nullptr is returned instead</returns>
 		LPWSTR WINAPI RemoteReadDebugString(HANDLE Process, LPDEBUG_EVENT Event);
+
+
+		/// <summary>
+		/// Extract a string of arbrirary char length from the remote process.  
+		/// </summary>
+		/// <param name="Process">Target Process should have PROCESS_VM_READ rights</param>
+		/// <param name="RemoteMemoryLocation">Virtual memory in the TARGET Process location</param>
+		/// <param name="char_count">how many chars</param>
+		/// <returns>returns a pointer to the string or null.  Routine allocates sizeof(wchar_t) *  char_count+1 then null terminates it before returning block</returns>
+		LPWSTR WINAPI RemoteReadStringW(HANDLE Process, const wchar_t* RemoteMemoryLocation, size_t char_count);
 #pragma endregion
 
 

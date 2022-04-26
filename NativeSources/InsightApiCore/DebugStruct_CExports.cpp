@@ -343,6 +343,7 @@ extern "C"
 	/// <returns></returns>
 	DWORD64* WINAPI DebugEvent_ExceptionInfo_GetExceptionInformation(LPDEBUG_EVENT Ptr)
 	{
+		DWORD64* Ret = nullptr;
 		EXCEPTION_RECORD32 Except32;
 		EXCEPTION_RECORD64 Except64;
 		bool Pref32 = false;
@@ -363,19 +364,29 @@ extern "C"
 					CopyMemory(&Except64, &Ptr->u.Exception.ExceptionRecord, sizeof(EXCEPTION_RECORD64));
 				}
 
-
-				if (Pref32)
+				Ret = (DWORD64*)malloc(sizeof(Except64.ExceptionInformation));
+				if (Ret)
 				{
-					return (DWORD64*)&Except32.ExceptionInformation[0];
-				}
-				else
-				{
-					return &Except64.ExceptionInformation[0];
+					if (Pref32)
+					{
+						for (int step = 0; step < EXCEPTION_MAXIMUM_PARAMETERS; step++)
+						{
+							Ret[step] = Except32.ExceptionInformation[step];
+						}
+					}
+					else
+					{
+						for (int step = 0; step < EXCEPTION_MAXIMUM_PARAMETERS; step++)
+						{
+							Ret[step] = Except64.ExceptionInformation[step];
+						}
+					}
+					return Ret;
 				}
 			}
 
 		}
-		return 0;
+		return nullptr;
 	}
 #pragma endregion
 

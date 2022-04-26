@@ -7,6 +7,30 @@
 
 namespace RemoteStructureRoutine
 {
+
+	/// <summary>
+	/// write a dword into the remote memory location with value of Value
+	/// </summary>
+	/// <param name="Process"></param>
+	/// <param name="Value"></param>
+	/// <param name="RemoteLocation"></param>
+	/// <returns></returns>
+	BOOL RemotePoke4(HANDLE Process, DWORD Value, VOID* RemoteLocation)
+	{
+		if ((RemoteLocation != 0) && (Process != 0))
+		{
+			SIZE_T BytesWrote = 0;
+			if (WriteProcessMemory(Process, RemoteLocation, &Value, sizeof(DWORD), &BytesWrote))
+			{
+				if (BytesWrote == sizeof(DWORD))
+				{
+					return TRUE;
+				}
+			}
+		}
+		return FALSE;
+	}
+
 	/// <summary>
 	/// Allocate a buffer of MaxBuffer, read from the passed process's RemoteMemory allocate and return said buffer
 	/// </summary>
@@ -438,6 +462,41 @@ namespace RemoteStructureRoutine
 		return ret;
 	}
 
+	LPWSTR WINAPI RemoteReadStringW(HANDLE Process, const wchar_t* RemoteMemoryLocation, size_t char_count)
+	{
+		DWORD StringSize = 0;
+		LPWSTR ret = nullptr;
+		SIZE_T BytesRead = 0;
+		if (RemoteMemoryLocation == nullptr)
+		{
+			return nullptr;
+		}
+		else
+		{
+			StringSize = char_count+1;
+			StringSize *= sizeof(wchar_t);
+
+			
+			// fix to try NOT curropting heap
+			ret = (LPWSTR)malloc(StringSize * 2);
+			if (ret != nullptr)
+			{
+				ZeroMemory(ret, StringSize * 2);
+				StringSize -= sizeof(wchar_t);
+				if (!ReadProcessMemory(Process, RemoteMemoryLocation, ret, StringSize, &BytesRead))
+				{
+					free(ret);
+					ret = nullptr;
+				}
+				else
+				{
+					
+				}
+
+			}
+			return ret;
+		}
+	}
 	LPWSTR WINAPI RemoteReadDebugString(HANDLE Process, LPDEBUG_EVENT Event)
 	{
 		LPWSTR Ret = nullptr;

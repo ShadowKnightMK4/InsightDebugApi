@@ -35,8 +35,16 @@
     <ClInclude Include="DetouredReplacementRoutines.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DetouringRoutine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Readme.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="exports.def">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

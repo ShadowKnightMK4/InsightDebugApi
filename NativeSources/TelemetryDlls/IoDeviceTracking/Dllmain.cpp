@@ -1,14 +1,31 @@
 
 #include <windows.h>
-
+#include "DetouringRoutine.h"
 /*
 * You have these options in the build config settings to define to modify this template
 *
 * PIN_TELEMETRY_DLL     ->      DllMain() will now pin itself in the memory of the module it's loaded in to prevent premature loading.
 *                       ->      Default is defined
-*                       ->      Clearing this and not providing  a way to undetour any detoured routines will case exceptions
+*                       ->      Clearing this and not providing  a way to undetour any detoured routines will case exceptions when code attempts
+*                               to call your detoured routine that has been unloaded prematurely.
 */
 
+void test_exception()
+{
+    ULONG_PTR Argsp[EXCEPTION_MAXIMUM_PARAMETERS];
+    for (int step = 0; step < EXCEPTION_MAXIMUM_PARAMETERS; step++)
+    {
+        Argsp[step] = step;
+    }
+    __try
+    {
+        RaiseException(1, 0, 15, (CONST ULONG_PTR*)&Argsp);
+    }
+    __except (GetExceptionCode() == 1)
+    {
+        ;
+    }
+}
 #ifdef PIN_TELEMETRY_DLL
 static HMODULE Self = 0;
 #endif
@@ -27,6 +44,11 @@ int WINAPI DllMain(HINSTANCE hInstDll, DWORD fdwReason, LPVOID Reserved)
                 return FALSE;
             }
 #endif
+#ifdef _DEBUG
+            test_exception();
+#endif // _DEBUG
+
+            return DetourTargetRoutines();
             break;
 
         case DLL_THREAD_ATTACH:
