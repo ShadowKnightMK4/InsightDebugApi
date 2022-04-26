@@ -32,7 +32,7 @@ namespace InsightSheath.NativeImports
         /// <param name="char_count">how many chars in the string to read? </param>
         /// <returns></returns>
         [DllImport("InsightApi.dll",CallingConvention= CallingConvention.Winapi, CharSet= CharSet.Unicode, EntryPoint = "RemoteReadStringW")]
-        public static extern string RemoteReadString(IntPtr ProcessHandle, IntPtr RemoteLocation, uint char_count);
+        public static extern IntPtr RemoteReadStringInternal(IntPtr ProcessHandle, IntPtr RemoteLocation, uint char_count);
         /// <summary>
         /// WWraps RemoteReadDebugString.  Return value is a string that needs to be freed afterwares.
         /// </summary>

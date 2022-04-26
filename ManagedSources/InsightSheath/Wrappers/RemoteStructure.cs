@@ -59,7 +59,14 @@ namespace InsightSheath.Remote
         /// <returns></returns>
         public static string RemoteReadString(IntPtr ProcessHandle, IntPtr StringLocation, uint CharCount)
         {
-            return NativeMethods.RemoteReadString(ProcessHandle, StringLocation, CharCount);
+            string str = null;
+            IntPtr ret = NativeMethods.RemoteReadStringInternal(ProcessHandle, StringLocation, CharCount);
+            if (ret != IntPtr.Zero)
+            {
+                str = Marshal.PtrToStringUni(ret);
+                NativeMethods.SimpleFree(ret);
+            }
+            return str;
         }
 
         /// <summary>

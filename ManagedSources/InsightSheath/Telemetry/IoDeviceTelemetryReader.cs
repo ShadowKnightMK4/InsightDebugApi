@@ -10,6 +10,90 @@ using System.Runtime.InteropServices;
 
 namespace InsightSheath.Telemetry
 {
+
+    /// <summary>
+    /// Action to be taken by CreateFileA/W
+    /// </summary>
+    public enum CreationDisposition: uint
+    { 
+        /// <summary>
+        /// Makes a new file if said target does not already exists
+        /// </summary>
+        CreateNew = 1,
+        /// <summary>
+        /// Creates fil and truncates if file exists already, createfilea/w sets last error if truncating
+        /// </summary>
+        CreateAlways = 2,
+        /// <summary>
+        /// open an existing file / device and fail if not found
+        /// </summary>
+        OpenExisting = 3,
+        /// <summary>
+        /// open existing file / - attempts to create if not found
+        /// </summary>
+        OpenAlways = 4,
+        /// <summary>
+        /// Open a file and truncate it to zero bytes long
+        /// </summary>
+        TruncateExisting = 5
+    }
+
+    [Flags]
+    /// <summary>
+    /// from <see cref="https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-samr/262970b7-cd4a-41f4-8c4d-5a27f0092aaa"/>, these are the accessible flags
+    /// </summary>
+    public enum AccessMasks: uint
+    {
+        /// <summary>
+        /// MSDN CreateFileA/W suggests meta data can be queried with opening for no access, hence the pair of these.
+        /// </summary>
+        NoAccess = 0,
+        /// <summary>
+        /// MSDN CreateFileA/W suggests meta data can be queried with opening for no access, hence the pair of these.
+        /// </summary>
+        MetaData = NoAccess,
+        /// <summary>
+        /// GENERIC_READ / for read access
+        /// </summary>
+        GenericRead = 0x80000000,
+        /// <summary>
+        /// GENERIC_WRITE / for write access
+        /// </summary>
+        GenericWrite = 0x40000000,
+        /// <summary>
+        /// GENERIC_EXECUTE / for execute access
+        /// </summary>
+        GenericExecute = 0x20000000,
+        /// <summary>
+        /// Generic all / for all possible access
+        /// </summary>
+        GenericAll = 0x10000000
+    }
+
+    /// <summary>
+    /// Share mode for CreateFileA/W
+    /// </summary>
+    [Flags]
+    public enum ShareMasks: uint
+    {
+        /// <summary>
+        /// Don't wanna share
+        /// </summary>
+        NoShare = 0,
+        /// <summary>
+        /// Share for delete requests only
+        /// </summary>
+        ShareDelete = 0x00000004,
+        /// <summary>
+        /// Share for read access only
+        /// </summary>
+        ShareRead = 0x00000001,
+        /// <summary>
+        /// Share for write access only
+        /// </summary>
+        ShareWrite = 0x00000002
+    }
+
     public static class TelemetryExceptionExtensionsCheckers
     {
         /// <summary>
@@ -55,11 +139,11 @@ namespace InsightSheath.Telemetry
         /// <summary>
         /// Desired access for the target file
         /// </summary>
-        public uint DesiredAccess;
+        public AccessMasks DesiredAccess;
         /// <summary>
         /// Will the debugged app open for sharing?
         /// </summary>
-        public uint SharedMode;
+        public ShareMasks SharedMode;
         /// <summary>
         /// Debugged app's requested security attributes (IMPORTANT this points to virtual memory in *that* process, not yours.)
         /// </summary>
@@ -67,7 +151,7 @@ namespace InsightSheath.Telemetry
         /// <summary>
         /// Creation disposition
         /// </summary>
-        public uint CreateDisposition;
+        public CreationDisposition CreateDisposition;
         /// <summary>
         /// Flags and attributes
         /// </summary>
@@ -121,6 +205,8 @@ namespace InsightSheath.Telemetry
         static readonly uint ExceptionArgType = 0;
         static readonly uint ExceptionSubType = 0;
         static readonly uint CreateFile_LastErrorPtr = 1;
+
+
         /* if exception is NotificationType.CreateFile */
         static readonly uint CreateFile_FilenamePtr = 2;
         static readonly uint CreateFile_FileNameCharLen = 3;
@@ -182,10 +268,10 @@ namespace InsightSheath.Telemetry
             var Handle = HelperRoutines.OpenProcessForVirtualMemory(that.ProcessID);
             {
                 ret.FileName = RemoteStructure.RemoteReadString(Handle, new IntPtr(Arguments[CreateFile_FilenamePtr]), Arguments[CreateFile_FileNameCharLen]);
-                ret.DesiredAccess = Arguments[CreateFile_DesiredAccess];
-                ret.SharedMode = Arguments[CreateFile_ShareMode];
+                ret.DesiredAccess = (AccessMasks) Arguments[CreateFile_DesiredAccess];
+                ret.SharedMode = (ShareMasks) Arguments[CreateFile_ShareMode];
                 ret.SecurityAttrib = new IntPtr(Arguments[CreateFile_SecurityPtr]);
-                ret.CreateDisposition = Arguments[CreateFile_CreationDisposition];
+                ret.CreateDisposition = (CreationDisposition)Arguments[CreateFile_CreationDisposition];
                 ret.FlagsAndAttributes = Arguments[CreateFile_FlagsAndAttribs];
                 ret.TemplateFile = Arguments[CreateFile_TemplateFile];
                 ret.ForceHandle = new IntPtr(Arguments[CreateFile_OvrridePtr]);

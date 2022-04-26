@@ -10,6 +10,9 @@
 *                               to call your detoured routine that has been unloaded prematurely.
 */
 
+/* if you find you're getting garbage from the exception reading in the sheath, uncomment this and put a call info the DllMain() here.
+If inspecting during a debug run givens different values there's a problem.
+*/
 void test_exception()
 {
     ULONG_PTR Argsp[EXCEPTION_MAXIMUM_PARAMETERS];

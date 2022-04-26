@@ -15,7 +15,8 @@ namespace FileSandBox_GUI
     static class Program
     {
         //typedef int(WINAPI* DebugEventCallBackRoutine)(LPDEBUG_EVENT lpCurEvent, DWORD* ContinueStatus, DWORD* WaitTimer, DWORD CustomArg);
-        
+
+        static List<string> DesourcesTouched = new List<string>();
         static bool Quit = false;
         static InsightHunter Insight;
         //public delegate bool SymbolSearchCallBackRoutine(IntPtr SymbolInfo);
@@ -85,7 +86,7 @@ namespace FileSandBox_GUI
                         if (ExceptionData.GetIoDeviceExceptionType() == IoDeviceTelemetryReaderExtensions.NotificationType.CreateFile)
                         {
                             var Info = ExceptionData.GetCreateFileSettings();
-
+                            DesourcesTouched.Add(Info.FileName + "for " + Enum.GetName(typeof(AccessMasks), Info.DesiredAccess));
                         }
                      
                     }
@@ -220,6 +221,10 @@ namespace FileSandBox_GUI
                         if (Target.HasExited == true)
                         {
                             Console.WriteLine("Process Has Quit during kick loop");
+                            foreach (string file in DesourcesTouched)
+                            {
+                                Console.WriteLine(file);
+                            }
                             break;
                         }
                         else

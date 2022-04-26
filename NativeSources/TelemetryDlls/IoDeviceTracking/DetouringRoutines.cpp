@@ -6,6 +6,13 @@
 #include <sstream>
 HMODULE Kernel32;
 
+const char* kernel32_string = "kernel32.dll";
+const char* CloseHandle_string = "CloseHandle";
+const char* CreateFileA_string = "CreateFileA";
+const char* CreateFileW_string = "CreateFileW";
+const char* CreateFile2_string = "CreateFile2";
+const char* CreateFileTransactedA_string = "CreateFileTransactedA";
+const char* CreateFileTransactedW_string = "CreateFileTransactedW";
 void error_unabletocommit_justdating(DWORD val, const wchar_t* telemetryname)
 {
 	std::wstringstream output;
@@ -15,7 +22,7 @@ void error_unabletocommit_justdating(DWORD val, const wchar_t* telemetryname)
 #else
 	output << "Unable to apply detours to relevant routines from the telemetry dll named " << telemetryname << std::endl;
 #endif
-	OutputDebugString(output.str().c_str());
+	
 }
 void error_detourattachfail(DWORD val, const wchar_t* routine_name, LPVOID Ptr, LPVOID Replacement)
 {
@@ -77,48 +84,50 @@ bool DetourTargetRoutines()
 {
 	LONG detour = 0;
 
-	Kernel32 = LoadLibrary(L"kernel32.dll");
+	Kernel32 = LoadLibraryA(kernel32_string);
 	if (Kernel32 != nullptr)
 	{
-		OriginalCloseHandle =  (CloseHandlePtr) GetProcAddress(Kernel32, "CloseHandle");
-#ifdef _DEBUG
+		OriginalCloseHandle =  (CloseHandlePtr) GetProcAddress(Kernel32, CloseHandle_string);
 		if (OriginalCloseHandle == 0)
 		{
+#ifdef _DEBUG
 			error_getproc(TRUE, L"CloseHandle", L"kernel32.dll");
 #endif // _DEBUG
 			return false;
 		}
 
 
-		OriginalCreateFileW = (CreateFileWPtr)GetProcAddress(Kernel32, "CreateFileW");
-#ifdef _DEBUG
+		OriginalCreateFileW = (CreateFileWPtr)GetProcAddress(Kernel32, CreateFileW_string);
 		if (OriginalCreateFileW == 0)
 		{
+#ifdef _DEBUG
 			error_getproc(TRUE, L"CreateFileW", L"kernel32.dll");
 #endif // _DEBUG
 			return false;
 		}
 
 
-		OriginalCreateFileA = (CreateFileAPtr)GetProcAddress(Kernel32, "CreateFileA");
-#ifdef _DEBUG
+		OriginalCreateFileA = (CreateFileAPtr)GetProcAddress(Kernel32, CreateFileA_string);
 		if (OriginalCreateFileA == 0)
 		{
+#ifdef _DEBUG
 			error_getproc(TRUE, L"CreateFileA", L"kernel32.dll");
 #endif // _DEBUG
 			return false;
 		}
 
-		OriginalCreateFileTransactedA = (CreateFileTransactedAPtr)GetProcAddress(Kernel32, "CreateFileTransactedA");
-#ifdef _DEBUG
+		OriginalCreateFileTransactedA = (CreateFileTransactedAPtr)GetProcAddress(Kernel32, CreateFileTransactedA_string);
+
 		if (OriginalCreateFileTransactedA == 0)
+
 		{
+#ifdef _DEBUG
 			error_getproc(TRUE, L"CreateFileTransactedW", L"kernel32.dll");
 #endif // _DEBUG
 			return false;
 		}
 
-		OriginalCreateFileTransactedW = (CreateFileTransactedWPtr)GetProcAddress(Kernel32, "CreateFileTransactedW");
+		OriginalCreateFileTransactedW = (CreateFileTransactedWPtr)GetProcAddress(Kernel32, CreateFileTransactedW_string);
 
 		if (OriginalCreateFileTransactedW == 0)
 		{
@@ -128,7 +137,7 @@ bool DetourTargetRoutines()
 			return false;
 		}
 
-		OriginalCreateFile2 = (CreateFile2Ptr)GetProcAddress(Kernel32, "CreateFile2");
+		OriginalCreateFile2 = (CreateFile2Ptr)GetProcAddress(Kernel32, CreateFile2_string);
 
 		if (OriginalCreateFile2 == 0)
 		{

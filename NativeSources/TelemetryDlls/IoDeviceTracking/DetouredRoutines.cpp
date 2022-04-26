@@ -227,8 +227,6 @@ DWORD lastErrorRep = 0;
 HANDLE hReplacement = 0;
 
 wchar_t* UnicodeString = AnsiToUnicode((char*)lpFileName);
-OutputDebugString(L"CreatedCreateFIleA\r\n");
-OutputDebugString(UnicodeString);
 
 DWORD common_branch = __CreateFileAW_CommmonAlert(UnicodeString, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile, &hReplacement, &lastErrorRep);
 if (!UnicodeString)
