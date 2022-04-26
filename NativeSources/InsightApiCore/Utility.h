@@ -31,7 +31,7 @@ wchar_t* WINAPI GetModuleNameViaHandle(HANDLE Process, HMODULE Module);
 /// Allocate a buffer and get the name of the file via the handle. CALLER Frees it
 /// </summary>
 /// <param name="FileHandle">Handle to a file</param>
-/// <returns>returns a buffer allocatedw with malloc().   Use Free() to Free it when done.</returns>
+/// <returns>returns a buffer allocated with malloc().   Use Free() to Free it when done.</returns>
 wchar_t* WINAPI GetFileNameViaHandle(HANDLE FileHandle);
 
 /// <summary>
@@ -52,11 +52,22 @@ BOOL WINAPI IsTargetProcessID32Bit(DWORD ProcessID);
 
 
 /// <summary>
-/// Ask for Windows Debug Priviledge and return if it was granted.
+/// Ask for Windows Debug Privilege and return if it was granted.
 /// </summary>
 /// <returns></returns>
 BOOL WINAPI AskForDebugPriv();
 
+
+/// <summary>
+/// Duplicate handle into the target process. Will still need to figure a way to put the handle there.
+/// </summary>
+/// <param name="CurrentHandle"></param>
+/// <param name="Access"></param>
+/// <param name="CopyAccess"></param>
+/// <param name="RemoteProcess"></param>
+/// <param name="Inherit"></param>
+/// <returns></returns>
+HANDLE WINAPI RemoteHandleDup(HANDLE CurrentHandle, DWORD Access, BOOL CopyAccess, HANDLE RemoteProcess, BOOL Inherit);
 
 /// <summary>
 /// Duplicate a handle in the local process to another local handle with the option of access specifying or keeping current access

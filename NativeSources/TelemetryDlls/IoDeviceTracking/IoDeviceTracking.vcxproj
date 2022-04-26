@@ -151,6 +151,7 @@
     <ClCompile Include="OriginalRoutinePtrs.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DetouredReplacementRoutines.h" />
     <ClInclude Include="OriginalRoutinePts.h" />
   </ItemGroup>
   <ItemGroup>

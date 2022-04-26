@@ -56,6 +56,22 @@ BOOL WINAPI AskForDebugPriv()
 	return EnablePrivOnSelf(SE_DEBUG_NAME, TRUE);
 }
 
+
+HANDLE WINAPI RemoteHandleDup(HANDLE CurrentHandle, DWORD Access, BOOL CopyAccess, HANDLE RemoteProcess, BOOL Inherit)
+{
+	HANDLE ret = 0;
+	DWORD Arg = 0;
+	if (CopyAccess)
+	{
+		Arg = DUPLICATE_SAME_ACCESS;
+	}
+	if (DuplicateHandle(GetCurrentProcess(), CurrentHandle, RemoteProcess, &ret, Access, Inherit, Arg))
+	{
+		return ret;
+	}
+	return 0;
+}
+
 HANDLE WINAPI LocalHandleDup(HANDLE CurrentHandle, DWORD Access, BOOL CopyAccess)
 {
 	HANDLE Ret = 0;

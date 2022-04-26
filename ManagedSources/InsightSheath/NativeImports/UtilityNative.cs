@@ -52,7 +52,19 @@ namespace InsightSheath.NativeImports
         /// <returns>contents of that location OR 0 if you pass <see cref="IntPtr.Zero"/> as the <see cref="NativePtr"/> value</returns>
         [DllImport("InsightApi.Dll", CallingConvention = CallingConvention.Winapi, EntryPoint = "UtilPeek4")]
         public static extern uint Peek4(IntPtr NativePtr);
+        //UtilDuplicateHandleIntoTarget
 
+        /// <summary>
+        /// Duplicate the handle into the passed process. Handle is assumed to be from the current process. Will still need a way to get to remote process.
+        /// </summary>
+        /// <param name="CurrentHandle"></param>
+        /// <param name="Access"></param>
+        /// <param name="CopyAccess"></param>
+        /// <param name="TargetProcess"></param>
+        /// <param name="Inherit"></param>
+        /// <returns></returns>
+        [DllImport("InsightApi.dll", EntryPoint = "UtilDuplicateHandleIntoTarget", CallingConvention= CallingConvention.Winapi,SetLastError =true)]
+        public static extern IntPtr DuplicateHandleIntoTarget(IntPtr CurrentHandle, UInt32 Access, bool CopyAccess, IntPtr TargetProcess, bool Inherit);
         /// <summary>
         /// Write a 4 byte DWORD value to an unmanaged local memory location
         /// </summary>

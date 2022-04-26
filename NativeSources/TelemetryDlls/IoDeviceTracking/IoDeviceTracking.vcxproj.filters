@@ -32,6 +32,9 @@
     <ClInclude Include="OriginalRoutinePts.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DetouredReplacementRoutines.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Readme.txt" />

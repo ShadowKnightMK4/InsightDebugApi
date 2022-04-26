@@ -56,7 +56,19 @@ namespace InsightSheath
             return NativeMethods.Poke8(Target, val);
         }
 
-        
+        /// <summary>
+        /// Duplicate a handle from the current process into the target process.
+        /// </summary>
+        /// <param name="CurrentHandle">handle located in current process</param>
+        /// <param name="Access">Choose your access parameters</param>
+        /// <param name="CopyAccess">set to true to ignore <see cref="Access"/> and take the current permssions from the handle for the new one too</param>
+        /// <param name="TargetProcess">Target remote process to pick from</param>
+        /// <param name="AllowInherit">Allow spawned processes to inherit</param>
+        /// <returns></returns>
+        public static IntPtr DuplicateHandleToRemote(IntPtr CurrentHandle, uint Access, bool CopyAccess, IntPtr TargetProcess, bool AllowInherit)
+        {
+            return NativeMethods.DuplicateHandleIntoTarget(CurrentHandle, Access, CopyAccess, TargetProcess, AllowInherit);
+        }
         /// <summary>
         /// Get a Process's name via its handle.Handle needs PROCESSS_QUERY_INFOMRATION and VM_READ rights.
         /// </summary>

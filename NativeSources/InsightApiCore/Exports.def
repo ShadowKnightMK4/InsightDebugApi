@@ -67,6 +67,7 @@ LIBRARY INSIGHTAPI
 		UtilPeek4=Peek4
 		UtilPoke8=Poke8
 		UtilPeek8=Peek8
+		UtilDuplicateHandleIntoTarget=RemoteHandleDup
 		UtilIsTargetProcessID32Bit=IsTargetProcessID32Bit
 		DebugEvent_AllocateStructure
 		DebugEvent_FreeStructure=RemoteRead_SimpleFree

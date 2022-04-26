@@ -12,7 +12,7 @@ namespace InsightSheath.Wrappers
 
     
     /// <summary>
-    /// ThreadContext is a class indented for reading/writing information about threads receives in the main PsContext structure
+    /// ThreadContext is a class indented for reading/writing information about threads receives in the main <see cref="InsightProcess"/> structure
     /// We duplicate some of the functionality of the <see cref="ProcessThread"/> class for C# user familiarity. 
     /// </summary>
     public class ThreadContext : NativeStaticContainer
