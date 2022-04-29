@@ -161,7 +161,8 @@ namespace InsightSheath
 
 
         /// <summary>
-        /// Some of the routines here return Native Handles. This wraps CloseHandle() from kernel32 for convenience  
+        /// Some of the routines here return Native Handles. This wraps 
+        /// () from kernel32 for convenience  
         /// </summary>
         /// <param name="Handle"></param>
         /// <returns></returns>

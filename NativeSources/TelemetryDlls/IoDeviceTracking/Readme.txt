@@ -2,7 +2,8 @@
 IoDviceTracking Project
 Should resolve to \Telemetry\IoDeviceTracking.dll.
 
-This file project detours CreateFileA/W and CreateFileTransactedA/W  (CreateFile2 also),  and CloseHandle.
+This file project detours CreateFileA/W and CreateFileTransactedA/W  (CreateFile2 also),  and 
+.
 
 
 The general detoured routine calls code to convert the string to Unicode, calls a common notification routine that raises

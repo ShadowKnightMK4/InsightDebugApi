@@ -128,9 +128,9 @@ namespace InsightSheath.Telemetry
 
     }
 
-    public struct IoDeviceTelemetyCreateFIle
+    public struct IoDeviceTelemetyCreateFile
     {
-        public IoDeviceTelemetyCreateFIle(uint dwProcess, uint dwThread, IntPtr HandlePtr, IntPtr ErrorPtr)
+        public IoDeviceTelemetyCreateFile(uint dwProcess, uint dwThread, IntPtr HandlePtr, IntPtr ErrorPtr)
         {
             FileName = null;
             DesiredAccess = AccessMasks.NoAccess;
@@ -144,7 +144,13 @@ namespace InsightSheath.Telemetry
             ProcessId = dwProcess;
             ThreadId = dwThread;
         }
+        /// <summary>
+        /// Process that the exception originated from.
+        /// </summary>
         public readonly uint ProcessId;
+        /// <summary>
+        /// Thread that the exception originated from.
+        /// </summary>
         public readonly uint ThreadId;
         /// <summary>
         /// Name of the file the debugged process is trying to open
@@ -155,11 +161,11 @@ namespace InsightSheath.Telemetry
         /// </summary>
         public AccessMasks DesiredAccess;
         /// <summary>
-        /// Will the debugged app open for sharing?
+        /// Will the debugged process try to open for sharing?
         /// </summary>
         public ShareMasks SharedMode;
         /// <summary>
-        /// Debugged app's requested security attributes (IMPORTANT this points to virtual memory in *that* process, not yours.)
+        /// Debugged process 's requested security attributes (IMPORTANT! this points to virtual memory in **THAT** process, not yours.)
         /// </summary>
         public IntPtr SecurityAttrib;
         /// <summary>
@@ -171,7 +177,7 @@ namespace InsightSheath.Telemetry
         /// </summary>
         public uint FlagsAndAttributes;
         /// <summary>
-        /// Template file that's always null
+        /// Template file that's usually (but NOT always) null.
         /// </summary>
         public uint TemplateFile;
         /// <summary>
@@ -179,8 +185,10 @@ namespace InsightSheath.Telemetry
         /// </summary>
         public readonly IntPtr ForceHandle;
 
-
-         static readonly uint InvalidHandleValue = (0xffffffff);
+        /// <summary>
+        /// If you desire to make the call from the process to CreateFileA/W file fail, call <see cref="SetForceHandle"/> with this has a value
+        /// </summary>
+        public static readonly uint InvalidHandleValue = (0xffffffff);
         /// <summary>
         /// Duplicate this handle back to the process (uses) <see cref="ForceHandle"/>
         /// </summary>
@@ -189,6 +197,7 @@ namespace InsightSheath.Telemetry
         {
             //IntPtr handle = NativeImports.NativeMethods.OpenProcessNow(dwProcessId);
             IntPtr handle = HelperRoutines.OpenProcessForHandleDuplicating(ProcessId);
+            try
             {
                 if ((uint)ReplacementHandle.ToInt32() != InvalidHandleValue)
                 {
@@ -199,12 +208,41 @@ namespace InsightSheath.Telemetry
                 {
                     RemoteStructure.RemotePoke4(handle, (uint)InvalidHandleValue, this.ForceHandle);
                 }
-                
-                
+
+
             }
-            HelperRoutines.CloseHandle(handle);
+            finally
+            {
+                HelperRoutines.CloseHandle(handle);
+            }
         }
 
+        /// <summary>
+        /// Set the handle value to something other than an <see cref="IntPtr"/> - for example <see cref="InvalidHandleValue"/>
+        /// </summary>
+        /// <param name="HandleValue"></param>
+        public void SetForceHandle(uint HandleValue)
+        {
+            IntPtr handle = HelperRoutines.OpenProcessForHandleDuplicating(ProcessId);
+            try
+            {
+                if (HandleValue != InvalidHandleValue)
+                {
+                    IntPtr duphandle = NativeImports.NativeMethods.DuplicateHandleIntoTarget(new IntPtr(HandleValue), 0, true, handle, true);
+                    RemoteStructure.RemotePoke4(handle, (uint)duphandle.ToInt32(), ForceHandle);
+                }
+                else
+                {
+                    RemoteStructure.RemotePoke4(handle, InvalidHandleValue, ForceHandle);
+                }
+
+
+            }
+            finally
+            {
+                HelperRoutines.CloseHandle(handle);
+            }
+        }
         
         /// <summary>
         /// contains pointer in the <see cref="dwProcessId"/> context pointing to memory on the stack that contra ins a value to set last error too one execution is resumed.
@@ -230,7 +268,10 @@ namespace InsightSheath.Telemetry
     /// </summary>
     public static class IoDeviceTelemetryReaderExtensions
     {
-        static readonly uint ExceptionArgType = 0;
+        const uint ExceptionArgType = 0;
+
+
+
         const uint ExceptionSubType = 0;
         const uint CreateFile_LastErrorPtr = 1;
 
@@ -292,15 +333,15 @@ namespace InsightSheath.Telemetry
         /// </summary>
         /// <param name="that"></param>
         /// <returns></returns>
-        public static IoDeviceTelemetyCreateFIle GetCreateFileSettings(this DebugEventExceptionInfo that)
+        public static IoDeviceTelemetyCreateFile GetCreateFileSettings(this DebugEventExceptionInfo that)
         {
-            IoDeviceTelemetyCreateFIle ret;
+            IoDeviceTelemetyCreateFile ret;
             var Arguments = that.ExceptionParameter32;
             IntPtr Handle = HelperRoutines.OpenProcessForVirtualMemory(that.ProcessID);
 
             try
             {
-                ret = new IoDeviceTelemetyCreateFIle(that.ProcessID, that.ThreadID, (IntPtr)Arguments[CreateFile_OvrridePtr], (IntPtr)Arguments[CreateFile_LastErrorPtr]);
+                ret = new IoDeviceTelemetyCreateFile(that.ProcessID, that.ThreadID, (IntPtr)Arguments[CreateFile_OvrridePtr], (IntPtr)Arguments[CreateFile_LastErrorPtr]);
                 
                 ret.FileName = RemoteStructure.RemoteReadString(Handle, new IntPtr(Arguments[CreateFile_FilenamePtr]), Arguments[CreateFile_FileNameCharLen]);
                 ret.DesiredAccess = (AccessMasks)Arguments[CreateFile_DesiredAccess];
