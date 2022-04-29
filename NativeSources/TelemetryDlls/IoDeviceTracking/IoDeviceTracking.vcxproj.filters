@@ -40,11 +40,13 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Readme.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="exports.def">
       <Filter>Resource Files</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Readme.txt">
+      <Filter>Header Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>

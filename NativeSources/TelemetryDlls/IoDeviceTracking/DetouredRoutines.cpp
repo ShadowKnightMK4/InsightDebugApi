@@ -277,6 +277,13 @@ HANDLE WINAPI DetouredCreateFileW(
 	{
 #ifdef _DEBUG
 		OutputDebugString(L"Overritten the file handle with the new one");
+
+#ifdef _DEBUG
+		std : std::wstringstream tmp;
+		tmp << L"Replaced!!! \r\n" << "Handle ==" << std::hex << hReplacement << L"LastError = " << std::dec << lastErrorRep << L"\r\n";
+		OutputDebugString(tmp.str().c_str());
+#endif
+
 #endif
 		Overwritten = TRUE;
 	}
@@ -284,7 +291,7 @@ HANDLE WINAPI DetouredCreateFileW(
 	if (Overwritten)
 	{
 #ifdef _DEBUG
-		OutputDebugString(L"Setting last error to overritten value and returning new one");
+		OutputDebugString(L"Setting last error to overwritten value and returning new one");
 #endif
 		SetLastError(lastErrorRep);
 		return hReplacement;
@@ -293,7 +300,7 @@ HANDLE WINAPI DetouredCreateFileW(
 	else
 	{
 #ifdef _DEBUG
-		OutputDebugString(L"Call not overrwritten");
+		OutputDebugString(L"Call not overwritten\r\n");
 #endif
 		return OriginalCreateFileW(lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile);
 	}

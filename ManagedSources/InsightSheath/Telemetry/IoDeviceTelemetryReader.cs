@@ -97,10 +97,10 @@ namespace InsightSheath.Telemetry
     public static class TelemetryExceptionExtensionsCheckers
     {
         /// <summary>
-        /// Extension to <see cref="DebugEventExceptionInfo"/>, returns true if the exception is from the iodevicetelemetry dll (and able to be cast to it)
+        /// Extension to <see cref="DebugEventExceptionInfo"/>, Returns if the contained exception <see cref="DebugEventExceptionInfo"/> is one generated via IoDeviceTelemetry DLL
         /// </summary>
-        /// <param name="that"></param>
-        /// <returns></returns>
+        /// <param name="that">the this parameter or class to test</param>
+        /// <returns> Returns if the contained exception <see cref="DebugEventExceptionInfo"/> is one generated via IoDeviceTelemetry DLL</returns>
         public static bool IsIoDeviceTelemetryException(this DebugEventExceptionInfo that)
         {
             if (that.ExceptionCode == IoDeviceTelemetryReaderExtensions.FixedExceptionCode)
@@ -110,7 +110,7 @@ namespace InsightSheath.Telemetry
             return false;
         }
         /// <summary>
-        /// Extension for <see cref="DebugEvent"/> returns true if event is an exception from iodevicetelemtry dll and able to be cast too it.
+        /// Extension to <see cref="DebugEvent"/>, Returns if the contained exception <see cref="DebugEvent"/> is one generated via IoDeviceTelemetry DLL
         /// </summary>
         /// <param name="that"></param>
         /// <returns></returns>
@@ -130,8 +130,22 @@ namespace InsightSheath.Telemetry
 
     public struct IoDeviceTelemetyCreateFIle
     {
-        public uint dwProcessId;
-        public uint dwThreadId;
+        public IoDeviceTelemetyCreateFIle(uint dwProcess, uint dwThread, IntPtr HandlePtr, IntPtr ErrorPtr)
+        {
+            FileName = null;
+            DesiredAccess = AccessMasks.NoAccess;
+            SharedMode = ShareMasks.NoShare;
+            SecurityAttrib = IntPtr.Zero;
+            CreateDisposition = 0;
+            FlagsAndAttributes = 0;
+            TemplateFile = 0;
+            ForceHandle = HandlePtr;
+            ForceLastError = ErrorPtr;
+            ProcessId = dwProcess;
+            ThreadId = dwThread;
+        }
+        public readonly uint ProcessId;
+        public readonly uint ThreadId;
         /// <summary>
         /// Name of the file the debugged process is trying to open
         /// </summary>
@@ -163,8 +177,10 @@ namespace InsightSheath.Telemetry
         /// <summary>
         /// Pointer to a 4 byte block of memory that can be overwritten with a handle value (it will need to be duplicated into the debugged process) to force use of a different value. Default is 0.
         /// </summary>
-        public IntPtr ForceHandle;
+        public readonly IntPtr ForceHandle;
 
+
+         static readonly uint InvalidHandleValue = (0xffffffff);
         /// <summary>
         /// Duplicate this handle back to the process (uses) <see cref="ForceHandle"/>
         /// </summary>
@@ -172,10 +188,19 @@ namespace InsightSheath.Telemetry
         public void SetForceHandle(IntPtr ReplacementHandle)
         {
             //IntPtr handle = NativeImports.NativeMethods.OpenProcessNow(dwProcessId);
-            IntPtr handle = HelperRoutines.OpenProcessForHandleDuplicating(dwProcessId);
+            IntPtr handle = HelperRoutines.OpenProcessForHandleDuplicating(ProcessId);
             {
-                IntPtr duphandle =  NativeImports.NativeMethods.DuplicateHandleIntoTarget(ReplacementHandle, 0, true, handle, true);
-                RemoteStructure.RemotePoke4(handle, (uint)duphandle.ToInt32(), this.ForceHandle);
+                if ((uint)ReplacementHandle.ToInt32() != InvalidHandleValue)
+                {
+                    IntPtr duphandle = NativeImports.NativeMethods.DuplicateHandleIntoTarget(ReplacementHandle, 0, true, handle, true);
+                    RemoteStructure.RemotePoke4(handle, (uint)duphandle.ToInt32(), this.ForceHandle);
+                }
+                else
+                {
+                    RemoteStructure.RemotePoke4(handle, (uint)InvalidHandleValue, this.ForceHandle);
+                }
+                
+                
             }
             HelperRoutines.CloseHandle(handle);
         }
@@ -184,11 +209,11 @@ namespace InsightSheath.Telemetry
         /// <summary>
         /// contains pointer in the <see cref="dwProcessId"/> context pointing to memory on the stack that contra ins a value to set last error too one execution is resumed.
         /// </summary>
-        public  IntPtr ForceLastError;
+        public  readonly IntPtr ForceLastError;
 
         public void SetLastErroValue(uint NewValue)
         {
-            IntPtr handle = NativeImports.NativeMethods.OpenProcessNow(dwProcessId);
+            IntPtr handle = NativeImports.NativeMethods.OpenProcessNow(ProcessId);
             //IntPtr Handle = HelperRoutines.OpenProcessForVirtualMemory(dwProcessId);
             {
                 RemoteStructure.RemotePoke4(handle, NewValue, ForceLastError);
@@ -206,54 +231,57 @@ namespace InsightSheath.Telemetry
     public static class IoDeviceTelemetryReaderExtensions
     {
         static readonly uint ExceptionArgType = 0;
-        static readonly uint ExceptionSubType = 0;
-        static readonly uint CreateFile_LastErrorPtr = 1;
+        const uint ExceptionSubType = 0;
+        const uint CreateFile_LastErrorPtr = 1;
 
 
         /* if exception is NotificationType.CreateFile */
-        static readonly uint CreateFile_FilenamePtr = 2;
-        static readonly uint CreateFile_FileNameCharLen = 3;
-        static readonly uint CreateFile_DesiredAccess = 4;
-        static readonly uint CreateFile_ShareMode = 5;
-        static readonly uint CreateFile_SecurityPtr = 6;
-        static readonly uint CreateFile_CreationDisposition = 7;
-        static readonly uint CreateFile_FlagsAndAttribs = 8;
-        static readonly uint CreateFile_TemplateFile = 9;
-        static readonly uint CreateFile_OvrridePtr = 10;
+        const uint CreateFile_FilenamePtr = 2;
+        const uint CreateFile_FileNameCharLen = 3;
+        const uint CreateFile_DesiredAccess = 4;
+        const uint CreateFile_ShareMode = 5;
+        const uint CreateFile_SecurityPtr = 6;
+        const uint CreateFile_CreationDisposition = 7;
+        const uint CreateFile_FlagsAndAttribs = 8;
+        const uint CreateFile_TemplateFile = 9;
+        const uint CreateFile_OvrridePtr = 10;
         
 
         
 
-        /* if ExceptionSubtype == CreateFile*/ 
-        //static readonly uint 
        /// <summary>
-       /// This class in question will deal with exceptions of this value from IoDeviceTelemetry 
+       /// This class in question will deal with exceptions of this value from Debugged apps that have had IoDeviceTelemetry loaded into to them.
        /// </summary>
         public static readonly uint FixedExceptionCode = 0x68ACB7A9;
         public enum NotificationType
         {
             /// <summary>
-            /// Exception is from either a CreateFileA or CreateFileW call
+            /// Exception is from either a CreateFileA or CreateFileW call. Use the <see cref="GetCreateFileSettings"/> routine to retrieve formatted specifics
             /// </summary>
             CreateFile = 1,
             /// <summary>
-            /// Exception is either from a CreateFIleTransactedA or CreateFIleTransactedW call
+            /// Exception is either from a CreateFIleTransactedA or CreateFIleTransactedW call.
             /// </summary>
             CreateFileTransacted = 2,
             /// <summary>
-            /// Exception from a CloseHandle cal
+            /// Exception from a CloseHandle call. 
             /// </summary>
             CloseHandle = 3,
             /// <summary>
-            /// A lower level NtCreateFIle call
+            /// TODO:: A lower level NtCreateFIle call
             /// </summary>
             NtCreateFile = 4,
             /// <summary>
-            /// A Lower Level NtOpen file call.
+            /// TODO:: A Lower Level NtOpen file call.
             /// </summary>
             NtOpenFile =5
         }
 
+        /// <summary>
+        /// Return the type of Alert this exception is raised from.  
+        /// </summary>
+        /// <param name="that"></param>
+        /// <returns></returns>
         public static NotificationType GetIoDeviceExceptionType(this DebugEventExceptionInfo that)
         {
             return (NotificationType)that.ExceptionParameter64[ExceptionSubType];
@@ -266,25 +294,28 @@ namespace InsightSheath.Telemetry
         /// <returns></returns>
         public static IoDeviceTelemetyCreateFIle GetCreateFileSettings(this DebugEventExceptionInfo that)
         {
-            var ret = new IoDeviceTelemetyCreateFIle();
+            IoDeviceTelemetyCreateFIle ret;
             var Arguments = that.ExceptionParameter32;
-            var Handle = HelperRoutines.OpenProcessForVirtualMemory(that.ProcessID);
+            IntPtr Handle = HelperRoutines.OpenProcessForVirtualMemory(that.ProcessID);
 
+            try
             {
-                ret.dwProcessId = that.ProcessID;
-                ret.dwThreadId = that.ThreadID;
+                ret = new IoDeviceTelemetyCreateFIle(that.ProcessID, that.ThreadID, (IntPtr)Arguments[CreateFile_OvrridePtr], (IntPtr)Arguments[CreateFile_LastErrorPtr]);
+                
                 ret.FileName = RemoteStructure.RemoteReadString(Handle, new IntPtr(Arguments[CreateFile_FilenamePtr]), Arguments[CreateFile_FileNameCharLen]);
-                ret.DesiredAccess = (AccessMasks) Arguments[CreateFile_DesiredAccess];
-                ret.SharedMode = (ShareMasks) Arguments[CreateFile_ShareMode];
+                ret.DesiredAccess = (AccessMasks)Arguments[CreateFile_DesiredAccess];
+                ret.SharedMode = (ShareMasks)Arguments[CreateFile_ShareMode];
                 ret.SecurityAttrib = new IntPtr(Arguments[CreateFile_SecurityPtr]);
                 ret.CreateDisposition = (CreationDisposition)Arguments[CreateFile_CreationDisposition];
                 ret.FlagsAndAttributes = Arguments[CreateFile_FlagsAndAttribs];
                 ret.TemplateFile = Arguments[CreateFile_TemplateFile];
-                ret.ForceHandle = new IntPtr(Arguments[CreateFile_OvrridePtr]);
-                ret.ForceLastError = new IntPtr(Arguments[CreateFile_LastErrorPtr]);
+                
 
             }
-            HelperRoutines.CloseHandle(Handle);
+            finally
+            {
+                HelperRoutines.CloseHandle(Handle);
+            }
             return ret;
         }
 

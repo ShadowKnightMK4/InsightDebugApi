@@ -1,10 +1,49 @@
-Welcome:
-	Insight functionally uses the Windows Debugger API, some BASIC Symbol browsing and has added detours to let one spawn processes with abritary dlls.
-Included in the solution are these projects. You may find some referenses to FileSandBoxApi.  That's the only name I had for this project before making
-it public.
+----------------------------------
+About this Project
+----------------------------------
+Insight API is a tool to learn more about a process via a variety of ways. It does leverage the Windows Debugging and Symbol API in an object
+orientated manner and should be suitable for starting out with a flexible debugging solution for unique needs. It also uses Microsoft's Detours
+project to allow spawning processes with a forced dll provided they are written in a certain way. These Dlls can then adjust functionality as
+needed via detouring routines in the target and thanks to how Windows processes exceptions, can be in good spot to raise one with the option
+of the debugger injecting its handle / last error code into the target routine / or just packing the detoured routine's arguments into an array
+for the debugger to log/examine.   While this is indeed a tool for exploring, it should also be an acceptable starting point for needing custom
+debugging on windows. The project has a C/C++ back end but focuses heavily on using C# as the front end.
+
+
+-----------------------------------
+Leveraging 'Telemetry Dlls'
+-----------------------------------
+This routine at https://github.com/microsoft/Detours/wiki/DetourCreateProcessWithDllEx will give a starting point for writing one.
+In short, your need to follow the requirements outlined for ensuring the process will load it ok.
+
+The next thing you'll need to do is consider your dll's scope. If it does not need to generate data/noise then once the dll is loaded,
+you are done. If you need to read via exceptions made from the dll, you'll need to also provide a mechanic to unpack the exception and
+present to the sheath/debugger. Let me explain with an example.
+
+
+The inprogress telemetry dll, Iodevicetracking detours CreateFileA/W. The main thing about CreateFileA/W after calling is it may set 
+last error and returns a handle to the caller fit for the local process. To let the debugger modifity these, we include some pointers
+to memory locations in the exception args we raise along with some settings indicating just what type of routine the exception is
+raised for.  This is half of what's needed to make this work.
+
+The other half is providing a mechanic to translate the exception into a .NET friendly way and also get the arguments. When RaiseException()
+is called, one gets the chance to provide an array up to (currently) 15 elements long that the debugger will see. We back the arguments
+plus a couple of pointers to a memory for a handle and a dword.   We also include data packed in this array indicating what type of routine
+was called. 
+
+The result of this and writting a wrapper to process this means we now enough what the routine is trying to do and can log it or override
+the final error value and handle with DuplicateHandle().  In short, when using the telemetry dll and the wrapper, the debugger is a man in
+the middle. 
+
+We also have the option of examing the call and setting the handle to / invalid handle value plus last error to something to fake deny it.
 
 
 
+
+-----------------------------------
+Branch Navigation / Purpose.
+-----------------------------------
+This Readme is for the IODeviceTracker branch - which is working towards making that Telemetry Dll functional.
 
 -----------------------------------
 Build Configurations
@@ -14,14 +53,18 @@ Build Configurations
 	Debug
 		Debug the stuff. 
 
-------------
+-----------------------------------
 IMPORTANT
------------
+-----------------------------------
 Although there is some skeleton code for Windows x64 bit, it is NOT functional and currently does not compile.
-Do you wish to debug THe native DLL and your managed project? Ensure mixed debugging is on. You'll lose the ability to modify your code while doing this.
-I do recommend the debug child processes tool (https://marketplace.visualstudio.com/items?itemName=vsdbgplat.MicrosoftChildProcessDebuggingPowerTool&msclkid=a4376279aef511ec8a5c3023ac5217e9)
-for whatever visual of Visual studio you will be using this with.
-The Sheath DLL and the InsightDebugger_GUI both target .NET 5 core.
+To debug only the c# save pick .NET debugging.  If you want to debug the Native side (InsightAPI.dll) ensure 
+your managed .NET project has the "Debug Native Code" checkbox enabled under it's project debug properties.  
+You may want to also enabled mixed mode debugging in Visual Studio. It's possible that you'll lose your
+ability to change the code while debugging if this is enabled.  I do recommend the debug child processes tool
+(https://marketplace.visualstudio.com/items?itemName=vsdbgplat.MicrosoftChildProcessDebuggingPowerTool&msclkid=a4376279aef511ec8a5c3023ac5217e9)
+This project is being built/testing with Visual Studio 2019. You may need to do some adjustments if using a 
+different version. The Sheath DLL and the InsightDebugger_GUI test project under the front ends folder
+both target .NET 5 core.
 
 
 
@@ -106,7 +149,7 @@ ACCTIVE CURRENT ISSUES
 	
 		Included TELEMETRY DLLS are not functional yet!
 
-		Building for x64 bit is not implemented correctly. Don't export a successful build for it. 
+		Building for x64 bit is not implemented correctly. Don't expect a successful build for it. 
 
 
 ------------------------------------------

@@ -81,6 +81,7 @@ namespace FileSandBox_GUI
                 if (Debug.IsIoDeviceTelemetryException())
                 {
                     Console.WriteLine("Receive IoTelemetryException");
+                    
                     using (var ExceptionData = Debug.GetDebugEventExceptionInfo())
                     {
                         if (ExceptionData.GetIoDeviceExceptionType() == IoDeviceTelemetryReaderExtensions.NotificationType.CreateFile)
@@ -89,10 +90,16 @@ namespace FileSandBox_GUI
                             DesourcesTouched.Add(Info.FileName + "for " + Enum.GetName(typeof(AccessMasks), Info.DesiredAccess));
                             if (Info.DesiredAccess == AccessMasks.GenericRead)
                             {
-                                using (var Data = System.IO.File.OpenRead("C:\\Users\\Thoma\\source\\repos\\InsightAPI\\AboutTemetryDlls.txt"))
-                                {
-                                    Info.SetForceHandle(Data.SafeFileHandle.DangerousGetHandle());
-                                    Info.SetLastErroValue(0);
+                                if (Info.FileName.Contains(".txt"))
+                                {/*
+                                    using (var Data = System.IO.File.OpenRead("C:\\Users\\Thoma\\source\\repos\\InsightAPI\\AboutTemetryDlls.txt"))
+                                    {
+                                        Info.SetForceHandle(Data.SafeFileHandle.DangerousGetHandle());
+                                        Info.SetLastErroValue(0);
+                                    }
+                                    */
+                                    Info.SetForceHandle(new IntPtr(-1));
+                                    Info.SetLastErroValue(5); // access denied.
                                 }
                             }
                         }
