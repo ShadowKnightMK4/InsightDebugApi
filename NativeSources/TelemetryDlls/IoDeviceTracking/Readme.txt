@@ -1,8 +1,8 @@
 
 IoDviceTracking Project
-Should resolve to \Telemetry\IoDeviceTracking32.dll and IoDeviceTracking64.dll
+Should resolve to \Telemetry\IoDeviceTracking.dll.
 
-This file detours CreateFileA/W and CreateFileTransactedA/W  (CreateFile2 also),  and CloseHandle.
+This file project detours CreateFileA/W and CreateFileTransactedA/W  (CreateFile2 also),  and CloseHandle.
 
 
 The general detoured routine calls code to convert the string to Unicode, calls a common notification routine that raises
@@ -24,12 +24,19 @@ IMPORTANT!!!
 	Should a Call to NtSetThreadInformation or NtCreateThread succeed with the Hide from debugger flag against a thread in question on the
 	target app, you will no longer get notifications from the app as said notifications are done via Raising Exceptions via RaiseException()
 OPTIONAL
-	It is recommanded that if you are using this to block access/ a feature of something to match known documentation for the detoured routine.
+	It is recommended that if you are using this to block access/ a feature of something to match known documentation for the detoured routine.
+
+
+
 
 Applications?
 Track what the targeted app in question tries to access in the file system.
-Act as a Man in the Middle to redirect to another source or deny access based on the arguments.
-
-
+Act as a Man in the Middle to redirect to another source or deny access based on the arguments.  To Deny, you'll need the debugger sheath
+to open the file based on the arguments stuff and duplicating into the debugged process.
 
 Modify This project to tell it to attempt to seek a file from a resource such as a zip file first before referring to the system.
+
+
+IoDeviceTracking Functionality Desired
+NtCreateFile/ NtOpenFile / NtCreateDirectory/ ntOpenDirectory detouring.
+The sheath code (speically  InsightSheath/TelemetryReader.cs 's stuff) works with the code

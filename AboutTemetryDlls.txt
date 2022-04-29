@@ -1,0 +1,29 @@
+
+Telemetry DLLs for purposes are specially written dlls that are forcably loaded into a spawned app's address space via Detours in order to gain additional data
+and functionality. For Example, IoDeviceTracking detours CreateFIleA (and W).  This detoured routine raises an exception containing information about the arguments
+passed to the routine with the option for the debugger to simply paste a handle and lasterror value into a chunk of memory to modify. 
+
+
+For those who have no idea what detours is see https://github.com/microsoft/Detours/wiki for a starting point. If you've never set foot into Native C++ windows code,
+Detours is a library that lets someone insert a small jump to an arbitrary function while preserving a pointer to the original function. Consider this example:
+
+
+A high level example and not actually code for the library.
+
+Detour(&a, b)			<- tell the library to change calls into the routine importable at a's position to call b.
+						<- Preserves A's original location for B's use.
+						<- b's function prototype should be identical to a.
+
+Now code that calls a will actually call b() first when then is free to do what it wants up to and including calling a().
+
+
+
+With how Insight launches the Dlls (https://github.com/microsoft/Detours/wiki/Reference#apis-for-inserting-dlls-and-payloads-into-new-processes), your new telemetry dll
+should export at least one function - for examle the DllMain() that one can write that Windows Calls when loading a Dll into a process. Ensure you return true 
+if the routine DetoursIsHelperProcess() returns true at the start of DllMain().  Consider Pinning your library unless you plan for it to be unloaded at a point in time
+and finally, detour the routines you want.
+
+
+
+
+

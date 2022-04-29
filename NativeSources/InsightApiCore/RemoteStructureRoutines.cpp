@@ -17,6 +17,7 @@ namespace RemoteStructureRoutine
 	/// <returns></returns>
 	BOOL RemotePoke4(HANDLE Process, DWORD Value, VOID* RemoteLocation)
 	{
+		DWORD LastError=0;
 		if ((RemoteLocation != 0) && (Process != 0))
 		{
 			SIZE_T BytesWrote = 0;
@@ -27,7 +28,16 @@ namespace RemoteStructureRoutine
 					return TRUE;
 				}
 			}
+			else
+			{
+#ifdef _DEBUG
+				LastError = GetLastError();
+				
+#endif
+			}
 		}
+
+
 		return FALSE;
 	}
 

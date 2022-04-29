@@ -65,6 +65,8 @@ LIBRARY INSIGHTAPI
 		UtilOpenProcessForMemory=OpenProcessForMemory
 		UtilOpenProcesForQueryInformation=OpenProcesForQueryInformation
 		UtilOpenProcessForQueryRead=OpenProcessForQueryRead
+		UtilOpenProcessForDuplicatingHandle=OpenProcessForDuplicatingHandle
+		OpenProcessNow
 		UtilCloseProcessHandle=CloseHandle
 		UtilPoke4=Poke4
 		UtilPeek4=Peek4

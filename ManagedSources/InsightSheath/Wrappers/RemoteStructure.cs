@@ -1,6 +1,7 @@
 ﻿using InsightSheath.NativeImports;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -40,16 +41,34 @@ namespace InsightSheath.Remote
 
 
         /// <summary>
-        /// Idententy for reading HANDLEs to debugged process. This writes 4 byte value to the remote process in question at the location
+        /// Primary for writing HANDLEs to debugged process. This writes 4 byte value to the remote process in question at the location
         /// </summary>
         /// <param name="ProcessHandle">at minimum should have PROCESS_VM_READ</param>
         /// <param name="value">value to write</param>
         /// <param name="RemoteLocation">virtual memory in the TARGET process location to write too.</param>
         /// <returns></returns>
-        public static bool RemotePoke4(IntPtr ProcessHandle, uint value, IntPtr RemoteLocation)
+        public static bool RemotePoke4NoExceptions(IntPtr ProcessHandle, uint value, IntPtr RemoteLocation)
         {
-            return NativeMethods.RemotePoke4(ProcessHandle, value, (ulong) RemoteLocation);
+            return NativeMethods.RemotePoke4(ProcessHandle, value, (ulong)RemoteLocation);
         }
+
+        /// <summary>
+        /// Primary for writing HANDLEs to debugged process. This writes 4 byte value to the remote process in question at the location
+        /// </summary>
+        /// <param name="ProcessHandle"></param>
+        /// <param name="value"></param>
+        /// <param name="RemoteLocation"></param>
+        /// <exception cref="Win32Exception"> Win32Exceptions are thrown if the write failed (for security, bad memory location, in correct process and so on)</exception>
+        public static void RemotePoke4(IntPtr ProcessHandle, uint value, IntPtr RemoteLocation)
+        {
+            bool ret= NativeMethods.RemotePoke4(ProcessHandle, value, (ulong)RemoteLocation);
+            if (!ret)
+            {
+                throw new Win32Exception(Marshal.GetLastWin32Error());
+            }
+        }
+
+
         /// <summary>
         /// Extract a string from the remote process.
         /// </summary>

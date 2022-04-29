@@ -21,7 +21,7 @@ namespace InsightSheath.NativeImports
         /// <param name="RemoteLocation">virtual memory in the remote process to read from</param>
         /// <param name="char_count">how many chars in the string to read? </param>
         /// <returns></returns>
-        [DllImport("InsightApi.dll", CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, EntryPoint = "RemotePoke4")]
+        [DllImport("InsightApi.dll", CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, SetLastError =true, EntryPoint = "RemotePoke4")]
         public static extern bool RemotePoke4(IntPtr ProcessHandle, uint value , ulong remote_location);
 
         /// <summary>

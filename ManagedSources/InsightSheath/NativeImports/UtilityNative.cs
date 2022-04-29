@@ -104,6 +104,22 @@ namespace InsightSheath.NativeImports
         [DllImport("InsightApi.Dll", CallingConvention = CallingConvention.Winapi, EntryPoint = "UtilOpenProcesForQueryInformation")]
         public static extern IntPtr OpenProcesForQueryInformation(uint ProcessID);
 
+        
+        /// <summary>
+        /// Open Process ALL_ACCESS
+        /// </summary>
+        /// <param name="ProcessID"></param>
+        /// <returns></returns>
+        [DllImport("InsightApi.Dll", CallingConvention = CallingConvention.Winapi, EntryPoint = "OpenProcessNow")]
+        public static extern IntPtr OpenProcessNow(uint ProcessID);
+        /// <summary>
+        /// Shorthand for asking for a native process handle that has PROCESS_DUP_HANDLE AND VM_PROCESS_WRITE (for WriteProcessMemory)
+        /// </summary>
+        /// <param name="ProcessID"></param>
+        /// <returns></returns>
+        [DllImport("InsightApi.Dll", CallingConvention = CallingConvention.Winapi, EntryPoint = "UtilOpenProcessForDuplicatingHandle")]
+        public static extern IntPtr OpenProcessForDuplicatingHandle(uint ProcessID);
+
         /// <summary>
         /// Free a memory chuck that was allocated by the native DLL with a single call. It is recommended to NOT call this unless you know the underlying
         /// block or structure was allocated via C's malloc(). If multiple allocations happen, you'll be leaking memory by calling this.

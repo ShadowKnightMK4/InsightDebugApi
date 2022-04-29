@@ -87,6 +87,14 @@ namespace FileSandBox_GUI
                         {
                             var Info = ExceptionData.GetCreateFileSettings();
                             DesourcesTouched.Add(Info.FileName + "for " + Enum.GetName(typeof(AccessMasks), Info.DesiredAccess));
+                            if (Info.DesiredAccess == AccessMasks.GenericRead)
+                            {
+                                using (var Data = System.IO.File.OpenRead("C:\\Users\\Thoma\\source\\repos\\InsightAPI\\AboutTemetryDlls.txt"))
+                                {
+                                    Info.SetForceHandle(Data.SafeFileHandle.DangerousGetHandle());
+                                    Info.SetLastErroValue(0);
+                                }
+                            }
                         }
                      
                     }
@@ -200,11 +208,11 @@ namespace FileSandBox_GUI
             TestRun.EnableSymbolEngine = true;
             TestRun.DebugMode = DebugModeType.WorkerThread;
             TestRun.ExtraFlags = InsightProcess.SpecialCaseFlags.DebugOnlyThis;
-            TestRun.CreationFlags = 2;
-
+            
+            TestRun.RequestDebugPriv = true;
             Insight = TestRun.GetSymbolHandler();
 
-      
+            TestRun.ExtraFlags = InsightProcess.SpecialCaseFlags.DebugOnlyThis;
             
 
             var ProcessId = TestRun.SpawnProcess();

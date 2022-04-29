@@ -152,6 +152,9 @@
     <ClInclude Include="DebuggerCommunication.h" />
     <ClInclude Include="MessageDescriptionTypes.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Exports.def" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

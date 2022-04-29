@@ -130,8 +130,8 @@ namespace InsightSheath.Telemetry
 
     public struct IoDeviceTelemetyCreateFIle
     {
-        public readonly uint dwProcessId;
-        public readonly uint dwThreadId;
+        public uint dwProcessId;
+        public uint dwThreadId;
         /// <summary>
         /// Name of the file the debugged process is trying to open
         /// </summary>
@@ -171,9 +171,11 @@ namespace InsightSheath.Telemetry
         /// <param name="ReplacementHandle"></param>
         public void SetForceHandle(IntPtr ReplacementHandle)
         {
-            IntPtr handle = HelperRoutines.OpenProcessForVirtualMemory(dwProcessId);
+            //IntPtr handle = NativeImports.NativeMethods.OpenProcessNow(dwProcessId);
+            IntPtr handle = HelperRoutines.OpenProcessForHandleDuplicating(dwProcessId);
             {
-                RemoteStructure.RemotePoke4(handle, (uint)ReplacementHandle.ToInt32(), this.ForceHandle);
+                IntPtr duphandle =  NativeImports.NativeMethods.DuplicateHandleIntoTarget(ReplacementHandle, 0, true, handle, true);
+                RemoteStructure.RemotePoke4(handle, (uint)duphandle.ToInt32(), this.ForceHandle);
             }
             HelperRoutines.CloseHandle(handle);
         }
@@ -186,11 +188,12 @@ namespace InsightSheath.Telemetry
 
         public void SetLastErroValue(uint NewValue)
         {
-            IntPtr Handle = HelperRoutines.OpenProcessForVirtualMemory(dwProcessId);
+            IntPtr handle = NativeImports.NativeMethods.OpenProcessNow(dwProcessId);
+            //IntPtr Handle = HelperRoutines.OpenProcessForVirtualMemory(dwProcessId);
             {
-                RemoteStructure.RemotePoke4(Handle, NewValue, ForceLastError);
+                RemoteStructure.RemotePoke4(handle, NewValue, ForceLastError);
             }
-            HelperRoutines.CloseHandle(Handle);
+            HelperRoutines.CloseHandle(handle);
 
         }
 
@@ -257,7 +260,7 @@ namespace InsightSheath.Telemetry
         }
 
         /// <summary>
-        /// Only valid if <see cref="GetIoDeviceExceptionType(DebugEventExceptionInfo)"/> returns <see cref="NotificationType.CreateFile"/>
+        /// Only valid if <see cref="GetIoDeviceExceptionType(DebugEventExceptionInfo)"/> returns an instead of <see cref="NotificationType.CreateFile"/> containing the arguments passed to CreateFileA or W.
         /// </summary>
         /// <param name="that"></param>
         /// <returns></returns>
@@ -266,7 +269,10 @@ namespace InsightSheath.Telemetry
             var ret = new IoDeviceTelemetyCreateFIle();
             var Arguments = that.ExceptionParameter32;
             var Handle = HelperRoutines.OpenProcessForVirtualMemory(that.ProcessID);
+
             {
+                ret.dwProcessId = that.ProcessID;
+                ret.dwThreadId = that.ThreadID;
                 ret.FileName = RemoteStructure.RemoteReadString(Handle, new IntPtr(Arguments[CreateFile_FilenamePtr]), Arguments[CreateFile_FileNameCharLen]);
                 ret.DesiredAccess = (AccessMasks) Arguments[CreateFile_DesiredAccess];
                 ret.SharedMode = (ShareMasks) Arguments[CreateFile_ShareMode];

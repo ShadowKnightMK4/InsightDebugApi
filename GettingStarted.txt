@@ -4,7 +4,7 @@ For C#, you're going to need to pick if you target x86 or x64 rather than Any - 
 For Native, either library is good.
 
 Files to include:
-	FileSandboxApi.dll			<- this is the library
+	InsightAPI.dll			<- this is the library that's written with C/C++
 	FileSandboxSheath.dll		<- this is the c# wrapper
 
 
@@ -14,10 +14,11 @@ On the Manged/Sheath class size
 ->  InsightHunter		<-  Class for dealing with and processing symbols with the debug help symbol engine
 						<-  Tired closely with PsProcessInformation
 						<- has a natie side equivelent
--> PsProcessInformation <- Spawn processes and modify how they are setup.
+-> InsightProcess		<- Spawn processes and modify how they are setup.
 						<- Optionally get debug event data from them.
 						<- manly intended for spawning processes to debug.
-
+						<- For the Sheath/ Managed wrapper, the cxode will 
+						<- InsightProcess's  native class source is called PsProcessInformation
 
 
 The Design goal of the Sheath is to be as minimal wrapper as feasibly possible while taking a bit of advantage of C#'s GC scheme.

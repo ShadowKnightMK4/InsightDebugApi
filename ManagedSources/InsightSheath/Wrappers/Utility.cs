@@ -140,13 +140,23 @@ namespace InsightSheath
         }
 
         /// <summary>
-        /// Open a process for Querying Some information PROCESS_QUERY_INFORMATION about it.
+        /// Open a process for Querying Some information about it (requests  PROCESS_QUERY_INFORMATION )
         /// </summary>
         /// <param name="ProcessId"></param>
         /// <returns></returns>
         public static IntPtr OpenProcessForQueryInformation(uint ProcessId)
         {
             return NativeMethods.OpenProcesForQueryInformation(ProcessId);
+        }
+
+        /// <summary>
+        /// Open a process for duplicating and inserting handles of resources you open into a process (PROCESS_DUP_HANDLE | PROCESS_VM_WRITE | PROCESS_VM_OPERATION) 
+        /// </summary>
+        /// <param name="ProcessID"></param>
+        /// <returns></returns>
+        public static IntPtr OpenProcessForHandleDuplicating(uint ProcessID)
+        {
+            return NativeMethods.OpenProcessForDuplicatingHandle(ProcessID);
         }
 
 

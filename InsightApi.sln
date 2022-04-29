@@ -22,6 +22,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{B2EC8477-99E2-44D4-AEEA-AAE1E3916C63}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TelemetryDlls", "TelemetryDlls", "{53C03628-5518-4BF1-BA21-1B9E0615A9A4}"
+	ProjectSection(SolutionItems) = preProject
+		AboutTemetryDlls.txt = AboutTemetryDlls.txt
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BackEnd", "BackEnd", "{9329C455-49A7-45AA-A251-6D3110814349}"
 EndProject

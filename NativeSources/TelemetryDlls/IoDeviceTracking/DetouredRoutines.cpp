@@ -1,10 +1,6 @@
 #include "OriginalRoutinePts.h"
 #include "DetouredReplacementRoutines.h"
 #include <sstream>
-//a044c813 - fbb2 - 4af6 - a354 - 7cbb78acb7a9
-/* We throw exception with this value. As long as deubgger knows this value
-and what the arguments cvontrain, thet value matters no. Do note the 
-bit 28 will be cleared by Windows when thrown*/
 
 
 wchar_t* AnsiToUnicode(char* ansi)
@@ -15,8 +11,8 @@ wchar_t* AnsiToUnicode(char* ansi)
 	DWORD SizeString = MultiByteToWideChar(CP_ACP, 0, ansi, -1, 0, 0);
 	wchar_t* UnicodeString = nullptr;
 
-	
-	
+
+
 	UnicodeString = new wchar_t[SizeString + 1];
 
 	SizeString = MultiByteToWideChar(CP_ACP, 0, ansi, -1, UnicodeString, SizeString);
@@ -24,6 +20,15 @@ wchar_t* AnsiToUnicode(char* ansi)
 	return UnicodeString;
 
 }
+
+
+/* We throw exception with this value. As long as debugger knows this value
+and what the arguments contain, the value matters not. Do note that bit 28 will be cleared by Windows when thrown if 
+you happen to change this to another value (for example another Telemetry Project.
+*/
+
+
+
 #define EXCEPTION_VALUE (0x68ACB7A9)
 
 #define ARG_TYPE_CREATEFILE_NORMAL (1)
@@ -270,17 +275,26 @@ HANDLE WINAPI DetouredCreateFileW(
 
 	if (hReplacement != 0)
 	{
+#ifdef _DEBUG
+		OutputDebugString(L"Overritten the file handle with the new one");
+#endif
 		Overwritten = TRUE;
 	}
 
 	if (Overwritten)
 	{
+#ifdef _DEBUG
+		OutputDebugString(L"Setting last error to overritten value and returning new one");
+#endif
 		SetLastError(lastErrorRep);
 		return hReplacement;
 
 	}
 	else
 	{
+#ifdef _DEBUG
+		OutputDebugString(L"Call not overrwritten");
+#endif
 		return OriginalCreateFileW(lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile);
 	}
 
