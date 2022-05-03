@@ -12,6 +12,21 @@ namespace InsightSheath.Telemetry
 {
 
     /// <summary>
+    /// Large structure for getting LARGE_INTEGER structs into .Net Hands
+    /// </summary>
+    [StructLayout(LayoutKind.Explicit)]
+    public struct LARGE_INTEGER
+    {
+        
+        [FieldOffset(0)]
+        public UInt32 LowPart;
+        [FieldOffset(4)]
+        public Int32 HighPart;
+        [FieldOffset(0)]
+        public ulong QuadPart;
+    }
+
+    /// <summary>
     /// Action to be taken by CreateFileA/W
     /// </summary>
     public enum CreationDisposition: uint
@@ -38,6 +53,31 @@ namespace InsightSheath.Telemetry
         TruncateExisting = 5
     }
 
+    /// <summary>
+    /// This is for the access vlaues for NtCreateFile
+    /// </summary>
+    public enum NtCreateAccessMasks : uint
+    {
+        NoAccess = 0,
+        MeteData = NoAccess,
+        AddFile = 2,
+        AddSubDirectory = 5,
+        AppendData = AddSubDirectory,
+        CreatePipe = AddSubDirectory,
+        DeleteChild = 0x40,
+        Execute = 0x20,
+        ListDirectory = 1,
+        ReadAttributes = 0x40,
+        ReadData = ListDirectory,
+        ReadEa = 8,
+        Traverse = Execute,
+        WriteAttributes = 256,
+        WriteData = 2,
+        StandardRightsRead = ?,
+        StandardRightsWrite = StandardRightsRead,
+
+
+    }
     [Flags]
     /// <summary>
     /// from <see cref="https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-samr/262970b7-cd4a-41f4-8c4d-5a27f0092aaa"/>, these are the accessible flags
@@ -128,6 +168,20 @@ namespace InsightSheath.Telemetry
 
     }
 
+    public struct IoDeviceTelemetryNtCreateFile
+    {
+        public AccessMasks DesiredAccess;
+        public IntPtr ObjectAttributes;
+        public IntPtr IoStatusBlock;
+        public LARGE_INTEGER AllocationSize;
+        public
+
+
+    }
+
+    /// <summary>
+    /// This structure contrains data from an exception generated via CreateFileA/W.
+    /// </summary>
     public struct IoDeviceTelemetyCreateFile
     {
         public IoDeviceTelemetyCreateFile(uint dwProcess, uint dwThread, IntPtr HandlePtr, IntPtr ErrorPtr)
@@ -190,7 +244,7 @@ namespace InsightSheath.Telemetry
         /// </summary>
         public static readonly uint InvalidHandleValue = (0xffffffff);
         /// <summary>
-        /// Duplicate this handle back to the process (uses) <see cref="ForceHandle"/>
+        /// Duplicate the handle you provide into the process the exception was generated from and write it to the memory location specified by <see cref="ForceHandle"/> see cref="ForceHandle"/>
         /// </summary>
         /// <param name="ReplacementHandle"></param>
         public void SetForceHandle(IntPtr ReplacementHandle)
@@ -326,6 +380,24 @@ namespace InsightSheath.Telemetry
         public static NotificationType GetIoDeviceExceptionType(this DebugEventExceptionInfo that)
         {
             return (NotificationType)that.ExceptionParameter64[ExceptionSubType];
+        }
+
+ 
+        public static IoDeviceTelemetryNtCreateFile GetNtCreateFileSettings(this DebugEventExceptionInfo that)
+        {
+            IoDeviceTelemetryNtCreateFile ret;
+            IntPtr Handle = HelperRoutines.OpenProcessForVirtualMemory(that.ProcessID);
+            var arguments = that.ExceptionAddress64;
+            try
+            {
+                ret = new IoDeviceTelemetryNtCreateFile();
+                
+                return ret;
+            }
+            finally
+            {
+                HelperRoutines.CloseHandle(Handle);
+            }
         }
 
         /// <summary>

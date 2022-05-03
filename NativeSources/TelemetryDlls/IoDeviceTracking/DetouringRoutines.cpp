@@ -5,15 +5,22 @@
 #include <string>
 #include <sstream>
 HMODULE Kernel32;
-
+HMODULE Ntdll;
+const char* ntdll_string = "ntdll.dll";
 const char* kernel32_string = "kernel32.dll";
+
+const char* NtCreateFile_string = "NtCreateFile";
+const char* NtOpenFile_string = "NtOpenFile";
+const char* NtCloseHandle_string = "NtCloseHandle";
 const char* CloseHandle_string = "CloseHandle";
 const char* CreateFileA_string = "CreateFileA";
 const char* CreateFileW_string = "CreateFileW";
 const char* CreateFile2_string = "CreateFile2";
 const char* CreateFileTransactedA_string = "CreateFileTransactedA";
 const char* CreateFileTransactedW_string = "CreateFileTransactedW";
-void error_unabletocommit_justdating(DWORD val, const wchar_t* telemetryname)
+
+
+void error_unabletocommit(DWORD val, const wchar_t* telemetryname)
 {
 	std::wstringstream output;
 #ifdef _DEBUG
@@ -85,6 +92,25 @@ bool DetourTargetRoutines()
 	LONG detour = 0;
 
 	Kernel32 = LoadLibraryA(kernel32_string);
+	Ntdll = LoadLibraryA(ntdll_string);
+
+	if (Ntdll)
+	{
+		OriginalNtCreateFile = (NtCreateFilePtr)GetProcAddress(Ntdll, NtCreateFile_string);
+		if (OriginalNtCreateFile == 0)
+		{
+#ifdef _DEBUG
+			error_getproc(FALSE, L"NtCreateFile", L"ntdll.dll");
+#endif
+		}
+		OriginalNtOpenFile = (NtOpenFilePtr)GetProcAddress(Ntdll, NtOpenFile_string);
+		if (OriginalNtOpenFile == 0) 
+		{
+#ifdef _DEBUG
+			error_getproc(FALSE, L"NtOpenFile", L"ntdll.dll");
+#endif
+		}
+	}
 	if (Kernel32 != nullptr)
 	{
 		OriginalCloseHandle =  (CloseHandlePtr) GetProcAddress(Kernel32, CloseHandle_string);
@@ -164,6 +190,34 @@ bool DetourTargetRoutines()
 			return false;
 		}
 
+		if (OriginalNtCreateFile != 0)
+		{
+			detour = DetourAttach((PVOID*)&OriginalNtCreateFile, DetouredNtCreateFile);
+#ifdef _DEBUG
+			error_detourattachfail(detour, L"NtCreateFile", OriginalCreateFileA, DetouredCreateFileA);
+#endif
+		}
+		else
+		{
+#ifdef _DEBUG
+			OutputDebugString(L"Failed to grab pointer to NtCreateFile. Can't Detour");
+#endif
+		}
+
+		if (OriginalNtCreateFile != 0)
+		{
+			detour = DetourAttach((PVOID*)&OriginalNtCreateFile, DetouredNtOpenFile);
+#ifdef _DEBUG
+			error_detourattachfail(detour, L"NtCreateFile", OriginalCreateFileA, DetouredCreateFileA);
+#endif
+		}
+		else
+		{
+#ifdef _DEBUG
+			OutputDebugString(L"Failed to grab pointer to NtOpen. Can't Detour");
+#endif
+		}
+
 		detour = DetourAttach((PVOID*)&OriginalCreateFileA, DetouredCreateFileA);
 		if (detour != 0)
 		{
@@ -215,7 +269,7 @@ bool DetourTargetRoutines()
 		detour = DetourTransactionCommit();
 		if (detour != 0)
 		{
-			error_unabletocommit_justdating(detour, L"IoDeviceTrackingTelemetry");
+			error_unabletocommit(detour, L"IoDeviceTrackingTelemetry");
 		}
 		return (detour == 0);
 	}

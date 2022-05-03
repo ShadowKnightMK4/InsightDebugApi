@@ -59,7 +59,7 @@ Add code to InsightSheath.Telemetry.IoDeviceExceptionReader to read (and write) 
 #define EXCEPTION_ARG_TYPE 0
 #define EXCEPTION_LAST_ERROR 1
 
-
+// order for create file routines
 #define CF_AW_FILENAME 2
 #define CF_AW_FILENAME_CHARCOUNT 3
 #define CF_AW_DESIREDACCESS 4
@@ -71,6 +71,7 @@ Add code to InsightSheath.Telemetry.IoDeviceExceptionReader to read (and write) 
 #define CT_AW_OVEERRIDE_HANDLE 10
 #define CT_AW_LASTERROR = 11
 
+// order for Create file transacte
 #define CFT_AW_FILENAME 2
 #define CFT_AW_FILENAME_CHARCOUNT 3
 #define CFT_AW_DESIREDACCESS 4
@@ -84,6 +85,142 @@ Add code to InsightSheath.Telemetry.IoDeviceExceptionReader to read (and write) 
 #define CFT_AW_EXTENDARG 12
 #define CFT_AW_OVVERIDE_HANDLE 13
 #define CFT_AW_LASTERROR = 14
+
+
+// Argument order for NtCreateFIle
+
+// the EXCEPTION_LAST_ERROR is a pointer to what you want the function to return to the code lookup NtCreateFile NtCreateFile
+#define NTCF_AW_OUTPUTHANDLE 2
+#define NTCT_AW_DESIRED_ACCESS 3
+#define NTCT_AW_OBJECT_ATTRIBUTES 4
+#define NTCT_AW_IOSTATUSBLOCK 5
+#define NTCT_AW_ALLOCATION_SIZE 6
+#define NTCT_AW_FILEATRIBUTES 7
+#define NTCT_AW_SHARE_ACCESS 8
+#define NTCT_AW_CREATEDISPO 9
+#define NTCT_AW_CREATEOPTION 10
+#define NTCT_AW_EABUFFER 11
+#define NTCT_AW_EALENGTH 12
+ // as NtCreateFile already has a pointer to handle for output, this is will point to the NTCF_AW_OUTPUTHANDLE
+#define NTCT_AW_OVERRIDE_HANDLE 13
+
+
+// argument order for NtOpenFIle
+// the EXCEPTION_LAST_ERROR is a pointer to what you want the function to return to the code NtOpenFile
+#define NTOF_AW_OUTPUT_HANDLE 2
+#define NTOF_AW_DESIRED_ACCESS 3
+#define NTOF_AW_OBJECT_ATTRIBUTES 3
+#define NTOF_AW_IOSTATUSBLOCK 4
+#define NTOF_AW_SHARE_ACCESS 5
+#define NTOF_AW_OPEN_OPTIONS 6
+#define NTOF_AW_OVERRIDE_HANDLE 7
+
+
+DWORD WINAPI __NtCreateFile_alert(
+	PHANDLE            FileHandle,
+	ACCESS_MASK        DesiredAccess,
+	VOID* ObjectAttributes,
+	//POBJECT_ATTRIBUTES ObjectAttributes,
+	VOID* IoStatusBlock,
+	//PIO_STATUS_BLOCK   IoStatusBlock,
+	PLARGE_INTEGER     AllocationSize,
+	ULONG              FileAttributes,
+	ULONG              ShareAccess,
+	ULONG              CreateDisposition,
+	ULONG              CreateOptions,
+	PVOID              EaBuffer,
+	ULONG              EaLength,
+	HANDLE*				OverwriteHandle,
+	NTSTATUS*			ReturnValue
+	)
+{
+	BOOL DebugDidNotSee = FALSE;
+	ULONG ExceptionArgs[EXCEPTION_MAXIMUM_PARAMETERS];
+	ZeroMemory(&ExceptionArgs, sizeof(ExceptionArgs));
+	ExceptionArgs[EXCEPTION_ARG_TYPE] = ARG_TYPE_NTCREATE_FILE;
+
+	// Last Error for this is an NTSTATUS value
+	ExceptionArgs[EXCEPTION_LAST_ERROR] = (ULONG)ReturnValue;
+	ExceptionArgs[NTCF_AW_OUTPUTHANDLE] = (ULONG)FileHandle;
+	ExceptionArgs[NTCT_AW_DESIRED_ACCESS] = (ULONG)DesiredAccess;
+	ExceptionArgs[NTCT_AW_OBJECT_ATTRIBUTES] = (ULONG)ObjectAttributes;
+	ExceptionArgs[NTCT_AW_IOSTATUSBLOCK] = (ULONG)IoStatusBlock;
+	ExceptionArgs[NTCT_AW_ALLOCATION_SIZE] = (ULONG)AllocationSize;
+	ExceptionArgs[NTCT_AW_FILEATRIBUTES] = (ULONG)FileAttributes;
+	ExceptionArgs[NTCT_AW_SHARE_ACCESS] = (ULONG)ShareAccess;
+	ExceptionArgs[NTCT_AW_CREATEOPTION] = (ULONG)CreateDisposition;
+	ExceptionArgs[NTCT_AW_EABUFFER] = (ULONG)EaBuffer;
+	ExceptionArgs[NTCT_AW_EALENGTH] = (ULONG)EaLength;
+	ExceptionArgs[NTCT_AW_OVERRIDE_HANDLE] = (ULONG)OverwriteHandle;
+
+
+	__try
+	{
+		RaiseException(EXCEPTION_VALUE, 0, EXCEPTION_MAXIMUM_PARAMETERS, (CONST ULONG_PTR*) & ExceptionArgs);
+	}
+	__except (GetExceptionCode() == EXCEPTION_VALUE)
+	{
+		DebugDidNotSee = TRUE;
+	}
+
+	if (!DebugDidNotSee)
+	{
+
+	}
+	return 0;
+
+
+
+
+	
+}
+
+DWORD WINAPI __NtOpenFile_alert(
+	PHANDLE            FileHandle,
+	ACCESS_MASK        DesiredAccess,
+	VOID* ObjectAttributes,
+	//POBJECT_ATTRIBUTES ObjectAttributes,
+	VOID* IoStatusBlock,
+	//		      PIO_STATUS_BLOCK   IoStatusBlock,
+	ULONG              ShareAccess,
+	ULONG              OpenOptions,
+	HANDLE*				OverrideHandle,
+	NTSTATUS*			ReturnValue)
+{
+	BOOL DebugDidNotSee = FALSE;
+	ULONG ExceptionArgs[EXCEPTION_MAXIMUM_PARAMETERS];
+	ZeroMemory(&ExceptionArgs, sizeof(ExceptionArgs));
+	ExceptionArgs[EXCEPTION_ARG_TYPE] = ARG_TYPE_NTOPEN_FILE;
+	ExceptionArgs[EXCEPTION_LAST_ERROR] = 0;
+	ExceptionArgs[NTOF_AW_OUTPUT_HANDLE] = (ULONG)FileHandle;
+	ExceptionArgs[NTOF_AW_DESIRED_ACCESS] = (ULONG)DesiredAccess;
+	ExceptionArgs[NTOF_AW_OBJECT_ATTRIBUTES] = (ULONG)ObjectAttributes;
+	ExceptionArgs[NTOF_AW_IOSTATUSBLOCK] = (ULONG)IoStatusBlock;
+	ExceptionArgs[NTOF_AW_SHARE_ACCESS] = (ULONG)ShareAccess;
+	ExceptionArgs[NTOF_AW_OPEN_OPTIONS] = OpenOptions;
+	
+	ExceptionArgs[NTOF_AW_OVERRIDE_HANDLE] = (ULONG)FileHandle;
+
+
+	__try
+	{
+		RaiseException(EXCEPTION_VALUE, 0, EXCEPTION_MAXIMUM_PARAMETERS, (CONST ULONG_PTR*) & ExceptionArgs);
+	}
+	__except (GetExceptionCode() == EXCEPTION_VALUE)
+	{
+		DebugDidNotSee = TRUE;
+	}
+
+	if (!DebugDidNotSee)
+	{
+
+	}
+	return 0;
+
+
+
+}
+
 
 /// <summary>
 /// Raise the alert for CreateFileTransasctedA/W and return 0.
@@ -359,7 +496,80 @@ HANDLE __stdcall DetouredCreateFile2(LPCWSTR lpFileName, DWORD dwDesiredAccess, 
 	return INVALID_HANDLE_VALUE;
 }
 
+
+
 BOOL __stdcall DetouredCloseHandle(HANDLE hObject)
 {
 	return OriginalCloseHandle(hObject);
 }
+
+
+   NTSTATUS WINAPI DetouredNtCreateFile(
+	PHANDLE            FileHandle,
+	ACCESS_MASK        DesiredAccess,
+	VOID* ObjectAttributes,
+	//POBJECT_ATTRIBUTES ObjectAttributes,
+	VOID* IoStatusBlock,
+	//PIO_STATUS_BLOCK   IoStatusBlock,
+	PLARGE_INTEGER     AllocationSize,
+	ULONG              FileAttributes,
+	ULONG              ShareAccess,
+	ULONG              CreateDisposition,
+	ULONG              CreateOptions,
+	PVOID              EaBuffer,
+	ULONG              EaLength)
+   {
+	   HANDLE hReplacement = 0;
+	   NTSTATUS Returnvalue = 0;
+	   BOOL Overritten = FALSE;
+	   
+	   DWORD branch = __NtCreateFile_alert(FileHandle, DesiredAccess, ObjectAttributes, IoStatusBlock, AllocationSize, FileAttributes, ShareAccess, CreateDisposition, CreateOptions, EaBuffer, EaLength, &hReplacement, &Returnvalue);
+
+	   if (hReplacement != 0)
+	   {
+		   Overritten = true;
+	   }
+
+	   if (Overritten)
+	   {
+		   *FileHandle = hReplacement;
+		   return Returnvalue;
+	   }
+	   else
+	   {
+		   return OriginalNtCreateFile(FileHandle, DesiredAccess, ObjectAttributes, IoStatusBlock, AllocationSize, FileAttributes, ShareAccess, CreateDisposition, CreateOptions, EaBuffer, EaLength);
+	   }
+   }
+ 
+
+   NTSTATUS WINAPI DetouredNtOpenFile(
+	   PHANDLE            FileHandle,
+	   ACCESS_MASK        DesiredAccess,
+	   VOID* ObjectAttributes,
+	   //POBJECT_ATTRIBUTES ObjectAttributes,
+	   VOID* IoStatusBlock,
+	   //		      PIO_STATUS_BLOCK   IoStatusBlock,
+	   ULONG              ShareAccess,
+	   ULONG              OpenOptions)
+   {
+	   HANDLE hReplacement = 0;
+	   NTSTATUS Returnvalue = 0;
+	   BOOL Overritten = FALSE;
+
+	   DWORD branch = __NtOpenFile_alert(FileHandle, DesiredAccess, ObjectAttributes, IoStatusBlock, ShareAccess, OpenOptions, &hReplacement, &Returnvalue);
+
+	   if (hReplacement != 0)
+	   {
+		   Overritten = TRUE;
+	   }
+
+	   if (Overritten)
+	   {
+		   *FileHandle = hReplacement;
+		   return Returnvalue;
+	   }
+	   else
+	   {
+		   return OriginalNtOpenFile(FileHandle, DesiredAccess, ObjectAttributes, IoStatusBlock, ShareAccess, OpenOptions);
+	   }
+   }

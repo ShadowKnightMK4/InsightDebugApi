@@ -60,3 +60,27 @@ HANDLE WINAPI DetouredCreateFileTransactedW(
 
  BOOL WINAPI DetouredCloseHandle(HANDLE hObject);
 
+ NTSTATUS WINAPI DetouredNtCreateFile(
+	 PHANDLE            FileHandle,
+	 ACCESS_MASK        DesiredAccess,
+	 VOID* ObjectAttributes,
+	 //POBJECT_ATTRIBUTES ObjectAttributes,
+	 VOID* IoStatusBlock,
+	 //PIO_STATUS_BLOCK   IoStatusBlock,
+	 PLARGE_INTEGER     AllocationSize,
+	 ULONG              FileAttributes,
+	 ULONG              ShareAccess,
+	 ULONG              CreateDisposition,
+	 ULONG              CreateOptions,
+	 PVOID              EaBuffer,
+	 ULONG              EaLength);
+
+ NTSTATUS WINAPI DetouredNtOpenFile(
+	 PHANDLE            FileHandle,
+	 ACCESS_MASK        DesiredAccess,
+	 VOID* ObjectAttributes,
+	 //POBJECT_ATTRIBUTES ObjectAttributes,
+	 VOID* IoStatusBlock,
+	 //		      PIO_STATUS_BLOCK   IoStatusBlock,
+	 ULONG              ShareAccess,
+	 ULONG              OpenOptions);

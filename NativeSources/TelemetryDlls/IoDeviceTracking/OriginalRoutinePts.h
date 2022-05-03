@@ -60,11 +60,38 @@ typedef HANDLE (WINAPI* CreateFile2Ptr)(
 typedef BOOL(WINAPI* CloseHandlePtr)(HANDLE hObject);
 
 
+typedef  NTSTATUS(WINAPI* NtCreateFilePtr)(
+	PHANDLE            FileHandle,
+	ACCESS_MASK        DesiredAccess,
+	VOID* ObjectAttributes,
+	//POBJECT_ATTRIBUTES ObjectAttributes,
+	VOID* IoStatusBlock,
+	//PIO_STATUS_BLOCK   IoStatusBlock,
+	PLARGE_INTEGER     AllocationSize,
+	ULONG              FileAttributes,
+	ULONG              ShareAccess,
+	ULONG              CreateDisposition,
+	ULONG              CreateOptions,
+	PVOID              EaBuffer,
+	ULONG              EaLength);
 
+typedef NTSTATUS( WINAPI*  NtOpenFilePtr)(
+	       PHANDLE            FileHandle,
+		      ACCESS_MASK        DesiredAccess,
+			  VOID* ObjectAttributes,
+			  //POBJECT_ATTRIBUTES ObjectAttributes,
+			  VOID* IoStatusBlock,
+//		      PIO_STATUS_BLOCK   IoStatusBlock,
+		      ULONG              ShareAccess,
+		      ULONG              OpenOptions
+	);
 extern CreateFileAPtr OriginalCreateFileA;
 extern CreateFileWPtr OriginalCreateFileW;
 extern CreateFileTransactedAPtr OriginalCreateFileTransactedA;
 extern CreateFileTransactedWPtr OriginalCreateFileTransactedW;
 extern CreateFile2Ptr OriginalCreateFile2;
 extern CloseHandlePtr OriginalCloseHandle;
+extern NtCreateFilePtr OriginalNtCreateFile;
+extern NtOpenFilePtr OriginalNtOpenFile;
+
 

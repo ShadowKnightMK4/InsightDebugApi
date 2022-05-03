@@ -41,9 +41,9 @@ namespace InsightSheath.Remote
 
 
         /// <summary>
-        /// Primary for writing HANDLEs to debugged process. This writes 4 byte value to the remote process in question at the location
+        /// Primary for writing HANDLEs to debugged process. This writes 4 byte value to the remote process in question at the location at the virtual memory location specified in the target
         /// </summary>
-        /// <param name="ProcessHandle">at minimum should have PROCESS_VM_READ</param>
+        /// <param name="ProcessHandle">at minimum should have PROCESS_VM_WRITE and/or PROCESS_VM_OPERATION access</param>
         /// <param name="value">value to write</param>
         /// <param name="RemoteLocation">virtual memory in the TARGET process location to write too.</param>
         /// <returns></returns>
@@ -53,10 +53,10 @@ namespace InsightSheath.Remote
         }
 
         /// <summary>
-        /// Primary for writing HANDLEs to debugged process. This writes 4 byte value to the remote process in question at the location
+        /// Primary for writing HANDLEs to debugged process. This writes 4 byte value to the remote process in question at the location specified in the virtual memory of the target
         /// </summary>
-        /// <param name="ProcessHandle"></param>
-        /// <param name="value"></param>
+        /// <param name="ProcessHandle">at minimum should have PROCESS_VM_WRITE and/or PROCESS_VM_OPERATION access</param>
+        /// <param name="value">value to write</param>
         /// <param name="RemoteLocation"></param>
         /// <exception cref="Win32Exception"> Win32Exceptions are thrown if the write failed (for security, bad memory location, in correct process and so on)</exception>
         public static void RemotePoke4(IntPtr ProcessHandle, uint value, IntPtr RemoteLocation)
@@ -70,11 +70,11 @@ namespace InsightSheath.Remote
 
 
         /// <summary>
-        /// Extract a string from the remote process.
+        /// Extract an Unicode string from the remote process. You will need to know how long the string is.
         /// </summary>
         /// <param name="ProcessHandle">Process should be open for VM_READ rights at least</param>
         /// <param name="StringLocation">virtual memory location in the remote process</param>
-        /// <param name="CharCount">how many chars in the string (unicode)</param>
+        /// <param name="CharCount">how many chars in the string (Unicode)</param>
         /// <returns></returns>
         public static string RemoteReadString(IntPtr ProcessHandle, IntPtr StringLocation, uint CharCount)
         {
