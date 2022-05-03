@@ -10,6 +10,22 @@ for the debugger to log/examine.   While this is indeed a tool for exploring, it
 debugging on windows. The project has a C/C++ back end but focuses heavily on using C# as the front end.
 
 
+
+-----------------------------------
+Branch Navigation / Purpose.
+-----------------------------------
+This Readme is for the IODeviceTracker branch - which is working towards making that Telemetry Dll functional.
+
+Functional for this means:
+
+The Telemetry Dll detours for CreateFileA/W, CreateFileTransactedA/W  CreateFile2,
+NtOpenFile, CLoseHandle and NtCreateFIle.
+
+The Extension in the sheath has code to let the user test for exceptions from this dll, check the arguments and substitite the returned handle.
+
+
+
+
 -----------------------------------
 Leveraging 'Telemetry Dlls'
 -----------------------------------
@@ -40,10 +56,6 @@ We also have the option of examing the call and setting the handle to / invalid 
 
 
 
------------------------------------
-Branch Navigation / Purpose.
------------------------------------
-This Readme is for the IODeviceTracker branch - which is working towards making that Telemetry Dll functional.
 
 -----------------------------------
 Build Configurations
