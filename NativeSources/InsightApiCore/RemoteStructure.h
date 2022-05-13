@@ -39,7 +39,29 @@ namespace RemoteStructureRoutine
 		BOOL WINAPI RemoteReadFreeObjectAttributes(OBJECT_ATTRIBUTES* ObjAttrib);
 #pragma endregion
 
+#pragma region UnicodeString
+
+		/// <summary>
+		/// We read from the remote. 
+		/// </summary>
+		/// <param name="Processs"></param>
+		/// <param name="DerefFist"></param>
+		/// <param name="MemoryLocation">Virtual Memory Location (x64 or x86)</param>
+		/// <param name="TargetIs32">Set to true for 32-bit WOW or 64 for non.</param>
+		/// <returns>If TargetIs32, then returns UNICODE_STRING32* otherwise UNICODE_STRING64* </returns>
+		UNICODE_STRING* WINAPI RemoteReadUnicodeString(HANDLE Process, UINT_PTR MemoryLocation, BOOL TargetIs32);
+
+		/// <summary>
+		/// Free an UNICODE_STRING struct previously allocated by RemoteReadUnicodeString()
+		/// </summary>
+		/// <param name="Str"></param>
+		/// <param name="TargetIs32"></param>
+		/// <returns></returns>
+		BOOL WINAPI RemoteFreeUnicodeString(UNICODE_STRING* Str, bool  TargetIs32);
+#pragma endregion
 #pragma region ArraysAndMore
+
+
 
 		/// <summary>
 		/// Read an array of ULONG_PTR size values the remote process. CALLER (that's you) will need to free the memory after user.
@@ -131,26 +153,21 @@ namespace RemoteStructureRoutine
 
 
 		/// <summary>
-		/// Free a UNICODE_STRING* allocated by RemoteReadUnicodeString().   Memory leaks/ double free() errors may happen if you use this to free a UNICODE_STRING that's stored as part of a larger buffer rather than standalone.    The exception is if the larger structure stores it as a memory pointer to a UNICODE_STRING
+		/// Free an OBJECT_ATTRIBUTES struct previously allocated.  Specify if we're freeing a 32-bit version or 64-bit verison.
 		/// </summary>
-		/// <param name="Str"></param>
-		BOOL WINAPI RemoteFreeUnicodeString(UNICODE_STRING* Str);
-
-		/// <summary>
-		/// Read the OBJECT_ATTRIBUTES from the passed location in the remote process DOES NOT COPY THE SECURITY DESCRIPTORS to calling processs. The pointers are still relevent in the remote process  We do allocate an extra 4 bytes to store if we'll need to free handles, ect.. also
-		/// </summary>
-		/// <param name="Process"></param>
-		/// <param name="TargetMemory"></param>
-		/// <param name="DupHandles">if passed, current process will get a duplicate of the handles (if any). IF you don't need the handles, leaave this false. You'll get the handle value themselfs BUT they will be in the context of the Process whose handle you specified earlier. You wont be able to use them if you aren't copying from yourself</param>
-		/// <returns> a pointer to the new OBJECT_STRIBUTES structure (or 0 on FAILURE to read)</returns>
-		OBJECT_ATTRIBUTES* WINAPI RemoteReadObjectAttributes(HANDLE Process, LPVOID TargetMemory, BOOL DuplHandles);
-
-		/// <summary>
-		/// Free an OBJECT_ATTRIBUTES data struct allocated by RemoteReadObjectAttributes(). Since we allocate a bit of memory after the struct itself to store HOW it was allocated,  you risk errors passing OBJECT_ATTRIBUTES* to this routine Not allocated by the RemoteReadObjectAtributes() routine
-		/// </summary>
-		/// <param name="ptr">Pointer to a block of memory previously returned by RemoteReadObjectAttributes</param>
+		/// <param name="Attrib"></param>
+		/// <param name="TargetIs32"></param>
 		/// <returns></returns>
-		BOOL WINAPI RemoteFreeObjectAttributes(OBJECT_ATTRIBUTES* ptr);
+		BOOL WINAPI RemoteFreeObjectAttributes(OBJECT_ATTRIBUTES* Attrib, BOOL TargetIs32);
+
+		/// <summary>
+		/// Attempt to read 
+		/// </summary>
+		/// <param name="hProcess"></param>
+		/// <param name="RemoteLocation"></param>
+		/// <returns></returns>
+		VOID* WINAPI RemoteReadObjectAttributes(HANDLE Process, UINT_PTR MemoryLocation, BOOL TargetIs32);
+	
 
 
 #pragma region Misc

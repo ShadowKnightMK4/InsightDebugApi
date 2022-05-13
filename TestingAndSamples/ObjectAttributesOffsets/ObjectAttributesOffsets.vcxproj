@@ -18,11 +18,14 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ObjectAttributesOffset.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{1d2085de-27bd-4578-aef1-aa5c52df0c76}</ProjectGuid>
-    <RootNamespace>HelloWorld</RootNamespace>
+    <ProjectGuid>{f7b14412-c336-44c4-a502-b4aa061081ff}</ProjectGuid>
+    <RootNamespace>ObjectAttributesOffsets</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -72,27 +75,22 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <LibraryPath>$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\lib;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(SolutionDir)NativeSources\Detours-master\src;$(IncludePath)</IncludePath>
-    <OutDir>$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\program\</OutDir>
+    <OutDir>$(SolutionDir)$(Configuration)\$(PlatformTarget)\program\</OutDir>
     <IntDir>$(SolutionDir)\BuildFolder\$(ProjectName)\$(Configuration)\$(PlatformTarget)</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)NativeSources\Detours-master\src;$(IncludePath)</IncludePath>
-    <OutDir>$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\program\</OutDir>
+    <OutDir>$(SolutionDir)$(Configuration)\$(PlatformTarget)\program\</OutDir>
     <IntDir>$(SolutionDir)\BuildFolder\$(ProjectName)\$(Configuration)\$(PlatformTarget)</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)NativeSources\Detours-master\src;$(IncludePath)</IncludePath>
-    <OutDir>$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\program\</OutDir>
+    <OutDir>$(SolutionDir)$(Configuration)\$(PlatformTarget)\program\</OutDir>
     <IntDir>$(SolutionDir)\BuildFolder\$(ProjectName)\$(Configuration)\$(PlatformTarget)</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)NativeSources\Detours-master\src;$(IncludePath)</IncludePath>
-    <OutDir>$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\program\</OutDir>
+    <OutDir>$(SolutionDir)$(Configuration)\$(PlatformTarget)\program\</OutDir>
     <IntDir>$(SolutionDir)\BuildFolder\$(ProjectName)\$(Configuration)\$(PlatformTarget)</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -105,8 +103,6 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalDependencies>detours.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -153,9 +149,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="HelloWorld.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

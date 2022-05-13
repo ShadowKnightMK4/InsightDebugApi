@@ -88,7 +88,7 @@ namespace RemoteStructureRoutine
 	{
 		RTL_USER_PROCESS_PARAMETERS* ret = nullptr;
 		DWORD ProjectedSize = sizeof(RTL_USER_PROCESS_PARAMETERS);
-		DWORD BytesRead = 0;
+		SIZE_T BytesRead = 0;
 		if (Process == 0)
 		{
 			Process = GetCurrentProcess();
@@ -244,124 +244,130 @@ namespace RemoteStructureRoutine
 	}
 
 
+
 	/// <summary>
-	/// Reads the UNICODE_STRING structure from the remote process into the calling process.  Duplicates the string from the remote process into the calling process also and sets pointers correctly.
+	/// UNICODE_STRING for x86 debugged processes
 	/// </summary>
-	/// <param name="Process"></param>
-	/// <param name="Deref"></param>
-	/// <param name="MemoryLocation"></param>
-	/// <param name="CallerProcessMemory"></param>
-	VOID RemoteReadUnicodeStringIntoStruct(HANDLE Process, BOOL Deref, UNICODE_STRING* MemoryLocation, UNICODE_STRING* CallerProcessMemory)
+	struct UNICODE_STRING32
 	{
-		UNICODE_STRING ret;
-		ret.Buffer = nullptr;
-		ret.Length = ret.MaximumLength = 0;
+		USHORT Length;
+		USHORT MaxLength;
+		UINT Buffer;
+	};
 
-		if (Process == 0)
-		{
-			Process = GetCurrentProcess();
-		}
-		
-		if (CallerProcessMemory == 0)
-		{
-			return;
-		}
+	/// <summary>
+	///  UNICODE_STRING for x64 debugged processes
+	/// </summary>
+	struct UNICODE_STRING64
+	{
+		USHORT Length;
+		USHORT MaxLength;
+		INT Padding; // alights buffer to correct location
+		ULONGLONG Buffer;
+	};
+	
+	/// <summary>
+	/// Object attrib for x86 debugged 
+	/// </summary>
 
-		if (MemoryLocation == 0)
+	struct OBJECT_ATTRIBUTES32
+	{
+		ULONG32 Length;
+		ULONG32 RootDirectory;
+		ULONG32 ObjectName;
+		ULONG32 Attributes;
+		ULONG32 SecurityDesc;
+		ULONG32 SecurityQoS;
+	};
+
+	/// <summary>
+	/// object attrib for x64 debugged process.
+	/// </summary>
+	struct OBJECT_ATTRIBUTES64
+	{
+		ULONG32 Length;
+		ULONGLONG RootDirectory;
+		ULONGLONG ObjectName;
+		ULONG32 Attributes;
+		ULONGLONG SecurityDesc;
+		ULONGLONG SecurityQoS;
+	};
+
+
+
+	UNICODE_STRING* WINAPI RemoteReadUnicodeString(HANDLE Process, UINT_PTR MemoryLocation, BOOL TargetIs32)
+	{
+		/*
+		* Functionally what we do is allocate a local memory chuck sizeof(UNICODE_STRINGNN) (32 or 64 depending on TargetIs32),
+		* plus the length of the string and return as one contuous block
+		*/
+		SIZE_T BytesRead;
+		SIZE_T SizeToRead;
+
+		union padding
 		{
-			return;
+			UNICODE_STRING32 ret32;
+			UNICODE_STRING64 ret64;
+		} either;
+		union ret_padding
+		{
+			UNICODE_STRING32* p32;
+			UNICODE_STRING64* p64;
+		} ret;
+
+		memset(&either.ret64, 0, sizeof(UNICODE_STRING64));
+
+		if (TargetIs32)
+		{
+			SizeToRead = sizeof(UNICODE_STRING32);
 		}
 		else
 		{
-			DWORD SizeNeeded = sizeof(UNICODE_STRING);
-			if (Deref)
-			{
-				MemoryLocation = reinterpret_cast<UNICODE_STRING*>(RemoteReadPointer(Process, MemoryLocation, sizeof(VOID*)));
-			}
-
-			if ((!ReadProcessMemory(Process, MemoryLocation, &ret, sizeof(UNICODE_STRING), &SizeNeeded) ||	(SizeNeeded != sizeof(UNICODE_STRING))))
-			{
-				CallerProcessMemory->Buffer = nullptr;
-				CallerProcessMemory->Length = CallerProcessMemory->MaximumLength;
-				return;
-			}
-			else
-			{
-				if (ret.Buffer != nullptr)
-				{
-					PWSTR localBuffer = reinterpret_cast<PWSTR>(malloc(ret.MaximumLength));
-					if (localBuffer)
-					{
-						memset(localBuffer, 0, ret.MaximumLength);
-						SizeNeeded = ret.Length;
-						if ((!ReadProcessMemory(Process, MemoryLocation, localBuffer, ret.Length, &SizeNeeded)) || (SizeNeeded < ret.Length))
-						{
-							free(localBuffer);
-							CallerProcessMemory->Buffer = nullptr;
-							CallerProcessMemory->Length = CallerProcessMemory->MaximumLength;
-							return;
-						}
-						else
-						{
-							ret.Buffer = localBuffer;
-							CallerProcessMemory->Buffer = ret.Buffer;
-							CallerProcessMemory->Length = ret.Length;
-							CallerProcessMemory->MaximumLength = ret.MaximumLength;
-							return;
-						}
-					}
-				}
-			}
-			CallerProcessMemory->Buffer = nullptr;
-			CallerProcessMemory->Length = CallerProcessMemory->MaximumLength;
+			SizeToRead = sizeof(UNICODE_STRING64);
 		}
+
+
+		if (ReadProcessMemory(Process, (LPCVOID)MemoryLocation, &either.ret32, SizeToRead, &BytesRead))
+		{
+			ret.p32 = (UNICODE_STRING32*)malloc(SizeToRead + either.ret32.MaxLength);
+			if (ret.p32 != nullptr)
+			{
+				ZeroMemory(ret.p32, SizeToRead + either.ret32.MaxLength);
+				LPVOID Target;
+				LPCVOID Source;
+				ret.p32->Length = either.ret32.Length;
+				ret.p32->MaxLength = either.ret32.MaxLength;
+				if (TargetIs32)
+				{
+					ret.p32->Buffer = either.ret32.Buffer;
+					Target = (LPVOID)(ret.p32->Buffer + sizeof(UINT));
+					Source = (LPCVOID)either.ret32.Buffer;
+				}
+				else
+				{
+					ret.p64->Buffer = either.ret64.Buffer;
+					Target = (LPVOID)(ret.p64->Buffer + sizeof(ULONGLONG));
+					Source = (LPCVOID)either.ret64.Buffer;
+				}
+
+
+				if (!ReadProcessMemory(Process, Source, Target, ret.p32->Length, &BytesRead))
+				{
+					return nullptr;
+				}
+				return (UNICODE_STRING*)ret.p32;
+			}
+		}
+		return nullptr;
 	}
 
-
-	/// <summary>
-	/// Copies 
-	/// </summary>
-	/// <param name="Processs"></param>
-	/// <param name="DerefFist"></param>
-	/// <param name="MemoryLocation"></param>
-	/// <returns></returns>
-	UNICODE_STRING* RemoteReadUnicodeString(HANDLE Process, BOOL DerefFist, UNICODE_STRING* MemoryLocation)
-	{
-		UNICODE_STRING* ret = nullptr;
-		if (Process == 0)
-		{
-			Process = GetCurrentProcess();
-		}
-		if (MemoryLocation == nullptr)
-		{
-			return nullptr;
-		}
-		else
-		{
-			ret = reinterpret_cast<UNICODE_STRING*>(malloc(sizeof(UNICODE_STRING)));
-			if (ret)
-			{
-				RemoteReadUnicodeStringIntoStruct(Process, DerefFist, MemoryLocation, ret);
-				if ((ret->Buffer == 0))
-				{
-					free(ret);
-					ret = nullptr;
-				}
-			}
-		}
-		return ret;
-	}
-
-	BOOL WINAPI RemoteFreeUnicodeString(UNICODE_STRING* Str)
+	BOOL WINAPI RemoteFreeUnicodeString(UNICODE_STRING* Str, bool  TargetIs32)
 	{
 		if (Str != nullptr)
 		{
-			if (Str->Buffer != nullptr)
-			{
-				free(Str->Buffer);
-			}
-			free(Str);
-			return TRUE;
+			/* Current Implmenation allocates both the struct and actual string when read remotely into our process
+			as one block so SimpleFree is ok.*/
+			return RemoteRead_SimpleFree(Str);
 		}
 		return FALSE;
 	}
@@ -369,75 +375,145 @@ namespace RemoteStructureRoutine
 
 
 
-	OBJECT_ATTRIBUTES* WINAPI RemoteReadObjectAttributes(HANDLE Process, LPVOID TargetMemory, BOOL DuplHandles)
+	BOOL WINAPI RemoteFreeObjectAttributes(OBJECT_ATTRIBUTES* Attrib, BOOL TargetIs32)
 	{
-		DWORD SizeNeeded = sizeof(OBJECT_ATTRIBUTES);
-		OBJECT_ATTRIBUTES* ret;
-		if (Process == 0)
+		union ret_padding
 		{
-			Process = GetCurrentProcess();
-		}
-		if (TargetMemory == nullptr)
+			OBJECT_ATTRIBUTES32* p32;
+			OBJECT_ATTRIBUTES64* p64;
+		} help;
+		if (Attrib != nullptr)
 		{
-			return nullptr;
-		}
-		ret = reinterpret_cast<OBJECT_ATTRIBUTES*>(malloc(sizeof(OBJECT_ATTRIBUTES) + sizeof(BOOL)) );
-		if (ret)
-		{
-			memset(ret, 0, SizeNeeded);
-			ret->Length = SizeNeeded;
-			*((BOOL*)ret + offsetof(OBJECT_ATTRIBUTES, SecurityQualityOfService) + sizeof(PVOID)) = DuplHandles;
-			if ((!ReadProcessMemory(Process, TargetMemory, ret, SizeNeeded, &SizeNeeded)) ||
-				(SizeNeeded != sizeof(OBJECT_ATTRIBUTES)))
+			help.p32 = (OBJECT_ATTRIBUTES32*)Attrib;
+
+			if (TargetIs32)
 			{
-				free(ret);
-				return nullptr;
+				if ( (help.p32->RootDirectory != 0) && (help.p32->RootDirectory != ((ULONG)(-1))))
+				{
+					CloseHandle(help.p32);
+				}
+				if (help.p32->RootDirectory != 0)
+				{
+					RemoteFreeUnicodeString((UNICODE_STRING*)help.p32, TargetIs32);
+				}
 			}
 			else
 			{
-				if (ret->ObjectName != nullptr)
+				if ((help.p64->RootDirectory != 0) && (help.p64->RootDirectory != (ULONGLONG)(-1)))
 				{
-					ret->ObjectName = RemoteReadUnicodeString(Process, FALSE, ret->ObjectName);
+					CloseHandle(help.p64);
 				}
-
-				/* TODO copy the security descripter stuff*/
-				return ret;
+				if (help.p64->RootDirectory != 0)
+				{
+					RemoteFreeUnicodeString((UNICODE_STRING*)help.p64, TargetIs32);
+				}
 			}
 
+			
 
-		}
-		return ret;
-
-	}
-
-	
-	BOOL WINAPI RemoteFreeObjectAttributes(OBJECT_ATTRIBUTES* ptr)
-	{
-		BOOL DupHandles;
-		if (ptr != nullptr)
-		{
-			DupHandles = *((BOOL*)ptr + offsetof(OBJECT_ATTRIBUTES, SecurityQualityOfService) + sizeof(PVOID));
-
-			if (DupHandles)
-			{
-
-			}
-
-
-			if (ptr->ObjectName != nullptr)
-			{
-				// OK here because the structure defines the UNICODE_STRING member as pointer to it.
-				RemoteFreeUnicodeString(ptr->ObjectName);
-			}
-
-			return TRUE;
+			free(Attrib);
 		}
 		return FALSE;
 	}
 
+	VOID* WINAPI RemoteReadObjectAttributes(HANDLE Process, UINT_PTR MemoryLocation, BOOL TargetIs32)
+	{
+		SIZE_T BytesRead;
+		SIZE_T SizeToRead;
+		
+		union padding 
+		{
+			OBJECT_ATTRIBUTES32 ret32;
+			OBJECT_ATTRIBUTES64 ret64;
+		} either;
+		union ret_padding
+		{
+			OBJECT_ATTRIBUTES32* p32;
+			OBJECT_ATTRIBUTES64* p64;
+		} ret;
+
+		if (TargetIs32)
+		{
+			SizeToRead = sizeof(OBJECT_ATTRIBUTES32);
+		}
+		else
+		{
+			SizeToRead = sizeof(OBJECT_ATTRIBUTES64);
+		}
+		
+		memset(&either.ret64, 0, sizeof(OBJECT_ATTRIBUTES64));
+		if (ReadProcessMemory(Process, (LPCVOID)MemoryLocation, &either.ret32, SizeToRead, &BytesRead))
+		{
+			ret.p32 = (OBJECT_ATTRIBUTES32*)malloc(SizeToRead);
+			if (ret.p32 != nullptr)
+			{
+				ZeroMemory(ret.p32, SizeToRead );
+				LPVOID Target;
+				LPCVOID Source;
+
+				
+				if (TargetIs32)
+				{
+					ret.p32->Length = either.ret32.Length;
+					if (ret.p32->RootDirectory != 0)
+					{
+						ret.p32->RootDirectory = (ULONG)DuplicateHandleToSelf(Process, (HANDLE)either.ret32.RootDirectory);
+					}
+					else
+					{
+						ret.p32->RootDirectory = 0;
+					}
+
+					if (ret.p32->ObjectName != 0)
+					{
+						ret.p32->ObjectName = (ULONG)RemoteReadUnicodeString(Process, ret.p32->ObjectName, TargetIs32);
+					}
+					else
+					{
+						ret.p32->ObjectName = 0;
+					}
+
+					ret.p32->Attributes = either.ret32.Attributes;
+					ret.p32->SecurityDesc = either.ret32.SecurityDesc;
+					ret.p32->SecurityQoS = either.ret32.SecurityQoS;
+				}
+				else
+				{
+					ret.p64->Length = either.ret64.Length;
+					if (ret.p64->RootDirectory != 0)
+					{
+						ret.p64->RootDirectory = (ULONGLONG)DuplicateHandleToSelf(Process, (HANDLE)either.ret64.RootDirectory);
+					}
+					else
+					{
+						ret.p64->RootDirectory = 0;
+					}
+
+					if (ret.p64->ObjectName != 0)
+					{
+						ret.p64->ObjectName = (ULONGLONG)RemoteReadUnicodeString(Process, either.ret64.ObjectName, TargetIs32);
+					}
+					else
+					{
+						ret.p64->ObjectName = 0;
+					}
+
+					ret.p64->Attributes = either.ret64.Attributes;
+					ret.p64->SecurityDesc = either.ret64.SecurityDesc;
+					ret.p64->SecurityQoS = either.ret64.SecurityQoS;
+				}
+			}
+		}
+		return nullptr;
+	}
+
+
+
+	
+
 	ULONG_PTR* WINAPI RemoteReadArray(HANDLE Process, LPVOID TargetMemory, DWORD ElementCount)
 	{
-		DWORD BytesRead = 0;
+		SIZE_T BytesRead = 0;
 		ULONG_PTR* ret = nullptr;
 		if (Process == 0)
 		{
@@ -452,7 +528,7 @@ namespace RemoteStructureRoutine
 			return nullptr;
 		}
 
-		ret = (ULONG_PTR*)malloc(sizeof(ULONG_PTR) * ElementCount);
+		ret = (SIZE_T*)malloc(sizeof(ULONG_PTR) * ElementCount);
 		if (ret)
 		{
 			memset(ret, 0, sizeof(ULONG_PTR) * ElementCount);

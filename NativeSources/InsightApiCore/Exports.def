@@ -57,6 +57,10 @@ LIBRARY INSIGHTAPI
 		RemoteFreeStringW=RemoteRead_SimpleFree
 		RemoteReadPointer
 		RemotePoke4
+		RemoteReadObjectAttributes
+		RemoteFreeObjectAttributes
+		RemoteReadUnicodeString
+		RemoteFreeUnicodeString
 		UtilRequestDebugPriv=AskForDebugPriv
 		UtilGetModuleNameViaHandle=GetModuleNameViaHandle
 		UtilGetFileNameViaHandle=GetFileNameViaHandle
@@ -66,6 +70,7 @@ LIBRARY INSIGHTAPI
 		UtilOpenProcesForQueryInformation=OpenProcesForQueryInformation
 		UtilOpenProcessForQueryRead=OpenProcessForQueryRead
 		UtilOpenProcessForDuplicatingHandle=OpenProcessForDuplicatingHandle
+		UtilGetPEMachineTypeW=GetPEMachineTypeW
 		OpenProcessNow
 		UtilCloseProcessHandle=CloseHandle
 		UtilPoke4=Poke4
@@ -223,6 +228,7 @@ LIBRARY INSIGHTAPI
 		StartupInfo_GethStdError
 		StartupInfo_SethStdError
 		StartupInfo_GetPointer
+		
 
 
 

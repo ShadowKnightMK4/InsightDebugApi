@@ -10,8 +10,23 @@ namespace InsightSheath.NativeImports
     internal static partial class NativeMethods
     {
 
-        //RemoteReadStringW
-        
+        //RemoteReadStringW RemoteFreeUnicodeString
+
+
+        [DllImport("InsightApi.dll", CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, SetLastError = true, EntryPoint = "RemoteReadUnicodeString")]
+        public static extern IntPtr RemoteReadUnicodeString(IntPtr ProcessHandle, IntPtr RemoteLocation, bool TargetIs32Bit);
+
+        [DllImport("InsightApi.dll", CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, SetLastError = true, EntryPoint = "RemoteFreeUnicodeString")]
+        public static extern IntPtr RemoteFreeUnicodeString(IntPtr RemoteLocation, bool TargetIs32Bit);
+
+
+
+        [DllImport("InsightApi.dll", CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, SetLastError = true, EntryPoint = "RemoteReadObjectAttributes")]
+        public static extern IntPtr RemoteReadObjectAttributes(IntPtr ProcessHandle, IntPtr RemoteLocation, bool TargetIs32Bit);
+
+        [DllImport("InsightApi.dll", CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, SetLastError = true, EntryPoint = "RemoteFreeObjectAttributes")]
+        public static extern IntPtr RemoteFreeObjectAttributes(IntPtr RemoteLocation, bool TargetIs32Bit);
+
 
 
         /// <summary>

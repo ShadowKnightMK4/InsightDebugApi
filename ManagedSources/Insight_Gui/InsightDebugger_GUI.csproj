@@ -16,7 +16,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
 
@@ -84,7 +84,7 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="copy $(SolutionDir)code\$(ConfigurationName)\x86\program\InsightApi.* $(ProjectDir)$(OutDir)&#xD;&#xA;REM Changing to 64-bit code build requires manually changing the x86 to x64" />
+    <Exec Command="copy $(SolutionDir)code\$(ConfigurationName)\x64\program\InsightApi.* $(ProjectDir)$(OutDir)&#xD;&#xA;" />
   </Target>
 
 </Project>

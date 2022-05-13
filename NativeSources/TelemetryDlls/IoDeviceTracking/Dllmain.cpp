@@ -11,7 +11,7 @@
 */
 
 /* if you find you're getting garbage from the exception reading in the sheath, uncomment this and put a call info the DllMain() here.
-If inspecting during a debug run givens different values there's a problem.
+    Run the Visual studio debugger and inspect the execption arguments .
 */
 void test_exception()
 {

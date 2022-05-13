@@ -10,11 +10,39 @@ using InsightSheath.NativeImports;
 namespace InsightSheath
 {
     /// <summary>
+    /// Machine Type values extractable 
+    /// </summary>
+    public enum MachineType
+    {
+        /// <summary>
+        /// Returned on error with <see cref="HelperRoutines.GetPEMachineType(string)"/> 
+        /// </summary>
+        MachineInvalid = 0,
+        /// <summary>
+        /// x86 based 
+        /// </summary>
+        MachineI386 = 0x014c,
+        /// <summary>
+        /// Intel Itanium based
+        /// </summary>
+        MachineIA64 = 0x0200,
+        /// <summary>
+        /// x64 based
+        /// </summary>
+        MachineAmd64 = 0x8664
+    }
+    
+
+    /// <summary>
     /// Class contains various miscellaneous routines that while not tied directly to the library's purpose, they are used throughout the Sheath and wrappers.
     /// </summary>
     public static class HelperRoutines
     {
 
+        public static MachineType GetPEMachineType(string TargetExe)
+        {
+            return NativeMethods.GetPEMachineType(TargetExe);
+        }
         /// <summary>
         /// Read a 4 byte value from unmanaged memory
         /// </summary>

@@ -80,7 +80,7 @@ int WINAPI DefaultHandler(LPDEBUG_EVENT lpCurEvent, DWORD* ContinueStatus, DWORD
 void _cdecl PsPocessInformation_DebugWorkerthread(void* argument)
 {
 	WorkerThreadData* Args = (WorkerThreadData*)argument;
-	DEBUG_EVENT lpEvent;
+	DEBUG_EVENT lpEvent{};
 	int Code = 0;
 	// First we spawn the process.
 
@@ -109,6 +109,7 @@ void _cdecl PsPocessInformation_DebugWorkerthread(void* argument)
 	// Now process the events 
 	while (true)
 	{
+		ZeroMemory(&lpEvent, sizeof(DEBUG_EVENT));
 		if (WaitForDebugEventEx(&lpEvent, Args->WaitTImer))
 		{
 			if (Args->that->EnableSymbols)

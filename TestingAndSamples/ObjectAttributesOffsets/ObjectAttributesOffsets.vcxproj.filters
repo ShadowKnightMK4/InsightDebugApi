@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="HelloWorld.cpp">
+    <ClCompile Include="ObjectAttributesOffset.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

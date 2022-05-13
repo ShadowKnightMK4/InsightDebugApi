@@ -73,8 +73,8 @@ namespace InsightSheath.Telemetry
         Traverse = Execute,
         WriteAttributes = 256,
         WriteData = 2,
-        StandardRightsRead = ?,
-        StandardRightsWrite = StandardRightsRead,
+        //StandardRightsRead = ?,
+        //StandardRightsWrite = StandardRightsRead,
 
 
     }
@@ -170,12 +170,20 @@ namespace InsightSheath.Telemetry
 
     public struct IoDeviceTelemetryNtCreateFile
     {
+        public uint ProcessId;
+        public uint ThreadID;
         public AccessMasks DesiredAccess;
-        public IntPtr ObjectAttributes;
+        public Structs.WindowsObjectAttributes ObjectAttributes;
         public IntPtr IoStatusBlock;
         public LARGE_INTEGER AllocationSize;
-        public
+        public ulong FileAttributes;
+        public ulong ShareAccess;
+        public CreationDisposition CreateDisposition;
+        public IntPtr EaBuffer;
+        public ulong EaSize;
 
+        public IntPtr ForceHandle;
+        public IntPtr ReturnValue;
 
     }
 
@@ -303,7 +311,7 @@ namespace InsightSheath.Telemetry
         /// </summary>
         public  readonly IntPtr ForceLastError;
 
-        public void SetLastErroValue(uint NewValue)
+        public void SetLastErrorValue(uint NewValue)
         {
             IntPtr handle = NativeImports.NativeMethods.OpenProcessNow(ProcessId);
             //IntPtr Handle = HelperRoutines.OpenProcessForVirtualMemory(dwProcessId);
@@ -327,7 +335,7 @@ namespace InsightSheath.Telemetry
 
 
         const uint ExceptionSubType = 0;
-        const uint CreateFile_LastErrorPtr = 1;
+        const uint LastError_Ptr = 1;
 
 
         /* if exception is NotificationType.CreateFile */
@@ -340,13 +348,42 @@ namespace InsightSheath.Telemetry
         const uint CreateFile_FlagsAndAttribs = 8;
         const uint CreateFile_TemplateFile = 9;
         const uint CreateFile_OvrridePtr = 10;
-        
 
-        
 
-       /// <summary>
-       /// This class in question will deal with exceptions of this value from Debugged apps that have had IoDeviceTelemetry loaded into to them.
-       /// </summary>
+        const uint NtCreateFile_ReturnHandle = 2;
+        const uint NtCreateFile_DesiredAccess = 3;
+        const uint NtCreateFile_ObjectAttributes = 4;
+        const uint NtCreateFile_IoStatusBlock = 5;
+        const uint NtCreateFile_AllocationSize = 6;
+        const uint NtCreateFile_FileAttributs = 7;
+        const uint NtCreateFile_ShareAccess = 8;
+        const uint NtCreateFile_CreateDisposition = 9;
+        const uint NtCreateFile_EaBuffer = 10;
+        const uint NtCreateFile_EaLength = 11;
+        const uint NtCreateFile_OverwriteHandle = 12;
+
+
+        /* if exception is NotificationType.NTCreateFIle*/
+        /*
+         * ExceptionArgs[EXCEPTION_LAST_ERROR] = (ULONG)ReturnValue;
+	ExceptionArgs[NTCF_AW_OUTPUTHANDLE] = (ULONG)FileHandle;
+	ExceptionArgs[NTCT_AW_DESIRED_ACCESS] = (ULONG)DesiredAccess;
+	ExceptionArgs[NTCT_AW_OBJECT_ATTRIBUTES] = (ULONG)ObjectAttributes;
+	ExceptionArgs[NTCT_AW_IOSTATUSBLOCK] = (ULONG)IoStatusBlock;
+	ExceptionArgs[NTCT_AW_ALLOCATION_SIZE] = (ULONG)AllocationSize;
+	ExceptionArgs[NTCT_AW_FILEATRIBUTES] = (ULONG)FileAttributes;
+	ExceptionArgs[NTCT_AW_SHARE_ACCESS] = (ULONG)ShareAccess;
+	ExceptionArgs[NTCT_AW_CREATEOPTION] = (ULONG)CreateDisposition;
+	ExceptionArgs[NTCT_AW_EABUFFER] = (ULONG)EaBuffer;
+	ExceptionArgs[NTCT_AW_EALENGTH] = (ULONG)EaLength;
+	ExceptionArgs[NTCT_AW_OVERRIDE_HANDLE] = (ULONG)OverwriteHandle;
+         */
+
+
+
+        /// <summary>
+        /// This class in question will deal with exceptions of this value from Debugged apps that have had IoDeviceTelemetry loaded into to them.
+        /// </summary>
         public static readonly uint FixedExceptionCode = 0x68ACB7A9;
         public enum NotificationType
         {
@@ -387,11 +424,44 @@ namespace InsightSheath.Telemetry
         {
             IoDeviceTelemetryNtCreateFile ret;
             IntPtr Handle = HelperRoutines.OpenProcessForVirtualMemory(that.ProcessID);
-            var arguments = that.ExceptionAddress64;
+            var arguments = that.ExceptionParameter32;
             try
             {
                 ret = new IoDeviceTelemetryNtCreateFile();
                 
+                
+
+                
+                ret.ReturnValue = new IntPtr(arguments[LastError_Ptr]);
+
+                if (arguments[NtCreateFile_AllocationSize] != 0)
+                {
+                    ret.AllocationSize = Marshal.PtrToStructure<LARGE_INTEGER>(new IntPtr(arguments[NtCreateFile_AllocationSize]));
+                }
+                else
+                {
+                    ret.AllocationSize = new LARGE_INTEGER();
+                    ret.AllocationSize.QuadPart = 0;
+                }
+                ret.CreateDisposition = (CreationDisposition) arguments[NtCreateFile_CreateDisposition];
+                ret.DesiredAccess = (AccessMasks) arguments[NtCreateFile_DesiredAccess];
+                ret.EaBuffer =  new  IntPtr(arguments[NtCreateFile_EaBuffer]);
+                ret.EaSize = arguments[NtCreateFile_EaLength];
+                ret.FileAttributes = arguments[NtCreateFile_FileAttributs];
+                ret.ForceHandle = new IntPtr(arguments[NtCreateFile_ReturnHandle]);
+                ret.IoStatusBlock = new IntPtr(arguments[NtCreateFile_IoStatusBlock]);
+                if (that.IsEventFrom32BitProcess)
+                {
+                    ret.ObjectAttributes = new Structs.WindowsObjectAttributes(new IntPtr(arguments[NtCreateFile_ObjectAttributes]),false);
+                }
+                else
+                {
+                    ret.ObjectAttributes = new Structs.WindowsObjectAttributes(new IntPtr(arguments[NtCreateFile_ObjectAttributes]), true);
+                }
+                ret.ProcessId = that.ProcessID;
+                ret.ReturnValue = new IntPtr(arguments[LastError_Ptr]);
+                ret.ShareAccess = arguments[NtCreateFile_ShareAccess];
+                ret.ThreadID = that.ThreadID; 
                 return ret;
             }
             finally
@@ -413,7 +483,7 @@ namespace InsightSheath.Telemetry
 
             try
             {
-                ret = new IoDeviceTelemetyCreateFile(that.ProcessID, that.ThreadID, (IntPtr)Arguments[CreateFile_OvrridePtr], (IntPtr)Arguments[CreateFile_LastErrorPtr]);
+                ret = new IoDeviceTelemetyCreateFile(that.ProcessID, that.ThreadID, (IntPtr)Arguments[CreateFile_OvrridePtr], (IntPtr)Arguments[LastError_Ptr]);
                 
                 ret.FileName = RemoteStructure.RemoteReadString(Handle, new IntPtr(Arguments[CreateFile_FilenamePtr]), Arguments[CreateFile_FileNameCharLen]);
                 ret.DesiredAccess = (AccessMasks)Arguments[CreateFile_DesiredAccess];

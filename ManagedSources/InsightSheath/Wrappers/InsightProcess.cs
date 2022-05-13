@@ -107,6 +107,7 @@ namespace InsightSheath
             CommadMaxValue = 255
         }
 
+
         public enum DebugContState : uint
         {
             /// <summary>

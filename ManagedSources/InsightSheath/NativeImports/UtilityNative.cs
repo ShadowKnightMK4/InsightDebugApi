@@ -88,10 +88,12 @@ namespace InsightSheath.NativeImports
         /// </summary>
         /// <param name="NativePtr">Pointer to write to</param>
         /// <returns>true if the value was set and false if it was not (or if <see cref="NativePtr"/> equals 0)</returns>
-        [DllImport("InsightApi.Dll", CallingConvention = CallingConvention.Winapi, EntryPoint = "UtilPoke9")]
+        [DllImport("InsightApi.Dll", CallingConvention = CallingConvention.Winapi, EntryPoint = "UtilPoke8")]
         public static extern bool Poke8(IntPtr NativePtr, ulong NewValue);
 
-
+        [DllImport("InsightApi.Dll", CallingConvention = CallingConvention.Winapi, EntryPoint = "UtilGetPEMachineTypeW")]
+        public static extern MachineType GetPEMachineType([MarshalAs(UnmanagedType.LPWStr)]string Str);
+        
         /// <summary>
         /// Short hand for asking for a native process handle that PROCESS_VM_READ | PROCESS_VM_WRITE access
         /// </summary>

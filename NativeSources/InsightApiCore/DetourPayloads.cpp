@@ -22,6 +22,7 @@
 /// <returns></returns>
 HMODULE WINAPI DetourEnumerateModulesEx(HANDLE hProcess,_In_opt_ HMODULE hModuleLast)
 {
+    /*
     PBYTE pbLast = (PBYTE)hModuleLast + MM_ALLOCATION_GRANULARITY;
     IMAGE_DOS_HEADER LocalDosHeader;
     IMAGE_NT_HEADERS LocalNtHeaders;
@@ -79,7 +80,7 @@ HMODULE WINAPI DetourEnumerateModulesEx(HANDLE hProcess,_In_opt_ HMODULE hModule
                 EXCEPTION_EXECUTE_HANDLER : EXCEPTION_CONTINUE_SEARCH) {
                 continue;
             }
-        }
+        }*/
     return NULL;
 }
     

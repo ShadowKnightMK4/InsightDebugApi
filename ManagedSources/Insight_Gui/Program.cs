@@ -37,9 +37,67 @@ namespace FileSandBox_GUI
         static int StubCallback(IntPtr DebugEvent, IntPtr ContStat, IntPtr WaitTime, IntPtr Custom)
         {
             DebugEvent Debug = new DebugEvent(DebugEvent);
-            InsightProcess.Poke4(ContStat, (int)InsightProcess.DebugContState.DebugContinueState);
-
+            InsightProcess.Poke4(ContStat, unchecked ((int)InsightProcess.DebugContState.DebugExceptionNotHandled));
             
+            switch (Debug.EventType)
+            {
+                case DebugEventType.CreateProcessEvent:
+                    {
+                        var test = Debug.GetDebugEventCreateProcessInfo();
+                        Console.WriteLine(test.ImageName);
+                        break;
+                    }
+                case DebugEventType.CreateTheadEvent:
+                    {
+                        var test = Debug.GetDebugEventCreateThreadInfo();
+                        Console.WriteLine(test.ThreadStartAddress);
+                        break;
+                    }
+                case DebugEventType.ExitProcessEvent:
+                    {
+                        var test = Debug.GetEventExitProcessInfo();
+                        Console.WriteLine("Exiting with " + test.ExitCode);
+                        break;
+                    }
+                case DebugEventType.ExitThreadEvent:
+                    {
+                        var test = Debug.GetEventExitThreadInfo();
+                        Console.WriteLine("Thread exit: " + test.ExitCode);
+                        break;
+                    }
+                case DebugEventType.LoadDllEvent:
+                    {
+                        var test = Debug.GetDebugEventLoadDll();
+                        Console.WriteLine(test.ImageName);
+                        break;
+                    }
+                case DebugEventType.OutputDebugString:
+                    {
+                        var test = Debug.GetDebugEventStringInfo();
+                        Console.WriteLine(test.OutputString);
+                        break;
+                    }
+                case DebugEventType.RipEvent:
+                    {
+                        var test = Debug.GetDebugEventRipInfo();
+                        Console.WriteLine(test.Error);
+                        break;
+                    }
+                case DebugEventType.UnloadDllEvent:
+                    {
+                        var test = Debug.GetDebugEventUnloadDllInfo();
+                        Console.WriteLine(test.BaseOfDll + " Unloaded");
+                        break;
+                    }
+                case DebugEventType.ExceptionEvent:
+                    {
+                        var test = Debug.GetDebugEventExceptionInfo();
+                        Console.WriteLine(test.ExceptionCode + " exception");
+                        InsightProcess.Poke4(ContStat, unchecked ((int)InsightProcess.DebugContState.DebugExceptionNotHandled));
+                        break;
+                    }
+            }
+            /*
             if (Debug.EventType == InsightSheath.Wrappers.DebugEventType.OutputDebugString)
             {
                 Console.WriteLine(Debug.ProcessID + "Says: " + Debug.GetDebugEventStringInfo().OutputString);
@@ -84,24 +142,11 @@ namespace FileSandBox_GUI
                     
                     using (var ExceptionData = Debug.GetDebugEventExceptionInfo())
                     {
-                        if (ExceptionData.GetIoDeviceExceptionType() == IoDeviceTelemetryReaderExtensions.NotificationType.CreateFile)
+                        if (ExceptionData.GetIoDeviceExceptionType() == IoDeviceTelemetryReaderExtensions.NotificationType.NtCreateFile)
                         {
-                            var Info = ExceptionData.GetCreateFileSettings();
-                            DesourcesTouched.Add(Info.FileName + "for " + Enum.GetName(typeof(AccessMasks), Info.DesiredAccess));
-                            if (Info.DesiredAccess == AccessMasks.GenericRead)
-                            {
-                                if (Info.FileName.Contains(".txt"))
-                                {/*
-                                    using (var Data = System.IO.File.OpenRead("C:\\Users\\Thoma\\source\\repos\\InsightAPI\\AboutTemetryDlls.txt"))
-                                    {
-                                        Info.SetForceHandle(Data.SafeFileHandle.DangerousGetHandle());
-                                        Info.SetLastErroValue(0);
-                                    }
-                                    */
-                                    Info.SetForceHandle(new IntPtr(-1));
-                                    Info.SetLastErroValue(5); // access denied.
-                                }
-                            }
+                            var Data = ExceptionData.GetNtCreateFileSettings();
+
+
                         }
                      
                     }
@@ -175,6 +220,7 @@ namespace FileSandBox_GUI
                     HelperRoutines.CloseHandle(ProcessHandle);
                 }
             }
+            */
             return 0;
         }
 
@@ -205,8 +251,21 @@ namespace FileSandBox_GUI
             TestRun.ExtraFlags = InsightProcess.SpecialCaseFlags.DebugOnlyThis;
             TestRun.WorkingDirectory = "C:\\Windows\\";
             TestRun.ProcessName = "C:\\Windows\\system32\\notepad.exe";
+            //TestRun.ProcessName = "C:\\Windows\\system32\\cmd.exe";
             //TestRun.ProcessName = "C:\\Users\\Thoma\\source\\repos\\InsightAPI\\code\\Debug\\x86\\program\\HelloWorld.exe";
-            TestRun.AddDetoursDll("C:\\Users\\Thoma\\source\\repos\\InsightAPI\\code\\Debug\\x86\\program\\Telemetry\\IoDeviceTracking.dll");
+            //TestRun.AddDetoursDll("C:\\Users\\Thoma\\source\\repos\\InsightAPI\\code\\Debug\\x64\\program\\Telemetry\\IoDeviceTracking.dll");
+
+            Console.WriteLine("Target is a " + Enum.GetName(typeof(MachineType), HelperRoutines.GetPEMachineType(TestRun.ProcessName)));
+            if (HelperRoutines.GetPEMachineType(TestRun.ProcessName) == MachineType.MachineI386)
+            {
+                Console.WriteLine("Picking the x86 version of the detours");
+                TestRun.AddDetoursDll("C:\\Users\\Thoma\\source\\repos\\InsightAPI\\code\\Debug\\x86\\program\\Telemetry\\IoDeviceTracking.dll");
+            }
+            else
+            {
+                Console.WriteLine("Picking the x64 version of the detours");
+                TestRun.AddDetoursDll("C:\\Users\\Thoma\\source\\repos\\InsightAPI\\code\\Debug\\x64\\program\\Telemetry\\IoDeviceTracking.dll");
+            }
             Tmp = new SymbolSearchCallBackRoutine(Callback);
 
        
@@ -214,45 +273,60 @@ namespace FileSandBox_GUI
             TestRun.UserDebugCallRoutine = new InsightProcess.DebugEventCallBackRoutine(StubCallback);
             TestRun.EnableSymbolEngine = true;
             TestRun.DebugMode = DebugModeType.WorkerThread;
-            TestRun.ExtraFlags = InsightProcess.SpecialCaseFlags.DebugOnlyThis;
+            TestRun.GetStartupInfoClass().FlagSetterHelper = true;
+            TestRun.GetStartupInfoClass().Flags = StartupInfoExW.StartupInfoExW_Flags.Startf_UseShowWindow;
+            TestRun.GetStartupInfoClass().ShowWindow = StartupInfoExW.StartupInfoExW_ShowWindow.Maximize;
+            //TestRun.ExtraFlags = InsightProcess.SpecialCaseFlags.DebugOnlyThis;
             
             TestRun.RequestDebugPriv = true;
             Insight = TestRun.GetSymbolHandler();
 
-            TestRun.ExtraFlags = InsightProcess.SpecialCaseFlags.DebugOnlyThis;
-            
+            //TestRun.ExtraFlags = InsightProcess.SpecialCaseFlags.DebugOnlyThis;
 
+            
             var ProcessId = TestRun.SpawnProcess();
 
 
-            using (System.Diagnostics.Process Target = Process.GetProcessById(ProcessId))
+            try
             {
-                while (true)
+                using (System.Diagnostics.Process Target = Process.GetProcessById(ProcessId))
                 {
+                    while (true)
+                    {
 
-                    TestRun.PulseDebugEventThead();
-                    try
-                    {
-                        if (Target.HasExited == true)
+                        TestRun.PulseDebugEventThead();
+                        try
                         {
-                            Console.WriteLine("Process Has Quit during kick loop");
-                            foreach (string file in DesourcesTouched)
+                            if (!true)
                             {
-                                Console.WriteLine(file);
+                                Console.WriteLine("Process Has Quit during kick loop");
+                                foreach (string file in DesourcesTouched)
+                                {
+                                    Console.WriteLine(file);
+                                }
+                                break;
                             }
-                            break;
+                            else
+                            {
+                                //   Console.WriteLine("Process is alive");
+                            }
                         }
-                        else
+                        catch (AccessViolationException e)
+                          {
+                            Console.WriteLine(e.Message + "<- triggered when seeing if runnig");
+                        }
+                        catch (System.ComponentModel.Win32Exception e)
                         {
-                         //   Console.WriteLine("Process is alive");
+                            Console.WriteLine(e.Message + "<- triggered when seeing if runnig");
                         }
-                    }
-                    catch (System.ComponentModel.Win32Exception e)
-                    {
-                        Console.WriteLine(e.Message + "<- triggered when seeing if runnig");
                     }
                 }
             }
+            finally
+            {
+
+            }
+
             TestRun.Dispose();
 
             //Application.Run(new MainWindow());

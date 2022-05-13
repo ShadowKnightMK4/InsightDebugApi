@@ -1,5 +1,6 @@
 #pragma once
 #include <Windows.h>
+#include <winternl.h>
 
 
 HANDLE WINAPI DetouredCreateFileA(
@@ -63,8 +64,8 @@ HANDLE WINAPI DetouredCreateFileTransactedW(
  NTSTATUS WINAPI DetouredNtCreateFile(
 	 PHANDLE            FileHandle,
 	 ACCESS_MASK        DesiredAccess,
-	 VOID* ObjectAttributes,
-	 //POBJECT_ATTRIBUTES ObjectAttributes,
+	 //VOID* ObjectAttributes,
+	 POBJECT_ATTRIBUTES ObjectAttributes,
 	 VOID* IoStatusBlock,
 	 //PIO_STATUS_BLOCK   IoStatusBlock,
 	 PLARGE_INTEGER     AllocationSize,

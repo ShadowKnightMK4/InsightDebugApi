@@ -70,11 +70,11 @@ private:
 	/// <summary>
 	/// If the SymbolData.Sizeof() is non-zero, structure is valid. This will be the main ExeModule's symbols
 	/// </summary>
-	IMAGEHLP_MODULE64 SymbolData;
+	IMAGEHLP_MODULEW64 SymbolData;
 	/// <summary>
 	/// When DLLS  are loaded they get an entry here.
 	/// </summary>
-	std::map<DWORD64, IMAGEHLP_MODULE64*>  LoadedDlls;
+	std::map<DWORD64, IMAGEHLP_MODULEW64*>  LoadedDlls;
 
 	/// <summary>
 	/// If set after building class, class did not setupe ok.

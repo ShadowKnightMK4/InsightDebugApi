@@ -5,6 +5,7 @@
 */
 #include "Utility.h"
 #include <Psapi.h>
+#include <ImageHlp.h>
 
 /// <summary>
 /// Enable a chosen priv on self.  NOT INTENDED TO BE EXPORTED.  We really use this to just enable debug priv
@@ -307,6 +308,47 @@ typedef BOOL(WINAPI* LPFN_ISWOW64PROCESS) (HANDLE, PBOOL);
 LPFN_ISWOW64PROCESS Callback_toWOW64 = 0;
 HMODULE Kernel32 = 0;
 
+DWORD WINAPI GetPEMachineTypeW(LPCWSTR Target)
+{
+	PIMAGE_DOS_HEADER Dos=0;
+	PIMAGE_NT_HEADERS32 Windows;
+	PIMAGE_OPTIONAL_HEADER NotOptional;
+	DWORD BytesRead=0;
+	IMAGE_NT_HEADERS* Header;
+	HANDLE fn = INVALID_HANDLE_VALUE;
+	HANDLE Mapped = INVALID_HANDLE_VALUE;
+	__try
+	{
+		fn = CreateFile(Target, GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+		if (fn != INVALID_HANDLE_VALUE)
+		{
+			Mapped = CreateFileMapping(fn, nullptr, PAGE_READONLY | SEC_IMAGE_NO_EXECUTE, 0, 0, 0);
+			if (Mapped != INVALID_HANDLE_VALUE)
+			{
+				Dos = (PIMAGE_DOS_HEADER)MapViewOfFile(Mapped, FILE_MAP_READ, 0, 0, 0);
+				Header = ImageNtHeader(Dos);
+				return Header->FileHeader.Machine;
+			}
+		}
+	}
+	__finally
+	{
+		if (Dos != 0)
+		{
+			UnmapViewOfFile(Dos);
+		}
+		if (Mapped != INVALID_HANDLE_VALUE)
+		{
+			CloseHandle(Mapped);
+		}
+		if (fn != INVALID_HANDLE_VALUE)
+		{
+			CloseHandle(fn);
+		}
+
+	}
+
+}
 
 BOOL WINAPI IsTargetProcessID32Bit(DWORD dwProcessID)
 {

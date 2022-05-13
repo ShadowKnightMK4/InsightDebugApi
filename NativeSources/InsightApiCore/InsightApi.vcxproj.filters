@@ -76,6 +76,12 @@
     <ClCompile Include="StartupInfoExW_struct_cExports.cpp">
       <Filter>Source Files\C Level Struct Wrappers</Filter>
     </ClCompile>
+    <ClCompile Include="ObjectAttribStruct_cexports.cpp">
+      <Filter>Source Files\C Level Struct Wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectAttributesHelper.cpp">
+      <Filter>Source Files\Classes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="InsightHunter.h">
@@ -112,6 +118,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="StarutpInfoStructHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectAttributesHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
