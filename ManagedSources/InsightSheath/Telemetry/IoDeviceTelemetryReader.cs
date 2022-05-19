@@ -7,7 +7,7 @@ using InsightSheath.Wrappers;
 using InsightSheath.Remote;
 using InsightSheath.Misc;
 using System.Runtime.InteropServices;
-
+using System.IO;
 namespace InsightSheath.Telemetry
 {
 
@@ -25,6 +25,41 @@ namespace InsightSheath.Telemetry
         [FieldOffset(0)]
         public ulong QuadPart;
     }
+
+
+
+    /// <summary>
+    /// From once again winnt.h for values.   <see href="https://docs.microsoft.com/en-us/windows/win32/api/winternl/nf-winternl-ntcreatefile"/>
+    /// </summary>
+    public enum NtCreationDisposition : uint 
+    {
+        /// <summary>
+        /// IF File exists already, replace with this new file. If nonexistent, create it.
+        /// </summary>
+        Supersede = 0x00000000,
+        /// <summary>
+        /// If file exists, open it. If it does not exist, fail the request.
+        /// </summary>
+        Open = 0x00000001,
+        /// <summary>
+        /// If the file exists, fail request. If it does not exist, create the file.
+        /// </summary>
+        Create = 0x00000002,
+        /// <summary>
+        /// If the file exists open it. Otherwise create it.
+        /// </summary>
+        OpenIf = 0x00000003,
+        /// <summary>
+        /// If the file exists, open and truncate it. Otherwise fail request.
+        /// </summary>
+        Overwrite = 0x00000004,
+        /// <summary>
+        /// If the file exists, open and truncate it. If it does not exist, create it.
+        /// </summary>
+        OverwriteIf = 0x00000005,
+        MaxDisposition = 0x00000005
+    }
+
 
     /// <summary>
     /// Action to be taken by CreateFileA/W
@@ -53,34 +88,13 @@ namespace InsightSheath.Telemetry
         TruncateExisting = 5
     }
 
-    /// <summary>
-    /// This is for the access vlaues for NtCreateFile
-    /// </summary>
-    public enum NtCreateAccessMasks : uint
-    {
-        NoAccess = 0,
-        MeteData = NoAccess,
-        AddFile = 2,
-        AddSubDirectory = 5,
-        AppendData = AddSubDirectory,
-        CreatePipe = AddSubDirectory,
-        DeleteChild = 0x40,
-        Execute = 0x20,
-        ListDirectory = 1,
-        ReadAttributes = 0x40,
-        ReadData = ListDirectory,
-        ReadEa = 8,
-        Traverse = Execute,
-        WriteAttributes = 256,
-        WriteData = 2,
-        //StandardRightsRead = ?,
-        //StandardRightsWrite = StandardRightsRead,
-
-
-    }
+    
     [Flags]
     /// <summary>
-    /// from <see cref="https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-samr/262970b7-cd4a-41f4-8c4d-5a27f0092aaa"/>, these are the accessible flags
+    /// from <see cref="https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-samr/262970b7-cd4a-41f4-8c4d-5a27f0092aaa"/>, 
+    /// Windows SDK winnt.h and
+    /// <see href="https://docs.microsoft.com/en-us/windows/win32/api/winternl/nf-winternl-ntcreatefile"/>,
+    /// these are the accessible flags 
     /// </summary>
     public enum AccessMasks: uint
     {
@@ -92,6 +106,68 @@ namespace InsightSheath.Telemetry
         /// MSDN CreateFileA/W suggests meta data can be queried with opening for no access, hence the pair of these.
         /// </summary>
         MetaData = NoAccess,
+
+        /// <summary>
+        /// NtOpenFile/NtCreateFile DELETE Value from "winnt.h"
+        /// </summary>
+        Delete = 0x00010000,
+        /// <summary>
+        /// NtOpenFile/NtCreateFile READ_CONTROL value from "winnt.h"
+        /// </summary>
+        ReadControl = 0x00020000,
+        /// <summary>
+        /// Windows NtOpen/NtCreateFile Sourced from winnt.h 
+        /// </summary>
+        FileReadData = 0x1,
+        /// <summary>
+        /// Same as <see cref="FileReadData"/> in winnt.h
+        /// </summary>
+        FileListDirectory = FileReadData,
+        /// <summary>
+        /// Windows NtOpen/NtCreateFile.  Sourced from winnt.h.  FileAttribute flags, can be set/read.
+        /// </summary>
+        FileReadAttributes = 0x0080,
+        /// <summary>
+        /// Windows NtOpen/NtCreateFile Sourced from winnt.h 
+        /// </summary>
+        FileReadEa = 0x0008,
+        /// <summary>
+        /// Windows NtOpen/NtCreateFile Sourced from winnt.h 
+        /// </summary>
+        FileWriteData = 0x0002,
+        /// <summary>
+        /// Windows NtOpen/NtCreateFile Sourced from winnt.h 
+        /// </summary>
+        FileWriteAttributes = 0x0100,
+        /// <summary>
+        /// Windows NtOpen/NtCreateFile Sourced from winnt.h 
+        /// </summary>
+        FileWriteEa = 0x0010,
+        /// <summary>
+        /// Windows NtOpen/NtCreate file. From winnt.h. 
+        /// </summary>
+        FileAppendData = 0x0004,
+        /// <summary>
+        /// Windows NtOpen/NtCreate file. From winnt.h. 
+        /// </summary>
+        WriteDac = 0x00040000,
+        /// <summary>
+        /// Windows NtOpen/NtCreate file. From winnt.h. 
+        /// </summary>
+        WriteOwner = 0x00080000,
+        /// <summary>
+        /// Windows NtOpen/NtCreate file. From winnt.h. 
+        /// </summary>
+        Synchronize = 0x00100000,
+        /// <summary>
+        /// Windows NtOpen/NtCreate file. From winnt.h. 
+        /// </summary>
+        FileExecute = 0x0020,
+        /// <summary>
+        /// Same as FileExceute in winnt.h
+        /// </summary>
+        FileTraverse = FileExecute,
+
         /// <summary>
         /// GENERIC_READ / for read access
         /// </summary>
@@ -109,6 +185,8 @@ namespace InsightSheath.Telemetry
         /// </summary>
         GenericAll = 0x10000000
     }
+
+    
 
     /// <summary>
     /// Share mode for CreateFileA/W
@@ -170,22 +248,69 @@ namespace InsightSheath.Telemetry
 
     public struct IoDeviceTelemetryNtCreateFile
     {
+        /// <summary>
+        /// Process ID of the exception that we read this data from.
+        /// </summary>
         public uint ProcessId;
+        /// <summary>
+        /// Thread ID of the exception that we read this from.
+        /// </summary>
         public uint ThreadID;
 
+        /// <summary>
+        /// Pointer to the first argument in NtCreateFile. That will indicate the out handle. For x64 bit processes this will be a 64-bit pointer. For x32 bit processes, this will be a 32-bit pointer.
+        /// </summary>
         public IntPtr FileOutHandle;
+        /// <summary>
+        /// Will contain the passed Access Request flags for NtCreateFile.
+        /// </summary>
         public AccessMasks DesiredAccess;
+        /// <summary>
+        /// May be null. If not null, this will be the Object Attributes read from that file.
+        /// </summary>
         public Structs.WindowsObjectAttributes ObjectAttributes;
+        /// <summary>
+       /// for x64 debugged processes. This is a 64-bit pointer.  For x32-bit processes, this is a 32-bit pointer that may be pretended to be 64-bit depending on .NET
+        /// </summary>
         public IntPtr IoStatusBlock;
+        /// <summary>
+        /// a LARGE_INTEGER struct.
+        /// </summary>
         public LARGE_INTEGER AllocationSize;
-        public ulong FileAttributes;
-        public ulong ShareAccess;
+        //public ulong FileAttributes;
+        /// <summary>
+        /// The .NET file atttributes for how the IO thing is being opened.
+        /// </summary>
+        public FileAttributes FileAttributes;
+        //public ulong ShareAccess;*/
+        /// <summary>
+        /// The .NET shared mode.
+        /// </summary>
+        public FileShare ShareAccess;
+        /// <summary>
+        /// <see cref="https://docs.microsoft.com/en-us/windows/win32/api/winternl/nf-winternl-ntcreatefile"/> for specifics. TODO: Include enum containing those values.
+        /// </summary>
         public uint CreationOptions;
-        public CreationDisposition CreateDisposition;
+        /// <summary>
+        /// NtCreateFile specific flags.
+        /// </summary>
+        public NtCreationDisposition CreateDisposition;
+        /// <summary>
+        /// for x64 debugged processes. This is a 64-bit pointer.  For x32-bit processes, this is a 32-bit pointer that may be pretended to be 64-bit depending on .NET
+        /// </summary>
         public IntPtr EaBuffer;
+        /// <summary>
+        /// How many bytes is the EaBufffer.
+        /// </summary>
         public ulong EaSize;
 
+        /// <summary>
+        /// Pointer to the handle to overwrite if the debugger wants to replace what the call was attempting to open.
+        /// </summary>
         public IntPtr ForceHandle;
+        /// <summary>
+        /// Occupies the same spot as the last error.  Pointer to the RETURN VALUE to return from the NtCreateFile setting.
+        /// </summary>
         public IntPtr ReturnValue;
     }
 
@@ -461,10 +586,10 @@ namespace InsightSheath.Telemetry
                 {
                     ret.AllocationSize = new LARGE_INTEGER();
                 }
-                ret.FileAttributes = arguments[NtCreateFile_FileAttributs];
-                ret.ShareAccess = arguments[NtCreateFile_ShareAccess];
+                ret.FileAttributes = (FileAttributes) arguments[NtCreateFile_FileAttributs];
+                ret.ShareAccess = (FileShare) arguments[NtCreateFile_ShareAccess];
                 
-                ret.CreateDisposition = (CreationDisposition) arguments[NtCreateFile_CreateDisposition];
+                ret.CreateDisposition = (NtCreationDisposition) arguments[NtCreateFile_CreateDisposition];
                 ret.CreationOptions = (uint)arguments[NtCreateFile_CreateOptions];
                 ret.EaBuffer = new IntPtr((long)arguments[NtCreateFile_EaBuffer]);
                 ret.EaSize = arguments[NtCreateFile_EaLength];

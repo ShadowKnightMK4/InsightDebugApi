@@ -60,6 +60,7 @@ struct UNICODE_STRING64
 int main()
 {
 	UNICODE_STRING Buffer;
+	NtCreateFile(0,0,0,0,0,0,0, FILE_SUPERSEDE)
 	
 	cout << "sizeof(PTR) = " << sizeof(VOID*) << endl;
 	cout << "sizeof(UNICODE_STRING) =" << sizeof(UNICODE_STRING) << endl;

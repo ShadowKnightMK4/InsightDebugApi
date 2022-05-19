@@ -85,6 +85,7 @@ namespace FileSandBox_GUI
                     }
                 case DebugEventType.UnloadDllEvent:
                     {
+                        
                         var test = Debug.GetDebugEventUnloadDllInfo();
                         Console.WriteLine(test.BaseOfDll + " Unloaded");
                         break;
