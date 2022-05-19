@@ -339,7 +339,12 @@ extern "C"
 		}
 	}
 	
-	DWORD PS_ProcessInformation_GetDetourListSize(PS_ProcessInformation* that)
+	/// <summary>
+	/// C Level wrapper that calls PS_ProcessInformation::GetDetourListSize()
+	/// </summary>
+	/// <param name="that">the this pointer.</param>
+	/// <returns>If that=0, returns 0. Otherwise returns results of calling PS_ProcessInformation::GetDetourListSize() </returns>
+	unsigned long long PS_ProcessInformation_GetDetourListSize(PS_ProcessInformation* that)
 	{
 		if (that == nullptr)
 		{

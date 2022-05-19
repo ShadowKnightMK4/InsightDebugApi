@@ -174,7 +174,11 @@ public:
 	/// <param name="value"></param>
 	void Environment(const wchar_t* name, const wchar_t* value);
 
-	DWORD GetDetourListSize();
+	/// <summary>
+	/// Return the number of DLL Entries in the detours list that the target process will be forced to load.
+	/// </summary>
+	/// <returns>for x86 bit code, return size will never be bigger than a DWORD's (4 byte) max value.  For x64 bit code, return size capped at QWORD (8 Byte) max value. We use the larger value to ensure we don't truncate for x64 bit machines.</returns>
+	unsigned long long GetDetourListSize() noexcept;
 
 	/// <summary>
 	/// Converts the string to ANSI before adding to our list of DLLS that we force the app to try to load.

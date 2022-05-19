@@ -354,7 +354,7 @@ namespace InsightSheath
         {
             get
             {
-                uint size = NativeMethods.PSProcessInformation_GetDetourListSize(Native);
+                ulong size = NativeMethods.PSProcessInformation_GetDetourListSize(Native);
                 if (size == 0)
                 {
                     return null;

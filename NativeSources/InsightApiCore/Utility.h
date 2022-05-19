@@ -24,7 +24,7 @@ wchar_t* WINAPI ConvertANSIString(const char * Original);
 /// <param name="Process">Process to read from. Needs PROCESS_QUERY_INFORMATION and PROCESS_VM_READ </param>
 /// <param name="Module">if nullptr, then the mainmodule, otherwise the name of the dll.</param>
 /// <returns></returns>
-wchar_t* WINAPI GetModuleNameViaHandle(HANDLE Process, HMODULE Module);
+wchar_t* WINAPI GetModuleNameViaHandle(HANDLE Process, HMODULE Module) noexcept;
 
 
 /// <summary>

@@ -73,9 +73,15 @@ namespace InsightSheath.NativeImports
         [DllImport("InsightApi.Dll", BestFitMapping =false, CallingConvention = CallingConvention.Winapi,EntryPoint = "Ps_ProcessInformation_GetPageFaultCount", ExactSpelling =false)]
         public static extern ulong PSProcessInformation_GetPageFaultCount(IntPtr That);
 
-
+        /// <summary>
+        /// Wrapper for calling InsightAPI's PS_ProcessInformation_GetDetourListSize which calls PS_ProcessInformation::GetDetourListSize().  
+        /// </summary>
+        /// <param name="that">Native pointer that points to an instance of the class aka 'this'</param>
+        /// <returns>Returns the number of entries in the detour dll list that the spawned process will be forced to load</returns>
+        /// <remarks>The reason for ulong is that's the size of the x64 size_t in C++ land. x86 size is uint sized. The api/sheath use the 64-bit size so the source can match.</remarks>
         [DllImport("InsightApi.Dll", BestFitMapping = false, CallingConvention = CallingConvention.Winapi, EntryPoint = "PS_ProcessInformation_GetDetourListSize", ExactSpelling = false)]
-        public static extern uint PSProcessInformation_GetDetourListSize(IntPtr that);
+        public static extern ulong PSProcessInformation_GetDetourListSize(IntPtr that);
+
         [DllImport("InsightApi.Dll", BestFitMapping = false, CallingConvention = CallingConvention.Winapi, EntryPoint = "PS_ProcessInformation_GetDetourListEntryReadOnly", ExactSpelling = false)]
         public static extern IntPtr PSProcessInformation_GetDetourListIndex(IntPtr That,uint index);
         /// <summary>

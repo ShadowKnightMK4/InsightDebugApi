@@ -175,14 +175,14 @@ wchar_t* WINAPI ConvertANSIString(const char * Original)
 /// <param name="Process">Handle to process to read from. Will need PROCESS_QUERY_INFORMATION || PROCESS_QUERY_LIMITED_INFORMATION access rights</param>
 /// <param name="Module">hmodule in question</param>
 /// <returns>returns memory allocated in the local process containing a unicode string contraining the module's name</returns>
-wchar_t* WINAPI GetModuleNameViaHandle(HANDLE Process, HMODULE Module)
+wchar_t* WINAPI GetModuleNameViaHandle(HANDLE Process, HMODULE Module) noexcept
 {
 	wchar_t* Buffer = nullptr;
 	size_t BufferSize = 1024;
 	DWORD CalResult = 0;
 	while (true)
 	{
-		Buffer = reinterpret_cast<wchar_t*>(malloc(BufferSize));
+		Buffer = static_cast<wchar_t*>(malloc(BufferSize));
 
 		if (Buffer == nullptr)
 		{
@@ -201,7 +201,7 @@ wchar_t* WINAPI GetModuleNameViaHandle(HANDLE Process, HMODULE Module)
 		}
 		else
 		{
-			DWORD err = GetLastError();
+			const DWORD err = GetLastError();
 			if (err != 0)
 			{
 				free(Buffer);
@@ -308,26 +308,28 @@ typedef BOOL(WINAPI* LPFN_ISWOW64PROCESS) (HANDLE, PBOOL);
 LPFN_ISWOW64PROCESS Callback_toWOW64 = 0;
 HMODULE Kernel32 = 0;
 
-DWORD WINAPI GetPEMachineTypeW(LPCWSTR Target)
+DWORD WINAPI GetPEMachineTypeW(LPCWSTR Target) noexcept
 {
+	DWORD ret = 0;
 	PIMAGE_DOS_HEADER Dos=0;
-	PIMAGE_NT_HEADERS32 Windows;
-	PIMAGE_OPTIONAL_HEADER NotOptional;
-	DWORD BytesRead=0;
-	IMAGE_NT_HEADERS* Header;
+	IMAGE_NT_HEADERS* Header=0;
 	HANDLE fn = INVALID_HANDLE_VALUE;
-	HANDLE Mapped = INVALID_HANDLE_VALUE;
+	HANDLE Mapped = 0;
 	__try
 	{
 		fn = CreateFile(Target, GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
 		if (fn != INVALID_HANDLE_VALUE)
 		{
 			Mapped = CreateFileMapping(fn, nullptr, PAGE_READONLY | SEC_IMAGE_NO_EXECUTE, 0, 0, 0);
-			if (Mapped != INVALID_HANDLE_VALUE)
+			if (Mapped != 0)
 			{
-				Dos = (PIMAGE_DOS_HEADER)MapViewOfFile(Mapped, FILE_MAP_READ, 0, 0, 0);
-				Header = ImageNtHeader(Dos);
-				return Header->FileHeader.Machine;
+				Dos = static_cast<PIMAGE_DOS_HEADER>(MapViewOfFile(Mapped, FILE_MAP_READ, 0, 0, 0));
+				if (Dos != 0)
+				{
+					Header = ImageNtHeader(Dos);
+					ret = Header->FileHeader.Machine;
+					__leave;
+				}
 			}
 		}
 	}
@@ -337,7 +339,7 @@ DWORD WINAPI GetPEMachineTypeW(LPCWSTR Target)
 		{
 			UnmapViewOfFile(Dos);
 		}
-		if (Mapped != INVALID_HANDLE_VALUE)
+		if (Mapped != 0)
 		{
 			CloseHandle(Mapped);
 		}

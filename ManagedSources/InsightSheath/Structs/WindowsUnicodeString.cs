@@ -50,13 +50,22 @@ namespace InsightSheath.Structs
 	};*/
 
 	/// <summary>
-	/// For processed that are Wow / 32- bit this is our UNICODE_STRING struct
+	/// For processed that are Wow/32- bit this is what our UNICODE_STRING struct looks like when gotton.
 	/// </summary>
 	[StructLayout(LayoutKind.Sequential)]
     public struct UnicodeString32
     {
+		/// <summary>
+		/// Current Length of the string pointed to in Buffer. Note if dealing with <see cref="InsertHere"/>, the memory block pointed to by bufffer currently will be set right after the native location of struct plus its size
+		/// </summary>
 		public	ushort Length;
+		/// <summary>
+		/// How big possibly is if the buffer. Note <see cref="InsertHere"/> dealing this is here for compleness sake. Your buffer size was allocated to be big enough to hold that containing string, that's all
+		/// </summary>
 		public ushort MaxLength;
+		/// <summary>
+		/// 4 byte pointer to where the Unicode String is allocated. <see cref="InsertHere"/> will place the string right after the location of the returned Unicode String struct
+		/// </summary>
         public uint Buffer;
     }
 
@@ -66,17 +75,29 @@ namespace InsightSheath.Structs
 	[StructLayout(LayoutKind.Sequential)]
 	public struct UnicodeString64
 	{
+		/// <summary>
+		/// Current Length of the string pointed to in Buffer. Note if dealing with <see cref="InsertHere"/>, the memory block pointed to by bufffer currently will be set right after the native location of struct plus its size
+		/// </summary>
 		public ushort Length;
+		/// <summary>
+		/// How big possibly is if the buffer. Note <see cref="InsertHere"/> dealing this is here for compleness sake. Your buffer size was allocated to be big enough to hold that containing string, that's all
+		/// </summary>
 		public ushort MaxLength;
+		/// <summary>
+		/// Padding to ensure <see cref="Buffer"/> is at the right spot.
+		/// </summary>
 		public uint Padding;
-        public ulong Buffer;
+		/// <summary>
+		/// 8 byte pointer to where the Unicode String is allocated. <see cref="InsertHere"/> will place the string right after the location of the returned Unicode String struct
+		/// </summary>
+		public ulong Buffer;
 	}
 
 
     /// <summary>
     /// Encapsulates a Windows NT UNICODE_STRING struct for either an <see cref=ModeType.Machinex64"/> or <see cref="ModeType.Machinex86"/> debugged target.
     /// </summary>
-    public class WindowsUnicodeString: NativeStaticContainer
+    public class WindowsUnicodeString: PlatformDependantNativeStruct
     {
 		/// <summary>
 		/// After creating an instance, call <see cref="SetStructType(ModeType)"/> and specify which version of a unicode string, this class contrains
@@ -96,16 +117,41 @@ namespace InsightSheath.Structs
 			StructType = StructModeType.MachineUnknown;
         }
 
-		public void SetStructType(StructModeType Ty)
+		public WindowsUnicodeString(IntPtr Native, bool FreeOnCleanup, StructModeType StructType) : base(Native, FreeOnCleanup, StructType)
         {
-			StructType = Ty;
-			HaveBlitOnce = false;
-        }
 
-		public StructModeType GetStructType()
-        {
-			return StructType;
         }
+		public WindowsUnicodeString(IntPtr Native, StructModeType StructType): base(Native, StructType)
+        {
+
+        }
+        protected override void Blit()
+        {
+			{
+				if (!WasBlit)
+				{
+					switch (StructType)
+					{
+						case StructModeType.Machinex64:
+							{
+								Machine64 = Marshal.PtrToStructure<UnicodeString64>(Native);
+								break;
+							}
+						case StructModeType.Machinex86:
+							{
+								Machine32 = Marshal.PtrToStructure<UnicodeString32>(Native);
+								break;
+							}
+						default:
+							{
+								throw ThrowNewInvalidOpMessage(GetType().Name);
+							}
+					}
+
+					HaveBlitOnce = true;
+				}
+			}
+		}
 
 
         protected override void Dispose(bool disposing)
@@ -124,31 +170,7 @@ namespace InsightSheath.Structs
 		/// <summary>
 		/// Used to read from the native point to the currect struct based on <see cref="StructType"/>
 		/// </summary>
-		void Blit()
-        {
-			if (!HaveBlitOnce)
-            {
-                switch (StructType)
-                {
-					case StructModeType.Machinex64:
-                        {
-							Machine64 = Marshal.PtrToStructure<UnicodeString64>(Native);
-							break;
-                        }
-					case StructModeType.Machinex86:
-                        {
-							Machine32 = Marshal.PtrToStructure<UnicodeString32>(Native);
-							break;
-                        }
-					default:
-                        {
-							throw new InvalidOperationException("Pick which version of the struct to use.");
-                        }
-				}
-
-                HaveBlitOnce = true;
-            }
-        }
+		
 		public int Length
         {
             get 

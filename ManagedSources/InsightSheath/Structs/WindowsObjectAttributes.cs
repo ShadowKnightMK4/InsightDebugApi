@@ -8,33 +8,80 @@ using System.Threading.Tasks;
 
 namespace InsightSheath.Structs
 {
-    
 
+
+    /// <summary>
+    /// This is the Object Attributes struct for a Wow / x86 bit process.  Specs from <see href="https://docs.microsoft.com/en-us/windows/win32/api/ntdef/ns-ntdef-_object_attributes"/> 
+    /// </summary>
+    /// <remarks>For x86 (32-bit) processes, handles, pointers, uints are all 4 bytes long. This is not true for x64 processes and that's why <see cref="ObjectAttributes64"/> exists</remarks>
     [StructLayout(LayoutKind.Sequential)]
-    struct ObjectAttributes32
+    
+    public struct ObjectAttributes32
     {
+        /// <summary>
+        /// Length of the struct. For x86, a proper value is 24.
+        /// </summary>
         public uint Length;
+        /// <summary>
+        /// 4 byte potentially 0 Handle value indicated the root that <see cref="ObjectName"/> specifies.
+        /// </summary>
         public uint RootDirectory;
+        /// <summary>
+        /// a 4 byte pointer to a <see cref="UnicodeString32"/> struct. This is the name of the item this struct points too
+        /// </summary>
         public uint ObjectName;
+        /// <summary>
+        /// 4 byte value indicating object attributes.
+        /// </summary>
         public uint Attributes;
+        /// <summary>
+        /// 4 byte pointer to the defined security descriptor. May be (null/0) if default is fine.
+        /// </summary>
         public uint SecurityDescriptor;
+        /// <summary>
+        /// 4 byte pointer to the defined security quality of service. May be (null/0) if default is fine.
+        /// </summary>
         public uint SecurityQoS;
     };
 
+    /// <summary>
+    /// This is the Object Attributes struct for a 64-bit process  Specs from <see href="https://docs.microsoft.com/en-us/windows/win32/api/ntdef/ns-ntdef-_object_attributes"/> 
+    /// </summary>
+    /// <remarks> <summary>
+    /// IMPORTANT! Pointer values and handle are 8 bytes long for x64 bit processes instead of 4 bytes. This is why we need to define two structs. Other struct is <see cref="ObjectAttributes32"/>
+    /// </summary></remarks>
     [StructLayout(LayoutKind.Sequential)]
-    struct ObjectAttributes64
+    public struct ObjectAttributes64
     {
+        /// <summary>
+        /// Length of this struct. For x64 bit code, a proper one is 48.
+        /// </summary>
         public uint Length;
+        /// <summary>
+        /// 8 byte potentially 0 Handle value indicated the root that <see cref="ObjectName"/> specifies.
+        /// </summary>
         public ulong RootDirectory;
+        /// <summary>
+        /// a 8 byte pointer to a <see cref="UnicodeString64"/> struct. This is the name of the item this struct points too
+        /// </summary>
         public ulong ObjectName;
+        /// <summary>
+        /// 4 byte value indicating object attributes.
+        /// </summary>
         public uint Attributes;
+        /// <summary>
+        /// 8 byte pointer to the defined security descriptor. May be (null/0) if default is fine.
+        /// </summary>
         public ulong SecurityDescriptor;
+        /// <summary>
+        /// 8 byte pointer to the defined security quality of service. May be (null/0) if default is fine.
+        /// </summary>
         public ulong SecurityQoS;
     };
     /// <summary>
     /// made from specs here <see href="https://docs.microsoft.com/en-us/windows/win32/api/ntdef/ns-ntdef-_object_attributes"/>
     /// </summary>
-    public class WindowsObjectAttributes: NativeStaticContainer
+    public class WindowsObjectAttributes: PlatformDependantNativeStruct
     {
         public  WindowsObjectAttributes(IntPtr Native)   : base(Native)
         {
@@ -46,12 +93,33 @@ namespace InsightSheath.Structs
 
         }
 
-        void Blit()
+        public WindowsObjectAttributes(IntPtr Native, bool FreeOnCleanup, StructModeType StructType) : base(Native, FreeOnCleanup, StructType)
         {
-            if (!HaveBlit)
+
+        }
+        public WindowsObjectAttributes(IntPtr Native, StructModeType StructType) : base(Native, StructType)
+        {
+
+        }
+        /// <summary>
+        /// <see cref="WindowsObjectAttributes"/> cleanup.  We need to call the current native routine to cleanup and clear the cleanup flag so we don't delete mememory already deleted
+        /// </summary>
+        /// <param name="disposing"></param>
+        protected override void Dispose(bool disposing)
+        {
+            /* the reason we specify if the struct is 32-bit or not is to ensure native code knows which verision to free. */
+            if (FreeOnCleanup)
             {
-                HaveBlit = true;
-                switch (StructType)
+                FreeOnCleanupContainer = NativeImports.NativeMethods.RemoteFreeObjectAttributes(Native, StructType == StructModeType.Machinex86);
+            }        
+            base.Dispose(disposing);
+        }
+        protected override void Blit()
+        {
+            if (!WasBlit)
+            {
+                WasBlit = true;
+                switch (StructTypeContainer)
                 {
                     case StructModeType.Machinex64:
                         Ret64 = Marshal.PtrToStructure<ObjectAttributes64>(Native);
@@ -59,47 +127,42 @@ namespace InsightSheath.Structs
                     case StructModeType.Machinex86:
                         Ret32 = Marshal.PtrToStructure<ObjectAttributes32>(Native);
                         break;
-                    default: throw new InvalidOperationException("Pick x64 or x86 native mode for this class");
+                    default: throw  ThrowNewInvalidOpMessage(GetType().Name);
                 }
 
             }
         }
-        protected override void Dispose(bool disposing)
-        {
-            base.Dispose(disposing);
-        }
+     
 
-        StructModeType StructType;
 
-        public void SetStructType(StructModeType Ty)
-        {
-            StructType = Ty;
-        }
-        public StructModeType GetStructType()
-        {
-            return StructType;
-        }
 
+        /// <summary>
+        /// Retrieve the length value of the structure on the native size. <see cref="StructTypeContainer"/> must be set to something other than <see cref="StructModeType.MachineUnknown"/>
+        /// </summary>
         public ulong Length
         {
             get
             {
                 Blit();
-                switch (StructType)
+                switch (StructTypeContainer)
                 {
                     case StructModeType.Machinex64: return Ret64.Length;
                     case StructModeType.Machinex86: return Ret32.Length;
                 }
-                throw new InvalidOperationException();
+                throw ThrowNewInvalidOpMessage(GetType().Name);
             }
         }
 
+        /// <summary>
+        /// Retrieve the handle value of the structure on the native size. 4 byte values are already promoted to 8 bytes long when returned. 
+        /// </summary>
+        /// <remarks><see cref="PlatformDependantNativeStruct.StructTypeContainer"/> must be set to something other than <see cref="StructModeType.MachineUnknown"/></remarks>
         public IntPtr RootDirectory
         {
             get
             {
                 Blit();
-                switch (StructType)
+                switch (StructTypeContainer)
                 {
                     case StructModeType.Machinex64:
                         {
@@ -118,16 +181,20 @@ namespace InsightSheath.Structs
                             return IntPtr.Zero;
                         }
                 }
-                throw new InvalidOperationException();
+                throw ThrowNewInvalidOpMessage(GetType().Name);
             }
         }
 
+        /// <summary>
+        /// Retrieve (and set the current <see cref="StructModeType"/> for the current UnicodeString structure pointed to.  Can return null if that's not set
+        /// </summary>
+        /// <remarks>The returned object is pointing to the same native object as this class. If you want a unique one, duplicate it. <see cref="PlatformDependantNativeStruct.StructTypeContainer"/> must be set to something other than <see cref="StructModeType.MachineUnknown"/></remarks>
         public WindowsUnicodeString ObjectName
         {
             get
             {
                 Blit();
-                switch (StructType)
+                switch (StructTypeContainer)
                 {
                     case StructModeType.Machinex64:
                         {
@@ -137,8 +204,8 @@ namespace InsightSheath.Structs
                             }
                             else
                             {
-                                WindowsUnicodeString ret = new WindowsUnicodeString(new  IntPtr((uint)Ret64.ObjectName));
-                                ret.SetStructType(StructType);
+                                WindowsUnicodeString ret = new WindowsUnicodeString(new  IntPtr((uint)Ret64.ObjectName), false);
+                                ret.StructType = StructTypeContainer;
                                 return ret;
                             }
                         }
@@ -150,21 +217,25 @@ namespace InsightSheath.Structs
                             }
                             else
                             {
-                                WindowsUnicodeString ret = new WindowsUnicodeString(new IntPtr((uint)Ret32.ObjectName));
-                                ret.SetStructType(StructType);
+                                WindowsUnicodeString ret = new WindowsUnicodeString(new IntPtr((uint)Ret32.ObjectName), false);
+                                ret.StructType = StructTypeContainer;
                                 return ret;
                             }
                         }
                 }
-                throw new InvalidOperationException();
+                throw ThrowNewInvalidOpMessage(GetType().Name);
             }
         }
 
+        /// <summary>
+        /// Return the object attributes of the native struct.
+        /// </summary>
+        /// <remarks><see cref="PlatformDependantNativeStruct.StructTypeContainer"/> must be set to something other than <see cref="StructModeType.MachineUnknown"/></remarks>
         public uint Attributes
         {
             get
             {
-                switch (StructType)
+                switch (StructTypeContainer)
                 {
                     case StructModeType.Machinex64:
                         return Ret64.Attributes;
@@ -175,11 +246,19 @@ namespace InsightSheath.Structs
             }
         }
 
+        /// <summary>
+        /// Return a pointer to the security descriptor (may be not be relative to Your process. <see href="https://docs.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-readprocessmemory"/> to read the data. 
+        /// </summary>
+        /// <remarks><see cref="PlatformDependantNativeStruct.StructTypeContainer"/> 
+        /// must be set to something other than <see cref="StructModeType.MachineUnknown"/>.
+        /// This can be 0 if the default one is OK. 4 byte pointers are promoted to 8 bytes long. 
+        /// The <see cref="Remote.RemoteStructure.xxx"/> routine does not read this into your process 
+        /// currently.</remarks>
         public IntPtr SecurityDescriptor
         {
             get
             {
-                switch (StructType)
+                switch (StructTypeContainer)
                 {
                     case StructModeType.Machinex64:
                         if (Ret64.SecurityDescriptor == 0)
@@ -194,15 +273,22 @@ namespace InsightSheath.Structs
                         }
                         return new IntPtr(Ret32.SecurityDescriptor);
                 }
-                throw new InvalidOperationException();
+                throw ThrowNewInvalidOpMessage(GetType().Name);
             }
         }
-
+        /// <summary>
+        /// Return a pointer to the security quality of service struct (may be not be relative to Your process. <see href="https://docs.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-readprocessmemory"/> to read the data. 
+        /// </summary>
+        /// <remarks><see cref="PlatformDependantNativeStruct.StructTypeContainer"/> 
+        /// must be set to something other than <see cref="StructModeType.MachineUnknown"/>.
+        /// This can be 0 if the default one is OK. 4 byte pointers are promoted to 8 bytes long. 
+        /// The <see cref="Remote.RemoteStructure.xxx"/> routine does not read this into your process 
+        /// currently.</remarks>
         public IntPtr SecurityQualityOfService
         {
             get
             {
-                switch (StructType)
+                switch (StructTypeContainer)
                 {
                     case StructModeType.Machinex64:
                         if (Ret64.SecurityQoS == 0)
@@ -217,12 +303,18 @@ namespace InsightSheath.Structs
                         }
                         return new IntPtr(Ret32.SecurityQoS);
                 }
-                throw new InvalidOperationException();
+                throw  ThrowNewInvalidOpMessage(GetType().Name);
             }
         }
 
+        /// <summary>
+        /// if <see cref="PlatformDependantNativeStruct.StructTypeContainer"/> is set to <see cref="StructModeType.Machinex86"/>, <see cref="Blit"/> marshals to this structure.
+        /// </summary>
         ObjectAttributes32 Ret32;
+        /// <summary>
+        /// if <see cref="PlatformDependantNativeStruct.StructTypeContainer"/> is set to <see cref="StructModeType.Machinex64"/>, <see cref="Blit"/> marshals to this structure.
+        /// </summary>
         ObjectAttributes64 Ret64;
-        bool HaveBlit;
+        
     }
 }

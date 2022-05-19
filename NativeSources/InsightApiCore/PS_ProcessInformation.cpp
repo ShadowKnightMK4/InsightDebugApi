@@ -576,7 +576,7 @@ const char* PS_ProcessInformation::IndexDetourList(int index)
 	return this->DetoursDll[index].c_str();
 }
 
-DWORD PS_ProcessInformation::GetDetourListSize()
+unsigned long long PS_ProcessInformation::GetDetourListSize() noexcept
 {
 	return DetoursDll.size();
 }

@@ -274,7 +274,7 @@ DWORD __CreateFileTransactedAW_CommonAlert(
 	DWORD* lpLastError)
 {
 	BOOL DebugDidNotSee = FALSE;
-	ULONG ExceptionArgs[EXCEPTION_MAXIMUM_PARAMETERS];
+	ULONG_PTR ExceptionArgs[EXCEPTION_MAXIMUM_PARAMETERS];
 	ZeroMemory(&ExceptionArgs, sizeof(ExceptionArgs));
 
 	ExceptionArgs[EXCEPTION_ARG_TYPE] = ARG_TYPE_CREATEFILE_TRANS;
@@ -437,7 +437,7 @@ HANDLE WINAPI DetouredCreateFileW(
 		OutputDebugString(L"Overritten the file handle with the new one");
 
 #ifdef _DEBUG
-		std : std::wstringstream tmp;
+		std::wstringstream tmp;
 		tmp << L"Replaced!!! \r\n" << "Handle ==" << std::hex << hReplacement << L"LastError = " << std::dec << lastErrorRep << L"\r\n";
 		OutputDebugString(tmp.str().c_str());
 #endif

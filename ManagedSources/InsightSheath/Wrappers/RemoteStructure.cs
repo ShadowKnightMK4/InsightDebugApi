@@ -6,7 +6,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
-
+using InsightSheath.Structs;
 namespace InsightSheath.Remote
 {
     /// <summary>
@@ -19,6 +19,9 @@ namespace InsightSheath.Remote
             Size4 = 4,
             Size8 = 8
         }
+
+   
+       
         /// <summary>
         /// Read either a 4 byte or 8 byte pointer from the passed process handle.
         /// </summary>
@@ -38,7 +41,25 @@ namespace InsightSheath.Remote
                     return IntPtr.Zero;
             }
         }
-
+        public static WindowsUnicodeString RemoteReadUnicodeString(IntPtr ProcessHandle, IntPtr Location, bool IsTarget32Bit, bool FreeOnCleanup)
+        {
+            IntPtr retptr = IntPtr.Zero;
+            WindowsUnicodeString ret;
+            retptr = NativeImports.NativeMethods.RemoteReadUnicodeString(ProcessHandle, Location, IsTarget32Bit);
+            if (retptr != IntPtr.Zero)
+            {
+                if (IsTarget32Bit)
+                {
+                    ret = new WindowsUnicodeString(retptr, true, StructModeType.Machinex86);
+                }
+                else
+                {
+                    ret = new WindowsUnicodeString(retptr, true, StructModeType.Machinex64);
+                }
+                return ret;
+            }
+            return null;
+        }
 
         /// <summary>
         /// Primary for writing HANDLEs to debugged process. This writes 4 byte value to the remote process in question at the location at the virtual memory location specified in the target
