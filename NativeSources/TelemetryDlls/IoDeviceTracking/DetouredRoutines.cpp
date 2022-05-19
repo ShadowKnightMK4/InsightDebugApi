@@ -137,23 +137,23 @@ DWORD WINAPI __NtCreateFile_alert(
 	)
 {
 	BOOL DebugDidNotSee = FALSE;
-	ULONG ExceptionArgs[EXCEPTION_MAXIMUM_PARAMETERS];
+	ULONG_PTR ExceptionArgs[EXCEPTION_MAXIMUM_PARAMETERS];
 	ZeroMemory(&ExceptionArgs, sizeof(ExceptionArgs));
 	ExceptionArgs[EXCEPTION_ARG_TYPE] = ARG_TYPE_NTCREATE_FILE;
 
 	// Last Error for this is an NTSTATUS value
-	ExceptionArgs[EXCEPTION_LAST_ERROR] = (ULONG)ReturnValue;
-	ExceptionArgs[NTCF_AW_OUTPUTHANDLE] = (ULONG)FileHandle;
-	ExceptionArgs[NTCT_AW_DESIRED_ACCESS] = (ULONG)DesiredAccess;
-	ExceptionArgs[NTCT_AW_OBJECT_ATTRIBUTES] = (ULONG)ObjectAttributes;
-	ExceptionArgs[NTCT_AW_IOSTATUSBLOCK] = (ULONG)IoStatusBlock;
-	ExceptionArgs[NTCT_AW_ALLOCATION_SIZE] = (ULONG)AllocationSize;
-	ExceptionArgs[NTCT_AW_FILEATRIBUTES] = (ULONG)FileAttributes;
-	ExceptionArgs[NTCT_AW_SHARE_ACCESS] = (ULONG)ShareAccess;
-	ExceptionArgs[NTCT_AW_CREATEOPTION] = (ULONG)CreateDisposition;
-	ExceptionArgs[NTCT_AW_EABUFFER] = (ULONG)EaBuffer;
-	ExceptionArgs[NTCT_AW_EALENGTH] = (ULONG)EaLength;
-	ExceptionArgs[NTCT_AW_OVERRIDE_HANDLE] = (ULONG)OverwriteHandle;
+	ExceptionArgs[EXCEPTION_LAST_ERROR] = (ULONG_PTR)ReturnValue;
+	ExceptionArgs[NTCF_AW_OUTPUTHANDLE] = (ULONG_PTR)FileHandle;
+	ExceptionArgs[NTCT_AW_DESIRED_ACCESS] = (ULONG_PTR)DesiredAccess;
+	ExceptionArgs[NTCT_AW_OBJECT_ATTRIBUTES] = (ULONG_PTR)ObjectAttributes;
+	ExceptionArgs[NTCT_AW_IOSTATUSBLOCK] = (ULONG_PTR)IoStatusBlock;
+	ExceptionArgs[NTCT_AW_ALLOCATION_SIZE] = (ULONG_PTR)AllocationSize;
+	ExceptionArgs[NTCT_AW_FILEATRIBUTES] = (ULONG_PTR)FileAttributes;
+	ExceptionArgs[NTCT_AW_SHARE_ACCESS] = (ULONG_PTR)ShareAccess;
+	ExceptionArgs[NTCT_AW_CREATEOPTION] = (ULONG_PTR)CreateDisposition;
+	ExceptionArgs[NTCT_AW_EABUFFER] = (ULONG_PTR)EaBuffer;
+	ExceptionArgs[NTCT_AW_EALENGTH] = (ULONG_PTR)EaLength;
+	ExceptionArgs[NTCT_AW_OVERRIDE_HANDLE] = (ULONG_PTR)OverwriteHandle;
 	
 
 	__try

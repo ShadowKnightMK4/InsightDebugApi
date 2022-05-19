@@ -442,7 +442,7 @@ namespace InsightSheath.Wrappers
         
 
         /// <summary>
-        /// Retrieve the contents of the exception parameter list for a 32-bit debugged process. 
+        /// Retrieve the contents of the exception parameter list for a 32-bit debugged process. If retreving form a 64-bit process, your values are truncated
         /// </summary>
         /// <remarks> The Native implementation prmotes the DWORD array into a (C# ulong)/(C++ dword64) array and returns a block of memory with that. Hense why the free</remarks>
         public uint[] ExceptionParameter32
@@ -456,7 +456,7 @@ namespace InsightSheath.Wrappers
                     IntPtr stepper = ptr;
                     for (int step = 0; step < ExceptionParamterCount; step++)
                     {
-                        ret[step] = HelperRoutines.Peek4(stepper);
+                        ret[step] = (uint) HelperRoutines.Peek8(stepper);
                         stepper += sizeof(ulong);
                     }
                     NativeMethods.SimpleFree(ptr);
@@ -477,7 +477,7 @@ namespace InsightSheath.Wrappers
                     IntPtr stepper = ptr;
                     for (int step = 0; step < ExceptionParamterCount; step++)
                     {
-                        ret[step] = HelperRoutines.Peek4(stepper);
+                        ret[step] = HelperRoutines.Peek8(stepper);
                         stepper += sizeof(ulong);
                     }
                     NativeMethods.SimpleFree(ptr);

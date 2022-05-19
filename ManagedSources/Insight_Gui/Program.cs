@@ -93,6 +93,25 @@ namespace FileSandBox_GUI
                     {
                         var test = Debug.GetDebugEventExceptionInfo();
                         Console.WriteLine(test.ExceptionCode + " exception");
+                        if (test.IsIoDeviceTelemetryException())
+                        {
+                            var t = test.GetIoDeviceExceptionType();
+                            Console.WriteLine("Exception is a " + Enum.GetName(typeof(IoDeviceTelemetryReaderExtensions.NotificationType), t));
+                            switch (t)
+                            {
+                                case IoDeviceTelemetryReaderExtensions.NotificationType.NtCreateFile:
+                                    {
+                                        var CreateFile = test.GetNtCreateFileSettings();
+                                        Console.WriteLine("accessing " + CreateFile.ObjectAttributes.ObjectName.Buffer);
+                                        break;
+                                    }
+                                case IoDeviceTelemetryReaderExtensions.NotificationType.CreateFile:
+                                    {
+                                        var CreateFile = test.GetCreateFileSettings();
+                                        break;
+                                    }
+                            }
+                        }
                         InsightProcess.Poke4(ContStat, unchecked ((int)InsightProcess.DebugContState.DebugExceptionNotHandled));
                         break;
                     }

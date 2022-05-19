@@ -194,7 +194,14 @@ bool DetourTargetRoutines()
 		{
 			detour = DetourAttach((PVOID*)&OriginalNtCreateFile, DetouredNtCreateFile);
 #ifdef _DEBUG
-			error_detourattachfail(detour, L"NtCreateFile", OriginalCreateFileA, DetouredCreateFileA);
+			if (detour != 0)
+			{
+				error_detourattachfail(detour, L"NtCreateFile", OriginalCreateFileA, DetouredCreateFileA);
+			}
+			else
+			{
+				OutputDebugString(L"NtCreateFile Detoured!");
+			}
 #endif
 		}
 		else
@@ -204,11 +211,18 @@ bool DetourTargetRoutines()
 #endif
 		}
 
-		if (OriginalNtCreateFile != 0)
+		if (OriginalNtOpenFile != 0)
 		{
-			detour = DetourAttach((PVOID*)&OriginalNtCreateFile, DetouredNtOpenFile);
+			detour = DetourAttach((PVOID*)&OriginalNtOpenFile, DetouredNtOpenFile);
 #ifdef _DEBUG
-			error_detourattachfail(detour, L"NtCreateFile", OriginalCreateFileA, DetouredCreateFileA);
+			if (detour != 0)
+			{
+				error_detourattachfail(detour, L"NtOpenFile", OriginalNtOpenFile, DetouredCreateFileA);
+			}
+			else
+			{
+				OutputDebugString(L"NtOpenFile Detoured!");
+			}
 #endif
 		}
 		else

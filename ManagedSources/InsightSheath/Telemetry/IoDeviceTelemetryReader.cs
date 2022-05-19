@@ -172,6 +172,7 @@ namespace InsightSheath.Telemetry
     {
         public uint ProcessId;
         public uint ThreadID;
+        
         public AccessMasks DesiredAccess;
         public Structs.WindowsObjectAttributes ObjectAttributes;
         public IntPtr IoStatusBlock;
@@ -184,8 +185,9 @@ namespace InsightSheath.Telemetry
 
         public IntPtr ForceHandle;
         public IntPtr ReturnValue;
-
     }
+
+    
 
     /// <summary>
     /// This structure contrains data from an exception generated via CreateFileA/W.
@@ -243,7 +245,7 @@ namespace InsightSheath.Telemetry
         /// </summary>
         public uint TemplateFile;
         /// <summary>
-        /// Pointer to a 4 byte block of memory that can be overwritten with a handle value (it will need to be duplicated into the debugged process) to force use of a different value. Default is 0.
+        /// Pointer to a (x86 4 bytes) (x64 8 byte) sized byte block of memory that can be overwritten with a handle value (it will need to be duplicated into the debugged process) to force use of a different value. Default is 0.
         /// </summary>
         public readonly IntPtr ForceHandle;
 
@@ -424,19 +426,19 @@ namespace InsightSheath.Telemetry
         {
             IoDeviceTelemetryNtCreateFile ret;
             IntPtr Handle = HelperRoutines.OpenProcessForVirtualMemory(that.ProcessID);
-            var arguments = that.ExceptionParameter32;
+            var arguments = that.ExceptionParameter64;
             try
             {
                 ret = new IoDeviceTelemetryNtCreateFile();
-                
+               
                 
 
                 
-                ret.ReturnValue = new IntPtr(arguments[LastError_Ptr]);
-
+                ret.ReturnValue = new IntPtr((long)arguments[LastError_Ptr]);
+                
                 if (arguments[NtCreateFile_AllocationSize] != 0)
                 {
-                    ret.AllocationSize = Marshal.PtrToStructure<LARGE_INTEGER>(new IntPtr(arguments[NtCreateFile_AllocationSize]));
+                    ret.AllocationSize = Marshal.PtrToStructure<LARGE_INTEGER>(new IntPtr((long)arguments[NtCreateFile_AllocationSize]));
                 }
                 else
                 {
@@ -445,24 +447,32 @@ namespace InsightSheath.Telemetry
                 }
                 ret.CreateDisposition = (CreationDisposition) arguments[NtCreateFile_CreateDisposition];
                 ret.DesiredAccess = (AccessMasks) arguments[NtCreateFile_DesiredAccess];
-                ret.EaBuffer =  new  IntPtr(arguments[NtCreateFile_EaBuffer]);
+                ret.EaBuffer =  new  IntPtr((long)arguments[NtCreateFile_EaBuffer]);
                 ret.EaSize = arguments[NtCreateFile_EaLength];
                 ret.FileAttributes = arguments[NtCreateFile_FileAttributs];
-                ret.ForceHandle = new IntPtr(arguments[NtCreateFile_ReturnHandle]);
-                ret.IoStatusBlock = new IntPtr(arguments[NtCreateFile_IoStatusBlock]);
-                if (that.IsEventFrom32BitProcess)
+                ret.ForceHandle = new IntPtr((long)arguments[NtCreateFile_ReturnHandle]);
+                ret.IoStatusBlock = new IntPtr((long)arguments[NtCreateFile_IoStatusBlock]);
+                ret.ObjectAttributes = new Structs.WindowsObjectAttributes(new IntPtr((long)arguments[NtCreateFile_ObjectAttributes]), true);
+
+
+                if (ret.ObjectAttributes != null)
                 {
-                    ret.ObjectAttributes = new Structs.WindowsObjectAttributes(new IntPtr(arguments[NtCreateFile_ObjectAttributes]),false);
+                    if (that.IsEventFrom32BitProcess)
+                    {
+                        ret.ObjectAttributes.StructType = Structs.StructModeType.Machinex86;
+                    }
+                    else
+                    {
+                        ret.ObjectAttributes.StructType = Structs.StructModeType.Machinex64;
+                    }
                 }
-                else
-                {
-                    ret.ObjectAttributes = new Structs.WindowsObjectAttributes(new IntPtr(arguments[NtCreateFile_ObjectAttributes]), true);
-                }
+                
                 ret.ProcessId = that.ProcessID;
-                ret.ReturnValue = new IntPtr(arguments[LastError_Ptr]);
+                ret.ReturnValue = new IntPtr((long)arguments[LastError_Ptr]);
                 ret.ShareAccess = arguments[NtCreateFile_ShareAccess];
                 ret.ThreadID = that.ThreadID; 
                 return ret;
+             
             }
             finally
             {
