@@ -49,7 +49,7 @@ namespace RemoteStructureRoutine
 		/// <param name="MemoryLocation">Virtual Memory Location (x64 or x86)</param>
 		/// <param name="TargetIs32">Set to true for 32-bit WOW or 64 for non.</param>
 		/// <returns>If TargetIs32, then returns UNICODE_STRING32* otherwise UNICODE_STRING64* </returns>
-		UNICODE_STRING* WINAPI RemoteReadUnicodeString(HANDLE Process, UINT_PTR MemoryLocation, BOOL TargetIs32);
+		VOID* WINAPI RemoteReadUnicodeString(HANDLE Process, UINT_PTR MemoryLocation, BOOL TargetIs32);
 
 		/// <summary>
 		/// Free an UNICODE_STRING struct previously allocated by RemoteReadUnicodeString()

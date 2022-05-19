@@ -58,7 +58,7 @@ namespace InsightSheath.Structs
 		/// <summary>
 		/// Current Length of the string pointed to in Buffer. Note if dealing with <see cref="InsertHere"/>, the memory block pointed to by bufffer currently will be set right after the native location of struct plus its size
 		/// </summary>
-		public	ushort Length;
+		public ushort Length;
 		/// <summary>
 		/// How big possibly is if the buffer. Note <see cref="InsertHere"/> dealing this is here for compleness sake. Your buffer size was allocated to be big enough to hold that containing string, that's all
 		/// </summary>
@@ -148,7 +148,7 @@ namespace InsightSheath.Structs
 							}
 					}
 
-					HaveBlitOnce = true;
+					WasBlit = true;
 				}
 			}
 		}
@@ -231,18 +231,18 @@ namespace InsightSheath.Structs
 				Blit();
 				if (StructType == StructModeType.Machinex64)
                 {
-					return Marshal.PtrToStringUni(new IntPtr((uint)Machine64.Buffer));
+					return Marshal.PtrToStringUni(new IntPtr((long)Machine64.Buffer));
                 }
 				if (StructType == StructModeType.Machinex86)
                 {
-					return Marshal.PtrToStringUni(new IntPtr((uint)Machine32.Buffer));
+					return Marshal.PtrToStringUni(new IntPtr((int)Machine32.Buffer));
 				}
 				throw new InvalidOperationException();
 			}
         }
-		StructModeType StructType;
+		
 		UnicodeString64 Machine64;
 		UnicodeString32 Machine32;
-		bool HaveBlitOnce;
+		
     }
 }

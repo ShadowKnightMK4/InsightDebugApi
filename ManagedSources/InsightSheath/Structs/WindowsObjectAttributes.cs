@@ -42,6 +42,22 @@ namespace InsightSheath.Structs
         /// 4 byte pointer to the defined security quality of service. May be (null/0) if default is fine.
         /// </summary>
         public uint SecurityQoS;
+
+        /// <summary>
+        /// Return a 64-bit version with the 32-bit values promoted to 64-bit.
+        /// </summary>
+        /// <returns></returns>
+        public ObjectAttributes64 Prompotion()
+        {
+            var ret = new ObjectAttributes64();
+            ret.Length = this.Length;
+            ret.RootDirectory = this.RootDirectory;
+            ret.ObjectName = this.ObjectName;
+            ret.Attributes = this.Attributes;
+            ret.SecurityDescriptor = this.SecurityDescriptor;
+            ret.SecurityQoS = this.SecurityQoS;
+            return ret;
+        }
     };
 
     /// <summary>
@@ -122,10 +138,14 @@ namespace InsightSheath.Structs
                 switch (StructTypeContainer)
                 {
                     case StructModeType.Machinex64:
-                        Ret64 = Marshal.PtrToStructure<ObjectAttributes64>(Native);
+                        {
+                            Ret64 = Marshal.PtrToStructure<ObjectAttributes64>(Native);
+                        }
                         break;
                     case StructModeType.Machinex86:
-                        Ret32 = Marshal.PtrToStructure<ObjectAttributes32>(Native);
+                        {
+                            Ret32 = Marshal.PtrToStructure<ObjectAttributes32>(Native);
+                        }
                         break;
                     default: throw  ThrowNewInvalidOpMessage(GetType().Name);
                 }
@@ -204,8 +224,10 @@ namespace InsightSheath.Structs
                             }
                             else
                             {
-                                WindowsUnicodeString ret = new WindowsUnicodeString(new  IntPtr((uint)Ret64.ObjectName), false);
-                                ret.StructType = StructTypeContainer;
+                                WindowsUnicodeString ret = new WindowsUnicodeString(new  IntPtr((long)Ret64.ObjectName),true, StructModeType.Machinex64);
+                                {
+                                    var toss = ret.Buffer;
+                                }
                                 return ret;
                             }
                         }
@@ -217,8 +239,8 @@ namespace InsightSheath.Structs
                             }
                             else
                             {
-                                WindowsUnicodeString ret = new WindowsUnicodeString(new IntPtr((uint)Ret32.ObjectName), false);
-                                ret.StructType = StructTypeContainer;
+                                WindowsUnicodeString ret = new WindowsUnicodeString(new IntPtr((int)Ret32.ObjectName), true, StructModeType.Machinex86);
+                                
                                 return ret;
                             }
                         }

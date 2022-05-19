@@ -267,6 +267,15 @@ namespace RemoteStructureRoutine
 	};
 	
 	/// <summary>
+	/// pointer may be a Unicode32 or Unicode64 bit. Size of union is 1 pointer.
+	/// </summary>
+	union MachineDependantUnicodeString
+	{
+		UNICODE_STRING32* p32;
+		UNICODE_STRING64* p64;
+	};
+
+	/// <summary>
 	/// Object attrib for x86 debugged 
 	/// </summary>
 
@@ -295,27 +304,23 @@ namespace RemoteStructureRoutine
 
 
 
-	UNICODE_STRING* WINAPI RemoteReadUnicodeString(HANDLE Process, UINT_PTR MemoryLocation, BOOL TargetIs32)
+	VOID* WINAPI RemoteReadUnicodeString(HANDLE Process, UINT_PTR MemoryLocation, BOOL TargetIs32)
 	{
 		/*
 		* Functionally what we do is allocate a local memory chuck sizeof(UNICODE_STRINGNN) (32 or 64 depending on TargetIs32),
 		* plus the length of the string and return as one contuous block
 		*/
-		SIZE_T BytesRead;
-		SIZE_T SizeToRead;
+		SIZE_T BytesRead = 0;
+		SIZE_T SizeToRead = 0;
 
 		union padding
 		{
 			UNICODE_STRING32 ret32;
 			UNICODE_STRING64 ret64;
-		} either;
-		union ret_padding
-		{
-			UNICODE_STRING32* p32;
-			UNICODE_STRING64* p64;
-		} ret;
+		} local;
+		MachineDependantUnicodeString ret{};
 
-		memset(&either.ret64, 0, sizeof(UNICODE_STRING64));
+		memset(&local.ret64, 0, sizeof(UNICODE_STRING64));
 
 		if (TargetIs32)
 		{
@@ -327,47 +332,89 @@ namespace RemoteStructureRoutine
 		}
 
 
-		if (ReadProcessMemory(Process, (LPCVOID)MemoryLocation, &either.ret32, SizeToRead, &BytesRead))
+		if (ReadProcessMemory(Process, (LPCVOID)MemoryLocation, &local.ret32, SizeToRead, &BytesRead))
 		{
-			ret.p32 = (UNICODE_STRING32*)malloc(SizeToRead + either.ret32.MaxLength);
-			if (ret.p32 != nullptr)
+			if (TargetIs32)
 			{
-				ZeroMemory(ret.p32, SizeToRead + either.ret32.MaxLength);
-				LPVOID Target;
-				LPCVOID Source;
-				ret.p32->Length = either.ret32.Length;
-				ret.p32->MaxLength = either.ret32.MaxLength;
-				if (TargetIs32)
+				ret.p32 = (UNICODE_STRING32*)malloc(sizeof(UNICODE_STRING32));
+				if (ret.p32)
 				{
-					ret.p32->Buffer = either.ret32.Buffer;
-					Target = (LPVOID)(ret.p32->Buffer + sizeof(UINT));
-					Source = (LPCVOID)either.ret32.Buffer;
-				}
-				else
-				{
-					ret.p64->Buffer = either.ret64.Buffer;
-					Target = (LPVOID)(ret.p64->Buffer + sizeof(ULONGLONG));
-					Source = (LPCVOID)either.ret64.Buffer;
-				}
+					ZeroMemory(ret.p32, sizeof(UNICODE_STRING32));
+					ret.p32->Length = local.ret32.Length;
+					ret.p32->MaxLength = local.ret32.MaxLength;
+					ret.p32->Buffer = (UINT)malloc(local.ret32.MaxLength);
+					if (ret.p32->Buffer != 0)
+					{
+						ZeroMemory((VOID*)ret.p32->Buffer, local.ret32.MaxLength);
 
-
-				if (!ReadProcessMemory(Process, Source, Target, ret.p32->Length, &BytesRead))
-				{
-					return nullptr;
+						if (!ReadProcessMemory(Process, (LPCVOID)local.ret32.Buffer, (LPVOID)ret.p32->Buffer, local.ret32.Length, &BytesRead))
+						{
+							free((VOID*)ret.p32->Buffer);
+							free((VOID*)ret.p32);
+							return ret.p32;
+						}
+					}
+					return ret.p32;
 				}
-				return (UNICODE_STRING*)ret.p32;
+				
 			}
+			else
+			{
+				ret.p64 = (UNICODE_STRING64*)malloc(sizeof(UNICODE_STRING64));
+				if (ret.p64)
+				{
+					ZeroMemory(ret.p64, sizeof(UNICODE_STRING64));
+					ret.p64->Length = local.ret64.MaxLength;
+					ret.p64->MaxLength = local.ret64.MaxLength;
+					ret.p64->Buffer = 0;
+					ret.p64->Buffer = (ULONGLONG)malloc(local.ret64.MaxLength);
+					if (ret.p64->Buffer != 0)
+					{
+						ZeroMemory((VOID*)ret.p64->Buffer, local.ret64.MaxLength);
+
+						if (!ReadProcessMemory(Process, (LPCVOID)local.ret64.Buffer, (LPVOID)ret.p64->Buffer, local.ret64.MaxLength, &BytesRead))
+						{
+							free((VOID*)ret.p64->Buffer);
+							free((VOID*)ret.p64);
+							return ret.p32;
+						}
+					}
+					return ret.p64;
+				}
+				
+
+			}
+			
+
 		}
 		return nullptr;
 	}
 
 	BOOL WINAPI RemoteFreeUnicodeString(UNICODE_STRING* Str, bool  TargetIs32)
 	{
+		MachineDependantUnicodeString help;
 		if (Str != nullptr)
 		{
-			/* Current Implmenation allocates both the struct and actual string when read remotely into our process
-			as one block so SimpleFree is ok.*/
-			return RemoteRead_SimpleFree(Str);
+			if (TargetIs32)
+			{
+				help.p32 = (UNICODE_STRING32*)Str;
+				if (help.p32->Buffer != 0)
+				{
+					RemoteRead_SimpleFree((VOID*)help.p32->Buffer);
+				}
+
+				return RemoteRead_SimpleFree(help.p32);
+			}
+			else
+			{
+				help.p64 = (UNICODE_STRING64*)Str;
+				if (help.p64->Buffer != 0)
+				{
+					RemoteRead_SimpleFree((VOID*)help.p64->Buffer);
+				}
+
+				return RemoteRead_SimpleFree(help.p64);
+			}
 		}
 		return FALSE;
 	}
@@ -381,31 +428,34 @@ namespace RemoteStructureRoutine
 		{
 			OBJECT_ATTRIBUTES32* p32;
 			OBJECT_ATTRIBUTES64* p64;
-		} help;
+		} help{};
+		
 		if (Attrib != nullptr)
 		{
-			help.p32 = (OBJECT_ATTRIBUTES32*)Attrib;
-
 			if (TargetIs32)
 			{
-				if ( (help.p32->RootDirectory != 0) && (help.p32->RootDirectory != ((ULONG)(-1))))
+				help.p32 = (OBJECT_ATTRIBUTES32*)Attrib;
+				if ((help.p32->RootDirectory != 0) && (help.p32->RootDirectory != ((ULONG)(-1))))
 				{
 					CloseHandle(help.p32);
 				}
 				if (help.p32->RootDirectory != 0)
 				{
-					RemoteFreeUnicodeString((UNICODE_STRING*)help.p32, TargetIs32);
+					RemoteFreeUnicodeString((UNICODE_STRING*)help.p32->ObjectName, TargetIs32);
+					help.p32->ObjectName = 0;
 				}
 			}
 			else
 			{
-				if ((help.p64->RootDirectory != 0) && (help.p64->RootDirectory != (ULONGLONG)(-1)))
+				help.p64 = (OBJECT_ATTRIBUTES64*)Attrib;
+				if ((help.p64->RootDirectory != 0) && (help.p64->RootDirectory != ((ULONGLONG)(-1))))
 				{
 					CloseHandle(help.p64);
 				}
 				if (help.p64->RootDirectory != 0)
 				{
-					RemoteFreeUnicodeString((UNICODE_STRING*)help.p64, TargetIs32);
+					RemoteFreeUnicodeString((UNICODE_STRING*)help.p64->ObjectName, TargetIs32);
+					help.p64->ObjectName = 0;
 				}
 			}
 
@@ -425,7 +475,7 @@ namespace RemoteStructureRoutine
 		{
 			OBJECT_ATTRIBUTES32 ret32;
 			OBJECT_ATTRIBUTES64 ret64;
-		} either;
+		} local;
 		union ret_padding
 		{
 			OBJECT_ATTRIBUTES32* p32;
@@ -441,30 +491,29 @@ namespace RemoteStructureRoutine
 			SizeToRead = sizeof(OBJECT_ATTRIBUTES64);
 		}
 		
-		memset(&either.ret64, 0, sizeof(OBJECT_ATTRIBUTES64));
-		if (ReadProcessMemory(Process, (LPCVOID)MemoryLocation, &either.ret32, SizeToRead, &BytesRead))
+		memset(&local.ret64, 0, sizeof(OBJECT_ATTRIBUTES64));
+		if (ReadProcessMemory(Process, (LPCVOID)MemoryLocation, &local.ret32, SizeToRead, &BytesRead))
 		{
 			ret.p32 = (OBJECT_ATTRIBUTES32*)malloc(SizeToRead);
 			if (ret.p32 != nullptr)
 			{
 				ZeroMemory(ret.p32, SizeToRead );
-				LPVOID Target;
-				LPCVOID Source;
+
 
 				
 				if (TargetIs32)
 				{
-					ret.p32->Length = either.ret32.Length;
+					ret.p32->Length = local.ret32.Length;
 					if (ret.p32->RootDirectory != 0)
 					{
-						ret.p32->RootDirectory = (ULONG)DuplicateHandleToSelf(Process, (HANDLE)either.ret32.RootDirectory);
+						ret.p32->RootDirectory = (ULONG)DuplicateHandleToSelf(Process, (HANDLE)local.ret32.RootDirectory);
 					}
 					else
 					{
 						ret.p32->RootDirectory = 0;
 					}
 
-					if (ret.p32->ObjectName != 0)
+					if (local.ret32.ObjectName != 0)
 					{
 						ret.p32->ObjectName = (ULONG)RemoteReadUnicodeString(Process, ret.p32->ObjectName, TargetIs32);
 					}
@@ -473,35 +522,36 @@ namespace RemoteStructureRoutine
 						ret.p32->ObjectName = 0;
 					}
 
-					ret.p32->Attributes = either.ret32.Attributes;
-					ret.p32->SecurityDesc = either.ret32.SecurityDesc;
-					ret.p32->SecurityQoS = either.ret32.SecurityQoS;
+					ret.p32->Attributes = local.ret32.Attributes;
+					ret.p32->SecurityDesc = local.ret32.SecurityDesc;
+					ret.p32->SecurityQoS = local.ret32.SecurityQoS;
 				}
 				else
 				{
-					ret.p64->Length = either.ret64.Length;
+					ret.p64->Length = local.ret64.Length;
 					if (ret.p64->RootDirectory != 0)
 					{
-						ret.p64->RootDirectory = (ULONGLONG)DuplicateHandleToSelf(Process, (HANDLE)either.ret64.RootDirectory);
+						ret.p64->RootDirectory = (ULONGLONG)DuplicateHandleToSelf(Process, (HANDLE)local.ret64.RootDirectory);
 					}
 					else
 					{
 						ret.p64->RootDirectory = 0;
 					}
 
-					if (ret.p64->ObjectName != 0)
+					if (local.ret64.ObjectName != 0)
 					{
-						ret.p64->ObjectName = (ULONGLONG)RemoteReadUnicodeString(Process, either.ret64.ObjectName, TargetIs32);
+						ret.p64->ObjectName = (ULONGLONG)RemoteReadUnicodeString(Process, local.ret64.ObjectName, TargetIs32);
 					}
 					else
 					{
 						ret.p64->ObjectName = 0;
 					}
 
-					ret.p64->Attributes = either.ret64.Attributes;
-					ret.p64->SecurityDesc = either.ret64.SecurityDesc;
-					ret.p64->SecurityQoS = either.ret64.SecurityQoS;
+					ret.p64->Attributes = local.ret64.Attributes;
+					ret.p64->SecurityDesc = local.ret64.SecurityDesc;
+					ret.p64->SecurityQoS = local.ret64.SecurityQoS;
 				}
+				return ret.p64;
 			}
 		}
 		return nullptr;

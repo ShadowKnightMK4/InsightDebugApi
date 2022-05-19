@@ -172,13 +172,15 @@ namespace InsightSheath.Telemetry
     {
         public uint ProcessId;
         public uint ThreadID;
-        
+
+        public IntPtr FileOutHandle;
         public AccessMasks DesiredAccess;
         public Structs.WindowsObjectAttributes ObjectAttributes;
         public IntPtr IoStatusBlock;
         public LARGE_INTEGER AllocationSize;
         public ulong FileAttributes;
         public ulong ShareAccess;
+        public uint CreationOptions;
         public CreationDisposition CreateDisposition;
         public IntPtr EaBuffer;
         public ulong EaSize;
@@ -360,9 +362,10 @@ namespace InsightSheath.Telemetry
         const uint NtCreateFile_FileAttributs = 7;
         const uint NtCreateFile_ShareAccess = 8;
         const uint NtCreateFile_CreateDisposition = 9;
-        const uint NtCreateFile_EaBuffer = 10;
-        const uint NtCreateFile_EaLength = 11;
-        const uint NtCreateFile_OverwriteHandle = 12;
+        const uint NtCreateFile_CreateOptions = 10;
+        const uint NtCreateFile_EaBuffer = 11;
+        const uint NtCreateFile_EaLength = 12;
+        const uint NtCreateFile_OverwriteHandle = 13;
 
 
         /* if exception is NotificationType.NTCreateFIle*/
@@ -430,12 +433,26 @@ namespace InsightSheath.Telemetry
             try
             {
                 ret = new IoDeviceTelemetryNtCreateFile();
-               
-                
-
-                
                 ret.ReturnValue = new IntPtr((long)arguments[LastError_Ptr]);
-                
+                ret.FileOutHandle = new IntPtr((long)arguments[NtCreateFile_ReturnHandle]);
+                ret.DesiredAccess = (AccessMasks) arguments[NtCreateFile_DesiredAccess];
+                if (arguments[NtCreateFile_ObjectAttributes] == 0)
+                {
+                    ret.ObjectAttributes = null;
+                }
+                else
+                {
+                    //ret.ObjectAttributes = new Structs.WindowsObjectAttributes(new IntPtr((long)arguments[NtCreateFile_ObjectAttributes]));
+                    if (arguments[NtCreateFile_ObjectAttributes] != 0)
+                    {
+                        ret.ObjectAttributes = RemoteStructure.RemoteReadObjectAttributes(Handle, new IntPtr((long)arguments[NtCreateFile_ObjectAttributes]), that.IsEventFrom32BitProcess, true);
+                    }
+                    else
+                    {
+                        ret.ObjectAttributes = null; 
+                    }
+                    
+                }
                 if (arguments[NtCreateFile_AllocationSize] != 0)
                 {
                     ret.AllocationSize = Marshal.PtrToStructure<LARGE_INTEGER>(new IntPtr((long)arguments[NtCreateFile_AllocationSize]));
@@ -443,36 +460,16 @@ namespace InsightSheath.Telemetry
                 else
                 {
                     ret.AllocationSize = new LARGE_INTEGER();
-                    ret.AllocationSize.QuadPart = 0;
                 }
-                ret.CreateDisposition = (CreationDisposition) arguments[NtCreateFile_CreateDisposition];
-                ret.DesiredAccess = (AccessMasks) arguments[NtCreateFile_DesiredAccess];
-                ret.EaBuffer =  new  IntPtr((long)arguments[NtCreateFile_EaBuffer]);
-                ret.EaSize = arguments[NtCreateFile_EaLength];
                 ret.FileAttributes = arguments[NtCreateFile_FileAttributs];
-                ret.ForceHandle = new IntPtr((long)arguments[NtCreateFile_ReturnHandle]);
-                ret.IoStatusBlock = new IntPtr((long)arguments[NtCreateFile_IoStatusBlock]);
-                ret.ObjectAttributes = new Structs.WindowsObjectAttributes(new IntPtr((long)arguments[NtCreateFile_ObjectAttributes]), true);
-
-
-                if (ret.ObjectAttributes != null)
-                {
-                    if (that.IsEventFrom32BitProcess)
-                    {
-                        ret.ObjectAttributes.StructType = Structs.StructModeType.Machinex86;
-                    }
-                    else
-                    {
-                        ret.ObjectAttributes.StructType = Structs.StructModeType.Machinex64;
-                    }
-                }
-                
-                ret.ProcessId = that.ProcessID;
-                ret.ReturnValue = new IntPtr((long)arguments[LastError_Ptr]);
                 ret.ShareAccess = arguments[NtCreateFile_ShareAccess];
-                ret.ThreadID = that.ThreadID; 
+                
+                ret.CreateDisposition = (CreationDisposition) arguments[NtCreateFile_CreateDisposition];
+                ret.CreationOptions = (uint)arguments[NtCreateFile_CreateOptions];
+                ret.EaBuffer = new IntPtr((long)arguments[NtCreateFile_EaBuffer]);
+                ret.EaSize = arguments[NtCreateFile_EaLength];
+                ret.ForceHandle = new IntPtr((long)arguments[NtCreateFile_OverwriteHandle]);
                 return ret;
-             
             }
             finally
             {

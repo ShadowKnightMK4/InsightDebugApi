@@ -98,7 +98,7 @@ Add code to InsightSheath.Telemetry.IoDeviceExceptionReader to read (and write) 
 #define NTCT_AW_ALLOCATION_SIZE 6
 #define NTCT_AW_FILEATRIBUTES 7
 #define NTCT_AW_SHARE_ACCESS 8
-#define NTCT_AW_CREATEDISPO 9
+#define NTCT_AW_CREATIONDISPOSITION 9
 #define NTCT_AW_CREATEOPTION 10
 #define NTCT_AW_EABUFFER 11
 #define NTCT_AW_EALENGTH 12
@@ -150,11 +150,12 @@ DWORD WINAPI __NtCreateFile_alert(
 	ExceptionArgs[NTCT_AW_ALLOCATION_SIZE] = (ULONG_PTR)AllocationSize;
 	ExceptionArgs[NTCT_AW_FILEATRIBUTES] = (ULONG_PTR)FileAttributes;
 	ExceptionArgs[NTCT_AW_SHARE_ACCESS] = (ULONG_PTR)ShareAccess;
-	ExceptionArgs[NTCT_AW_CREATEOPTION] = (ULONG_PTR)CreateDisposition;
+	ExceptionArgs[NTCT_AW_CREATIONDISPOSITION] = (ULONG_PTR)CreateDisposition;
+	ExceptionArgs[NTCT_AW_CREATEOPTION] = (ULONG_PTR)CreateOptions;
 	ExceptionArgs[NTCT_AW_EABUFFER] = (ULONG_PTR)EaBuffer;
 	ExceptionArgs[NTCT_AW_EALENGTH] = (ULONG_PTR)EaLength;
 	ExceptionArgs[NTCT_AW_OVERRIDE_HANDLE] = (ULONG_PTR)OverwriteHandle;
-	
+
 
 	__try
 	{

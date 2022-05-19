@@ -20,8 +20,8 @@ namespace InsightSheath.Remote
             Size8 = 8
         }
 
-   
-       
+
+
         /// <summary>
         /// Read either a 4 byte or 8 byte pointer from the passed process handle.
         /// </summary>
@@ -41,6 +41,27 @@ namespace InsightSheath.Remote
                     return IntPtr.Zero;
             }
         }
+
+        public static WindowsObjectAttributes RemoteReadObjectAttributes(IntPtr ProcessHandle, IntPtr Location, bool IsTarget32Bit,  bool FreeOnCleanup)
+        {
+            IntPtr target;
+            target = NativeMethods.RemoteReadObjectAttributes(ProcessHandle, Location, IsTarget32Bit);
+            if (target != IntPtr.Zero)
+            {
+                var ret = new WindowsObjectAttributes(target, FreeOnCleanup);
+                if (IsTarget32Bit)
+                {
+                    ret.StructType = StructModeType.Machinex86;
+                }
+                else
+                {
+                    ret.StructType = StructModeType.Machinex64;
+                }
+                return ret;
+            }
+            return null;
+        }
+
         public static WindowsUnicodeString RemoteReadUnicodeString(IntPtr ProcessHandle, IntPtr Location, bool IsTarget32Bit, bool FreeOnCleanup)
         {
             IntPtr retptr = IntPtr.Zero;

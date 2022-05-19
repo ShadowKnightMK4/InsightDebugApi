@@ -39,7 +39,7 @@ namespace InsightSheath.Structs
         }
         public StructModeType StructType
         {
-            get { return StructTypeContainer; } set { StructTypeContainer = value; }
+            get { return StructTypeContainer; } set { StructTypeContainer = value; WasBlit = false;  }
         }
         protected StructModeType StructTypeContainer;
         /// <summary>
