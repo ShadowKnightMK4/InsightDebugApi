@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -21,10 +21,9 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{ee72fbfc-db2d-4224-8d1f-27e80bb64e18}</ProjectGuid>
-    <RootNamespace>FileSandBoxLibrary</RootNamespace>
+    <ProjectGuid>{6C16B605-10F0-4F6E-AB3B-DC56C4DA9B0C}</ProjectGuid>
+    <RootNamespace>IoDeviceTracking</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>InsightApi</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -73,66 +72,45 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\program\</OutDir>
+    <OutDir>$(SolutionDir)\Code\$(Configuration)\$(PlatformTarget)\program\Telemetry\</OutDir>
+    <IntDir>$(SolutionDir)BuildFolder\Telemetry\$(ProjectName)\$(Configuration)\$(PlatformTarget)\</IntDir>
     <IncludePath>$(SolutionDir)\StaticIncludes;$(SolutionDir)NativeSources\Detours-master\src;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Code\$(Configuration)\$(PlatformTarget)\lib;$(LibraryPath)</LibraryPath>
-    <IntDir>$(SolutionDir)BuildFolder\$(ProjectName)\$(Configuration)\$(PlatformTarget)</IntDir>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\program\</OutDir>
+    <OutDir>$(SolutionDir)\Code\$(Configuration)\$(PlatformTarget)\program\Telemetry\</OutDir>
+    <IntDir>$(SolutionDir)BuildFolder\Telemetry\$(ProjectName)\$(Configuration)\$(PlatformTarget)\</IntDir>
     <IncludePath>$(SolutionDir)\StaticIncludes;$(SolutionDir)NativeSources\Detours-master\src;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Code\$(Configuration)\$(PlatformTarget)\lib;$(LibraryPath)</LibraryPath>
-    <IntDir>$(SolutionDir)BuildFolder\$(ProjectName)\$(Configuration)\$(PlatformTarget)</IntDir>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(SolutionDir)\StaticIncludes;$(SolutionDir)NativeSources\Detours-master\src;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Code\$(Configuration)\$(PlatformTarget)\lib;$(LibraryPath)</LibraryPath>
-    <OutDir>$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\program\</OutDir>
-    <IntDir>$(SolutionDir)BuildFolder\$(ProjectName)\$(Configuration)\$(PlatformTarget)</IntDir>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <OutDir>$(SolutionDir)\Code\$(Configuration)\$(PlatformTarget)\program\Telemetry\</OutDir>
+    <IntDir>$(SolutionDir)BuildFolder\Telemetry\$(ProjectName)\$(Configuration)\$(PlatformTarget)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>$(SolutionDir)\StaticIncludes;$(SolutionDir)NativeSources\Detours-master\src;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Code\$(Configuration)\$(PlatformTarget)\lib;$(LibraryPath)</LibraryPath>
-    <OutDir>$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\program\</OutDir>
-    <IntDir>$(SolutionDir)BuildFolder\$(ProjectName)\$(Configuration)\$(PlatformTarget)</IntDir>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <OutDir>$(SolutionDir)\Code\$(Configuration)\$(PlatformTarget)\program\Telemetry\</OutDir>
+    <IntDir>$(SolutionDir)BuildFolder\Telemetry\$(ProjectName)\$(Configuration)\$(PlatformTarget)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32; DETOURS_X86; FILESANDBOX_AP_DLL_EXPORT;DBGHELP_TRANSLATE_TCHAR;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;PIN_TELEMETRY_DLL;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ModuleDefinitionFile>Exports.def</ModuleDefinitionFile>
-      <ImportLibrary>$(OutDir)..\Lib\$(TargetName).lib</ImportLibrary>
-      <AdditionalDependencies>Dbghelp.lib;detours.lib;shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ModuleDefinitionFile>exports.def</ModuleDefinitionFile>
+      <AdditionalDependencies>detours.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <CustomBuildStep>
-      <Command>copy "$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\Program\InsightApi.*"  "$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\lib\InsightApi.*"
-REM del "$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\lib\InsightApi.*"
-</Command>
-    </CustomBuildStep>
-    <CustomBuildStep>
-      <Message>Copying InsightApi Output to library folder for InsightAPI GUI.</Message>
-    </CustomBuildStep>
-    <PostBuildEvent>
-      <Command>copy "$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\Program\InsightApi.*"  "$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\lib\InsightApi.*"
-del "$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\lib\InsightApi.*"
-</Command>
-    </PostBuildEvent>
-    <PostBuildEvent>
-      <Message>Copying FileSandBox Api to the FileSandBox_GUI project's output folder also to Make Visual Studio load the write PDB file</Message>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -140,31 +118,19 @@ del "$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\lib\InsightApi.*"
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32; DETOURS_X86; FILESANDBOX_AP_DLL_EXPORT;DBGHELP_TRANSLATE_TCHAR;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;PIN_TELEMETRY_DLL;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <StringPooling>true</StringPooling>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ModuleDefinitionFile>Exports.def</ModuleDefinitionFile>
-      <ImportLibrary>$(OutDir)..\Lib\$(TargetName).lib</ImportLibrary>
-      <AdditionalDependencies>Dbghelp.lib;detours.lib;shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ModuleDefinitionFile>exports.def</ModuleDefinitionFile>
       <SetChecksum>true</SetChecksum>
+      <AdditionalDependencies>detours.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <CustomBuildStep>
-      <Command>copy "$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\Program\InsightApi.*"  "$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\lib\InsightApi.*"
-del "$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\lib\InsightApi.*"</Command>
-    </CustomBuildStep>
-    <CustomBuildStep>
-      <Message>Copying InsightApi Output to library folder for InsightAPI GUI.</Message>
-    </CustomBuildStep>
-    <PostBuildEvent>
-      <Command>copy "$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\Program\InsightApi.*"  "$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\lib\InsightApi.*"
-del "$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\lib\InsightApi.*"
-</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -176,8 +142,8 @@ del "$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\lib\InsightApi.*"
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ModuleDefinitionFile>Exports.def</ModuleDefinitionFile>
-      <AdditionalDependencies>Dbghelp.lib;detours.lib;shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ModuleDefinitionFile>exports.def</ModuleDefinitionFile>
+      <AdditionalDependencies>detours.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -194,60 +160,26 @@ del "$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\lib\InsightApi.*"
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ModuleDefinitionFile>Exports.def</ModuleDefinitionFile>
-      <AdditionalDependencies>Dbghelp.lib;detours.lib;shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <SetChecksum>true</SetChecksum>
+      <ModuleDefinitionFile>exports.def</ModuleDefinitionFile>
+      <AdditionalDependencies>detours.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ApiVersionStruct_CExports.cpp" />
-    <ClCompile Include="CommandmentSettings.cpp" />
-    <ClCompile Include="ContextStruct_CExports.cpp" />
-    <ClCompile Include="DebugStruct_CExports.cpp" />
-    <ClCompile Include="DebugLogTarget.cpp" />
-    <ClCompile Include="DebugNotifyHelperStructWrappers.cpp" />
-    <ClCompile Include="DetourPayloads.cpp" />
-    <ClCompile Include="ImageHlpModuleStruct_CExports.cpp" />
-    <ClCompile Include="InsightHunter.cpp" />
-    <ClCompile Include="InsightClass_CExports.cpp" />
-    <ClCompile Include="InsightMemory_CWrappers.cpp" />
-    <ClCompile Include="InsightMemory.cpp" />
-    <ClCompile Include="InsightSupport.cpp" />
-    <ClCompile Include="InsightDllMain.cpp" />
-    <ClCompile Include="ObjectAttribStruct_cexports.cpp" />
-    <ClCompile Include="ObjectAttributesHelper.cpp" />
-    <ClCompile Include="ProcessHandling.cpp" />
-    <ClCompile Include="PS_ProcessInformationClass_CExports.cpp" />
-    <ClCompile Include="RemoteStructureRoutines.cpp" />
-    <ClCompile Include="PS_ProcessInformation.cpp" />
-    <ClCompile Include="StartupInfoExW_struct_cExports.cpp" />
-    <ClCompile Include="StartupInfoStructHelper.cpp" />
-    <ClCompile Include="SymbolInfoStruct_CExports.cpp" />
-    <ClCompile Include="ThreadContext.cpp" />
-    <ClCompile Include="ThreadContextClass_CExports.cpp" />
-    <ClCompile Include="ThreadSupport.cpp" />
-    <ClCompile Include="Utility.cpp" />
+    <ClCompile Include="DetouredRoutines.cpp" />
+    <ClCompile Include="DetouringRoutines.cpp" />
+    <ClCompile Include="Dllmain.cpp" />
+    <ClCompile Include="OriginalRoutinePtrs.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CommandmentSettings.h" />
-    <ClInclude Include="DebugLogTarget.h" />
-    <ClInclude Include="InsightHunter.h" />
-    <ClInclude Include="InsightMemory.h" />
-    <ClInclude Include="InsightSupport.h" />
-    <ClInclude Include="ObjectAttributesHelper.h" />
-    <ClInclude Include="ProcessContext.h" />
-    <ClInclude Include="PS_ProcessInformation.h" />
-    <ClInclude Include="RemoteStructure.h" />
-    <ClInclude Include="StarutpInfoStructHelper.h" />
-    <ClInclude Include="ThreadContext.h" />
-    <ClInclude Include="ThreadSupport.h" />
-    <ClInclude Include="Utility.h" />
+    <ClInclude Include="DetouredReplacementRoutines.h" />
+    <ClInclude Include="DetouringRoutine.h" />
+    <ClInclude Include="OriginalRoutinePts.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Exports.def" />
+    <Text Include="Readme.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="NamingScheme.txt" />
+    <None Include="exports.def" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

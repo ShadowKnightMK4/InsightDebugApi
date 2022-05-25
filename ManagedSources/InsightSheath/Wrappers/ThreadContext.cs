@@ -25,7 +25,7 @@ namespace InsightSheath.Wrappers
         /// <param name="threadId">id of thread to point this class to</param>
         public static ThreadContext CreateInstance(uint threadId)
         {
-            return new ThreadContext(NativeMethods.ThreadContext_CreateInstance(new IntPtr(threadId), 1));
+            return new ThreadContext(NativeMethods.ThreadContext_CreateInstance(threadId, 1));
         }
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace InsightSheath.Wrappers
         /// <param name="ThreadHandle">Win32 Handle to thread you want to point this class instance to. You don't need the handle after this.</param>
         public static ThreadContext CreateInstance(IntPtr ThreadHandle)
         {
-            return new ThreadContext(NativeMethods.ThreadContext_CreateInstance(ThreadHandle, 0));
+            return new ThreadContext(NativeMethods.ThreadContext_CreateInstance((ulong)ThreadHandle.ToInt64(), 0));
         }
 
         /// <summary>

@@ -75,12 +75,20 @@ namespace InsightSheath.Wrappers
                 return Native;
             }
         }
+
+        /// <summary>
+        /// place in dispoable.
+        /// </summary>
+        protected void ClearNative()
+        {
+            Native = IntPtr.Zero;
+        }
         /// <summary>
         /// Holds a physical unmanaged pointer to a relevant structure. Child classes use this 
         /// </summary>
-        protected readonly IntPtr Native;
+        protected IntPtr Native;
         /// <summary>
-        /// Conditional free on dispose. Set this to true if you're manipulated a block of unmanaged memory dynamically located by the API. Set to false if you're working with a previously allocated structure
+        /// Conditional free on dispose. Set this to true if you're manipulated a block of unmanaged memory dynamically located by the API. Set to false if you're working with a previously allocated structure or the struct was given as part of a callback to you or part of a larger structure
         /// </summary>
         protected bool FreeOnCleanup
         {
@@ -98,7 +106,7 @@ namespace InsightSheath.Wrappers
         /// <summary>
         /// protected value containing if dispose() was called
         /// </summary>
-        protected bool disposedValue;
+        private bool disposedValue;
         /// <summary>
         /// Was this class disposed?
         /// </summary>
@@ -110,14 +118,18 @@ namespace InsightSheath.Wrappers
             {
                 if (disposing)
                 {
-                    // TODO: dispose managed state (managed objects)
+                    // nothing managed to dispose
                 }
 
-                if (FreeOnCleanup)
+                if ( (Native != IntPtr.Zero) && (FreeOnCleanup))
                 {
-                    NativeImports.NativeMethods.SimpleFree(Native);
+                    // if we made it this far, we should free() the native pointer if non zero and where made with that flag on.
+                    {
+                        NativeImports.NativeMethods.SimpleFree(Native);
+                    }
+                    // clear nativ pointer.
+                    ClearNative();
                 }
-                
                 disposedValue = true;
             }
         }

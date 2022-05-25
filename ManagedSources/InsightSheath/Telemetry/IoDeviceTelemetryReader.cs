@@ -27,6 +27,185 @@ namespace InsightSheath.Telemetry
     }
 
 
+    public class IoDeviceTelememtryExceptionCommonValues
+    {
+        public IoDeviceTelememtryExceptionCommonValues(uint ProcessId, uint ThreadID, IntPtr ForceHandle, IntPtr LastError, MachineType Type)
+        {
+            this.ProcessId = ProcessId;
+            this.ThreadId = ThreadID;
+            this.ForceHandlePtr = ForceHandle;
+            this.LastErrorPtr = LastError;
+            this.Type = Type;
+        }
+        /// <summary>
+        /// Process that the exception originated from.
+        /// </summary>
+        public readonly uint ProcessId;
+        /// <summary>
+        /// Thread that the exception originated from.
+        /// </summary>
+        public readonly uint ThreadId;
+        /// <summary>
+        /// Pointer to the handle that is returned back to the target process after handling the exception.
+        /// </summary>
+        public readonly IntPtr ForceHandlePtr;
+        /// <summary>
+        /// Depending on Context of target detoured routine, may be an NTSTATUS return value or an actual last error pointer.
+        /// </summary>
+        public readonly IntPtr LastErrorPtr;
+
+        /// <summary>
+        /// Depends on what <see cref="DebugEvent.IsProcess32Bit"/> returns. Intended for determining pointer size only. If that's true, Value is <see cref="MachineType.MachineI386"/> otherwise value is <see cref="MachineType.MachineAmd64"/>  i386 pointer sizes are 4 bytes long and Amd64 pointer sizes are 8 bytes.    This may not actually be the exact machine type as stored in the debugged process's physical PE/EXE file.
+        /// </summary>
+        public readonly MachineType Type;
+
+
+        /// <summary>
+        /// If you desire to make the call from the x86 process to CreateFileA/W file fail, call <see cref="SetForceHandle"/> with this has a value
+        /// </summary>
+        public static readonly uint InvalidHandleValue32 = (0xffffffff);
+        /// <summary>
+        /// If you desire to make the call from the x64 process to CreateFileA/W file fail, call <see cref="SetForceHandle"/> with this has a value
+        /// </summary>
+        public static readonly ulong InvalidHandleValue64 = (0xffffffffffffffff);
+
+        /// <summary>
+        /// Duplicate the handle you provide into the process the exception was generated from and write it to the memory location specified by <see cref="ForceHandle"/> 
+        /// </summary>
+        /// <param name="ReplacementHandle"></param>
+        public void SetForceHandle(IntPtr ReplacementHandle)
+        {
+            //IntPtr handle = NativeImports.NativeMethods.OpenProcessNow(dwProcessId);
+            IntPtr handle = HelperRoutines.OpenProcessForHandleDuplicating(ProcessId);
+            try
+            {
+                /* Caution. This code is size Dependant on knowing the target's handle size*/
+                if (Type == MachineType.MachineI386) /* 4 byte pointer / handle size*/
+                {
+                    if ((uint)ReplacementHandle.ToInt32() != InvalidHandleValue32)
+                    {
+                        IntPtr duphandle = NativeImports.NativeMethods.DuplicateHandleIntoTarget(ReplacementHandle, 0, true, handle, true);
+                        RemoteStructure.RemotePoke4(handle, (uint)duphandle.ToInt32(), ForceHandlePtr);
+                    }
+                    else
+                    {
+                        RemoteStructure.RemotePoke4(handle, InvalidHandleValue32, ForceHandlePtr);
+                    }
+                }
+                else /* 8 byte pointer / handle size */
+                {
+                    if ((ulong)ReplacementHandle.ToInt64() != InvalidHandleValue64)
+                    {
+                        IntPtr duphandle = NativeImports.NativeMethods.DuplicateHandleIntoTarget(ReplacementHandle, 0, true, handle, true);
+                        RemoteStructure.RemotePoke8(handle, (ulong)duphandle.ToInt64(), ForceHandlePtr);
+                    }
+                    else
+                    {
+                        RemoteStructure.RemotePoke8(handle, InvalidHandleValue64, ForceHandlePtr);
+                    }
+                }
+
+
+            }
+            finally
+            {
+                HelperRoutines.CloseHandle(handle);
+            }
+        }
+
+
+        /// <summary>
+        /// Set the handle to the appropriate invalid handle value based on the <see cref="Type"/> value in this struct.
+        /// </summary>
+        public void SetForceHandle()
+        {
+            if (Type == MachineType.MachineI386)
+            {
+                SetForceHandle(InvalidHandleValue32);
+            }
+            else
+            {
+                SetForceHandle(InvalidHandleValue64);
+            }
+        }
+        /// <summary>
+        /// Set the 64-bit handle value to something other than an <see cref="IntPtr"/> - for example <see cref="InvalidHandleValue64"/>
+        /// </summary>
+        /// <param name="HandleValue"></param>
+        public void SetForceHandle(ulong HandleValue)
+        {
+            IntPtr handle = HelperRoutines.OpenProcessForHandleDuplicating(ProcessId);
+            try
+            {
+                if (HandleValue != InvalidHandleValue64)
+                {
+                    IntPtr duphandle = NativeImports.NativeMethods.DuplicateHandleIntoTarget(new IntPtr((long)HandleValue), 0, true, handle, true);
+                    RemoteStructure.RemotePoke8(handle, (ulong)duphandle.ToInt64(), ForceHandlePtr);
+                }
+                else
+                {
+                    RemoteStructure.RemotePoke8(handle, InvalidHandleValue64, ForceHandlePtr);
+                }
+
+
+            }
+            finally
+            {
+                HelperRoutines.CloseHandle(handle);
+            }
+        }
+
+
+        /// <summary>
+        /// Set the 32-bit handle value to something other than an <see cref="IntPtr"/> - for example <see cref="InvalidHandleValue32"/>
+        /// </summary>
+        /// <param name="HandleValue"></param>
+        public void SetForceHandle(uint HandleValue)
+        {
+            IntPtr handle = HelperRoutines.OpenProcessForHandleDuplicating(ProcessId);
+            try
+            {
+                if (HandleValue != InvalidHandleValue32)
+                {
+                    IntPtr duphandle = NativeImports.NativeMethods.DuplicateHandleIntoTarget(new IntPtr(HandleValue), 0, true, handle, true);
+                    RemoteStructure.RemotePoke4(handle, (uint)duphandle.ToInt32(), ForceHandlePtr);
+                }
+                else
+                {
+                    RemoteStructure.RemotePoke4(handle, InvalidHandleValue32, ForceHandlePtr);
+                }
+
+
+            }
+            finally
+            {
+                HelperRoutines.CloseHandle(handle);
+            }
+        }
+
+
+
+
+        /// <summary>
+        /// Set the last error value that will be set by the detouring routine when returning control to the debugged process.
+        /// </summary>
+        /// <param name="NewValue"></param>
+        public void SetLastErrorValue(uint NewValue)
+        {
+            IntPtr handle = NativeImports.NativeMethods.OpenProcessForMemoryAccess(ProcessId);
+            try
+            {
+                RemoteStructure.RemotePoke4(handle, NewValue, LastErrorPtr);
+            }
+            finally
+            {
+                HelperRoutines.CloseHandle(handle);
+            }
+        }
+
+
+    }
+
 
     /// <summary>
     /// From once again winnt.h for values.   <see href="https://docs.microsoft.com/en-us/windows/win32/api/winternl/nf-winternl-ntcreatefile"/>
@@ -246,21 +425,17 @@ namespace InsightSheath.Telemetry
 
     }
 
-    public struct IoDeviceTelemetryNtCreateFile
+    public class IoDeviceTelemetryNtCreateFile: IoDeviceTelememtryExceptionCommonValues
     {
-        /// <summary>
-        /// Process ID of the exception that we read this data from.
-        /// </summary>
-        public uint ProcessId;
-        /// <summary>
-        /// Thread ID of the exception that we read this from.
-        /// </summary>
-        public uint ThreadID;
 
+        public IoDeviceTelemetryNtCreateFile(uint ProcessId, uint ThreadID, IntPtr ForceHandle, IntPtr LastError, MachineType Type): base(ProcessId, ThreadID, ForceHandle, LastError, Type)
+        {
+
+        }
         /// <summary>
         /// Pointer to the first argument in NtCreateFile. That will indicate the out handle. For x64 bit processes this will be a 64-bit pointer. For x32 bit processes, this will be a 32-bit pointer.
         /// </summary>
-        public IntPtr FileOutHandle;
+        public readonly IntPtr FileOutHandle;
         /// <summary>
         /// Will contain the passed Access Request flags for NtCreateFile.
         /// </summary>
@@ -272,17 +447,15 @@ namespace InsightSheath.Telemetry
         /// <summary>
        /// for x64 debugged processes. This is a 64-bit pointer.  For x32-bit processes, this is a 32-bit pointer that may be pretended to be 64-bit depending on .NET
         /// </summary>
-        public IntPtr IoStatusBlock;
+        public readonly IntPtr IoStatusBlock;
         /// <summary>
         /// a LARGE_INTEGER struct.
         /// </summary>
         public LARGE_INTEGER AllocationSize;
-        //public ulong FileAttributes;
         /// <summary>
-        /// The .NET file atttributes for how the IO thing is being opened.
+        /// The .NET file attributes for how the IO thing is being opened.
         /// </summary>
         public FileAttributes FileAttributes;
-        //public ulong ShareAccess;*/
         /// <summary>
         /// The .NET shared mode.
         /// </summary>
@@ -307,42 +480,43 @@ namespace InsightSheath.Telemetry
         /// <summary>
         /// Pointer to the handle to overwrite if the debugger wants to replace what the call was attempting to open.
         /// </summary>
-        public IntPtr ForceHandle;
+        //public readonly IntPtr ForceHandle;
         /// <summary>
-        /// Occupies the same spot as the last error.  Pointer to the RETURN VALUE to return from the NtCreateFile setting.
+        /// Occupies the same spot as the last error in reading the EXCEPTION_ARGS struct.  Pointer to the RETURN VALUE to return from the NtCreateFile setting.
         /// </summary>
-        public IntPtr ReturnValue;
+        //public readonly IntPtr ReturnValue;
+
+
+        
+        /// <summary>
+        /// NtCreateFile does not appear to set last error based on documentation. Here Last Error is the return value given back to the debugged process.
+        /// </summary>
+        /// <param name="ReturnValue"></param>
+        public void SetReturnValue(uint ReturnValue)
+        {
+            SetLastErrorValue(ReturnValue);
+        }
     }
 
     
 
     /// <summary>
-    /// This structure contrains data from an exception generated via CreateFileA/W.
+    /// This structure contains data from an exception generated via CreateFileA/W.
     /// </summary>
-    public struct IoDeviceTelemetyCreateFile
+    public class IoDeviceTelemetyCreateFile: IoDeviceTelememtryExceptionCommonValues
     {
-        public IoDeviceTelemetyCreateFile(uint dwProcess, uint dwThread, IntPtr HandlePtr, IntPtr ErrorPtr)
+        public IoDeviceTelemetyCreateFile(uint dwProcess, uint dwThread, IntPtr HandlePtr, IntPtr ErrorPtr, MachineType Type): base(dwProcess, dwThread, HandlePtr, ErrorPtr, Type)
         {
             FileName = null;
             DesiredAccess = AccessMasks.NoAccess;
-            SharedMode = ShareMasks.NoShare;
+            SharedMode = FileShare.None;
             SecurityAttrib = IntPtr.Zero;
             CreateDisposition = 0;
             FlagsAndAttributes = 0;
-            TemplateFile = 0;
-            ForceHandle = HandlePtr;
-            ForceLastError = ErrorPtr;
-            ProcessId = dwProcess;
-            ThreadId = dwThread;
+            TemplateFile = IntPtr.Zero;
         }
-        /// <summary>
-        /// Process that the exception originated from.
-        /// </summary>
-        public readonly uint ProcessId;
-        /// <summary>
-        /// Thread that the exception originated from.
-        /// </summary>
-        public readonly uint ThreadId;
+
+
         /// <summary>
         /// Name of the file the debugged process is trying to open
         /// </summary>
@@ -354,7 +528,7 @@ namespace InsightSheath.Telemetry
         /// <summary>
         /// Will the debugged process try to open for sharing?
         /// </summary>
-        public ShareMasks SharedMode;
+        public FileShare SharedMode;
         /// <summary>
         /// Debugged process 's requested security attributes (IMPORTANT! this points to virtual memory in **THAT** process, not yours.)
         /// </summary>
@@ -370,86 +544,18 @@ namespace InsightSheath.Telemetry
         /// <summary>
         /// Template file that's usually (but NOT always) null.
         /// </summary>
-        public uint TemplateFile;
+        public IntPtr TemplateFile;
         /// <summary>
         /// Pointer to a (x86 4 bytes) (x64 8 byte) sized byte block of memory that can be overwritten with a handle value (it will need to be duplicated into the debugged process) to force use of a different value. Default is 0.
         /// </summary>
-        public readonly IntPtr ForceHandle;
+        //public readonly IntPtr ForceHandle;
 
-        /// <summary>
-        /// If you desire to make the call from the process to CreateFileA/W file fail, call <see cref="SetForceHandle"/> with this has a value
-        /// </summary>
-        public static readonly uint InvalidHandleValue = (0xffffffff);
-        /// <summary>
-        /// Duplicate the handle you provide into the process the exception was generated from and write it to the memory location specified by <see cref="ForceHandle"/> see cref="ForceHandle"/>
-        /// </summary>
-        /// <param name="ReplacementHandle"></param>
-        public void SetForceHandle(IntPtr ReplacementHandle)
-        {
-            //IntPtr handle = NativeImports.NativeMethods.OpenProcessNow(dwProcessId);
-            IntPtr handle = HelperRoutines.OpenProcessForHandleDuplicating(ProcessId);
-            try
-            {
-                if ((uint)ReplacementHandle.ToInt32() != InvalidHandleValue)
-                {
-                    IntPtr duphandle = NativeImports.NativeMethods.DuplicateHandleIntoTarget(ReplacementHandle, 0, true, handle, true);
-                    RemoteStructure.RemotePoke4(handle, (uint)duphandle.ToInt32(), this.ForceHandle);
-                }
-                else
-                {
-                    RemoteStructure.RemotePoke4(handle, (uint)InvalidHandleValue, this.ForceHandle);
-                }
-
-
-            }
-            finally
-            {
-                HelperRoutines.CloseHandle(handle);
-            }
-        }
-
-        /// <summary>
-        /// Set the handle value to something other than an <see cref="IntPtr"/> - for example <see cref="InvalidHandleValue"/>
-        /// </summary>
-        /// <param name="HandleValue"></param>
-        public void SetForceHandle(uint HandleValue)
-        {
-            IntPtr handle = HelperRoutines.OpenProcessForHandleDuplicating(ProcessId);
-            try
-            {
-                if (HandleValue != InvalidHandleValue)
-                {
-                    IntPtr duphandle = NativeImports.NativeMethods.DuplicateHandleIntoTarget(new IntPtr(HandleValue), 0, true, handle, true);
-                    RemoteStructure.RemotePoke4(handle, (uint)duphandle.ToInt32(), ForceHandle);
-                }
-                else
-                {
-                    RemoteStructure.RemotePoke4(handle, InvalidHandleValue, ForceHandle);
-                }
-
-
-            }
-            finally
-            {
-                HelperRoutines.CloseHandle(handle);
-            }
-        }
-        
         /// <summary>
         /// contains pointer in the <see cref="dwProcessId"/> context pointing to memory on the stack that contra ins a value to set last error too one execution is resumed.
         /// </summary>
-        public  readonly IntPtr ForceLastError;
+        //public  readonly IntPtr ForceLastError;
 
-        public void SetLastErrorValue(uint NewValue)
-        {
-            IntPtr handle = NativeImports.NativeMethods.OpenProcessNow(ProcessId);
-            //IntPtr Handle = HelperRoutines.OpenProcessForVirtualMemory(dwProcessId);
-            {
-                RemoteStructure.RemotePoke4(handle, NewValue, ForceLastError);
-            }
-            HelperRoutines.CloseHandle(handle);
-
-        }
+        
 
     }
 
@@ -530,7 +636,7 @@ namespace InsightSheath.Telemetry
             /// </summary>
             CloseHandle = 3,
             /// <summary>
-            /// TODO:: A lower level NtCreateFIle call
+            /// NTCreateFile sits below CreateFileA/W.  You'll likely see exceptions generated for both on the same target if debugged target is not calling the routine directly.
             /// </summary>
             NtCreateFile = 4,
             /// <summary>
@@ -550,16 +656,30 @@ namespace InsightSheath.Telemetry
         }
 
  
+        /// <summary>
+        /// This retrieves data generated from an exception that matches the IoDevice exception type and was triggered from <see cref="NotificationType.NtCreateFile"/>
+        /// </summary>
+        /// <param name="that">A <see cref="DebugEvent"/> or <see cref="DebugEventExceptionInfo"/> that contains an exception generated from the telemetry dll for NtCreateFile</param>
+        /// <returns></returns>
         public static IoDeviceTelemetryNtCreateFile GetNtCreateFileSettings(this DebugEventExceptionInfo that)
         {
             IoDeviceTelemetryNtCreateFile ret;
+            MachineType Type;
             IntPtr Handle = HelperRoutines.OpenProcessForVirtualMemory(that.ProcessID);
             var arguments = that.ExceptionParameter64;
+            if (that.IsEventFrom32BitProcess)
+            {
+                Type = MachineType.MachineI386;
+            }
+            else
+            {
+                Type = MachineType.MachineAmd64;
+            }
             try
             {
-                ret = new IoDeviceTelemetryNtCreateFile();
-                ret.ReturnValue = new IntPtr((long)arguments[LastError_Ptr]);
-                ret.FileOutHandle = new IntPtr((long)arguments[NtCreateFile_ReturnHandle]);
+                ret = new IoDeviceTelemetryNtCreateFile(that.ProcessID, that.ThreadID, new IntPtr((long)arguments[NtCreateFile_ReturnHandle]), new IntPtr((long)arguments[LastError_Ptr]), Type) ;
+//                ret.ReturnValue = new IntPtr((long)arguments[LastError_Ptr]);
+  //              ret.FileOutHandle = new IntPtr((long)arguments[NtCreateFile_ReturnHandle]);
                 ret.DesiredAccess = (AccessMasks) arguments[NtCreateFile_DesiredAccess];
                 if (arguments[NtCreateFile_ObjectAttributes] == 0)
                 {
@@ -593,7 +713,7 @@ namespace InsightSheath.Telemetry
                 ret.CreationOptions = (uint)arguments[NtCreateFile_CreateOptions];
                 ret.EaBuffer = new IntPtr((long)arguments[NtCreateFile_EaBuffer]);
                 ret.EaSize = arguments[NtCreateFile_EaLength];
-                ret.ForceHandle = new IntPtr((long)arguments[NtCreateFile_OverwriteHandle]);
+                //ret.ForceHandle = new IntPtr((long)arguments[NtCreateFile_OverwriteHandle]);
                 return ret;
             }
             finally
@@ -609,22 +729,32 @@ namespace InsightSheath.Telemetry
         /// <returns></returns>
         public static IoDeviceTelemetyCreateFile GetCreateFileSettings(this DebugEventExceptionInfo that)
         {
+            MachineType type;
             IoDeviceTelemetyCreateFile ret;
-            var Arguments = that.ExceptionParameter32;
+            var Arguments = that.ExceptionParameter64;
             IntPtr Handle = HelperRoutines.OpenProcessForVirtualMemory(that.ProcessID);
 
             try
             {
-                ret = new IoDeviceTelemetyCreateFile(that.ProcessID, that.ThreadID, (IntPtr)Arguments[CreateFile_OvrridePtr], (IntPtr)Arguments[LastError_Ptr]);
-                
-                ret.FileName = RemoteStructure.RemoteReadString(Handle, new IntPtr(Arguments[CreateFile_FilenamePtr]), Arguments[CreateFile_FileNameCharLen]);
-                ret.DesiredAccess = (AccessMasks)Arguments[CreateFile_DesiredAccess];
-                ret.SharedMode = (ShareMasks)Arguments[CreateFile_ShareMode];
-                ret.SecurityAttrib = new IntPtr(Arguments[CreateFile_SecurityPtr]);
-                ret.CreateDisposition = (CreationDisposition)Arguments[CreateFile_CreationDisposition];
-                ret.FlagsAndAttributes = Arguments[CreateFile_FlagsAndAttribs];
-                ret.TemplateFile = Arguments[CreateFile_TemplateFile];
-                
+                if (that.IsEventFrom32BitProcess)
+                {
+                    type = MachineType.MachineI386;
+                }
+                else
+                {
+                    type = MachineType.MachineAmd64;
+                }
+                ret = new IoDeviceTelemetyCreateFile(that.ProcessID, that.ThreadID, (IntPtr)Arguments[CreateFile_OvrridePtr], (IntPtr)Arguments[LastError_Ptr], type)
+                {
+                    FileName = RemoteStructure.RemoteReadString(Handle, new IntPtr((long)Arguments[CreateFile_FilenamePtr]), Arguments[CreateFile_FileNameCharLen]),
+                    DesiredAccess = (AccessMasks)Arguments[CreateFile_DesiredAccess],
+                    SharedMode = (FileShare)Arguments[CreateFile_ShareMode],
+                    SecurityAttrib = new IntPtr((long)Arguments[CreateFile_SecurityPtr]),
+                    CreateDisposition = (CreationDisposition)Arguments[CreateFile_CreationDisposition],
+                    FlagsAndAttributes = (uint)Arguments[CreateFile_FlagsAndAttribs],
+                    TemplateFile = new IntPtr((long)Arguments[CreateFile_TemplateFile])
+                };
+
 
             }
             finally

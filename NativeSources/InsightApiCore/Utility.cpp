@@ -6,6 +6,7 @@
 #include "Utility.h"
 #include <Psapi.h>
 #include <ImageHlp.h>
+#include <span>
 
 /// <summary>
 /// Enable a chosen priv on self.  NOT INTENDED TO BE EXPORTED.  We really use this to just enable debug priv
@@ -49,7 +50,7 @@ bool EnablePrivOnSelf(LPCWSTR PrivNaem, BOOL Enable)
 }
 
 /// <summary>
-/// Ask for the SeDebugPriv. I'm on the fence for exporting this as this is  aready made option for just loading the dll and asking for the priv.
+/// Ask for the SeDebugPriv. I'm on the fence for exporting this as this is an already made option for just loading the dll and asking for the priv.
 /// </summary>
 /// <returns></returns>
 BOOL WINAPI AskForDebugPriv()
@@ -58,7 +59,7 @@ BOOL WINAPI AskForDebugPriv()
 }
 
 
-HANDLE WINAPI RemoteHandleDup(HANDLE CurrentHandle, DWORD Access, BOOL CopyAccess, HANDLE RemoteProcess, BOOL Inherit)
+HANDLE WINAPI RemoteHandleDup(HANDLE CurrentHandle, DWORD Access, BOOL CopyAccess, HANDLE RemoteProcess, BOOL Inherit) noexcept
 {
 	HANDLE ret = 0;
 	DWORD Arg = 0;
@@ -73,7 +74,7 @@ HANDLE WINAPI RemoteHandleDup(HANDLE CurrentHandle, DWORD Access, BOOL CopyAcces
 	return 0;
 }
 
-HANDLE WINAPI LocalHandleDup(HANDLE CurrentHandle, DWORD Access, BOOL CopyAccess)
+HANDLE WINAPI LocalHandleDup(HANDLE CurrentHandle, DWORD Access, BOOL CopyAccess) noexcept
 {
 	HANDLE Ret = 0;
 	DWORD Arg = 0;
@@ -88,7 +89,7 @@ HANDLE WINAPI LocalHandleDup(HANDLE CurrentHandle, DWORD Access, BOOL CopyAccess
 	return 0;
 }
 
-char* WINAPI ConvertUnicodeString(const wchar_t* Original)
+char* WINAPI ConvertUnicodeString(const wchar_t* Original) noexcept
 {
 	char* ret = nullptr;
 	if (Original == nullptr)
@@ -97,14 +98,15 @@ char* WINAPI ConvertUnicodeString(const wchar_t* Original)
 	}
 	else
 	{
-		int size = wcslen(Original);
+		const size_t size = wcslen(Original);
 		int SizeNeeded = 0;
 		SizeNeeded = WideCharToMultiByte(CP_ACP, WC_NO_BEST_FIT_CHARS, Original, size, nullptr, 0, 0, nullptr);
 		SizeNeeded++;
-		ret = reinterpret_cast<char*>(malloc(SizeNeeded));
+		ret = static_cast<char*>(malloc(SizeNeeded));
 		if (ret != nullptr)
 		{
 			ret[SizeNeeded - 1] = 0;
+			
 			SizeNeeded--;
 
 			SizeNeeded = WideCharToMultiByte(CP_ACP, WC_NO_BEST_FIT_CHARS, Original, size, ret, SizeNeeded, 0, NULL);
@@ -121,7 +123,7 @@ char* WINAPI ConvertUnicodeString(const wchar_t* Original)
 
 
 
-wchar_t* WINAPI ConvertANSIString(const char * Original)
+wchar_t* WINAPI ConvertANSIString(const char * Original) noexcept
 {
 	wchar_t* ret = nullptr;
 
@@ -136,7 +138,7 @@ wchar_t* WINAPI ConvertANSIString(const char * Original)
 		int sizeNeeded = 0;
 		if (size == 0)
 		{
-			ret = reinterpret_cast<wchar_t*>(malloc(0));
+			ret = static_cast<wchar_t*>(malloc(0));
 			if (ret != nullptr)
 			{
 				return ret;
@@ -155,7 +157,7 @@ wchar_t* WINAPI ConvertANSIString(const char * Original)
 			}
 			else
 			{
-				ret = reinterpret_cast<wchar_t*>(malloc(sizeNeeded));
+				ret = static_cast<wchar_t*>(malloc(sizeNeeded));
 				if (ret != nullptr)
 				{
 					memset(ret, 0, sizeNeeded);

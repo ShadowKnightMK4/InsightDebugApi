@@ -90,17 +90,16 @@ extern "C" {
 	/// <param name="ThreadHandle">Either a thread id or a handle depending of the flags</param>
 	/// <param name="Flags">If this is 0x0,  ThreadHandle is a Handle to the thread.  If this is 0x1, ThreadHandle is a ThreadId</param>
 	/// <returns></returns>
-	ThreadInsight* WINAPI ThreadContext_CreateInstance(HANDLE ThreadHandle, DWORD Flags)
+	ThreadInsight* WINAPI ThreadContext_CreateInstance(ULONGLONG ThreadHandle, DWORD Flags)
 	{
-		DWORD ThreadId;
 		ThreadInsight* ret = nullptr;
 		if (Flags == THEADCONTEXT_DEFAULT)
 		{
-			ret = new ThreadInsight(ThreadHandle);
+			ret = new ThreadInsight((HANDLE)ThreadHandle);
 		}
 		if (Flags == THREADCONTEXT_USETHREADID)
 		{
-			ret = new ThreadInsight((DWORD)ThreadHandle);
+			ret = (ThreadInsight*) new ThreadInsight((DWORD)ThreadHandle);
 		}
 		return ret;
 	}
@@ -164,6 +163,7 @@ extern "C" {
 		{
 			return that->GetTargetThreadId();
 		}
+		return 0;
 	}
 
 	DWORD WINAPI ThreadContext_SetIdealProcessor(ThreadInsight* that, DWORD NewProcessor)
@@ -228,12 +228,37 @@ extern "C" {
 			{
 			case THREADCONTEXT_USETHREADID:
 			{
+/*
+* Why disabled C4311.
+* sizeof(HANDLE) are pointer sized.
+* x86 pointers are 4 bytes long
+* x64 pointers are 8 bytes long.
+* 
+* DWORD is 4 bytes long.
+* 
+* When compiled ThreadContext_SetTargetThread() arguments are machine dependant sized.
+* *that			is OK. 
+* HANDLE for x86 is 4 bytes big.
+* DWORD for x86 is same. No issues.
+* 
+* HANDLE size for x64 is 8 bytes big
+* DWORD for x86 is 4 and truncates as excepted.
+* 
+* The flags setting indicates whether to tread handle as a handle or a threadID. 
+* Thread IDS are 4 bytes long. Truncating a thread handle pretending to be a HANDLE should be ok.
+* 
+* Down in the bowels of the class. The Compiler takes care of the rest.
+*/
+#pragma warning( once: C4311)
 				return that->SetTargetThread((DWORD)Thread);
+
 			}
-			case THEADCONTEXT_DEFAULT:
+			case THEADCONTEXT_DEFAULT: /* ID Tread handle as a handle.*/
 			{
 				return that->SetTargetThread(Thread);
 			}
+			default:
+				return FALSE;
 			}
 		}
 		return FALSE;

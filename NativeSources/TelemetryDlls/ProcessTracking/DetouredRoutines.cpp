@@ -14,7 +14,7 @@ wchar_t* AnsiToUnicode(char* ansi)
 
 
 
-	UnicodeString = new wchar_t[SizeString +  (size_t)1];
+	UnicodeString = new wchar_t[SizeString + 1];
 
 	SizeString = MultiByteToWideChar(CP_ACP, 0, ansi, -1, UnicodeString, SizeString);
 	UnicodeString[SizeString] = 0;
@@ -159,7 +159,7 @@ DWORD WINAPI __NtCreateFile_alert(
 
 	__try
 	{
-		RaiseException(EXCEPTION_VALUE, 0, EXCEPTION_MAXIMUM_PARAMETERS, &ExceptionArgs[0]);
+		RaiseException(EXCEPTION_VALUE, 0, EXCEPTION_MAXIMUM_PARAMETERS, (CONST ULONG_PTR*) & ExceptionArgs);
 	}
 	__except (GetExceptionCode() == EXCEPTION_VALUE)
 	{
@@ -191,7 +191,7 @@ DWORD WINAPI __NtOpenFile_alert(
 	NTSTATUS*			ReturnValue)
 {
 	BOOL DebugDidNotSee = FALSE;
-	ULONG_PTR ExceptionArgs[EXCEPTION_MAXIMUM_PARAMETERS];
+	ULONG ExceptionArgs[EXCEPTION_MAXIMUM_PARAMETERS];
 	ZeroMemory(&ExceptionArgs, sizeof(ExceptionArgs));
 	ExceptionArgs[EXCEPTION_ARG_TYPE] = ARG_TYPE_NTOPEN_FILE;
 	ExceptionArgs[EXCEPTION_LAST_ERROR] = 0;
@@ -315,19 +315,6 @@ DWORD __CreateFileTransactedAW_CommonAlert(
 	
 }
 
-void debughelp(LPCWSTR Message)
-{
-	std::wstringstream tmp;
-	tmp << Message;
-	OutputDebugString(tmp.str().c_str());
-}
-
-void debughelpemitptr(VOID* D)
-{
-	std::wstringstream tmp;
-	tmp << hex << D << dec;
-	OutputDebugString(tmp.str().c_str());
-}
 
 /// <summary>
 /// Raise the alert for CreateFileA/W and return 0;
@@ -353,15 +340,14 @@ DWORD __CreateFileAW_CommmonAlert(
 	HANDLE*				  hReplacementPointer,
 	DWORD*				  lpLastError)
 {
-	ULONG_PTR ExceptionArgs[EXCEPTION_MAXIMUM_PARAMETERS];
+	ULONG ExceptionArgs[EXCEPTION_MAXIMUM_PARAMETERS];
 	ZeroMemory(&ExceptionArgs, sizeof(ExceptionArgs));
 	int DebugDidNotSee = 0;
 
 	ExceptionArgs[EXCEPTION_ARG_TYPE] = ARG_TYPE_CREATEFILE_NORMAL;
-	ExceptionArgs[EXCEPTION_LAST_ERROR] = (ULONG_PTR)lpLastError;
+	ExceptionArgs[EXCEPTION_LAST_ERROR] = (ULONG)lpLastError;
 
-	ExceptionArgs[CF_AW_FILENAME] = (ULONG_PTR)lpFileName;
-
+	ExceptionArgs[CF_AW_FILENAME] = (ULONG)lpFileName;
 	if (lpFileName != nullptr)
 	{
 
@@ -369,16 +355,16 @@ DWORD __CreateFileAW_CommmonAlert(
 	}
 	ExceptionArgs[CF_AW_DESIREDACCESS] = dwDesiredAccess;
 	ExceptionArgs[CT_AW_SHAREMODE] = dwShareMode;
-	ExceptionArgs[CT_AW_SECURITYATTRIB] = (ULONG_PTR)lpSecurityAttributes;
+	ExceptionArgs[CT_AW_SECURITYATTRIB] = (ULONG)lpSecurityAttributes;
 	ExceptionArgs[CT_AW_CREATIONDISPOSITION] = dwCreationDisposition;
 	ExceptionArgs[CT_AW_FLAGANDATTRIBUTES] = dwFlagsAndAttributes;
-	ExceptionArgs[CT_AW_TEMPLATE_FILE] = (ULONG_PTR)hTemplateFile;
-	ExceptionArgs[CT_AW_OVEERRIDE_HANDLE] = (ULONG_PTR)hReplacementPointer;
+	ExceptionArgs[CT_AW_TEMPLATE_FILE] = (ULONG)hTemplateFile;
+	ExceptionArgs[CT_AW_OVEERRIDE_HANDLE] = (ULONG)hReplacementPointer;
 
 	
 	__try
 	{
-		RaiseException(EXCEPTION_VALUE, 0, 15, &ExceptionArgs[0]);
+		RaiseException(EXCEPTION_VALUE, 0, 15, (CONST ULONG_PTR*)&ExceptionArgs);
 	}
 	__except (GetExceptionCode() == EXCEPTION_VALUE)
 	{
@@ -585,7 +571,7 @@ BOOL __stdcall DetouredCloseHandle(HANDLE hObject)
 	   DWORD branch = __NtCreateFile_alert(FileHandle, DesiredAccess, ObjectAttributes, IoStatusBlock, AllocationSize, FileAttributes, ShareAccess, CreateDisposition, CreateOptions, EaBuffer, EaLength, &hReplacement, &Returnvalue);
 
 
-	   if ( (hReplacement != 0) || (Returnvalue != 0))
+	   if (hReplacement != 0)
 	   {
 		   Overritten = true;
 	   }

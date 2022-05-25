@@ -57,12 +57,33 @@ struct UNICODE_STRING64
 	INT Padding; // aliggns buffer ok.
 	ULONGLONG Buffer;
 };
+
+struct RTL_USER32
+{
+	BYTE Reserved1[16];
+	UINT32 Reserved2[10];
+	UNICODE_STRING32 ImagePathName;
+	UNICODE_STRING32 CommandLine;
+};
+struct RTL_USER64
+{
+	BYTE Reserved[16];
+	UINT64 Reserved2[10];
+	UNICODE_STRING64 ImagePathName;
+	UNICODE_STRING64 CommandLine;
+};
 int main()
 {
 	UNICODE_STRING Buffer;
-	NtCreateFile(0,0,0,0,0,0,0, FILE_SUPERSEDE)
+	
+	
+
 	
 	cout << "sizeof(PTR) = " << sizeof(VOID*) << endl;
+
+	
+
+	cout << "Offsets for UNICODE_STRING, UNICODE_STRING32, UNICODE_STRING64" << endl;
 	cout << "sizeof(UNICODE_STRING) =" << sizeof(UNICODE_STRING) << endl;
 	cout << "sizeof(UNICODE_STRING32) =" << sizeof(UNICODE_STRING32) << endl;
 	cout << "sizeof(UNICODE_STRING64) =" << sizeof(UNICODE_STRING64) << endl;

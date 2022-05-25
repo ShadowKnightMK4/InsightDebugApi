@@ -171,7 +171,7 @@ namespace InsightSheath.Wrappers
         /// </summary>
         UnloadDllEvent = 7,
         /// <summary>
-        /// Event is output debug string (can use <see cref="RemoteStructure.RemoteReadDebugString(IntPtr, IntPtr)"/> OR <see cref="DebugEventStringInfo"/> which does it for you
+        /// Event is output debug string (can use <see cref="RemoteStructure.RemoteReadDebugString(IntPtr, IntPtr)"/> OR <see cref="DebugEventStringInfo"/> which does this for you
         /// </summary>
         OutputDebugString = 8,
         /// <summary>
@@ -228,22 +228,20 @@ namespace InsightSheath.Wrappers
 
         protected override void Dispose(bool disposing)
         {
-            base.Dispose(disposing);
+            
             if (!disposedValue)
             {
-                if (disposing)
-                {
-                    // TODO: dispose managed state (managed objects)
-                }
 
                 if (this.FreeOnCleanup)
                 {
                     NativeMethods.SimpleFree(Native);
+                    ClearNative();
                 }
                 // TODO: set large fields to null
                 disposedValue = true;
             }
-            
+            base.Dispose(disposing);
+
         }
 
         ~DebugEventStaticContainer()
@@ -251,6 +249,8 @@ namespace InsightSheath.Wrappers
                   Dispose(disposing: false);
          }
 
+
+        private bool disposedValue;
 
         /// <summary>
         /// Get the process id that this event happed too
@@ -384,12 +384,12 @@ namespace InsightSheath.Wrappers
             }
             else
             {
-                if (this.DebugInfoSize != 0)
+                if (DebugInfoSize != 0)
                 {
                     var ret = new byte[this.DebugInfoSize];
                     using (var fn = new FileStream(new Microsoft.Win32.SafeHandles.SafeFileHandle(FileHandle,false), FileAccess.ReadWrite))
                     {
-                        fn.Seek(this.DebugInfoOffset, SeekOrigin.Begin);
+                        fn.Seek(DebugInfoOffset, SeekOrigin.Begin);
                         fn.Read(ret, 0, ret.Length);
                         return ret;
                     }
@@ -442,9 +442,9 @@ namespace InsightSheath.Wrappers
         
 
         /// <summary>
-        /// Retrieve the contents of the exception parameter list for a 32-bit debugged process. If retreving form a 64-bit process, your values are truncated
+        /// Retrieve the contents of the exception parameter list for a 32-bit debugged process. If retreving form a 64-bit process, your values are likely truncated and worthless
         /// </summary>
-        /// <remarks> The Native implementation prmotes the DWORD array into a (C# ulong)/(C++ dword64) array and returns a block of memory with that. Hense why the free</remarks>
+        /// <remarks> The Native implementation promotes the DWORD array into a (C# ulong)/(C++ dword64) array and returns a block of memory with values of 4 bytes long. We free the block returned</remarks>
         public uint[] ExceptionParameter32
         {
             get
@@ -466,6 +466,9 @@ namespace InsightSheath.Wrappers
             }
         }
 
+        /// <summary>
+        ///  Retrieve the contents of the exception parameter list for a 64-bit debugged process. 
+        /// </summary>
         public ulong[] ExceptionParameter64
         {
             get
@@ -841,7 +844,7 @@ namespace InsightSheath.Wrappers
     /// </summary>
     public class DebugEvent : DebugEventStaticContainer
     {
-        private static string error_msg_bad_event_fetch = "Attempt to fetch {0} from an event that does not contain the event {1}";
+        private static readonly string error_msg_bad_event_fetch = "Attempt to fetch {0} from an event that does not contain the event {1}";
         /// <summary>
         /// 
         /// </summary>
@@ -870,12 +873,17 @@ namespace InsightSheath.Wrappers
         }
 
 
+        bool disposedValue;
         protected override void Dispose(bool disposing)
         {
-            // we need to close the handle 
-            if (NativeMethods.DebugEvent_GetEventType(Native) == DebugEventType.LoadDllEvent)
+            if (!disposedValue)
             {
+                // we need to close the handle 
+                if (NativeMethods.DebugEvent_GetEventType(Native) == DebugEventType.LoadDllEvent)
+                {
 
+                }
+                disposedValue = true;
             }
             base.Dispose(disposing);
         }
@@ -883,13 +891,17 @@ namespace InsightSheath.Wrappers
 
 
         #region Wrapper Creation
+        /// <summary>
+        /// Return an instance of the wrapper to deal with <see cref="DebugEventType.CreateProcessEvent"/> events. The class still points to the native struct and does not need to be freed().
+        /// </summary>
+        /// <returns></returns>
         public DebugEventCreateProcessInfo GetDebugEventCreateProcessInfo()
         {
             if (NativeMethods.DebugEvent_GetEventType(Native) != DebugEventType.CreateProcessEvent)
             {
                 throw new InvalidOperationException(string.Format(error_msg_bad_event_fetch, new object[] { "Create Process Information", " Create Process Event" }));
             }
-            return new DebugEventCreateProcessInfo(Native);
+            return new DebugEventCreateProcessInfo(Native, false);
         }
 
         public DebugEventCreateThreadInfo GetDebugEventCreateThreadInfo()
@@ -898,7 +910,7 @@ namespace InsightSheath.Wrappers
             {
                 throw new InvalidOperationException(string.Format(error_msg_bad_event_fetch, new object[] { "Create Thread Information", " Create Thread Event" }));
             }
-            return new DebugEventCreateThreadInfo(Native);
+            return new DebugEventCreateThreadInfo(Native, false);
         }
 
 
@@ -908,7 +920,7 @@ namespace InsightSheath.Wrappers
             {
                 throw new InvalidOperationException(string.Format(error_msg_bad_event_fetch, new object[] { "Exception Information", " Exception Event" }));
             }
-            return new DebugEventExceptionInfo(Native);
+            return new DebugEventExceptionInfo(Native, false);
         }
 
         public DebugEventExitProcessInfo GetEventExitProcessInfo()
@@ -917,7 +929,7 @@ namespace InsightSheath.Wrappers
             {
                 throw new InvalidOperationException(string.Format(error_msg_bad_event_fetch, new object[] { "Process Exit Information", " Process Exit Event" }));
             }
-            return new DebugEventExitProcessInfo(Native);
+            return new DebugEventExitProcessInfo(Native, false);
         }
 
         public DebugEventExitThreadInfo GetEventExitThreadInfo()
@@ -926,7 +938,7 @@ namespace InsightSheath.Wrappers
             {
                 throw new InvalidOperationException(string.Format(error_msg_bad_event_fetch, new object[] { "Thread Exit Information", " Thread Exit Event" }));
             }
-            return new DebugEventExitThreadInfo(Native);
+            return new DebugEventExitThreadInfo(Native, false);
         }
 
 
@@ -936,7 +948,7 @@ namespace InsightSheath.Wrappers
             {
                 throw new InvalidOperationException(string.Format(error_msg_bad_event_fetch, new object[] { "DLL Load Information", " DLL Load  Event" }));
             }
-            return new DebugEventLoadDllInfo(Native);
+            return new DebugEventLoadDllInfo(Native, false);
         }
 
         /// <summary>
@@ -950,7 +962,7 @@ namespace InsightSheath.Wrappers
                 throw new InvalidOperationException(string.Format(error_msg_bad_event_fetch, new object[] { "Debug String Information", " Debug String Struct" }));
             }
 
-            return new DebugEventStringInfo(Native);
+            return new DebugEventStringInfo(Native, false);
         }
 
 
@@ -965,7 +977,7 @@ namespace InsightSheath.Wrappers
             {
                 throw new InvalidOperationException(string.Format(error_msg_bad_event_fetch, new object[] { "Rip Information", "Rip Struct" }));
             }
-            return new DebugEventRipInfo(Native);
+            return new DebugEventRipInfo(Native, false);
         }
 
         public DebugEventUnloadDllInfo GetDebugEventUnloadDllInfo()
@@ -974,7 +986,7 @@ namespace InsightSheath.Wrappers
             {
                 throw new InvalidOperationException(string.Format(error_msg_bad_event_fetch, new object[] { "Dll free/unload Information", " Unload Dll Event" }));
             }
-            return new DebugEventUnloadDllInfo(Native);
+            return new DebugEventUnloadDllInfo(Native, false);
         }
 
         #endregion

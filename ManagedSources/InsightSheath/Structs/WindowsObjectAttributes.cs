@@ -44,18 +44,20 @@ namespace InsightSheath.Structs
         public uint SecurityQoS;
 
         /// <summary>
-        /// Return a 64-bit version with the 32-bit values promoted to 64-bit.
+        /// Return a 64-bit version with the 32-bit values promoted to 64-bit. Promotion
         /// </summary>
         /// <returns></returns>
-        public ObjectAttributes64 Prompotion()
+        public ObjectAttributes64 Promotion()
         {
-            var ret = new ObjectAttributes64();
-            ret.Length = this.Length;
-            ret.RootDirectory = this.RootDirectory;
-            ret.ObjectName = this.ObjectName;
-            ret.Attributes = this.Attributes;
-            ret.SecurityDescriptor = this.SecurityDescriptor;
-            ret.SecurityQoS = this.SecurityQoS;
+            var ret = new ObjectAttributes64
+            {
+                Length = Length,
+                RootDirectory = RootDirectory,
+                ObjectName = ObjectName,
+                Attributes = Attributes,
+                SecurityDescriptor = SecurityDescriptor,
+                SecurityQoS = SecurityQoS
+            };
             return ret;
         }
     };
@@ -117,17 +119,39 @@ namespace InsightSheath.Structs
         {
 
         }
+
+        private bool disposedValue;
         /// <summary>
         /// <see cref="WindowsObjectAttributes"/> cleanup.  We need to call the current native routine to cleanup and clear the cleanup flag so we don't delete mememory already deleted
         /// </summary>
         /// <param name="disposing"></param>
         protected override void Dispose(bool disposing)
         {
-            /* the reason we specify if the struct is 32-bit or not is to ensure native code knows which verision to free. */
-            if (FreeOnCleanup)
+            if (!disposedValue)
             {
-                FreeOnCleanupContainer = NativeImports.NativeMethods.RemoteFreeObjectAttributes(Native, StructType == StructModeType.Machinex86);
-            }        
+                bool bit32Mode;
+                if (StructType == StructModeType.Machinex86)
+                {
+                    bit32Mode = true;
+                }
+                else
+                {
+                    if (StructModeType.Machinex64 == StructType)
+                    {
+                        bit32Mode = false;
+                    }
+                    else
+                    {
+                        throw ThrowNewInvalidOpMessage(GetType().Name);
+                    }
+                }
+                if (FreeOnCleanup)
+                {
+                    NativeImports.NativeMethods.RemoteFreeObjectAttributes(Native, bit32Mode);
+                }
+                ClearNative();
+                disposedValue = true;
+            }
             base.Dispose(disposing);
         }
         protected override void Blit()
@@ -224,7 +248,7 @@ namespace InsightSheath.Structs
                             }
                             else
                             {
-                                WindowsUnicodeString ret = new WindowsUnicodeString(new  IntPtr((long)Ret64.ObjectName),true, StructModeType.Machinex64);
+                                WindowsUnicodeString ret = new WindowsUnicodeString(new  IntPtr((long)Ret64.ObjectName), false, StructModeType.Machinex64);
                                 {
                                     var toss = ret.Buffer;
                                 }
@@ -239,7 +263,7 @@ namespace InsightSheath.Structs
                             }
                             else
                             {
-                                WindowsUnicodeString ret = new WindowsUnicodeString(new IntPtr((int)Ret32.ObjectName), true, StructModeType.Machinex86);
+                                WindowsUnicodeString ret = new WindowsUnicodeString(new IntPtr((int)Ret32.ObjectName), false, StructModeType.Machinex86);
                                 
                                 return ret;
                             }

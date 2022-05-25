@@ -62,7 +62,7 @@ namespace InsightSheath.Remote
             return null;
         }
 
-        public static WindowsUnicodeString RemoteReadUnicodeString(IntPtr ProcessHandle, IntPtr Location, bool IsTarget32Bit, bool FreeOnCleanup)
+        public static WindowsUnicodeString RemoteReadUnicodeStringA(IntPtr ProcessHandle, IntPtr Location, bool IsTarget32Bit, bool FreeOnCleanup)
         {
             IntPtr retptr = IntPtr.Zero;
             WindowsUnicodeString ret;
@@ -91,25 +91,50 @@ namespace InsightSheath.Remote
         /// <returns></returns>
         public static bool RemotePoke4NoExceptions(IntPtr ProcessHandle, uint value, IntPtr RemoteLocation)
         {
-            return NativeMethods.RemotePoke4(ProcessHandle, value, (ulong)RemoteLocation);
+            return NativeMethods.RemotePoke4(ProcessHandle, value, RemoteLocation);
         }
 
         /// <summary>
-        /// Primary for writing HANDLEs to debugged process. This writes 4 byte value to the remote process in question at the location specified in the virtual memory of the target
+        /// Primary for writing 32-bit HANDLEs to debugged process. This writes 4 byte value to the remote process in question at the location specified in the virtual memory of the target. 
         /// </summary>
         /// <param name="ProcessHandle">at minimum should have PROCESS_VM_WRITE and/or PROCESS_VM_OPERATION access</param>
         /// <param name="value">value to write</param>
-        /// <param name="RemoteLocation"></param>
+        /// <param name="RemoteLocation">Remote memory target</param>
         /// <exception cref="Win32Exception"> Win32Exceptions are thrown if the write failed (for security, bad memory location, in correct process and so on)</exception>
         public static void RemotePoke4(IntPtr ProcessHandle, uint value, IntPtr RemoteLocation)
         {
-            bool ret= NativeMethods.RemotePoke4(ProcessHandle, value, (ulong)RemoteLocation);
-            if (!ret)
+            if (!NativeMethods.RemotePoke4(ProcessHandle, value, RemoteLocation))
             {
                 throw new Win32Exception(Marshal.GetLastWin32Error());
             }
         }
 
+        /// <summary>
+        /// Primary for writing 64-bit HANDLEs to debugged process. This writes 4 byte value to the remote process in question at the location specified in the virtual memory of the target. 
+        /// </summary>
+        /// <param name="ProcessHandle">at minimum should have PROCESS_VM_WRITE and/or PROCESS_VM_OPERATION access</param>
+        /// <param name="value">value to write</param>
+        /// <param name="RemoteLocation">Remote memory target</param>
+        public static bool RemotePoke8NoException(IntPtr ProcessHandle, ulong value, IntPtr RemoteLocation)
+        {
+            return NativeMethods.RemotePoke8(ProcessHandle, value, RemoteLocation);
+        }
+
+        /// <summary>
+        /// Primary for writing 64-bit HANDLEs to debugged process. This writes 8 byte value to the remote process in question at the location specified in the virtual memory of the target. 
+        /// </summary>
+        /// <param name="ProcessHandle">at minimum should have PROCESS_VM_WRITE and/or PROCESS_VM_OPERATION access</param>
+        /// <param name="value">value to write</param>
+        /// <param name="RemoteLocation">Remote memory target</param>
+        /// <exception cref="Win32Exception"> Win32Exceptions are thrown if the write failed (for security, bad memory location, in correct process and so on)</exception>
+
+        public static void RemotePoke8(IntPtr ProcessHandle, ulong value, IntPtr RemoteLocation)
+        {
+            if (!NativeMethods.RemotePoke8(ProcessHandle, value, RemoteLocation))
+            {
+                throw new Win32Exception(Marshal.GetLastWin32Error());
+            }
+        }
 
         /// <summary>
         /// Extract an Unicode string from the remote process. You will need to know how long the string is.
@@ -117,8 +142,8 @@ namespace InsightSheath.Remote
         /// <param name="ProcessHandle">Process should be open for VM_READ rights at least</param>
         /// <param name="StringLocation">virtual memory location in the remote process</param>
         /// <param name="CharCount">how many chars in the string (Unicode)</param>
-        /// <returns></returns>
-        public static string RemoteReadString(IntPtr ProcessHandle, IntPtr StringLocation, uint CharCount)
+        /// <returns>Returns a .NET managed string on OK and null on a problem.</returns>
+        public static string RemoteReadString(IntPtr ProcessHandle, IntPtr StringLocation, ulong CharCount)
         {
             string str = null;
             IntPtr ret = NativeMethods.RemoteReadStringInternal(ProcessHandle, StringLocation, CharCount);
@@ -128,6 +153,7 @@ namespace InsightSheath.Remote
                 NativeMethods.SimpleFree(ret);
             }
             return str;
+
         }
 
         /// <summary>

@@ -57,6 +57,7 @@ LIBRARY INSIGHTAPI
 		RemoteFreeStringW=RemoteRead_SimpleFree
 		RemoteReadPointer
 		RemotePoke4
+		RemotePoke8
 		RemoteReadObjectAttributes
 		RemoteFreeObjectAttributes
 		RemoteReadUnicodeString

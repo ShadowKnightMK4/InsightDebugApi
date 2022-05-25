@@ -30,14 +30,26 @@ namespace InsightSheath.NativeImports
 
 
         /// <summary>
-        /// Read a string from a remote process
+        /// Write an 8 byte value to a process you specify
         /// </summary>
-        /// <param name="ProcessHandle">Handle for the remote process. It should be open for at least PROCESS_VM_READ rights.</param>
-        /// <param name="RemoteLocation">virtual memory in the remote process to read from</param>
-        /// <param name="char_count">how many chars in the string to read? </param>
+        /// <param name="ProcessHandle"></param>
+        /// <param name="value"></param>
+        /// <param name="remote_location"></param>
+        /// <returns></returns>
+        [DllImport("InsightApi.dll", CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, SetLastError = true, EntryPoint = "RemotePoke8")]
+        public static extern bool RemotePoke8(IntPtr ProcessHandle, ulong value, IntPtr remote_location);
+
+
+
+        /// <summary>
+        /// Write a 4 byte value to a process you specify
+        /// </summary>
+        /// <param name="ProcessHandle"></param>
+        /// <param name="value"></param>
+        /// <param name="remote_location"></param>
         /// <returns></returns>
         [DllImport("InsightApi.dll", CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, SetLastError =true, EntryPoint = "RemotePoke4")]
-        public static extern bool RemotePoke4(IntPtr ProcessHandle, uint value , ulong remote_location);
+        public static extern bool RemotePoke4(IntPtr ProcessHandle, uint value , IntPtr remote_location);
 
         /// <summary>
         /// Read a string from a remote process
@@ -46,8 +58,8 @@ namespace InsightSheath.NativeImports
         /// <param name="RemoteLocation">virtual memory in the remote process to read from</param>
         /// <param name="char_count">how many chars in the string to read? </param>
         /// <returns></returns>
-        [DllImport("InsightApi.dll",CallingConvention= CallingConvention.Winapi, CharSet= CharSet.Unicode, EntryPoint = "RemoteReadStringW")]
-        public static extern IntPtr RemoteReadStringInternal(IntPtr ProcessHandle, IntPtr RemoteLocation, uint char_count);
+        [DllImport("InsightApi.dll",CallingConvention= CallingConvention.Winapi, CharSet= CharSet.Unicode, EntryPoint = "RemoteReadStringW", SetLastError =true)]
+        public static extern IntPtr RemoteReadStringInternal(IntPtr ProcessHandle, IntPtr RemoteLocation, ulong char_count);
         /// <summary>
         /// WWraps RemoteReadDebugString.  Return value is a string that needs to be freed afterwares.
         /// </summary>

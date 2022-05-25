@@ -103,12 +103,25 @@ namespace FileSandBox_GUI
                                 case IoDeviceTelemetryReaderExtensions.NotificationType.NtCreateFile:
                                     {
                                         var CreateFile = test.GetNtCreateFileSettings();
-                                        Console.WriteLine("accessing " + CreateFile.ObjectAttributes.ObjectName.Buffer);
+                                        if ( (CreateFile.ObjectAttributes.ObjectName.Buffer != null))
+                                        {
+                                            if ((CreateFile.ObjectAttributes.ObjectName.Buffer.Contains(".txt")))
+                                            {
+                                                CreateFile.SetForceHandle(0);
+                                                CreateFile.SetReturnValue(0xC0000022);
+                                            }
+                                        }
                                         break;
                                     }
                                 case IoDeviceTelemetryReaderExtensions.NotificationType.CreateFile:
                                     {
-                                        var CreateFile = test.GetCreateFileSettings();
+                                        /* This code functionally means access denied for CreateFile API calls for files with .TXT in the naem*/
+                                        /*var CreateFile = test.GetCreateFileSettings();
+                                        if ((CreateFile.FileName != null) && (CreateFile.FileName.Contains(".txt")))
+                                        {
+                                            CreateFile.SetLastErrorValue(5); /* Access denied
+                                            CreateFile.SetForceHandle();
+                                        } */
                                         break;
                                     }
                             }
@@ -275,6 +288,7 @@ namespace FileSandBox_GUI
             //TestRun.ProcessName = "C:\\Users\\Thoma\\source\\repos\\InsightAPI\\code\\Debug\\x86\\program\\HelloWorld.exe";
             //TestRun.AddDetoursDll("C:\\Users\\Thoma\\source\\repos\\InsightAPI\\code\\Debug\\x64\\program\\Telemetry\\IoDeviceTracking.dll");
 
+            
             Console.WriteLine("Target is a " + Enum.GetName(typeof(MachineType), HelperRoutines.GetPEMachineType(TestRun.ProcessName)));
             if (HelperRoutines.GetPEMachineType(TestRun.ProcessName) == MachineType.MachineI386)
             {

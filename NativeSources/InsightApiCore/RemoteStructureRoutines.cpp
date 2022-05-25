@@ -1,4 +1,8 @@
 #include "RemoteStructure.h"
+#include <limits.h>
+
+
+using namespace std;
 /*
 * RemoteStructureRoutines.CPP
 * 
@@ -7,17 +11,55 @@
 
 namespace RemoteStructureRoutine
 {
+	
 
 	/// <summary>
-	/// write a dword into the remote memory location with value of Value
+	/// Common code branch between the RemotePpoke routines.  Those are little more than calling this with the correct size.
 	/// </summary>
-	/// <param name="Process"></param>
-	/// <param name="Value"></param>
-	/// <param name="RemoteLocation"></param>
+	/// <param name="Process">Process to write too.</param>
+	/// <param name="Value">Value to Write</param>
+	/// <param name="RemoteLocation">Location to write too</param>
+	/// <param name="Size"> How many byte (Range is > 0 and less than 9)</param>
 	/// <returns></returns>
-	BOOL RemotePoke4(HANDLE Process, DWORD Value, VOID* RemoteLocation)
+	BOOL RemotePokeCommon(HANDLE Process, ULONG64 Value, VOID* RemoteLocation, size_t Size) noexcept
 	{
+		size_t BytesWrote = 0;
+		if ((RemoteLocation != 0) && (Process != 0) && ((Size >= 1) && (Size <= sizeof(ULONG64))))
+		{
+			if (WriteProcessMemory(Process, RemoteLocation, &Value, Size, &BytesWrote))
+			{
+				if (BytesWrote == Size)
+				{
+					return TRUE;
+				}
+			}
+		}
+		return FALSE;
+	}
+	BOOL RemotePoke8(HANDLE Process, ULONG64 Value, VOID* RemoteLocation) noexcept
+	{
+		/*
+		if ((RemoteLocation != 0) && (Process != 0))
+		{
+			SIZE_T BytesWrote = 0;
+			if (WriteProcessMemory(Process, RemoteLocation, &Value, sizeof(ULONG64), &BytesWrote))
+			{
+				if (BytesWrote == sizeof(ULONG64))
+				{
+					return TRUE;
+				}
+			}
+		}
+		return FALSE;*/
+		return RemotePokeCommon(Process, Value, RemoteLocation, sizeof(ULONGLONG));
+	}
+	BOOL RemotePoke4(HANDLE Process, DWORD Value, VOID* RemoteLocation) noexcept
+	{
+		return RemotePokeCommon(Process, Value, RemoteLocation, sizeof(DWORD));
+		/*
+#ifdef _DEBUG
 		DWORD LastError=0;
+#endif
 		if ((RemoteLocation != 0) && (Process != 0))
 		{
 			SIZE_T BytesWrote = 0;
@@ -36,7 +78,7 @@ namespace RemoteStructureRoutine
 #endif
 			}
 		}
-
+		*/
 
 		return FALSE;
 	}
@@ -48,7 +90,7 @@ namespace RemoteStructureRoutine
 	/// <param name="RemoteMemory">Virtual Memory location in the remote process</param>
 	/// <param name="MaxBuffer">MaxBuffer to allocate and read (UNICODE_STRING struct has this value)</param>
 	/// <returns>a buffer allocated with malloc() of MaxBuffer size with the data read from the remote process. Returns nullptr on error or bad argument</returns>
-	PWSTR ReadRemoteUnicodeStringBuffer(HANDLE Process, PWSTR RemoteMemory, USHORT MaxBuffer, USHORT DataSize)
+	PWSTR ReadRemoteUnicodeStringBuffer(HANDLE Process, PCWSTR RemoteMemory, USHORT MaxBuffer, USHORT DataSize)
 	{
 		PWSTR ret = nullptr;
 		if (Process == 0)
@@ -87,89 +129,6 @@ namespace RemoteStructureRoutine
 	RTL_USER_PROCESS_PARAMETERS* RemoteReadUserProcessParameters(HANDLE Process, LPVOID RemoteMemory)
 	{
 		RTL_USER_PROCESS_PARAMETERS* ret = nullptr;
-		DWORD ProjectedSize = sizeof(RTL_USER_PROCESS_PARAMETERS);
-		SIZE_T BytesRead = 0;
-		if (Process == 0)
-		{
-			Process = GetCurrentProcess();
-		}
-		if (RemoteMemory == 0)
-		{
-			return nullptr;
-		}
-
-		ret = (RTL_USER_PROCESS_PARAMETERS*)malloc((ProjectedSize));
-		if (ret)
-		{
-			if (!ReadProcessMemory(Process, RemoteMemory, ret, ProjectedSize, &BytesRead) || (BytesRead != ProjectedSize))
-			{
-				free(ret);
-				return nullptr;
-			}
-			else
-			{
-
-				if (ret->CommandLine.Buffer != nullptr)
-				{
-					if ((ret->CommandLine.Length == 0) || (((VOID*)ret->CommandLine.Buffer) == (VOID*)0xcccccccc))
-					{
-						ret->CommandLine.Buffer = reinterpret_cast<PWSTR>(malloc(ret->CommandLine.MaximumLength));
-
-						if (ret->CommandLine.Buffer)
-						{
-							memset(ret->CommandLine.Buffer, 0, ret->CommandLine.MaximumLength);
-						}
-						else
-						{
-							free(ret);
-							return nullptr;
-						}
-					}
-					else
-					{
-						ret->CommandLine.Buffer = ReadRemoteUnicodeStringBuffer(Process, ret->CommandLine.Buffer, ret->CommandLine.MaximumLength, ret->CommandLine.Length);
-						if (ret->CommandLine.Buffer == nullptr)
-						{
-							free(ret);
-							return nullptr;
-						}
-					}
-				}
-
-				if (ret->ImagePathName.Buffer != nullptr)
-				{
-					if (ret->ImagePathName.Length == 0)
-					{
-						ret->ImagePathName.Buffer = reinterpret_cast<PWSTR>(malloc(ret->ImagePathName.MaximumLength));
-						if (ret->ImagePathName.Buffer)
-						{
-							memset(ret->ImagePathName.Buffer, 0, ret->ImagePathName.MaximumLength);
-						}
-						else
-						{
-							free(ret->CommandLine.Buffer);
-							free(ret);
-
-							return nullptr;
-						}
-					}
-					else
-					{
-						ret->ImagePathName.Buffer = ReadRemoteUnicodeStringBuffer(Process, ret->ImagePathName.Buffer, ret->ImagePathName.MaximumLength, ret->ImagePathName.Length);
-						if (ret->ImagePathName.Buffer == nullptr)
-						{
-							free(ret->ImagePathName.Buffer);
-							if (ret->CommandLine.Buffer != nullptr)
-							{
-								free(ret->CommandLine.Buffer);
-							}
-							free(ret);
-							return nullptr;
-						}
-					}
-				}
-			}
-		}
 		return ret;
 	}
 
@@ -200,7 +159,7 @@ namespace RemoteStructureRoutine
 
 
 
-	HANDLE DuplicateHandleToSelf(HANDLE RemoteProcess, HANDLE TargetHandle)
+	HANDLE DuplicateHandleToSelf(HANDLE RemoteProcess, HANDLE TargetHandle) noexcept
 	{
 		HANDLE ret = INVALID_HANDLE_VALUE;
 		if (RemoteProcess == 0)
@@ -244,7 +203,10 @@ namespace RemoteStructureRoutine
 	}
 
 
-
+	/*
+	* THESE HAVE BEEN MOVED to RemoteStruct.h
+	* 
+	* 
 	/// <summary>
 	/// UNICODE_STRING for x86 debugged processes
 	/// </summary>
@@ -254,7 +216,7 @@ namespace RemoteStructureRoutine
 		USHORT MaxLength;
 		UINT Buffer;
 	};
-
+	
 	/// <summary>
 	///  UNICODE_STRING for x64 debugged processes
 	/// </summary>
@@ -262,7 +224,7 @@ namespace RemoteStructureRoutine
 	{
 		USHORT Length;
 		USHORT MaxLength;
-		INT Padding; // alights buffer to correct location
+		INT Padding; // alights buffer to correct location. See the ObjectAttributeOffsets
 		ULONGLONG Buffer;
 	};
 	
@@ -273,7 +235,8 @@ namespace RemoteStructureRoutine
 	{
 		UNICODE_STRING32* p32;
 		UNICODE_STRING64* p64;
-	};
+	}; 
+
 
 	/// <summary>
 	/// Object attrib for x86 debugged 
@@ -302,14 +265,10 @@ namespace RemoteStructureRoutine
 		ULONGLONG SecurityQoS;
 	};
 
-
+	*/
 
 	VOID* WINAPI RemoteReadUnicodeString(HANDLE Process, UINT_PTR MemoryLocation, BOOL TargetIs32)
 	{
-		/*
-		* Functionally what we do is allocate a local memory chuck sizeof(UNICODE_STRINGNN) (32 or 64 depending on TargetIs32),
-		* plus the length of the string and return as one contuous block
-		*/
 		SIZE_T BytesRead = 0;
 		SIZE_T SizeToRead = 0;
 
@@ -317,10 +276,11 @@ namespace RemoteStructureRoutine
 		{
 			UNICODE_STRING32 ret32;
 			UNICODE_STRING64 ret64;
-		} local;
-		MachineDependantUnicodeString ret{};
-
-		memset(&local.ret64, 0, sizeof(UNICODE_STRING64));
+		} local{  };
+		MachineDependantUnicodeString ret{nullptr};
+	
+		local = { 0 };
+		ret = { 0 };
 
 		if (TargetIs32)
 		{
@@ -392,7 +352,7 @@ namespace RemoteStructureRoutine
 
 	BOOL WINAPI RemoteFreeUnicodeString(UNICODE_STRING* Str, bool  TargetIs32)
 	{
-		MachineDependantUnicodeString help;
+		MachineDependantUnicodeString help{nullptr};
 		if (Str != nullptr)
 		{
 			if (TargetIs32)
@@ -600,7 +560,7 @@ namespace RemoteStructureRoutine
 
 	LPWSTR WINAPI RemoteReadStringW(HANDLE Process, const wchar_t* RemoteMemoryLocation, size_t char_count)
 	{
-		DWORD StringSize = 0;
+		SIZE_T StringSize = 0;
 		LPWSTR ret = nullptr;
 		SIZE_T BytesRead = 0;
 		if (RemoteMemoryLocation == nullptr)
@@ -613,7 +573,7 @@ namespace RemoteStructureRoutine
 			StringSize *= sizeof(wchar_t);
 
 			
-			// fix to try NOT curropting heap
+			// fix to try NOT corrupting heap
 			ret = (LPWSTR)malloc(StringSize * 2);
 			if (ret != nullptr)
 			{
@@ -633,7 +593,7 @@ namespace RemoteStructureRoutine
 			return ret;
 		}
 	}
-	LPWSTR WINAPI RemoteReadDebugString(HANDLE Process, LPDEBUG_EVENT Event)
+	LPWSTR WINAPI RemoteReadDebugString(HANDLE Process, const LPDEBUG_EVENT Event) noexcept
 	{
 		LPWSTR Ret = nullptr;
 		DWORD StringSize = 0;
@@ -673,9 +633,9 @@ namespace RemoteStructureRoutine
 					}
 					if (Event->u.DebugString.fUnicode == FALSE)
 					{
-						LPWSTR ActualString;
+						
 						DWORD NeededSize = MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED, (LPCCH)Ret, Event->u.DebugString.nDebugStringLength, 0, 0);
-						ActualString = (LPWSTR)malloc(sizeof(wchar_t) * (NeededSize + 1));
+						LPWSTR ActualString = (LPWSTR)malloc(sizeof(wchar_t) * (NeededSize + (size_t)1));
 						if (ActualString == nullptr)
 						{
 							free(Ret);
@@ -683,7 +643,7 @@ namespace RemoteStructureRoutine
 						}
 						else
 						{
-							memset(ActualString, 0, sizeof(wchar_t) * (NeededSize + 1));
+							memset(ActualString, 0, sizeof(wchar_t) * (NeededSize + (size_t)1));
 							NeededSize = MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED, (LPCCH)Ret, Event->u.DebugString.nDebugStringLength, ActualString, NeededSize);
 							free(Ret);
 							Ret = ActualString;

@@ -42,7 +42,7 @@ namespace InsightSheath.NativeImports
         /// <returns>Returns a pointer to a C++ native side that implements this class on OK. and <see cref="IntPtr.Zero"/> on error. </returns>
         /// <remarks>If a Thread ID, the SECURITY_DESCRIPTOR must allow these access rights (THREAD_GET_CONTEXT | THREAD_SET_CONTEXT | THREAD_SUSPEND_RESUME | THREAD_QUERY_INFORMATION | THREAD_SET_INFORMATION)</remarks>
         [DllImport("InsightApi.Dll", BestFitMapping = false, CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, EntryPoint = "ThreadContext_CreateInstance")]
-        public static extern IntPtr ThreadContext_CreateInstance(IntPtr HandleOrThreadId, uint Flags);
+        public static extern IntPtr ThreadContext_CreateInstance(ulong HandleOrThreadId, uint Flags);
 
         /// <summary>
         /// Dispose of the C++ side of <see cref="ThreadContext"/> class. Any pointer to this class is worthless after calling this. 

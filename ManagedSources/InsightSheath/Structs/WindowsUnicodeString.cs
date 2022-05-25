@@ -50,8 +50,9 @@ namespace InsightSheath.Structs
 	};*/
 
 	/// <summary>
-	/// For processed that are Wow/32- bit this is what our UNICODE_STRING struct looks like when gotton.
+	/// For processed that are Wow/32- bit this is what our UNICODE_STRING struct looks like when read from. Suitable for Marhsaling from a source. Take care that you handle if your pointer to the native structure <see cref="UnicodeString32.Buffer"/> points to a remote/ non local memory buffer or not. 
 	/// </summary>
+	/// <remarks>To marshal.  Using <see cref="Marshal.PtrToStructure{UnicodeString32}(IntPtr)"/> and either <see cref="Marshal.PtrToStringUni(IntPtr, int)"/> for a local buffer or <see cref="Remote.RemoteStructure.RemoteReadString(IntPtr, IntPtr, uint)"/> for one located in a different process </remarks>
 	[StructLayout(LayoutKind.Sequential)]
     public struct UnicodeString32
     {
@@ -64,27 +65,30 @@ namespace InsightSheath.Structs
 		/// </summary>
 		public ushort MaxLength;
 		/// <summary>
-		/// 4 byte pointer to where the Unicode String is allocated. <see cref="InsertHere"/> will place the string right after the location of the returned Unicode String struct
+		/// 4 byte pointer to where the Unicode String is allocated. 
 		/// </summary>
         public uint Buffer;
     }
 
 	/// <summary>
-	/// For processes that are 64-bit, this is our UNICODE_STRING struct
+	/// For processes that are 64-bit, this is our UNICODE_STRING struct looks like when read from. Suitable for Marhsaling from a source. Take care that you handle if your pointer to the native structure <see cref="UnicodeString32.Buffer"/> points to a remote/ non local memory buffer or not. 
+	/// </summary>
+	/// <remarks>To marshal.  Using <see cref="Marshal.PtrToStructure{UnicodeString64}(IntPtr)"/> and either <see cref="Marshal.PtrToStringUni(IntPtr, int)"/> for a local buffer or <see cref="Remote.RemoteStructure.RemoteReadString(IntPtr, IntPtr, uint)"/> for one located in a different process </remarks>
+	/// <summary>
 	/// </summary>
 	[StructLayout(LayoutKind.Sequential)]
 	public struct UnicodeString64
 	{
 		/// <summary>
-		/// Current Length of the string pointed to in Buffer. Note if dealing with <see cref="InsertHere"/>, the memory block pointed to by bufffer currently will be set right after the native location of struct plus its size
+		/// Current Length of the string pointed to in Buffer. 
 		/// </summary>
 		public ushort Length;
 		/// <summary>
-		/// How big possibly is if the buffer. Note <see cref="InsertHere"/> dealing this is here for compleness sake. Your buffer size was allocated to be big enough to hold that containing string, that's all
+		/// How big possibly is if the buffer. 
 		/// </summary>
 		public ushort MaxLength;
 		/// <summary>
-		/// Padding to ensure <see cref="Buffer"/> is at the right spot.
+		/// Padding to ensure <see cref="Buffer"/> is at the right spot. Otherwise unused. 
 		/// </summary>
 		public uint Padding;
 		/// <summary>
@@ -94,9 +98,10 @@ namespace InsightSheath.Structs
 	}
 
 
-    /// <summary>
-    /// Encapsulates a Windows NT UNICODE_STRING struct for either an <see cref=ModeType.Machinex64"/> or <see cref="ModeType.Machinex86"/> debugged target.
-    /// </summary>
+    
+	/// <summary>
+	/// Encapsulates both a <see cref="UnicodeString32"/> and <see cref="UnicodeString64"/> and lets one indicate which one to use based on <see cref="WindowsUnicodeString.StructType"/> You can use <see cref="HelperRoutines.GetPEMachineType(string)"/> on the process your dealing with to find what value was set as the machine type
+	/// </summary>
     public class WindowsUnicodeString: PlatformDependantNativeStruct
     {
 		/// <summary>
@@ -124,6 +129,11 @@ namespace InsightSheath.Structs
 		public WindowsUnicodeString(IntPtr Native, StructModeType StructType): base(Native, StructType)
         {
 
+        }
+
+		~WindowsUnicodeString()
+        {
+			Dispose(false);
         }
         protected override void Blit()
         {
@@ -154,23 +164,45 @@ namespace InsightSheath.Structs
 		}
 
 
+		private bool disposedValue;
+		/// <summary>
+		/// The native memory is either a <see cref="UnicodeString32"/> or <see cref="UnicodeString64"/> struct dependant on <see cref="StructType"/>.  Pointer is a separate allocated string. 
+		/// This means <see cref="NativeImports.NativeMethods.SimpleFree(IntPtr)"/> is incorrect in this scenario. We'll need to call <see cref="NativeImports.NativeMethods.RemoteFreeUnicodeString(IntPtr, bool)"/> pointer here. Also <see cref="FreeOnCleanup"/> should be false if this structure is part of a larger struct directly and NOT A POINTER.
+		/// </summary>
+		/// <param name="disposing"></param>
         protected override void Dispose(bool disposing)
         {
-			bool TargetIs32 = false;
-            switch (StructType)
+			if (!disposedValue)
             {
-				case StructModeType.Machinex86: TargetIs32 = true; break;
-			}
+				bool bit32Mode;
+				if (this.StructType == StructModeType.Machinex86)
+                {
+					bit32Mode = true;
+                }
+                else
+                {
+					bit32Mode = false;
+					if (StructType == StructModeType.MachineUnknown)
+                    {
+						throw ThrowNewInvalidOpMessage(this.GetType().Name);
+                    }
+                }
 
-            NativeImports.NativeMethods.RemoteFreeUnicodeString(Native, TargetIs32 );
-        }
+				if (FreeOnCleanup)
+                {
+					NativeImports.NativeMethods.RemoteFreeUnicodeString(Native, bit32Mode);
+					ClearNative();
+                }
+				disposedValue = true;
+            }
+			base.Dispose(disposing);
+		}
 
 		
 
 		/// <summary>
-		/// Used to read from the native point to the currect struct based on <see cref="StructType"/>
+		/// Reads the current length of the string in <see cref="BufferPtr"/> based on the current <see cref="StructType"/> setting
 		/// </summary>
-		
 		public int Length
         {
             get 
@@ -185,10 +217,13 @@ namespace InsightSheath.Structs
 					return Machine32.Length;
                 }
 
-				throw new InvalidOperationException();
+				throw ThrowNewInvalidOpMessage(GetType().Name);
 			}
-        }
+		}
 
+		/// <summary>
+		/// Reads the max length (in bytes) of the string in <see cref="BufferPtr"/> based on the current <see cref="StructType"/> setting
+		/// </summary>
 		public int MaxLength
         {
 			get
@@ -203,10 +238,13 @@ namespace InsightSheath.Structs
 					return Machine32.MaxLength;
 				}
 
-				throw new InvalidOperationException();
+				throw ThrowNewInvalidOpMessage(GetType().Name);
 			}
 		}
 
+		/// <summary>
+		/// Return the buffer containing the string in the contained structure based on the current <see cref="StructType"/> setting.  x86 (4 byte sized) pointers are promoted to a x64 (8 byte sized) return value
+		/// </summary>
 		public ulong BufferPtr
         {
 			get
@@ -220,10 +258,15 @@ namespace InsightSheath.Structs
 				{
 					return Machine32.Buffer;
 				}
-				throw new InvalidOperationException();
+				throw ThrowNewInvalidOpMessage(GetType().Name);
 			}
         }
 
+		/// <summary>
+		/// Retrieve a .NET managed string containing the String that <see cref="BufferPtr"/> points to. 
+		/// </summary>
+		/// <remarks>IMPORTANT!!!!!  Use <see cref="Remote.RemoteStructure.
+		/// (IntPtr, IntPtr, bool, bool)"/> if dealing with a <see cref="BufferPtr"/> that is valid in the context of another process and not yours. This routine will take case or dealing with that. You'll either get incorrect results or generate an exception if you don't. </remarks>
 		public string Buffer
         {
             get
@@ -237,11 +280,17 @@ namespace InsightSheath.Structs
                 {
 					return Marshal.PtrToStringUni(new IntPtr((int)Machine32.Buffer));
 				}
-				throw new InvalidOperationException();
+				throw ThrowNewInvalidOpMessage(GetType().Name);
 			}
         }
-		
+
+		/// <summary>
+		/// If <see cref="StructType"/> is set to <see cref="StructModeType.Machinex64"/>, this is the structure that is used.
+		/// </summary>
 		UnicodeString64 Machine64;
+		/// <summary>
+		/// If <see cref="StructType"/> is set to <see cref="StructModeType.Machinex86"/>, this is the structure that is used.
+		/// </summary>
 		UnicodeString32 Machine32;
 		
     }

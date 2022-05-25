@@ -328,7 +328,7 @@ namespace InsightSheath
 
         /// <summary>
         /// Get (or set) the routine that the debug worker thread will be calling.
-        /// null (or unassigned) means use the default one which does nothing with events, does not handle exceptions, and continues until it gets a single exit process debug event
+        /// null (or unassigned) means use the default one which does nothing with events and exceptions, does not handle exceptions, and continues until it gets a single exit process debug event
         /// </summary>
         public DebugEventCallBackRoutine UserDebugCallRoutine
         {
@@ -456,29 +456,6 @@ namespace InsightSheath
             get
             {
                 uint Val = NativeMethods.PsProcessInformation_GetCreationFlags(Native);
-                /*
-                if (ExtraFlags != SpecialCaseFlags.None)
-                {
-                    if (ExtraFlags.HasFlag(SpecialCaseFlags.DebugOnlyThis))
-                    {
-                        // DEBUG_PROCESS ONLY
-                        Val |= 1;
-                    }
-                    else
-                    {
-                        if (ExtraFlags.HasFlag(SpecialCaseFlags.DebugChild))
-                        {
-                            //  DEBUG THIS PROCESS and kids.
-                            Val |= 2;
-                        }
-                    }
-
-                    if (ExtraFlags.HasFlag(SpecialCaseFlags.CreateSuspended))
-                    {
-                        /// CREATE_SUSPSENDED
-                        Val |= 4;
-                    }
-                }*/
                 return Val;
             }
             set
@@ -532,20 +509,20 @@ namespace InsightSheath
 
 
         /// <summary>
-        /// Specify an explicit environmental value.  values that match the default environment will overwrite it for the process
+        /// Specify an explicit environmental value.  Values that match the default environment will overwrite the default onces for the process
         /// </summary>
-        /// <param name="Name"></param>
-        /// <param name="Value"></param>
+        /// <param name="Name">This is the name of the environment value to define. For example "PATH"</param>
+        /// <param name="Value">This is the value of the environment value to define. For example "C:\Windows;C:\Windows\system32;</param>
         public void SetExplicitEnviromentValue(string Name, string Value)
         {
             NativeMethods.PsProcessInformation_SetExplicitEnviromentValue(Native, Name, Value);
         }
 
         /// <summary>
-        /// Get an explicit environmental value from a previous call to SetExplicitEnviromentValue()
+        /// Get an explicit environmental value from a previous call to <see cref="SetExplicitEnviromentValue(string, string)"/>
         /// </summary>
-        /// <param name="Name"></param>
-        /// <returns>returns a string if the value existed or null if it does NOT</returns>
+        /// <param name="Name">This is the name of the environment value to define. For example "PATH"</param>
+        /// <returns>Returns a string if the value exists or null if it does NOT</returns>
         public string GetExplicitEnviromentValue(string Name)
         {
             return Marshal.PtrToStringUni(NativeMethods.PsProcessInformation_GetExplicitEnviromentValue(Native, Name));
@@ -555,7 +532,7 @@ namespace InsightSheath
         /// Retrieve instance of the class that handles the startup info management. 
         /// </summary>
         /// <remarks>Should the Native size for this instance of StartupInfo change to be allocated, this routine will need to be updated to prevent a memeory leak.</remarks>
-        /// <returns></returns>
+        /// <returns>This routines an instance to a <see cref="StartupInfoExW"/> class that you can use to customize startup settings. This instance is part of the underlying instance of <see cref="InsightProcess"/> and should not be freed/deleted on clean up if duplicated</returns>
         public StartupInfoExW GetStartupInfoClass()
         {
             /* Should the Native size for this instance of StartupInfo change to be allocated, the false in this statement will need to be changed to true*/

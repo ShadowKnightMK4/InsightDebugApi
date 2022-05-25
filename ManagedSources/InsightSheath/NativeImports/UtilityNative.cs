@@ -108,7 +108,7 @@ namespace InsightSheath.NativeImports
 
         
         /// <summary>
-        /// Open Process ALL_ACCESS
+        /// Open Process ALL_ACCESS. Not intended for Release builds and always will return 0 if using an InsightApi build in a release configuration
         /// </summary>
         /// <param name="ProcessID"></param>
         /// <returns></returns>

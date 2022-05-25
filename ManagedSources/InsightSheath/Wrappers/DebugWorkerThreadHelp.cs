@@ -11,6 +11,7 @@ namespace InsightSheath.Wrappers
     /// <summary>
     /// If you are wanting to control your debug message pump on the .NET side rather than native (why?), then these routines will help you 
     /// glue everything together.  This class exists only in the sheath and is not duplicated in Native. Some routines here may be echoed in other classes in the sheath
+    /// Some of the routines here exist as extensions to <see cref="DebugEvent"/>
     /// </summary>
     public static class DebugWorkerThreadHelp
     {
@@ -26,7 +27,7 @@ namespace InsightSheath.Wrappers
         /// <param name="Output">Allocate a native block correctly sized for debug event or just make an instance with existing routines</param>
         /// <param name="WaitTime">How long to wait between times. (uint)-1 aka <see cref="uint.MaxValue"/></param> means wait until event triggers
         /// <returns></returns>
-        public static bool WaitForDebugEvent(ref DebugEvent Output, uint WaitTime)
+        public static bool WaitForDebugEvent(this DebugEvent Output, uint WaitTime)
         {
             return WaitForDebugEventEx(Output.NativePointer, WaitTime);
         }
@@ -34,11 +35,13 @@ namespace InsightSheath.Wrappers
         /// <summary>
         /// Return Control of the debugged Software back to Windows and specify how to resume. This wraps MSDN's ContinueDebugEvent
         /// </summary>
-        /// <param name="ProcessId"></param>
-        /// <param name="ThreadId"></param>
-        /// <param name="ContinueState"></param>
+        /// <param name="ProcessId">Process ID of the debug event that was generated</param>
+        /// <param name="ThreadId">thread id of the debug event that was generated</param>
+        /// <param name="ContinueState">how to return control back to Windows</param>
         /// <returns></returns>
-        public static bool ContinueDebugEvent(uint ProcessId, uint ThreadId, InsightProcess.DebugContState ContinueState)
+#pragma warning disable IDE0060 // Remove unused parameter
+        public static bool ContinueDebugEvent(this DebugEvent that,uint ProcessId, uint ThreadId, InsightProcess.DebugContState ContinueState)
+#pragma warning restore IDE0060 // Remove unused parameter
         {
             return ContinueDebugEventInternal(ProcessId, ThreadId, (uint)ContinueState);
         }

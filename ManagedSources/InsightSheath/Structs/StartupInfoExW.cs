@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.InteropServices;
+using System.Diagnostics;
 
 namespace InsightSheath.Structs
 {
@@ -80,14 +81,19 @@ namespace InsightSheath.Structs
 
         }
 
+        private bool disposedValue;
         protected override void Dispose(bool disposing)
         {
-            if (FreeOnCleanup)
+            if (!disposedValue)
             {
-                NativeMethods.StartupInfoWrapper_DeleteInstance(Native);
-                FreeOnCleanupContainer = false;
+                if (FreeOnCleanup)
+                {
+                    NativeMethods.StartupInfoWrapper_DeleteInstance(Native);
+                    ClearNative();
+                }
+                disposedValue = true;
             }
-            disposedValue = true;
+            
         }
 
 
@@ -347,6 +353,7 @@ namespace InsightSheath.Structs
             }
 
         }
+
 
         /// <summary>
         /// Manged side only.  Set to true to enable setting the <see cref="Flags"/> value on setting the members in this class EXCEPT for <see cref="StandardInput"/>
