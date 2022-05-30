@@ -1,4 +1,4 @@
-#include "PS_ProcessInformation.h"
+#include "InsightProcess.h"
 #include "Utility.h"
 #include <process.h>
 #include "ProcessHandling.h"
@@ -16,7 +16,7 @@ f716644cad2e4afd9d5525d937df0c00
 
 
 /// <summary>
-/// A default handler that does notheing except sign off on the event and continunes it. Used when the UserCallback is not set (ie null).
+/// A default handler that does nothing except sign off on the event and continues it. Used when the UserCallback is not set (ie null).
 /// </summary>
 /// <param name="lpCurEvent"></param>
 /// <param name="ContinueStatus"></param>
@@ -288,7 +288,7 @@ void BuildEnviromentBlock(std::map<std::wstring, std::wstring>& Overwritten, BOO
 	}
 }
 
-PS_ProcessInformation::~PS_ProcessInformation()
+InsightProcess::~InsightProcess()
 {
 	this->ProcessArgumentsContainer = L"";
 	this->ProcessArgumentsContainer = L"";
@@ -311,7 +311,7 @@ PS_ProcessInformation::~PS_ProcessInformation()
 }
 
 
-PS_ProcessInformation::PS_ProcessInformation(const PS_ProcessInformation& Original)
+InsightProcess::InsightProcess(const InsightProcess& Original)
 {
 	ProcessNameContainer = Original.ProcessArgumentsContainer;
 	ProcessArgumentsContainer = Original.ProcessArgumentsContainer;
@@ -418,7 +418,7 @@ PS_ProcessInformation::PS_ProcessInformation(const PS_ProcessInformation& Origin
 
 }
 
-PS_ProcessInformation::PS_ProcessInformation()
+InsightProcess::InsightProcess()
 {
 	PInfo.hProcess = PInfo.hThread = INVALID_HANDLE_VALUE;
 	PInfo.dwProcessId = PInfo.dwThreadId = 0;
@@ -442,12 +442,12 @@ PS_ProcessInformation::PS_ProcessInformation()
 
 }
 
-const wchar_t* PS_ProcessInformation::ProcessName()
+const wchar_t* InsightProcess::ProcessName()
 {
 	return this->ProcessNameContainer.c_str();
 }
 
-void PS_ProcessInformation::ProcessName(const wchar_t* NewName)
+void InsightProcess::ProcessName(const wchar_t* NewName)
 {
 	if (NewName == nullptr)
 	{
@@ -458,12 +458,12 @@ void PS_ProcessInformation::ProcessName(const wchar_t* NewName)
 
 }
 
-const wchar_t* PS_ProcessInformation::ProcessArguments()
+const wchar_t* InsightProcess::ProcessArguments()
 {
 	return this->ProcessArgumentsContainer.c_str();
 }
 
-void PS_ProcessInformation::ProcessArguments(const wchar_t* NewArgs)
+void InsightProcess::ProcessArguments(const wchar_t* NewArgs)
 {
 	if (NewArgs == nullptr)
 	{
@@ -473,22 +473,22 @@ void PS_ProcessInformation::ProcessArguments(const wchar_t* NewArgs)
 	this->ProcessArgumentsContainer = NewArgs;
 }
 
-DWORD PS_ProcessInformation::CreationFlags()
+DWORD InsightProcess::CreationFlags()
 {
 	return this->dwCreationFlags;
 }
 
-void PS_ProcessInformation::CreationFlags(DWORD NewFlags)
+void InsightProcess::CreationFlags(DWORD NewFlags)
 {
 	this->dwCreationFlags = NewFlags;
 }
 
-const wchar_t* PS_ProcessInformation::CurrentDirectory()
+const wchar_t* InsightProcess::CurrentDirectory()
 {
 	return WorkingDirectory.c_str();
 }
 
-void PS_ProcessInformation::CurrentDirectory(const wchar_t* NewCD)
+void InsightProcess::CurrentDirectory(const wchar_t* NewCD)
 {
 	if (NewCD == nullptr)
 	{
@@ -498,7 +498,7 @@ void PS_ProcessInformation::CurrentDirectory(const wchar_t* NewCD)
 	WorkingDirectory = NewCD;
 }
 
-void PS_ProcessInformation::ImportSpawnerEnviroment(BOOL Yes)
+void InsightProcess::ImportSpawnerEnviroment(BOOL Yes)
 {
 	if (Yes)
 	{
@@ -510,11 +510,11 @@ void PS_ProcessInformation::ImportSpawnerEnviroment(BOOL Yes)
 	}
 }
 
-void PS_ProcessInformation::ClearEnviroment()
+void InsightProcess::ClearEnviroment()
 {
 }
 
-const wchar_t* PS_ProcessInformation::Environment(const wchar_t* name)
+const wchar_t* InsightProcess::Environment(const wchar_t* name)
 {
 	if (Enviroment.find(name) == Enviroment.end())
 	{
@@ -526,12 +526,12 @@ const wchar_t* PS_ProcessInformation::Environment(const wchar_t* name)
 	}
 }
 
-void PS_ProcessInformation::Environment(const wchar_t* name, const wchar_t* value)
+void InsightProcess::Environment(const wchar_t* name, const wchar_t* value)
 {
 	this->Enviroment[name] = value;
 }
 
-void PS_ProcessInformation::AddDetoursDll(std::wstring Name)
+void InsightProcess::AddDetoursDll(std::wstring Name)
 {
 	char* ansi = nullptr;
 	if (Name.length() != 0)
@@ -545,7 +545,7 @@ void PS_ProcessInformation::AddDetoursDll(std::wstring Name)
 	}
 }
 
-void PS_ProcessInformation::AddDetoursDll(const char* Name)
+void InsightProcess::AddDetoursDll(const char* Name)
 {
 	if (Name != nullptr)
 	{
@@ -557,17 +557,17 @@ void PS_ProcessInformation::AddDetoursDll(const char* Name)
 	}
 }
 
-void PS_ProcessInformation::ClearDetoursDll()
+void InsightProcess::ClearDetoursDll()
 {
 	this->DetoursDll.clear();
 }
 
-const std::vector<std::string> PS_ProcessInformation::GetDetourList()
+const std::vector<std::string> InsightProcess::GetDetourList()
 {
 	return DetoursDll;
 }
 
-const char* PS_ProcessInformation::IndexDetourList(int index)
+const char* InsightProcess::IndexDetourList(int index)
 {
 	if ((index < 0) || (index >= this->DetoursDll.size()))
 	{
@@ -576,17 +576,17 @@ const char* PS_ProcessInformation::IndexDetourList(int index)
 	return this->DetoursDll[index].c_str();
 }
 
-unsigned long long PS_ProcessInformation::GetDetourListSize() noexcept
+unsigned long long InsightProcess::GetDetourListSize() noexcept
 {
 	return DetoursDll.size();
 }
-DWORD PS_ProcessInformation::SpawnProcess()
+DWORD InsightProcess::SpawnProcess()
 {
 	return SpawnProcessCommon(FALSE);
 }
 
 
-void PS_ProcessInformation::RefreshMemoryStatistics()
+void InsightProcess::RefreshMemoryStatistics()
 {
 	ZeroMemory(&this->ProcessMemoryStats, sizeof(PROCESS_MEMORY_COUNTERS_EX));
 	this->ProcessMemoryStats.cb = sizeof(PROCESS_MEMORY_COUNTERS_EX);
@@ -609,12 +609,137 @@ void PS_ProcessInformation::RefreshMemoryStatistics()
 	}
 
 }
+BOOL WINAPI MyDetourCreateProcessWithDllExW(_In_opt_ LPCWSTR lpApplicationName,
+	_Inout_opt_  LPWSTR lpCommandLine,
+	_In_opt_ LPSECURITY_ATTRIBUTES lpProcessAttributes,
+	_In_opt_ LPSECURITY_ATTRIBUTES lpThreadAttributes,
+	_In_ BOOL bInheritHandles,
+	_In_ DWORD dwCreationFlags,
+	_In_opt_ LPVOID lpEnvironment,
+	_In_opt_ LPCWSTR lpCurrentDirectory,
+	_In_ LPSTARTUPINFOW lpStartupInfo,
+	_Out_ LPPROCESS_INFORMATION lpProcessInformation,
+	_In_ LPCSTR lpDllName,
+	_In_opt_ PDETOUR_CREATE_PROCESS_ROUTINEW pfCreateProcessW)
+{
+	if (pfCreateProcessW == NULL) {
+		pfCreateProcessW = CreateProcessW;
+	}
 
-DWORD PS_ProcessInformation::SpawnProcessCommon(bool NoNotSpawnThread)
+	PROCESS_INFORMATION backup;
+	if (lpProcessInformation == NULL) {
+		lpProcessInformation = &backup;
+		ZeroMemory(&backup, sizeof(backup));
+	}
+
+	if (!pfCreateProcessW(lpApplicationName,
+		lpCommandLine,
+		lpProcessAttributes,
+		lpThreadAttributes,
+		bInheritHandles,
+		dwCreationFlags | CREATE_SUSPENDED,
+		lpEnvironment,
+		lpCurrentDirectory,
+		lpStartupInfo,
+		lpProcessInformation)) {
+		return FALSE;
+	}
+
+
+	LPCSTR sz = lpDllName;
+
+	if (!DetourUpdateProcessWithDll(lpProcessInformation->hProcess, &sz, 1) &&
+		!DetourProcessViaHelperW(lpProcessInformation->dwProcessId,
+			lpDllName,
+			pfCreateProcessW)) {
+
+		TerminateProcess(lpProcessInformation->hProcess, ~0u);
+		CloseHandle(lpProcessInformation->hProcess);
+		CloseHandle(lpProcessInformation->hThread);
+		return FALSE;
+	}
+
+	if (!(dwCreationFlags & CREATE_SUSPENDED)) {
+		ResumeThread(lpProcessInformation->hThread);
+	}
+
+	if (lpProcessInformation == &backup) {
+		CloseHandle(lpProcessInformation->hProcess);
+		CloseHandle(lpProcessInformation->hThread);
+	}
+	return TRUE;
+}
+
+
+
+
+BOOL WINAPI MyDetourCreateProcessWithDllsW(_In_opt_ LPCWSTR lpApplicationName,
+	_Inout_opt_ LPWSTR lpCommandLine,
+	_In_opt_ LPSECURITY_ATTRIBUTES lpProcessAttributes,
+	_In_opt_ LPSECURITY_ATTRIBUTES lpThreadAttributes,
+	_In_ BOOL bInheritHandles,
+	_In_ DWORD dwCreationFlags,
+	_In_opt_ LPVOID lpEnvironment,
+	_In_opt_ LPCWSTR lpCurrentDirectory,
+	_In_ LPSTARTUPINFOW lpStartupInfo,
+	_Out_ LPPROCESS_INFORMATION lpProcessInformation,
+	_In_ DWORD nDlls,
+	_In_reads_(nDlls) LPCSTR* rlpDlls,
+	_In_opt_ PDETOUR_CREATE_PROCESS_ROUTINEW pfCreateProcessW)
+{
+	if (pfCreateProcessW == NULL) {
+		pfCreateProcessW = CreateProcessW;
+	}
+
+	PROCESS_INFORMATION backup;
+	if (lpProcessInformation == NULL) {
+		lpProcessInformation = &backup;
+		ZeroMemory(&backup, sizeof(backup));
+	}
+
+	if (!pfCreateProcessW(lpApplicationName,
+		lpCommandLine,
+		lpProcessAttributes,
+		lpThreadAttributes,
+		bInheritHandles,
+		dwCreationFlags | CREATE_SUSPENDED,
+		lpEnvironment,
+		lpCurrentDirectory,
+		lpStartupInfo,
+		lpProcessInformation)) {
+		return FALSE;
+	}
+
+
+	if (!DetourUpdateProcessWithDll(lpProcessInformation->hProcess, rlpDlls, nDlls) &&
+		!DetourProcessViaHelperDllsW(lpProcessInformation->dwProcessId,
+			nDlls,
+			rlpDlls,
+			pfCreateProcessW)) {
+
+		TerminateProcess(lpProcessInformation->hProcess, ~0u);
+		CloseHandle(lpProcessInformation->hProcess);
+		CloseHandle(lpProcessInformation->hThread);
+		return FALSE;
+	}
+
+	if (!(dwCreationFlags & CREATE_SUSPENDED)) {
+		ResumeThread(lpProcessInformation->hThread);
+	}
+
+	if (lpProcessInformation == &backup) {
+		CloseHandle(lpProcessInformation->hProcess);
+		CloseHandle(lpProcessInformation->hThread);
+	}
+	return TRUE;
+
+}
+
+DWORD InsightProcess::SpawnProcessCommon(bool NoNotSpawnThread)
 {
 	bool DebugAskFailure = false;
-	wchar_t* Arguments;
-	LPCSTR* DetourListPtr;
+	wchar_t* Arguments = 0;
+	LPCSTR* DetourListPtr = 0;
 	const wchar_t* EnvBlocArg;
 	std::wstring EnvBlockContainer;
 	const wchar_t* CurrDir;
@@ -742,7 +867,9 @@ DWORD PS_ProcessInformation::SpawnProcessCommon(bool NoNotSpawnThread)
 			}
 			else
 			{
-				if (!DetourCreateProcessWithDllsW(ProcessName(),
+				//if (!DetourCreateProcessWithDllsW(ProcessName(),
+				//if (!DetourCreateProcessWithDllExW(ProcessName(),
+				if (!MyDetourCreateProcessWithDllsW(ProcessName(),
 					Arguments,
 					lpProcessAttributes,
 					lpThreadAttributes,
@@ -823,7 +950,7 @@ DWORD PS_ProcessInformation::SpawnProcessCommon(bool NoNotSpawnThread)
 	return PInfo.dwProcessId;
 }
 
-VOID PS_ProcessInformation::CopyPayloads(HANDLE Target)
+VOID InsightProcess::CopyPayloads(HANDLE Target)
 {
 	/*
 	* I'm toying with an idea of using DetoursPayloads to copy data to telemetry/helper dlls but it's not ready for public use yet
@@ -873,27 +1000,27 @@ VOID PS_ProcessInformation::CopyPayloads(HANDLE Target)
 	}*/
 }
 
-StartupInfoWrapper* PS_ProcessInformation::GetStartupInfoHandler()
+StartupInfoWrapper* InsightProcess::GetStartupInfoHandler()
 {
 	return &this->StartUpInfo;
 }
 
-VOID  PS_ProcessInformation::SetDebugEventCallback(DebugEventCallBackRoutine Callback)
+VOID  InsightProcess::SetDebugEventCallback(DebugEventCallBackRoutine Callback)
 {
 	this->SyncData.UserCallback = Callback;
 }
 
-DebugEventCallBackRoutine PS_ProcessInformation::GetDebugEventCallback()
+DebugEventCallBackRoutine InsightProcess::GetDebugEventCallback()
 {
 	return this->SyncData.UserCallback;
 }
 
-void PS_ProcessInformation::PulseDebugEventThread()
+void InsightProcess::PulseDebugEventThread()
 {
 	SetEvent(this->SyncData.EventHandle);
 }
 
-void PS_ProcessInformation::SetDebugMode(DWORD dmMode)
+void InsightProcess::SetDebugMode(DWORD dmMode)
 {
 	if (dmMode == PSINFO_DEBUGMODE_NOWORKERTHREAD)
 	{
@@ -908,37 +1035,37 @@ void PS_ProcessInformation::SetDebugMode(DWORD dmMode)
 	}
 }
 
-DWORD PS_ProcessInformation::GetDebugMode()
+DWORD InsightProcess::GetDebugMode()
 {
 	return this->DebugModeHandle;
 }
 
-HANDLE PS_ProcessInformation::GetMainThreadHandle()
+HANDLE InsightProcess::GetMainThreadHandle()
 {
 	return PInfo.hThread;
 }
 
-HANDLE PS_ProcessInformation::GetMainProcessHandle()
+HANDLE InsightProcess::GetMainProcessHandle()
 {
 	return PInfo.hProcess;
 }
 
-DWORD PS_ProcessInformation::GetProcessID()
+DWORD InsightProcess::GetProcessID()
 {
 	return PInfo.dwProcessId;
 }
 
-DWORD PS_ProcessInformation::GetThreadID()
+DWORD InsightProcess::GetThreadID()
 {
 	return PInfo.dwThreadId;
 }
 
-VOID PS_ProcessInformation::SetDebugPrivState(BOOL WantPriv)
+VOID InsightProcess::SetDebugPrivState(BOOL WantPriv)
 {
 	this->RequestDebugPriv = WantPriv;
 }
 
-BOOL PS_ProcessInformation::SetCommandment(DWORD CommandMent, BOOL Status)
+BOOL InsightProcess::SetCommandment(DWORD CommandMent, BOOL Status)
 {
 	if ((CommandMent >= 0) && (CommandMent < COMMANDMENT_MAX_VALUE))
 	{
@@ -951,7 +1078,7 @@ BOOL PS_ProcessInformation::SetCommandment(DWORD CommandMent, BOOL Status)
 	return TRUE;
 }
 
-BOOL PS_ProcessInformation::GetCommandment(DWORD Commandment)
+BOOL InsightProcess::GetCommandment(DWORD Commandment)
 {
 	if (CommandmentArray.find(Commandment) != CommandmentArray.end())
 	{
@@ -960,7 +1087,7 @@ BOOL PS_ProcessInformation::GetCommandment(DWORD Commandment)
 	return FALSE;
 }
 
-BOOL PS_ProcessInformation::AddPriorityLoadLibraryPathW(LPCWSTR Path)
+BOOL InsightProcess::AddPriorityLoadLibraryPathW(LPCWSTR Path)
 {
 	std::wstring buffer;
 	if (Path != 0)
@@ -972,7 +1099,7 @@ BOOL PS_ProcessInformation::AddPriorityLoadLibraryPathW(LPCWSTR Path)
 	return FALSE;
 }
 
-BOOL PS_ProcessInformation::AddPriorityLoadLibraryPathA(LPCSTR Path)
+BOOL InsightProcess::AddPriorityLoadLibraryPathA(LPCSTR Path)
 {
 	BOOL result = FALSE;
 	if (Path != 0)
@@ -987,12 +1114,12 @@ BOOL PS_ProcessInformation::AddPriorityLoadLibraryPathA(LPCSTR Path)
 	return result;
 }
 
-DWORD PS_ProcessInformation::GetPriorityLoadLibaryPath_NumberOf()
+DWORD InsightProcess::GetPriorityLoadLibaryPath_NumberOf()
 {
 	return this->LoadLibraryPriorityFolders.size();
 }
 
-LPCWSTR PS_ProcessInformation::GetPriorityLoadLibraryPath_Index(size_t Index)
+LPCWSTR InsightProcess::GetPriorityLoadLibraryPath_Index(size_t Index)
 {
 	if (Index < LoadLibraryPriorityFolders.size())
 	{
@@ -1001,27 +1128,27 @@ LPCWSTR PS_ProcessInformation::GetPriorityLoadLibraryPath_Index(size_t Index)
 	return nullptr;
 }
 
-VOID PS_ProcessInformation::EmptyPriorityLoadLibaryPath()
+VOID InsightProcess::EmptyPriorityLoadLibaryPath()
 {
 	LoadLibraryPriorityFolders.clear();
 }
 
-DWORD PS_ProcessInformation::GetProcessIDCount()
+DWORD InsightProcess::GetProcessIDCount()
 {
 	return this->ProcessThreads.ProcessCount();
 }
 
-DWORD PS_ProcessInformation::GetProcessIDs(DWORD* Output, DWORD LargestOutputSize)
+DWORD InsightProcess::GetProcessIDs(DWORD* Output, DWORD LargestOutputSize)
 {
 	return 0;
 }
 
-DWORD PS_ProcessInformation::GetThreadListCount(DWORD ProcessID)
+DWORD InsightProcess::GetThreadListCount(DWORD ProcessID)
 {
 	return this->ProcessThreads.ThreadCount(ProcessID);
 }
 
-DWORD PS_ProcessInformation::GetThreadListCount()
+DWORD InsightProcess::GetThreadListCount()
 {
 	return this->ProcessThreads.ThreadCount(PInfo.dwProcessId);
 }
@@ -1029,7 +1156,7 @@ DWORD PS_ProcessInformation::GetThreadListCount()
 
 
 
-DWORD PS_ProcessInformation::GetThreadIDs(DWORD ProcessID, DWORD* ThreadID, DWORD LargestOutputSize)
+DWORD InsightProcess::GetThreadIDs(DWORD ProcessID, DWORD* ThreadID, DWORD LargestOutputSize)
 {
 	if (ThreadID == nullptr)
 	{
@@ -1043,24 +1170,24 @@ DWORD PS_ProcessInformation::GetThreadIDs(DWORD ProcessID, DWORD* ThreadID, DWOR
 	return 0;
 }
 
-ThreadInsight* PS_ProcessInformation::GetThreadInsightPtr(DWORD ProcessID, DWORD ThreadID)
+ThreadInsight* InsightProcess::GetThreadInsightPtr(DWORD ProcessID, DWORD ThreadID)
 {
 	return this->ProcessThreads.GetThreadInsightPtr(ProcessID, ThreadID);
 }
 
-DWORD PS_ProcessInformation::SetSymbolStatus(DWORD NewStatus)
+DWORD InsightProcess::SetSymbolStatus(DWORD NewStatus)
 {
 	DWORD old = this->EnableSymbols;
 	EnableSymbols = NewStatus;
 	return old;
 }
 
-DWORD PS_ProcessInformation::GetSymbolStatus()
+DWORD InsightProcess::GetSymbolStatus()
 {
 	return EnableSymbols;
 }
 
-InsightHunter* PS_ProcessInformation::GetSymbolHandlerPtr()
+InsightHunter* InsightProcess::GetSymbolHandlerPtr()
 {
 	if (Insight != nullptr)
 	{
@@ -1073,67 +1200,67 @@ InsightHunter* PS_ProcessInformation::GetSymbolHandlerPtr()
 	}
 }
 
-DWORD PS_ProcessInformation::GetPageFaultCount()
+DWORD InsightProcess::GetPageFaultCount()
 {
 	RefreshMemoryStatistics();
 	return this->ProcessMemoryStats.PageFaultCount;
 }
 
-SIZE_T PS_ProcessInformation::GetPeakWorkingSet()
+SIZE_T InsightProcess::GetPeakWorkingSet()
 {
 	RefreshMemoryStatistics();
 	return this->ProcessMemoryStats.PeakWorkingSetSize;
 }
 
-SIZE_T PS_ProcessInformation::GetWorkingSetSize()
+SIZE_T InsightProcess::GetWorkingSetSize()
 {
 	RefreshMemoryStatistics();
 	return this->ProcessMemoryStats.WorkingSetSize;
 }
 
-SIZE_T PS_ProcessInformation::GetQuotaPeakPagePoolUsage()
+SIZE_T InsightProcess::GetQuotaPeakPagePoolUsage()
 {
 	RefreshMemoryStatistics();
 	return this->ProcessMemoryStats.QuotaPagedPoolUsage;
 }
 
-SIZE_T PS_ProcessInformation::GetQuotaPagedPoolUsage()
+SIZE_T InsightProcess::GetQuotaPagedPoolUsage()
 {
 	RefreshMemoryStatistics();
 	return this->ProcessMemoryStats.QuotaPagedPoolUsage;
 }
 
-SIZE_T PS_ProcessInformation::GetQuotaPeakNonPageUsage()
+SIZE_T InsightProcess::GetQuotaPeakNonPageUsage()
 {
 	RefreshMemoryStatistics();
 	return this->ProcessMemoryStats.QuotaPeakNonPagedPoolUsage;
 }
 
-SIZE_T PS_ProcessInformation::GetQuotaNonPageUsage()
+SIZE_T InsightProcess::GetQuotaNonPageUsage()
 {
 	RefreshMemoryStatistics();
 	return this->ProcessMemoryStats.QuotaNonPagedPoolUsage;
 }
 
-SIZE_T PS_ProcessInformation::GetPageFileUsage()
+SIZE_T InsightProcess::GetPageFileUsage()
 {
 	RefreshMemoryStatistics();
 	return this->ProcessMemoryStats.PagefileUsage;
 }
 
-SIZE_T PS_ProcessInformation::GetPeakPageFileUsage()
+SIZE_T InsightProcess::GetPeakPageFileUsage()
 {
 	RefreshMemoryStatistics();
 	return this->ProcessMemoryStats.PeakPagefileUsage;
 }
 
-SIZE_T PS_ProcessInformation::GetPrivateUsage()
+SIZE_T InsightProcess::GetPrivateUsage()
 {
 	RefreshMemoryStatistics();
 	return this->ProcessMemoryStats.PrivateUsage;
 }
 
-PROCESS_MEMORY_COUNTERS_EX* PS_ProcessInformation::GetMemoryStatsBulkPtr()
+PROCESS_MEMORY_COUNTERS_EX* InsightProcess::GetMemoryStatsBulkPtr()
 {
 	RefreshMemoryStatistics();
 	return &this->ProcessMemoryStats;

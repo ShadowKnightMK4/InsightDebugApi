@@ -27,37 +27,13 @@ namespace InsightSheath.Telemetry
     }
 
 
-    public class IoDeviceTelememtryExceptionCommonValues
+    public class IoDeviceTelememtryExceptionCommonValues : GeneralTelemtryHelperStruct
     {
-        public IoDeviceTelememtryExceptionCommonValues(uint ProcessId, uint ThreadID, IntPtr ForceHandle, IntPtr LastError, MachineType Type)
+        public IoDeviceTelememtryExceptionCommonValues(uint ProcessId, uint ThreadID, IntPtr ForceHandle, IntPtr LastError, MachineType Type) : base(ProcessId, ThreadID, ForceHandle, LastError, Type)
         {
-            this.ProcessId = ProcessId;
-            this.ThreadId = ThreadID;
-            this.ForceHandlePtr = ForceHandle;
-            this.LastErrorPtr = LastError;
-            this.Type = Type;
-        }
-        /// <summary>
-        /// Process that the exception originated from.
-        /// </summary>
-        public readonly uint ProcessId;
-        /// <summary>
-        /// Thread that the exception originated from.
-        /// </summary>
-        public readonly uint ThreadId;
-        /// <summary>
-        /// Pointer to the handle that is returned back to the target process after handling the exception.
-        /// </summary>
-        public readonly IntPtr ForceHandlePtr;
-        /// <summary>
-        /// Depending on Context of target detoured routine, may be an NTSTATUS return value or an actual last error pointer.
-        /// </summary>
-        public readonly IntPtr LastErrorPtr;
 
-        /// <summary>
-        /// Depends on what <see cref="DebugEvent.IsProcess32Bit"/> returns. Intended for determining pointer size only. If that's true, Value is <see cref="MachineType.MachineI386"/> otherwise value is <see cref="MachineType.MachineAmd64"/>  i386 pointer sizes are 4 bytes long and Amd64 pointer sizes are 8 bytes.    This may not actually be the exact machine type as stored in the debugged process's physical PE/EXE file.
-        /// </summary>
-        public readonly MachineType Type;
+        }
+        
 
 
         /// <summary>
@@ -68,141 +44,6 @@ namespace InsightSheath.Telemetry
         /// If you desire to make the call from the x64 process to CreateFileA/W file fail, call <see cref="SetForceHandle"/> with this has a value
         /// </summary>
         public static readonly ulong InvalidHandleValue64 = (0xffffffffffffffff);
-
-        /// <summary>
-        /// Duplicate the handle you provide into the process the exception was generated from and write it to the memory location specified by <see cref="ForceHandle"/> 
-        /// </summary>
-        /// <param name="ReplacementHandle"></param>
-        public void SetForceHandle(IntPtr ReplacementHandle)
-        {
-            //IntPtr handle = NativeImports.NativeMethods.OpenProcessNow(dwProcessId);
-            IntPtr handle = HelperRoutines.OpenProcessForHandleDuplicating(ProcessId);
-            try
-            {
-                /* Caution. This code is size Dependant on knowing the target's handle size*/
-                if (Type == MachineType.MachineI386) /* 4 byte pointer / handle size*/
-                {
-                    if ((uint)ReplacementHandle.ToInt32() != InvalidHandleValue32)
-                    {
-                        IntPtr duphandle = NativeImports.NativeMethods.DuplicateHandleIntoTarget(ReplacementHandle, 0, true, handle, true);
-                        RemoteStructure.RemotePoke4(handle, (uint)duphandle.ToInt32(), ForceHandlePtr);
-                    }
-                    else
-                    {
-                        RemoteStructure.RemotePoke4(handle, InvalidHandleValue32, ForceHandlePtr);
-                    }
-                }
-                else /* 8 byte pointer / handle size */
-                {
-                    if ((ulong)ReplacementHandle.ToInt64() != InvalidHandleValue64)
-                    {
-                        IntPtr duphandle = NativeImports.NativeMethods.DuplicateHandleIntoTarget(ReplacementHandle, 0, true, handle, true);
-                        RemoteStructure.RemotePoke8(handle, (ulong)duphandle.ToInt64(), ForceHandlePtr);
-                    }
-                    else
-                    {
-                        RemoteStructure.RemotePoke8(handle, InvalidHandleValue64, ForceHandlePtr);
-                    }
-                }
-
-
-            }
-            finally
-            {
-                HelperRoutines.CloseHandle(handle);
-            }
-        }
-
-
-        /// <summary>
-        /// Set the handle to the appropriate invalid handle value based on the <see cref="Type"/> value in this struct.
-        /// </summary>
-        public void SetForceHandle()
-        {
-            if (Type == MachineType.MachineI386)
-            {
-                SetForceHandle(InvalidHandleValue32);
-            }
-            else
-            {
-                SetForceHandle(InvalidHandleValue64);
-            }
-        }
-        /// <summary>
-        /// Set the 64-bit handle value to something other than an <see cref="IntPtr"/> - for example <see cref="InvalidHandleValue64"/>
-        /// </summary>
-        /// <param name="HandleValue"></param>
-        public void SetForceHandle(ulong HandleValue)
-        {
-            IntPtr handle = HelperRoutines.OpenProcessForHandleDuplicating(ProcessId);
-            try
-            {
-                if (HandleValue != InvalidHandleValue64)
-                {
-                    IntPtr duphandle = NativeImports.NativeMethods.DuplicateHandleIntoTarget(new IntPtr((long)HandleValue), 0, true, handle, true);
-                    RemoteStructure.RemotePoke8(handle, (ulong)duphandle.ToInt64(), ForceHandlePtr);
-                }
-                else
-                {
-                    RemoteStructure.RemotePoke8(handle, InvalidHandleValue64, ForceHandlePtr);
-                }
-
-
-            }
-            finally
-            {
-                HelperRoutines.CloseHandle(handle);
-            }
-        }
-
-
-        /// <summary>
-        /// Set the 32-bit handle value to something other than an <see cref="IntPtr"/> - for example <see cref="InvalidHandleValue32"/>
-        /// </summary>
-        /// <param name="HandleValue"></param>
-        public void SetForceHandle(uint HandleValue)
-        {
-            IntPtr handle = HelperRoutines.OpenProcessForHandleDuplicating(ProcessId);
-            try
-            {
-                if (HandleValue != InvalidHandleValue32)
-                {
-                    IntPtr duphandle = NativeImports.NativeMethods.DuplicateHandleIntoTarget(new IntPtr(HandleValue), 0, true, handle, true);
-                    RemoteStructure.RemotePoke4(handle, (uint)duphandle.ToInt32(), ForceHandlePtr);
-                }
-                else
-                {
-                    RemoteStructure.RemotePoke4(handle, InvalidHandleValue32, ForceHandlePtr);
-                }
-
-
-            }
-            finally
-            {
-                HelperRoutines.CloseHandle(handle);
-            }
-        }
-
-
-
-
-        /// <summary>
-        /// Set the last error value that will be set by the detouring routine when returning control to the debugged process.
-        /// </summary>
-        /// <param name="NewValue"></param>
-        public void SetLastErrorValue(uint NewValue)
-        {
-            IntPtr handle = NativeImports.NativeMethods.OpenProcessForMemoryAccess(ProcessId);
-            try
-            {
-                RemoteStructure.RemotePoke4(handle, NewValue, LastErrorPtr);
-            }
-            finally
-            {
-                HelperRoutines.CloseHandle(handle);
-            }
-        }
-
 
     }
 
@@ -391,7 +232,7 @@ namespace InsightSheath.Telemetry
         ShareWrite = 0x00000002
     }
 
-    public static class TelemetryExceptionExtensionsCheckers
+    public static class IoDeviceTelemetryExceptionExtensionsCheckers
     {
         /// <summary>
         /// Extension to <see cref="DebugEventExceptionInfo"/>, Returns if the contained exception <see cref="DebugEventExceptionInfo"/> is one generated via IoDeviceTelemetry DLL
@@ -400,7 +241,7 @@ namespace InsightSheath.Telemetry
         /// <returns> Returns if the contained exception <see cref="DebugEventExceptionInfo"/> is one generated via IoDeviceTelemetry DLL</returns>
         public static bool IsIoDeviceTelemetryException(this DebugEventExceptionInfo that)
         {
-            if (that.ExceptionCode == IoDeviceTelemetryReaderExtensions.FixedExceptionCode)
+            if ((uint)that.ExceptionCode == IoDeviceTelemetryReaderExtensions.FixedExceptionCode)
             {
                 return true;
             }
@@ -415,7 +256,7 @@ namespace InsightSheath.Telemetry
         {
             if (that.EventType == DebugEventType.ExceptionEvent)
             {
-                if (that.GetDebugEventExceptionInfo().ExceptionCode == IoDeviceTelemetryReaderExtensions.FixedExceptionCode)
+                if ((uint)that.GetDebugEventExceptionInfo().ExceptionCode == IoDeviceTelemetryReaderExtensions.FixedExceptionCode)
                 {
                     return true;
                 }
@@ -569,8 +410,8 @@ namespace InsightSheath.Telemetry
 
 
 
-        const uint ExceptionSubType = 0;
-        const uint LastError_Ptr = 1;
+        //const uint ExceptionSubType = 0;
+        //const uint LastError_Ptr = 1;
 
 
         /* if exception is NotificationType.CreateFile */
@@ -620,7 +461,9 @@ namespace InsightSheath.Telemetry
         /// <summary>
         /// This class in question will deal with exceptions of this value from Debugged apps that have had IoDeviceTelemetry loaded into to them.
         /// </summary>
-        public static readonly uint FixedExceptionCode = 0x68ACB7A9;
+        //public static readonly uint FixedExceptionCode = 0x68ACB7A9;
+        // DEBUG ONLY x86 and x64 exception tracking down
+        public static readonly uint FixedExceptionCode = 2;
         public enum NotificationType
         {
             /// <summary>
@@ -652,7 +495,7 @@ namespace InsightSheath.Telemetry
         /// <returns></returns>
         public static NotificationType GetIoDeviceExceptionType(this DebugEventExceptionInfo that)
         {
-            return (NotificationType)that.ExceptionParameter64[ExceptionSubType];
+            return (NotificationType)that.ExceptionParameter64[GeneralTelemetry.ExceptionSubType];
         }
 
  
@@ -677,7 +520,7 @@ namespace InsightSheath.Telemetry
             }
             try
             {
-                ret = new IoDeviceTelemetryNtCreateFile(that.ProcessID, that.ThreadID, new IntPtr((long)arguments[NtCreateFile_ReturnHandle]), new IntPtr((long)arguments[LastError_Ptr]), Type) ;
+                ret = new IoDeviceTelemetryNtCreateFile(that.ProcessID, that.ThreadID, new IntPtr((long)arguments[NtCreateFile_ReturnHandle]), new IntPtr((long)arguments[GeneralTelemetry.LastError_Ptr]), Type) ;
 //                ret.ReturnValue = new IntPtr((long)arguments[LastError_Ptr]);
   //              ret.FileOutHandle = new IntPtr((long)arguments[NtCreateFile_ReturnHandle]);
                 ret.DesiredAccess = (AccessMasks) arguments[NtCreateFile_DesiredAccess];
@@ -744,7 +587,7 @@ namespace InsightSheath.Telemetry
                 {
                     type = MachineType.MachineAmd64;
                 }
-                ret = new IoDeviceTelemetyCreateFile(that.ProcessID, that.ThreadID, (IntPtr)Arguments[CreateFile_OvrridePtr], (IntPtr)Arguments[LastError_Ptr], type)
+                ret = new IoDeviceTelemetyCreateFile(that.ProcessID, that.ThreadID, (IntPtr)Arguments[CreateFile_OvrridePtr], (IntPtr)Arguments[GeneralTelemetry.LastError_Ptr], type)
                 {
                     FileName = RemoteStructure.RemoteReadString(Handle, new IntPtr((long)Arguments[CreateFile_FilenamePtr]), Arguments[CreateFile_FileNameCharLen]),
                     DesiredAccess = (AccessMasks)Arguments[CreateFile_DesiredAccess],

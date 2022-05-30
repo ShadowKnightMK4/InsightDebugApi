@@ -249,9 +249,7 @@ namespace InsightSheath.Structs
                             else
                             {
                                 WindowsUnicodeString ret = new WindowsUnicodeString(new  IntPtr((long)Ret64.ObjectName), false, StructModeType.Machinex64);
-                                {
-                                    var toss = ret.Buffer;
-                                }
+                                
                                 return ret;
                             }
                         }

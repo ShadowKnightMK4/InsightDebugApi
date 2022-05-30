@@ -4,21 +4,31 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
-
+using InsightSheath.Structs;
 namespace InsightSheath.NativeImports
 {
     internal static partial class NativeMethods
     {
 
-        //RemoteReadStringW RemoteFreeUnicodeString
-
-
+ 
+        /// <summary>
+        /// Take case as the back end will promote x86 Unicode string to x64 bit to make sure we don't accidentally cut off a pointer.
+        /// </summary>
+        /// <param name="ProcessHandle">Process to read from</param>
+        /// <param name="RemoteLocation">Location in the target to read from/</param>
+        /// <param name="TargetIs32Bit">Indicate if we're reading from a <see cref="UnicodeString32"/> or <see cref="UnicodeString64"/></param>
+        /// <returns>Return local allocated Memory containing an <see cref="UnicodeString64"/></returns>
         [DllImport("InsightApi.dll", CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, SetLastError = true, EntryPoint = "RemoteReadUnicodeString")]
         public static extern IntPtr RemoteReadUnicodeString(IntPtr ProcessHandle, IntPtr RemoteLocation, bool TargetIs32Bit);
 
+        [Obsolete("The implementation of RemoteReadUnicodeString Always returns a struct big enough for a x64 bit now and does not care about that 2nd argument.")]
         [DllImport("InsightApi.dll", CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, SetLastError = true, EntryPoint = "RemoteFreeUnicodeString")]
         public static extern IntPtr RemoteFreeUnicodeString(IntPtr RemoteLocation, bool TargetIs32Bit);
 
+        public static IntPtr RemoteFreeUnicodeString(IntPtr RemoteLocation)
+        {
+            return RemoteFreeUnicodeString(RemoteLocation, false);
+        }
 
 
         [DllImport("InsightApi.dll", CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, SetLastError = true, EntryPoint = "RemoteReadObjectAttributes")]

@@ -93,6 +93,8 @@ namespace FileSandBox_GUI
                 case DebugEventType.ExceptionEvent:
                     {
                         var test = Debug.GetDebugEventExceptionInfo();
+
+                        var debug = test.ExceptionParameter32;
                         Console.WriteLine(test.ExceptionCode + " exception");
                         if (test.IsIoDeviceTelemetryException())
                         {
@@ -115,13 +117,13 @@ namespace FileSandBox_GUI
                                     }
                                 case IoDeviceTelemetryReaderExtensions.NotificationType.CreateFile:
                                     {
-                                        /* This code functionally means access denied for CreateFile API calls for files with .TXT in the naem*/
-                                        /*var CreateFile = test.GetCreateFileSettings();
+                                        // This code functionally means access denied for CreateFile API calls for files with .TXT in the naem*/
+                                        var CreateFile = test.GetCreateFileSettings();
                                         if ((CreateFile.FileName != null) && (CreateFile.FileName.Contains(".txt")))
                                         {
-                                            CreateFile.SetLastErrorValue(5); /* Access denied
+                                            CreateFile.SetLastErrorValue(5); /* Access denied */
                                             CreateFile.SetForceHandle();
-                                        } */
+                                        } 
                                         break;
                                     }
                             }
@@ -283,17 +285,19 @@ namespace FileSandBox_GUI
              InsightProcess TestRun = InsightProcess.CreateInstance();
             TestRun.ExtraFlags = InsightProcess.SpecialCaseFlags.DebugOnlyThis;
             TestRun.WorkingDirectory = "C:\\Windows\\";
-            TestRun.ProcessName = "C:\\Windows\\system32\\notepad.exe";
+            //TestRun.ProcessName = "C:\\Windows\\system32\\notepad.exe";
             //TestRun.ProcessName = "C:\\Windows\\system32\\cmd.exe";
-            //TestRun.ProcessName = "C:\\Users\\Thoma\\source\\repos\\InsightAPI\\code\\Debug\\x86\\program\\HelloWorld.exe";
+            TestRun.ProcessName = "C:\\Users\\Thoma\\source\\repos\\InsightAPI\\code\\Debug\\x86\\program\\HelloWorld.exe";
+            //TestRun.ProcessName = "C:\\Users\\Thoma\\source\\repos\\InsightAPI\\code\\Debug\\x64\\program\\HelloWorld.exe";
             //TestRun.AddDetoursDll("C:\\Users\\Thoma\\source\\repos\\InsightAPI\\code\\Debug\\x64\\program\\Telemetry\\IoDeviceTracking.dll");
 
-            
+
             Console.WriteLine("Target is a " + Enum.GetName(typeof(MachineType), HelperRoutines.GetPEMachineType(TestRun.ProcessName)));
-            if (HelperRoutines.GetPEMachineType(TestRun.ProcessName) == MachineType.MachineI386)
+            var typ = HelperRoutines.GetPEMachineType(TestRun.ProcessName) ;
+            if (typ ==  MachineType.MachineI386)
             {
                 Console.WriteLine("Picking the x86 version of the detours");
-                TestRun.AddDetoursDll("C:\\Users\\Thoma\\source\\repos\\InsightAPI\\code\\Debug\\x86\\program\\Telemetry\\IoDeviceTracking.dll");
+                TestRun.AddDetoursDll("C:\\Users\\Thoma\\source\\repos\\InsightAPI\\code\\Debug\\x86\\program\\Telemetry\\IoDeviceTracking32.dll");
             }
             else
             {

@@ -1,9 +1,9 @@
 #pragma once
 
-
-#include "PS_ProcessInformation.h"
-
 #include <Windows.h>
+#include "InsightProcess.h"
+
+
 extern "C" {
 	/// <summary>
 	/// Open a process handle fit for duplicating a handle for and writing the handle into.

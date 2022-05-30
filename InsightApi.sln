@@ -5,7 +5,6 @@ VisualStudioVersion = 16.0.31112.23
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{96470886-31E8-4FBB-87EE-1912416A5358}"
 	ProjectSection(SolutionItems) = preProject
-		FileSandBoxApi_NamingScheme.txt = FileSandBoxApi_NamingScheme.txt
 		FileSandBoxGUI and FileSandBoxApi linkage.txt = FileSandBoxGUI and FileSandBoxApi linkage.txt
 		GettingStarted.txt = GettingStarted.txt
 		NotesTODO.txt = NotesTODO.txt
@@ -73,6 +72,10 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TelemetryTelemplate", "NativeSources\TelemetryDlls\NewTelemetryTemplate\TelemetryTelemplate.vcxproj", "{A8C1DE82-0CEE-484A-8115-2121A4E65927}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ProcessTracking", "NativeSources\TelemetryDlls\ProcessTracking\ProcessTracking.vcxproj", "{6C16B605-10F0-4F6E-AB3B-DC56C4DA9B0C}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AntiDebuggingTelemetry", "NativeSources\TelemetryDlls\AntiDebuggingTelemetryDll\AntiDebuggingTelemetry.vcxproj", "{238F29BB-BE3A-407E-AEF0-3D72EFA8785E}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AskingAboutMyDebugger", "TestingAndSamples\AskingAboutMyDebugger\AskingAboutMyDebugger.vcxproj", "{8FEB9C8C-5248-4072-9F64-03904FF7AF11}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -214,6 +217,26 @@ Global
 		{6C16B605-10F0-4F6E-AB3B-DC56C4DA9B0C}.Release|x64.Build.0 = Release|x64
 		{6C16B605-10F0-4F6E-AB3B-DC56C4DA9B0C}.Release|x86.ActiveCfg = Release|Win32
 		{6C16B605-10F0-4F6E-AB3B-DC56C4DA9B0C}.Release|x86.Build.0 = Release|Win32
+		{238F29BB-BE3A-407E-AEF0-3D72EFA8785E}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{238F29BB-BE3A-407E-AEF0-3D72EFA8785E}.Debug|x64.ActiveCfg = Debug|x64
+		{238F29BB-BE3A-407E-AEF0-3D72EFA8785E}.Debug|x64.Build.0 = Debug|x64
+		{238F29BB-BE3A-407E-AEF0-3D72EFA8785E}.Debug|x86.ActiveCfg = Debug|Win32
+		{238F29BB-BE3A-407E-AEF0-3D72EFA8785E}.Debug|x86.Build.0 = Debug|Win32
+		{238F29BB-BE3A-407E-AEF0-3D72EFA8785E}.Release|Any CPU.ActiveCfg = Release|Win32
+		{238F29BB-BE3A-407E-AEF0-3D72EFA8785E}.Release|x64.ActiveCfg = Release|x64
+		{238F29BB-BE3A-407E-AEF0-3D72EFA8785E}.Release|x64.Build.0 = Release|x64
+		{238F29BB-BE3A-407E-AEF0-3D72EFA8785E}.Release|x86.ActiveCfg = Release|Win32
+		{238F29BB-BE3A-407E-AEF0-3D72EFA8785E}.Release|x86.Build.0 = Release|Win32
+		{8FEB9C8C-5248-4072-9F64-03904FF7AF11}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{8FEB9C8C-5248-4072-9F64-03904FF7AF11}.Debug|x64.ActiveCfg = Debug|x64
+		{8FEB9C8C-5248-4072-9F64-03904FF7AF11}.Debug|x64.Build.0 = Debug|x64
+		{8FEB9C8C-5248-4072-9F64-03904FF7AF11}.Debug|x86.ActiveCfg = Debug|Win32
+		{8FEB9C8C-5248-4072-9F64-03904FF7AF11}.Debug|x86.Build.0 = Debug|Win32
+		{8FEB9C8C-5248-4072-9F64-03904FF7AF11}.Release|Any CPU.ActiveCfg = Release|Win32
+		{8FEB9C8C-5248-4072-9F64-03904FF7AF11}.Release|x64.ActiveCfg = Release|x64
+		{8FEB9C8C-5248-4072-9F64-03904FF7AF11}.Release|x64.Build.0 = Release|x64
+		{8FEB9C8C-5248-4072-9F64-03904FF7AF11}.Release|x86.ActiveCfg = Release|Win32
+		{8FEB9C8C-5248-4072-9F64-03904FF7AF11}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -235,6 +258,8 @@ Global
 		{BB7A2F49-5998-4DA8-B257-E0978332B669} = {B2EC8477-99E2-44D4-AEEA-AAE1E3916C63}
 		{A8C1DE82-0CEE-484A-8115-2121A4E65927} = {53C03628-5518-4BF1-BA21-1B9E0615A9A4}
 		{6C16B605-10F0-4F6E-AB3B-DC56C4DA9B0C} = {53C03628-5518-4BF1-BA21-1B9E0615A9A4}
+		{238F29BB-BE3A-407E-AEF0-3D72EFA8785E} = {53C03628-5518-4BF1-BA21-1B9E0615A9A4}
+		{8FEB9C8C-5248-4072-9F64-03904FF7AF11} = {B2EC8477-99E2-44D4-AEEA-AAE1E3916C63}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B6CF70ED-92F3-4E3A-98F2-701A62654ADB}

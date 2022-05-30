@@ -55,18 +55,19 @@ namespace InsightSheath.Wrappers
         /// <summary>
         /// Create an instance of the class with the object to specify if we free it.
         /// </summary>
-        /// <param name="Native">Native pointer to the structure</param>
+        /// <param name="Native">Native pointer to the structure this class will reference</param>
         /// <param name="FreeOnCleanup">if true then the structure is freed via RemoteRead_SimpleFree() which itself is a call to C/C++'s free() . Set TO FALSE if dealing with structures declared in C/C++ code vs dynamically allocated</param>
-        /// <remarks> FreeOnCleanup is a bit dependent on your knowledge of the native code. If the native pointer points to something dynamically allocated with malloc() / HeapAlloc(),  specify true.  If it's declared in the Native source directly or on the stack as a function variable, use false</remarks>
+        /// <remarks> FreeOnCleanup is a bit dependent on your knowledge of the native code. If the native pointer points to something dynamically allocated with malloc() / HeapAlloc(),  specify true.  If it's declared in the Native source directly or on the stack as a function variable, use false.</remarks>
+        ///
         public NativeStaticContainer(IntPtr Native, bool FreeOnCleanup)
         {
             this.Native = Native;
-            this.FreeOnCleanupContainer = FreeOnCleanup;
+            FreeOnCleanupContainer = FreeOnCleanup;
         }
 
 
         /// <summary>
-        /// WARNING! WARNING! WARNING! Return the underlying pointer.  Should this block of memory be freed, the instance of this <see cref="NativeStaticContainer"/> will break.
+        /// WARNING! WARNING! WARNING! Return the underlying pointer.  Should this block of memory be freed (releases/ deleted), the instance of this <see cref="NativeStaticContainer"/> will break.
         /// </summary>
         public IntPtr NativePointer
         {
@@ -77,7 +78,7 @@ namespace InsightSheath.Wrappers
         }
 
         /// <summary>
-        /// place in dispoable.
+        /// place in disposable and call it after calling the current unmanaged cleanup routine.
         /// </summary>
         protected void ClearNative()
         {
@@ -104,7 +105,7 @@ namespace InsightSheath.Wrappers
         protected bool FreeOnCleanupContainer;
 
         /// <summary>
-        /// protected value containing if dispose() was called
+        /// value containing if dispose() was called
         /// </summary>
         private bool disposedValue;
         /// <summary>
@@ -127,7 +128,7 @@ namespace InsightSheath.Wrappers
                     {
                         NativeImports.NativeMethods.SimpleFree(Native);
                     }
-                    // clear nativ pointer.
+                    // clear native pointer.
                     ClearNative();
                 }
                 disposedValue = true;

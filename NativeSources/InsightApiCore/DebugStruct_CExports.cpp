@@ -14,6 +14,12 @@
 * 
 * All routiens routines via WINAPI / _stdcall
 */
+
+union MachineDependantExceptionRecord
+{
+	EXCEPTION_RECORD32 Except32;
+	EXCEPTION_RECORD64 Except64;
+};
 extern "C"
 
 {
@@ -49,7 +55,7 @@ extern "C"
 	/// </summary>
 	/// <param name="Ptr">Non Zero Pointer to a block of memory containing a DEBUG_EVENT structure</param>
 	/// <returns></returns>
-	BOOL WINAPI DebugEvent_IsEventFrom32Bit(LPDEBUG_EVENT Ptr)
+	BOOL WINAPI DebugEvent_IsEventFrom32Bit(const LPDEBUG_EVENT Ptr)
 	{
 		if (Ptr)
 		{
@@ -301,6 +307,25 @@ extern "C"
 
 	DWORD WINAPI DebugEvent_ExceptionInfo_GetExceptionArgumentCount(LPDEBUG_EVENT Ptr)
 	{
+		MachineDependantExceptionRecord Except{ 0 };
+		bool Is32Bit = false;
+		if ( (Ptr) && (Ptr->dwDebugEventCode == EXCEPTION_DEBUG_EVENT))
+		{
+			Is32Bit = DebugEvent_IsEventFrom32Bit(Ptr);
+			CopyMemory(&Except.Except64, &Ptr->u.Exception, sizeof(Except.Except64));
+			return Except.Except64.NumberParameters;
+			if (Is32Bit)
+			{
+				//CopyMemory(&Except.Except32, &Ptr->u.Exception, sizeof(Except.Except32));
+				
+			}
+			else
+			{
+				
+				
+			}
+		}
+		/*
 		EXCEPTION_RECORD32 Except32;
 		EXCEPTION_RECORD64 Except64;
 		bool Pref32 = false;
@@ -332,7 +357,7 @@ extern "C"
 				}
 			}
 
-		}
+		}*/
 		return 0;
 	}
 
@@ -343,15 +368,48 @@ extern "C"
 	/// <returns></returns>
 	DWORD64* WINAPI DebugEvent_ExceptionInfo_GetExceptionInformation(LPDEBUG_EVENT Ptr)
 	{
-		DWORD64* Ret = nullptr;
-		EXCEPTION_RECORD32 Except32;
-		EXCEPTION_RECORD64 Except64;
+		DWORD64* ret = { 0 };
+		union GroupUpWithMe
+		{
+			EXCEPTION_RECORD Ignore;
+			EXCEPTION_RECORD32 Except32;
+			EXCEPTION_RECORD64 Except64;
+		} ExceptionData{ 0 };
+		
 		bool Pref32 = false;
-		memset(&Except32, 0, sizeof(EXCEPTION_RECORD32));
-		memset(&Except64, 0, sizeof(EXCEPTION_RECORD64));
 
+		
 		if (Ptr)
 		{
+			if (Ptr->dwDebugEventCode == EXCEPTION_DEBUG_EVENT)
+			{
+				ret = (DWORD64*)malloc(sizeof(DWORD64) * EXCEPTION_MAXIMUM_PARAMETERS);
+				if (ret)
+				{
+					ZeroMemory(ret, sizeof(DWORD64)* EXCEPTION_MAXIMUM_PARAMETERS);
+					ZeroMemory(&ExceptionData.Except64, sizeof(EXCEPTION_RECORD64));
+					Pref32 = DebugEvent_IsEventFrom32Bit(Ptr);
+					if (Pref32)
+					{
+						for (int step = 0; step < EXCEPTION_MAXIMUM_PARAMETERS; step++)
+						{
+							ret[step] = ((DWORD64)ExceptionData.Except32.ExceptionInformation[step]);
+						}
+					}
+					else
+					{
+						for (int step = 0; step < EXCEPTION_MAXIMUM_PARAMETERS; step++)
+						{
+							ret[step] = ((DWORD64)ExceptionData.Except64.ExceptionInformation[step]);
+						}
+					}
+					return ret;
+				}
+
+			}
+			return nullptr;
+
+			/*
 			if (Ptr->dwDebugEventCode == EXCEPTION_DEBUG_EVENT)
 			{
 				if (DebugEvent_IsEventFrom32Bit(Ptr))
@@ -383,7 +441,7 @@ extern "C"
 					}
 					return Ret;
 				}
-			}
+			}*/
 
 		}
 		return nullptr;

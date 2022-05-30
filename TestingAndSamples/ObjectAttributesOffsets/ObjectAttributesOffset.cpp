@@ -67,7 +67,7 @@ struct RTL_USER32
 };
 struct RTL_USER64
 {
-	BYTE Reserved[16];
+	BYTE Reserved1[16];
 	UINT64 Reserved2[10];
 	UNICODE_STRING64 ImagePathName;
 	UNICODE_STRING64 CommandLine;
@@ -77,11 +77,34 @@ int main()
 	UNICODE_STRING Buffer;
 	
 	
+	
 
 	
 	cout << "sizeof(PTR) = " << sizeof(VOID*) << endl;
 
-	
+	cout << "Offsets for RTL_USER64, RTL_USER32, RTL_USER_PROCESS_PARAMETERS based on <wintintern>" << endl;
+
+	cout << "sizeof(RTL_USER_PROCESS_PARAMETERS) == " << sizeof(RTL_USER_PROCESS_PARAMETERS) << endl;
+	cout << "sizeof(RTL_USER_PROCESS_PARAMETERS32) == " << sizeof(RTL_USER32) << endl;
+	cout << "sizeof(RTL_USER_PROCESS_PARAMETERS64) == " << sizeof(RTL_USER64) << endl;
+
+
+	cout << "offsetof(RTL_USER_PROCESS_PARAMETERS, Reserved1) " << offsetof(RTL_USER_PROCESS_PARAMETERS, Reserved1) << endl;
+	cout << "offsetof(RTL_USER_PROCESS_PARAMETERS, Reserved2) " << offsetof(RTL_USER_PROCESS_PARAMETERS, Reserved2) << endl;
+	cout << "offsetof(RTL_USER_PROCESS_PARAMETERS, ImagePathName) " << offsetof(RTL_USER_PROCESS_PARAMETERS, ImagePathName) << endl;
+	cout << "offsetof(RTL_USER_PROCESS_PARAMETERS, CommandLine) " << offsetof(RTL_USER_PROCESS_PARAMETERS, CommandLine) << endl;
+
+
+	cout << "offsetof(RTL_USER32, Reserved1) " << offsetof(RTL_USER32, Reserved1) << endl;
+	cout << "offsetof(RTL_USER32, Reserved2) " << offsetof(RTL_USER32, Reserved2) << endl;
+	cout << "offsetof(RTL_USER32, ImagePathName) " << offsetof(RTL_USER32, ImagePathName) << endl;
+	cout << "offsetof(RTL_USER32, CommandLine) " << offsetof(RTL_USER32, CommandLine) << endl;
+
+	cout << "offsetof(RTL_USER64, Reserved1) " << offsetof(RTL_USER64, Reserved1) << endl;
+	cout << "offsetof(RTL_USER64, Reserved2) " << offsetof(RTL_USER64, Reserved2) << endl;
+	cout << "offsetof(RTL_USER64, ImagePathName) " << offsetof(RTL_USER64, ImagePathName) << endl;
+	cout << "offsetof(RTL_USER64, CommandLine) " << offsetof(RTL_USER64, CommandLine) << endl;
+
 
 	cout << "Offsets for UNICODE_STRING, UNICODE_STRING32, UNICODE_STRING64" << endl;
 	cout << "sizeof(UNICODE_STRING) =" << sizeof(UNICODE_STRING) << endl;

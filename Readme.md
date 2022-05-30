@@ -14,21 +14,20 @@ debugging on windows. The project has a C/C++ back end but focuses heavily on us
 -----------------------------------
 Branch Navigation / Purpose.
 -----------------------------------
-This Readme is for the IODeviceTrackerNtCreatefile branch - which is working towards making that Telemetry Dll functional.
+This Readme is for the  HideFromDebugger Branch that adds a new telmetery file.
 
-Functional for this means:
-
-The Telemetry Dll detours for CreateFileA/W, CreateFileTransactedA/W  CreateFile2,
-NtOpenFile, CLoseHandle and NtCreateFIle.
-
-The Extension in the sheath has code to let the user test for exceptions from this dll, check the arguments and substitite the returned handle.
-
+What currently works in IoDeviceTracling
+NtCreateFile, CreateFileA/W.
 
 
 
 -----------------------------------
 Leveraging 'Telemetry Dlls'
 -----------------------------------
+IMPORTANT!!
+When running x64 bit based InsightAPI.DLL, you will be unable to inject x86 based DLLs into a x86 EXE. 
+
+
 This routine at https://github.com/microsoft/Detours/wiki/DetourCreateProcessWithDllEx will give a starting point for writing one.
 In short, your need to follow the requirements outlined for ensuring the process will load it ok.
 
@@ -175,7 +174,7 @@ SOURCE Citing
 
 		https://www.codeproject.com/Articles/132742/Writing-Windows-Debugger-Part-2    <- idea to use events and a worker thread form there.
 		https://www.codeproject.com/Articles/662735/Internals-of-Windows-Thread  <- learned about some of Windows thread
-
+		https://www.codeproject.com/articles/1090943/anti-debug-protection-techniques-implementation-an#HowToNeutralizeNtCreateThreadEx			<- NtCreateThreadEx
 
 		https://docs.microsoft.com/en-us/windows/win32/api/ <- the rather large MSDN documentation helped with the Windows API.
 ------------------------------------------

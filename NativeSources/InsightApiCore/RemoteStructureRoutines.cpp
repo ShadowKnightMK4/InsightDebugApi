@@ -21,9 +21,9 @@ namespace RemoteStructureRoutine
 	/// <param name="RemoteLocation">Location to write too</param>
 	/// <param name="Size"> How many byte (Range is > 0 and less than 9)</param>
 	/// <returns></returns>
-	BOOL RemotePokeCommon(HANDLE Process, ULONG64 Value, VOID* RemoteLocation, size_t Size) noexcept
+	BOOL WINAPI RemotePokeCommon(HANDLE Process, ULONG64 Value, VOID* RemoteLocation, SIZE_T Size) noexcept
 	{
-		size_t BytesWrote = 0;
+		SIZE_T BytesWrote = 0;
 		if ((RemoteLocation != 0) && (Process != 0) && ((Size >= 1) && (Size <= sizeof(ULONG64))))
 		{
 			if (WriteProcessMemory(Process, RemoteLocation, &Value, Size, &BytesWrote))
@@ -36,100 +36,70 @@ namespace RemoteStructureRoutine
 		}
 		return FALSE;
 	}
-	BOOL RemotePoke8(HANDLE Process, ULONG64 Value, VOID* RemoteLocation) noexcept
+	BOOL WINAPI RemotePoke8(HANDLE Process, ULONG64 Value, VOID* RemoteLocation) noexcept
 	{
-		/*
-		if ((RemoteLocation != 0) && (Process != 0))
-		{
-			SIZE_T BytesWrote = 0;
-			if (WriteProcessMemory(Process, RemoteLocation, &Value, sizeof(ULONG64), &BytesWrote))
-			{
-				if (BytesWrote == sizeof(ULONG64))
-				{
-					return TRUE;
-				}
-			}
-		}
-		return FALSE;*/
 		return RemotePokeCommon(Process, Value, RemoteLocation, sizeof(ULONGLONG));
 	}
-	BOOL RemotePoke4(HANDLE Process, DWORD Value, VOID* RemoteLocation) noexcept
+	BOOL WINAPI RemotePoke4(HANDLE Process, DWORD Value, VOID* RemoteLocation) noexcept
 	{
 		return RemotePokeCommon(Process, Value, RemoteLocation, sizeof(DWORD));
+	}
+
+	VOID* WINAPI RemoteReadUserProcessParameters(HANDLE Process, LPVOID RemoteMemory, BOOL IsTarget32Bit)
+	{
+		SIZE_T readme;
+		SIZE_T bytesRead;
+		MachineDependantUserProcessParameters ret = { nullptr };
+		union Padding
+		{
+			RTL_USER_PROCESS_PARAMETERS32 r32;
+			RTL_USER_PROCESS_PARAMETERS64 r64;
+		} local;
+
+		return nullptr;
+		if (IsTarget32Bit)
+		{
+			readme = sizeof(RTL_USER_PROCESS_PARAMETERS32);
+		}
+		else
+		{
+			readme = sizeof(RTL_USER_PROCESS_PARAMETERS64);
+		}
+
+		if (ReadProcessMemory(Process, RemoteMemory, &local.r64, readme, &bytesRead))
+		{
+			if (bytesRead != readme)
+			{
+				return nullptr;
+			}
+		}
+
+	
 		/*
-#ifdef _DEBUG
-		DWORD LastError=0;
-#endif
-		if ((RemoteLocation != 0) && (Process != 0))
-		{
-			SIZE_T BytesWrote = 0;
-			if (WriteProcessMemory(Process, RemoteLocation, &Value, sizeof(DWORD), &BytesWrote))
-			{
-				if (BytesWrote == sizeof(DWORD))
-				{
-					return TRUE;
+		* 	ret.p64->Length = local.ret64.Length;
+					if (ret.p64->RootDirectory != 0)
+					{
+						ret.p64->RootDirectory = (ULONGLONG)DuplicateHandleToSelf(Process, (HANDLE)local.ret64.RootDirectory);
+					}
+					else
+					{
+						ret.p64->RootDirectory = 0;
+					}
+
+					if (local.ret64.ObjectName != 0)
+					{
+						ret.p64->ObjectName = (ULONGLONG)RemoteReadUnicodeString(Process, local.ret64.ObjectName, TargetIs32);
+					}
+					else
+					{
+						ret.p64->ObjectName = 0;
+					}
+
+					ret.p64->Attributes = local.ret64.Attributes;
+					ret.p64->SecurityDesc = local.ret64.SecurityDesc;
+					ret.p64->SecurityQoS = local.ret64.SecurityQoS;
 				}
-			}
-			else
-			{
-#ifdef _DEBUG
-				LastError = GetLastError();
-				
-#endif
-			}
-		}
 		*/
-
-		return FALSE;
-	}
-
-	/// <summary>
-	/// Allocate a buffer of MaxBuffer, read from the passed process's RemoteMemory allocate and return said buffer
-	/// </summary>
-	/// <param name="Process">Here 0 = GetCurrentProcess(), True process handle needs PROCESS_VM_READ</param>
-	/// <param name="RemoteMemory">Virtual Memory location in the remote process</param>
-	/// <param name="MaxBuffer">MaxBuffer to allocate and read (UNICODE_STRING struct has this value)</param>
-	/// <returns>a buffer allocated with malloc() of MaxBuffer size with the data read from the remote process. Returns nullptr on error or bad argument</returns>
-	PWSTR ReadRemoteUnicodeStringBuffer(HANDLE Process, PCWSTR RemoteMemory, USHORT MaxBuffer, USHORT DataSize)
-	{
-		PWSTR ret = nullptr;
-		if (Process == 0)
-		{
-			Process = GetCurrentProcess();
-		}
-		if (RemoteMemory == nullptr)
-		{
-			return nullptr;
-		}
-		if (MaxBuffer < DataSize)
-		{
-			return nullptr;
-		}
-		if (MaxBuffer != 0)
-		{
-			SIZE_T BytesRead = 0;
-			ret = reinterpret_cast<PWSTR>(malloc(MaxBuffer + sizeof(wchar_t)));
-			if (ret)
-			{
-				memset(ret, 0, MaxBuffer + sizeof(wchar_t));
-				if (!ReadProcessMemory(Process, RemoteMemory, ret, DataSize, &BytesRead))
-				{
-					free(ret);
-					return nullptr;
-				}
-				else
-				{
-					return ret;
-				}
-			}
-		}
-		return ret;
-	}
-
-	RTL_USER_PROCESS_PARAMETERS* RemoteReadUserProcessParameters(HANDLE Process, LPVOID RemoteMemory)
-	{
-		RTL_USER_PROCESS_PARAMETERS* ret = nullptr;
-		return ret;
 	}
 
 
@@ -141,20 +111,8 @@ namespace RemoteStructureRoutine
 		/// <returns></returns>
 	BOOL RemoteFreeUserProcessParameters(RTL_USER_PROCESS_PARAMETERS* ptr)
 	{
-		if (ptr)
-		{
-			if (ptr->CommandLine.Buffer != nullptr)
-			{
-				free(ptr->CommandLine.Buffer);
-			}
-			if (ptr->ImagePathName.Buffer != nullptr)
-			{
-				free(ptr->ImagePathName.Buffer);
-			}
-			free(ptr);
-			return TRUE;
-		}
 		return FALSE;
+	
 	}
 
 
@@ -266,8 +224,15 @@ namespace RemoteStructureRoutine
 	};
 
 	*/
+	
+	/*
+	* How this interacts with the Sheath and x86 vs x64 and the sheath.
+	* 
+	* If TargetIs32Bit is set
+	* we allocate and return 
+	*/
 
-	VOID* WINAPI RemoteReadUnicodeString(HANDLE Process, UINT_PTR MemoryLocation, BOOL TargetIs32)
+	VOID* WINAPI RemoteReadUnicodeString(HANDLE Process, UINT_PTR MemoryLocation, BOOL TargetIs32) noexcept
 	{
 		SIZE_T BytesRead = 0;
 		SIZE_T SizeToRead = 0;
@@ -291,7 +256,72 @@ namespace RemoteStructureRoutine
 			SizeToRead = sizeof(UNICODE_STRING64);
 		}
 
+		/*
+		* This version here always allocates and returns a UNICODE_STRING64 + buffer. The 32-bit value and struct is promoted to the 64-bit version.
+		*/
+		if (ReadProcessMemory(Process, (LPCVOID)MemoryLocation, &local.ret32, SizeToRead, &BytesRead))
+		{
+			ret.p64 = (UNICODE_STRING64*)malloc(sizeof(UNICODE_STRING64));
 
+			if (ret.p64 == 0)
+			{
+				return nullptr;
+			}
+			else
+			{
+				ZeroMemory(ret.p64, sizeof(UNICODE_STRING64));
+				if (TargetIs32)
+				{
+					ret.p64->Buffer = (ULONGLONG)malloc(local.ret32.MaxLength);
+					if (ret.p64->Buffer == 0)
+					{
+						free(ret.p64);
+						return nullptr;
+					}
+					ZeroMemory((VOID*)ret.p64->Buffer, local.ret32.MaxLength);
+					ret.p64->MaxLength = local.ret32.MaxLength;
+					ret.p64->Length = local.ret32.Length;
+					if (!ReadProcessMemory(Process, (LPCVOID)local.ret32.Buffer, (LPVOID)ret.p64->Buffer, local.ret32.Length, &BytesRead))
+					{
+						if (BytesRead < ret.p32->Length)
+						{
+							free((VOID*)ret.p64->Buffer);
+							free(ret.p64);
+							return nullptr;
+						}
+						return ret.p64;
+					}
+				}
+				else
+				{
+					ret.p64->Buffer = (ULONGLONG)malloc(local.ret64.MaxLength);
+					if (ret.p64->Buffer == 0) 
+					{
+						free(ret.p64);
+						return nullptr;
+					}
+					ZeroMemory((VOID*)ret.p64->Buffer, local.ret64.MaxLength);
+					ret.p64->MaxLength = local.ret64.MaxLength;
+					ret.p64->Length = local.ret64.Length;
+					if (!ReadProcessMemory(Process, (LPCVOID)local.ret64.Buffer, (LPVOID)ret.p64->Buffer, local.ret64.Length, &BytesRead))
+					{
+						if (BytesRead < ret.p64->Length)
+						{
+							free((VOID*)ret.p64->Buffer);
+							free(ret.p64);
+							return nullptr;
+						}
+					}
+					return ret.p64;
+				}
+			}
+		}
+
+
+
+		/*
+		* THIS WORKS BUT if malloc() returns something biggger than UINT for reading a 32-bit code it'll break.
+		* 
 		if (ReadProcessMemory(Process, (LPCVOID)MemoryLocation, &local.ret32, SizeToRead, &BytesRead))
 		{
 			if (TargetIs32)
@@ -302,6 +332,7 @@ namespace RemoteStructureRoutine
 					ZeroMemory(ret.p32, sizeof(UNICODE_STRING32));
 					ret.p32->Length = local.ret32.Length;
 					ret.p32->MaxLength = local.ret32.MaxLength;
+					 This will need to be delt with.  Eventually. malloc may return something more than UINT sized
 					ret.p32->Buffer = (UINT)malloc(local.ret32.MaxLength);
 					if (ret.p32->Buffer != 0)
 					{
@@ -347,6 +378,7 @@ namespace RemoteStructureRoutine
 			
 
 		}
+		*/
 		return nullptr;
 	}
 
@@ -428,19 +460,19 @@ namespace RemoteStructureRoutine
 
 	VOID* WINAPI RemoteReadObjectAttributes(HANDLE Process, UINT_PTR MemoryLocation, BOOL TargetIs32)
 	{
-		SIZE_T BytesRead;
-		SIZE_T SizeToRead;
+		SIZE_T BytesRead=0;
+		SIZE_T SizeToRead=0;
 		
 		union padding 
 		{
 			OBJECT_ATTRIBUTES32 ret32;
 			OBJECT_ATTRIBUTES64 ret64;
-		} local;
+		} local = { 0 };
 		union ret_padding
 		{
 			OBJECT_ATTRIBUTES32* p32;
 			OBJECT_ATTRIBUTES64* p64;
-		} ret;
+		} ret{ nullptr };
 
 		if (TargetIs32)
 		{

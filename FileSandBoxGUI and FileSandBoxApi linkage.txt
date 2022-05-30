@@ -1,23 +1,33 @@
 
 
+Insight's Implementation.
+
+The Native Dll, InsightAPI.dll is compiled either for x64 or x86 depending on your needs. You'll
+likely want x64 bit as that will let you deal with pointers of 4 or  8 bytes.
+
+The Sheath is what you use for in c# to work with the Native DLL. Why it's called the Sheath it that
+it's intended to work with the native DLL to provide a convenient wrapper that works on top of the 
+native DLL. Generally it's a thin wrapper but there are a few routines found only in the C# wrapper not found in 
+the Native dll - for example WindowsUnicodeString in the C# wrapper
+
+
+ALL Native routines exported in the InsightAPI DLL are WINAPI/ _stdcall export.
 The native dll.  FileSandBoxApi. exports a "C" level linking for public facing classes.
 Each class has a MakeInstance, CopyInstance and KillInstance exported routine to handle memory management.
 
+There are a lot of classes and structs to work with InsightAPI; however, in general you're going to be dealing
+with the classes below to Spawn, Debug, lookup process information and handle Events received from the debugger.
 
-class PS_ProcessInformation.
-what is it:
-		  Handles Process Spawning (including the detours stuff)
-		  
-Where is it
-		Source is in PS_ProcessInformation.cpp:
-Public Native Access:
-		  the Native Dll exports a series of routine that call the C++ class routine and are named
-			"PS_ProcessInformation_XXXXXX" whear the routine is in question.  
-		  The Native DLL wrapper routines all are exported as WINAPI (stdcall) calling converntion..
-		  These wroutiens are local to PS_ProcessInformationCCall.cpp
-Mangaged Wrapper:
-		  Wrapper class in the FileScript GUI is named "PsProcessInformation" and located in "PsProcessInformation.cs"
-		  Imports that call the public native routiens are contained within NativeMethods.cs
+C# class InsightProcess
+
+What this does:
+This handles spawning processes and specifying additional telemetry/ detours DLL to spawn and if you're going
+to want to debug the spawned process.  Does not currently support attaching to existing process.
+
+Implementation:
+Wrappers\InsightProcess.cs	<- contains the class wrapper for C#.
+NativeImports\InsightProcessNative.cs		<- contains the DllImports from InsightApi.DLL that InsightProcess.cs uses
+											<-  These are placed in an internal partial class called NativeImports.cs
 
 
 

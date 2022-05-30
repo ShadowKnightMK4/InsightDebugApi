@@ -4,23 +4,24 @@
 * 
 * The majority of these are thin wrappers to the underlying class.
 */
-#include "PS_ProcessInformation.h"
-#include "StarutpInfoStructHelper.h"
+#include "InsightProcess.h"
+#include "StartupInfoStructHelper.h"
 #include "Utility.h"
 #include "InsightHunter.h"
 extern "C"
 {
+	
 
 	/// <summary>
 	/// Exports a constructor for the class
 	/// </summary>
 	/// <returns></returns>
-	PS_ProcessInformation* WINAPI PS_ProcessInformation_MakeInstance()
+	InsightProcess* WINAPI InsightProcess_MakeInstance()
 	{
-		return new PS_ProcessInformation();
+		return new InsightProcess();
 	}
 
-	StartupInfoWrapper* WINAPI PS_ProcessInformation_GetStartupInfoClass(PS_ProcessInformation* that)
+	StartupInfoWrapper* WINAPI InsightProcess_GetStartupInfoClass(InsightProcess* that)
 	{
 		if (that)
 		{
@@ -34,22 +35,22 @@ extern "C"
 	/// </summary>
 	/// <param name="other"></param>
 	/// <returns></returns>
-	PS_ProcessInformation* WINAPI PS_ProcessInformation_DupInstance(PS_ProcessInformation* other)
+	InsightProcess* WINAPI InsightProcess_DupInstance(InsightProcess* other)
 	{
 		if (other)
 		{
-			PS_ProcessInformation* ret = new PS_ProcessInformation(*other);
+			InsightProcess* ret = new InsightProcess(*other);
 			return ret;
 		}
 		return nullptr;
 	}
 
 	/// <summary>
-	/// Exports triggereing the destructor for the class
+	/// Exports triggering the destructor for the class
 	/// </summary>
 	/// <param name="that"></param>
 	/// <returns></returns>
-	void WINAPI PS_ProcessInformation_KillInstance(PS_ProcessInformation* that)
+	void WINAPI InsightProcess_KillInstance(InsightProcess* that)
 	{
 		if (that)
 		{
@@ -58,12 +59,12 @@ extern "C"
 	}
 
 	/// <summary>
-	/// Assign the process that will be spawned with this class
+	/// Assign the process that will be spawned with this class. Pointless after process is spawned.
 	/// </summary>
 	/// <param name="that"></param>
 	/// <param name="ProcessName"></param>
 	/// <returns></returns>
-	void WINAPI PS_ProcessInformation_SetProcessName(PS_ProcessInformation* that, const wchar_t* ProcessName)
+	void WINAPI InsightProcess_SetProcessName(InsightProcess* that, const wchar_t* ProcessName)
 	{
 		if (that)
 		{
@@ -76,7 +77,7 @@ extern "C"
 	/// </summary>
 	/// <param name="that"></param>
 	/// <returns></returns>
-	const wchar_t* WINAPI PS_ProcessInformation_GetProcessName(PS_ProcessInformation* that)
+	const wchar_t* WINAPI InsightProcess_GetProcessName(InsightProcess* that)
 	{
 		if (that)
 		{
@@ -92,7 +93,7 @@ extern "C"
 	/// <param name="that"></param>
 	/// <param name="Argument"></param>
 	/// <returns></returns>
-	void WINAPI PS_ProcessInformation_SetProcessArgument(PS_ProcessInformation* that, const wchar_t* Argument)
+	void WINAPI InsightProcess_SetProcessArgument(InsightProcess* that, const wchar_t* Argument)
 	{
 		if (that)
 		{
@@ -105,7 +106,7 @@ extern "C"
 	/// </summary>
 	/// <param name="that"></param>
 	/// <returns></returns>
-	const wchar_t* WINAPI PS_ProcessInformation_GetProcessArgument(PS_ProcessInformation* that)
+	const wchar_t* WINAPI InsightProcess_GetProcessArgument(InsightProcess* that)
 	{
 		if (that)
 		{
@@ -120,7 +121,7 @@ extern "C"
 	/// <param name="that"></param>
 	/// <param name="flags"></param>
 	/// <returns></returns>
-	void WINAPI PS_ProcessInformation_SetCreationFlags(PS_ProcessInformation* that, DWORD flags)
+	void WINAPI InsightProcess_SetCreationFlags(InsightProcess* that, DWORD flags)
 	{
 		if (that)
 		{
@@ -135,7 +136,7 @@ extern "C"
 	/// <param name="that"></param>
 	/// <param name="flags"></param>
 	/// <returns></returns>
-	void WINAPI PS_ProcessInformation_SetCreationFlagDebug(PS_ProcessInformation* that, DWORD flags)
+	void WINAPI InsightProcess_SetCreationFlagDebug(InsightProcess* that, DWORD flags)
 	{
 		if (that)
 		{
@@ -149,7 +150,7 @@ extern "C"
 	/// <param name="that"></param>
 	/// <param name="flags"></param>
 	/// <returns></returns>
-	void WINAPI PS_ProcessInformation_SetCreationFlagDebugOnlyThis(PS_ProcessInformation* that, DWORD flags)
+	void WINAPI InsightProcess_SetCreationFlagDebugOnlyThis(InsightProcess* that, DWORD flags)
 	{
 		if (that)
 		{
@@ -163,7 +164,7 @@ extern "C"
 	/// <param name="that"></param>
 	/// <param name="flags"></param>
 	/// <returns></returns>
-	void WINAPI PS_ProcessInformation_SetCreationFlagDebugSuspended(PS_ProcessInformation* that, DWORD flags)
+	void WINAPI InsightProcess_SetCreationFlagDebugSuspended(InsightProcess* that, DWORD flags)
 	{
 		if (that)
 		{
@@ -177,7 +178,7 @@ extern "C"
 	/// <param name="that"></param>
 	/// <param name="flags"></param>
 	/// <returns></returns>
-	void WINAPI PS_ProcessInformation_SetCreationFlagDebugOnlyThisSuspended(PS_ProcessInformation* that, DWORD flags)
+	void WINAPI InsightProcess_SetCreationFlagDebugOnlyThisSuspended(InsightProcess* that, DWORD flags)
 	{
 		if (that)
 		{
@@ -189,7 +190,7 @@ extern "C"
 	/// </summary>
 	/// <param name="that"></param>
 	/// <returns></returns>
-	DWORD WINAPI PS_ProcessInformation_GetCreationFlags(PS_ProcessInformation* that)
+	DWORD WINAPI InsightProcess_GetCreationFlags(InsightProcess* that)
 	{
 		if (that)
 		{
@@ -199,12 +200,12 @@ extern "C"
 	}
 
 	/// <summary>
-	/// Set the Current (or working) diretory for the process spawned
+	/// Set the Current (or working) directory for the process spawned
 	/// </summary>
 	/// <param name="that"></param>
 	/// <param name="NewCD"></param>
 	/// <returns></returns>
-	void WINAPI PS_ProcessInformation_SetWorkingDirectory(PS_ProcessInformation* that, const wchar_t* NewCD)
+	void WINAPI InsightProcess_SetWorkingDirectory(InsightProcess* that, const wchar_t* NewCD)
 	{
 		if (that)
 		{
@@ -217,7 +218,7 @@ extern "C"
 	/// </summary>
 	/// <param name="that"></param>
 	/// <returns></returns>
-	const wchar_t* WINAPI PS_ProcessInformation_GetWorkingDirectory(PS_ProcessInformation* that)
+	const wchar_t* WINAPI InsightProcess_GetWorkingDirectory(InsightProcess* that)
 	{
 		if (that)
 		{
@@ -228,13 +229,13 @@ extern "C"
 
 
 	/// <summary>
-	/// Specifiy if you wish to include the default Enviroment (yours) when Spawning a process.
-	/// Values you explicity assign, however, will overwrite the values loaded.
+	/// Specify if you wish to include the default Environment (yours) when Spawning a process.
+	/// Values explicitly assigned; however, will overwrite the values received from the default environment.
 	/// </summary>
 	/// <param name="that"></param>
 	/// <param name="WantInherit"></param>
 	/// <returns></returns>
-	void WINAPI PS_ProcessInformation_SetEnvInherit(PS_ProcessInformation* that, BOOL WantInherit)
+	void WINAPI InsightProcess_SetEnvInherit(InsightProcess* that, BOOL WantInherit)
 	{
 		if (that)
 		{
@@ -243,11 +244,11 @@ extern "C"
 	}
 
 	/// <summary>
-	/// Clear the Explicit Envirovnment Block 
+	/// Clear the Explicit Environment Block 
 	/// </summary>
 	/// <param name="that"></param>
 	/// <returns></returns>
-	void WINAPI PS_ProcessInformation_ClearEnvBlock(PS_ProcessInformation* that)
+	void WINAPI InsightProcess_ClearEnvBlock(InsightProcess* that)
 	{
 		if (that)
 		{
@@ -256,13 +257,13 @@ extern "C"
 	}
 
 	/// <summary>
-	/// Assign an explicit enviroment value to this class's enviroment block. If you specify an existing value (or something that is inheriting, YOUR value will overwrite it)
+	/// Assign an explicit environment value to this class's environment block. If you specify an existing value (or something that is inheriting, YOUR value will overwrite it)
 	/// </summary>
 	/// <param name="that"></param>
 	/// <param name="EnvVarName"></param>
 	/// <param name="EnvVarValue"></param>
 	/// <returns></returns>
-	void WINAPI PS_ProcessInformation_AssignEnvValue(PS_ProcessInformation* that, const wchar_t* EnvVarName, const wchar_t* EnvVarValue)
+	void WINAPI InsightProcess_AssignEnvValue(InsightProcess* that, const wchar_t* EnvVarName, const wchar_t* EnvVarValue)
 	{
 		if (that)
 		{
@@ -276,12 +277,12 @@ extern "C"
 
 
 	/// <summary>
-	/// Returns the value of the passed env prevously added by PS_ProcessInformation_AssignEnvValue.  Does NOT fetch inherited values from the default enviroment
+	/// Returns the value of the passed previously added by PS_ProcessInformation_AssignEnvValue.  Does NOT fetch inherited values from the default environment
 	/// </summary>
 	/// <param name="that"></param>
 	/// <param name="EnvVarName"></param>
 	/// <returns></returns>
-	const wchar_t* WINAPI PS_ProcessInformation_GetEnvValue(PS_ProcessInformation* that, const wchar_t* EnvVarName)
+	const wchar_t* WINAPI InsightProcess_GetEnvValue(InsightProcess* that, const wchar_t* EnvVarName)
 	{
 		if (that)
 		{
@@ -294,12 +295,12 @@ extern "C"
 	}
 
 	/// <summary>
-	/// Add a Detours Compatiable Dll that the target will be forced to spawn.
+	/// Add a Detours Compatible DLL that the target will be forced to spawn.
 	/// </summary>
 	/// <param name="that"></param>
 	/// <param name="DllName"></param>
 	/// <returns></returns>
-	BOOL WINAPI PS_ProcessInformation_AddDetoursDllA(PS_ProcessInformation* that, const char* DllName)
+	BOOL WINAPI InsightProcess_AddDetoursDllA(InsightProcess* that, const char* DllName)
 	{
 		if (that != nullptr)
 		{
@@ -318,7 +319,7 @@ extern "C"
 	/// </summary>
 	/// <param name="that"></param>
 	/// <returns></returns>
-	VOID WINAPI PS_ProcessInformation_ClearDetoursList(PS_ProcessInformation* that)
+	VOID WINAPI InsightProcess_ClearDetoursList(InsightProcess* that)
 	{
 		if (that != nullptr)
 		{
@@ -327,7 +328,7 @@ extern "C"
 	}
 
 
-	const char* PS_ProcessInformation_GetDetourListEntryReadOnly(PS_ProcessInformation* that, int index)
+	const char* InsightProcess_GetDetourListEntryReadOnly(InsightProcess* that, int index)
 	{
 		if (that == nullptr)
 		{
@@ -344,7 +345,7 @@ extern "C"
 	/// </summary>
 	/// <param name="that">the this pointer.</param>
 	/// <returns>If that=0, returns 0. Otherwise returns results of calling PS_ProcessInformation::GetDetourListSize() </returns>
-	unsigned long long PS_ProcessInformation_GetDetourListSize(PS_ProcessInformation* that)
+	unsigned long long InsightProcess_GetDetourListSize(InsightProcess* that)
 	{
 		if (that == nullptr)
 		{
@@ -359,28 +360,34 @@ extern "C"
 	/// <param name="that"></param>
 	/// <param name="DllName"></param>
 	/// <returns></returns>
-	BOOL WINAPI PS_ProcessInformation_AddDetoursDllW(PS_ProcessInformation* that, const wchar_t* DllName)
+	BOOL WINAPI InsightProcess_AddDetoursDllW(InsightProcess* that, const wchar_t* DllName)
 	{
 		BOOL Ret = FALSE;
 		char* Ansi = nullptr;
 		if ( (that != nullptr) && (DllName != nullptr) )
 		{
+			__try
+			{
 				Ansi = ConvertUnicodeString(DllName);
 				if (Ansi)
 				{
-					Ret = PS_ProcessInformation_AddDetoursDllA( that, Ansi);
-					free(Ansi);
+					Ret = InsightProcess_AddDetoursDllA(that, Ansi);
 				}
+			}
+			__finally
+			{
+				free(Ansi);
+			}
 		}
 		return Ret;
 	}
 
 	/// <summary>
-	/// Spawn the processs contained with the the class.
+	/// Spawn the process contained with the class.
 	/// </summary>
 	/// <param name="that"></param>
 	/// <returns></returns>
-	DWORD WINAPI  PS_ProcessInformation_SpawnProcess(PS_ProcessInformation* that)
+	DWORD WINAPI  InsightProcess_SpawnProcess(InsightProcess* that)
 	{
 		if (that != nullptr)
 		{
@@ -391,7 +398,7 @@ extern "C"
 	
 	
 
-	void WINAPI PS_ProcessInformation_SetDebugMode(PS_ProcessInformation* that, DWORD dmMode)
+	void WINAPI InsightProcess_SetDebugMode(InsightProcess* that, DWORD dmMode)
 	{
 		if (that != nullptr)
 		{
@@ -399,7 +406,7 @@ extern "C"
 		}
 	}
 
-	DWORD WINAPI PS_ProcessInformation_GetDebugMode(PS_ProcessInformation* that)
+	DWORD WINAPI InsightProcess_GetDebugMode(InsightProcess* that)
 	{
 		if (that != nullptr)
 		{
@@ -408,7 +415,7 @@ extern "C"
 		return 0;
 	}
 
-	void WINAPI PS_ProcessInformation_PulseDebugThread(PS_ProcessInformation* that)
+	void WINAPI InsightProcess_PulseDebugThread(InsightProcess* that)
 	{
 		if (that != nullptr)
 		{
@@ -417,7 +424,7 @@ extern "C"
 	}
 
 
-	void WINAPI PS_ProcessInformation_SetDebugEventCallback(PS_ProcessInformation* that, DebugEventCallBackRoutine UserRoutine)
+	void WINAPI InsightProcess_SetDebugEventCallback(InsightProcess* that, DebugEventCallBackRoutine UserRoutine)
 	{
 		if ((that != nullptr))
 		{
@@ -426,7 +433,7 @@ extern "C"
 	}
 
 
-	VOID* WINAPI PS_ProcessInformation_GetDebugEventCallback(PS_ProcessInformation* that)
+	VOID* WINAPI InsightProcess_GetDebugEventCallback(InsightProcess* that)
 	{
 		if (that != nullptr)
 		{
@@ -438,7 +445,7 @@ extern "C"
 		}
 	}
 
-	HANDLE WINAPI Ps_ProcessInformation_GetMainThreadHandle(PS_ProcessInformation* that)
+	HANDLE WINAPI InsightProcess_GetMainThreadHandle(InsightProcess* that)
 	{
 		if (that != nullptr)
 		{
@@ -447,7 +454,7 @@ extern "C"
 		return INVALID_HANDLE_VALUE;
 	}
 
-	HANDLE WINAPI Ps_ProcessInformation_GetMainProcessHandle(PS_ProcessInformation* that)
+	HANDLE WINAPI InsightProcess_GetMainProcessHandle(InsightProcess* that)
 	{
 		if (that != nullptr)
 		{
@@ -456,7 +463,7 @@ extern "C"
 		return INVALID_HANDLE_VALUE;
 	}
 
-	DWORD WINAPI Ps_ProcessInformation_GetMainProcessId(PS_ProcessInformation* that)
+	DWORD WINAPI InsightProcess_GetMainProcessId(InsightProcess* that)
 	{
 		if (that != nullptr)
 		{
@@ -465,7 +472,7 @@ extern "C"
 		return 0;
 	}
 
-	DWORD WINAPI Ps_ProcessInformation_GetMainThreadId(PS_ProcessInformation* that)
+	DWORD WINAPI InsightProcess_GetMainThreadId(InsightProcess* that)
 	{
 		if (that != nullptr)
 		{
@@ -474,7 +481,7 @@ extern "C"
 		return 0;
 	}
 
-	DWORD WINAPI Ps_ProcessInformation_SetSymbolHandling(PS_ProcessInformation* that, DWORD NewStatus)
+	DWORD WINAPI InsightProcess_SetSymbolHandling(InsightProcess* that, DWORD NewStatus)
 	{
 		if (that != nullptr)
 		{
@@ -483,7 +490,7 @@ extern "C"
 		return 0;
 	}
 
-	DWORD WINAPI Ps_ProcessInformation_GetSymbolHandling(PS_ProcessInformation* that)
+	DWORD WINAPI InsightProcess_GetSymbolHandling(InsightProcess* that)
 	{
 		if (that != nullptr)
 		{
@@ -492,7 +499,7 @@ extern "C"
 			return 0;
 	}
 	
-	InsightHunter* WINAPI Ps_ProcessInformation_GetSymbolHandlerClass(PS_ProcessInformation* that)
+	InsightHunter* WINAPI InsightProcess_GetSymbolHandlerClass(InsightProcess* that)
 	{
 		if (that != nullptr)
 		{
@@ -502,7 +509,7 @@ extern "C"
 	}
 
 
-	BOOL WINAPI Ps_ProcessInformation_AddPriorityDllPathW(PS_ProcessInformation* that, LPCWSTR Path)
+	BOOL WINAPI InsightProcess_AddPriorityDllPathW(InsightProcess* that, LPCWSTR Path)
 	{
 		if (that != nullptr)
 		{
@@ -511,7 +518,7 @@ extern "C"
 		return 0;
 	}
 	
-	BOOL WINAPI Ps_ProcessInformation_AddPriorityDllPathA(PS_ProcessInformation* that, LPCSTR Path)
+	BOOL WINAPI InsightProcess_AddPriorityDllPathA(InsightProcess* that, LPCSTR Path)
 	{
 		if (that != nullptr)
 		{
@@ -520,7 +527,7 @@ extern "C"
 		return 0;
 	}
 
-	DWORD WINAPI Ps_ProcessInformation_GetPriorityDllPath_NumberOf(PS_ProcessInformation* that)
+	DWORD WINAPI InsightProcess_GetPriorityDllPath_NumberOf(InsightProcess* that)
 	{
 		if (that != nullptr)
 		{
@@ -529,7 +536,7 @@ extern "C"
 		return 0;
 	}
 
-	LPCWSTR WINAPI Ps_ProcessInformation_IndexPriorityDllPath(PS_ProcessInformation* that, int location)
+	LPCWSTR WINAPI InsightProcess_IndexPriorityDllPath(InsightProcess* that, int location)
 	{
 		if (that != nullptr)
 		{
@@ -544,14 +551,14 @@ extern "C"
 		return nullptr;
 	}
 
-	VOID WINAPI Ps_ProcessInformation_ClearPriorityDllPath(PS_ProcessInformation* that)
+	VOID WINAPI InsightProcess_ClearPriorityDllPath(InsightProcess* that)
 	{
 		if (that != nullptr)
 		{
 			that->EmptyPriorityLoadLibaryPath();
 		}
 	}
-	BOOL WINAPI Ps_ProcessInformation_SetCommandment(PS_ProcessInformation* that, DWORD Cmd, BOOL Enabled)
+	BOOL WINAPI InsightProcess_SetCommandment(InsightProcess* that, DWORD Cmd, BOOL Enabled)
 	{
 		if (that != nullptr)
 		{
@@ -560,7 +567,7 @@ extern "C"
 		return FALSE;
 	}
 
-	BOOL WINAPI Ps_ProcessInformation_GetCommandment(PS_ProcessInformation* that, DWORD Cmd)
+	BOOL WINAPI InsightProcess_GetCommandment(InsightProcess* that, DWORD Cmd)
 	{
 		if (that != nullptr)
 		{
@@ -574,7 +581,7 @@ extern "C"
 	PROCESS_MEMORY_COUNTERS_EX* GetMemoryStatsBulkPtr();*/
 
 
-	PROCESS_MEMORY_COUNTERS_EX* WINAPI Ps_ProcessInformation_GetMemoryStatsBulkPtr(PS_ProcessInformation* that)
+	PROCESS_MEMORY_COUNTERS_EX* WINAPI InsightProcess_GetMemoryStatsBulkPtr(InsightProcess* that)
 	{
 		if (that != nullptr)
 		{
@@ -583,7 +590,7 @@ extern "C"
 		return nullptr;
 	}
 
-	SIZE_T WINAPI Ps_ProcessInformation_GetPrivateUsage(PS_ProcessInformation* that)
+	SIZE_T WINAPI InsightProcess_GetPrivateUsage(InsightProcess* that)
 	{
 		if (that != nullptr)
 		{
@@ -595,7 +602,7 @@ extern "C"
 
 
 
-	SIZE_T WINAPI Ps_ProcessInformation_GetPageFaultCount(PS_ProcessInformation* that)
+	SIZE_T WINAPI InsightProcess_GetPageFaultCount(InsightProcess* that)
 	{
 		if (that != nullptr)
 		{
@@ -605,7 +612,7 @@ extern "C"
 	}
 
 
-	SIZE_T WINAPI Ps_ProcessInformation_GetPeakWorkingSet(PS_ProcessInformation* that)
+	SIZE_T WINAPI InsightProcess_GetPeakWorkingSet(InsightProcess* that)
 	{
 		if (that != nullptr)
 		{
@@ -614,7 +621,7 @@ extern "C"
 		return 0;
 	}
 
-	SIZE_T WINAPI Ps_ProcessInformation_GetWorkingSetSize(PS_ProcessInformation* that)
+	SIZE_T WINAPI InsightProcess_GetWorkingSetSize(InsightProcess* that)
 	{
 		if (that != nullptr)
 		{
@@ -623,7 +630,7 @@ extern "C"
 		return 0;
 	}
 
-	SIZE_T WINAPI Ps_ProcessInformation_GetQuotaPeakPagePoolUsage(PS_ProcessInformation* that)
+	SIZE_T WINAPI InsightProcess_GetQuotaPeakPagePoolUsage(InsightProcess* that)
 	{
 		if (that != nullptr)
 		{
@@ -634,7 +641,7 @@ extern "C"
 
 
 
-	SIZE_T WINAPI Ps_ProcessInformation_GetQuotaPagePoolUsage(PS_ProcessInformation* that)
+	SIZE_T WINAPI InsightProcess_GetQuotaPagePoolUsage(InsightProcess* that)
 	{
 		if (that != nullptr)
 		{
@@ -645,7 +652,7 @@ extern "C"
 
 
 
-	SIZE_T WINAPI Ps_ProcessInformation_GetQuotaPeakNonPagePoolUsage(PS_ProcessInformation* that)
+	SIZE_T WINAPI InsightProcess_GetQuotaPeakNonPagePoolUsage(InsightProcess* that)
 	{
 		if (that != nullptr)
 		{
@@ -654,7 +661,7 @@ extern "C"
 		return 0;
 	}
 
-	SIZE_T WINAPI Ps_ProcessInformation_GetQuotNonPagePoolUsage(PS_ProcessInformation* that)
+	SIZE_T WINAPI InsightProcess_GetQuotNonPagePoolUsage(InsightProcess* that)
 	{
 		if (that != nullptr)
 		{
@@ -665,7 +672,7 @@ extern "C"
 
 
 
-	SIZE_T WINAPI Ps_ProcessInformation_GetPageFileUsage(PS_ProcessInformation* that)
+	SIZE_T WINAPI InsightProcess_GetPageFileUsage(InsightProcess* that)
 	{
 		if (that != nullptr)
 		{
@@ -675,7 +682,7 @@ extern "C"
 	}
 
 
-	SIZE_T WINAPI Ps_ProcessInformation_GetPeakPageFileUsage(PS_ProcessInformation* that)
+	SIZE_T WINAPI InsightProcess_GetPeakPageFileUsage(InsightProcess* that)
 	{
 		if (that != nullptr)
 		{
@@ -684,7 +691,7 @@ extern "C"
 		return 0;
 	}
 
-	BOOL WINAPI Ps_ProcessInformation_RequestDebugPriv(PS_ProcessInformation* that, BOOL Yes)
+	BOOL WINAPI InsightProcess_RequestDebugPriv(InsightProcess* that, BOOL Yes)
 	{
 		if (that != nullptr)
 		{
@@ -696,7 +703,7 @@ extern "C"
 
 
 
-	DWORD WINAPI PS_ProcessInformation_GetProcessIDCount(PS_ProcessInformation* that)
+	DWORD WINAPI InsightProcess_GetProcessIDCount(InsightProcess* that)
 	{
 		if (that != nullptr)
 		{
@@ -705,7 +712,7 @@ extern "C"
 		return 0;
 	}
 
-	DWORD WINAPI PS_ProcessInformation_GetThreadIDCount(PS_ProcessInformation* that)
+	DWORD WINAPI InsightProcess_GetThreadIDCount(InsightProcess* that)
 	{
 		if (that != nullptr)
 		{
@@ -714,7 +721,7 @@ extern "C"
 		return 0;
 	}
 
-	DWORD WINAPI PS_ProcessInformation_GetThreadList(PS_ProcessInformation* that, DWORD ProcessID, DWORD* Output, DWORD OutputSize)
+	DWORD WINAPI InsightProcess_GetThreadList(InsightProcess* that, DWORD ProcessID, DWORD* Output, DWORD OutputSize)
 	{
 		if (that != nullptr) {
 			if (Output != nullptr) {
@@ -728,7 +735,7 @@ extern "C"
 		return 0;
 	}
 
-	ThreadInsight* PS_ProcessInformation_GetThreadInsightPtr(PS_ProcessInformation* that, DWORD ProcessID, DWORD dwThreadID)
+	ThreadInsight* InsightProcess_GetThreadInsightPtr(InsightProcess* that, DWORD ProcessID, DWORD dwThreadID)
 	{
 		if (that != nullptr)
 		{
