@@ -49,7 +49,7 @@ namespace RemoteStructureRoutine
 		/// <param name="MemoryLocation">Virtual Memory Location (x64 or x86)</param>
 		/// <param name="TargetIs32">Set to true for 32-bit WOW or 64 for non.</param>
 		/// <returns>If TargetIs32, then returns UNICODE_STRING32* otherwise UNICODE_STRING64*.  Use  </returns>
-		VOID* WINAPI RemoteReadUnicodeString(HANDLE Process, UINT_PTR MemoryLocation, BOOL TargetIs32);
+		VOID* WINAPI RemoteReadUnicodeString(HANDLE Process, UINT_PTR MemoryLocation, BOOL TargetIs32) noexcept;
 
 		/// <summary>
 		/// Free an UNICODE_STRING struct previously allocated by RemoteReadUnicodeString(). You will need to know which type of struct
@@ -100,7 +100,7 @@ namespace RemoteStructureRoutine
 		/// <param name="RemoteLocation">For x86 compiled InsightAPI.dll, this is a 4 byte pointer. For x64 compile InightAPI.dll, this is an 8 byte pointer</param>
 		/// <param name="Size"> How many byte (Range is > 0 and less than 9)</param>
 		/// <returns>returns FALSE if the write did not work or if Size is not the current size</returns>
-		BOOL RemotePokeCommon(HANDLE Process, ULONG64 Value, VOID* RemoteLocation, size_t Size) noexcept;
+		BOOL WINAPI RemotePokeCommon(HANDLE Process, ULONG64 Value, VOID* RemoteLocation, SIZE_T Size) noexcept;
 
 		/// <summary>
 		/// write a 4 byte value into the remote memory location with value of Value
@@ -109,7 +109,7 @@ namespace RemoteStructureRoutine
 		/// <param name="Value">4 byte value to write</param>
 		/// <param name="RemoteLocation">For x86 compiled InsightAPI.dll, this is a 4 byte pointer. For x64 compile InightAPI.dll, this is an 8 byte pointer</param>		
 		/// <returns></returns>
-		BOOL RemotePoke4(HANDLE Process, DWORD Value, VOID* RemoteLocation) noexcept;
+		BOOL WINAPI RemotePoke4(HANDLE Process, DWORD Value, VOID* RemoteLocation) noexcept;
 		
 		/// <summary>
 		/// write an 8 byte value into the remote memory location with value of Value
@@ -118,7 +118,7 @@ namespace RemoteStructureRoutine
 		/// <param name="Value">8 byte value to write</param>
 		/// <param name="RemoteLocation">For x86 compiled InsightAPI.dll, this is a 4 byte pointer. For x64 compile InightAPI.dll, this is an 8 byte pointer</param>
 		/// <returns></returns>
-		BOOL RemotePoke8(HANDLE Process, ULONG64 Value, VOID* RemoteLocation) noexcept;
+		BOOL WINAPI RemotePoke8(HANDLE Process, ULONG64 Value, VOID* RemoteLocation) noexcept;
 #pragma endregion
 
 
@@ -197,7 +197,6 @@ namespace RemoteStructureRoutine
 
 #pragma region Structures
 
-
 		/// <summary>
 		/// UNICODE_STRING for x86 debugged processes
 		/// </summary>
@@ -215,23 +214,46 @@ namespace RemoteStructureRoutine
 		{
 			USHORT Length;
 			USHORT MaxLength;
-			INT Padding; // alights buffer to correct location. See the ObjectAttributeOffsets
+			INT Padding; // alights buffer to correct location. See the ObjectAttributeOffsets for where I got offsets
 			ULONGLONG Buffer;
 		};
 
 		/// <summary>
-		/// pointer may be a Unicode32 or Unicode64 bit. Size of union is 1 pointer.
+		/// RTL_USER_PROCESS_PARAMETERS for x86 debugged process
 		/// </summary>
-		union MachineDependantUnicodeString
+		struct RTL_USER_PROCESS_PARAMETERS32
 		{
-			UNICODE_STRING32* p32;
-			UNICODE_STRING64* p64;
+			BYTE Reserved1[16];
+			UINT32 Reserved2[10];
+			UNICODE_STRING32 ImagePathName;
+			UNICODE_STRING32 CommandLine;
 		};
 
+		/// <summary>
+		/// RTL_USER_PROCESS_PARAMETERS  for x64 debugged process.
+		/// </summary>
+		struct RTL_USER_PROCESS_PARAMETERS64
+		{
+			BYTE Reserved1[16];
+			UINT64 Reserved2[10];
+			UNICODE_STRING64 ImagePathName;
+			UNICODE_STRING64 CommandLine;
+		};
+
+	
 
 
+
+		
+
+
+
+		/// <summary>
+		/// OBJECT_ATTRIBUTES for x86 debugged process.,
+		/// </summary>
 		struct OBJECT_ATTRIBUTES32
 		{
+			
 			ULONG32 Length;
 			ULONG32 RootDirectory;
 			ULONG32 ObjectName;
@@ -241,7 +263,7 @@ namespace RemoteStructureRoutine
 		};
 
 		/// <summary>
-		/// object attrib for x64 debugged process.
+		/// OBJECT_ATTRIBUTES for x64 debugged process.
 		/// </summary>
 		struct OBJECT_ATTRIBUTES64
 		{
@@ -254,6 +276,33 @@ namespace RemoteStructureRoutine
 		};
 
 
+
+		/// <summary>
+		/// pointer may be a Unicode32 or Unicode64 bit. Size of union is 1 pointer.
+		/// </summary>
+		union MachineDependantObjectAttributes
+		{
+			OBJECT_ATTRIBUTES32* p32;
+			OBJECT_ATTRIBUTES64* p64;
+		};
+
+		/// <summary>
+		/// pointer may be a Unicode32 or Unicode64 bit. Size of union is 1 pointer.
+		/// </summary>
+		union MachineDependantUnicodeString
+		{
+			UNICODE_STRING32* p32;
+			UNICODE_STRING64* p64;
+		};
+
+		/// <summary>
+	/// pointer to either a RTL_USER_PROCESS_PARAMETERS32 or RTL_USER_PROCESS_PARAMETERS64 struct
+	/// </summary>
+		union MachineDependantUserProcessParameters
+		{
+			RTL_USER_PROCESS_PARAMETERS32* p32;
+			RTL_USER_PROCESS_PARAMETERS64* p64;
+		};
 #pragma endregion
 
 	}

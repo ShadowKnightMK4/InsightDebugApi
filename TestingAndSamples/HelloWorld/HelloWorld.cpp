@@ -7,6 +7,7 @@
 #include <Windows.h>
 
 #include "detours.h"
+using namespace std;
 typedef int (WINAPI* MessageBoxWPtr)(
     HWND    hWnd,
      LPCTSTR lpText,
@@ -28,15 +29,37 @@ const wchar_t* SpecialSearchPath = L"A:\\;C:\\Users;F:\\SpecialDLLs";
 int main()
 {
     DWORD ret = 0;
-    HANDLE fn = CreateFile(L"C:\\Users\\Thoma\\OneDrive\\Documents\\Deployed App\Tools\\Process Explorer\\EULA.txt", GENERIC_READ, 0, 0, 0, 0, 0);
-
-    ReadFile(fn, (void*)&buffer_size, 511, &ret, 0);
-    std::cout << "Hello World...." << std::endl;
-    Sleep(2000);
-    buffer_size[511] = 0;
-    std::cout << "... still alive" << std::endl;
-    std::cout << "First 511 bytes are" << buffer_size;
-    CloseHandle(fn);
+    HANDLE fn = 0;
+    __try
+    {
+        while (true)
+        {
+            cout << "Try openning file!" << endl;
+            fn = CreateFile(L"C:\\Users\\Thoma\\OneDrive\\Documents\\Deployed App\\Tools\\Process Explorer\\EULA.txt", GENERIC_READ, 0, 0, 0, 0, 0);
+            if (fn != INVALID_HANDLE_VALUE)
+            {
+                ReadFile(fn, (void*)&buffer_size, 511, &ret, 0);
+                std::cout << "Hello World...." << std::endl;
+                Sleep(2000);
+                buffer_size[511] = 0;
+                std::cout << "... still alive" << std::endl;
+                std::cout << "First 511 bytes are" << buffer_size;
+                CloseHandle(fn);
+                cout << "\r\n\r\n" << endl;
+                fn = 0;
+            }
+            else
+            {
+                cout << "failed to open \r\n\r\n" << endl;
+                Sleep(5000);
+            }
+        }
+    }
+    __finally
+    {
+        if (fn != 0)
+        CloseHandle(fn);
+    }
     return 0;
 }
 

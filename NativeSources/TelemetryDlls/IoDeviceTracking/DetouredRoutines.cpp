@@ -30,7 +30,10 @@ you happen to change this to another value (for example another Telemetry Projec
 
 
 
-#define EXCEPTION_VALUE (0x68ACB7A9)
+//#define EXCEPTION_VALUE (0x68ACB7A9)
+
+// DEBUGGING reading exceptions from WOW into x64
+#define EXCEPTION_VALUE (2)
 
 #define ARG_TYPE_CREATEFILE_NORMAL (1)
 #define ARG_TYPE_CREATEFILE_TRANS (2)
@@ -453,7 +456,7 @@ HANDLE WINAPI DetouredCreateFileW(
 
 #ifdef _DEBUG
 		std::wstringstream tmp;
-		tmp << L"Replaced!!! \r\n" << "Handle ==" << std::hex << hReplacement << L"LastError = " << std::dec << lastErrorRep << L"\r\n";
+		tmp << L"Replaced!!! \r\n" << "Handle ==(" << std::hex << hReplacement << L") (" << std::dec << hReplacement << ") LastError = " << std::dec << lastErrorRep << L"\r\n";
 		OutputDebugString(tmp.str().c_str());
 #endif
 

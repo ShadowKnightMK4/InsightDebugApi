@@ -30,7 +30,7 @@ namespace InsightSheath
 
     /// <summary>
     /// choose an environment and spawn a process.
-    /// This class is a wrapper for the C++ Class named "PS_ProcessInformation" implemented as a native DLL in the source PS_ProcessInformation.cpp
+    /// This class is a wrapper for the C++ Class named "InsightProcess" implemented as a native DLL in the source PS_ProcessInformation.cpp
     /// and said class is the functionally the heart of the DLL.
     /// </summary>
     public class InsightProcess : NativeStaticContainer
@@ -180,7 +180,7 @@ namespace InsightSheath
         /// <returns></returns>
         public static InsightProcess CreateInstance()
         {
-            IntPtr ret = NativeMethods.CreatePsProcessInformation();
+            IntPtr ret = NativeMethods.CreateInsightProcessNativeClass();
             if (ret == IntPtr.Zero)
             {
                 throw new InvalidOperationException("Native DLL InsightApi Failed to instance a copy of its PS_ProcessCreation via the exported routine");
@@ -206,7 +206,7 @@ namespace InsightSheath
                 uint flags = CreationFlags;
                 CreationFlags = flags;
             }
-            return NativeMethods.PsProcessInformation_Spawn(Native).ToInt32();
+            return NativeMethods.InsightProcess_Spawn(Native).ToInt32();
 
         }
 
@@ -216,7 +216,7 @@ namespace InsightSheath
         /// </summary>
         public void PulseDebugEventThead()
         {
-            NativeMethods.PsProcessInformation_PulseDebugEvent(Native);
+            NativeMethods.InsightProcess_PulseDebugEvent(Native);
         }
 
 
@@ -226,7 +226,7 @@ namespace InsightSheath
         /// <returns></returns>
         public InsightHunter GetSymbolHandler()
         {
-            IntPtr ret = NativeMethods.PsProcessInformation_GetSymbolEngineClassPtr(Native);
+            IntPtr ret = NativeMethods.InsightProcess_GetSymbolEngineClassPtr(Native);
             if (ret != IntPtr.Zero)
             {
                 return new InsightHunter(ret, false);
@@ -255,7 +255,7 @@ namespace InsightSheath
         /// <returns>true if command was sec OK (probably ALWAYS true)</returns>
         public bool SetCommandment(ProcessRestriction Cmd, bool Val)
         {
-            return NativeImports.NativeMethods.PsProcessInformation_SetCommandment(Native, (uint)Cmd, Val);
+            return NativeImports.NativeMethods.InsightProcess_SetCommandment(Native, (uint)Cmd, Val);
         }
 
         /// <summary>
@@ -265,7 +265,7 @@ namespace InsightSheath
         /// <returns>ether the command's setting or false</returns>
         public bool GetCommandment(ProcessRestriction Cmd)
         {
-            return NativeMethods.PsProcesInformation_GetCommandment(Native, (uint)Cmd);
+            return NativeMethods.InsightProcess_GetCommandment(Native, (uint)Cmd);
         }
         #endregion
 
@@ -297,11 +297,11 @@ namespace InsightSheath
         {
             get
             {
-                return NativeMethods.PsProcessInformation_GetDebugMode(Native);
+                return NativeMethods.InsightProcess_GetDebugMode(Native);
             }
             set
             {
-                NativeMethods.PsProcessInformation_SetDebugMode(Native, value);
+                NativeMethods.InsightProcess_SetDebugMode(Native, value);
             }
         }
 
@@ -312,14 +312,14 @@ namespace InsightSheath
         {
             set
             {
-                NativeMethods.PsProcessInformation_RequestDebugPriv(Native, value);
+                NativeMethods.InsightProcess_RequestDebugPriv(Native, value);
             }
             get
             {
-                bool tmp = NativeMethods.PsProcessInformation_RequestDebugPriv(Native, false);
+                bool tmp = NativeMethods.InsightProcess_RequestDebugPriv(Native, false);
                 if (tmp != false)
                 {
-                    NativeMethods.PsProcessInformation_RequestDebugPriv(Native, tmp);
+                    NativeMethods.InsightProcess_RequestDebugPriv(Native, tmp);
                 }
                 return tmp;
             }
@@ -334,11 +334,11 @@ namespace InsightSheath
         {
             get
             {
-                return (DebugEventCallBackRoutine)NativeMethods.PsProcessInformation_GetDebugCallbackRoutine(Native);
+                return (DebugEventCallBackRoutine)NativeMethods.InsightProcess_GetDebugCallbackRoutine(Native);
             }
             set
             {
-                NativeMethods.PsProcessInformation_SetDebugCallbackRoutine(Native, value);
+                NativeMethods.InsightProcess_SetDebugCallbackRoutine(Native, value);
                 BackUpCopy = value;
             }
         }
@@ -354,7 +354,7 @@ namespace InsightSheath
         {
             get
             {
-                ulong size = NativeMethods.PSProcessInformation_GetDetourListSize(Native);
+                ulong size = NativeMethods.InsightProcess_GetDetourListSize(Native);
                 if (size == 0)
                 {
                     return null;
@@ -381,11 +381,11 @@ namespace InsightSheath
         {
             get
             {
-                return Marshal.PtrToStringUni(NativeMethods.PsProcessInformation_GetProcessName(Native));
+                return Marshal.PtrToStringUni(NativeMethods.InsightProcess_GetProcessName(Native));
             }
             set
             {
-                NativeMethods.PsProcessInformation_SetProcessName(Native, value);
+                NativeMethods.InsightProcess_SetProcessName(Native, value);
             }
         }
 
@@ -396,11 +396,11 @@ namespace InsightSheath
         {
             get
             {
-                return Marshal.PtrToStringUni(NativeMethods.PsProcessInformation_GetProcessArgument(Native));
+                return Marshal.PtrToStringUni(NativeMethods.InsightProcess_GetProcessArgument(Native));
             }
             set
             {
-                NativeMethods.PsProcessInformation_SetProcessArgument(Native, value);
+                NativeMethods.InsightProcess_SetProcessArgument(Native, value);
             }
         }
 
@@ -415,7 +415,7 @@ namespace InsightSheath
             }
             set
             {
-                NativeMethods.PsProcessInformation_SetWorkingDirectory(Native, value);
+                NativeMethods.InsightProcess_SetWorkingDirectory(Native, value);
             }
         }
 
@@ -427,7 +427,7 @@ namespace InsightSheath
         {
             set
             {
-                NativeMethods.PsProcessInformation_SetInheritDefaultEnviroment(Native, value);
+                NativeMethods.InsightProcess_SetInheritDefaultEnviroment(Native, value);
             }
         }
 
@@ -438,11 +438,11 @@ namespace InsightSheath
         {
             get
             {
-                return NativeMethods.PsProcessInformation_GetSymbolHandling(Native);
+                return NativeMethods.InsightProcess_GetSymbolHandling(Native);
             }
             set
             {
-                NativeMethods.PsProcessInformation_SetSymbolHandling(Native, value);
+                NativeMethods.InsightProcess_SetSymbolHandling(Native, value);
             }
         }
 
@@ -455,7 +455,7 @@ namespace InsightSheath
         {
             get
             {
-                uint Val = NativeMethods.PsProcessInformation_GetCreationFlags(Native);
+                uint Val = NativeMethods.InsightProcess_GetCreationFlags(Native);
                 return Val;
             }
             set
@@ -484,7 +484,7 @@ namespace InsightSheath
                         Val |= 4;
                     }
                 }
-                NativeMethods.PsProcessInformation_SetCreationFlags(Native, Val);
+                NativeMethods.InsightProcess_SetCreationFlags(Native, Val);
             }
         }
 
@@ -515,7 +515,7 @@ namespace InsightSheath
         /// <param name="Value">This is the value of the environment value to define. For example "C:\Windows;C:\Windows\system32;</param>
         public void SetExplicitEnviromentValue(string Name, string Value)
         {
-            NativeMethods.PsProcessInformation_SetExplicitEnviromentValue(Native, Name, Value);
+            NativeMethods.InsightProcess_SetExplicitEnviromentValue(Native, Name, Value);
         }
 
         /// <summary>
@@ -525,7 +525,7 @@ namespace InsightSheath
         /// <returns>Returns a string if the value exists or null if it does NOT</returns>
         public string GetExplicitEnviromentValue(string Name)
         {
-            return Marshal.PtrToStringUni(NativeMethods.PsProcessInformation_GetExplicitEnviromentValue(Native, Name));
+            return Marshal.PtrToStringUni(NativeMethods.InsightProcess_GetExplicitEnviromentValue(Native, Name));
         }
 
         /// <summary>
@@ -535,8 +535,8 @@ namespace InsightSheath
         /// <returns>This routines an instance to a <see cref="StartupInfoExW"/> class that you can use to customize startup settings. This instance is part of the underlying instance of <see cref="InsightProcess"/> and should not be freed/deleted on clean up if duplicated</returns>
         public StartupInfoExW GetStartupInfoClass()
         {
-            /* Should the Native size for this instance of StartupInfo change to be allocated, the false in this statement will need to be changed to true*/
-            return new StartupInfoExW(NativeMethods.PsProcessInformation_GetStartupInfoClass(Native), false);
+            /* MEMORY MANAGEMENT IMPORTANCE*****  Should the Native implementation for InsightProcess's instance of StartupInfo change to be allocated, the false in this statement will need to be changed to true*/
+            return new StartupInfoExW(NativeMethods.InsightProcess_GetStartupInfoClass(Native), false);
         }
 
         /// <summary>
@@ -554,7 +554,7 @@ namespace InsightSheath
         /// </summary>
         public void ResetDetoursDllList()
         {
-            NativeMethods.PsProcessInformation_ClearDetourList(Native);
+            NativeMethods.InsightProcess_ClearDetourList(Native);
         }
 
 
@@ -564,7 +564,7 @@ namespace InsightSheath
         /// <param name="NewLocation"></param>
         public bool HelperDll_AddLoadLibraryPath(string NewLocation)
         {
-            return NativeMethods.PsProcessInformation_AddPriorityLoadLibraryPath(Native, NewLocation);
+            return NativeMethods.InsightProcess_AddPriorityLoadLibraryPath(Native, NewLocation);
         }
 
         /// <summary>
@@ -572,7 +572,7 @@ namespace InsightSheath
         /// </summary>
         public void HelperDll_ClearLoadLibraryPath()
         {
-             NativeMethods.PsProcessInformation_ClearPriorityDllPath(Native);
+             NativeMethods.InsightProcess_ClearPriorityDllPath(Native);
         }
 
         /// <summary>
@@ -582,7 +582,7 @@ namespace InsightSheath
         /// <returns></returns>
         public uint HelperDll_GetLoadLibraryPathCount()
         {
-            return NativeMethods.PsProcessInformation_GetProrityLoadLibraryPath_NumberOf(Native);
+            return NativeMethods.InsightProcess_GetProrityLoadLibraryPath_NumberOf(Native);
         }
 
         /// <summary>
@@ -592,7 +592,7 @@ namespace InsightSheath
         /// <returns></returns>
         public string HelperDll_IndexLoadLibraryPath(int index)
         {
-            IntPtr ret = NativeMethods.PsProcessInformation_IndexPriorityDllPath(Native, index);
+            IntPtr ret = NativeMethods.InsightProcess_IndexPriorityDllPath(Native, index);
             if (ret != IntPtr.Zero)
             {
                 return Marshal.PtrToStringUni(ret);
@@ -612,7 +612,7 @@ namespace InsightSheath
         {
             get
             {
-                IntPtr ret = NativeMethods.PSProcessInformation_GetMemoryStatsBulkPtr(Native);
+                IntPtr ret = NativeMethods.InsightProcess_GetMemoryStatsBulkPtr(Native);
                 if (ret != IntPtr.Zero)
                 {
                     return Marshal.PtrToStructure<ProcessMemoryCount32>(ret);
@@ -629,7 +629,7 @@ namespace InsightSheath
         {
             get
             {
-                return NativeMethods.PSProcessInformation_GetPageFaultCount(Native);
+                return NativeMethods.InsightProcess_GetPageFaultCount(Native);
             }
         }
         /// <summary>
@@ -641,7 +641,7 @@ namespace InsightSheath
         {
             get
             {
-                return NativeMethods.PSProcessInformation_GetPeakWorkingSet(Native);
+                return NativeMethods.InsightProcess_GetPeakWorkingSet(Native);
             }
         }
         /// <summary>
@@ -653,7 +653,7 @@ namespace InsightSheath
         {
             get
             {
-                return NativeMethods.PSProcessInformation_GetWorkingSetSize(Native);
+                return NativeMethods.InsightProcess_GetWorkingSetSize(Native);
             }
         }
         /// <summary>
@@ -665,7 +665,7 @@ namespace InsightSheath
         {
             get
             {
-                return NativeMethods.PSProcessInformation_GetQuotaPeakPagePoolUsage(Native);
+                return NativeMethods.InsightProcess_GetQuotaPeakPagePoolUsage(Native);
             }
         }
 
@@ -678,7 +678,7 @@ namespace InsightSheath
         {
             get
             {
-                return NativeMethods.PSProcessInformation_GetQuotaPagePoolUsage(Native);
+                return NativeMethods.InsightProcess_GetQuotaPagePoolUsage(Native);
             }
         }
 
@@ -691,7 +691,7 @@ namespace InsightSheath
         {
             get
             {
-                return NativeMethods.PSProcessInformation_GetQuotaPeakNonPagePoolUsage(Native);
+                return NativeMethods.InsightProcess_GetQuotaPeakNonPagePoolUsage(Native);
             }
         }
         /// <summary>
@@ -703,7 +703,7 @@ namespace InsightSheath
         {
             get
             {
-                return NativeMethods.PSProcessInformation_GetQuotaPeakNonPagePoolUsage(Native);
+                return NativeMethods.InsightProcess_GetQuotaPeakNonPagePoolUsage(Native);
             }
         }
         /// <summary>
@@ -714,7 +714,7 @@ namespace InsightSheath
         {
             get
             {
-                return NativeMethods.PSProcessInformation_GetPageFileUsage(Native);
+                return NativeMethods.InsightProcess_GetPageFileUsage(Native);
             }
         }
 
@@ -727,7 +727,7 @@ namespace InsightSheath
         {
             get
             {
-                return NativeMethods.PSProcessInformation_GetPeakPageFileUsage(Native);
+                return NativeMethods.InsightProcess_GetPeakPageFileUsage(Native);
             }
         }
         /// <summary>
@@ -739,7 +739,7 @@ namespace InsightSheath
         {
             get
             {
-                return NativeMethods.PSProcessInformation_GetPrivateUsage(Native);
+                return NativeMethods.InsightProcess_GetPrivateUsage(Native);
             }
         }
 
@@ -769,7 +769,7 @@ namespace InsightSheath
             }
             if (Native != IntPtr.Zero)
             {
-                NativeMethods.KillPSProcessInformation(Native);
+                NativeMethods.InsightProcess_KillInstance(Native);
             }
             IsCleanned = true;
         }

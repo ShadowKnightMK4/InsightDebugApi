@@ -18,6 +18,12 @@ namespace InsightSheath.Structs
 
         }
 
+        /// <summary>
+        ///  Create an instance of the class with the object to specify if we free it.
+        /// </summary>
+        /// <param name="Native">Native pointer to the structure this class will reference</param>
+        /// <param name="FreeOnCleanup">if true then the structure is freed via RemoteRead_SimpleFree() which itself is a call to C/C++'s free() . Set TO FALSE if dealing with structures declared in C/C++ code vs dynamically allocated</param>
+        /// <remarks> FreeOnCleanup is a bit dependent on your knowledge of the native code. If the native pointer points to something dynamically allocated with malloc() / HeapAlloc(),  specify true.  If it's declared in the Native source directly or on the stack as a function variable, use false</remarks>
         public PlatformDependantNativeStruct(IntPtr Native, bool FreeOnCleanup): base(Native, FreeOnCleanup)
         {
 
@@ -28,6 +34,11 @@ namespace InsightSheath.Structs
             StructTypeContainer = StructType;
         }
 
+        /// <summary>
+        /// Make an instance of this class with the <see cref="StructType"/> specified.
+        /// </summary>
+        /// <param name="Native">Pointer to an unmanaged memory block this class is dealing with.</param>
+        /// <param name="StructType">Structures with points are different sizes depending on if they're lifting from x86 or x64 code. Indicate if this is a <see cref="StructModeType.Machinex86"/> (for 4 byte pointers) or a <see cref="StructModeType.Machinex64"/> for 8 byte pointers</param>
         public PlatformDependantNativeStruct(IntPtr Native, StructModeType StructType): base(Native)
         {
             StructTypeContainer = StructType;
@@ -78,7 +89,7 @@ namespace InsightSheath.Structs
             return string.Format(MachineTypeUnspecifiedError, Type0, Type1, classname);
         }
         /// <summary>
-        /// this throws a message wither everything except class name prefilled by calling <see cref="MachineTypeUnspecifiedErrorMakeMessage(string, string, string)"/>
+        /// This throws a message wither everything except class name prefilled by calling <see cref="MachineTypeUnspecifiedErrorMakeMessage(string, string, string)"/>
         /// </summary>
         /// <param name="classname"></param>
         /// <returns></returns>

@@ -1,12 +1,6 @@
 
 #include <windows.h>
 #include "DetouringRoutine.h"
-#ifdef _DEBUG
-#include <iostream>
-#include <string>
-#include <sstream>
-using namespace std;
-#endif
 /*
 * You have these options in the build config settings to define to modify this template
 *
@@ -16,56 +10,19 @@ using namespace std;
 *                               to call your detoured routine that has been unloaded prematurely.
 */
 
-void emit_debug_msg(const wchar_t* str)
-{
-#ifdef  _DEBUG
-    wstringstream tmp;
-
-    tmp << str;
-    OutputDebugString(tmp.str().c_str());
-#endif
-}
-
-void emit_debug_msg(DWORD str)
-{
-#ifdef  _DEBUG
-    wstringstream tmp;
-
-    tmp << str;
-    OutputDebugString(tmp.str().c_str());
-#endif
-}
-
-
 /* if you find you're getting garbage from the exception reading in the sheath, uncomment this and put a call info the DllMain() here.
     Run the Visual studio debugger and inspect the execption arguments .
 */
 void test_exception()
 {
-
     ULONG_PTR Argsp[EXCEPTION_MAXIMUM_PARAMETERS];
-    emit_debug_msg(L"Preparing Test Exception of Value 1.  ULONG_PTR size = (");
-    emit_debug_msg(sizeof(ULONG_PTR));
-    emit_debug_msg(L") Value of array { ");
-    
-
-
     for (int step = 0; step < EXCEPTION_MAXIMUM_PARAMETERS; step++)
     {
         Argsp[step] = step;
-        emit_debug_msg(Argsp[step]);
-        emit_debug_msg(L", ");
-
     }
-    emit_debug_msg(L"} \r\n");
-    
-
-
-
-
     __try
     {
-        RaiseException(1, 0, 15, Argsp);
+        RaiseException(1, 0, 15, (CONST ULONG_PTR*)&Argsp);
     }
     __except (GetExceptionCode() == 1)
     {

@@ -4,6 +4,11 @@ and functionality. For Example, IoDeviceTracking detours CreateFIleA (and W).  T
 passed to the routine with the option for the debugger to simply paste a handle and lasterror value into a chunk of memory to modify. 
 
 
+CRITICALLY IMPORTANT!!!!
+The included detours static lib does not seem to support injecting from a parent x64 bit based process into
+an x86 WOW process.   This means your dll lists will NOT TRIGGER!
+
+
 For those who have no idea what detours is see https://github.com/microsoft/Detours/wiki for a starting point. If you've never set foot into Native C++ windows code,
 Detours is a library that lets someone insert a small jump to an arbitrary function while preserving a pointer to the original function. Consider this example:
 
@@ -22,6 +27,7 @@ With how Insight launches the Dlls (https://github.com/microsoft/Detours/wiki/Re
 should export at least one function - for examle the DllMain() that one can write that Windows Calls when loading a Dll into a process. Ensure you return true 
 if the routine DetoursIsHelperProcess() returns true at the start of DllMain().  Consider Pinning your library unless you plan for it to be unloaded at a point in time
 and finally, detour the routines you want.
+
 
 
 

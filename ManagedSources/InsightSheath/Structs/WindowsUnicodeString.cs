@@ -10,20 +10,20 @@ namespace InsightSheath.Structs
 {
 
 	/// <summary>
-	/// Which type of struct will this contain.
+	/// Enum used by certain classes that encapsulate Native Structs that contain pointers whose size may not match *our* pointer size.  One will need to set the <see cref="PlatformDependantNativeStruct.StructType"/> in a child class to flag which version to use
 	/// </summary>
 	public enum StructModeType
 	{
 		/// <summary>
-		/// Not defined.  Attempting to access properties in this class will trigger <see cref="InvalidOperationException"/> 
+		/// Not defined.  Attempting to access properties in this class will trigger <see cref="InvalidOperationException"/> asking programming to pick either <see cref="Machinex64"/> or <see cref="Machinex86"/>
 		/// </summary>
 		MachineUnknown = 0,
 		/// <summary>
-		/// Class encapsulates a 32 bit version of the native struct
+		/// Class encapsulates a 32 bit version of the native struct. For Example <see cref="WindowsUnicodeString"/> and <see cref="UnicodeString32"/>
 		/// </summary>
 		Machinex86 = 1,
 		/// <summary>
-		/// Class encapsulates a 64- bit version of the native struct <see cref="UnicodeString64"/> struct
+		/// Class encapsulates a 64- bit version of the native struct. For Example <see cref="WindowsUnicodeString"/> and  <see cref="UnicodeString64"/> struct
 		/// </summary>
 		Machinex64 = 2
 	}
@@ -50,7 +50,7 @@ namespace InsightSheath.Structs
 	};*/
 
 	/// <summary>
-	/// For processed that are Wow/32- bit this is what our UNICODE_STRING struct looks like when read from. Suitable for Marhsaling from a source. Take care that you handle if your pointer to the native structure <see cref="UnicodeString32.Buffer"/> points to a remote/ non local memory buffer or not. 
+	/// For processed that are Wow/32- bit this is what our UNICODE_STRING struct looks like when read from. Suitable for Marshaling from either a local native pointer or remote/other process. Take care that you handle if your pointer to the native structure <see cref="UnicodeString32.Buffer"/> points to a remote/ non local memory buffer or not. 
 	/// </summary>
 	/// <remarks>To marshal.  Using <see cref="Marshal.PtrToStructure{UnicodeString32}(IntPtr)"/> and either <see cref="Marshal.PtrToStringUni(IntPtr, int)"/> for a local buffer or <see cref="Remote.RemoteStructure.RemoteReadString(IntPtr, IntPtr, uint)"/> for one located in a different process </remarks>
 	[StructLayout(LayoutKind.Sequential)]
@@ -61,7 +61,7 @@ namespace InsightSheath.Structs
 		/// </summary>
 		public ushort Length;
 		/// <summary>
-		/// How big possibly is if the buffer. Note <see cref="InsertHere"/> dealing this is here for compleness sake. Your buffer size was allocated to be big enough to hold that containing string, that's all
+		/// How big possibly is if the buffer. Note <see cref="InsertHere"/> dealing this is here for completeness sake. Your buffer (if remote) was allocated to be big enough to hold that containing string, that's all
 		/// </summary>
 		public ushort MaxLength;
 		/// <summary>
@@ -71,7 +71,7 @@ namespace InsightSheath.Structs
     }
 
 	/// <summary>
-	/// For processes that are 64-bit, this is our UNICODE_STRING struct looks like when read from. Suitable for Marhsaling from a source. Take care that you handle if your pointer to the native structure <see cref="UnicodeString32.Buffer"/> points to a remote/ non local memory buffer or not. 
+	/// For processes that are 64-bit, this is our UNICODE_STRING struct looks like when read from. Suitable for Marshaling from a source. Take care that you handle if your pointer to the native structure <see cref="UnicodeString32.Buffer"/> points to a remote/ non local memory buffer or not. 
 	/// </summary>
 	/// <remarks>To marshal.  Using <see cref="Marshal.PtrToStructure{UnicodeString64}(IntPtr)"/> and either <see cref="Marshal.PtrToStringUni(IntPtr, int)"/> for a local buffer or <see cref="Remote.RemoteStructure.RemoteReadString(IntPtr, IntPtr, uint)"/> for one located in a different process </remarks>
 	/// <summary>
@@ -100,12 +100,12 @@ namespace InsightSheath.Structs
 
     
 	/// <summary>
-	/// Encapsulates both a <see cref="UnicodeString32"/> and <see cref="UnicodeString64"/> and lets one indicate which one to use based on <see cref="WindowsUnicodeString.StructType"/> You can use <see cref="HelperRoutines.GetPEMachineType(string)"/> on the process your dealing with to find what value was set as the machine type
+	/// Encapsulates both a <see cref="UnicodeString32"/> or <see cref="UnicodeString64"/> and lets one indicate which one to use based on <see cref="WindowsUnicodeString.StructType"/> You can use <see cref="HelperRoutines.GetPEMachineType(string)"/> on the process your dealing with to find what value was set as the machine type
 	/// </summary>
     public class WindowsUnicodeString: PlatformDependantNativeStruct
     {
 		/// <summary>
-		/// After creating an instance, call <see cref="SetStructType(ModeType)"/> and specify which version of a unicode string, this class contrains
+		/// After creating an instance, call <see cref="SetStructType(ModeType)"/> and specify which version of an Unicode string, this class contrains
 		/// </summary>
 		/// <param name="Native"></param>
         public WindowsUnicodeString(IntPtr Native): base(Native)
@@ -114,27 +114,46 @@ namespace InsightSheath.Structs
         }
 
 		/// <summary>
-		/// After creating an instance, call <see cref="SetStructType(ModeType)"/> and specify which version of a unicode string, this class contrains
+		/// After creating an instance, call <see cref="SetStructType(ModeType)"/> and specify which version of an Unicode string, this class contrains
 		/// </summary>
-		/// <param name="Native"></param>
+		/// <param name="Native">Native pointer to either a <see cref="UnicodeString32"/> or <see cref="UnicodeString64"/> to the structure this class will reference</param>
 		public WindowsUnicodeString(IntPtr Native, bool FreeOnCleanup): base(Native, FreeOnCleanup)
         {
 			StructType = StructModeType.MachineUnknown;
         }
 
+		/// <summary>
+		/// Create an instance of <see cref="WindowsUnicodeString"/> and specify the native pointer, if the class will be subject to unmanaged cleanup and which Native Struct the pointer points too
+		/// </summary>
+		/// <param name="Native">Native pointer to either a <see cref="UnicodeString32"/> or <see cref="UnicodeString64"/> to the structure this class will reference</param>
+		/// <param name="FreeOnCleanup">if true then the structure is freed via RemoteRead_SimpleFree() which itself is a call to C/C++'s free() . Set TO FALSE if dealing with structures declared in C/C++ code vs dynamically allocated</param>
+		/// <param name="StructType">Use <see cref="StructModeType.Machinex86"/> to mark structure as a <see cref="UnicodeString32"/> pointer and <see cref="StructModeType.Machinex64"/> to mark struct as a <see cref="UnicodeString64"/> pointer</param>
 		public WindowsUnicodeString(IntPtr Native, bool FreeOnCleanup, StructModeType StructType) : base(Native, FreeOnCleanup, StructType)
         {
 
         }
+
+		/// <summary>
+		/// Create an instance of <see cref="WindowsUnicodeString"/> and specify the native pointer and which Native Struct the pointer points too
+		/// </summary>
+		/// <param name="Native">Native pointer to either a <see cref="UnicodeString32"/> or <see cref="UnicodeString64"/> to the structure this class will reference</param>
+		/// <param name="StructType">Use <see cref="StructModeType.Machinex86"/> to mark structure as a <see cref="UnicodeString32"/> pointer and <see cref="StructModeType.Machinex64"/> to mark struct as a <see cref="UnicodeString64"/> pointer</param>
 		public WindowsUnicodeString(IntPtr Native, StructModeType StructType): base(Native, StructType)
         {
 
         }
 
+		/// <summary>
+		/// Finalized that calls <see cref="Dispose(bool)"/> with the value of false
+		/// </summary>
 		~WindowsUnicodeString()
         {
 			Dispose(false);
         }
+
+		/// <summary>
+		/// Marshals into a private <see cref="UnicodeString32"/> or <see cref="UnicodeString64"/> struct depending on the value of <see cref="PlatformDependantNativeStruct.WasBlit"/> being false.  Sets to true afterwords. Will throw an <see cref="InvalidOperationException"/> if <see cref="PlatformDependantNativeStruct.StructType"/>  is something other than <see cref="StructModeType.Machinex64"/> or <see cref="StructModeType.Machinex86"/>
+		/// </summary>
         protected override void Blit()
         {
 			{
@@ -166,7 +185,7 @@ namespace InsightSheath.Structs
 
 		private bool disposedValue;
 		/// <summary>
-		/// The native memory is either a <see cref="UnicodeString32"/> or <see cref="UnicodeString64"/> struct dependant on <see cref="StructType"/>.  Pointer is a separate allocated string. 
+		/// The native memory is either a <see cref="UnicodeString32"/> or <see cref="UnicodeString64"/> struct Dependant on <see cref="StructType"/>.  Pointer is a separate allocated string. 
 		/// This means <see cref="NativeImports.NativeMethods.SimpleFree(IntPtr)"/> is incorrect in this scenario. We'll need to call <see cref="NativeImports.NativeMethods.RemoteFreeUnicodeString(IntPtr, bool)"/> pointer here. Also <see cref="FreeOnCleanup"/> should be false if this structure is part of a larger struct directly and NOT A POINTER.
 		/// </summary>
 		/// <param name="disposing"></param>
@@ -190,7 +209,7 @@ namespace InsightSheath.Structs
 
 				if (FreeOnCleanup)
                 {
-					NativeImports.NativeMethods.RemoteFreeUnicodeString(Native, bit32Mode);
+					NativeImports.NativeMethods.RemoteFreeUnicodeString(Native);
 					ClearNative();
                 }
 				disposedValue = true;
@@ -284,10 +303,26 @@ namespace InsightSheath.Structs
 			}
         }
 
+
 		/// <summary>
-		/// If <see cref="StructType"/> is set to <see cref="StructModeType.Machinex64"/>, this is the structure that is used.
+		/// Equivalent to grabbing the <see cref="Buffer"/> property if <see cref="BufferPtr"/> is non zero
 		/// </summary>
-		UnicodeString64 Machine64;
+		/// <returns>If <see cref="BufferPtr"/> is 0, return null. Otherwise returns <see cref="Buffer"/></returns>
+		/// <exception cref="InvalidOperationException">Can be triggered if one forgets to set <see cref="StructType"/></exception>
+		public override string ToString()
+        {
+			if (BufferPtr == 0)
+            {
+				return null;
+            }
+			return Buffer;
+        }
+
+		
+        /// <summary>
+        /// If <see cref="StructType"/> is set to <see cref="StructModeType.Machinex64"/>, this is the structure that is used.
+        /// </summary>
+        UnicodeString64 Machine64;
 		/// <summary>
 		/// If <see cref="StructType"/> is set to <see cref="StructModeType.Machinex86"/>, this is the structure that is used.
 		/// </summary>

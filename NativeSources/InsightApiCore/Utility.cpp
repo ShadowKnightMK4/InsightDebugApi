@@ -349,8 +349,9 @@ DWORD WINAPI GetPEMachineTypeW(LPCWSTR Target) noexcept
 		{
 			CloseHandle(fn);
 		}
-
 	}
+
+	return ret;
 
 }
 

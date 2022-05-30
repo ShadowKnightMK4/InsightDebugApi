@@ -1,4 +1,4 @@
-#include "StarutpInfoStructHelper.h"
+#include "StartupInfoStructHelper.h"
 
 extern "C" {
 

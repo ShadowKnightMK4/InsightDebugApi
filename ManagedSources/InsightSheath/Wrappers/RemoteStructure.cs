@@ -62,21 +62,24 @@ namespace InsightSheath.Remote
             return null;
         }
 
-        public static WindowsUnicodeString RemoteReadUnicodeStringA(IntPtr ProcessHandle, IntPtr Location, bool IsTarget32Bit, bool FreeOnCleanup)
+
+        
+        /// <summary>
+        /// Read either a <see cref="UnicodeString32"/> or <see cref="UnicodeString64"/> from the location. Note: This does assume the NativeExport from InsightAPI.DLL will always return a 64-bit version of the struct.
+        /// </summary>
+        /// <param name="ProcessHandle">Handle to Read From</param>
+        /// <param name="Location">location to read from</param>
+        /// <param name="IsTarget32Bit">determines which type of struct we're reading from</param>
+        /// <param name="FreeOnCleanup">argument terminates if we trigger GC </param>
+        /// <returns></returns>
+        public static WindowsUnicodeString RemoteReadUnicodeString(IntPtr ProcessHandle, IntPtr Location, bool IsTarget32Bit, bool FreeOnCleanup)
         {
             IntPtr retptr = IntPtr.Zero;
             WindowsUnicodeString ret;
-            retptr = NativeImports.NativeMethods.RemoteReadUnicodeString(ProcessHandle, Location, IsTarget32Bit);
+            retptr = NativeMethods.RemoteReadUnicodeString(ProcessHandle, Location, IsTarget32Bit);
             if (retptr != IntPtr.Zero)
             {
-                if (IsTarget32Bit)
-                {
-                    ret = new WindowsUnicodeString(retptr, true, StructModeType.Machinex86);
-                }
-                else
-                {
-                    ret = new WindowsUnicodeString(retptr, true, StructModeType.Machinex64);
-                }
+                ret = new WindowsUnicodeString(retptr, FreeOnCleanup, StructModeType.Machinex64);
                 return ret;
             }
             return null;

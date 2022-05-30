@@ -525,11 +525,19 @@ namespace InsightSheath.Wrappers
         /// <summary>
         /// Return the Exception for the exception that trigged.
         /// </summary>
-        public  uint ExceptionCode
+        public uint ExceptionCode_as_int
         {
             get
             {
                 return NativeMethods.DebugEvent_ExceptionInfo_GetExceptionCode(Native);
+            }
+        }
+
+        public DebugExceptionTypes ExceptionCode
+        {
+            get
+            {
+                return (DebugExceptionTypes) NativeMethods.DebugEvent_ExceptionInfo_GetExceptionCode(Native);
             }
         }
 
@@ -734,8 +742,15 @@ namespace InsightSheath.Wrappers
         }
 
         public DebugEventStringInfo(IntPtr Native, bool FreeOnCleanup) : base(Native, FreeOnCleanup)
-        { }
+        {
+        
+        
+        }
 
+        public override string ToString()
+        {
+            return OutputString;
+        }
         /// <summary>
         /// Return the string messaged contained within the debug event. ANSI output strings are converted to Unicode on the Native side before being sent to the Managed side.
         /// </summary>

@@ -7,10 +7,10 @@
 #include "InsightHunter.h"
 #include "ThreadContext.h"
 #include "ThreadSupport.h"
-#include "StarutpInfoStructHelper.h"
+#include "StartupInfoStructHelper.h"
 
-class Client;
-class PS_ProcessInformation;
+
+class InsightProcess;
 
 #ifndef COMMANDMENTS_PROCESS
 /*
@@ -89,7 +89,7 @@ struct WorkerThreadData
 	/// <summary>
 	/// provides the debug worker friend routine a copy of the this pointer
 	/// </summary>
-	PS_ProcessInformation* that;
+	InsightProcess* that;
 };
 
 /// Do not spawn the process with a separate thread.  
@@ -103,14 +103,14 @@ struct WorkerThreadData
 
 /// <summary>
 /// Each process spawned or tracked by the library uses this class. 
-/// It's .NET Wrapper is PsProcessInformation located in PsProcessInformation.cs of FileSandBox_GUI.
+/// It's .NET Wrapper is InsightProcess located in InsightProcess.cs of the Sheath Project
 /// </summary>
-class PS_ProcessInformation
+class InsightProcess
 {
 public:
-	~PS_ProcessInformation();
-	PS_ProcessInformation(const PS_ProcessInformation& Original);
-	PS_ProcessInformation();
+	~InsightProcess();
+	InsightProcess(const InsightProcess& Original);
+	InsightProcess();
 #pragma region Handling the Private Variables with public rotuines
 
 	/// <summary>
