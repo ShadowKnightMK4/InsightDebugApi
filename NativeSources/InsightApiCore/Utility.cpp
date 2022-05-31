@@ -9,17 +9,17 @@
 #include <span>
 
 /// <summary>
-/// Enable a chosen priv on self.  NOT INTENDED TO BE EXPORTED.  We really use this to just enable debug priv
+/// Enable a chosen Privilege on self.  NOT INTENDED TO BE EXPORTED.  We really use this to just enable debug priv when requested to.
 /// </summary>
 /// <param name="PrivNaem">Name of the Privilege</param>
 /// <param name="Enable">TRUE to enable, FALSE to turn off.</param>
-/// <returns>True if it worked and false if it did nt</returns>
-bool EnablePrivOnSelf(LPCWSTR PrivNaem, BOOL Enable)
+/// <returns>True if it worked and false if it didn't</returns>
+bool EnablePrivOnSelf(LPCWSTR PrivNaem, BOOL Enable) noexcept
 {
 
 	// try asking for the debug priv and go gain.
-	TOKEN_PRIVILEGES priv;
-	LUID luid;
+	TOKEN_PRIVILEGES priv = { 0 };
+	LUID luid = {0};
 	HANDLE SelfAccessHandle = INVALID_HANDLE_VALUE;
 	if (OpenProcessToken(GetCurrentProcess(), TOKEN_ADJUST_PRIVILEGES, &SelfAccessHandle))
 	{
@@ -50,10 +50,10 @@ bool EnablePrivOnSelf(LPCWSTR PrivNaem, BOOL Enable)
 }
 
 /// <summary>
-/// Ask for the SeDebugPriv. I'm on the fence for exporting this as this is an already made option for just loading the dll and asking for the priv.
+/// Ask for the SeDebugPriv. I'm on the fence for exporting this as this is an already made option for just loading the dll and asking for the Privilege for ease of use.
 /// </summary>
 /// <returns></returns>
-BOOL WINAPI AskForDebugPriv()
+BOOL WINAPI AskForDebugPriv() noexcept
 {
 	return EnablePrivOnSelf(SE_DEBUG_NAME, TRUE);
 }
@@ -172,11 +172,11 @@ wchar_t* WINAPI ConvertANSIString(const char * Original) noexcept
 
 
 /// <summary>
-/// Allocate a buffer big enough to contain the specified hmodule belonging to the specified process. CALLER will need to free.
+/// Allocate a buffer big enough to contain the specified HMODULE belonging to the specified process. CALLER will need to free.
 /// </summary>
-/// <param name="Process">Handle to process to read from. Will need PROCESS_QUERY_INFORMATION || PROCESS_QUERY_LIMITED_INFORMATION access rights</param>
-/// <param name="Module">hmodule in question</param>
-/// <returns>returns memory allocated in the local process containing a unicode string contraining the module's name</returns>
+/// <param name="Process">Handle to process to read from. Will need (PROCESS_QUERY_INFORMATION or PROCESS_QUERY_LIMITED_INFORMATION) access rights depending on target and your process's security restrictions.</param>
+/// <param name="Module">HMODULE in question</param>
+/// <returns>returns memory allocated in the local process containing a Unicode string containing the module's name</returns>
 wchar_t* WINAPI GetModuleNameViaHandle(HANDLE Process, HMODULE Module) noexcept
 {
 	wchar_t* Buffer = nullptr;
@@ -216,7 +216,7 @@ wchar_t* WINAPI GetModuleNameViaHandle(HANDLE Process, HMODULE Module) noexcept
 }
 
 
-wchar_t* WINAPI GetFileNameViaHandle(HANDLE FileHandle)
+wchar_t* WINAPI GetFileNameViaHandle(HANDLE FileHandle) noexcept
 {
 	wchar_t* Buffer = nullptr;
 	DWORD BufferSize = 0;
@@ -239,7 +239,7 @@ wchar_t* WINAPI GetFileNameViaHandle(HANDLE FileHandle)
 /// <param name="MemoryLocation">non null value pointing where to write too</param>
 /// <param name="value">value to write</param>
 /// <returns>true if it worked and false if you pass null</returns>
-BOOL Poke8(unsigned long long* MemoryLocation, long long value)
+BOOL WINAPI Poke8(unsigned long long* MemoryLocation, unsigned long long value) noexcept
 {
 	if (MemoryLocation == nullptr)
 	{
@@ -257,7 +257,7 @@ BOOL Poke8(unsigned long long* MemoryLocation, long long value)
 /// </summary>
 /// <param name="MemoryLocation">Non null location  indicating where to read from</param>
 /// <returns>If you pass 0 for memory location, returns 0 otherwise returns the contents of the location</returns>
-unsigned long long Peek8(unsigned long long* MemoryLocation)
+unsigned long long WINAPI Peek8(const unsigned long long* MemoryLocation) noexcept
 {
 	if (MemoryLocation == nullptr)
 	{
@@ -266,13 +266,8 @@ unsigned long long Peek8(unsigned long long* MemoryLocation)
 	return *MemoryLocation;
 }
 
-/// <summary>
-/// Write a 4 byte (DWORD) sized value to the passed non null location
-/// </summary>
-/// <param name="MemoryLocation">non null value pointing where to write too</param>
-/// <param name="Value"></param>
-/// <returns>true if it worked and false if you pass null</returns>
-BOOL Poke4(DWORD* LocalMemoryLocation, DWORD Value)
+
+BOOL WINAPI Poke4(DWORD* LocalMemoryLocation, DWORD Value) noexcept
 {
 	if (LocalMemoryLocation == nullptr)
 	{
@@ -282,12 +277,8 @@ BOOL Poke4(DWORD* LocalMemoryLocation, DWORD Value)
 	return TRUE;
 }
 
-/// <summary>
-/// Read a 4 byte (DWORD sized) value from a specific location in the local virtual memory
-/// </summary>
-/// <param name="MemoryLocation">Non null location  indicating where to read from</param>
-/// <returns>If you pass 0 for memory location, returns 0 otherwise returns the contents of the location</returns>
-DWORD Peek4(DWORD* LocalMemoryLocation)
+
+DWORD WINAPI Peek4(const DWORD* LocalMemoryLocation) noexcept
 {
 	if (LocalMemoryLocation == 0)
 	{
@@ -317,6 +308,10 @@ DWORD WINAPI GetPEMachineTypeW(LPCWSTR Target) noexcept
 	IMAGE_NT_HEADERS* Header=0;
 	HANDLE fn = INVALID_HANDLE_VALUE;
 	HANDLE Mapped = 0;
+	if (Target == nullptr)
+	{
+		return 0;
+	}
 	__try
 	{
 		fn = CreateFile(Target, GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
@@ -355,7 +350,7 @@ DWORD WINAPI GetPEMachineTypeW(LPCWSTR Target) noexcept
 
 }
 
-BOOL WINAPI IsTargetProcessID32Bit(DWORD dwProcessID)
+BOOL WINAPI IsTargetProcessID32Bit(DWORD dwProcessID) noexcept
 {
 	BOOL Checkme = FALSE;
 	bool is64Os = false;
@@ -384,7 +379,7 @@ BOOL WINAPI IsTargetProcessID32Bit(DWORD dwProcessID)
 		Kernel32 = LoadLibrary(L"kernel32.dll");
 		if (Kernel32 == 0)
 		{
-			return 0; // propaly not a good idea
+			return 0; // properly not a good idea
 		}
 		else
 		{
@@ -394,7 +389,7 @@ BOOL WINAPI IsTargetProcessID32Bit(DWORD dwProcessID)
 			}
 
 			/// <summary>
-			///  we should in theory only need to check the natie system since wow is not existing on the current ssytem
+			///  we should in theory only need to check the Native system since WOW64 is not existing on the current system
 			/// </summary>
 			if (Callback_toWOW64 == 0)
 			{
@@ -425,7 +420,7 @@ BOOL WINAPI IsTargetProcessID32Bit(DWORD dwProcessID)
 	else
 	{
 
-		HANDLE Check;
+		HANDLE Check=0;
 		if (dwProcessID != 0)
 		{
 			Check = OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION, FALSE, dwProcessID);

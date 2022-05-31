@@ -76,7 +76,7 @@
     <OutDir>$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\program\</OutDir>
     <IncludePath>$(SolutionDir)\StaticIncludes;$(SolutionDir)NativeSources\Detours-master\src;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Code\$(Configuration)\$(PlatformTarget)\lib;$(LibraryPath)</LibraryPath>
-    <IntDir>$(SolutionDir)BuildFolder\$(ProjectName)\$(Configuration)\$(PlatformTarget)</IntDir>
+    <IntDir>$(SolutionDir)BuildFolder\$(ProjectName)\$(Configuration)\$(PlatformTarget)\</IntDir>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -84,7 +84,7 @@
     <OutDir>$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\program\</OutDir>
     <IncludePath>$(SolutionDir)\StaticIncludes;$(SolutionDir)NativeSources\Detours-master\src;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Code\$(Configuration)\$(PlatformTarget)\lib;$(LibraryPath)</LibraryPath>
-    <IntDir>$(SolutionDir)BuildFolder\$(ProjectName)\$(Configuration)\$(PlatformTarget)</IntDir>
+    <IntDir>$(SolutionDir)BuildFolder\$(ProjectName)\$(Configuration)\$(PlatformTarget)\</IntDir>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -92,7 +92,7 @@
     <IncludePath>$(SolutionDir)\StaticIncludes;$(SolutionDir)NativeSources\Detours-master\src;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Code\$(Configuration)\$(PlatformTarget)\lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\program\</OutDir>
-    <IntDir>$(SolutionDir)BuildFolder\$(ProjectName)\$(Configuration)\$(PlatformTarget)</IntDir>
+    <IntDir>$(SolutionDir)BuildFolder\$(ProjectName)\$(Configuration)\$(PlatformTarget)\</IntDir>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -100,7 +100,7 @@
     <IncludePath>$(SolutionDir)\StaticIncludes;$(SolutionDir)NativeSources\Detours-master\src;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Code\$(Configuration)\$(PlatformTarget)\lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\program\</OutDir>
-    <IntDir>$(SolutionDir)BuildFolder\$(ProjectName)\$(Configuration)\$(PlatformTarget)</IntDir>
+    <IntDir>$(SolutionDir)BuildFolder\$(ProjectName)\$(Configuration)\$(PlatformTarget)\</IntDir>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

@@ -39,6 +39,11 @@ namespace InsightSheath
     public static class HelperRoutines
     {
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="TargetExe"></param>
+        /// <returns></returns>
         public static MachineType GetPEMachineType(string TargetExe)
         {
             return NativeMethods.GetPEMachineType(TargetExe);

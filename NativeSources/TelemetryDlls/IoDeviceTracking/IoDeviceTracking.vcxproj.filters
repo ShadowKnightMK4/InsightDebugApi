@@ -15,38 +15,41 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Dllmain.cpp">
+    <Text Include="Readme.txt">
+      <Filter>Header Files</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="DetouredRoutines.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DetouringRoutines.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DetouredRoutines.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="OriginalRoutinePtrs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Generic\Dllmain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Generic\TelemetrySupports.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="OriginalRoutinePts.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DetouredReplacementRoutines.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DetouringRoutine.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="exports.def">
-      <Filter>Resource Files</Filter>
+    <None Include="Generic\exports.def">
+      <Filter>Source Files</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Readme.txt">
+    <ClInclude Include="Headers\DetouredReplacementRoutines.h">
       <Filter>Header Files</Filter>
-    </Text>
+    </ClInclude>
+    <ClInclude Include="Headers\DetouringRoutine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\OriginalRoutinePts.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

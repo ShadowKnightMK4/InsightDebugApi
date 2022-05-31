@@ -24,7 +24,7 @@ extern "C" {
 		OutputDebugString(L"Debug Warning Warning OpenProcessWith ALL ACCESS\r\n");
 		return OpenProcess(PROCESS_ALL_ACCESS, FALSE, ProcessID);
 #else
-		OutputDebugString(L"Debug Warning. OpenProcessNow() is dummied out in release builds");
+		OutputDebugString(L"Debug Warning. OpenProcessNow() is dummied out in release builds. It will always return 0");
 #endif // _DEBUG
 		return 0;
 	}

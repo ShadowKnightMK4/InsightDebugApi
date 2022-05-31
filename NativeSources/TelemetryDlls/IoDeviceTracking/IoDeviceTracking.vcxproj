@@ -74,7 +74,7 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)\Code\$(Configuration)\$(PlatformTarget)\program\Telemetry\</OutDir>
     <IntDir>$(SolutionDir)BuildFolder\Telemetry\$(ProjectName)\$(Configuration)\$(PlatformTarget)\</IntDir>
-    <IncludePath>$(SolutionDir)\StaticIncludes;$(SolutionDir)NativeSources\Detours-master\src;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)NativeSources\Detours-master\src;$(ProjectDir);$(ProjectDir)Headers;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Code\$(Configuration)\$(PlatformTarget)\lib;$(LibraryPath)</LibraryPath>
     <RunCodeAnalysis>true</RunCodeAnalysis>
     <EnableClangTidyCodeAnalysis>false</EnableClangTidyCodeAnalysis>
@@ -83,19 +83,19 @@
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)\Code\$(Configuration)\$(PlatformTarget)\program\Telemetry\</OutDir>
     <IntDir>$(SolutionDir)BuildFolder\Telemetry\$(ProjectName)\$(Configuration)\$(PlatformTarget)\</IntDir>
-    <IncludePath>$(SolutionDir)\StaticIncludes;$(SolutionDir)NativeSources\Detours-master\src;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)NativeSources\Detours-master\src;$(ProjectDir);$(ProjectDir)Headers;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Code\$(Configuration)\$(PlatformTarget)\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)\StaticIncludes;$(SolutionDir)NativeSources\Detours-master\src;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)NativeSources\Detours-master\src;$(ProjectDir);$(ProjectDir)Headers;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Code\$(Configuration)\$(PlatformTarget)\lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)\Code\$(Configuration)\$(PlatformTarget)\program\Telemetry\</OutDir>
     <IntDir>$(SolutionDir)BuildFolder\Telemetry\$(ProjectName)\$(Configuration)\$(PlatformTarget)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)\StaticIncludes;$(SolutionDir)NativeSources\Detours-master\src;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)NativeSources\Detours-master\src;$(ProjectDir);$(ProjectDir)Headers;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Code\$(Configuration)\$(PlatformTarget)\lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)\Code\$(Configuration)\$(PlatformTarget)\program\Telemetry\</OutDir>
     <IntDir>$(SolutionDir)BuildFolder\Telemetry\$(ProjectName)\$(Configuration)\$(PlatformTarget)\</IntDir>
@@ -110,8 +110,9 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ModuleDefinitionFile>exports.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>$(ProjectDir)Generic\exports.def</ModuleDefinitionFile>
       <AdditionalDependencies>detours.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(TargetName)$(PlatformArchitecture)$(TargetExt)</OutputFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -129,9 +130,10 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ModuleDefinitionFile>exports.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>$(ProjectDir)Generic\exports.def</ModuleDefinitionFile>
       <SetChecksum>true</SetChecksum>
       <AdditionalDependencies>detours.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(TargetName)$(PlatformArchitecture)$(TargetExt)</OutputFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -144,8 +146,9 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ModuleDefinitionFile>exports.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>$(ProjectDir)Generic\exports.def</ModuleDefinitionFile>
       <AdditionalDependencies>detours.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(TargetName)$(PlatformArchitecture)$(TargetExt)</OutputFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -162,26 +165,28 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ModuleDefinitionFile>exports.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>$(ProjectDir)Generic\exports.def</ModuleDefinitionFile>
       <AdditionalDependencies>detours.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(TargetName)$(PlatformArchitecture)$(TargetExt)</OutputFile>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="DetouredRoutines.cpp" />
-    <ClCompile Include="DetouringRoutines.cpp" />
-    <ClCompile Include="Dllmain.cpp" />
-    <ClCompile Include="OriginalRoutinePtrs.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="DetouredReplacementRoutines.h" />
-    <ClInclude Include="DetouringRoutine.h" />
-    <ClInclude Include="OriginalRoutinePts.h" />
-  </ItemGroup>
   <ItemGroup>
     <Text Include="Readme.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="exports.def" />
+    <ClCompile Include="DetouredRoutines.cpp" />
+    <ClCompile Include="DetouringRoutines.cpp" />
+    <ClCompile Include="Generic\Dllmain.cpp" />
+    <ClCompile Include="Generic\TelemetrySupports.cpp" />
+    <ClCompile Include="OriginalRoutinePtrs.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Generic\exports.def" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Headers\DetouredReplacementRoutines.h" />
+    <ClInclude Include="Headers\DetouringRoutine.h" />
+    <ClInclude Include="Headers\OriginalRoutinePts.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

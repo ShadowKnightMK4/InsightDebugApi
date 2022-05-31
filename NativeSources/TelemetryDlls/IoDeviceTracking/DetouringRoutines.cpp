@@ -1,6 +1,8 @@
 #include <Windows.h>
 #include "OriginalRoutinePts.h"
 #include "DetouredReplacementRoutines.h"
+#include "TelemetrySupport.h"
+
 #include <detours.h>
 #include <string>
 #include <sstream>
@@ -20,73 +22,6 @@ const char* CreateFileTransactedA_string = "CreateFileTransactedA";
 const char* CreateFileTransactedW_string = "CreateFileTransactedW";
 
 
-void error_unabletocommit(DWORD val, const wchar_t* telemetryname)
-{
-	std::wstringstream output;
-#ifdef _DEBUG
-	
-	output << "DetourTransactionCommit() failed with code " << std::hex << L"(" << val << L")" << std::dec << L"(" << val << L")" << "for the detour telemetry dll named " << telemetryname << std::endl;
-#else
-	output << "Unable to apply detours to relevant routines from the telemetry dll named " << telemetryname << std::endl;
-#endif
-	
-}
-void error_detourattachfail(DWORD val, const wchar_t* routine_name, LPVOID Ptr, LPVOID Replacement)
-{
-#ifdef _DEBUG
-	std::wstringstream output;
-	output << "DetourAttach() Failed with error code" << std::hex << L"(" << val << L")" << std::dec << L"(" << val << L")" << L" for routine named " << routine_name << L" at local memory" << std::hex << "0x" << Ptr << std::dec;
-	OutputDebugString(output.str().c_str());
-#endif
-}
-void error_detourbeginfail(DWORD val)
-{
-#ifdef _DEBUG
-	std::wstringstream output;
-	DWORD LastError = GetLastError();
-	output << "DetourTransactionBegin() failed with error code " << std::hex << L"(" << val << L")" << std::dec << L"(" << val << L")" << std::endl;
-	OutputDebugString(output.str().c_str());
-#endif
-}
-
-void error_detoursettargetthread(DWORD val)
-{
-#ifdef _DEBUG
-	std::wstringstream output;
-	output << "DetourSetTargetTHread() failed with error code " << std::hex << L"(" << val << L")" << std::dec << L"(" << val << L")" << std::endl;
-	OutputDebugString(output.str().c_str());
-#endif
-
-}
-void error_getproc(BOOL IsFatal, const wchar_t* routine, const wchar_t* dll)
-{
-#ifdef _DEBUG
-	std::wstringstream Output;
-	DWORD LastError = GetLastError();
-	if (IsFatal)
-	{
-		Output << L"Fatal:  ";
-	}
-	else
-	{
-		Output << L"Warning ";
-	}
-	Output << L"Unable to load " << routine << L"from dll " << dll << ". GetProcAddress Failed with error " << std::hex << L"\"" << LastError << L"\"" << std::dec << L"\"" << LastError << L"\"" << std::endl;
-
-
-	if (!IsFatal)
-	{
-		Output << L"This may cause issues in proceeding with loading the telemetry ok" << std::endl;
-	}
-	else
-	{
-		Output << L"This will prevent the target from loading the telemetry ok." << std::endl;
-	}
-
-
-	OutputDebugString(Output.str().c_str());
-#endif
-}
 bool DetourTargetRoutines()
 {
 	LONG detour = 0;
@@ -100,14 +35,14 @@ bool DetourTargetRoutines()
 		if (OriginalNtCreateFile == 0)
 		{
 #ifdef _DEBUG
-			error_getproc(FALSE, L"NtCreateFile", L"ntdll.dll");
+			OutputDebugString_GetProcFail(FALSE, L"NtCreateFile", L"ntdll.dll");
 #endif
 		}
 		OriginalNtOpenFile = (NtOpenFilePtr)GetProcAddress(Ntdll, NtOpenFile_string);
 		if (OriginalNtOpenFile == 0) 
 		{
 #ifdef _DEBUG
-			error_getproc(FALSE, L"NtOpenFile", L"ntdll.dll");
+			OutputDebugString_GetProcFail(FALSE, L"NtOpenFile", L"ntdll.dll");
 #endif
 		}
 	}
@@ -117,7 +52,7 @@ bool DetourTargetRoutines()
 		if (OriginalCloseHandle == 0)
 		{
 #ifdef _DEBUG
-			error_getproc(TRUE, L"CloseHandle", L"kernel32.dll");
+			OutputDebugString_GetProcFail(TRUE, L"CloseHandle", L"kernel32.dll");
 #endif // _DEBUG
 			return false;
 		}
@@ -127,7 +62,7 @@ bool DetourTargetRoutines()
 		if (OriginalCreateFileW == 0)
 		{
 #ifdef _DEBUG
-			error_getproc(TRUE, L"CreateFileW", L"kernel32.dll");
+			OutputDebugString_GetProcFail(TRUE, L"CreateFileW", L"kernel32.dll");
 #endif // _DEBUG
 			return false;
 		}
@@ -137,7 +72,7 @@ bool DetourTargetRoutines()
 		if (OriginalCreateFileA == 0)
 		{
 #ifdef _DEBUG
-			error_getproc(TRUE, L"CreateFileA", L"kernel32.dll");
+			OutputDebugString_GetProcFail(TRUE, L"CreateFileA", L"kernel32.dll");
 #endif // _DEBUG
 			return false;
 		}
@@ -148,7 +83,7 @@ bool DetourTargetRoutines()
 
 		{
 #ifdef _DEBUG
-			error_getproc(TRUE, L"CreateFileTransactedW", L"kernel32.dll");
+			OutputDebugString_GetProcFail(TRUE, L"CreateFileTransactedW", L"kernel32.dll");
 #endif // _DEBUG
 			return false;
 		}
@@ -158,7 +93,7 @@ bool DetourTargetRoutines()
 		if (OriginalCreateFileTransactedW == 0)
 		{
 #ifdef _DEBUG
-			error_getproc(TRUE, L"CreateFileTransactedW", L"kernel32.dll");
+			OutputDebugString_GetProcFail(TRUE, L"CreateFileTransactedW", L"kernel32.dll");
 #endif // _DEBUG
 			return false;
 		}
@@ -168,7 +103,7 @@ bool DetourTargetRoutines()
 		if (OriginalCreateFile2 == 0)
 		{
 #ifdef _DEBUG
-			error_getproc(TRUE, L"CreateFile2", L"kernel32.dll");
+			OutputDebugString_GetProcFail(TRUE, L"CreateFile2", L"kernel32.dll");
 #endif
 			return false;
 		}
@@ -177,7 +112,7 @@ bool DetourTargetRoutines()
 		if (detour != 0)
 		{
 #ifdef _DEBUG
-			error_detourbeginfail(detour);
+			OutputDebugString_DetourTransBeginFail(detour);
 #endif
 			return false;
 		}
@@ -185,7 +120,7 @@ bool DetourTargetRoutines()
 		if (detour != 0)
 		{
 #ifdef _DEBUG
-			error_detoursettargetthread(detour);
+			OutputDebugString_DetourTargetThreadFail(detour);
 #endif
 			return false;
 		}
@@ -196,7 +131,7 @@ bool DetourTargetRoutines()
 #ifdef _DEBUG
 			if (detour != 0)
 			{
-				error_detourattachfail(detour, L"NtCreateFile", OriginalCreateFileA, DetouredCreateFileA);
+				OutputDebugString_ErrorFailedToAttach(detour, L"NtCreateFile", OriginalCreateFileA, DetouredCreateFileA);
 			}
 			else
 			{
@@ -217,7 +152,7 @@ bool DetourTargetRoutines()
 #ifdef _DEBUG
 			if (detour != 0)
 			{
-				error_detourattachfail(detour, L"NtOpenFile", OriginalNtOpenFile, DetouredCreateFileA);
+				OutputDebugString_ErrorFailedToAttach(detour, L"NtOpenFile", OriginalNtOpenFile, DetouredCreateFileA);
 			}
 			else
 			{
@@ -236,7 +171,7 @@ bool DetourTargetRoutines()
 		if (detour != 0)
 		{
 #ifdef _DEBUG
-			error_detourattachfail(detour, L"CreateFileA", OriginalCreateFileA, DetouredCreateFileA);
+			OutputDebugString_ErrorFailedToAttach(detour, L"CreateFileA", OriginalCreateFileA, DetouredCreateFileA);
 #endif
 			return false;
 		}
@@ -244,7 +179,7 @@ bool DetourTargetRoutines()
 		if (detour != 0)
 		{
 #ifdef _DEBUG
-			error_detourattachfail(detour, L"CreateFileW", OriginalCreateFileW, DetouredCreateFileW);
+			OutputDebugString_ErrorFailedToAttach(detour, L"CreateFileW", OriginalCreateFileW, DetouredCreateFileW);
 #endif
 			return false;
 		}
@@ -252,7 +187,7 @@ bool DetourTargetRoutines()
 		if (detour != 0)
 		{
 #ifdef _DEBUG
-			error_detourattachfail(detour, L"CreateFileTransactedA", CreateFileTransactedA, DetouredCreateFileTransactedA);
+			OutputDebugString_ErrorFailedToAttach(detour, L"CreateFileTransactedA", CreateFileTransactedA, DetouredCreateFileTransactedA);
 #endif
 			return false;
 		}
@@ -260,7 +195,7 @@ bool DetourTargetRoutines()
 		if (detour != 0)
 		{
 #ifdef _DEBUG
-			error_detourattachfail(detour, L"CreateFileTransactedW", CreateFileTransactedW, DetouredCreateFileTransactedW);
+			OutputDebugString_ErrorFailedToAttach(detour, L"CreateFileTransactedW", CreateFileTransactedW, DetouredCreateFileTransactedW);
 #endif
 			return false;
 		}
@@ -268,7 +203,7 @@ bool DetourTargetRoutines()
 		if (detour != 0)
 		{
 #ifdef _DEBUG
-			error_detourattachfail(detour, L"CreateFile2", CreateFile2, DetouredCreateFile2);
+			OutputDebugString_ErrorFailedToAttach(detour, L"CreateFile2", CreateFile2, DetouredCreateFile2);
 #endif
 			return false;
 		}
@@ -276,14 +211,14 @@ bool DetourTargetRoutines()
 		if (detour != 0)
 		{
 #ifdef _DEBUG
-			error_detourattachfail(detour, L"CloseHandle", OriginalCloseHandle, DetouredCloseHandle);
+			OutputDebugString_ErrorFailedToAttach(detour, L"CloseHandle", OriginalCloseHandle, DetouredCloseHandle);
 #endif
 			return false;
 		}
 		detour = DetourTransactionCommit();
 		if (detour != 0)
 		{
-			error_unabletocommit(detour, L"IoDeviceTrackingTelemetry");
+			OutputDebugString_DetourCantCommit(detour, L"IoDeviceTrackingTelemetry");
 		}
 		return (detour == 0);
 	}

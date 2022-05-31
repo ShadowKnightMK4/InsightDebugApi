@@ -609,131 +609,10 @@ void InsightProcess::RefreshMemoryStatistics()
 	}
 
 }
-BOOL WINAPI MyDetourCreateProcessWithDllExW(_In_opt_ LPCWSTR lpApplicationName,
-	_Inout_opt_  LPWSTR lpCommandLine,
-	_In_opt_ LPSECURITY_ATTRIBUTES lpProcessAttributes,
-	_In_opt_ LPSECURITY_ATTRIBUTES lpThreadAttributes,
-	_In_ BOOL bInheritHandles,
-	_In_ DWORD dwCreationFlags,
-	_In_opt_ LPVOID lpEnvironment,
-	_In_opt_ LPCWSTR lpCurrentDirectory,
-	_In_ LPSTARTUPINFOW lpStartupInfo,
-	_Out_ LPPROCESS_INFORMATION lpProcessInformation,
-	_In_ LPCSTR lpDllName,
-	_In_opt_ PDETOUR_CREATE_PROCESS_ROUTINEW pfCreateProcessW)
-{
-	if (pfCreateProcessW == NULL) {
-		pfCreateProcessW = CreateProcessW;
-	}
-
-	PROCESS_INFORMATION backup;
-	if (lpProcessInformation == NULL) {
-		lpProcessInformation = &backup;
-		ZeroMemory(&backup, sizeof(backup));
-	}
-
-	if (!pfCreateProcessW(lpApplicationName,
-		lpCommandLine,
-		lpProcessAttributes,
-		lpThreadAttributes,
-		bInheritHandles,
-		dwCreationFlags | CREATE_SUSPENDED,
-		lpEnvironment,
-		lpCurrentDirectory,
-		lpStartupInfo,
-		lpProcessInformation)) {
-		return FALSE;
-	}
-
-
-	LPCSTR sz = lpDllName;
-
-	if (!DetourUpdateProcessWithDll(lpProcessInformation->hProcess, &sz, 1) &&
-		!DetourProcessViaHelperW(lpProcessInformation->dwProcessId,
-			lpDllName,
-			pfCreateProcessW)) {
-
-		TerminateProcess(lpProcessInformation->hProcess, ~0u);
-		CloseHandle(lpProcessInformation->hProcess);
-		CloseHandle(lpProcessInformation->hThread);
-		return FALSE;
-	}
-
-	if (!(dwCreationFlags & CREATE_SUSPENDED)) {
-		ResumeThread(lpProcessInformation->hThread);
-	}
-
-	if (lpProcessInformation == &backup) {
-		CloseHandle(lpProcessInformation->hProcess);
-		CloseHandle(lpProcessInformation->hThread);
-	}
-	return TRUE;
-}
 
 
 
 
-BOOL WINAPI MyDetourCreateProcessWithDllsW(_In_opt_ LPCWSTR lpApplicationName,
-	_Inout_opt_ LPWSTR lpCommandLine,
-	_In_opt_ LPSECURITY_ATTRIBUTES lpProcessAttributes,
-	_In_opt_ LPSECURITY_ATTRIBUTES lpThreadAttributes,
-	_In_ BOOL bInheritHandles,
-	_In_ DWORD dwCreationFlags,
-	_In_opt_ LPVOID lpEnvironment,
-	_In_opt_ LPCWSTR lpCurrentDirectory,
-	_In_ LPSTARTUPINFOW lpStartupInfo,
-	_Out_ LPPROCESS_INFORMATION lpProcessInformation,
-	_In_ DWORD nDlls,
-	_In_reads_(nDlls) LPCSTR* rlpDlls,
-	_In_opt_ PDETOUR_CREATE_PROCESS_ROUTINEW pfCreateProcessW)
-{
-	if (pfCreateProcessW == NULL) {
-		pfCreateProcessW = CreateProcessW;
-	}
-
-	PROCESS_INFORMATION backup;
-	if (lpProcessInformation == NULL) {
-		lpProcessInformation = &backup;
-		ZeroMemory(&backup, sizeof(backup));
-	}
-
-	if (!pfCreateProcessW(lpApplicationName,
-		lpCommandLine,
-		lpProcessAttributes,
-		lpThreadAttributes,
-		bInheritHandles,
-		dwCreationFlags | CREATE_SUSPENDED,
-		lpEnvironment,
-		lpCurrentDirectory,
-		lpStartupInfo,
-		lpProcessInformation)) {
-		return FALSE;
-	}
-
-
-	if (!DetourUpdateProcessWithDll(lpProcessInformation->hProcess, rlpDlls, nDlls) &&
-		!DetourProcessViaHelperDllsW(lpProcessInformation->dwProcessId,
-			nDlls,
-			rlpDlls,
-			pfCreateProcessW)) {
-
-		TerminateProcess(lpProcessInformation->hProcess, ~0u);
-		CloseHandle(lpProcessInformation->hProcess);
-		CloseHandle(lpProcessInformation->hThread);
-		return FALSE;
-	}
-
-	if (!(dwCreationFlags & CREATE_SUSPENDED)) {
-		ResumeThread(lpProcessInformation->hThread);
-	}
-
-	if (lpProcessInformation == &backup) {
-		CloseHandle(lpProcessInformation->hProcess);
-		CloseHandle(lpProcessInformation->hThread);
-	}
-	return TRUE;
-
-}
 
 DWORD InsightProcess::SpawnProcessCommon(bool NoNotSpawnThread)
 {
@@ -869,7 +748,7 @@ DWORD InsightProcess::SpawnProcessCommon(bool NoNotSpawnThread)
 			{
 				//if (!DetourCreateProcessWithDllsW(ProcessName(),
 				//if (!DetourCreateProcessWithDllExW(ProcessName(),
-				if (!MyDetourCreateProcessWithDllsW(ProcessName(),
+				if (!DetourCreateProcessWithDllsW(ProcessName(),
 					Arguments,
 					lpProcessAttributes,
 					lpThreadAttributes,
