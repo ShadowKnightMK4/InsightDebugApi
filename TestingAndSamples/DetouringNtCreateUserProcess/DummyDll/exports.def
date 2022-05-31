@@ -1,0 +1,4 @@
+LIBRARY DUMMYDLL64
+	EXPORTS
+		DetourFinishHelperProcess
+		DllMain

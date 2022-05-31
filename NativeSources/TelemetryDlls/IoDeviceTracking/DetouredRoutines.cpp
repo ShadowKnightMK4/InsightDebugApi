@@ -1,26 +1,10 @@
 #include "OriginalRoutinePts.h"
 #include "DetouredReplacementRoutines.h"
-#include <sstream>
+#include "TelemetrySupport.h"
 #include <winternl.h>
 
 using namespace std;
-wchar_t* AnsiToUnicode(char* ansi)
-{
-	if (ansi == nullptr)
-		return nullptr;
 
-	DWORD SizeString = MultiByteToWideChar(CP_ACP, 0, ansi, -1, 0, 0);
-	wchar_t* UnicodeString = nullptr;
-
-
-
-	UnicodeString = new wchar_t[SizeString +  (size_t)1];
-
-	SizeString = MultiByteToWideChar(CP_ACP, 0, ansi, -1, UnicodeString, SizeString);
-	UnicodeString[SizeString] = 0;
-	return UnicodeString;
-
-}
 
 
 /* We throw exception with this value. As long as debugger knows this value
@@ -318,19 +302,7 @@ DWORD __CreateFileTransactedAW_CommonAlert(
 	
 }
 
-void debughelp(LPCWSTR Message)
-{
-	std::wstringstream tmp;
-	tmp << Message;
-	OutputDebugString(tmp.str().c_str());
-}
 
-void debughelpemitptr(VOID* D)
-{
-	std::wstringstream tmp;
-	tmp << hex << D << dec;
-	OutputDebugString(tmp.str().c_str());
-}
 
 /// <summary>
 /// Raise the alert for CreateFileA/W and return 0;
@@ -397,15 +369,14 @@ DWORD                 dwShareMode,
 LPSECURITY_ATTRIBUTES lpSecurityAttributes,
 DWORD                 dwCreationDisposition,
 DWORD                 dwFlagsAndAttributes,
-HANDLE                hTemplateFile
-)
+HANDLE                hTemplateFile)
 
 {
-BOOL retVal = FALSE;
-BOOL Overwritten = FALSE;
-DWORD lastErrorRep = 0;
-// common think gets a pointer to a string they can replace value with.
-HANDLE hReplacement = 0;
+	BOOL retVal = FALSE;
+	BOOL Overwritten = FALSE;
+	DWORD lastErrorRep = 0;
+	// common thinkg gets a pointer to a string they can replace value with.
+	HANDLE hReplacement = 0;
 
 wchar_t* UnicodeString = AnsiToUnicode((char*)lpFileName);
 
@@ -444,40 +415,25 @@ HANDLE WINAPI DetouredCreateFileW(
 #ifdef _DEBUG
 	OutputDebugString(L"CreatedCreateFIleW for \"");
 	OutputDebugString(lpFileName);
-	OutputDebugStringW(L"\"\r\n");
+	OutputDebugString(L"\"\r\n");
 #endif
 	DWORD common_branch = __CreateFileAW_CommmonAlert(lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile, &hReplacement,&lastErrorRep);
 	
 
 	if (hReplacement != 0)
 	{
-#ifdef _DEBUG
-		OutputDebugString(L"Overritten the file handle with the new one");
-
-#ifdef _DEBUG
-		std::wstringstream tmp;
-		tmp << L"Replaced!!! \r\n" << "Handle ==(" << std::hex << hReplacement << L") (" << std::dec << hReplacement << ") LastError = " << std::dec << lastErrorRep << L"\r\n";
-		OutputDebugString(tmp.str().c_str());
-#endif
-
-#endif
 		Overwritten = TRUE;
 	}
 
 	if (Overwritten)
 	{
-#ifdef _DEBUG
-		OutputDebugString(L"Setting last error to overwritten value and returning new one");
-#endif
 		SetLastError(lastErrorRep);
 		return hReplacement;
 
 	}
 	else
 	{
-#ifdef _DEBUG
-		OutputDebugString(L"Call not overwritten\r\n");
-#endif
+
 		return OriginalCreateFileW(lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile);
 	}
 
@@ -574,6 +530,7 @@ BOOL __stdcall DetouredCloseHandle(HANDLE hObject)
 	   NTSTATUS Returnvalue = 0;
 	   BOOL Overritten = FALSE;
 #ifdef _DEBUG
+	   /*
 	   wstringstream output;
 	   output << L"ObjectAttributes->Attributes == " << ObjectAttributes->Attributes << endl;
 	   output << L"ObjectAttributes->Length == " << ObjectAttributes->Length << endl;
@@ -581,7 +538,7 @@ BOOL __stdcall DetouredCloseHandle(HANDLE hObject)
 	   output << L"ObjectAttributes->RootDirectory ==" << ObjectAttributes->RootDirectory << endl << hex;
 	   output << L"ObjectAttributes->SecurityDescriptor  ==" << ObjectAttributes->SecurityDescriptor << endl;
 	   output << L"ObjectAttributes->SecurityQualityOfService == " << ObjectAttributes->SecurityQualityOfService << endl;
-	   OutputDebugString(output.str().c_str());
+	   OutputDebugString(output.str().c_str());*/
 #endif
 
 

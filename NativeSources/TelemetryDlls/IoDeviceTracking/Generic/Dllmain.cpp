@@ -1,12 +1,9 @@
 
 #include <windows.h>
 #include "DetouringRoutine.h"
-#ifdef _DEBUG
-#include <iostream>
-#include <string>
-#include <sstream>
-using namespace std;
-#endif
+#include "detours.h"
+#include "TelemetrySupport.h"
+
 /*
 * You have these options in the build config settings to define to modify this template
 *
@@ -16,48 +13,29 @@ using namespace std;
 *                               to call your detoured routine that has been unloaded prematurely.
 */
 
-void emit_debug_msg(const wchar_t* str)
-{
-#ifdef  _DEBUG
-    wstringstream tmp;
-
-    tmp << str;
-    OutputDebugString(tmp.str().c_str());
-#endif
-}
-
-void emit_debug_msg(DWORD str)
-{
-#ifdef  _DEBUG
-    wstringstream tmp;
-
-    tmp << str;
-    OutputDebugString(tmp.str().c_str());
-#endif
-}
 
 
 /* if you find you're getting garbage from the exception reading in the sheath, uncomment this and put a call info the DllMain() here.
-    Run the Visual studio debugger and inspect the execption arguments .
+    Run the Visual studio debugger and inspect the exception arguments .
 */
 void test_exception()
 {
 
     ULONG_PTR Argsp[EXCEPTION_MAXIMUM_PARAMETERS];
-    emit_debug_msg(L"Preparing Test Exception of Value 1.  ULONG_PTR size = (");
-    emit_debug_msg(sizeof(ULONG_PTR));
-    emit_debug_msg(L") Value of array { ");
+    OutputDebugString(L"Preparing Test Exception of Value 1.  ULONG_PTR size = (");
+    OutputDebugString(sizeof(ULONG_PTR));
+    OutputDebugString(L") Value of array { ");
     
 
 
     for (int step = 0; step < EXCEPTION_MAXIMUM_PARAMETERS; step++)
     {
         Argsp[step] = step;
-        emit_debug_msg(Argsp[step]);
-        emit_debug_msg(L", ");
+        OutputDebugString(Argsp[step]);
+        OutputDebugString(L", ");
 
     }
-    emit_debug_msg(L"} \r\n");
+    OutputDebugString(L"} \r\n");
     
 
 
@@ -77,6 +55,15 @@ static HMODULE Self = 0;
 #endif
 int WINAPI DllMain(HINSTANCE hInstDll, DWORD fdwReason, LPVOID Reserved)
 {
+    if (DetourIsHelperProcess())
+    {
+        return TRUE;
+    }
+    else
+    {
+        DetourRestoreAfterWith();
+    }
+
     {
         // Perform actions based on the reason for calling.
         switch (fdwReason)

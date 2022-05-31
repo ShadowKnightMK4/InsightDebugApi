@@ -10,7 +10,7 @@ const char* ntdll_string = "ntdll.dll";
 const char* kernel32_string = "kernel32.dll";
 
 
-void error_unabletocommit(DWORD val, const wchar_t* telemetryname)
+void OutputDebugString_unabletocommit(DWORD val, const wchar_t* telemetryname)
 {
 	std::wstringstream output;
 #ifdef _DEBUG
@@ -186,7 +186,7 @@ bool DetourTargetRoutines()
 	detour = DetourTransactionCommit();
 	if (detour != 0)
 	{
-		error_unabletocommit(detour, L"AntiDebuggingTelemetry");
+		OutputDebugString_unabletocommit(detour, L"AntiDebuggingTelemetry");
 	}
 	return (detour == 0);
 

@@ -1,12 +1,12 @@
 
 Telemetry DLLs for purposes are specially written dlls that are forcably loaded into a spawned app's address space via Detours in order to gain additional data
-and functionality. For Example, IoDeviceTracking detours CreateFIleA (and W).  This detoured routine raises an exception containing information about the arguments
+and functionality. For Example, IoDeviceTracking detours CreateFileA (and W).  This detoured routine raises an exception containing information about the arguments
 passed to the routine with the option for the debugger to simply paste a handle and lasterror value into a chunk of memory to modify. 
 
 
 CRITICALLY IMPORTANT!!!!
 The included detours static lib does not seem to support injecting from a parent x64 bit based process into
-an x86 WOW process.   This means your dll lists will NOT TRIGGER!
+an x86 WOW process.   This means your DLLS loaded won't trigger!
 
 
 For those who have no idea what detours is see https://github.com/microsoft/Detours/wiki for a starting point. If you've never set foot into Native C++ windows code,

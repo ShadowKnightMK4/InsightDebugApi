@@ -84,7 +84,7 @@ namespace InsightSheath.NativeImports
         public static extern ulong Peek8(IntPtr NativePtr);
 
         /// <summary>
-        /// write a 8 byte QWORD value to a local unmanaged memory location
+        /// write a 8 byte QWORD value to a local unmanaged memory location 
         /// </summary>
         /// <param name="NativePtr">Pointer to write to</param>
         /// <returns>true if the value was set and false if it was not (or if <see cref="NativePtr"/> equals 0)</returns>

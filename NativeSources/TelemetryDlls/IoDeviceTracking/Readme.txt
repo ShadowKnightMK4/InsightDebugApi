@@ -1,9 +1,8 @@
 
 IoDviceTracking Project
-Should resolve to \Telemetry\IoDeviceTracking.dll.
+Should resolve to \Telemetry\IoDeviceTracking32.dll for x86 and IoDeviceTracking64 for Windows 64
 
-This file project detours CreateFileA/W and CreateFileTransactedA/W  (CreateFile2 also),  and 
-.
+This file project detours CreateFileA/W and CreateFileTransactedA/W  (CreateFile2 also),  and NtCreateFile/ NtOpenFile.
 
 
 The general detoured routine calls code to convert the string to Unicode, calls a common notification routine that raises
@@ -26,6 +25,8 @@ IMPORTANT!!!
 	target app, you will no longer get notifications from the app as said notifications are done via Raising Exceptions via RaiseException()
 OPTIONAL
 	It is recommended that if you are using this to block access/ a feature of something to match known documentation for the detoured routine.
+FINALLY
+	This project generally serves as the template for the rest of the projects.
 
 
 

@@ -183,7 +183,7 @@ namespace InsightSheath
             IntPtr ret = NativeMethods.CreateInsightProcessNativeClass();
             if (ret == IntPtr.Zero)
             {
-                throw new InvalidOperationException("Native DLL InsightApi Failed to instance a copy of its PS_ProcessCreation via the exported routine");
+                throw new InvalidOperationException("Native DLL InsightApi Failed to instance a copy of its InsightProcess class via the exported routine");
             }
             else
             {
@@ -421,6 +421,21 @@ namespace InsightSheath
 
 
         /// <summary>
+        /// Default is TRUE.  Should the code be unable to detour, process is killed and failure is returned.
+        /// </summary>
+        public bool DetourMustSucceed
+        {
+            get
+            {
+                return false;
+            }
+            set
+            {
+
+            }
+        }
+
+        /// <summary>
         /// Default is false.  If false, only environment variables you explicitly define will be in the spawned process.  If true, the spawned process will inherit your debugger environment variables BUT the explicit variables you define will override the inherited ones.
         /// </summary>
         public bool InheritDefaultEnviroment
@@ -535,15 +550,19 @@ namespace InsightSheath
         /// <returns>This routines an instance to a <see cref="StartupInfoExW"/> class that you can use to customize startup settings. This instance is part of the underlying instance of <see cref="InsightProcess"/> and should not be freed/deleted on clean up if duplicated</returns>
         public StartupInfoExW GetStartupInfoClass()
         {
-            /* MEMORY MANAGEMENT IMPORTANCE*****  Should the Native implementation for InsightProcess's instance of StartupInfo change to be allocated, the false in this statement will need to be changed to true*/
+            /* MEMORY MANAGEMENT IMPORTANCE***** 
+             * Should the Native implementation for InsightProcess's instance of StartupInfo change to
+             * be allocated on demand, 
+             * the false in this statement will need to be changed to true*/
             return new StartupInfoExW(NativeMethods.InsightProcess_GetStartupInfoClass(Native), false);
         }
 
         /// <summary>
         /// Add a DLL to list of Detours DLLs to force the target process to load on spawn.
-        /// DOES NOT WORK if process is already running.
+        /// DOES NOT WORK if process is running 
         /// </summary>
         /// <param name="NewDllToForceLoad"></param>
+        /// <remarks>Currently detouring from parent to child with matching bitness works; however, x64 bit code is limited currently to detouring x64 processes. x86 can do both.</remarks>
         public void AddDetoursDll(string NewDllToForceLoad)
         {
             NativeMethods.PsProcessInformation_AddDetourDllToLoad(Native, NewDllToForceLoad);

@@ -21,32 +21,32 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{A8C1DE82-0CEE-484A-8115-2121A4E65927}</ProjectGuid>
-    <RootNamespace>IoDeviceTracking</RootNamespace>
+    <ProjectGuid>{FF75D0FB-1FD6-493D-B4D4-B33BDD460B37}</ProjectGuid>
+    <RootNamespace>DummyDll</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -72,45 +72,45 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)\Code\$(Configuration)\$(PlatformTarget)\program\Telemetry\</OutDir>
-    <IntDir>$(SolutionDir)BuildFolder\Telemetry\$(ProjectName)\$(Configuration)\$(PlatformTarget)\</IntDir>
-    <IncludePath>$(SolutionDir)\StaticIncludes;$(SolutionDir)NativeSources\Detours-master\src;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)NativeSources\Detours-master\src;$(ProjectDir);$(ProjectDir)Headers;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Code\$(Configuration)\$(PlatformTarget)\lib;$(LibraryPath)</LibraryPath>
+    <IntDir>$(SolutionDir)\BuildFolder\$(ProjectName)\$(Configuration)\$(PlatformTarget)</IntDir>
+    <OutDir>$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\program\Samples\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)\Code\$(Configuration)\$(PlatformTarget)\program\Telemetry\</OutDir>
-    <IntDir>$(SolutionDir)BuildFolder\Telemetry\$(ProjectName)\$(Configuration)\$(PlatformTarget)\</IntDir>
-    <IncludePath>$(SolutionDir)\StaticIncludes;$(SolutionDir)NativeSources\Detours-master\src;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)NativeSources\Detours-master\src;$(ProjectDir);$(ProjectDir)Headers;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Code\$(Configuration)\$(PlatformTarget)\lib;$(LibraryPath)</LibraryPath>
+    <IntDir>$(SolutionDir)\BuildFolder\$(ProjectName)\$(Configuration)\$(PlatformTarget)</IntDir>
+    <OutDir>$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\program\Samples\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)\StaticIncludes;$(SolutionDir)NativeSources\Detours-master\src;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)NativeSources\Detours-master\src;$(ProjectDir);$(ProjectDir)Headers;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Code\$(Configuration)\$(PlatformTarget)\lib;$(LibraryPath)</LibraryPath>
-    <OutDir>$(SolutionDir)\Code\$(Configuration)\$(PlatformTarget)\program\Telemetry\</OutDir>
-    <IntDir>$(SolutionDir)BuildFolder\Telemetry\$(ProjectName)\$(Configuration)\$(PlatformTarget)\</IntDir>
+    <IntDir>$(SolutionDir)\BuildFolder\$(ProjectName)\$(Configuration)\$(PlatformTarget)</IntDir>
+    <OutDir>$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\program\Samples\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)\StaticIncludes;$(SolutionDir)NativeSources\Detours-master\src;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)NativeSources\Detours-master\src;$(ProjectDir);$(ProjectDir)Headers;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Code\$(Configuration)\$(PlatformTarget)\lib;$(LibraryPath)</LibraryPath>
-    <OutDir>$(SolutionDir)\Code\$(Configuration)\$(PlatformTarget)\program\Telemetry\</OutDir>
-    <IntDir>$(SolutionDir)BuildFolder\Telemetry\$(ProjectName)\$(Configuration)\$(PlatformTarget)\</IntDir>
+    <IntDir>$(SolutionDir)\BuildFolder\$(ProjectName)\$(Configuration)\$(PlatformTarget)</IntDir>
+    <OutDir>$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\program\Samples\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;PIN_TELEMETRY_DLL;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ModuleDefinitionFile>exports.def</ModuleDefinitionFile>
-      <AdditionalDependencies>detours.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)$(TargetName)$(PlatformArchitecture)$(TargetExt)</OutputFile>
+      <AdditionalDependencies>Detours.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ModuleDefinitionFile>
+      </ModuleDefinitionFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -119,34 +119,32 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;PIN_TELEMETRY_DLL;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <StringPooling>true</StringPooling>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ModuleDefinitionFile>exports.def</ModuleDefinitionFile>
-      <SetChecksum>true</SetChecksum>
-      <AdditionalDependencies>detours.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)$(TargetName)$(PlatformArchitecture)$(TargetExt)</OutputFile>
+      <AdditionalDependencies>Detours.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ModuleDefinitionFile>
+      </ModuleDefinitionFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>PIN_TELEMETRY_DLL;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ModuleDefinitionFile>exports.def</ModuleDefinitionFile>
-      <AdditionalDependencies>detours.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)$(TargetName)$(PlatformArchitecture)$(TargetExt)</OutputFile>
+      <AdditionalDependencies>Detours.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ModuleDefinitionFile>
+      </ModuleDefinitionFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -155,7 +153,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>PIN_TELEMETRY_DLL;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
@@ -163,27 +161,13 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ModuleDefinitionFile>exports.def</ModuleDefinitionFile>
-      <AdditionalDependencies>detours.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)$(TargetName)$(PlatformArchitecture)$(TargetExt)</OutputFile>
+      <AdditionalDependencies>Detours.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ModuleDefinitionFile>
+      </ModuleDefinitionFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="DetouredRoutines.cpp" />
-    <ClCompile Include="DetouringRoutines.cpp" />
-    <ClCompile Include="Dllmain.cpp" />
-    <ClCompile Include="OriginalRoutinePtrs.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="DetouredReplacementRoutines.h" />
-    <ClInclude Include="DetouringRoutine.h" />
-    <ClInclude Include="OriginalRoutinePts.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="Readme.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="exports.def" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
