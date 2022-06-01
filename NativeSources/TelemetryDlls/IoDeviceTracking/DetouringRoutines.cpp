@@ -6,104 +6,94 @@
 #include <detours.h>
 #include <string>
 #include <sstream>
+
+#include "Headers/StringConstants.h"
 HMODULE Kernel32;
 HMODULE Ntdll;
-const char* ntdll_string = "ntdll.dll";
-const char* kernel32_string = "kernel32.dll";
 
-const char* NtCreateFile_string = "NtCreateFile";
-const char* NtOpenFile_string = "NtOpenFile";
-const char* NtCloseHandle_string = "NtCloseHandle";
-const char* CloseHandle_string = "CloseHandle";
-const char* CreateFileA_string = "CreateFileA";
-const char* CreateFileW_string = "CreateFileW";
-const char* CreateFile2_string = "CreateFile2";
-const char* CreateFileTransactedA_string = "CreateFileTransactedA";
-const char* CreateFileTransactedW_string = "CreateFileTransactedW";
 
 
 bool DetourTargetRoutines()
 {
 	LONG detour = 0;
-
-	Kernel32 = LoadLibraryA(kernel32_string);
-	Ntdll = LoadLibraryA(ntdll_string);
+	Kernel32 = LoadLibraryExW(kernel32_StringW, 0, 0);
+	Ntdll = LoadLibraryExW(ntdll_StringW, 0, 0);
 
 	if (Ntdll)
 	{
-		OriginalNtCreateFile = (NtCreateFilePtr)GetProcAddress(Ntdll, NtCreateFile_string);
+		OriginalNtCreateFile = (NtCreateFilePtr)GetProcAddress(Ntdll, NtCreateFile_StringA);
 		if (OriginalNtCreateFile == 0)
 		{
 #ifdef _DEBUG
-			OutputDebugString_GetProcFail(FALSE, L"NtCreateFile", L"ntdll.dll");
+			OutputDebugString_GetProcFail(FALSE, NtCreateFile_StringW, ntdll_StringW);
 #endif
 		}
-		OriginalNtOpenFile = (NtOpenFilePtr)GetProcAddress(Ntdll, NtOpenFile_string);
+		OriginalNtOpenFile = (NtOpenFilePtr)GetProcAddress(Ntdll, NtOpenFile_StringA);
 		if (OriginalNtOpenFile == 0) 
 		{
 #ifdef _DEBUG
-			OutputDebugString_GetProcFail(FALSE, L"NtOpenFile", L"ntdll.dll");
+			OutputDebugString_GetProcFail(FALSE, NtOpenFile_StringW, ntdll_StringW);
 #endif
 		}
 	}
 	if (Kernel32 != nullptr)
 	{
-		OriginalCloseHandle =  (CloseHandlePtr) GetProcAddress(Kernel32, CloseHandle_string);
+		OriginalCloseHandle =  (CloseHandlePtr) GetProcAddress(Kernel32, CloseHandle_StringA);
 		if (OriginalCloseHandle == 0)
 		{
 #ifdef _DEBUG
-			OutputDebugString_GetProcFail(TRUE, L"CloseHandle", L"kernel32.dll");
+			OutputDebugString_GetProcFail(TRUE, CloseHandle_StringW, kernel32_StringW);
 #endif // _DEBUG
 			return false;
 		}
 
 
-		OriginalCreateFileW = (CreateFileWPtr)GetProcAddress(Kernel32, CreateFileW_string);
+		OriginalCreateFileW = (CreateFileWPtr)GetProcAddress(Kernel32, CreateFileW_StringA);
 		if (OriginalCreateFileW == 0)
 		{
 #ifdef _DEBUG
-			OutputDebugString_GetProcFail(TRUE, L"CreateFileW", L"kernel32.dll");
+			OutputDebugString_GetProcFail(TRUE, CreateFileW_StringW, kernel32_StringW);
 #endif // _DEBUG
 			return false;
 		}
 
 
-		OriginalCreateFileA = (CreateFileAPtr)GetProcAddress(Kernel32, CreateFileA_string);
+		OriginalCreateFileA = (CreateFileAPtr)GetProcAddress(Kernel32, CreateFileA_StringA);
 		if (OriginalCreateFileA == 0)
 		{
 #ifdef _DEBUG
-			OutputDebugString_GetProcFail(TRUE, L"CreateFileA", L"kernel32.dll");
+			OutputDebugString_GetProcFail(TRUE, CreateFileA_StringW, kernel32_StringW);
 #endif // _DEBUG
 			return false;
 		}
 
-		OriginalCreateFileTransactedA = (CreateFileTransactedAPtr)GetProcAddress(Kernel32, CreateFileTransactedA_string);
+		OriginalCreateFileTransactedA = (CreateFileTransactedAPtr)GetProcAddress(Kernel32, CreateFileTransactedA_StringA);
 
 		if (OriginalCreateFileTransactedA == 0)
 
 		{
 #ifdef _DEBUG
-			OutputDebugString_GetProcFail(TRUE, L"CreateFileTransactedW", L"kernel32.dll");
+			OutputDebugString_GetProcFail(TRUE, CreateFileTransactedA_StringW, kernel32_StringW);
 #endif // _DEBUG
 			return false;
 		}
 
-		OriginalCreateFileTransactedW = (CreateFileTransactedWPtr)GetProcAddress(Kernel32, CreateFileTransactedW_string);
+		OriginalCreateFileTransactedW = (CreateFileTransactedWPtr)GetProcAddress(Kernel32, CreateFileTransactedW_StringA);
 
 		if (OriginalCreateFileTransactedW == 0)
 		{
 #ifdef _DEBUG
-			OutputDebugString_GetProcFail(TRUE, L"CreateFileTransactedW", L"kernel32.dll");
+			OutputDebugString_GetProcFail(TRUE, CreateFileTransactedW_StringW, kernel32_StringW);
 #endif // _DEBUG
 			return false;
 		}
 
-		OriginalCreateFile2 = (CreateFile2Ptr)GetProcAddress(Kernel32, CreateFile2_string);
+		OriginalCreateFile2 = (CreateFile2Ptr)GetProcAddress(Kernel32, CreateFile2_StringA);
 
 		if (OriginalCreateFile2 == 0)
 		{
 #ifdef _DEBUG
-			OutputDebugString_GetProcFail(TRUE, L"CreateFile2", L"kernel32.dll");
+			OutputDebugString_GetProcFail(TRUE, CreateFile2_StringW, kernel32_StringW);
 #endif
 			return false;
 		}

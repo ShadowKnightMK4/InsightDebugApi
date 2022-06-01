@@ -40,10 +40,11 @@ namespace InsightSheath
     {
 
         /// <summary>
-        /// 
+        /// Maps the passed DLL/EXE file into our memory and fetches the IMAGE_NT_HEADER->FileHeader.Machine value before finishing. Recommended to call once and save results.
         /// </summary>
-        /// <param name="TargetExe"></param>
-        /// <returns></returns>
+        /// <param name="Target">Unicode String pointing to the file to check.</param>
+        /// <returns>Returns the Machine entry for the struct as told at https://docs.microsoft.com/en-us/windows/win32/api/winnt/ns-winnt-image_file_header. If you get something other than those or get zero, something went wrong.  </returns>
+        /// <remarks>This does involve calling the ImageNtHeader DebugHelp() without taking care to sync calls. TODO: Add that. </remarks>
         public static MachineType GetPEMachineType(string TargetExe)
         {
             return NativeMethods.GetPEMachineType(TargetExe);
@@ -94,7 +95,7 @@ namespace InsightSheath
         /// </summary>
         /// <param name="CurrentHandle">handle located in current process</param>
         /// <param name="Access">Choose your access parameters</param>
-        /// <param name="CopyAccess">set to true to ignore <see cref="Access"/> and take the current permssions from the handle for the new one too</param>
+        /// <param name="CopyAccess">set to true to ignore <see cref="Access"/> and take the current permissions from the handle for the new one too</param>
         /// <param name="TargetProcess">Target remote process to pick from</param>
         /// <param name="AllowInherit">Allow spawned processes to inherit</param>
         /// <returns></returns>

@@ -12,20 +12,58 @@
 
 using namespace std;
 
-wchar_t* AnsiToUnicode(char* ansi)
+char* UnicodeToAnsi(const wchar_t* unc)
+{
+	if (unc == nullptr)
+	{
+		return nullptr;
+	}
+	DWORD StringSize = WideCharToMultiByte(CP_ACP, 0, unc, -1, 0, 0, 0, 0);
+	char* AnsiString = nullptr;
+	AnsiString = new (std::nothrow) char[StringSize + (size_t)1];
+	if (AnsiString != nullptr)
+	{
+		StringSize = WideCharToMultiByte(CP_ACP, 0, unc, -1, AnsiString, StringSize + 1, 0, 0);
+		if (StringSize != 0)
+		{
+			AnsiString[StringSize] = 0;
+		}
+		else
+		{
+			delete[] AnsiString;
+			return nullptr;
+		}
+	}
+	return AnsiString;
+
+}
+wchar_t* AnsiToUnicode(const char* ansi)
 {
 	if (ansi == nullptr)
+	{
 		return nullptr;
+	}
 
 	DWORD SizeString = MultiByteToWideChar(CP_ACP, 0, ansi, -1, 0, 0);
 	wchar_t* UnicodeString = nullptr;
 
 
 
-	UnicodeString = new wchar_t[SizeString + (size_t)1];
-
-	SizeString = MultiByteToWideChar(CP_ACP, 0, ansi, -1, UnicodeString, SizeString);
-	UnicodeString[SizeString] = 0;
+	UnicodeString = new (std::nothrow) wchar_t[SizeString + (size_t)1];
+	if (UnicodeString != nullptr)
+	{
+		
+		SizeString = MultiByteToWideChar(CP_ACP, 0, ansi, -1, UnicodeString, SizeString);
+		if (SizeString != 0)
+		{
+			UnicodeString[SizeString] = 0;
+		}
+		else
+		{
+			delete[] UnicodeString;
+			return nullptr;
+		}
+	}
 	return UnicodeString;
 
 }
@@ -68,6 +106,26 @@ void OutputDebugString_DetourTargetThreadFail(DWORD val)
 #endif
 
 }
+void OutputDebugString_GetProcFail(BOOL IsFatal, const char* routine, const wchar_t* dll)
+{
+#ifdef _DEBUG
+	const wchar_t* buf = AnsiToUnicode(routine);
+	__try
+	{
+		OutputDebugString_GetProcFail(IsFatal, buf, dll);
+
+	}
+	__finally
+	{
+		if (buf != 0)
+		{
+			delete[] buf;
+		}
+	}
+
+#endif
+}
+
 void OutputDebugString_GetProcFail(BOOL IsFatal, const wchar_t* routine, const wchar_t* dll)
 {
 #ifdef _DEBUG

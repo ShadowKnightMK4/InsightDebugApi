@@ -21,10 +21,15 @@ namespace InsightSheath.NativeImports
         [DllImport("InsightApi.dll", CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, SetLastError = true, EntryPoint = "RemoteReadUnicodeString")]
         public static extern IntPtr RemoteReadUnicodeString(IntPtr ProcessHandle, IntPtr RemoteLocation, bool TargetIs32Bit);
 
-        [Obsolete("The implementation of RemoteReadUnicodeString Always returns a struct big enough for a x64 bit now and does not care about that 2nd argument.")]
+        [Obsolete("Note Old implementation of RemoteReadUnicodeString() returend an UNICODE_STRING32 or UNICODE_STRING64 depending on what you're reading from and then wanted that when freeing.  Current one always promotes any UNICODE_STRING32 to the 64 bit one before returning so the argument is no longer needed. It will be removed, eventually....")]
         [DllImport("InsightApi.dll", CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, SetLastError = true, EntryPoint = "RemoteFreeUnicodeString")]
         public static extern IntPtr RemoteFreeUnicodeString(IntPtr RemoteLocation, bool TargetIs32Bit);
 
+        /// <summary>
+        /// Calling <see cref="RemoteFreeUnicodeString(IntPtr, bool)"/> with the correct parameter.
+        /// </summary>
+        /// <param name="RemoteLocation"></param>
+        /// <returns></returns>
         public static IntPtr RemoteFreeUnicodeString(IntPtr RemoteLocation)
         {
             return RemoteFreeUnicodeString(RemoteLocation, false);

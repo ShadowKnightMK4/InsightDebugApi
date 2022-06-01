@@ -1,5 +1,44 @@
 #pragma once
 #include <Windows.h>
+#include <winternl.h>
+
+typedef BOOL (WINAPI* WriteFilePtr)(
+	                    HANDLE       hFile,
+	                    LPCVOID      lpBuffer,
+	                    DWORD        nNumberOfBytesToWrite,
+	                    LPDWORD      lpNumberOfBytesWritten,
+	                    LPOVERLAPPED lpOverlapped);
+
+ typedef NTSTATUS (WINAPI* NtWriteFilePtr)(
+	               HANDLE           FileHandle,
+	               HANDLE           Event,
+	               PIO_APC_ROUTINE  ApcRoutine,
+	               PVOID            ApcContext,
+	               PIO_STATUS_BLOCK IoStatusBlock,
+	               PVOID            Buffer,
+	               ULONG            Length,
+	               PLARGE_INTEGER   ByteOffset,
+	               PULONG           Key);
+
+typedef BOOL (WINAPI* ReadFilePtr)(
+	                     HANDLE       hFile,
+	                     LPVOID       lpBuffer,
+	                     DWORD        nNumberOfBytesToRead,
+	                     LPDWORD      lpNumberOfBytesRead,
+	                     LPOVERLAPPED lpOverlapped);
+typedef  NTSTATUS (WINAPI* NtReadFilePtr)(
+	               HANDLE           FileHandle,
+	               HANDLE           Event,
+	               /*PIO_APC_ROUTINE  ApcRoutine*/
+				   VOID* ApcRoutine,
+	               PVOID            ApcContext,
+		           /*PIO_STATUS_BLOCK IoStatusBlock*/
+				   VOID* IoStatusBlock,
+	               PVOID            Buffer,
+	               ULONG            Length,
+	               PLARGE_INTEGER   ByteOffset,
+	               PULONG           Key);
+
 
 typedef HANDLE (WINAPI*CreateFileAPtr)(
 	               LPCSTR                lpFileName,
@@ -85,6 +124,13 @@ typedef NTSTATUS( WINAPI*  NtOpenFilePtr)(
 		      ULONG              ShareAccess,
 		      ULONG              OpenOptions
 	);
+
+extern NtWriteFilePtr OriginalNtWriteFile;
+extern NtReadFilePtr OriginalNtReadFile;
+extern WriteFilePtr OriginalWriteFile;
+extern ReadFilePtr OriginalReadFile;
+
+
 extern CreateFileAPtr OriginalCreateFileA;
 extern CreateFileWPtr OriginalCreateFileW;
 extern CreateFileTransactedAPtr OriginalCreateFileTransactedA;

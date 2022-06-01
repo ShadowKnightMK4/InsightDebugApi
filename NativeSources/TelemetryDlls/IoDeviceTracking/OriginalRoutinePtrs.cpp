@@ -3,6 +3,11 @@
 
 
 
+       ReadFilePtr OriginalReadFile;
+       WriteFilePtr OriginalWriteFile;
+       NtReadFilePtr OriginalNtReadFile;
+       NtWriteFilePtr OriginalNtWriteFile;
+
        CreateFileAPtr OriginalCreateFileA;
        CreateFileWPtr OriginalCreateFileW;
        CreateFileTransactedAPtr OriginalCreateFileTransactedA;

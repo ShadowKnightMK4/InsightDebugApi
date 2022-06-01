@@ -3,17 +3,25 @@
 #include <Windows.h>
 
 /*
-* Telemetry Support is a generic library intended for laying some
+* Telemetry Support is a generic library intended for laying some starting groundwork in outputing debug string
+* data.
 */
 
 using namespace std;
 
 /// <summary>
-/// Convert the passed Ansi String to Unicode and returns a buffer allocated with new to contain it.
+/// Convert the passed ANSI String to Unicode and returns a buffer allocated with new to contain it.
 /// </summary>
 /// <param name="ansi">ANSI string to convert.</param>
 /// <returns>returns a buffer allocated with new[] containing the string or null on error.  Also returns null if ansi=null also</returns>
-wchar_t* AnsiToUnicode(char* ansi);
+wchar_t* AnsiToUnicode(const char* ansi);
+
+/// <summary>
+/// Convert the passed Unicode String to ANSI and returns a buffer allocated with new to contain it.
+/// </summary>
+/// <param name="unc">Unicode String to convert</param>
+/// <returns>returns a buffer allocated with new[] containing the string or null on error.  Also returns null if unc=null also</returns>
+char* UnicodeToAnsi(const wchar_t* unc);
 
 /// <summary>
 /// Depends on if build with _DEBUG defined or not.  If _DEBUG is defined, it gives a message displaying the failure and the passed unicodestring. if _DEBUG is not defined, this gives message showing the error alone without the message
