@@ -1,13 +1,15 @@
 #include <Windows.h>
 #include <DbgHelp.h>
 #include "InsightHunter.h"
+#include "ApiVersionStruct_CExports.h"
+
 extern "C" {
 
 	/*
-	* C Level Wrappers that export routines to read structure data for DebuhHelp API_VRSION srusct
+	* C Level Wrappers that export routines to read structure data for DebugHelp API_VRSION struct
 	*/
 
-	USHORT WINAPI DebugHelp_ApiVerionStruct_GetMajor(API_VERSION* that)
+	USHORT WINAPI DebugHelp_ApiVerionStruct_GetMajor(const API_VERSION* that) noexcept
 	{
 		if (!that)
 		{
@@ -16,7 +18,7 @@ extern "C" {
 		return that->MajorVersion;
 	}
 
-	USHORT WINAPI DebugHelp_ApiVerionStruct_GetMinor(API_VERSION* that)
+	USHORT WINAPI DebugHelp_ApiVerionStruct_GetMinor(const API_VERSION* that) noexcept
 	{
 		if (!that)
 		{
@@ -25,7 +27,7 @@ extern "C" {
 		return that->MinorVersion;
 	}
 
-	USHORT WINAPI DebugHelp_ApiVerionStruct_GetRevision(API_VERSION* that)
+	USHORT WINAPI DebugHelp_ApiVerionStruct_GetRevision(const API_VERSION* that) noexcept
 	{
 		if (!that)
 		{

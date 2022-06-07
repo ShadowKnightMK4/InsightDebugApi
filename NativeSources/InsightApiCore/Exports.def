@@ -180,6 +180,10 @@ LIBRARY INSIGHTAPI
 		ThreadContext_SetThreadPriorityBoostSetting
 		ThreadContext_GetThreadProcessAffinityMask
 		ThreadContext_SetThreadProcessAffinityMask
+		ThreadContext_SetWow64Context
+		ThreadContext_GetWow64Context
+		ThreadContext_SetContext
+		ThreadContext_GetContext
 		InsightMemory_MakeInstance
 		InsightMemory_DupInstance
 		InsightMemory_KillInstance

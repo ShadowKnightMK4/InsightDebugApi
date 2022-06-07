@@ -112,8 +112,60 @@ namespace InsightSheath.NativeImports
 
         [DllImport("InsightApi.Dll", BestFitMapping = false, CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, EntryPoint = "ThreadContext_SetThreadProcessAffinityMask")]
         public static extern uint ThreadContext_SetThreadProcessAffinityMask(IntPtr That, uint NewIdealProcessor);
-        
-        
+
+        [DllImport("InsightApi.Dll", BestFitMapping = false, CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, EntryPoint = "ThreadContext_SuspendThread")]
+        /// <summary>
+        /// retrieve either a wow64_context or a context struct pending on the type of thread running. Don't need to free() afterwards as the struct is part of the class itself
+        /// </summary>
+        /// <param name="that"></param>
+        /// <returns></returns>
+        public static extern uint ThreadContext_SuspendThread(IntPtr that);
+
+        [DllImport("InsightApi.Dll", BestFitMapping = false, CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, EntryPoint = "ThreadContext_ResumeThread")]
+        /// <summary>
+        /// retrieve either a wow64_context or a context struct pending on the type of thread running. Don't need to free() afterwards as the struct is part of the class itself
+        /// </summary>
+        /// <param name="that"></param>
+        /// <returns></returns>
+        public static extern uint ThreadContext_ResumeThread(IntPtr that);
+
+        [DllImport("InsightApi.Dll", BestFitMapping = false, CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, EntryPoint = "ThreadContext_GetContext")]
+        /// <summary>
+        /// retrieve either a wow64_context or a context struct pending on the type of thread running. Don't need to free() afterwards as the struct is part of the class itself
+        /// </summary>
+        /// <param name="that"></param>
+        /// <returns></returns>
+        public static extern IntPtr ThreadContext_GetContext(IntPtr that);
+
+
+        [DllImport("InsightApi.Dll", BestFitMapping = false, CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, EntryPoint = "ThreadContext_SetContext")]
+        /// <summary>
+        ///assign either new wow64 thread context or thread context on the thead. No Wow64 context is likely not going to work on a x64 bit machine thread
+        /// </summary>
+        /// <param name="that"></param>
+        /// <param name="NewContext"></param>
+        /// <returns></returns>
+        public static extern bool ThreadContext_SetContext(IntPtr that, IntPtr NewContext);
+
+
+        [DllImport("InsightApi.Dll", BestFitMapping = false, CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, EntryPoint = "ThreadContext_GetWow64Context")]
+        /// <summary>
+        /// retrieve either a wow64_context or (null if not wow) on the type of thread running. Don't need to free() afterwards as the struct is part of the class itself
+        /// </summary>
+        /// <param name="that"></param>
+        /// <returns></returns>
+        public static extern IntPtr ThreadContext_GetWow64Context(IntPtr that);
+
+
+
+
+        [DllImport("InsightApi.Dll", BestFitMapping = false, CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, EntryPoint = "ThreadContext_SetWow64Context")]
+        /// <summary>
+        /// Set wow64 context not wow) on the type of thread running. Don't need to free() afterwards as the struct is part of the class itself
+        /// </summary>
+        /// <param name="that"></param>
+        /// <returns></returns>
+        public static extern bool ThreadContext_SetWow64Context(IntPtr that, IntPtr NewContext);
 
 
 

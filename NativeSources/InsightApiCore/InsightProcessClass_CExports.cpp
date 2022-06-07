@@ -8,6 +8,7 @@
 #include "StartupInfoStructHelper.h"
 #include "Utility.h"
 #include "InsightHunter.h"
+#include <memory>
 extern "C"
 {
 	

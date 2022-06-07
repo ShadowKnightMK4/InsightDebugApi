@@ -90,8 +90,10 @@ public:
 	bool SetThreadPriorityBoostValue(bool EnablePriorityBoost);
 
 
+	
+
 	/// <summary>
-	/// Get the thread's exist code.
+	/// Get the thread's exit code.
 	/// </summary>
 	/// <returns></returns>
 	DWORD GetTargetThreadExitCode();

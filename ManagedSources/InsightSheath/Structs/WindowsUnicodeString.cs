@@ -318,7 +318,15 @@ namespace InsightSheath.Structs
 			return Buffer;
         }
 
-		
+		/// <summary>
+		/// Not implemented
+		/// </summary>
+        protected override void Apply()
+        {
+            throw new NotImplementedException();
+        }
+
+
         /// <summary>
         /// If <see cref="StructType"/> is set to <see cref="StructModeType.Machinex64"/>, this is the structure that is used.
         /// </summary>

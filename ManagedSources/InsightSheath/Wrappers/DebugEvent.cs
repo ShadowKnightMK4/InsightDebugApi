@@ -211,7 +211,7 @@ namespace InsightSheath.Wrappers
     /// <summary>
     /// Implements the basis of disposal the other DebugEvent classes use.  Also exposes routines to read the ProcessID and ThreadID that triggered the event
     /// </summary>
-    public abstract class DebugEventStaticContainer : NativeStaticContainer
+    public abstract class DebugEventStaticContainer : ReferenceCounterNativeStaticContainer
     {
         public DebugEventStaticContainer(IntPtr Native): base(Native)
         {
@@ -227,19 +227,30 @@ namespace InsightSheath.Wrappers
             
         }
 
+        public DebugEventStaticContainer(IntPtr Native, bool FreeOnCleanup, ulong ReferenceCounter): base(Native, FreeOnCleanup, ReferenceCounter)
+        {
+
+        }
 
 
         protected override void Dispose(bool disposing)
         {
+
             
             if (!disposedValue)
             {
-
-                if (this.FreeOnCleanup)
+                if (Release() == 0)
                 {
-                    NativeMethods.SimpleFree(Native);
+                    if (this.FreeOnCleanup)
+                    {
+                        NativeMethods.SimpleFree(Native);
+                    }
+                }
+                else
+                {
                     ClearNative();
                 }
+
                 // TODO: set large fields to null
                 disposedValue = true;
             }
@@ -310,7 +321,13 @@ namespace InsightSheath.Wrappers
 
         }
 
-        public DebugEventLoadDllInfo(IntPtr Nat, bool FreeOnCleanup) : base(Nat, FreeOnCleanup)
+        public DebugEventLoadDllInfo(IntPtr Nat, bool FreeOnCleanup) : base(Nat, FreeOnCleanup, 1)
+        {
+
+        }
+
+
+        public DebugEventLoadDllInfo(IntPtr Nat, bool FreeOnCleanup, ulong RefCount) : base(Nat, FreeOnCleanup, RefCount)
         {
 
         }
@@ -429,7 +446,13 @@ namespace InsightSheath.Wrappers
 
         }
 
-        public DebugEventExceptionInfo(IntPtr Nat, bool FreeOnCleanup) : base(Nat, FreeOnCleanup)
+        public DebugEventExceptionInfo(IntPtr Nat, bool FreeOnCleanup) : base(Nat, FreeOnCleanup, 1)
+        {
+
+        }
+
+
+        public DebugEventExceptionInfo(IntPtr Nat, bool FreeOnCleanup, ulong RefCount) : base(Nat, FreeOnCleanup, RefCount)
         {
 
         }
@@ -568,7 +591,12 @@ namespace InsightSheath.Wrappers
 
         }
 
-        public DebugEventCreateThreadInfo(IntPtr Nat, bool FreeOnCleanup) : base(Nat, FreeOnCleanup)
+        public DebugEventCreateThreadInfo(IntPtr Nat, bool FreeOnCleanup) : base(Nat, FreeOnCleanup, 1)
+        {
+
+        }
+
+        public DebugEventCreateThreadInfo(IntPtr Nat, bool FreeOnCleanup, ulong RefCount) : base(Nat, FreeOnCleanup, RefCount)
         {
 
         }
@@ -628,7 +656,12 @@ namespace InsightSheath.Wrappers
 
         }
 
-        public DebugEventExitThreadInfo(IntPtr Nat, bool FreeOnCleanup) : base(Nat, FreeOnCleanup)
+        public DebugEventExitThreadInfo(IntPtr Nat, bool FreeOnCleanup) : base(Nat, FreeOnCleanup, 1)
+        {
+
+        }
+
+        public DebugEventExitThreadInfo(IntPtr Nat, bool FreeOnCleanup, ulong RefCount) : base(Nat, FreeOnCleanup, RefCount)
         {
 
         }
@@ -654,11 +687,15 @@ namespace InsightSheath.Wrappers
 
         }
 
-        public DebugEventExitProcessInfo(IntPtr Nat, bool FreeOnCleanup) : base(Nat, FreeOnCleanup)
+        public DebugEventExitProcessInfo(IntPtr Nat, bool FreeOnCleanup) : base(Nat, FreeOnCleanup, 1)
         {
 
         }
 
+        public DebugEventExitProcessInfo(IntPtr Nat, bool FreeOnCleanup, ulong RefCount) : base(Nat, FreeOnCleanup, RefCount)
+        {
+
+        }
 
         /// <summary>
         /// Get the code that the Process returned when finishing
@@ -680,7 +717,13 @@ namespace InsightSheath.Wrappers
             
         }
 
-        public DebugEventCreateProcessInfo(IntPtr Nat, bool FreeOnCleanup) : base(Nat, FreeOnCleanup)
+
+        public DebugEventCreateProcessInfo(IntPtr Nat, bool FreeOnCleanup) : base(Nat, FreeOnCleanup, 1)
+        {
+
+        }
+
+        public DebugEventCreateProcessInfo(IntPtr Nat, bool FreeOnCleanup, ulong RefCount) : base(Nat, FreeOnCleanup, RefCount)
         {
 
         }
@@ -744,10 +787,14 @@ namespace InsightSheath.Wrappers
             
         }
 
-        public DebugEventStringInfo(IntPtr Native, bool FreeOnCleanup) : base(Native, FreeOnCleanup)
+        public DebugEventStringInfo(IntPtr Nat, bool FreeOnCleanup) : base(Nat, FreeOnCleanup, 1)
         {
-        
-        
+
+        }
+
+        public DebugEventStringInfo(IntPtr Nat, bool FreeOnCleanup, ulong RefCount) : base(Nat, FreeOnCleanup, RefCount)
+        {
+
         }
 
         public override string ToString()
@@ -792,9 +839,14 @@ namespace InsightSheath.Wrappers
     {
         public DebugEventRipInfo(IntPtr NativePtr) : base(NativePtr)
         {
-            
+
         }
-        public DebugEventRipInfo(IntPtr NativePtr, bool FreeOnCleanup) : base(NativePtr, FreeOnCleanup)
+        public DebugEventRipInfo(IntPtr Nat, bool FreeOnCleanup) : base(Nat, FreeOnCleanup, 1)
+        {
+
+        }
+
+        public DebugEventRipInfo(IntPtr Nat, bool FreeOnCleanup, ulong RefCount) : base(Nat, FreeOnCleanup, RefCount)
         {
 
         }
@@ -830,10 +882,6 @@ namespace InsightSheath.Wrappers
 
     public class DebugEventUnloadDllInfo: DebugEventStaticContainer
     {
-        public DebugEventUnloadDllInfo(IntPtr NativePtr, bool FreeOnDispose) : base(NativePtr, FreeOnDispose)
-        {
-
-        }
 
         /// <summary>
         /// Creation.  Does NOT free the underling pointer 
@@ -844,14 +892,25 @@ namespace InsightSheath.Wrappers
 
         }
 
+        public DebugEventUnloadDllInfo(IntPtr Nat, bool FreeOnCleanup) : base(Nat, FreeOnCleanup, 1)
+        {
+
+        }
+
+        public DebugEventUnloadDllInfo(IntPtr Nat, bool FreeOnCleanup, ulong RefCount) : base(Nat, FreeOnCleanup, RefCount)
+        {
+
+        }
+
+
         /// <summary>
-        /// The base address of the DLL that was previously loaded.
+        /// The base address of the DLL that was previously loaded. 
         /// </summary>
         public IntPtr BaseOfDll
         {
             get
             {
-                return NativeMethods.DebugEvent_UnloadDllInfo_GetBaseAddress(Native);
+                return new IntPtr((long)NativeMethods.DebugEvent_UnloadDllInfo_GetBaseAddress(Native));
             }
         }
 
@@ -862,13 +921,25 @@ namespace InsightSheath.Wrappers
     /// </summary>
     public class DebugEvent : DebugEventStaticContainer
     {
+       
         private static readonly string error_msg_bad_event_fetch = "Attempt to fetch {0} from an event that does not contain the event {1}";
+
         /// <summary>
-        /// 
+        /// Creation.  Does NOT free the underling pointer 
         /// </summary>
-        /// <param name="NativePtr">pass a native pointing contain a debug event structure.</param>
-        /// <param name="FreeOnCleanup">Set this to true for chunks explicit allocated to the structure by C/C++'s malloc() ext... </param>
-        public DebugEvent(IntPtr NativePtr, bool FreeOnCleanup) : base(NativePtr, FreeOnCleanup)
+        /// <param name="NativePtr"></param>
+        public DebugEvent(IntPtr NativePtr) : base(NativePtr)
+        {
+            FreeOnCleanupContainer = false;
+        }
+
+
+        public DebugEvent(IntPtr Nat, bool FreeOnCleanup) : base(Nat, FreeOnCleanup, 1)
+        {
+
+        }
+
+        public DebugEvent(IntPtr Nat, bool FreeOnCleanup, ulong RefCount) : base(Nat, FreeOnCleanup, RefCount)
         {
 
         }
@@ -881,14 +952,7 @@ namespace InsightSheath.Wrappers
         {
             return new DebugEvent(NativeMethods.DebugEvent_AllocateStructure(), true);
         }
-        /// <summary>
-        /// Creation.  Does NOT free the underling pointer 
-        /// </summary>
-        /// <param name="NativePtr"></param>
-        public DebugEvent(IntPtr NativePtr) : base(NativePtr)
-        {
-            FreeOnCleanupContainer = false;
-        }
+  
 
 
         bool disposedValue;
@@ -919,7 +983,13 @@ namespace InsightSheath.Wrappers
             {
                 throw new InvalidOperationException(string.Format(error_msg_bad_event_fetch, new object[] { "Create Process Information", " Create Process Event" }));
             }
-            return new DebugEventCreateProcessInfo(Native, false);
+            ReferenceCounter++;
+            var ret = new DebugEventCreateProcessInfo(Native, FreeOnCleanup, ReferenceCounter);
+            if (ret == null)
+            {
+                ReferenceCounter--;
+            }
+            return ret;
         }
 
         public DebugEventCreateThreadInfo GetDebugEventCreateThreadInfo()
@@ -928,7 +998,13 @@ namespace InsightSheath.Wrappers
             {
                 throw new InvalidOperationException(string.Format(error_msg_bad_event_fetch, new object[] { "Create Thread Information", " Create Thread Event" }));
             }
-            return new DebugEventCreateThreadInfo(Native, false);
+            ReferenceCounter++;
+            var ret = new DebugEventCreateThreadInfo(Native, FreeOnCleanup, ReferenceCounter);
+            if (ret == null)
+            {
+                ReferenceCounter--;
+            }
+            return ret;
         }
 
 
@@ -938,7 +1014,16 @@ namespace InsightSheath.Wrappers
             {
                 throw new InvalidOperationException(string.Format(error_msg_bad_event_fetch, new object[] { "Exception Information", " Exception Event" }));
             }
-            return new DebugEventExceptionInfo(Native, false);
+
+            ReferenceCounter++;
+            var ret = new DebugEventExceptionInfo(Native, FreeOnCleanup, ReferenceCounter);
+            if (ret == null)
+            {
+                ReferenceCounter--;
+            }
+            return ret;
+
+            
         }
 
         public DebugEventExitProcessInfo GetEventExitProcessInfo()
@@ -947,7 +1032,15 @@ namespace InsightSheath.Wrappers
             {
                 throw new InvalidOperationException(string.Format(error_msg_bad_event_fetch, new object[] { "Process Exit Information", " Process Exit Event" }));
             }
-            return new DebugEventExitProcessInfo(Native, false);
+
+            ReferenceCounter++;
+            var ret = new DebugEventExitProcessInfo(Native, FreeOnCleanup, ReferenceCounter);
+            if (ret == null)
+            {
+                ReferenceCounter--;
+            }
+            return ret;
+
         }
 
         public DebugEventExitThreadInfo GetEventExitThreadInfo()
@@ -956,7 +1049,14 @@ namespace InsightSheath.Wrappers
             {
                 throw new InvalidOperationException(string.Format(error_msg_bad_event_fetch, new object[] { "Thread Exit Information", " Thread Exit Event" }));
             }
-            return new DebugEventExitThreadInfo(Native, false);
+
+            ReferenceCounter++;
+            var ret = new DebugEventExitThreadInfo(Native, FreeOnCleanup, ReferenceCounter);
+            if (ret == null)
+            {
+                ReferenceCounter--;
+            }
+            return ret;
         }
 
 
@@ -966,7 +1066,14 @@ namespace InsightSheath.Wrappers
             {
                 throw new InvalidOperationException(string.Format(error_msg_bad_event_fetch, new object[] { "DLL Load Information", " DLL Load  Event" }));
             }
-            return new DebugEventLoadDllInfo(Native, false);
+
+            ReferenceCounter++;
+            var ret = new DebugEventLoadDllInfo(Native, FreeOnCleanup, ReferenceCounter);
+            if (ret == null)
+            {
+                ReferenceCounter--;
+            }
+            return ret;
         }
 
         /// <summary>
@@ -980,7 +1087,13 @@ namespace InsightSheath.Wrappers
                 throw new InvalidOperationException(string.Format(error_msg_bad_event_fetch, new object[] { "Debug String Information", " Debug String Struct" }));
             }
 
-            return new DebugEventStringInfo(Native, false);
+            ReferenceCounter++;
+            var ret = new DebugEventStringInfo(Native, FreeOnCleanup, ReferenceCounter);
+            if (ret == null)
+            {
+                ReferenceCounter--;
+            }
+            return ret;
         }
 
 
@@ -995,7 +1108,13 @@ namespace InsightSheath.Wrappers
             {
                 throw new InvalidOperationException(string.Format(error_msg_bad_event_fetch, new object[] { "Rip Information", "Rip Struct" }));
             }
-            return new DebugEventRipInfo(Native, false);
+            ReferenceCounter++;
+            var ret = new DebugEventRipInfo(Native, FreeOnCleanup, ReferenceCounter);
+            if (ret == null)
+            {
+                ReferenceCounter--;
+            }
+            return ret;
         }
 
         public DebugEventUnloadDllInfo GetDebugEventUnloadDllInfo()
@@ -1004,7 +1123,13 @@ namespace InsightSheath.Wrappers
             {
                 throw new InvalidOperationException(string.Format(error_msg_bad_event_fetch, new object[] { "Dll free/unload Information", " Unload Dll Event" }));
             }
-            return new DebugEventUnloadDllInfo(Native, false);
+            ReferenceCounter++;
+            var ret = new DebugEventUnloadDllInfo(Native, FreeOnCleanup, ReferenceCounter);
+            if (ret == null)
+            {
+                ReferenceCounter--;
+            }
+            return ret;
         }
 
         #endregion

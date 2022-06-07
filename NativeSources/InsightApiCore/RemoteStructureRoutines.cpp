@@ -412,8 +412,6 @@ namespace RemoteStructureRoutine
 	}
 
 
-
-
 	BOOL WINAPI RemoteFreeObjectAttributes(OBJECT_ATTRIBUTES* Attrib, BOOL TargetIs32)
 	{
 		union ret_padding

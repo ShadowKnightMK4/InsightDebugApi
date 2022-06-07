@@ -21,7 +21,7 @@ extern "C" {
 
 
 	/// <summary>
-	/// Keep calling GetModuleFileNameEx until we get strength big enough.  CALLER frees 
+	/// Utility routine:  Keep calling GetModuleFileNameEx until we get strength big enough.  CALLER frees 
 	/// </summary>
 	/// <param name="Process">Process to read from. Needs PROCESS_QUERY_INFORMATION and PROCESS_VM_READ </param>
 	/// <param name="Module">if nullptr, then the routine gets the main module's (EXE) filename, otherwise it gets the name of the DLL.</param>
@@ -30,7 +30,7 @@ extern "C" {
 
 
 	/// <summary>
-	/// Allocate a buffer and get the name of the file via the handle. CALLER Frees it
+	/// Utility routine:  Allocate a buffer and get the name of the file via the handle. CALLER Frees it
 	/// </summary>
 	/// <param name="FileHandle">Handle to a file</param>
 	/// <returns>returns a buffer allocated with malloc().   Use Free() to Free it when done.</returns>
@@ -74,7 +74,7 @@ extern "C" {
 	/// <param name="CurrentHandle">Source handle to duplicate. Probably wont' work if not a valid handle.</param>
 	/// <param name="Access">Access mask specifying your desired access.</param>
 	/// <param name="CopyAccess">set to true to use the handle's existing exist</param>
-	/// <param name="RemoteProcess">Process to copy too. Will need access flags (PROCESS_DUP_HANDLE | PROCESS_VM_WRITE | PROCESS_VM_OPERATION) at minimum. For example use the OpenProcessForDuplicatingHandle() routine in ProcessHandling.cpp</param>
+	/// <param name="RemoteProcess">Process to copy too. Will need access flags (PROCESS_DUP_HANDLE | PROCESS_VM_WRITE | PROCESS_VM_OPERATION) at minimum. For example use the OpenProcessForDuplicatingHandle() will attempting opening a handle with those access points routine in ProcessHandling.cpp</param>
 	/// <param name="Inherit"></param>
 	/// <returns></returns>
 	HANDLE WINAPI RemoteHandleDup(HANDLE CurrentHandle, DWORD Access, BOOL CopyAccess, HANDLE RemoteProcess, BOOL Inherit) noexcept;

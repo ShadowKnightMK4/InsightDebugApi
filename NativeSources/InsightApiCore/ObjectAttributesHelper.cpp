@@ -56,7 +56,7 @@ VOID ObjectAttributesHelper::RootDirectory(UINT64 val)
 	}
 	else
 	{
-		this->Data.Machine64.Length = val;
+		this->Data.Machine64.RootDirectory = val;
 	}
 
 }

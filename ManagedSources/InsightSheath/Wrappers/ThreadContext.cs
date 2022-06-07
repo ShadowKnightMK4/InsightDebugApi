@@ -76,10 +76,36 @@ namespace InsightSheath.Wrappers
 
 
             }
-            NativeMethods.ThreadContext_KillInstance(Native);
+            if (FreeOnCleanup)
+            {
+                NativeMethods.ThreadContext_KillInstance(Native);
+            }
+            ClearNative();
             base.Dispose(disposing);
         }
 
+
+
+        /// <summary>
+        /// Suspend either a wow64 thread or x64 bit thread. Will trigger LoadLibrary calls the first time used on wow64
+        /// </summary>
+        /// <param name="ThreadHandleNative"></param>
+        /// <returns>current suspend value. Values > 0 mean thread suspended.</returns>
+        public uint SuspendThread()
+        {
+            return NativeMethods.ThreadContext_SuspendThread(Native);
+        }
+
+
+        /// <summary>
+        /// Resume either a wow64 thread or x64 bit thread. Will trigger LoadLibrary calls the first time used on wow64
+        /// </summary>
+        /// <param name="ThreadHandleNative"></param>
+        /// <returns>current suspend value. Values > 0 mean thread suspended.</returns>
+        public uint ResumeThread()
+        {
+            return NativeMethods.ThreadContext_ResumeThread(Native);
+        }
 
         /// <summary>
         /// Set the thread this class is handling based on thread parameter. Once set, you may do what you will with  the original handle
@@ -284,6 +310,33 @@ namespace InsightSheath.Wrappers
             get
             {
                 return KernelProcessorTime + UserProcessorTime;
+            }
+        }
+
+        /// <summary>
+        /// Retreieve a pointer to either a wow64_context or a Context struct depending on the thread's type. 
+        /// </summary>
+        public IntPtr Context
+        {
+            get
+            {
+                return NativeMethods.ThreadContext_GetContext(Native);
+            }
+            set
+            {
+                NativeMethods.ThreadContext_SetContext(Native, value);
+            }
+        }
+
+        public IntPtr Wow64Context
+        {
+            get
+            {
+                return NativeMethods.ThreadContext_GetWow64Context(Native);
+            }
+            set
+            {
+                NativeMethods.ThreadContext_SetWow64Context(Native, value);
             }
         }
     }

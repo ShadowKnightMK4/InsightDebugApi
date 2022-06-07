@@ -1,6 +1,9 @@
 
 #include <windows.h>
 #include "DetouringRoutine.h"
+#include "detours.h"
+#include "TelemetrySupport.h"
+
 /*
 * You have these options in the build config settings to define to modify this template
 *
@@ -10,19 +13,37 @@
 *                               to call your detoured routine that has been unloaded prematurely.
 */
 
+
+
 /* if you find you're getting garbage from the exception reading in the sheath, uncomment this and put a call info the DllMain() here.
-    Run the Visual studio debugger and inspect the execption arguments .
+    Run the Visual studio debugger and inspect the exception arguments .
 */
 void test_exception()
 {
+
     ULONG_PTR Argsp[EXCEPTION_MAXIMUM_PARAMETERS];
+    OutputDebugString(L"Preparing Test Exception of Value 1.  ULONG_PTR size = (");
+    OutputDebugString(sizeof(ULONG_PTR));
+    OutputDebugString(L") Value of array { ");
+    
+
+
     for (int step = 0; step < EXCEPTION_MAXIMUM_PARAMETERS; step++)
     {
         Argsp[step] = step;
+        OutputDebugString(Argsp[step]);
+        OutputDebugString(L", ");
+
     }
+    OutputDebugString(L"} \r\n");
+    
+
+
+
+
     __try
     {
-        RaiseException(1, 0, 15, (CONST ULONG_PTR*)&Argsp);
+        RaiseException(1, 0, 15, Argsp);
     }
     __except (GetExceptionCode() == 1)
     {
@@ -34,6 +55,15 @@ static HMODULE Self = 0;
 #endif
 int WINAPI DllMain(HINSTANCE hInstDll, DWORD fdwReason, LPVOID Reserved)
 {
+    if (DetourIsHelperProcess())
+    {
+        return TRUE;
+    }
+    else
+    {
+        DetourRestoreAfterWith();
+    }
+
     {
         // Perform actions based on the reason for calling.
         switch (fdwReason)

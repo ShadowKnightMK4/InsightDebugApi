@@ -176,7 +176,15 @@ namespace InsightSheath.Structs
 
             }
         }
-     
+
+        /// <summary>
+        /// Not currently implemented
+        /// </summary>
+        protected override void Apply()
+        {
+            throw new NotImplementedException();
+        }
+
 
 
 

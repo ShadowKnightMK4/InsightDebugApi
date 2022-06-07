@@ -1,0 +1,5 @@
+LIBRARY IODEVICETRACKING32
+	EXPORTS
+		DetourFinishHelperProcess
+		DllMain
+

@@ -78,7 +78,7 @@ namespace InsightSheath.Wrappers
         }
 
         /// <summary>
-        /// place in disposable and call it after calling the current unmanaged cleanup routine.
+        /// place in disposable and call it after calling the current unmanaged cleanup routine.  
         /// </summary>
         protected void ClearNative()
         {

@@ -304,14 +304,14 @@ DetouredNtCreateUserProcess(
 )
 {
     LONG result = 0;
-    ULONG SuspendedFlags = ProcessFlags | CREATE_SUPPENDED;
+    ULONG SuspendedFlags = ProcessFlags;
     /**ProcessHandle = 0;
     *ThreadHandle = 0;
    */
 
   
     
-
+    
 
     result = (*NtCreateUserProcess)(ProcessHandle, ThreadHandle, ProcessDesiredAccess, ThreadDesiredAccess, ProcessObjectAttributes, ThreadObjectAttributes, SuspendedFlags, ThreadFlags, ProcessParameters, CreateInfo, AttributeList);
 

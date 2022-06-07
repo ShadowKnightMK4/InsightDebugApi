@@ -134,7 +134,7 @@ wchar_t* WINAPI ConvertANSIString(const char * Original) noexcept
 	}
 	else
 	{
-		int size = strlen(Original);
+		size_t size = strlen(Original);
 		int sizeNeeded = 0;
 		if (size == 0)
 		{

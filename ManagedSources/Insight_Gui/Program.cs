@@ -50,6 +50,24 @@ namespace FileSandBox_GUI
                 case DebugEventType.CreateTheadEvent:
                     {
                         var test = Debug.GetDebugEventCreateThreadInfo();
+
+                        if (Debug.IsEventFrom32BitProcess)
+                        {
+                            var thread = ThreadContext.CreateInstance(test.ThreadHandle);
+                            if (thread != null)
+                            {
+                                var context = thread.Context;
+                                var wow = thread.Wow64Context;
+
+                                var testclass = new Wow64Context(wow, false);
+
+                                testclass.Dr0 = testclass.Dr0;
+
+                                thread.Context = testclass.NativePointer;
+
+                            }
+                            
+                        }
                         Console.WriteLine(test.ThreadStartAddress);
                         break;
                     }
@@ -94,7 +112,7 @@ namespace FileSandBox_GUI
                     {
                         var test = Debug.GetDebugEventExceptionInfo();
 
-                        var debug = test.ExceptionParameter32;
+                        
                         Console.WriteLine(test.ExceptionCode + " exception");
                         if (test.IsIoDeviceTelemetryException())
                         {
@@ -104,6 +122,7 @@ namespace FileSandBox_GUI
                             {
                                 case IoDeviceTelemetryReaderExtensions.NotificationType.NtCreateFile:
                                     {
+                                        /*
                                         var CreateFile = test.GetNtCreateFileSettings();
                                         if ( (CreateFile.ObjectAttributes.ObjectName.Buffer != null))
                                         {
@@ -112,21 +131,30 @@ namespace FileSandBox_GUI
                                                 CreateFile.SetForceHandle(0);
                                                 CreateFile.SetReturnValue(0xC0000022);
                                             }
-                                        }
+                                        }*/
                                         break;
                                     }
                                 case IoDeviceTelemetryReaderExtensions.NotificationType.CreateFile:
                                     {
-                                        // This code functionally means access denied for CreateFile API calls for files with .TXT in the naem*/
+                                        /* 
+                                         * // This code functionally means access denied for CreateFile API calls for files with .TXT in the naem
                                         var CreateFile = test.GetCreateFileSettings();
                                         if ((CreateFile.FileName != null) && (CreateFile.FileName.Contains(".txt")))
                                         {
-                                            CreateFile.SetLastErrorValue(5); /* Access denied */
+                                            CreateFile.SetLastErrorValue(5); // Access denied value
                                             CreateFile.SetForceHandle();
-                                        } 
+                                        } */
                                         break;
                                     }
                             }
+                        }
+                        else
+                        {
+                            var Thread = ThreadContext.CreateInstance(Debug.ThreadID);
+                            Console.Write(Thread.SuspendThread().ToString()); ;
+                            Wow64Context Context = new(Thread.Wow64Context, false);
+                            Console.Write(Thread.ResumeThread().ToString()); ;
+                            Console.WriteLine("Got it!");
                         }
                         InsightProcess.Poke4(ContStat, unchecked ((int)InsightProcess.DebugContState.DebugExceptionNotHandled));
                         break;

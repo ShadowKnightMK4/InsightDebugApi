@@ -1,7 +1,7 @@
 #include <Windows.h>
 #include "InsightHunter.h"
 
-/* contains wrappers to wrap the Insight hunter class that will typicalled be autotracted on the first process creation thing*/
+/* contains wrappers to wrap the Insight hunter class that will typically be autotracking on the first process creation thing*/
 extern "C" {
 
 

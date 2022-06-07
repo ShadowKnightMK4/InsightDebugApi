@@ -30,9 +30,9 @@ namespace InsightSheath.Telemetry
         public GeneralTelemtryHelperStruct(uint ProcessId, uint ThreadID, IntPtr ForceHandle, IntPtr LastError, MachineType Type)
         {
             this.ProcessId = ProcessId;
-            this.ThreadId = ThreadID;
-            this.ForceHandlePtr = ForceHandle;
-            this.LastErrorPtr = LastError;
+            ThreadId = ThreadID;
+            ForceHandlePtr = ForceHandle;
+            LastErrorPtr = LastError;
             this.Type = Type;
         }
         /// <summary>

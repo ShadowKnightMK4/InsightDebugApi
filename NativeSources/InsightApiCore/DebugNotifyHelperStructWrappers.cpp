@@ -45,7 +45,7 @@ struct DebugNotify_HelperStruct
 extern "C" {
 	DWORD WINAPI DebugNotify_HelperStruct_GetVersionData(HANDLE TargetProcess, DebugNotify_HelperStruct* ptr)
 	{
-		DebugNotify_HelperStruct Remote;
+		DebugNotify_HelperStruct Remote = { 0 };
 		SIZE_T BytesRead=0;
 		if (ptr != nullptr)
 		{

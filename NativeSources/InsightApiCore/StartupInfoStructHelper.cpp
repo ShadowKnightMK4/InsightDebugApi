@@ -15,13 +15,13 @@ StartupInfoWrapper::StartupInfoWrapper(const StartupInfoWrapper& other)
 	if (other.Struct.StartupInfo.lpDesktop != nullptr)
 	{
 		this->DesktopNameContainer = this->Struct.StartupInfo.lpDesktop;
-		this->Struct.StartupInfo.lpDesktop = (LPWSTR)this->DesktopNameContainer.c_str();
+		this->Struct.StartupInfo.lpDesktop = const_cast<LPWSTR>(this->DesktopNameContainer.c_str());
 	}
 
 	if (other.Struct.StartupInfo.lpTitle != nullptr)
 	{
 		this->DesktopNameContainer = this->Struct.StartupInfo.lpTitle;
-		this->Struct.StartupInfo.lpTitle = (LPWSTR)this->TileNameContainer.c_str();
+		this->Struct.StartupInfo.lpTitle = const_cast<LPWSTR>(this->TileNameContainer.c_str());
 	}
 
 }
@@ -43,7 +43,7 @@ const wchar_t* StartupInfoWrapper::lpDesktop()
 void StartupInfoWrapper::lpDesktop(const wchar_t* Name)
 {
 	this->DesktopNameContainer = Name;
-	this->Struct.StartupInfo.lpDesktop = (LPWSTR)this->DesktopNameContainer.c_str();
+	this->Struct.StartupInfo.lpDesktop = const_cast<LPWSTR>(this->DesktopNameContainer.c_str());
 }
 
 const wchar_t* StartupInfoWrapper::lpTitle()
@@ -62,7 +62,7 @@ const wchar_t* StartupInfoWrapper::lpTitle()
 void StartupInfoWrapper::lpTitle(const wchar_t* Title)
 {
 	this->TileNameContainer = Title;
-	this->Struct.StartupInfo.lpTitle = (LPWSTR)this->TileNameContainer.c_str();
+	this->Struct.StartupInfo.lpTitle = const_cast<LPWSTR>(this->TileNameContainer.c_str());
 }
 
 DWORD StartupInfoWrapper::dwX()

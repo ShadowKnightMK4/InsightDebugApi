@@ -229,8 +229,11 @@ del "$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\lib\InsightApi.*"
     <ClCompile Include="Utility.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ApiVersionStruct_CExports.h" />
     <ClInclude Include="CommandmentSettings.h" />
     <ClInclude Include="DebugLogTarget.h" />
+    <ClInclude Include="DebugStruct_CExports.h" />
+    <ClInclude Include="ImageHlpModuleStruct64_CExports.h" />
     <ClInclude Include="InsightHunter.h" />
     <ClInclude Include="InsightMemory.h" />
     <ClInclude Include="InsightSupport.h" />
@@ -238,16 +241,20 @@ del "$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\lib\InsightApi.*"
     <ClInclude Include="ProcessContext.h" />
     <ClInclude Include="InsightProcess.h" />
     <ClInclude Include="RemoteStructure.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="StartupInfoStructHelper.h" />
     <ClInclude Include="ThreadContext.h" />
     <ClInclude Include="ThreadSupport.h" />
     <ClInclude Include="Utility.h" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="NamingScheme.txt" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="Exports.def" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="NamingScheme.txt" />
+    <ResourceCompile Include="Resource.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

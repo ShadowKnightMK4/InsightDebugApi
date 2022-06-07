@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 #include <map>
-
+#include  <stdio.h>
 #include "InsightHunter.h"
 #include "ThreadContext.h"
 #include "ThreadSupport.h"
@@ -283,7 +283,7 @@ public:
 	BOOL SetCommandment(DWORD CommandMent, BOOL Status);
 		 
 	/// <summary>
-	/// Returns the commandment's value if exists, otherwrise returns false. (YES that means routines outside the class can't tencihally check if exists. 
+	/// Returns the commandment's value if exists, otherwise returns false. (YES that means routines outside the class can't tencihally check if exists. 
 	/// The commandment flags should modify on a simple yes or no thing
 	/// </summary>
 	BOOL GetCommandment(DWORD CommandMent);

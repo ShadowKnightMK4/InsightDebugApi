@@ -6,6 +6,12 @@
 */
 extern "C" {
 
+/*
+* These disable the owner<T> and the raw pointers completes.   The owner of the pointers returned is functionally
+* the caller and they'll need to call the appropriate cleanup routine (ThreadContext_KillInstance)
+*/
+#pragma warning(disable: 26409 26400)
+
 #define THEADCONTEXT_DEFAULT (0)
 #define THREADCONTEXT_USETHREADID (1)
 
@@ -16,6 +22,16 @@ extern "C" {
 			return new ThreadInsight(that);
 		}
 		return nullptr;
+	}
+
+	BOOL WINAPI ThreadContext_KillInstance(ThreadInsight* that)
+	{
+		if (that != nullptr)
+		{
+			delete that;
+			return TRUE;
+		}
+		return FALSE;
 	}
 
 	DWORD WINAPI ThreadContext_SuspendThread(ThreadInsight* that)
@@ -219,7 +235,69 @@ extern "C" {
 	}
 
 
+	CONTEXT* WINAPI ThreadContext_GetContext(ThreadInsight* that)
+	{
+		if (that != nullptr)
+		{
+			return that->GetContext();
+		}
+		return nullptr;
+	}
 
+	WOW64_CONTEXT* WINAPI ThreadContext_GetWow64Context(ThreadInsight* that)
+	{
+		if (that != nullptr)
+		{
+			return that->Wow64GetContext();
+		}
+		return nullptr;
+	}
+	
+
+	BOOL WINAPI ThreadContext_SetContext(ThreadInsight* that, CONTEXT* NewContext)
+	{
+		DWORD state = 0;
+		if (that != nullptr)
+		{
+			state = that->SuspendThreadHandle();
+			if ((state >= 1) && (state != (DWORD)-1))
+			{
+				if (that->ResumeThreadHandle() != (DWORD)-1)
+				{
+					return that->SetContext((CONTEXT*)NewContext);
+				}
+			}
+			else
+			{
+				/* Thread was still running when we attempting to modify the context*/
+				return FALSE;
+			}
+		}
+		return FALSE;
+	}
+
+
+	BOOL WINAPI ThreadContext_SetWow64Context(ThreadInsight* that, WOW64_CONTEXT* NewContext)
+	{
+		DWORD state = 0;
+		if (that != nullptr)
+		{
+			state = that->SuspendThreadHandle();
+			if ( (state >= 1)  && (state != (DWORD)-1))
+			{
+				if (that->ResumeThreadHandle() != (DWORD)-1)
+				{
+					return that->Wow64SetContext((WOW64_CONTEXT*)NewContext);
+				}
+			}
+			else
+			{
+				/* Thread was still running when we attempting to modify the context*/
+				return FALSE;
+			}
+		}
+		return FALSE;
+	}
 	BOOL WINAPI ThreadContext_SetTargetThread(ThreadInsight* that, HANDLE Thread, DWORD Flags)
 	{
 		if (that != nullptr)
@@ -230,28 +308,28 @@ extern "C" {
 			{
 /*
 * Why disabled C4311.
-* sizeof(HANDLE) are pointer sized.
+* sizeof(HANDLE) are pointer sized. This means
 * x86 pointers are 4 bytes long
 * x64 pointers are 8 bytes long.
 * 
-* DWORD is 4 bytes long.
+* DWORD is 4 bytes long always.
+* The class routine SetTargetThread() exists as one that always takes a DWORD and always takes a handle.
 * 
-* When compiled ThreadContext_SetTargetThread() arguments are machine dependant sized.
-* *that			is OK. 
-* HANDLE for x86 is 4 bytes big.
-* DWORD for x86 is same. No issues.
+* For x86 Code,
+* passing the USETHREADID flag will branch to using the DWORD routine.
+* Passing the THEADCONTEXT_DEFAULT flag will branch to using the handle (x86 4 byte) version of the class routine.
 * 
-* HANDLE size for x64 is 8 bytes big
-* DWORD for x86 is 4 and truncates as excepted.
 * 
-* The flags setting indicates whether to tread handle as a handle or a threadID. 
-* Thread IDS are 4 bytes long. Truncating a thread handle pretending to be a HANDLE should be ok.
+* For x64 Code
+* passing the USETHREADID flag will branch to using the DWORD routine and trim the high end part to make it DWORD sized
+* * Passing the THEADCONTEXT_DEFAULT flag will branch to using the handle (x64 8 byte) version of the class routine
 * 
+* The reason I deem this acceptable is the Win32 Thread routines like GetThreadID() for example always seem to be DWORD sized.
 * Down in the bowels of the class. The Compiler takes care of the rest.
 */
-#pragma warning( once: C4311)
+#pragma warning( disable : 4302 4034 4311 )
 				return that->SetTargetThread((DWORD)Thread);
-
+#pragma warning(default:4302 4034 4311 )
 			}
 			case THEADCONTEXT_DEFAULT: /* ID Tread handle as a handle.*/
 			{
@@ -264,4 +342,6 @@ extern "C" {
 		return FALSE;
 	}
 
+#pragma warning(default: 26409 26400)
 }
+

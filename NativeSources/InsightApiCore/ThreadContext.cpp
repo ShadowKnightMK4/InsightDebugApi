@@ -285,7 +285,7 @@ FILETIME* ThreadInsight::GetKernelTime()
 
 BOOL ThreadInsight::SetTargetThread(HANDLE NewThread)
 {
-	HANDLE NewHandle;
+	HANDLE NewHandle = 0;
 	if ( (this->ThreadHandle != 0) && (this->ThreadHandle != INVALID_HANDLE_VALUE))
 	{
 		CloseHandle(this->ThreadHandle);
@@ -419,11 +419,12 @@ BOOL ThreadInsight::FetchContext()
 	ZeroMemory(&this->ThreadContext, sizeof(ThreadContext));
 	DWORD ProcessID;
 	ProcessID = GetProcessIdOfThread(ThreadHandle);
-	ZeroMemory(&this->ThreadContext, sizeof(this->ThreadContext));
+	
 	if (IsTargetProcessID32Bit(ProcessID))
 	{
 		if (LinkWowThreadContext())
 		{
+			this->ThreadContext.Win32Context.ContextFlags = WOW64_CONTEXT_ALL;
 			if (InternalBase_Wow64GetThreadContextPtr(ThreadHandle, &this->ThreadContext.Win32Context))
 			{
 				return TRUE;
@@ -432,6 +433,7 @@ BOOL ThreadInsight::FetchContext()
 	}
 	else
 	{
+		this->ThreadContext.Win64Context.ContextFlags = CONTEXT_ALL;
 		if (!GetThreadContext(ThreadHandle, &this->ThreadContext.Win64Context))
 		{
 			return FALSE;

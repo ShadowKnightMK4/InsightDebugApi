@@ -11,7 +11,7 @@ namespace InsightSheath.Structs
     /// <summary>
     /// This class serves as a foundation to classes that encapsulates a native pointer to either a x64 bit struct or x86 struct dependent on the target.
     /// </summary>
-    public abstract class PlatformDependantNativeStruct: NativeStaticContainer
+    public abstract class PlatformDependantNativeStruct: OnDemandMarshalNativeStruct
     {
         public PlatformDependantNativeStruct(IntPtr Native): base(Native)
         {
@@ -71,15 +71,8 @@ namespace InsightSheath.Structs
         /// protected container for <see cref="StructType"/>
         /// </summary>
         protected StructModeType StructTypeContainer;
-        /// <summary>
-        /// This code should marshal the relevant struct from the native pointer if <see cref="WasBlit"/> is not side and set afterwards. Accessors should call this each time they are called to retreive values.
-        /// </summary>
-        protected abstract void Blit();
-        /// <summary>
-        /// <see cref="Blit"/> should set this to true after last reading successful marshaling was done in <see cref="Blit"/>from the native side.
-        /// </summary>
-        protected bool WasBlit;
-
+        
+     
         /// <summary>
         /// canned error message for when user does not specify a machine.
         /// </summary>

@@ -100,7 +100,7 @@ namespace InsightSheath.NativeImports
 
         
         [DllImport("InsightApi.Dll", BestFitMapping = false, CallingConvention = CallingConvention.Winapi, EntryPoint = "DebugEvent_UnloadDllInfo_GetBaseAddress", ExactSpelling = false)]
-        public static extern IntPtr DebugEvent_UnloadDllInfo_GetBaseAddress(IntPtr LPDebugEevent);
+        public static extern ulong DebugEvent_UnloadDllInfo_GetBaseAddress(IntPtr LPDebugEevent);
 
 
         [DllImport("InsightApi.Dll", BestFitMapping = false, CallingConvention = CallingConvention.Winapi, EntryPoint = "DebugEvent_CreateThreadInfo_GetThreadHandle", ExactSpelling = false)]
