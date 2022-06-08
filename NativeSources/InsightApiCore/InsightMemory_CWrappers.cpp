@@ -1,4 +1,5 @@
 #include "InsightMemory.h"
+#include "InsightMemory_CWrappers.h"
 
 extern "C" {
 	InsightMemory* WINAPI InsightMemory_MakeInstance()
@@ -45,7 +46,7 @@ extern "C" {
 		return FALSE;
 	}
 
-	SIZE_T InsightMemory_GetPageFault(InsightMemory* that)
+	SIZE_T InsightMemory_GetPageFaultCount(InsightMemory* that)
 	{
 		if (that != nullptr)
 		{
@@ -76,11 +77,21 @@ extern "C" {
 	{
 		if (that != nullptr)
 		{
-			return that->GetQuotaPagePoolUsage();
+			return that->GetQuotaPeakPagedPoolUsage();
 		}
 		return 0;
 	}
 
+	//InsightMemory_GetQuotaNonPagedPoolUsage
+
+	SIZE_T InsightMemory_GetQuotaNonPagedPoolUsage(InsightMemory* that)
+	{
+		if (that != nullptr)
+		{
+			return that->GetQuotaNonPagedPoolUsage();
+		}
+		return 0;
+	}
 
 	SIZE_T InsightMemory_GetQuotaPagePoolUsage(InsightMemory* that)
 	{
@@ -90,12 +101,12 @@ extern "C" {
 		}
 		return 0;
 	}
-
-	SIZE_T InsightMemory_GetPeakPagePoolUsage(InsightMemory* that)
+	
+	SIZE_T InsightMemory_GetQuotaPeakPagePoolUsage(InsightMemory* that)
 	{
 		if (that != nullptr)
 		{
-			return that->GetPeakNonPagePoolUsage();
+			return that->GetQuotaPeakPagePoolUsage();
 		}
 		return 0;
 	}
@@ -109,6 +120,14 @@ extern "C" {
 		return 0;
 	}
 
+	SIZE_T InsightMemory_GetPeakNonPagePoolUsage(InsightMemory* that)
+	{
+		if (that != nullptr)
+		{
+			return that->GetPeakNonPagePoolUsage();
+		}
+		return 0;
+	}
 	SIZE_T InsightMemory_GetPeakPageFileUsage(InsightMemory* that)
 	{
 		if (that != nullptr)

@@ -133,6 +133,7 @@
     <ClInclude Include="DebugStruct_CExports.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="InsightMemory_CWrappers.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="DllExportStuff">

@@ -4,10 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using InsightSheath.Wrappers;
-using InsightSheath.Remote;
 using InsightSheath.Misc;
 using System.Runtime.InteropServices;
 using System.IO;
+using InsightSheath.Debugging;
+using InsightSheath.Win32Struct.Remote;
+using InsightSheath.Win32Struct;
+
 namespace InsightSheath.Telemetry
 {
 
@@ -284,7 +287,7 @@ namespace InsightSheath.Telemetry
         /// <summary>
         /// May be null. If not null, this will be the Object Attributes read from that file.
         /// </summary>
-        public Structs.WindowsObjectAttributes ObjectAttributes;
+        public WindowsObjectAttributes ObjectAttributes;
         /// <summary>
        /// for x64 debugged processes. This is a 64-bit pointer.  For x32-bit processes, this is a 32-bit pointer that may be pretended to be 64-bit depending on .NET
         /// </summary>

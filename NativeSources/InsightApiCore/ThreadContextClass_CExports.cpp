@@ -120,20 +120,7 @@ extern "C" {
 		return ret;
 	}
 
-	/// <summary>
-	/// clearnup / delete an instance of ThreadInsight/ThreadContext
-	/// </summary>
-	/// <param name="that"></param>
-	/// <returns></returns>
-	BOOL WINAPI ThreadContext_KillInstance(ThreadInsight* that)
-	{
-		if (that != nullptr)
-		{
-			delete that;
-			return TRUE;
-		}
-		return FALSE;
-	}
+	
 
 	FILETIME* WINAPI ThreadContext_GetThreadTimeCreationTime(ThreadInsight* that)
 	{

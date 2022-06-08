@@ -236,6 +236,7 @@ del "$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\lib\InsightApi.*"
     <ClInclude Include="ImageHlpModuleStruct64_CExports.h" />
     <ClInclude Include="InsightHunter.h" />
     <ClInclude Include="InsightMemory.h" />
+    <ClInclude Include="InsightMemory_CWrappers.h" />
     <ClInclude Include="InsightSupport.h" />
     <ClInclude Include="ObjectAttributesHelper.h" />
     <ClInclude Include="ProcessContext.h" />

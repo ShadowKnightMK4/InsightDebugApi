@@ -189,12 +189,14 @@ LIBRARY INSIGHTAPI
 		InsightMemory_KillInstance
 		InsightMemory_SetTargetProcess
 		InsightMemory_UpdateMemoryStats
-		InsightMemory_GetPageFault
+		InsightMemory_GetPageFaultCount
 		InsightMemory_GetPeakWorkingSetSize
 		InsightMemory_GetWorkingSetSize
 		InsightMemory_GetQuotaPeakPagedPoolUsage
+		InsightMemory_GetQuotaNonPagedPoolUsage
 		InsightMemory_GetQuotaPagePoolUsage
-		InsightMemory_GetPeakPagePoolUsage
+		InsightMemory_GetQuotaNonPagedPoolUsage
+		InsightMemory_GetPeakNonPagePoolUsage
 		InsightMemory_GetPageFileUsage
 		InsightMemory_GetPeakPageFileUsage
 		InsightMemory_GetPrivateUsage

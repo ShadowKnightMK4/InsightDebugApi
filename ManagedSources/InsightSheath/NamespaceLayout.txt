@@ -1,0 +1,19 @@
+InsightSheath.Debugging
+	This will contain the debugger stuff.
+InsightSheath.Debugging.SymbolEngine
+	This will contain the symbol stuff (InsghtSymbopl
+InsightSheath.Debugging.Process
+	Process stuff (likey working set any memory
+InsightSheath.Debugging.Threads
+	Thread stuff (Thread Context/memory.
+InsightSheath.Telemetry
+	Telemtry DLL stuff.
+InsightSheath.Win32Structs
+		Contains strings generally from the other
+		WindowsUnicodeString for example
+InsightSheath.Native
+		Dumping for the internal classes
+InsightSheath.Remote
+		Exports classes for Remote reading from target process
+InsightSheath.Misc
+		Others. Exception. Utilty.cpp tis in the top level namespace

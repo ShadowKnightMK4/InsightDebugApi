@@ -1,4 +1,4 @@
-﻿using InsightSheath.Remote;
+﻿using InsightSheath.Win32Struct.Remote;
 using System;
 using System.Collections.Generic;
 using System.Linq;

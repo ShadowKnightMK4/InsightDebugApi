@@ -82,6 +82,7 @@ BOOL InsightMemory::SetTargetProcess(DWORD Process)
 	HANDLE TempHandle = 0;
 	bool ret = false;
 	
+	__try
 	{
 		TempHandle = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, Process);
 		if (TempHandle)
@@ -89,7 +90,7 @@ BOOL InsightMemory::SetTargetProcess(DWORD Process)
 			ret = SetTargetProcess(TempHandle);
 		}
 	}
-	
+	__finally
 	{
 		if (TempHandle != 0)
 		{
@@ -161,6 +162,12 @@ SIZE_T InsightMemory::GetPeakNonPagePoolUsage()
 	return this->MemoryStats.QuotaPeakNonPagedPoolUsage;
 }
 
+SIZE_T InsightMemory::InsightMemory_GetPeakPagePoolUsage()
+{
+	this->InlineRefreshMemoryStats();
+	return this->MemoryStats.QuotaPeakPagedPoolUsage;
+}
+
 SIZE_T InsightMemory::GetPageFileUsage()
 {
 	this->InlineRefreshMemoryStats();
@@ -177,6 +184,18 @@ SIZE_T InsightMemory::GetPrivateUsage()
 {
 	this->InlineRefreshMemoryStats();
 	return this->MemoryStats.PrivateUsage;
+}
+
+SIZE_T InsightMemory::GetQuotaNonPagedPoolUsage()
+{
+	this->InlineRefreshMemoryStats();
+	return this->MemoryStats.QuotaNonPagedPoolUsage;
+}
+
+SIZE_T InsightMemory::GetQuotaPeakPagePoolUsage()
+{
+	this->InlineRefreshMemoryStats();
+	return this->MemoryStats.QuotaPeakPagedPoolUsage;
 }
 
 PROCESS_MEMORY_COUNTERS_EX* InsightMemory::GetMemoryStatsBulk()

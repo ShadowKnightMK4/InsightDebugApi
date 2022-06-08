@@ -61,6 +61,12 @@ public:
 	/// </summary>
 	/// <returns></returns>
 	SIZE_T GetPeakNonPagePoolUsage();
+
+	/// <summary>
+	/// Get the peaked page Pool usage
+	/// </summary>
+	/// <returns></returns>
+	SIZE_T InsightMemory_GetPeakPagePoolUsage();
 	/// <summary>
 	/// Get Page File Usage
 	/// </summary>
@@ -76,6 +82,18 @@ public:
 	/// </summary>
 	/// <returns></returns>
 	SIZE_T GetPrivateUsage();
+	
+	/// <summary>
+	/// Get the quota non paged pool usage
+	/// </summary>
+	/// <param name="that"></param>
+	/// <returns></returns>
+	SIZE_T GetQuotaNonPagedPoolUsage();
+	/// <summary>
+	///  Get peak paged pool usage
+	/// </summary>
+	/// <returns></returns>
+	SIZE_T GetQuotaPeakPagePoolUsage();
 	/// <summary>
 	/// Get a pointer to a struct containing memory counter data. Will always be refreshed before returned.
 	/// </summary>
