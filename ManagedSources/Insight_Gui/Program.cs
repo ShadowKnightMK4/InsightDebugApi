@@ -82,7 +82,7 @@ namespace FileSandBox_GUI
                 case DebugEventType.ExitProcessEvent:
                     {
                         var test = Debug.GetEventExitProcessInfo();
-                        var Stats = InsightMemory.CreateInstance(Debug.ProcessID);
+                        
                         Console.WriteLine("Exiting with " + test.ExitCode);
                         break;
                     }

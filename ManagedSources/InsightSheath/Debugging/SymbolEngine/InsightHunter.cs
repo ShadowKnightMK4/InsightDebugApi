@@ -3,15 +3,17 @@ using InsightSheath.Debugging;
 using InsightSheath.Win32Struct;
 using System;
 using System.Runtime.InteropServices;
+using InsightSheath.Debugging.Process;
 
 namespace InsightSheath.Debugging.SymbolEngine
 {
-    // typedef BOOL (WINAPI* SymbolSearchCallback)(SYMBOL_INFOW);
     /// <summary>
-    /// This is the callback for <see cref="InsightHunter.EnumerateSymbols(string, InsightHunter_SymbolSearchCallBackRoutine)"/>. Pass passed pointer to your routine to <see cref="SymbolInfo"/>'s contructor to use
+    /// This is the callback for <see cref="InsightHunter.EnumerateSymbols(string, InsightHunter_SymbolSearchCallBackRoutine)"/>. The passed pointer to your routine is a native pointer to a struct <see cref="SymbolInfo"/>'s that exists for while your routine is active. 
     /// </summary>
     /// <param name="">Your Routine should return TRUE to keep going and FALSE to quit</param>
     /// <returns></returns>
+    /// <remarks>The exact routine pointer  that this is based off is  typedef BOOL (WINAPI* SymbolSearchCallback)(SYMBOL_INFOW);  MSDC documentation 
+    /// for the callback being invoked here: <see href="https://docs.microsoft.com/en-us/windows/win32/api/dbghelp/nc-dbghelp-psym_enumsourcefiles_callback"/> and the API being called is <see href="https://docs.microsoft.com/en-us/windows/win32/api/dbghelp/nf-dbghelp-symenumsourcefilesw"/>  </remarks>
     public delegate bool InsightHunter_SymbolSearchCallBackRoutine(IntPtr SymbolInfo);
 
     /// Callback for Enumerating source files. Return true to continue and false to quit
@@ -20,7 +22,9 @@ namespace InsightSheath.Debugging.SymbolEngine
 
 
     /// <summary>
-    /// A part of the symbol engine is known as InsightHunter in the FileSanboxNative api.  It is VERY VERY VERY tightly coupled with the PsProcessInformation class but distict enough to warenete wrappers. If you need not have symbol processing, disablying is fine.
+    /// A part of the symbol engine exported in InsightAPI in the Native DLL. 
+    /// This class is VERY VERY VERY tightly coupled with the <see cref="InsightProcess"/> class but distinct enough to warrent its own class/wrapper wrappers. 
+    /// If you need not have symbol processing, disabling <see cref="InsightProcess.EnableSymbolEngine"/> is set to false if fine. That turns off the code that updates the native <see cref="InsightHunter"/> class when the worker thread receives a debug event
     /// NOTE: You'll need to spawn at least one process with <see cref="InsightProcess"/> to get much use out of this.
     /// </summary>
     public class InsightHunter : NativeStaticContainer
