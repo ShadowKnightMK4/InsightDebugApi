@@ -13,7 +13,7 @@ namespace InsightSheath.NativeImports
     /// <summary>
     /// Internal Class. This imports the routines used in <see cref="InsightHunter"/> class
     /// </summary>
-    internal static partial class InsightHunterInternal
+    internal static partial class InternalInsightHunter
     {
         /// <summary>
         /// IntPtr is an API_VERSION struct that's part of the InsightHunter class itself.

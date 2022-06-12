@@ -1,0 +1,166 @@
+\hypertarget{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct}{}\doxysection{Insight\+Sheath.\+Abstract.\+On\+Demand\+Marshal\+Native\+Struct Class Reference}
+\label{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct}\index{InsightSheath.Abstract.OnDemandMarshalNativeStruct@{InsightSheath.Abstract.OnDemandMarshalNativeStruct}}
+
+
+Class that is the base for classes that retrieve there data from a native struct and marshal to a private struct + expose properties to access this struct.  
+
+
+Inheritance diagram for Insight\+Sheath.\+Abstract.\+On\+Demand\+Marshal\+Native\+Struct\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.845528cm]{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_ace40a58c8aff6f69f721ffd5ae0411be}{On\+Demand\+Marshal\+Native\+Struct}} (Int\+Ptr \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}})
+\item 
+\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_aff591d0e2ddafbb8104d0fb63ccab4e0}{On\+Demand\+Marshal\+Native\+Struct}} (Int\+Ptr \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}, bool \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{Free\+On\+Cleanup}})
+\item 
+void \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a7eac9fd6a1214c900527f78c6f4658d6}{Marshal\+To\+Native}} ()
+\begin{DoxyCompactList}\small\item\em public access to protects routine to send changes to the managed struct copy back to native land. If the class does not implement or that\textquotesingle{}s not a valid option for the class, an exception may occure \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+abstract void \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_ab40c79cada4587212e82f2356f264b5b}{Blit}} ()
+\begin{DoxyCompactList}\small\item\em This code should marshal the relevant struct from the native pointer if \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a0b0506b31628601c4e517b1197c9bb94}{Was\+Blit}} is not set and set afterwards. Accessors should call this each time they are called to retrieve values. Additionally, if the .NET struct will need to make changes to the land, you\textquotesingle{}re going to need to call \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a133b74e04a70011d23370823de9bdd2f}{Apply}} BEFORE reading the managed struct. Not doing this will revert your changes on the managed side to the equivalent native values. \end{DoxyCompactList}\item 
+abstract void \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a133b74e04a70011d23370823de9bdd2f}{Apply}} ()
+\begin{DoxyCompactList}\small\item\em This code should convert the relevant struct in .NET land and place it in the \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}} if the protected value \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a09c17c6f529ca3920a1c56119daed14a}{Stale\+Managed\+Struct}} was set to true Unmanaged land. It should throw a Invalid\+Operation\+Exception if it\textquotesingle{}s not a valid thing (native pointer is known to be read only memory/ exist for a callback function for example) Not\+Implemented\+Exception exception if not done yet ecct... \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a0b0506b31628601c4e517b1197c9bb94}{Was\+Blit}}
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_ab40c79cada4587212e82f2356f264b5b}{Blit}} should set this to true after last reading successful marshaling was done in \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_ab40c79cada4587212e82f2356f264b5b}{Blit}}from the native side. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a09c17c6f529ca3920a1c56119daed14a}{Stale\+Managed\+Struct}}
+\begin{DoxyCompactList}\small\item\em When an accessory sets property in the managed struct that needs to be updated in native land, set this. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+Class that is the base for classes that retrieve there data from a native struct and marshal to a private struct + expose properties to access this struct. 
+
+Definition at line \mbox{\hyperlink{_on_demand_marshal_native_struct_8cs_source_l00013}{13}} of file \mbox{\hyperlink{_on_demand_marshal_native_struct_8cs_source}{On\+Demand\+Marshal\+Native\+Struct.\+cs}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_ace40a58c8aff6f69f721ffd5ae0411be}\label{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_ace40a58c8aff6f69f721ffd5ae0411be}} 
+\index{InsightSheath.Abstract.OnDemandMarshalNativeStruct@{InsightSheath.Abstract.OnDemandMarshalNativeStruct}!OnDemandMarshalNativeStruct@{OnDemandMarshalNativeStruct}}
+\index{OnDemandMarshalNativeStruct@{OnDemandMarshalNativeStruct}!InsightSheath.Abstract.OnDemandMarshalNativeStruct@{InsightSheath.Abstract.OnDemandMarshalNativeStruct}}
+\doxysubsubsection{\texorpdfstring{OnDemandMarshalNativeStruct()}{OnDemandMarshalNativeStruct()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Insight\+Sheath.\+Abstract.\+On\+Demand\+Marshal\+Native\+Struct.\+On\+Demand\+Marshal\+Native\+Struct (\begin{DoxyParamCaption}\item[{Int\+Ptr}]{Native }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line \mbox{\hyperlink{_on_demand_marshal_native_struct_8cs_source_l00015}{15}} of file \mbox{\hyperlink{_on_demand_marshal_native_struct_8cs_source}{On\+Demand\+Marshal\+Native\+Struct.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_aff591d0e2ddafbb8104d0fb63ccab4e0}\label{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_aff591d0e2ddafbb8104d0fb63ccab4e0}} 
+\index{InsightSheath.Abstract.OnDemandMarshalNativeStruct@{InsightSheath.Abstract.OnDemandMarshalNativeStruct}!OnDemandMarshalNativeStruct@{OnDemandMarshalNativeStruct}}
+\index{OnDemandMarshalNativeStruct@{OnDemandMarshalNativeStruct}!InsightSheath.Abstract.OnDemandMarshalNativeStruct@{InsightSheath.Abstract.OnDemandMarshalNativeStruct}}
+\doxysubsubsection{\texorpdfstring{OnDemandMarshalNativeStruct()}{OnDemandMarshalNativeStruct()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Insight\+Sheath.\+Abstract.\+On\+Demand\+Marshal\+Native\+Struct.\+On\+Demand\+Marshal\+Native\+Struct (\begin{DoxyParamCaption}\item[{Int\+Ptr}]{Native,  }\item[{bool}]{Free\+On\+Cleanup }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line \mbox{\hyperlink{_on_demand_marshal_native_struct_8cs_source_l00020}{20}} of file \mbox{\hyperlink{_on_demand_marshal_native_struct_8cs_source}{On\+Demand\+Marshal\+Native\+Struct.\+cs}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a133b74e04a70011d23370823de9bdd2f}\label{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a133b74e04a70011d23370823de9bdd2f}} 
+\index{InsightSheath.Abstract.OnDemandMarshalNativeStruct@{InsightSheath.Abstract.OnDemandMarshalNativeStruct}!Apply@{Apply}}
+\index{Apply@{Apply}!InsightSheath.Abstract.OnDemandMarshalNativeStruct@{InsightSheath.Abstract.OnDemandMarshalNativeStruct}}
+\doxysubsubsection{\texorpdfstring{Apply()}{Apply()}}
+{\footnotesize\ttfamily abstract void Insight\+Sheath.\+Abstract.\+On\+Demand\+Marshal\+Native\+Struct.\+Apply (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [pure virtual]}}
+
+
+
+This code should convert the relevant struct in .NET land and place it in the \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}} if the protected value \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a09c17c6f529ca3920a1c56119daed14a}{Stale\+Managed\+Struct}} was set to true Unmanaged land. It should throw a Invalid\+Operation\+Exception if it\textquotesingle{}s not a valid thing (native pointer is known to be read only memory/ exist for a callback function for example) Not\+Implemented\+Exception exception if not done yet ecct... 
+
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Invalid\+Operation\+Exception} & Throw this when writing back to the unmanaged struct is not valid (for example read only memory or a local variable in a callback routine allocated on Unamanged heap)\\
+\hline
+{\em Not\+Supported\+Exception} & Throw this when writing back to the unmanaged struct is not valid (for example read only memory or a local variable in a callback routine allocated on Unamanged heap)\\
+\hline
+{\em Not\+Implemented\+Exception} & The routine was added but not implemented yet.\\
+\hline
+\end{DoxyExceptions}
+
+
+Implemented in \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a8a4f1cc840102ed0f76d79ed111ec3fb}{Insight\+Sheath.\+Debugging.\+Thread.\+Wow64\+Context}}, \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_object_attributes_a648d815bcdb573b98a88bb41bf32b5ef}{Insight\+Sheath.\+Win32\+Struct.\+Windows\+Object\+Attributes}}, and \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_ab0ffa0f36c8b5127a4ba3fe4c25ee853}{Insight\+Sheath.\+Win32\+Struct.\+Windows\+Unicode\+String}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_ab40c79cada4587212e82f2356f264b5b}\label{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_ab40c79cada4587212e82f2356f264b5b}} 
+\index{InsightSheath.Abstract.OnDemandMarshalNativeStruct@{InsightSheath.Abstract.OnDemandMarshalNativeStruct}!Blit@{Blit}}
+\index{Blit@{Blit}!InsightSheath.Abstract.OnDemandMarshalNativeStruct@{InsightSheath.Abstract.OnDemandMarshalNativeStruct}}
+\doxysubsubsection{\texorpdfstring{Blit()}{Blit()}}
+{\footnotesize\ttfamily abstract void Insight\+Sheath.\+Abstract.\+On\+Demand\+Marshal\+Native\+Struct.\+Blit (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [pure virtual]}}
+
+
+
+This code should marshal the relevant struct from the native pointer if \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a0b0506b31628601c4e517b1197c9bb94}{Was\+Blit}} is not set and set afterwards. Accessors should call this each time they are called to retrieve values. Additionally, if the .NET struct will need to make changes to the land, you\textquotesingle{}re going to need to call \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a133b74e04a70011d23370823de9bdd2f}{Apply}} BEFORE reading the managed struct. Not doing this will revert your changes on the managed side to the equivalent native values. 
+
+
+
+Implemented in \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a9d7637da3065164dc1dc7d40b6943c9c}{Insight\+Sheath.\+Debugging.\+Thread.\+Wow64\+Context}}, \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_object_attributes_a4cf277a98a71629136e600989549408e}{Insight\+Sheath.\+Win32\+Struct.\+Windows\+Object\+Attributes}}, and \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_a75c786da745eb345eb71eadd1536a4a5}{Insight\+Sheath.\+Win32\+Struct.\+Windows\+Unicode\+String}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a7eac9fd6a1214c900527f78c6f4658d6}\label{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a7eac9fd6a1214c900527f78c6f4658d6}} 
+\index{InsightSheath.Abstract.OnDemandMarshalNativeStruct@{InsightSheath.Abstract.OnDemandMarshalNativeStruct}!MarshalToNative@{MarshalToNative}}
+\index{MarshalToNative@{MarshalToNative}!InsightSheath.Abstract.OnDemandMarshalNativeStruct@{InsightSheath.Abstract.OnDemandMarshalNativeStruct}}
+\doxysubsubsection{\texorpdfstring{MarshalToNative()}{MarshalToNative()}}
+{\footnotesize\ttfamily void Insight\+Sheath.\+Abstract.\+On\+Demand\+Marshal\+Native\+Struct.\+Marshal\+To\+Native (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+public access to protects routine to send changes to the managed struct copy back to native land. If the class does not implement or that\textquotesingle{}s not a valid option for the class, an exception may occure 
+
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Invalid\+Operation\+Exception} & \\
+\hline
+{\em Not\+Supported\+Exception} & \\
+\hline
+{\em Not\+Implemented\+Exception} & \\
+\hline
+\end{DoxyExceptions}
+
+
+Definition at line \mbox{\hyperlink{_on_demand_marshal_native_struct_8cs_source_l00048}{48}} of file \mbox{\hyperlink{_on_demand_marshal_native_struct_8cs_source}{On\+Demand\+Marshal\+Native\+Struct.\+cs}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a09c17c6f529ca3920a1c56119daed14a}\label{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a09c17c6f529ca3920a1c56119daed14a}} 
+\index{InsightSheath.Abstract.OnDemandMarshalNativeStruct@{InsightSheath.Abstract.OnDemandMarshalNativeStruct}!StaleManagedStruct@{StaleManagedStruct}}
+\index{StaleManagedStruct@{StaleManagedStruct}!InsightSheath.Abstract.OnDemandMarshalNativeStruct@{InsightSheath.Abstract.OnDemandMarshalNativeStruct}}
+\doxysubsubsection{\texorpdfstring{StaleManagedStruct}{StaleManagedStruct}}
+{\footnotesize\ttfamily bool Insight\+Sheath.\+Abstract.\+On\+Demand\+Marshal\+Native\+Struct.\+Stale\+Managed\+Struct\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+When an accessory sets property in the managed struct that needs to be updated in native land, set this. 
+
+
+
+Definition at line \mbox{\hyperlink{_on_demand_marshal_native_struct_8cs_source_l00060}{60}} of file \mbox{\hyperlink{_on_demand_marshal_native_struct_8cs_source}{On\+Demand\+Marshal\+Native\+Struct.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a0b0506b31628601c4e517b1197c9bb94}\label{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a0b0506b31628601c4e517b1197c9bb94}} 
+\index{InsightSheath.Abstract.OnDemandMarshalNativeStruct@{InsightSheath.Abstract.OnDemandMarshalNativeStruct}!WasBlit@{WasBlit}}
+\index{WasBlit@{WasBlit}!InsightSheath.Abstract.OnDemandMarshalNativeStruct@{InsightSheath.Abstract.OnDemandMarshalNativeStruct}}
+\doxysubsubsection{\texorpdfstring{WasBlit}{WasBlit}}
+{\footnotesize\ttfamily bool Insight\+Sheath.\+Abstract.\+On\+Demand\+Marshal\+Native\+Struct.\+Was\+Blit\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_ab40c79cada4587212e82f2356f264b5b}{Blit}} should set this to true after last reading successful marshaling was done in \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_ab40c79cada4587212e82f2356f264b5b}{Blit}}from the native side. 
+
+
+
+Definition at line \mbox{\hyperlink{_on_demand_marshal_native_struct_8cs_source_l00055}{55}} of file \mbox{\hyperlink{_on_demand_marshal_native_struct_8cs_source}{On\+Demand\+Marshal\+Native\+Struct.\+cs}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Abstracts/\mbox{\hyperlink{_on_demand_marshal_native_struct_8cs}{On\+Demand\+Marshal\+Native\+Struct.\+cs}}\end{DoxyCompactItemize}

@@ -1,0 +1,46 @@
+\hypertarget{_symbol_info_8cs}{}\doxysection{Debugging/\+Symbol\+Engine/\+Symbol\+Info.cs File Reference}
+\label{_symbol_info_8cs}\index{Debugging/SymbolEngine/SymbolInfo.cs@{Debugging/SymbolEngine/SymbolInfo.cs}}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_symbol_info}{Insight\+Sheath.\+Debugging.\+Symbol\+Engine.\+Symbol\+Info}}
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{namespace_insight_sheath_1_1_wrappers}{Wrappers}} imported for dealing with Symbol\+InfoW Native structures. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespace_insight_sheath}{Insight\+Sheath}}
+\item 
+namespace \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging}{Insight\+Sheath.\+Debugging}}
+\item 
+namespace \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine}{Insight\+Sheath.\+Debugging.\+Symbol\+Engine}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aa11f6fc86be219002e0d5ef6e4824d05}{Insight\+Sheath.\+Debugging.\+Symbol\+Engine.\+Symbol\+Tag\+Type}} \+: uint \{ \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aa11f6fc86be219002e0d5ef6e4824d05abbb93ef26e3c101ff11cdd21cab08a94}{Insight\+Sheath.\+Debugging.\+Symbol\+Engine.\+Null}} = 0
+ \}
+\begin{DoxyCompactList}\small\item\em Should be from the Sym\+Tag\+Enum at MSDN \href{https://docs.microsoft.com/en-us/previous-versions/visualstudio/visual-studio-2010/bkedss5f(v=vs.100)}{\texttt{ https\+://docs.\+microsoft.\+com/en-\/us/previous-\/versions/visualstudio/visual-\/studio-\/2010/bkedss5f(v=vs.\+100)}} \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874c}{Insight\+Sheath.\+Debugging.\+Symbol\+Engine.\+Symbol\+Flags}} \+: uint \{ \newline
+\mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874ca699c97397e2f87eefd794266b608bfc7}{Insight\+Sheath.\+Debugging.\+Symbol\+Engine.\+Clr\+Token}} = 0x00040000
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874cacb17869fe51048b5a5c4c6106551a255}{Insight\+Sheath.\+Debugging.\+Symbol\+Engine.\+Constant}} = 0x00000100
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874ca0095a9fa74d1713e43e370a7d7846224}{Insight\+Sheath.\+Debugging.\+Symbol\+Engine.\+Export}} = 0x00000200
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874ca2d361d5fe6d74b7550e0aa35d94342ec}{Insight\+Sheath.\+Debugging.\+Symbol\+Engine.\+Forwarder}} = 0x00000400
+, \newline
+\mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874ca0d70390c0f6763290711a3cef430388d}{Insight\+Sheath.\+Debugging.\+Symbol\+Engine.\+Frame\+Rel}} = 0x00000020
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874ca86408593c34af77fdd90df932f8b5261}{Insight\+Sheath.\+Debugging.\+Symbol\+Engine.\+Function}} = 0x00000800
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874caddd8ec5841fbebcc90ef0e99d484a440}{Insight\+Sheath.\+Debugging.\+Symbol\+Engine.\+Irl\+Rel}} = 0x00010000
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874ca509820290d57f333403f490dde7316f4}{Insight\+Sheath.\+Debugging.\+Symbol\+Engine.\+Local}} =0x00000080
+, \newline
+\mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874cace21470ab49d1d1976bc3dc72438c183}{Insight\+Sheath.\+Debugging.\+Symbol\+Engine.\+Metadata}} = 0x00020000
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874ca83f499a540b1323009c200d6f8cc9396}{Insight\+Sheath.\+Debugging.\+Symbol\+Engine.\+Parameter}} = 0x00000040
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874ca0ba7583639a274c434bbe6ef797115a4}{Insight\+Sheath.\+Debugging.\+Symbol\+Engine.\+Register}} = 0x00000008
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874ca17d63c695c39837a07bae1dea6ea8f77}{Insight\+Sheath.\+Debugging.\+Symbol\+Engine.\+Regrel}} = 0x00000010
+, \newline
+\mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874ca9234cc57c43f272b55a94b0069fe62d1}{Insight\+Sheath.\+Debugging.\+Symbol\+Engine.\+Slot}} = 0x00008000
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874cad23b094e66eef00330206ffe8cd8b6f5}{Insight\+Sheath.\+Debugging.\+Symbol\+Engine.\+Thunk}} = 0x00002000
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874cad1a004b6465baf1d922d649bf0c2a063}{Insight\+Sheath.\+Debugging.\+Symbol\+Engine.\+Tls\+Rel}} = 0x00004000
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874cacebc543dc7fc7bebca49278e2703eeff}{Insight\+Sheath.\+Debugging.\+Symbol\+Engine.\+Value\+Present}} = 0x00000001
+, \newline
+\mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874ca615e6f9baca5553d44683a098d342b70}{Insight\+Sheath.\+Debugging.\+Symbol\+Engine.\+Virtual}} = 0x00001000
+ \}
+\end{DoxyCompactItemize}

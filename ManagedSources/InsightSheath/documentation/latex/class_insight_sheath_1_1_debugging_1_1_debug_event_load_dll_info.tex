@@ -1,0 +1,192 @@
+\hypertarget{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info}{}\doxysection{Insight\+Sheath.\+Debugging.\+Debug\+Event\+Load\+Dll\+Info Class Reference}
+\label{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info}\index{InsightSheath.Debugging.DebugEventLoadDllInfo@{InsightSheath.Debugging.DebugEventLoadDllInfo}}
+
+
+Provides access to a \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8afca498d4710b5539f369a6de68e749ab}{Debug\+Event\+Type.\+Load\+Dll\+Event}} in a \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{Debug\+Event}} struct  
+
+
+Inheritance diagram for Insight\+Sheath.\+Debugging.\+Debug\+Event\+Load\+Dll\+Info\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=5.000000cm]{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info_acd7a11babaa5571b33701d9a903b0c00}{Debug\+Event\+Load\+Dll\+Info}} (Int\+Ptr Nat)
+\item 
+\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info_a4f4e8c6d2646702cf2db1cfd9501f6e6}{Debug\+Event\+Load\+Dll\+Info}} (Int\+Ptr Nat, bool \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{Free\+On\+Cleanup}})
+\item 
+\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info_aec47da85afe35b987fa1c58efdaf6c66}{Debug\+Event\+Load\+Dll\+Info}} (Int\+Ptr Nat, bool \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{Free\+On\+Cleanup}}, ulong Ref\+Count)
+\item 
+byte\mbox{[}$\,$\mbox{]} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info_a334a2198f51ca2ceeaa648961b2bd38a}{Get\+Debug\+Info}} ()
+\begin{DoxyCompactList}\small\item\em return the debug info specified in the DLL as a series of bytes. MSDN documentation says this should be code view 4.\+0 format -\/ whatever that is note\+: exists in the c\# side only \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+Int\+Ptr \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info_a20bd85de45d66b1d65e743f73ee03da4}{File\+Handle}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Get the Raw handle to the file. You should probably close this if the handle is valid once you no longer need it. If it\textquotesingle{}s valid, MSDN says you\textquotesingle{}ll have read and write access \end{DoxyCompactList}\item 
+Int\+Ptr \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info_a45b89ed8f0c115b6bc0edd3ad3dde7c9}{Dll\+Base\+Address}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Get the base address of where the DLL was loaded in the debugged process. \end{DoxyCompactList}\item 
+uint \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info_ac05d7d30a2a6d9fc8c0a8022d306f436}{Debug\+Info\+Size}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Get the size (in bytes?) of the DLL\textquotesingle{}s debug info \end{DoxyCompactList}\item 
+uint \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info_a69a49ef8fce33abf7e75c948dc980438}{Debug\+Info\+Offset}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em offer to where debug info is located \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info_acf4522ef3052286051c7eef6cca3ed16}{Is\+Image\+Name\+String\+Unicode}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Is the string in the address space specified here valid? \end{DoxyCompactList}\item 
+string \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info_ae9b11222ced6f5cde516bce1793d00f7}{Image\+Name}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em This ignores the \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info_ae9b11222ced6f5cde516bce1793d00f7}{Image\+Name}} underlying native struct member entirely as seen on MSDN LOAD\+\_\+\+DLL\+\_\+\+DEBUG\+\_\+\+EVENT. We simple fetch name -\/ assuming the native hfile member is valid. Should the system not include the file handle, null is returned instead \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+Provides access to a \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8afca498d4710b5539f369a6de68e749ab}{Debug\+Event\+Type.\+Load\+Dll\+Event}} in a \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{Debug\+Event}} struct 
+
+Definition at line \mbox{\hyperlink{_debug_event_8cs_source_l00332}{332}} of file \mbox{\hyperlink{_debug_event_8cs_source}{Debug\+Event.\+cs}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info_acd7a11babaa5571b33701d9a903b0c00}\label{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info_acd7a11babaa5571b33701d9a903b0c00}} 
+\index{InsightSheath.Debugging.DebugEventLoadDllInfo@{InsightSheath.Debugging.DebugEventLoadDllInfo}!DebugEventLoadDllInfo@{DebugEventLoadDllInfo}}
+\index{DebugEventLoadDllInfo@{DebugEventLoadDllInfo}!InsightSheath.Debugging.DebugEventLoadDllInfo@{InsightSheath.Debugging.DebugEventLoadDllInfo}}
+\doxysubsubsection{\texorpdfstring{DebugEventLoadDllInfo()}{DebugEventLoadDllInfo()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily Insight\+Sheath.\+Debugging.\+Debug\+Event\+Load\+Dll\+Info.\+Debug\+Event\+Load\+Dll\+Info (\begin{DoxyParamCaption}\item[{Int\+Ptr}]{Nat }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line \mbox{\hyperlink{_debug_event_8cs_source_l00334}{334}} of file \mbox{\hyperlink{_debug_event_8cs_source}{Debug\+Event.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info_a4f4e8c6d2646702cf2db1cfd9501f6e6}\label{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info_a4f4e8c6d2646702cf2db1cfd9501f6e6}} 
+\index{InsightSheath.Debugging.DebugEventLoadDllInfo@{InsightSheath.Debugging.DebugEventLoadDllInfo}!DebugEventLoadDllInfo@{DebugEventLoadDllInfo}}
+\index{DebugEventLoadDllInfo@{DebugEventLoadDllInfo}!InsightSheath.Debugging.DebugEventLoadDllInfo@{InsightSheath.Debugging.DebugEventLoadDllInfo}}
+\doxysubsubsection{\texorpdfstring{DebugEventLoadDllInfo()}{DebugEventLoadDllInfo()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily Insight\+Sheath.\+Debugging.\+Debug\+Event\+Load\+Dll\+Info.\+Debug\+Event\+Load\+Dll\+Info (\begin{DoxyParamCaption}\item[{Int\+Ptr}]{Nat,  }\item[{bool}]{Free\+On\+Cleanup }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line \mbox{\hyperlink{_debug_event_8cs_source_l00339}{339}} of file \mbox{\hyperlink{_debug_event_8cs_source}{Debug\+Event.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info_aec47da85afe35b987fa1c58efdaf6c66}\label{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info_aec47da85afe35b987fa1c58efdaf6c66}} 
+\index{InsightSheath.Debugging.DebugEventLoadDllInfo@{InsightSheath.Debugging.DebugEventLoadDllInfo}!DebugEventLoadDllInfo@{DebugEventLoadDllInfo}}
+\index{DebugEventLoadDllInfo@{DebugEventLoadDllInfo}!InsightSheath.Debugging.DebugEventLoadDllInfo@{InsightSheath.Debugging.DebugEventLoadDllInfo}}
+\doxysubsubsection{\texorpdfstring{DebugEventLoadDllInfo()}{DebugEventLoadDllInfo()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily Insight\+Sheath.\+Debugging.\+Debug\+Event\+Load\+Dll\+Info.\+Debug\+Event\+Load\+Dll\+Info (\begin{DoxyParamCaption}\item[{Int\+Ptr}]{Nat,  }\item[{bool}]{Free\+On\+Cleanup,  }\item[{ulong}]{Ref\+Count }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line \mbox{\hyperlink{_debug_event_8cs_source_l00345}{345}} of file \mbox{\hyperlink{_debug_event_8cs_source}{Debug\+Event.\+cs}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info_a334a2198f51ca2ceeaa648961b2bd38a}\label{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info_a334a2198f51ca2ceeaa648961b2bd38a}} 
+\index{InsightSheath.Debugging.DebugEventLoadDllInfo@{InsightSheath.Debugging.DebugEventLoadDllInfo}!GetDebugInfo@{GetDebugInfo}}
+\index{GetDebugInfo@{GetDebugInfo}!InsightSheath.Debugging.DebugEventLoadDllInfo@{InsightSheath.Debugging.DebugEventLoadDllInfo}}
+\doxysubsubsection{\texorpdfstring{GetDebugInfo()}{GetDebugInfo()}}
+{\footnotesize\ttfamily byte\mbox{[}$\,$\mbox{]} Insight\+Sheath.\+Debugging.\+Debug\+Event\+Load\+Dll\+Info.\+Get\+Debug\+Info (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+return the debug info specified in the DLL as a series of bytes. MSDN documentation says this should be code view 4.\+0 format -\/ whatever that is note\+: exists in the c\# side only 
+
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{_debug_event_8cs_source_l00414}{414}} of file \mbox{\hyperlink{_debug_event_8cs_source}{Debug\+Event.\+cs}}.
+
+
+
+\doxysubsection{Property Documentation}
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info_a69a49ef8fce33abf7e75c948dc980438}\label{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info_a69a49ef8fce33abf7e75c948dc980438}} 
+\index{InsightSheath.Debugging.DebugEventLoadDllInfo@{InsightSheath.Debugging.DebugEventLoadDllInfo}!DebugInfoOffset@{DebugInfoOffset}}
+\index{DebugInfoOffset@{DebugInfoOffset}!InsightSheath.Debugging.DebugEventLoadDllInfo@{InsightSheath.Debugging.DebugEventLoadDllInfo}}
+\doxysubsubsection{\texorpdfstring{DebugInfoOffset}{DebugInfoOffset}}
+{\footnotesize\ttfamily uint Insight\+Sheath.\+Debugging.\+Debug\+Event\+Load\+Dll\+Info.\+Debug\+Info\+Offset\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+offer to where debug info is located 
+
+
+
+Definition at line \mbox{\hyperlink{_debug_event_8cs_source_l00385}{385}} of file \mbox{\hyperlink{_debug_event_8cs_source}{Debug\+Event.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info_ac05d7d30a2a6d9fc8c0a8022d306f436}\label{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info_ac05d7d30a2a6d9fc8c0a8022d306f436}} 
+\index{InsightSheath.Debugging.DebugEventLoadDllInfo@{InsightSheath.Debugging.DebugEventLoadDllInfo}!DebugInfoSize@{DebugInfoSize}}
+\index{DebugInfoSize@{DebugInfoSize}!InsightSheath.Debugging.DebugEventLoadDllInfo@{InsightSheath.Debugging.DebugEventLoadDllInfo}}
+\doxysubsubsection{\texorpdfstring{DebugInfoSize}{DebugInfoSize}}
+{\footnotesize\ttfamily uint Insight\+Sheath.\+Debugging.\+Debug\+Event\+Load\+Dll\+Info.\+Debug\+Info\+Size\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Get the size (in bytes?) of the DLL\textquotesingle{}s debug info 
+
+
+
+Definition at line \mbox{\hyperlink{_debug_event_8cs_source_l00375}{375}} of file \mbox{\hyperlink{_debug_event_8cs_source}{Debug\+Event.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info_a45b89ed8f0c115b6bc0edd3ad3dde7c9}\label{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info_a45b89ed8f0c115b6bc0edd3ad3dde7c9}} 
+\index{InsightSheath.Debugging.DebugEventLoadDllInfo@{InsightSheath.Debugging.DebugEventLoadDllInfo}!DllBaseAddress@{DllBaseAddress}}
+\index{DllBaseAddress@{DllBaseAddress}!InsightSheath.Debugging.DebugEventLoadDllInfo@{InsightSheath.Debugging.DebugEventLoadDllInfo}}
+\doxysubsubsection{\texorpdfstring{DllBaseAddress}{DllBaseAddress}}
+{\footnotesize\ttfamily Int\+Ptr Insight\+Sheath.\+Debugging.\+Debug\+Event\+Load\+Dll\+Info.\+Dll\+Base\+Address\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Get the base address of where the DLL was loaded in the debugged process. 
+
+
+
+Definition at line \mbox{\hyperlink{_debug_event_8cs_source_l00364}{364}} of file \mbox{\hyperlink{_debug_event_8cs_source}{Debug\+Event.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info_a20bd85de45d66b1d65e743f73ee03da4}\label{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info_a20bd85de45d66b1d65e743f73ee03da4}} 
+\index{InsightSheath.Debugging.DebugEventLoadDllInfo@{InsightSheath.Debugging.DebugEventLoadDllInfo}!FileHandle@{FileHandle}}
+\index{FileHandle@{FileHandle}!InsightSheath.Debugging.DebugEventLoadDllInfo@{InsightSheath.Debugging.DebugEventLoadDllInfo}}
+\doxysubsubsection{\texorpdfstring{FileHandle}{FileHandle}}
+{\footnotesize\ttfamily Int\+Ptr Insight\+Sheath.\+Debugging.\+Debug\+Event\+Load\+Dll\+Info.\+File\+Handle\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Get the Raw handle to the file. You should probably close this if the handle is valid once you no longer need it. If it\textquotesingle{}s valid, MSDN says you\textquotesingle{}ll have read and write access 
+
+
+
+Definition at line \mbox{\hyperlink{_debug_event_8cs_source_l00353}{353}} of file \mbox{\hyperlink{_debug_event_8cs_source}{Debug\+Event.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info_ae9b11222ced6f5cde516bce1793d00f7}\label{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info_ae9b11222ced6f5cde516bce1793d00f7}} 
+\index{InsightSheath.Debugging.DebugEventLoadDllInfo@{InsightSheath.Debugging.DebugEventLoadDllInfo}!ImageName@{ImageName}}
+\index{ImageName@{ImageName}!InsightSheath.Debugging.DebugEventLoadDllInfo@{InsightSheath.Debugging.DebugEventLoadDllInfo}}
+\doxysubsubsection{\texorpdfstring{ImageName}{ImageName}}
+{\footnotesize\ttfamily string Insight\+Sheath.\+Debugging.\+Debug\+Event\+Load\+Dll\+Info.\+Image\+Name\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+This ignores the \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info_ae9b11222ced6f5cde516bce1793d00f7}{Image\+Name}} underlying native struct member entirely as seen on MSDN LOAD\+\_\+\+DLL\+\_\+\+DEBUG\+\_\+\+EVENT. We simple fetch name -\/ assuming the native hfile member is valid. Should the system not include the file handle, null is returned instead 
+
+
+
+Definition at line \mbox{\hyperlink{_debug_event_8cs_source_l00440}{440}} of file \mbox{\hyperlink{_debug_event_8cs_source}{Debug\+Event.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info_acf4522ef3052286051c7eef6cca3ed16}\label{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info_acf4522ef3052286051c7eef6cca3ed16}} 
+\index{InsightSheath.Debugging.DebugEventLoadDllInfo@{InsightSheath.Debugging.DebugEventLoadDllInfo}!IsImageNameStringUnicode@{IsImageNameStringUnicode}}
+\index{IsImageNameStringUnicode@{IsImageNameStringUnicode}!InsightSheath.Debugging.DebugEventLoadDllInfo@{InsightSheath.Debugging.DebugEventLoadDllInfo}}
+\doxysubsubsection{\texorpdfstring{IsImageNameStringUnicode}{IsImageNameStringUnicode}}
+{\footnotesize\ttfamily bool Insight\+Sheath.\+Debugging.\+Debug\+Event\+Load\+Dll\+Info.\+Is\+Image\+Name\+String\+Unicode\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Is the string in the address space specified here valid? 
+
+
+
+Definition at line \mbox{\hyperlink{_debug_event_8cs_source_l00397}{397}} of file \mbox{\hyperlink{_debug_event_8cs_source}{Debug\+Event.\+cs}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Debugging/\mbox{\hyperlink{_debug_event_8cs}{Debug\+Event.\+cs}}\end{DoxyCompactItemize}

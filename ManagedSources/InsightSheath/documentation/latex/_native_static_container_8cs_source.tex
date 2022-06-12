@@ -1,0 +1,120 @@
+\hypertarget{_native_static_container_8cs_source}{}\doxysection{Native\+Static\+Container.\+cs}
+\label{_native_static_container_8cs_source}\index{Abstracts/NativeStaticContainer.cs@{Abstracts/NativeStaticContainer.cs}}
+\mbox{\hyperlink{_native_static_container_8cs}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00001}00001 \textcolor{keyword}{using }\mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_process}{InsightSheath.Debugging.Process}};}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00002}00002 \textcolor{keyword}{using }\mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct}{InsightSheath.Win32Struct}};}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00003}00003 \textcolor{keyword}{using }System;}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00004}00004 \textcolor{keyword}{using }System.Collections.Generic;}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00005}00005 \textcolor{keyword}{using }System.Linq;}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00006}00006 \textcolor{keyword}{using }System.Text;}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00007}00007 \textcolor{keyword}{using }System.Threading.Tasks;}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00008}00008 }
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00009}\mbox{\hyperlink{namespace_insight_sheath}{00009}} \textcolor{keyword}{namespace }\mbox{\hyperlink{namespace_insight_sheath_1_1_abstract}{InsightSheath.Abstract}}}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00010}00010 \{}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00011}00011 }
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00015}\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container}{00015}}     \textcolor{keyword}{public} \textcolor{keyword}{abstract} \textcolor{keyword}{class }\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container}{NativeStaticContainer}} : IDisposable}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00016}00016     \{}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00020}\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a4f54b065a9314ee795d618b5fc473cfd}{00020}}         \textcolor{keyword}{protected} \textcolor{keyword}{const} \textcolor{keywordtype}{string} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a4f54b065a9314ee795d618b5fc473cfd}{UnmanagedConstructorReturnedNull}} = \textcolor{stringliteral}{"{}The unmanaged routine \{0\} to build the unmanaged part of \{1\} returned null."{}};}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00024}\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_ad65fc79318c781352fada8abad1114a6}{00024}}         \textcolor{keyword}{protected} \textcolor{keyword}{const} \textcolor{keywordtype}{string} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_ad65fc79318c781352fada8abad1114a6}{ReceivedNullPointerOnConstructor}} = \textcolor{stringliteral}{"{}\{0\} Cannot be 0.  Use \{1\} to make a new instance and use this to point this managed wrapper to a native instance of the class: (\{2\}\}"{}};}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00025}00025 }
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00026}00026    }
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00027}00027 }
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00035}\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a60f71a71b160f25746e090649b304c8d}{00035}}         \textcolor{keyword}{protected} \textcolor{keyword}{static} ArgumentNullException \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a60f71a71b160f25746e090649b304c8d}{WrapperConstructorReceivedNullPointerErrorException}}(\textcolor{keywordtype}{string} ArgumentPrefix, \textcolor{keywordtype}{string} AlternativeInstance, \textcolor{keywordtype}{string} ArgumentName)}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00036}00036         \{}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00037}00037             \textcolor{keywordflow}{return} \textcolor{keyword}{new} ArgumentNullException(\textcolor{keywordtype}{string}.Format(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_ad65fc79318c781352fada8abad1114a6}{ReceivedNullPointerOnConstructor}}, ArgumentPrefix, AlternativeInstance, ArgumentName));}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00038}00038         \}}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00039}00039 }
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00045}\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a93bcb47f7c0c979bf6b432e7db9bb4e6}{00045}}         \textcolor{keyword}{public} \textcolor{keyword}{override} \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a93bcb47f7c0c979bf6b432e7db9bb4e6}{Equals}}(\textcolor{keywordtype}{object} obj)}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00046}00046         \{}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00047}00047             \textcolor{keywordflow}{if} (obj == \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00048}00048             \{}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00049}00049                 \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00050}00050             \}}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00051}00051             \textcolor{keywordflow}{if} (obj is \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container}{NativeStaticContainer}} container)}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00052}00052             \{}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00053}00053                 \textcolor{keywordflow}{return} container.Native == \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}};}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00054}00054             \}}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00055}00055             \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00056}00056         \}}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00057}00057 }
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00062}\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_adfb5ffa153edb48649ec1486900d1ec0}{00062}}         \textcolor{keyword}{public} \textcolor{keyword}{override} \textcolor{keywordtype}{int} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_adfb5ffa153edb48649ec1486900d1ec0}{GetHashCode}}()}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00063}00063         \{}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00064}00064             \textcolor{keywordflow}{return} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}.GetHashCode();}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00065}00065         \}}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00066}00066 }
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00071}\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_aab702cfc1a822d3a6f2fc9c8892d0b62}{00071}}         \textcolor{keyword}{public} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_aab702cfc1a822d3a6f2fc9c8892d0b62}{NativeStaticContainer}}(IntPtr \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}})}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00072}00072         \{}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00073}00073             this.Native = \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}};}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00074}00074         \}}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00082}\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a2160ac4b83b524828f5263580ae5606d}{00082}}         \textcolor{keyword}{public} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a2160ac4b83b524828f5263580ae5606d}{NativeStaticContainer}}(IntPtr \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}, \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}})}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00083}00083         \{}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00084}00084             this.Native = \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}};}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00085}00085             \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a8c06b4f0d2c1c2162f9ba5e8c13f3914}{FreeOnCleanupContainer}} = \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}};}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00086}00086         \}}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00087}00087 }
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00088}00088 }
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00092}\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a171844a2662b7c3d6136fe21f70f50eb}{00092}}         \textcolor{keyword}{public} IntPtr \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a171844a2662b7c3d6136fe21f70f50eb}{NativePointer}}}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00093}00093         \{}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00094}00094             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00095}00095             \{}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00096}00096                 \textcolor{keywordflow}{return} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}};}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00097}00097             \}}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00098}00098         \}}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00099}00099 }
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00103}\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a4603e0d1ed0ba9bf17c2fa20d08efa67}{00103}}         \textcolor{keyword}{protected} \textcolor{keywordtype}{void} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a4603e0d1ed0ba9bf17c2fa20d08efa67}{ClearNative}}()}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00104}00104         \{}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00105}00105             \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}} = IntPtr.Zero;}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00106}00106         \}}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00110}\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{00110}}         \textcolor{keyword}{protected} IntPtr \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}};}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00114}\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{00114}}         \textcolor{keyword}{protected} \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}}}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00115}00115         \{}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00116}00116             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00117}00117             \{}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00118}00118                 \textcolor{keywordflow}{return} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a8c06b4f0d2c1c2162f9ba5e8c13f3914}{FreeOnCleanupContainer}};}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00119}00119             \}}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00120}00120         \}}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00121}00121 }
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00125}\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a8c06b4f0d2c1c2162f9ba5e8c13f3914}{00125}}         \textcolor{keyword}{protected} \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a8c06b4f0d2c1c2162f9ba5e8c13f3914}{FreeOnCleanupContainer}};}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00126}00126 }
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00130}00130         \textcolor{keyword}{private} \textcolor{keywordtype}{bool} disposedValue;}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00134}\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a3b5f095a4ebad847e806352cb349a6f2}{00134}}         \textcolor{keyword}{public} \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a3b5f095a4ebad847e806352cb349a6f2}{IsDisposed}} \{ \textcolor{keyword}{get} \{ \textcolor{keywordflow}{return} disposedValue; \} \}}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00135}00135 }
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00158}\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_aab47d778e6f074d10e4d0511471e8727}{00158}}         \textcolor{keyword}{protected} \textcolor{keyword}{virtual} \textcolor{keywordtype}{void} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_aab47d778e6f074d10e4d0511471e8727}{Dispose}}(\textcolor{keywordtype}{bool} disposing)}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00159}00159         \{}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00160}00160             \textcolor{keywordflow}{if} (!disposedValue)}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00161}00161             \{}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00162}00162                 \textcolor{comment}{/*}}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00163}00163 \textcolor{comment}{                if (disposing)}}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00164}00164 \textcolor{comment}{                \{}}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00165}00165 \textcolor{comment}{                    // nothing managed to dispose}}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00166}00166 \textcolor{comment}{                \}*/}}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00167}00167 }
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00168}00168                 \textcolor{keywordflow}{if} ( (\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}} != IntPtr.Zero) \&\& (\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}}))}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00169}00169                 \{}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00170}00170                     \textcolor{comment}{// if we made it this far, we should free() the native pointer if non zero and where made with that flag on.}}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00171}00171                     \{}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00172}00172                         NativeImports.NativeMethods.SimpleFree(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}});}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00173}00173                     \}}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00174}00174                     \textcolor{comment}{// clear native pointer.}}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00175}00175                     \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a4603e0d1ed0ba9bf17c2fa20d08efa67}{ClearNative}}();}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00176}00176                 \}}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00177}00177                 disposedValue = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00178}00178             \}}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00179}00179         \}}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00180}00180 }
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00184}00184         \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container}{\string~NativeStaticContainer}}()}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00185}00185         \{}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00186}00186             \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af127a410fed6a497b46469243512249d}{Dispose}}(disposing: \textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00187}00187         \}}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00188}00188 }
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00192}\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af127a410fed6a497b46469243512249d}{00192}}         \textcolor{keyword}{public} \textcolor{keywordtype}{void} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af127a410fed6a497b46469243512249d}{Dispose}}()}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00193}00193         \{}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00194}00194             \textcolor{comment}{// Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method}}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00195}00195             \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af127a410fed6a497b46469243512249d}{Dispose}}(disposing: \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00196}00196             GC.SuppressFinalize(\textcolor{keyword}{this});}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00197}00197         \}}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00198}00198     \}}
+\DoxyCodeLine{\Hypertarget{_native_static_container_8cs_source_l00199}00199 \}}
+
+\end{DoxyCode}

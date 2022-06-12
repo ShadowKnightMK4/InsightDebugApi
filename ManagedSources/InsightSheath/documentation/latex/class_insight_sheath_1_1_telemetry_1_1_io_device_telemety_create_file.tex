@@ -1,0 +1,162 @@
+\hypertarget{class_insight_sheath_1_1_telemetry_1_1_io_device_telemety_create_file}{}\doxysection{Insight\+Sheath.\+Telemetry.\+Io\+Device\+Telemety\+Create\+File Class Reference}
+\label{class_insight_sheath_1_1_telemetry_1_1_io_device_telemety_create_file}\index{InsightSheath.Telemetry.IoDeviceTelemetyCreateFile@{InsightSheath.Telemetry.IoDeviceTelemetyCreateFile}}
+
+
+This structure contains data from an exception generated via Create\+File\+A/W.  
+
+
+Inheritance diagram for Insight\+Sheath.\+Telemetry.\+Io\+Device\+Telemety\+Create\+File\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_insight_sheath_1_1_telemetry_1_1_io_device_telemety_create_file}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemety_create_file_a304ef1bed606e6431d5dea0f175fdef7}{Io\+Device\+Telemety\+Create\+File}} (uint dw\+Process, uint dw\+Thread, Int\+Ptr Handle\+Ptr, Int\+Ptr Error\+Ptr, \mbox{\hyperlink{namespace_insight_sheath_aa32853670318d8ddc9960b8750584fc7}{Machine\+Type}} \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_general_telemtry_helper_struct_a11006996136e61596f8723cc201fd170}{Type}})
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+string \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemety_create_file_a9f0b5036e157963cdb8486dc2619860b}{File\+Name}}
+\begin{DoxyCompactList}\small\item\em Name of the file the debugged process is trying to open/access/ect.... \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798bec}{Access\+Masks}} \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemety_create_file_a63a063a7f6fd114355fc2b59710472e2}{Desired\+Access}}
+\begin{DoxyCompactList}\small\item\em Desired access for the target file \end{DoxyCompactList}\item 
+File\+Share \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemety_create_file_aed509564ea1f6293bd968070c6f87c7e}{Shared\+Mode}}
+\begin{DoxyCompactList}\small\item\em Will the debugged process try to open for sharing? \end{DoxyCompactList}\item 
+Int\+Ptr \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemety_create_file_ae244c545b5071d78abb783daf1d81f34}{Security\+Attrib}}
+\begin{DoxyCompactList}\small\item\em Debugged process\textquotesingle{}s requested security attributes (IMPORTANT! this points to virtual memory in {\bfseries{THAT}} process, not yours.) \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a1c7edc0d53c65d0de3f4e191357e46a7}{Creation\+Disposition}} \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemety_create_file_a27aca4ea20a4108ac933a32bc4adf793}{Create\+Disposition}}
+\begin{DoxyCompactList}\small\item\em Creation disposition \end{DoxyCompactList}\item 
+uint \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemety_create_file_a24ef1b54af8afe990a2270e132655197}{Flags\+And\+Attributes}}
+\begin{DoxyCompactList}\small\item\em Flags and attributes \end{DoxyCompactList}\item 
+Int\+Ptr \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemety_create_file_a050b75aac67b60f6c59f8ca812cb803a}{Template\+File}}
+\begin{DoxyCompactList}\small\item\em Template file that\textquotesingle{}s usually (but NOT always) null. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+This structure contains data from an exception generated via Create\+File\+A/W. 
+
+Definition at line \mbox{\hyperlink{_io_device_telemetry_reader_8cs_source_l00350}{350}} of file \mbox{\hyperlink{_io_device_telemetry_reader_8cs_source}{Io\+Device\+Telemetry\+Reader.\+cs}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_insight_sheath_1_1_telemetry_1_1_io_device_telemety_create_file_a304ef1bed606e6431d5dea0f175fdef7}\label{class_insight_sheath_1_1_telemetry_1_1_io_device_telemety_create_file_a304ef1bed606e6431d5dea0f175fdef7}} 
+\index{InsightSheath.Telemetry.IoDeviceTelemetyCreateFile@{InsightSheath.Telemetry.IoDeviceTelemetyCreateFile}!IoDeviceTelemetyCreateFile@{IoDeviceTelemetyCreateFile}}
+\index{IoDeviceTelemetyCreateFile@{IoDeviceTelemetyCreateFile}!InsightSheath.Telemetry.IoDeviceTelemetyCreateFile@{InsightSheath.Telemetry.IoDeviceTelemetyCreateFile}}
+\doxysubsubsection{\texorpdfstring{IoDeviceTelemetyCreateFile()}{IoDeviceTelemetyCreateFile()}}
+{\footnotesize\ttfamily Insight\+Sheath.\+Telemetry.\+Io\+Device\+Telemety\+Create\+File.\+Io\+Device\+Telemety\+Create\+File (\begin{DoxyParamCaption}\item[{uint}]{dw\+Process,  }\item[{uint}]{dw\+Thread,  }\item[{Int\+Ptr}]{Handle\+Ptr,  }\item[{Int\+Ptr}]{Error\+Ptr,  }\item[{\mbox{\hyperlink{namespace_insight_sheath_aa32853670318d8ddc9960b8750584fc7}{Machine\+Type}}}]{Type }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line \mbox{\hyperlink{_io_device_telemetry_reader_8cs_source_l00352}{352}} of file \mbox{\hyperlink{_io_device_telemetry_reader_8cs_source}{Io\+Device\+Telemetry\+Reader.\+cs}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{class_insight_sheath_1_1_telemetry_1_1_io_device_telemety_create_file_a27aca4ea20a4108ac933a32bc4adf793}\label{class_insight_sheath_1_1_telemetry_1_1_io_device_telemety_create_file_a27aca4ea20a4108ac933a32bc4adf793}} 
+\index{InsightSheath.Telemetry.IoDeviceTelemetyCreateFile@{InsightSheath.Telemetry.IoDeviceTelemetyCreateFile}!CreateDisposition@{CreateDisposition}}
+\index{CreateDisposition@{CreateDisposition}!InsightSheath.Telemetry.IoDeviceTelemetyCreateFile@{InsightSheath.Telemetry.IoDeviceTelemetyCreateFile}}
+\doxysubsubsection{\texorpdfstring{CreateDisposition}{CreateDisposition}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a1c7edc0d53c65d0de3f4e191357e46a7}{Creation\+Disposition}} Insight\+Sheath.\+Telemetry.\+Io\+Device\+Telemety\+Create\+File.\+Create\+Disposition}
+
+
+
+Creation disposition 
+
+
+
+Definition at line \mbox{\hyperlink{_io_device_telemetry_reader_8cs_source_l00383}{383}} of file \mbox{\hyperlink{_io_device_telemetry_reader_8cs_source}{Io\+Device\+Telemetry\+Reader.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_telemetry_1_1_io_device_telemety_create_file_a63a063a7f6fd114355fc2b59710472e2}\label{class_insight_sheath_1_1_telemetry_1_1_io_device_telemety_create_file_a63a063a7f6fd114355fc2b59710472e2}} 
+\index{InsightSheath.Telemetry.IoDeviceTelemetyCreateFile@{InsightSheath.Telemetry.IoDeviceTelemetyCreateFile}!DesiredAccess@{DesiredAccess}}
+\index{DesiredAccess@{DesiredAccess}!InsightSheath.Telemetry.IoDeviceTelemetyCreateFile@{InsightSheath.Telemetry.IoDeviceTelemetyCreateFile}}
+\doxysubsubsection{\texorpdfstring{DesiredAccess}{DesiredAccess}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798bec}{Access\+Masks}} Insight\+Sheath.\+Telemetry.\+Io\+Device\+Telemety\+Create\+File.\+Desired\+Access}
+
+
+
+Desired access for the target file 
+
+
+
+Definition at line \mbox{\hyperlink{_io_device_telemetry_reader_8cs_source_l00371}{371}} of file \mbox{\hyperlink{_io_device_telemetry_reader_8cs_source}{Io\+Device\+Telemetry\+Reader.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_telemetry_1_1_io_device_telemety_create_file_a9f0b5036e157963cdb8486dc2619860b}\label{class_insight_sheath_1_1_telemetry_1_1_io_device_telemety_create_file_a9f0b5036e157963cdb8486dc2619860b}} 
+\index{InsightSheath.Telemetry.IoDeviceTelemetyCreateFile@{InsightSheath.Telemetry.IoDeviceTelemetyCreateFile}!FileName@{FileName}}
+\index{FileName@{FileName}!InsightSheath.Telemetry.IoDeviceTelemetyCreateFile@{InsightSheath.Telemetry.IoDeviceTelemetyCreateFile}}
+\doxysubsubsection{\texorpdfstring{FileName}{FileName}}
+{\footnotesize\ttfamily string Insight\+Sheath.\+Telemetry.\+Io\+Device\+Telemety\+Create\+File.\+File\+Name}
+
+
+
+Name of the file the debugged process is trying to open/access/ect.... 
+
+
+
+Definition at line \mbox{\hyperlink{_io_device_telemetry_reader_8cs_source_l00367}{367}} of file \mbox{\hyperlink{_io_device_telemetry_reader_8cs_source}{Io\+Device\+Telemetry\+Reader.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_telemetry_1_1_io_device_telemety_create_file_a24ef1b54af8afe990a2270e132655197}\label{class_insight_sheath_1_1_telemetry_1_1_io_device_telemety_create_file_a24ef1b54af8afe990a2270e132655197}} 
+\index{InsightSheath.Telemetry.IoDeviceTelemetyCreateFile@{InsightSheath.Telemetry.IoDeviceTelemetyCreateFile}!FlagsAndAttributes@{FlagsAndAttributes}}
+\index{FlagsAndAttributes@{FlagsAndAttributes}!InsightSheath.Telemetry.IoDeviceTelemetyCreateFile@{InsightSheath.Telemetry.IoDeviceTelemetyCreateFile}}
+\doxysubsubsection{\texorpdfstring{FlagsAndAttributes}{FlagsAndAttributes}}
+{\footnotesize\ttfamily uint Insight\+Sheath.\+Telemetry.\+Io\+Device\+Telemety\+Create\+File.\+Flags\+And\+Attributes}
+
+
+
+Flags and attributes 
+
+
+
+Definition at line \mbox{\hyperlink{_io_device_telemetry_reader_8cs_source_l00387}{387}} of file \mbox{\hyperlink{_io_device_telemetry_reader_8cs_source}{Io\+Device\+Telemetry\+Reader.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_telemetry_1_1_io_device_telemety_create_file_ae244c545b5071d78abb783daf1d81f34}\label{class_insight_sheath_1_1_telemetry_1_1_io_device_telemety_create_file_ae244c545b5071d78abb783daf1d81f34}} 
+\index{InsightSheath.Telemetry.IoDeviceTelemetyCreateFile@{InsightSheath.Telemetry.IoDeviceTelemetyCreateFile}!SecurityAttrib@{SecurityAttrib}}
+\index{SecurityAttrib@{SecurityAttrib}!InsightSheath.Telemetry.IoDeviceTelemetyCreateFile@{InsightSheath.Telemetry.IoDeviceTelemetyCreateFile}}
+\doxysubsubsection{\texorpdfstring{SecurityAttrib}{SecurityAttrib}}
+{\footnotesize\ttfamily Int\+Ptr Insight\+Sheath.\+Telemetry.\+Io\+Device\+Telemety\+Create\+File.\+Security\+Attrib}
+
+
+
+Debugged process\textquotesingle{}s requested security attributes (IMPORTANT! this points to virtual memory in {\bfseries{THAT}} process, not yours.) 
+
+
+
+Definition at line \mbox{\hyperlink{_io_device_telemetry_reader_8cs_source_l00379}{379}} of file \mbox{\hyperlink{_io_device_telemetry_reader_8cs_source}{Io\+Device\+Telemetry\+Reader.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_telemetry_1_1_io_device_telemety_create_file_aed509564ea1f6293bd968070c6f87c7e}\label{class_insight_sheath_1_1_telemetry_1_1_io_device_telemety_create_file_aed509564ea1f6293bd968070c6f87c7e}} 
+\index{InsightSheath.Telemetry.IoDeviceTelemetyCreateFile@{InsightSheath.Telemetry.IoDeviceTelemetyCreateFile}!SharedMode@{SharedMode}}
+\index{SharedMode@{SharedMode}!InsightSheath.Telemetry.IoDeviceTelemetyCreateFile@{InsightSheath.Telemetry.IoDeviceTelemetyCreateFile}}
+\doxysubsubsection{\texorpdfstring{SharedMode}{SharedMode}}
+{\footnotesize\ttfamily File\+Share Insight\+Sheath.\+Telemetry.\+Io\+Device\+Telemety\+Create\+File.\+Shared\+Mode}
+
+
+
+Will the debugged process try to open for sharing? 
+
+
+
+Definition at line \mbox{\hyperlink{_io_device_telemetry_reader_8cs_source_l00375}{375}} of file \mbox{\hyperlink{_io_device_telemetry_reader_8cs_source}{Io\+Device\+Telemetry\+Reader.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_telemetry_1_1_io_device_telemety_create_file_a050b75aac67b60f6c59f8ca812cb803a}\label{class_insight_sheath_1_1_telemetry_1_1_io_device_telemety_create_file_a050b75aac67b60f6c59f8ca812cb803a}} 
+\index{InsightSheath.Telemetry.IoDeviceTelemetyCreateFile@{InsightSheath.Telemetry.IoDeviceTelemetyCreateFile}!TemplateFile@{TemplateFile}}
+\index{TemplateFile@{TemplateFile}!InsightSheath.Telemetry.IoDeviceTelemetyCreateFile@{InsightSheath.Telemetry.IoDeviceTelemetyCreateFile}}
+\doxysubsubsection{\texorpdfstring{TemplateFile}{TemplateFile}}
+{\footnotesize\ttfamily Int\+Ptr Insight\+Sheath.\+Telemetry.\+Io\+Device\+Telemety\+Create\+File.\+Template\+File}
+
+
+
+Template file that\textquotesingle{}s usually (but NOT always) null. 
+
+
+
+Definition at line \mbox{\hyperlink{_io_device_telemetry_reader_8cs_source_l00391}{391}} of file \mbox{\hyperlink{_io_device_telemetry_reader_8cs_source}{Io\+Device\+Telemetry\+Reader.\+cs}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Telemetry/\mbox{\hyperlink{_io_device_telemetry_reader_8cs}{Io\+Device\+Telemetry\+Reader.\+cs}}\end{DoxyCompactItemize}

@@ -1,0 +1,59 @@
+\hypertarget{_utility_native_8cs_source}{}\doxysection{Utility\+Native.\+cs}
+\label{_utility_native_8cs_source}\index{NativeImports/UtilityNative.cs@{NativeImports/UtilityNative.cs}}
+\mbox{\hyperlink{_utility_native_8cs}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_utility_native_8cs_source_l00001}00001 \textcolor{keyword}{using }System;}
+\DoxyCodeLine{\Hypertarget{_utility_native_8cs_source_l00002}00002 \textcolor{keyword}{using }System.Collections.Generic;}
+\DoxyCodeLine{\Hypertarget{_utility_native_8cs_source_l00003}00003 \textcolor{keyword}{using }System.Linq;}
+\DoxyCodeLine{\Hypertarget{_utility_native_8cs_source_l00004}00004 \textcolor{keyword}{using }System.Runtime.InteropServices;}
+\DoxyCodeLine{\Hypertarget{_utility_native_8cs_source_l00005}00005 \textcolor{keyword}{using }System.Text;}
+\DoxyCodeLine{\Hypertarget{_utility_native_8cs_source_l00006}00006 \textcolor{keyword}{using }System.Threading.Tasks;}
+\DoxyCodeLine{\Hypertarget{_utility_native_8cs_source_l00007}00007 }
+\DoxyCodeLine{\Hypertarget{_utility_native_8cs_source_l00008}00008 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespace_insight_sheath_1_1_native_imports}{InsightSheath.NativeImports}}}
+\DoxyCodeLine{\Hypertarget{_utility_native_8cs_source_l00009}00009 \{}
+\DoxyCodeLine{\Hypertarget{_utility_native_8cs_source_l00010}00010     \textcolor{keyword}{internal} \textcolor{keyword}{static} \textcolor{keyword}{partial class }NativeMethods}
+\DoxyCodeLine{\Hypertarget{_utility_native_8cs_source_l00011}00011     \{}
+\DoxyCodeLine{\Hypertarget{_utility_native_8cs_source_l00018}00018         [DllImport(\textcolor{stringliteral}{"{}InsightApi.Dll"{}}, CallingConvention=CallingConvention.Winapi, EntryPoint =\textcolor{stringliteral}{"{}UtilGetModuleNameViaHandle"{}})]}
+\DoxyCodeLine{\Hypertarget{_utility_native_8cs_source_l00019}00019         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keyword}{extern} IntPtr GetModuleNameViaHandleInternal(IntPtr ProcessHandle, IntPtr ModuleHandle);}
+\DoxyCodeLine{\Hypertarget{_utility_native_8cs_source_l00020}00020 }
+\DoxyCodeLine{\Hypertarget{_utility_native_8cs_source_l00027}00027         [DllImport(\textcolor{stringliteral}{"{}InsightApi.Dll"{}}, CallingConvention = CallingConvention.Winapi, EntryPoint = \textcolor{stringliteral}{"{}UtilFreeModuleNameViaHandle"{}})]}
+\DoxyCodeLine{\Hypertarget{_utility_native_8cs_source_l00028}00028         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keyword}{extern} \textcolor{keywordtype}{bool} FreeModuleNameViaHandleInternal(IntPtr NativeStringPtr);}
+\DoxyCodeLine{\Hypertarget{_utility_native_8cs_source_l00029}00029 }
+\DoxyCodeLine{\Hypertarget{_utility_native_8cs_source_l00035}00035         [DllImport(\textcolor{stringliteral}{"{}InsightApi.Dll"{}}, CallingConvention = CallingConvention.Winapi, EntryPoint = \textcolor{stringliteral}{"{}UtilGetFileNameViaHandle"{}})]}
+\DoxyCodeLine{\Hypertarget{_utility_native_8cs_source_l00036}00036         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keyword}{extern} IntPtr GetFileNameViaHandle(IntPtr FileHandle);}
+\DoxyCodeLine{\Hypertarget{_utility_native_8cs_source_l00037}00037 }
+\DoxyCodeLine{\Hypertarget{_utility_native_8cs_source_l00038}00038 }
+\DoxyCodeLine{\Hypertarget{_utility_native_8cs_source_l00045}00045         [DllImport(\textcolor{stringliteral}{"{}InsightApi.Dll"{}}, CallingConvention = CallingConvention.Winapi, EntryPoint = \textcolor{stringliteral}{"{}UtilFreeFileNameViaHandle"{}})]}
+\DoxyCodeLine{\Hypertarget{_utility_native_8cs_source_l00046}00046         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keyword}{extern} \textcolor{keywordtype}{bool} FreeFileNameViaHandleInternal(IntPtr NativeStringPtr);}
+\DoxyCodeLine{\Hypertarget{_utility_native_8cs_source_l00047}00047 }
+\DoxyCodeLine{\Hypertarget{_utility_native_8cs_source_l00057}00057         [DllImport(\textcolor{stringliteral}{"{}InsightApi.dll"{}}, EntryPoint = \textcolor{stringliteral}{"{}UtilDuplicateHandleIntoTarget"{}}, CallingConvention= CallingConvention.Winapi,SetLastError =\textcolor{keyword}{true})]}
+\DoxyCodeLine{\Hypertarget{_utility_native_8cs_source_l00058}00058         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keyword}{extern} IntPtr DuplicateHandleIntoTarget(IntPtr CurrentHandle, UInt32 Access, \textcolor{keywordtype}{bool} CopyAccess, IntPtr TargetProcess, \textcolor{keywordtype}{bool} Inherit);}
+\DoxyCodeLine{\Hypertarget{_utility_native_8cs_source_l00059}00059 }
+\DoxyCodeLine{\Hypertarget{_utility_native_8cs_source_l00060}00060 }
+\DoxyCodeLine{\Hypertarget{_utility_native_8cs_source_l00061}00061 }
+\DoxyCodeLine{\Hypertarget{_utility_native_8cs_source_l00062}00062         [DllImport(\textcolor{stringliteral}{"{}InsightApi.Dll"{}}, CallingConvention = CallingConvention.Winapi, EntryPoint = \textcolor{stringliteral}{"{}UtilGetPEMachineTypeW"{}})]}
+\DoxyCodeLine{\Hypertarget{_utility_native_8cs_source_l00063}00063         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keyword}{extern} \mbox{\hyperlink{namespace_insight_sheath_aa32853670318d8ddc9960b8750584fc7}{MachineType}} GetPEMachineType([MarshalAs(UnmanagedType.LPWStr)]\textcolor{keywordtype}{string} Str);}
+\DoxyCodeLine{\Hypertarget{_utility_native_8cs_source_l00064}00064         }
+\DoxyCodeLine{\Hypertarget{_utility_native_8cs_source_l00070}00070 }
+\DoxyCodeLine{\Hypertarget{_utility_native_8cs_source_l00071}00071         [DllImport(\textcolor{stringliteral}{"{}InsightApi.Dll"{}}, CallingConvention = CallingConvention.Winapi, EntryPoint = \textcolor{stringliteral}{"{}UtilOpenProcessForMemory"{}})]}
+\DoxyCodeLine{\Hypertarget{_utility_native_8cs_source_l00072}00072         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keyword}{extern} IntPtr OpenProcessForMemoryAccess(uint ProcessID);}
+\DoxyCodeLine{\Hypertarget{_utility_native_8cs_source_l00073}00073 }
+\DoxyCodeLine{\Hypertarget{_utility_native_8cs_source_l00074}00074         [DllImport(\textcolor{stringliteral}{"{}InsightApi.Dll"{}}, CallingConvention = CallingConvention.Winapi, EntryPoint = \textcolor{stringliteral}{"{}UtilOpenProcesForQueryInformation"{}})]}
+\DoxyCodeLine{\Hypertarget{_utility_native_8cs_source_l00075}00075         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keyword}{extern} IntPtr OpenProcesForQueryInformation(uint ProcessID);}
+\DoxyCodeLine{\Hypertarget{_utility_native_8cs_source_l00076}00076 }
+\DoxyCodeLine{\Hypertarget{_utility_native_8cs_source_l00077}00077         }
+\DoxyCodeLine{\Hypertarget{_utility_native_8cs_source_l00083}00083         [DllImport(\textcolor{stringliteral}{"{}InsightApi.Dll"{}}, CallingConvention = CallingConvention.Winapi, EntryPoint = \textcolor{stringliteral}{"{}OpenProcessNow"{}})]}
+\DoxyCodeLine{\Hypertarget{_utility_native_8cs_source_l00084}00084         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keyword}{extern} IntPtr OpenProcessNow(uint ProcessID);}
+\DoxyCodeLine{\Hypertarget{_utility_native_8cs_source_l00090}00090         [DllImport(\textcolor{stringliteral}{"{}InsightApi.Dll"{}}, CallingConvention = CallingConvention.Winapi, EntryPoint = \textcolor{stringliteral}{"{}UtilOpenProcessForDuplicatingHandle"{}})]}
+\DoxyCodeLine{\Hypertarget{_utility_native_8cs_source_l00091}00091         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keyword}{extern} IntPtr OpenProcessForDuplicatingHandle(uint ProcessID);}
+\DoxyCodeLine{\Hypertarget{_utility_native_8cs_source_l00092}00092 }
+\DoxyCodeLine{\Hypertarget{_utility_native_8cs_source_l00099}00099         [DllImport(\textcolor{stringliteral}{"{}InsightApi.Dll"{}}, CallingConvention = CallingConvention.Winapi, EntryPoint = \textcolor{stringliteral}{"{}RemoteRead\_SimpleFree"{}})]}
+\DoxyCodeLine{\Hypertarget{_utility_native_8cs_source_l00100}00100         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keyword}{extern} IntPtr SimpleFree(IntPtr NativeStringPtr);}
+\DoxyCodeLine{\Hypertarget{_utility_native_8cs_source_l00101}00101 }
+\DoxyCodeLine{\Hypertarget{_utility_native_8cs_source_l00102}00102 }
+\DoxyCodeLine{\Hypertarget{_utility_native_8cs_source_l00108}00108         [DllImport(\textcolor{stringliteral}{"{}kernel32.dll"{}}, CallingConvention=CallingConvention.Winapi)]}
+\DoxyCodeLine{\Hypertarget{_utility_native_8cs_source_l00109}00109         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keyword}{extern} \textcolor{keywordtype}{bool} CloseHandle(IntPtr Handle);}
+\DoxyCodeLine{\Hypertarget{_utility_native_8cs_source_l00110}00110     \}}
+\DoxyCodeLine{\Hypertarget{_utility_native_8cs_source_l00111}00111 \}}
+
+\end{DoxyCode}

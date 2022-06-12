@@ -1,0 +1,253 @@
+\hypertarget{namespace_insight_sheath_1_1_win32_struct}{}\doxysection{Insight\+Sheath.\+Win32\+Struct Namespace Reference}
+\label{namespace_insight_sheath_1_1_win32_struct}\index{InsightSheath.Win32Struct@{InsightSheath.Win32Struct}}
+\doxysubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_1_1_remote}{Remote}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_object_attributes32}{Object\+Attributes32}}
+\begin{DoxyCompactList}\small\item\em This is the Object Attributes struct for a Wow / x86 bit process. Specs from  \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_object_attributes64}{Object\+Attributes64}}
+\begin{DoxyCompactList}\small\item\em This is the Object Attributes struct for a 64-\/bit process Specs from  \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w}{Startup\+Info\+ExW}}
+\begin{DoxyCompactList}\small\item\em Wrapper for the \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w}{Startup\+Info\+ExW}} struct handler exported in Insight\+Api.\+dll. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string32}{Unicode\+String32}}
+\begin{DoxyCompactList}\small\item\em For processed that are Wow/32-\/ bit this is what our UNICODE\+\_\+\+STRING struct looks like when read from. Suitable for Marshaling from either a local native pointer or remote/other process. Take care that you handle if your pointer to the native structure \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string32_a1e1ce136f83201c56a69ee03b56e8564}{Unicode\+String32.\+Buffer}} points to a remote/ non local memory buffer or not. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string64}{Unicode\+String64}}
+\begin{DoxyCompactList}\small\item\em For processes that are 64-\/bit, this is our UNICODE\+\_\+\+STRING struct looks like when read from. Suitable for Marshaling from a source. Take care that you handle if your pointer to the native structure \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string32_a1e1ce136f83201c56a69ee03b56e8564}{Unicode\+String32.\+Buffer}} points to a remote/ non local memory buffer or not. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_user_process_parameters32}{User\+Process\+Parameters32}}
+\begin{DoxyCompactList}\small\item\em contains the x86 version of the Native struct RTL\+\_\+\+USER\+\_\+\+PROCESS\+\_\+\+PARAMETERS as documented here and comparing offsets between the struct in the Offset\+Attrib sample project for Windows 10.  \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_user_process_parameters64}{User\+Process\+Parameters64}}
+\begin{DoxyCompactList}\small\item\em contains the x64 version of the Native struct RTL\+\_\+\+USER\+\_\+\+PROCESS\+\_\+\+PARAMETERS as documented here and comparing offsets between the struct in the Offset\+Attrib sample project for Windows 10.  \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_object_attributes}{Windows\+Object\+Attributes}}
+\begin{DoxyCompactList}\small\item\em made from specs here  \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string}{Windows\+Unicode\+String}}
+\begin{DoxyCompactList}\small\item\em Encapsulates both a \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string32}{Unicode\+String32}} or \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string64}{Unicode\+String64}} and lets one indicate which one to use based on \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a9b56ba82d073acce64844a2011e97508}{Windows\+Unicode\+String.\+Struct\+Type}} You can use Helper\+Routines.\+Get\+PEMachine\+Type(string) on the process your dealing with to find what value was set as the machine type \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_user_process_parameter}{Windows\+User\+Process\+Parameter}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812}{Startup\+Info\+Ex\+W\+\_\+\+Flags}} \+: uint \{ \newline
+\mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812ae6df2b5c7d8f3c802a2e8dab31961c83}{Startf\+\_\+\+Force\+On\+Feed}} = 0x00000040
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812a760106c3d7a49bd2feb4e1a960fa9ea9}{Startf\+\_\+\+Force\+Off\+Feedback}} = 0x00000080
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812a8d9cbab94b89b96ece503c5c1ced864d}{Startf\+\_\+\+Prevent\+Pinning}} = 0x00002000
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812a747db71bec9c179007bff5be0ee535f0}{Startf\+\_\+\+Run\+Full\+Screen}} = 0x00000020
+, \newline
+\mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812ae400ff0703f8b4c6b8a5c7233b5c5daf}{Startf\+\_\+\+Title\+Is\+App\+Id}} = 0x00001000
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812a41f8710939e198682b2a314a95c7d27f}{Startf\+\_\+\+Title\+Is\+Link\+Name}} = 0x00000800
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812a8eb6757dc37a740d0e0f6d001df06ba0}{Startf\+\_\+\+Untrusted\+Source}} = 0x00008000
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812ad2db444dca169c1ac56e9e84d1404915}{Startf\+\_\+\+Use\+Count\+Chars}} = 0x00000008
+, \newline
+\mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812ac5ba68a5a2dd2189b7f01d1157797a28}{Startf\+\_\+\+Use\+Fill\+Attribute}} = 0x00000010
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812a69d849d86ad87a03e0168e2baecb8e9d}{Startf\+\_\+\+Use\+Hot\+Key}} = 0x00000200
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812a11bdc22f05e14a90ee4e44482abbb151}{Startf\+\_\+\+Use\+Position}} = 0x00000004
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812ad2fb85b109f25d3c39efb5f6e39c6142}{Startf\+\_\+\+Use\+Show\+Window}} = 0x00000001
+, \newline
+\mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812a5e2149c0fe12a019fd2adb0f69322e4c}{Startf\+\_\+\+Use\+Size}} = 0x00000002
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812a0747368a34d28f95ab9acb4be2d46528}{Startf\+\_\+\+Use\+Std\+Handles}} = 0x00000100
+ \}
+\begin{DoxyCompactList}\small\item\em See  entry for dw\+Flags for the meaning of these values. \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_a019b0f083dbe4f01880797be80c0ab22}{Startup\+Info\+Ex\+W\+\_\+\+Show\+Window}} \+: ushort \{ \newline
+\mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_a019b0f083dbe4f01880797be80c0ab22a62a5e490880a92eef74f167d9dc6dca0}{Hide}} = 0
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_a019b0f083dbe4f01880797be80c0ab22a64d164fc3308f7cdb41ff9cfb29e9271}{Show\+Normal}} = 1
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_a019b0f083dbe4f01880797be80c0ab22a960b44c579bc2f6818d2daaf9e4c16f0}{Normal}} = Show\+Normal
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_a019b0f083dbe4f01880797be80c0ab22a34fc41539143b36bfb6197c7b18fc6c0}{Show\+Minimized}} = 2
+, \newline
+\mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_a019b0f083dbe4f01880797be80c0ab22a4ff987727b3b233ae5b2447f53194f82}{Show\+Maximized}} = 3
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_a019b0f083dbe4f01880797be80c0ab22a9369ba148ee259473fc1fb4939b6c2e8}{Maximize}} = Show\+Maximized
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_a019b0f083dbe4f01880797be80c0ab22a6c7160cf3e40c3792a99cbffce7d8729}{Show\+No\+Activate}} = 4
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_a019b0f083dbe4f01880797be80c0ab22a498f79c4c5bbde77f1bceb6c86fd0f6d}{Show}} = 5
+, \newline
+\mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_a019b0f083dbe4f01880797be80c0ab22a074afcc50ae51f248cbae4950845549e}{Minimized}} = 6
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_a019b0f083dbe4f01880797be80c0ab22a43a7a7299ad24b8db99c4a525a9ed9a1}{Show\+Min\+No\+Active}} = 7
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_a019b0f083dbe4f01880797be80c0ab22a50b2462b728cd1bb68a57104515a140e}{Show\+Na}} = 8
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_a019b0f083dbe4f01880797be80c0ab22ad004a7a8aa80e96418aa06b13ecea8ce}{Show\+Restore}} = 9
+, \newline
+\mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_a019b0f083dbe4f01880797be80c0ab22ae335ef739a01e6bbb5e2961b337ce178}{Show\+Default}} = 10
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_a019b0f083dbe4f01880797be80c0ab22aa91aef823413348af759e994d08e98bd}{Force\+Minimize}} = 11
+ \}
+\begin{DoxyCompactList}\small\item\em Lifted from  these let you specify how starting window will do \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129}{Struct\+Mode\+Type}} \{ \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129ae1aeeb4a7efba7b23e8994f9c12ca39c}{Machine\+Unknown}} = 0
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129add44e166c885a1e1026d6da62c9ef9f3}{Machinex86}} = 1
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129a5fd85da25b89193e8175dc10b594640e}{Machinex64}} = 2
+ \}
+\begin{DoxyCompactList}\small\item\em Enum used by certain classes that encapsulate Native Structs that contain pointers whose size may not match {\itshape our} pointer size. One will need to set the Platform\+Dependant\+Native\+Struct.\+Struct\+Type in a child class to flag which version to use \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812}\label{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812}} 
+\index{InsightSheath.Win32Struct@{InsightSheath.Win32Struct}!StartupInfoExW\_Flags@{StartupInfoExW\_Flags}}
+\index{StartupInfoExW\_Flags@{StartupInfoExW\_Flags}!InsightSheath.Win32Struct@{InsightSheath.Win32Struct}}
+\doxysubsubsection{\texorpdfstring{StartupInfoExW\_Flags}{StartupInfoExW\_Flags}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812}{Insight\+Sheath.\+Win32\+Struct.\+Startup\+Info\+Ex\+W\+\_\+\+Flags}} \+: uint}
+
+
+
+See  entry for dw\+Flags for the meaning of these values. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Startf\_ForceOnFeed@{Startf\_ForceOnFeed}!InsightSheath.Win32Struct@{InsightSheath.Win32Struct}}\index{InsightSheath.Win32Struct@{InsightSheath.Win32Struct}!Startf\_ForceOnFeed@{Startf\_ForceOnFeed}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812ae6df2b5c7d8f3c802a2e8dab31961c83}\label{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812ae6df2b5c7d8f3c802a2e8dab31961c83}} 
+Startf\+\_\+\+Force\+On\+Feed&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Startf\_ForceOffFeedback@{Startf\_ForceOffFeedback}!InsightSheath.Win32Struct@{InsightSheath.Win32Struct}}\index{InsightSheath.Win32Struct@{InsightSheath.Win32Struct}!Startf\_ForceOffFeedback@{Startf\_ForceOffFeedback}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812a760106c3d7a49bd2feb4e1a960fa9ea9}\label{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812a760106c3d7a49bd2feb4e1a960fa9ea9}} 
+Startf\+\_\+\+Force\+Off\+Feedback&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Startf\_PreventPinning@{Startf\_PreventPinning}!InsightSheath.Win32Struct@{InsightSheath.Win32Struct}}\index{InsightSheath.Win32Struct@{InsightSheath.Win32Struct}!Startf\_PreventPinning@{Startf\_PreventPinning}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812a8d9cbab94b89b96ece503c5c1ced864d}\label{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812a8d9cbab94b89b96ece503c5c1ced864d}} 
+Startf\+\_\+\+Prevent\+Pinning&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Startf\_RunFullScreen@{Startf\_RunFullScreen}!InsightSheath.Win32Struct@{InsightSheath.Win32Struct}}\index{InsightSheath.Win32Struct@{InsightSheath.Win32Struct}!Startf\_RunFullScreen@{Startf\_RunFullScreen}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812a747db71bec9c179007bff5be0ee535f0}\label{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812a747db71bec9c179007bff5be0ee535f0}} 
+Startf\+\_\+\+Run\+Full\+Screen&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Startf\_TitleIsAppId@{Startf\_TitleIsAppId}!InsightSheath.Win32Struct@{InsightSheath.Win32Struct}}\index{InsightSheath.Win32Struct@{InsightSheath.Win32Struct}!Startf\_TitleIsAppId@{Startf\_TitleIsAppId}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812ae400ff0703f8b4c6b8a5c7233b5c5daf}\label{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812ae400ff0703f8b4c6b8a5c7233b5c5daf}} 
+Startf\+\_\+\+Title\+Is\+App\+Id&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Startf\_TitleIsLinkName@{Startf\_TitleIsLinkName}!InsightSheath.Win32Struct@{InsightSheath.Win32Struct}}\index{InsightSheath.Win32Struct@{InsightSheath.Win32Struct}!Startf\_TitleIsLinkName@{Startf\_TitleIsLinkName}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812a41f8710939e198682b2a314a95c7d27f}\label{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812a41f8710939e198682b2a314a95c7d27f}} 
+Startf\+\_\+\+Title\+Is\+Link\+Name&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Startf\_UntrustedSource@{Startf\_UntrustedSource}!InsightSheath.Win32Struct@{InsightSheath.Win32Struct}}\index{InsightSheath.Win32Struct@{InsightSheath.Win32Struct}!Startf\_UntrustedSource@{Startf\_UntrustedSource}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812a8eb6757dc37a740d0e0f6d001df06ba0}\label{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812a8eb6757dc37a740d0e0f6d001df06ba0}} 
+Startf\+\_\+\+Untrusted\+Source&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Startf\_UseCountChars@{Startf\_UseCountChars}!InsightSheath.Win32Struct@{InsightSheath.Win32Struct}}\index{InsightSheath.Win32Struct@{InsightSheath.Win32Struct}!Startf\_UseCountChars@{Startf\_UseCountChars}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812ad2db444dca169c1ac56e9e84d1404915}\label{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812ad2db444dca169c1ac56e9e84d1404915}} 
+Startf\+\_\+\+Use\+Count\+Chars&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Startf\_UseFillAttribute@{Startf\_UseFillAttribute}!InsightSheath.Win32Struct@{InsightSheath.Win32Struct}}\index{InsightSheath.Win32Struct@{InsightSheath.Win32Struct}!Startf\_UseFillAttribute@{Startf\_UseFillAttribute}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812ac5ba68a5a2dd2189b7f01d1157797a28}\label{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812ac5ba68a5a2dd2189b7f01d1157797a28}} 
+Startf\+\_\+\+Use\+Fill\+Attribute&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Startf\_UseHotKey@{Startf\_UseHotKey}!InsightSheath.Win32Struct@{InsightSheath.Win32Struct}}\index{InsightSheath.Win32Struct@{InsightSheath.Win32Struct}!Startf\_UseHotKey@{Startf\_UseHotKey}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812a69d849d86ad87a03e0168e2baecb8e9d}\label{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812a69d849d86ad87a03e0168e2baecb8e9d}} 
+Startf\+\_\+\+Use\+Hot\+Key&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Startf\_UsePosition@{Startf\_UsePosition}!InsightSheath.Win32Struct@{InsightSheath.Win32Struct}}\index{InsightSheath.Win32Struct@{InsightSheath.Win32Struct}!Startf\_UsePosition@{Startf\_UsePosition}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812a11bdc22f05e14a90ee4e44482abbb151}\label{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812a11bdc22f05e14a90ee4e44482abbb151}} 
+Startf\+\_\+\+Use\+Position&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Startf\_UseShowWindow@{Startf\_UseShowWindow}!InsightSheath.Win32Struct@{InsightSheath.Win32Struct}}\index{InsightSheath.Win32Struct@{InsightSheath.Win32Struct}!Startf\_UseShowWindow@{Startf\_UseShowWindow}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812ad2fb85b109f25d3c39efb5f6e39c6142}\label{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812ad2fb85b109f25d3c39efb5f6e39c6142}} 
+Startf\+\_\+\+Use\+Show\+Window&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Startf\_UseSize@{Startf\_UseSize}!InsightSheath.Win32Struct@{InsightSheath.Win32Struct}}\index{InsightSheath.Win32Struct@{InsightSheath.Win32Struct}!Startf\_UseSize@{Startf\_UseSize}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812a5e2149c0fe12a019fd2adb0f69322e4c}\label{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812a5e2149c0fe12a019fd2adb0f69322e4c}} 
+Startf\+\_\+\+Use\+Size&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Startf\_UseStdHandles@{Startf\_UseStdHandles}!InsightSheath.Win32Struct@{InsightSheath.Win32Struct}}\index{InsightSheath.Win32Struct@{InsightSheath.Win32Struct}!Startf\_UseStdHandles@{Startf\_UseStdHandles}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812a0747368a34d28f95ab9acb4be2d46528}\label{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812a0747368a34d28f95ab9acb4be2d46528}} 
+Startf\+\_\+\+Use\+Std\+Handles&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line \mbox{\hyperlink{_startup_info_ex_w_8cs_source_l00017}{17}} of file \mbox{\hyperlink{_startup_info_ex_w_8cs_source}{Startup\+Info\+Ex\+W.\+cs}}.
+
+\mbox{\Hypertarget{namespace_insight_sheath_1_1_win32_struct_a019b0f083dbe4f01880797be80c0ab22}\label{namespace_insight_sheath_1_1_win32_struct_a019b0f083dbe4f01880797be80c0ab22}} 
+\index{InsightSheath.Win32Struct@{InsightSheath.Win32Struct}!StartupInfoExW\_ShowWindow@{StartupInfoExW\_ShowWindow}}
+\index{StartupInfoExW\_ShowWindow@{StartupInfoExW\_ShowWindow}!InsightSheath.Win32Struct@{InsightSheath.Win32Struct}}
+\doxysubsubsection{\texorpdfstring{StartupInfoExW\_ShowWindow}{StartupInfoExW\_ShowWindow}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_a019b0f083dbe4f01880797be80c0ab22}{Insight\+Sheath.\+Win32\+Struct.\+Startup\+Info\+Ex\+W\+\_\+\+Show\+Window}} \+: ushort}
+
+
+
+Lifted from  these let you specify how starting window will do 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Hide@{Hide}!InsightSheath.Win32Struct@{InsightSheath.Win32Struct}}\index{InsightSheath.Win32Struct@{InsightSheath.Win32Struct}!Hide@{Hide}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_win32_struct_a019b0f083dbe4f01880797be80c0ab22a62a5e490880a92eef74f167d9dc6dca0}\label{namespace_insight_sheath_1_1_win32_struct_a019b0f083dbe4f01880797be80c0ab22a62a5e490880a92eef74f167d9dc6dca0}} 
+Hide&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ShowNormal@{ShowNormal}!InsightSheath.Win32Struct@{InsightSheath.Win32Struct}}\index{InsightSheath.Win32Struct@{InsightSheath.Win32Struct}!ShowNormal@{ShowNormal}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_win32_struct_a019b0f083dbe4f01880797be80c0ab22a64d164fc3308f7cdb41ff9cfb29e9271}\label{namespace_insight_sheath_1_1_win32_struct_a019b0f083dbe4f01880797be80c0ab22a64d164fc3308f7cdb41ff9cfb29e9271}} 
+Show\+Normal&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Normal@{Normal}!InsightSheath.Win32Struct@{InsightSheath.Win32Struct}}\index{InsightSheath.Win32Struct@{InsightSheath.Win32Struct}!Normal@{Normal}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_win32_struct_a019b0f083dbe4f01880797be80c0ab22a960b44c579bc2f6818d2daaf9e4c16f0}\label{namespace_insight_sheath_1_1_win32_struct_a019b0f083dbe4f01880797be80c0ab22a960b44c579bc2f6818d2daaf9e4c16f0}} 
+Normal&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ShowMinimized@{ShowMinimized}!InsightSheath.Win32Struct@{InsightSheath.Win32Struct}}\index{InsightSheath.Win32Struct@{InsightSheath.Win32Struct}!ShowMinimized@{ShowMinimized}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_win32_struct_a019b0f083dbe4f01880797be80c0ab22a34fc41539143b36bfb6197c7b18fc6c0}\label{namespace_insight_sheath_1_1_win32_struct_a019b0f083dbe4f01880797be80c0ab22a34fc41539143b36bfb6197c7b18fc6c0}} 
+Show\+Minimized&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ShowMaximized@{ShowMaximized}!InsightSheath.Win32Struct@{InsightSheath.Win32Struct}}\index{InsightSheath.Win32Struct@{InsightSheath.Win32Struct}!ShowMaximized@{ShowMaximized}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_win32_struct_a019b0f083dbe4f01880797be80c0ab22a4ff987727b3b233ae5b2447f53194f82}\label{namespace_insight_sheath_1_1_win32_struct_a019b0f083dbe4f01880797be80c0ab22a4ff987727b3b233ae5b2447f53194f82}} 
+Show\+Maximized&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Maximize@{Maximize}!InsightSheath.Win32Struct@{InsightSheath.Win32Struct}}\index{InsightSheath.Win32Struct@{InsightSheath.Win32Struct}!Maximize@{Maximize}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_win32_struct_a019b0f083dbe4f01880797be80c0ab22a9369ba148ee259473fc1fb4939b6c2e8}\label{namespace_insight_sheath_1_1_win32_struct_a019b0f083dbe4f01880797be80c0ab22a9369ba148ee259473fc1fb4939b6c2e8}} 
+Maximize&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ShowNoActivate@{ShowNoActivate}!InsightSheath.Win32Struct@{InsightSheath.Win32Struct}}\index{InsightSheath.Win32Struct@{InsightSheath.Win32Struct}!ShowNoActivate@{ShowNoActivate}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_win32_struct_a019b0f083dbe4f01880797be80c0ab22a6c7160cf3e40c3792a99cbffce7d8729}\label{namespace_insight_sheath_1_1_win32_struct_a019b0f083dbe4f01880797be80c0ab22a6c7160cf3e40c3792a99cbffce7d8729}} 
+Show\+No\+Activate&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Show@{Show}!InsightSheath.Win32Struct@{InsightSheath.Win32Struct}}\index{InsightSheath.Win32Struct@{InsightSheath.Win32Struct}!Show@{Show}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_win32_struct_a019b0f083dbe4f01880797be80c0ab22a498f79c4c5bbde77f1bceb6c86fd0f6d}\label{namespace_insight_sheath_1_1_win32_struct_a019b0f083dbe4f01880797be80c0ab22a498f79c4c5bbde77f1bceb6c86fd0f6d}} 
+Show&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Minimized@{Minimized}!InsightSheath.Win32Struct@{InsightSheath.Win32Struct}}\index{InsightSheath.Win32Struct@{InsightSheath.Win32Struct}!Minimized@{Minimized}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_win32_struct_a019b0f083dbe4f01880797be80c0ab22a074afcc50ae51f248cbae4950845549e}\label{namespace_insight_sheath_1_1_win32_struct_a019b0f083dbe4f01880797be80c0ab22a074afcc50ae51f248cbae4950845549e}} 
+Minimized&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ShowMinNoActive@{ShowMinNoActive}!InsightSheath.Win32Struct@{InsightSheath.Win32Struct}}\index{InsightSheath.Win32Struct@{InsightSheath.Win32Struct}!ShowMinNoActive@{ShowMinNoActive}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_win32_struct_a019b0f083dbe4f01880797be80c0ab22a43a7a7299ad24b8db99c4a525a9ed9a1}\label{namespace_insight_sheath_1_1_win32_struct_a019b0f083dbe4f01880797be80c0ab22a43a7a7299ad24b8db99c4a525a9ed9a1}} 
+Show\+Min\+No\+Active&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ShowNa@{ShowNa}!InsightSheath.Win32Struct@{InsightSheath.Win32Struct}}\index{InsightSheath.Win32Struct@{InsightSheath.Win32Struct}!ShowNa@{ShowNa}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_win32_struct_a019b0f083dbe4f01880797be80c0ab22a50b2462b728cd1bb68a57104515a140e}\label{namespace_insight_sheath_1_1_win32_struct_a019b0f083dbe4f01880797be80c0ab22a50b2462b728cd1bb68a57104515a140e}} 
+Show\+Na&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ShowRestore@{ShowRestore}!InsightSheath.Win32Struct@{InsightSheath.Win32Struct}}\index{InsightSheath.Win32Struct@{InsightSheath.Win32Struct}!ShowRestore@{ShowRestore}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_win32_struct_a019b0f083dbe4f01880797be80c0ab22ad004a7a8aa80e96418aa06b13ecea8ce}\label{namespace_insight_sheath_1_1_win32_struct_a019b0f083dbe4f01880797be80c0ab22ad004a7a8aa80e96418aa06b13ecea8ce}} 
+Show\+Restore&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ShowDefault@{ShowDefault}!InsightSheath.Win32Struct@{InsightSheath.Win32Struct}}\index{InsightSheath.Win32Struct@{InsightSheath.Win32Struct}!ShowDefault@{ShowDefault}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_win32_struct_a019b0f083dbe4f01880797be80c0ab22ae335ef739a01e6bbb5e2961b337ce178}\label{namespace_insight_sheath_1_1_win32_struct_a019b0f083dbe4f01880797be80c0ab22ae335ef739a01e6bbb5e2961b337ce178}} 
+Show\+Default&Not supported for startup info. For Show\+Window MSDN it means use the startupinfo to specify how to display the Window \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ForceMinimize@{ForceMinimize}!InsightSheath.Win32Struct@{InsightSheath.Win32Struct}}\index{InsightSheath.Win32Struct@{InsightSheath.Win32Struct}!ForceMinimize@{ForceMinimize}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_win32_struct_a019b0f083dbe4f01880797be80c0ab22aa91aef823413348af759e994d08e98bd}\label{namespace_insight_sheath_1_1_win32_struct_a019b0f083dbe4f01880797be80c0ab22aa91aef823413348af759e994d08e98bd}} 
+Force\+Minimize&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line \mbox{\hyperlink{_startup_info_ex_w_8cs_source_l00039}{39}} of file \mbox{\hyperlink{_startup_info_ex_w_8cs_source}{Startup\+Info\+Ex\+W.\+cs}}.
+
+\mbox{\Hypertarget{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129}\label{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129}} 
+\index{InsightSheath.Win32Struct@{InsightSheath.Win32Struct}!StructModeType@{StructModeType}}
+\index{StructModeType@{StructModeType}!InsightSheath.Win32Struct@{InsightSheath.Win32Struct}}
+\doxysubsubsection{\texorpdfstring{StructModeType}{StructModeType}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129}{Insight\+Sheath.\+Win32\+Struct.\+Struct\+Mode\+Type}}}
+
+
+
+Enum used by certain classes that encapsulate Native Structs that contain pointers whose size may not match {\itshape our} pointer size. One will need to set the Platform\+Dependant\+Native\+Struct.\+Struct\+Type in a child class to flag which version to use 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{MachineUnknown@{MachineUnknown}!InsightSheath.Win32Struct@{InsightSheath.Win32Struct}}\index{InsightSheath.Win32Struct@{InsightSheath.Win32Struct}!MachineUnknown@{MachineUnknown}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129ae1aeeb4a7efba7b23e8994f9c12ca39c}\label{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129ae1aeeb4a7efba7b23e8994f9c12ca39c}} 
+Machine\+Unknown&Not defined. Attempting to access properties in this class will trigger Invalid\+Operation\+Exception asking programming to pick either Machinex64 or Machinex86 \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Machinex86@{Machinex86}!InsightSheath.Win32Struct@{InsightSheath.Win32Struct}}\index{InsightSheath.Win32Struct@{InsightSheath.Win32Struct}!Machinex86@{Machinex86}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129add44e166c885a1e1026d6da62c9ef9f3}\label{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129add44e166c885a1e1026d6da62c9ef9f3}} 
+Machinex86&Class encapsulates a 32 bit version of the native struct. For Example \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string}{Windows\+Unicode\+String}} and \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string32}{Unicode\+String32}} \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Machinex64@{Machinex64}!InsightSheath.Win32Struct@{InsightSheath.Win32Struct}}\index{InsightSheath.Win32Struct@{InsightSheath.Win32Struct}!Machinex64@{Machinex64}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129a5fd85da25b89193e8175dc10b594640e}\label{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129a5fd85da25b89193e8175dc10b594640e}} 
+Machinex64&Class encapsulates a 64-\/ bit version of the native struct. For Example \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string}{Windows\+Unicode\+String}} and \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string64}{Unicode\+String64}} struct \\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line \mbox{\hyperlink{_windows_unicode_string_8cs_source_l00017}{17}} of file \mbox{\hyperlink{_windows_unicode_string_8cs_source}{Windows\+Unicode\+String.\+cs}}.
+

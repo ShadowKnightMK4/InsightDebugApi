@@ -4,14 +4,15 @@ using InsightSheath.Win32Struct;
 using System;
 using System.Runtime.InteropServices;
 using InsightSheath.Debugging.Process;
+using InsightSheath.NativeImports;
 
 namespace InsightSheath.Debugging.SymbolEngine
 {
     /// <summary>
     /// This is the callback for <see cref="InsightHunter.EnumerateSymbols(string, InsightHunter_SymbolSearchCallBackRoutine)"/>. The passed pointer to your routine is a native pointer to a struct <see cref="SymbolInfo"/>'s that exists for while your routine is active. 
     /// </summary>
-    /// <param name="">Your Routine should return TRUE to keep going and FALSE to quit</param>
-    /// <returns></returns>
+    /// <param name="SymbolInfo">Your routine will get an <see cref="IntPtr"/> pointing to a an unmanaged memory block contaiing symbol data that matched. <see cref="SymbolInfo"/>. This unmanaged memory only contains it for the life of your callback. Duplicate if you need to store or use later.</param>
+    /// <returns>Your Routine should return TRUE to keep going and FALSE to quit</returns>
     /// <remarks>The exact routine pointer  that this is based off is  typedef BOOL (WINAPI* SymbolSearchCallback)(SYMBOL_INFOW);  MSDC documentation 
     /// for the callback being invoked here: <see href="https://docs.microsoft.com/en-us/windows/win32/api/dbghelp/nc-dbghelp-psym_enumsourcefiles_callback"/> and the API being called is <see href="https://docs.microsoft.com/en-us/windows/win32/api/dbghelp/nf-dbghelp-symenumsourcefilesw"/>  </remarks>
     public delegate bool InsightHunter_SymbolSearchCallBackRoutine(IntPtr SymbolInfo);
@@ -30,100 +31,195 @@ namespace InsightSheath.Debugging.SymbolEngine
     public class InsightHunter : NativeStaticContainer
     {
         /// <summary>
-        /// Specifies combinations of flags to Set for the symbol engine as seein in MSDN's SymSetOptions
+        /// Specifies combinations of flags to Set for the symbol engine as seein in MSDN's <see href="https://docs.microsoft.com/en-us/windows/win32/api/dbghelp/nf-dbghelp-symsetoptions"/>
         /// </summary>
         [Flags]
         public enum SymbolOptionsFlags : uint
         {
+            /// <summary>
+            /// Enable use of symboled stored as absolute instead only of Relative Addressing that get converted to absolute addresses.  Requires DbgHelp version 5.2 or later.
+            /// </summary>
             AllowAbsoluteSymbols = 0x00000800,
+            /// <summary>
+            /// Enable seeing symbols that have no defined address. Default is that the Symbol Engine filters these out.
+            /// </summary>
             AllowZeroAddress = 0x01000000,
+            /// <summary>
+            /// Disables searching publics symbols when searchin by address/ enumarting or not found in global and current score.  Ignored if <see cref="PublicsOnly"/> is set also.
+            /// </summary>
             AutoPublics = 0x00010000,
-            CaseInsentive = 0x00000001,
+            /// <summary>
+            /// If set, searches in the symbol engine are case insensitive. 
+            /// </summary>
+            CaseInsensitive = 0x00000001,
+            /// <summary>
+            /// Enable additional output to either a callback function (TODO: write that wrapper) or <see href="https://docs.microsoft.com/en-us/windows/win32/api/debugapi/nf-debugapi-outputdebugstringw"/>
+            /// </summary>
             DebugMode = 0x80000000,
+            /// <summary>
+            /// Symbols are not loaded until a reference is encountered.  Better for performance.
+            /// </summary>
             DeferredLoad = 0x00000004,
+            /// <summary>
+            /// Disable the autodetecting of symbovl server stores in the server path.  Requires 6.6 or later.
+            /// </summary>
             DisableSymServerAutoDetect = 0x02000000,
+            /// <summary>
+            /// Refuse to load Symbol files that don't have a matching binary. Do not load export symbols.
+            /// </summary>
             ExactSymbolRequired = 0x02000000,
+            /// <summary>
+            /// Should a critical issue such as a resource is not avaialble (cd removed for example), fail the request without informing the user.
+            /// </summary>
             FailCriticalErrors = 0x00000200,
+            /// <summary>
+            /// Tell the Dbghelp routines to favor compressed symbol files over uncompressed should both be accessible.
+            /// </summary>
             FavorCompressed = 0x00800000,
+            /// <summary>
+            /// Symbols are stored in the root directory default downstream store.  Requires Dbhhelp 6.2 or greater.
+            /// </summary>
             FlatDirectory = 0x00400000,
+            /// <summary>
+            /// Tell Dbghlp to ignore any CodeView records it finds when loading symbols.
+            /// </summary>
             IgnoreCodeViewRecord = 0x00000080,
+            /// <summary>
+            /// Tell Dbghlp to ignore the image directory.  Requires Dbghelp 6.2 or greater.
+            /// </summary>
             IgnoreImageDir = 0x00200000,
+            /// <summary>
+            /// Do not use the _NT_SYMBOL_PATH if setting an invalid path.  Not supported for Debug Help 5.1.
+            /// </summary>
             IgnoreNtSymPath = 0x00001000,
+            /// <summary>
+            /// x64 Windows.  Tell the symbol engine to load for 32-bit modules also.
+            /// </summary>
             Include32BitModules = 0x00002000,
+            /// <summary>
+            /// Disable checks that ensure loaded files are valid.  Loads the first file found.
+            /// </summary>
             LoadAnything = 0x00000040,
+            /// <summary>
+            /// Load Line information for files.
+            /// </summary>
             LoadLines = 0x00000010,
+            /// <summary>
+            /// This has the symbol engine replace C++ decorated symbols including '::' with '__'.
+            /// </summary>
             SYMOPT_NO_CPP = 0x00000008,
+            /// <summary>
+            /// Disables searching the image for the current symbol path when loading symbols for a module that cannot be read.  Not supported for DbhHlp 5.1
+            /// </summary>
             NoImageSearch = 0x00020000,
+            /// <summary>
+            /// Disabling showing a prompt to validate that the correct symbol server is used.
+            /// </summary>
             NoPrompts = 0x00080000,
+            /// <summary>
+            ///  Disable searching public tables for symbols.  MSDN documentation says global tables likely will have duplicates of public table data. Not supported for DbgHlp 5.1
+            /// </summary>
             NoPublics = 0x00008000,
+            /// <summary>
+            /// Prevent symbols from being loaded when caller examines symbols accross multiple module boundries. 
+            /// </summary>
             NoUnqualifiedLoads = 0x00000100,
+            /// <summary>
+            /// Overrite download store from the symbol table. Requires Dbghlp 6.2 or greater.
+            /// </summary>
             Overwrite = 0x00100000,
+            /// <summary>
+            /// Disables loading private disable.  Requires DbgHlp 5.2 or greater.  Before 5.2, it only loaded public symbols.
+            /// </summary>
             PublicsOnly = 0x00004000,
             /// <summary>
-            /// WARNING YOU CANNOT CLEAR this flag once set.
+            /// Refuse to load symbols not in the symbserver and _NT_SYMBOL_PATH DbgHelp 6.0-6.1 Says flag can be cleared and 5.1 says not supported.
             /// </summary>
             SecureMode = 0x00040000,
+            /// <summary>
+            /// Undecorate public symbols when encournted.
+            /// </summary>
             UndecorateSymbols = 0x00000002
         }
 
+        /// <summary>
+        /// Initialize an instance of the wrapper for the ummanaged <see cref="InsightHunter"/> class to use the copy pointed to by that. 
+        /// </summary>
+        /// <param name="That">non null pointer to an instance of the unmanaged class.</param>
         public InsightHunter(IntPtr That) : base(That)
         {
+            if (That == IntPtr.Zero)
+            {
+                throw WrapperConstructorReceivedNullPointerErrorException("ERROR:", "InsightProcess.GetSymbolHandler()", nameof(That));
+            }
             SyncAccess = true;
         }
-
+        /// <summary>
+        /// Initialize an instance of the wrapper for the ummanaged <see cref="InsightHunter"/> class to use the copy pointed to by that. 
+        /// </summary>
+        /// <param name="That">non null pointer to an instance of the unmanaged class.</param>
+        /// <param name="FreeOnDispose">Indicate if the object is subject to being freed() when GC cleans up. Recommand FALSE providea a dispose handling cleanup</param>
         public InsightHunter(IntPtr That, bool FreeOnDispose) : base(That, FreeOnDispose)
         {
+            if (That == IntPtr.Zero)
+            {
+                throw WrapperConstructorReceivedNullPointerErrorException("ERROR:", "InsightProcess.GetSymbolHandler()", nameof(That));
+            }
             SyncAccess = true;
         }
 
         #region public exported api
         /// <summary>
-        /// Not normally need to  be called (if using the working thread<see cref=DebugModeType.WorkerThread"/> in <see cref="InsightProcess"/>. This tells the symbol engine to load an exe's debug data in reponse to a CREATE_PROCESS_DEBUG_EVENT
+        ///        
         /// </summary>
         /// <param name="debugEvent"><see cref="DebugEvent"/> class instance containing a <see cref="DebugEventType.CreateProcessEvent"/> event</param>
         /// <returns>true if ok, false on failuree</returns>
         public bool LoadExeSymbolInfo(DebugEvent debugEvent)
         {
-            return NativeImports.InsightHunterInternal.Insight_LoadExeSymbolInfo(Native, debugEvent.NativePointer);
+            return NativeImports.InternalInsightHunter.Insight_LoadExeSymbolInfo(Native, debugEvent.NativePointer);
         }
 
         /// <summary>
-        /// Not normally need to  be called (if using the working thread<see cref=DebugModeType.WorkerThread"/> in <see cref="InsightProcess"/>. This tells the symbol engine to load an exe's debug data in reponse to a CREATE_PROCESS_DEBUG_EVENT
+        ///
         /// </summary>
-        /// <param name="debugEvent"><see cref="DebugEvent"/> class instance containing a <see cref="DebugEventType.CreateProcessEvent"/> event</param>
+        /// <param name="DebugEvent"><see cref="DebugEvent"/> class instance containing a <see cref="DebugEventType.CreateProcessEvent"/> event</param>
         /// <returns>true if ok, false on failuree</returns>
         public bool LoadExeSymbolInfo(IntPtr DebugEvent)
         {
 
-            return NativeImports.InsightHunterInternal.Insight_LoadExeSymbolInfo(Native, DebugEvent);
+            return InternalInsightHunter.Insight_LoadExeSymbolInfo(Native, DebugEvent);
         }
 
 
         /// <summary>
-        /// Not normally need to  be called (if using the working thread<see cref=DebugModeType.WorkerThread"/> in <see cref="InsightProcess"/>. This tells the symbol engine to load an exe's debug data in resposne to a LOAD_DLL_DEBUG_EVENT
+        ///
         /// </summary>
         /// <param name="DebugEvent">class instance containing a <see cref="DebugEventType.LoadDllEvent"/> event</param>
         /// <returns>true if ok, false on failuree</returns>
         public bool LoadDllSymbolInfo(DebugEvent DebugEvent)
         {
-            return NativeImports.InsightHunterInternal.Insight_LoadDllSymbolInfo(Native, DebugEvent.NativePointer);
+            return InternalInsightHunter.Insight_LoadDllSymbolInfo(Native, DebugEvent.NativePointer);
         }
 
 
 
         /// <summary>
-        /// Not normally need to  be called (if using the working thread<see cref=DebugModeType.WorkerThread"/> in <see cref="InsightProcess"/>. This tells the symbol engine to load an exe's debug data in resposne to a UNLOAD_DLL_DEBUG_EVENT
+        ///        
         /// </summary>
         /// <param name="DebugEvent">class instance containing a <see cref="DebugEventType.UnloadDllEvent"/> event</param>
         /// <returns>true if it worked, false otherwise</returns>
         public bool UnloadDllSymbolInfo(DebugEvent DebugEvent)
         {
-            return NativeImports.InsightHunterInternal.Insight_UnLoadExeSymbolInfo(Native, DebugEvent.NativePointer);
+            return NativeImports.InternalInsightHunter.Insight_UnLoadExeSymbolInfo(Native, DebugEvent.NativePointer);
         }
-
+        /// <summary>
+        ///        
+        /// </summary>
+        /// <param name="DebugEvent">class instance containing a <see cref="DebugEventType.UnloadDllEvent"/> event</param>
+        /// <returns>true if it worked, false otherwise</returns>
         public bool UnloadDllSymbolInfo(IntPtr DebugEvent)
         {
-            return NativeImports.InsightHunterInternal.Insight_UnLoadExeSymbolInfo(Native, DebugEvent);
+            return InternalInsightHunter.Insight_UnLoadExeSymbolInfo(Native, DebugEvent);
         }
 
 
@@ -132,10 +228,10 @@ namespace InsightSheath.Debugging.SymbolEngine
         /// Set the parent window for the symbol engine/ debug help api
         /// </summary>
         /// <param name="HWND">Handle to Win32 Window that the debug help api will assume you're outputting info too</param>
-        /// <returns></returns>
+        /// <returns>True if it worked and false if it did not.</returns>
         public bool SetParentWindow(IntPtr HWND)
         {
-            return NativeImports.InsightHunterInternal.Insight_SetParentWindow(Native, HWND);
+            return InternalInsightHunter.Insight_SetParentWindow(Native, HWND);
         }
 
 
@@ -147,7 +243,7 @@ namespace InsightSheath.Debugging.SymbolEngine
         /// <returns></returns>
         public bool EnumerateSymbols(string SearchString, InsightHunter_SymbolSearchCallBackRoutine DotNetCallback)
         {
-            return NativeImports.InsightHunterInternal.Insight_EnumerateLoadedSymbolsW(Native, SearchString, DotNetCallback);
+            return InternalInsightHunter.Insight_EnumerateLoadedSymbolsW(Native, SearchString, DotNetCallback);
         }
 
         /// <summary>
@@ -158,7 +254,7 @@ namespace InsightSheath.Debugging.SymbolEngine
         /// <returns></returns>
         public bool EnumerateSourceFiles(string SearchString, InsightHunter_SymbolSourceCallbackRoutine DotNetCallBack)
         {
-            return NativeImports.InsightHunterInternal.Insight_EnumerateSourceFilesW(Native, SearchString, DotNetCallBack);
+            return NativeImports.InternalInsightHunter.Insight_EnumerateSourceFilesW(Native, SearchString, DotNetCallBack);
         }
         /// <summary>
         /// reload loaded modules.  
@@ -166,7 +262,7 @@ namespace InsightSheath.Debugging.SymbolEngine
         /// <returns>true if it worked and false otherwise</returns>
         public bool RefreshModules()
         {
-            return NativeImports.InsightHunterInternal.Insight_RefreshLoadedModules(Native);
+            return InternalInsightHunter.Insight_RefreshLoadedModules(Native);
         }
         #endregion
 
@@ -178,11 +274,11 @@ namespace InsightSheath.Debugging.SymbolEngine
         {
             get
             {
-                return NativeImports.InsightHunterInternal.Insight_GetThreadSync(Native);
+                return InternalInsightHunter.Insight_GetThreadSync(Native);
             }
             set
             {
-                NativeImports.InsightHunterInternal.Insight_SetThreadSync(Native, value);
+                InternalInsightHunter.Insight_SetThreadSync(Native, value);
             }
         }
 
@@ -193,38 +289,41 @@ namespace InsightSheath.Debugging.SymbolEngine
         {
             get
             {
-                return NativeImports.InsightHunterInternal.Insight_GetSymbolOptions(Native);
+                return InternalInsightHunter.Insight_GetSymbolOptions(Native);
             }
             set
             {
-                NativeImports.InsightHunterInternal.Insight_SetSymbolOptions(Native, value);
+                InternalInsightHunter.Insight_SetSymbolOptions(Native, value);
             }
         }
 
         /// <summary>
-        /// Get Version Data on the Debug Help API the symbol engine actuallly uses.
+        /// Get or set Version Data on the Debug Help API the symbol engine actually uses.
         /// </summary>
         public DebugHelp_ApiVersionStruct DebugHelp_Version
         {
             get
             {
-                return  new DebugHelp_ApiVersionStruct(NativeImports.InsightHunterInternal.Insight_GetImageHelpVersionData(Native));
+                return  new DebugHelp_ApiVersionStruct(InternalInsightHunter.Insight_GetImageHelpVersionData(Native));
             }
             set
             {
-                NativeImports.InsightHunterInternal.Insight_SetImageHelpCompatability(value.NativePointer, value.Major, value.Minor, value.Revision);
+                InternalInsightHunter.Insight_SetImageHelpCompatability(value.NativePointer, value.Major, value.Minor, value.Revision);
             }
         }
 
+        /// <summary>
+        /// Get or a copy of the Debug Version or set version compatibility. 
+        /// </summary>
         public API_VERSION DebugHelp_Version2
         {
             get
             {
-                return Marshal.PtrToStructure<API_VERSION>( NativeImports.InsightHunterInternal.Insight_GetImageHelpVersionData(Native));
+                return Marshal.PtrToStructure<API_VERSION>( NativeImports.InternalInsightHunter.Insight_GetImageHelpVersionData(Native));
             }
             set
             {
-                NativeImports.InsightHunterInternal.Insight_SetImageHelpCompatability(this.Native, value.MajorVersion, value.MinorVersion, value.Revision);
+                NativeImports.InternalInsightHunter.Insight_SetImageHelpCompatability(this.Native, value.MajorVersion, value.MinorVersion, value.Revision);
             }
         }
         #endregion

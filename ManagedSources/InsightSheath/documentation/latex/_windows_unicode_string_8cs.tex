@@ -1,0 +1,26 @@
+\hypertarget{_windows_unicode_string_8cs}{}\doxysection{Win32\+Struct/\+Windows\+Unicode\+String.cs File Reference}
+\label{_windows_unicode_string_8cs}\index{Win32Struct/WindowsUnicodeString.cs@{Win32Struct/WindowsUnicodeString.cs}}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string32}{Insight\+Sheath.\+Win32\+Struct.\+Unicode\+String32}}
+\begin{DoxyCompactList}\small\item\em For processed that are Wow/32-\/ bit this is what our UNICODE\+\_\+\+STRING struct looks like when read from. Suitable for Marshaling from either a local native pointer or remote/other process. Take care that you handle if your pointer to the native structure \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string32_a1e1ce136f83201c56a69ee03b56e8564}{Unicode\+String32.\+Buffer}} points to a remote/ non local memory buffer or not. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string64}{Insight\+Sheath.\+Win32\+Struct.\+Unicode\+String64}}
+\begin{DoxyCompactList}\small\item\em For processes that are 64-\/bit, this is our UNICODE\+\_\+\+STRING struct looks like when read from. Suitable for Marshaling from a source. Take care that you handle if your pointer to the native structure \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string32_a1e1ce136f83201c56a69ee03b56e8564}{Unicode\+String32.\+Buffer}} points to a remote/ non local memory buffer or not. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string}{Insight\+Sheath.\+Win32\+Struct.\+Windows\+Unicode\+String}}
+\begin{DoxyCompactList}\small\item\em Encapsulates both a \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string32}{Unicode\+String32}} or \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string64}{Unicode\+String64}} and lets one indicate which one to use based on \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a9b56ba82d073acce64844a2011e97508}{Windows\+Unicode\+String.\+Struct\+Type}} You can use Helper\+Routines.\+Get\+PEMachine\+Type(string) on the process your dealing with to find what value was set as the machine type \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespace_insight_sheath}{Insight\+Sheath}}
+\item 
+namespace \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct}{Insight\+Sheath.\+Win32\+Struct}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129}{Insight\+Sheath.\+Win32\+Struct.\+Struct\+Mode\+Type}} \{ \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129ae1aeeb4a7efba7b23e8994f9c12ca39c}{Insight\+Sheath.\+Win32\+Struct.\+Machine\+Unknown}} = 0
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129add44e166c885a1e1026d6da62c9ef9f3}{Insight\+Sheath.\+Win32\+Struct.\+Machinex86}} = 1
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129a5fd85da25b89193e8175dc10b594640e}{Insight\+Sheath.\+Win32\+Struct.\+Machinex64}} = 2
+ \}
+\begin{DoxyCompactList}\small\item\em Enum used by certain classes that encapsulate Native Structs that contain pointers whose size may not match {\itshape our} pointer size. One will need to set the Platform\+Dependant\+Native\+Struct.\+Struct\+Type in a child class to flag which version to use \end{DoxyCompactList}\end{DoxyCompactItemize}

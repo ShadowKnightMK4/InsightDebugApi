@@ -1,0 +1,500 @@
+\hypertarget{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context}{}\doxysection{Insight\+Sheath.\+Debugging.\+Thread.\+Thread\+Context Class Reference}
+\label{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context}\index{InsightSheath.Debugging.Thread.ThreadContext@{InsightSheath.Debugging.Thread.ThreadContext}}
+
+
+\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context}{Thread\+Context}} is a class indented for reading/writing information about threads receives in the main Insight\+Process structure We duplicate some of the functionality of the Process\+Thread class for C\# user familiarity.  
+
+
+Inheritance diagram for Insight\+Sheath.\+Debugging.\+Thread.\+Thread\+Context\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a89a04f565115458f44245f19ecd7a330}{Thread\+Context}} (Int\+Ptr \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}})
+\begin{DoxyCompactList}\small\item\em This links an instance of the \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context}{Thread\+Context}} on the native side with your Managed code. Use \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a830d3f2488f35ed706820478e69bffa6}{Create\+Instance(\+Int\+Ptr)}} or \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a879a7204feaf897aeaed945128244ff7}{Create\+Instance(uint)}}to make a new instance. This constructor links your .Net Wrapper to a Native underlying instance of the C++ class. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a5cf2c80370f1ee4183e335bf3f815a86}{Thread\+Context}} (Int\+Ptr \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}, bool \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{Free\+On\+Cleanup}})
+\begin{DoxyCompactList}\small\item\em This is required because of how the parent child classes work, Same as \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a89a04f565115458f44245f19ecd7a330}{Thread\+Context.\+Thread\+Context(\+Int\+Ptr)}} \end{DoxyCompactList}\item 
+uint \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a832907beb1f4a5458ebe1158e0cf76c7}{Suspend\+Thread}} ()
+\begin{DoxyCompactList}\small\item\em Suspend either a wow64 thread or x64 bit thread. Will trigger Load\+Library calls the first time used on wow64 \end{DoxyCompactList}\item 
+uint \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a39f584714b9a74db5999cc2ad6894235}{Resume\+Thread}} ()
+\begin{DoxyCompactList}\small\item\em Resume either a wow64 thread or x64 bit thread. Will trigger Load\+Library calls the first time used on wow64 \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_ac95dbb0d319cfa71de24ab3a5941f4b4}{Set\+Target\+Thread}} (Int\+Ptr Thread\+Handle\+Native)
+\begin{DoxyCompactList}\small\item\em Set the thread this class is handling based on thread parameter. Once set, you may do what you will with the original handle \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_ab0f5effe304554b83d34274b7072a34d}{Set\+Target\+Thread}} (uint \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_ab3f4ff9ed17eb9fd1f7395334a3868df}{Thread\+Id}})
+\begin{DoxyCompactList}\small\item\em Set the thread this class is handling based on thread id. Discards existing info that this class knowns about for the original thread (if any) \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context}{Thread\+Context}} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a879a7204feaf897aeaed945128244ff7}{Create\+Instance}} (uint thread\+Id)
+\begin{DoxyCompactList}\small\item\em Create a new instance of \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context}{Thread\+Context}} and point it to the passed thread whose id is this. \end{DoxyCompactList}\item 
+static \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context}{Thread\+Context}} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a830d3f2488f35ed706820478e69bffa6}{Create\+Instance}} (Int\+Ptr Thread\+Handle)
+\begin{DoxyCompactList}\small\item\em Create a new instance of \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context}{Thread\+Context}} and point it to the thread specified by this handle. You don\textquotesingle{}t need the handle afterwards. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+override void \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a1b897c801bbc4ec684f26d7daeea9aa1}{Dispose}} (bool disposing)
+\begin{DoxyCompactList}\small\item\em call the proper disposal routine for \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context}{Thread\+Context}} \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+string \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a0b3cca8872bf39633f4886f2734b498e}{Thread\+Description}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em retrieve or set the thread\textquotesingle{}s description. WARNING May Heap Corruption on Getting value. Current fix is in Native Debug Build and it just does not call local free per the MSDN documentation BUT does not cause appear memory leak after looping thru code to get/set 1000000 times so either so ¯\+\_\+(ツ)\+\_\+/¯ Want to ensure the fix follows the documentation on MSDN unless MSDN is wrong. \end{DoxyCompactList}\item 
+uint \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_ab3f4ff9ed17eb9fd1f7395334a3868df}{Thread\+Id}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Get the ID of the thread this class is paired with. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a1764bea32d47666d4f9fbfc5302948a6}{Ideal\+Processor}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Get or set the Ideal / preferred processor for this thread. \end{DoxyCompactList}\item 
+Thread\+Priority\+Level \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a99a29514336177de873cb83d54c7efe5}{Thread\+Priority}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Get or set the targeted thread\textquotesingle{}s priority. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a2bde223855400a49b6bc3b579b051dd7}{Priority\+Boost}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Get or set the value indicating if Windows should temporarily boost the thread\textquotesingle{}s priority if a window that the thread handles receives focus \end{DoxyCompactList}\item 
+uint \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_aacfd19c3e4a29c85cb19d5f570b78f49}{Processor\+Affinity}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Get or set processor affinity / desired process this thread runs on. Warning. Does not work support more than 64-\/bit logical processors \end{DoxyCompactList}\item 
+Int\+Ptr \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a93af54232dbbd84640d314b85545107e}{Thread\+Start\+Address}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em NOT IMPLEMENTED \end{DoxyCompactList}\item 
+Thread\+State \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a83ddb329e51df326df2bacb67a29dbf9}{Thread\+State}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Here for future. NOT IMPLEMENTED for this class. TODO\+: Add this feature with support of the native DLL \end{DoxyCompactList}\item 
+Thread\+Wait\+Reason \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a9b7613733174aa75557298b6a28e2064}{Thread\+Wait\+Reason}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Here for future. NOT IMPLEMENTED for this class. TODO\+: Add this feature with support of the native DLL \end{DoxyCompactList}\item 
+Time\+Span \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a4cb59b35f25b257eca7c4a97c7528e5d}{Thread\+Creation\+Time}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em When the \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_thread}{Thread}} was created. Note this Refresh ALL items \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a4cb59b35f25b257eca7c4a97c7528e5d}{Thread\+Creation\+Time}}, \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_abd841f0dc790bf2c1a0cc2d1cfa37f00}{Thread\+Exit\+Time}}, \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_af4efb2c95752d8c15e7818af403f0f63}{User\+Processor\+Time}}, \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_abcce944b68eabed8bbe3a2dc68b7a572}{Kernel\+Processor\+Time}} values and returns the one you want \end{DoxyCompactList}\item 
+Time\+Span \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_abd841f0dc790bf2c1a0cc2d1cfa37f00}{Thread\+Exit\+Time}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em If thread active, (defined as MSDN\textquotesingle{}s get\+Thread\+Exit\+Code gets 259 for a exit code), returns 0 instead of Exit\+Time, Note this Refershs ALL \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a4cb59b35f25b257eca7c4a97c7528e5d}{Thread\+Creation\+Time}}, \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_abd841f0dc790bf2c1a0cc2d1cfa37f00}{Thread\+Exit\+Time}}, \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_af4efb2c95752d8c15e7818af403f0f63}{User\+Processor\+Time}}, \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_abcce944b68eabed8bbe3a2dc68b7a572}{Kernel\+Processor\+Time}} values and returns the one you want \end{DoxyCompactList}\item 
+Time\+Span \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_af4efb2c95752d8c15e7818af403f0f63}{User\+Processor\+Time}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Amount of Time that the thread runs user level code, Note this Refreshes ALL \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a4cb59b35f25b257eca7c4a97c7528e5d}{Thread\+Creation\+Time}}, \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_abd841f0dc790bf2c1a0cc2d1cfa37f00}{Thread\+Exit\+Time}}, \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_af4efb2c95752d8c15e7818af403f0f63}{User\+Processor\+Time}}, \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_abcce944b68eabed8bbe3a2dc68b7a572}{Kernel\+Processor\+Time}} values and returns the one you want \end{DoxyCompactList}\item 
+Time\+Span \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_abcce944b68eabed8bbe3a2dc68b7a572}{Kernel\+Processor\+Time}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Amount of Time that the thread runs kernel level code, Note this Refreshes ALL \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a4cb59b35f25b257eca7c4a97c7528e5d}{Thread\+Creation\+Time}}, \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_abd841f0dc790bf2c1a0cc2d1cfa37f00}{Thread\+Exit\+Time}}, \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_af4efb2c95752d8c15e7818af403f0f63}{User\+Processor\+Time}}, \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_abcce944b68eabed8bbe3a2dc68b7a572}{Kernel\+Processor\+Time}} values and returns the one you want \end{DoxyCompactList}\item 
+Time\+Span \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_af88b16a71b59e65baf8284d5b7d9358c}{Total\+Processor\+Time}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Return \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_abcce944b68eabed8bbe3a2dc68b7a572}{Kernel\+Processor\+Time}} and \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_af4efb2c95752d8c15e7818af403f0f63}{User\+Processor\+Time}} added together for your convenience. \end{DoxyCompactList}\item 
+Int\+Ptr \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a7fa20dcd0cfb3856534238397a7d56d9}{Context}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Retreieve a pointer to either a wow64\+\_\+context or a Context struct depending on the thread\textquotesingle{}s type. \end{DoxyCompactList}\item 
+Int\+Ptr \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_aeee990ccc0e12a26aa9e753cf3a12e93}{Wow64\+Context}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Get a pointer to a wow64 context stuct for this thread. If it\textquotesingle{}s not a wow64 thread, returns Int\+Ptr.\+Zero instead. You can use \mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout}{Wow64\+Context\+Layout}} to access \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context}{Thread\+Context}} is a class indented for reading/writing information about threads receives in the main Insight\+Process structure We duplicate some of the functionality of the Process\+Thread class for C\# user familiarity. 
+
+Definition at line \mbox{\hyperlink{_thread_context_8cs_source_l00020}{20}} of file \mbox{\hyperlink{_thread_context_8cs_source}{Thread\+Context.\+cs}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a89a04f565115458f44245f19ecd7a330}\label{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a89a04f565115458f44245f19ecd7a330}} 
+\index{InsightSheath.Debugging.Thread.ThreadContext@{InsightSheath.Debugging.Thread.ThreadContext}!ThreadContext@{ThreadContext}}
+\index{ThreadContext@{ThreadContext}!InsightSheath.Debugging.Thread.ThreadContext@{InsightSheath.Debugging.Thread.ThreadContext}}
+\doxysubsubsection{\texorpdfstring{ThreadContext()}{ThreadContext()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Insight\+Sheath.\+Debugging.\+Thread.\+Thread\+Context.\+Thread\+Context (\begin{DoxyParamCaption}\item[{Int\+Ptr}]{Native }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+This links an instance of the \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context}{Thread\+Context}} on the native side with your Managed code. Use \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a830d3f2488f35ed706820478e69bffa6}{Create\+Instance(\+Int\+Ptr)}} or \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a879a7204feaf897aeaed945128244ff7}{Create\+Instance(uint)}}to make a new instance. This constructor links your .Net Wrapper to a Native underlying instance of the C++ class. 
+
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Argument\+Null\+Exception} & If passing null, this is thrown\\
+\hline
+\end{DoxyExceptions}
+
+
+Definition at line \mbox{\hyperlink{_thread_context_8cs_source_l00046}{46}} of file \mbox{\hyperlink{_thread_context_8cs_source}{Thread\+Context.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a5cf2c80370f1ee4183e335bf3f815a86}\label{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a5cf2c80370f1ee4183e335bf3f815a86}} 
+\index{InsightSheath.Debugging.Thread.ThreadContext@{InsightSheath.Debugging.Thread.ThreadContext}!ThreadContext@{ThreadContext}}
+\index{ThreadContext@{ThreadContext}!InsightSheath.Debugging.Thread.ThreadContext@{InsightSheath.Debugging.Thread.ThreadContext}}
+\doxysubsubsection{\texorpdfstring{ThreadContext()}{ThreadContext()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Insight\+Sheath.\+Debugging.\+Thread.\+Thread\+Context.\+Thread\+Context (\begin{DoxyParamCaption}\item[{Int\+Ptr}]{Native,  }\item[{bool}]{Free\+On\+Cleanup }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+This is required because of how the parent child classes work, Same as \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a89a04f565115458f44245f19ecd7a330}{Thread\+Context.\+Thread\+Context(\+Int\+Ptr)}} 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Native} & \\
+\hline
+{\em Free\+On\+Cleanup} & Ignored. Always false. \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af127a410fed6a497b46469243512249d}{Dispose()}} has been overwritten to safely kill the instance\\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{_thread_context_8cs_source_l00062}{62}} of file \mbox{\hyperlink{_thread_context_8cs_source}{Thread\+Context.\+cs}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a830d3f2488f35ed706820478e69bffa6}\label{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a830d3f2488f35ed706820478e69bffa6}} 
+\index{InsightSheath.Debugging.Thread.ThreadContext@{InsightSheath.Debugging.Thread.ThreadContext}!CreateInstance@{CreateInstance}}
+\index{CreateInstance@{CreateInstance}!InsightSheath.Debugging.Thread.ThreadContext@{InsightSheath.Debugging.Thread.ThreadContext}}
+\doxysubsubsection{\texorpdfstring{CreateInstance()}{CreateInstance()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context}{Thread\+Context}} Insight\+Sheath.\+Debugging.\+Thread.\+Thread\+Context.\+Create\+Instance (\begin{DoxyParamCaption}\item[{Int\+Ptr}]{Thread\+Handle }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Create a new instance of \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context}{Thread\+Context}} and point it to the thread specified by this handle. You don\textquotesingle{}t need the handle afterwards. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Thread\+Handle} & Win32 Handle to thread you want to point this class instance to. You don\textquotesingle{}t need the handle after this.\\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{_thread_context_8cs_source_l00037}{37}} of file \mbox{\hyperlink{_thread_context_8cs_source}{Thread\+Context.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a879a7204feaf897aeaed945128244ff7}\label{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a879a7204feaf897aeaed945128244ff7}} 
+\index{InsightSheath.Debugging.Thread.ThreadContext@{InsightSheath.Debugging.Thread.ThreadContext}!CreateInstance@{CreateInstance}}
+\index{CreateInstance@{CreateInstance}!InsightSheath.Debugging.Thread.ThreadContext@{InsightSheath.Debugging.Thread.ThreadContext}}
+\doxysubsubsection{\texorpdfstring{CreateInstance()}{CreateInstance()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context}{Thread\+Context}} Insight\+Sheath.\+Debugging.\+Thread.\+Thread\+Context.\+Create\+Instance (\begin{DoxyParamCaption}\item[{uint}]{thread\+Id }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Create a new instance of \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context}{Thread\+Context}} and point it to the passed thread whose id is this. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em thread\+Id} & id of thread to point this class to\\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{_thread_context_8cs_source_l00028}{28}} of file \mbox{\hyperlink{_thread_context_8cs_source}{Thread\+Context.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a1b897c801bbc4ec684f26d7daeea9aa1}\label{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a1b897c801bbc4ec684f26d7daeea9aa1}} 
+\index{InsightSheath.Debugging.Thread.ThreadContext@{InsightSheath.Debugging.Thread.ThreadContext}!Dispose@{Dispose}}
+\index{Dispose@{Dispose}!InsightSheath.Debugging.Thread.ThreadContext@{InsightSheath.Debugging.Thread.ThreadContext}}
+\doxysubsubsection{\texorpdfstring{Dispose()}{Dispose()}}
+{\footnotesize\ttfamily override void Insight\+Sheath.\+Debugging.\+Thread.\+Thread\+Context.\+Dispose (\begin{DoxyParamCaption}\item[{bool}]{disposing }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+
+
+call the proper disposal routine for \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context}{Thread\+Context}} 
+
+
+\begin{DoxyParams}{Parameters}
+{\em disposing} & \\
+\hline
+\end{DoxyParams}
+
+
+Reimplemented from \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_aab47d778e6f074d10e4d0511471e8727}{Insight\+Sheath.\+Abstract.\+Native\+Static\+Container}}.
+
+
+
+Definition at line \mbox{\hyperlink{_thread_context_8cs_source_l00075}{75}} of file \mbox{\hyperlink{_thread_context_8cs_source}{Thread\+Context.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a39f584714b9a74db5999cc2ad6894235}\label{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a39f584714b9a74db5999cc2ad6894235}} 
+\index{InsightSheath.Debugging.Thread.ThreadContext@{InsightSheath.Debugging.Thread.ThreadContext}!ResumeThread@{ResumeThread}}
+\index{ResumeThread@{ResumeThread}!InsightSheath.Debugging.Thread.ThreadContext@{InsightSheath.Debugging.Thread.ThreadContext}}
+\doxysubsubsection{\texorpdfstring{ResumeThread()}{ResumeThread()}}
+{\footnotesize\ttfamily uint Insight\+Sheath.\+Debugging.\+Thread.\+Thread\+Context.\+Resume\+Thread (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Resume either a wow64 thread or x64 bit thread. Will trigger Load\+Library calls the first time used on wow64 
+
+\begin{DoxyReturn}{Returns}
+current suspend value. Values \texorpdfstring{$>$}{>} 0 mean thread suspended.
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{_thread_context_8cs_source_l00106}{106}} of file \mbox{\hyperlink{_thread_context_8cs_source}{Thread\+Context.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_ac95dbb0d319cfa71de24ab3a5941f4b4}\label{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_ac95dbb0d319cfa71de24ab3a5941f4b4}} 
+\index{InsightSheath.Debugging.Thread.ThreadContext@{InsightSheath.Debugging.Thread.ThreadContext}!SetTargetThread@{SetTargetThread}}
+\index{SetTargetThread@{SetTargetThread}!InsightSheath.Debugging.Thread.ThreadContext@{InsightSheath.Debugging.Thread.ThreadContext}}
+\doxysubsubsection{\texorpdfstring{SetTargetThread()}{SetTargetThread()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily bool Insight\+Sheath.\+Debugging.\+Thread.\+Thread\+Context.\+Set\+Target\+Thread (\begin{DoxyParamCaption}\item[{Int\+Ptr}]{Thread\+Handle\+Native }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Set the thread this class is handling based on thread parameter. Once set, you may do what you will with the original handle 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Thread\+Handle\+Native} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+returns true if the call worked and false if it did not
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{_thread_context_8cs_source_l00116}{116}} of file \mbox{\hyperlink{_thread_context_8cs_source}{Thread\+Context.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_ab0f5effe304554b83d34274b7072a34d}\label{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_ab0f5effe304554b83d34274b7072a34d}} 
+\index{InsightSheath.Debugging.Thread.ThreadContext@{InsightSheath.Debugging.Thread.ThreadContext}!SetTargetThread@{SetTargetThread}}
+\index{SetTargetThread@{SetTargetThread}!InsightSheath.Debugging.Thread.ThreadContext@{InsightSheath.Debugging.Thread.ThreadContext}}
+\doxysubsubsection{\texorpdfstring{SetTargetThread()}{SetTargetThread()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily bool Insight\+Sheath.\+Debugging.\+Thread.\+Thread\+Context.\+Set\+Target\+Thread (\begin{DoxyParamCaption}\item[{uint}]{Thread\+Id }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Set the thread this class is handling based on thread id. Discards existing info that this class knowns about for the original thread (if any) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Thread\+Id} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{_thread_context_8cs_source_l00126}{126}} of file \mbox{\hyperlink{_thread_context_8cs_source}{Thread\+Context.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a832907beb1f4a5458ebe1158e0cf76c7}\label{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a832907beb1f4a5458ebe1158e0cf76c7}} 
+\index{InsightSheath.Debugging.Thread.ThreadContext@{InsightSheath.Debugging.Thread.ThreadContext}!SuspendThread@{SuspendThread}}
+\index{SuspendThread@{SuspendThread}!InsightSheath.Debugging.Thread.ThreadContext@{InsightSheath.Debugging.Thread.ThreadContext}}
+\doxysubsubsection{\texorpdfstring{SuspendThread()}{SuspendThread()}}
+{\footnotesize\ttfamily uint Insight\+Sheath.\+Debugging.\+Thread.\+Thread\+Context.\+Suspend\+Thread (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Suspend either a wow64 thread or x64 bit thread. Will trigger Load\+Library calls the first time used on wow64 
+
+\begin{DoxyReturn}{Returns}
+current suspend value. Values \texorpdfstring{$>$}{>} 0 mean thread suspended.
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{_thread_context_8cs_source_l00096}{96}} of file \mbox{\hyperlink{_thread_context_8cs_source}{Thread\+Context.\+cs}}.
+
+
+
+\doxysubsection{Property Documentation}
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a7fa20dcd0cfb3856534238397a7d56d9}\label{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a7fa20dcd0cfb3856534238397a7d56d9}} 
+\index{InsightSheath.Debugging.Thread.ThreadContext@{InsightSheath.Debugging.Thread.ThreadContext}!Context@{Context}}
+\index{Context@{Context}!InsightSheath.Debugging.Thread.ThreadContext@{InsightSheath.Debugging.Thread.ThreadContext}}
+\doxysubsubsection{\texorpdfstring{Context}{Context}}
+{\footnotesize\ttfamily Int\+Ptr Insight\+Sheath.\+Debugging.\+Thread.\+Thread\+Context.\+Context\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Retreieve a pointer to either a wow64\+\_\+context or a Context struct depending on the thread\textquotesingle{}s type. 
+
+
+
+Definition at line \mbox{\hyperlink{_thread_context_8cs_source_l00326}{326}} of file \mbox{\hyperlink{_thread_context_8cs_source}{Thread\+Context.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a1764bea32d47666d4f9fbfc5302948a6}\label{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a1764bea32d47666d4f9fbfc5302948a6}} 
+\index{InsightSheath.Debugging.Thread.ThreadContext@{InsightSheath.Debugging.Thread.ThreadContext}!IdealProcessor@{IdealProcessor}}
+\index{IdealProcessor@{IdealProcessor}!InsightSheath.Debugging.Thread.ThreadContext@{InsightSheath.Debugging.Thread.ThreadContext}}
+\doxysubsubsection{\texorpdfstring{IdealProcessor}{IdealProcessor}}
+{\footnotesize\ttfamily int Insight\+Sheath.\+Debugging.\+Thread.\+Thread\+Context.\+Ideal\+Processor\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Get or set the Ideal / preferred processor for this thread. 
+
+
+
+Definition at line \mbox{\hyperlink{_thread_context_8cs_source_l00162}{162}} of file \mbox{\hyperlink{_thread_context_8cs_source}{Thread\+Context.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_abcce944b68eabed8bbe3a2dc68b7a572}\label{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_abcce944b68eabed8bbe3a2dc68b7a572}} 
+\index{InsightSheath.Debugging.Thread.ThreadContext@{InsightSheath.Debugging.Thread.ThreadContext}!KernelProcessorTime@{KernelProcessorTime}}
+\index{KernelProcessorTime@{KernelProcessorTime}!InsightSheath.Debugging.Thread.ThreadContext@{InsightSheath.Debugging.Thread.ThreadContext}}
+\doxysubsubsection{\texorpdfstring{KernelProcessorTime}{KernelProcessorTime}}
+{\footnotesize\ttfamily Time\+Span Insight\+Sheath.\+Debugging.\+Thread.\+Thread\+Context.\+Kernel\+Processor\+Time\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Amount of Time that the thread runs kernel level code, Note this Refreshes ALL \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a4cb59b35f25b257eca7c4a97c7528e5d}{Thread\+Creation\+Time}}, \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_abd841f0dc790bf2c1a0cc2d1cfa37f00}{Thread\+Exit\+Time}}, \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_af4efb2c95752d8c15e7818af403f0f63}{User\+Processor\+Time}}, \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_abcce944b68eabed8bbe3a2dc68b7a572}{Kernel\+Processor\+Time}} values and returns the one you want 
+
+
+
+Definition at line \mbox{\hyperlink{_thread_context_8cs_source_l00304}{304}} of file \mbox{\hyperlink{_thread_context_8cs_source}{Thread\+Context.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a2bde223855400a49b6bc3b579b051dd7}\label{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a2bde223855400a49b6bc3b579b051dd7}} 
+\index{InsightSheath.Debugging.Thread.ThreadContext@{InsightSheath.Debugging.Thread.ThreadContext}!PriorityBoost@{PriorityBoost}}
+\index{PriorityBoost@{PriorityBoost}!InsightSheath.Debugging.Thread.ThreadContext@{InsightSheath.Debugging.Thread.ThreadContext}}
+\doxysubsubsection{\texorpdfstring{PriorityBoost}{PriorityBoost}}
+{\footnotesize\ttfamily bool Insight\+Sheath.\+Debugging.\+Thread.\+Thread\+Context.\+Priority\+Boost\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Get or set the value indicating if Windows should temporarily boost the thread\textquotesingle{}s priority if a window that the thread handles receives focus 
+
+
+
+Definition at line \mbox{\hyperlink{_thread_context_8cs_source_l00192}{192}} of file \mbox{\hyperlink{_thread_context_8cs_source}{Thread\+Context.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_aacfd19c3e4a29c85cb19d5f570b78f49}\label{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_aacfd19c3e4a29c85cb19d5f570b78f49}} 
+\index{InsightSheath.Debugging.Thread.ThreadContext@{InsightSheath.Debugging.Thread.ThreadContext}!ProcessorAffinity@{ProcessorAffinity}}
+\index{ProcessorAffinity@{ProcessorAffinity}!InsightSheath.Debugging.Thread.ThreadContext@{InsightSheath.Debugging.Thread.ThreadContext}}
+\doxysubsubsection{\texorpdfstring{ProcessorAffinity}{ProcessorAffinity}}
+{\footnotesize\ttfamily uint Insight\+Sheath.\+Debugging.\+Thread.\+Thread\+Context.\+Processor\+Affinity\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Get or set processor affinity / desired process this thread runs on. Warning. Does not work support more than 64-\/bit logical processors 
+
+
+
+Definition at line \mbox{\hyperlink{_thread_context_8cs_source_l00210}{210}} of file \mbox{\hyperlink{_thread_context_8cs_source}{Thread\+Context.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a4cb59b35f25b257eca7c4a97c7528e5d}\label{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a4cb59b35f25b257eca7c4a97c7528e5d}} 
+\index{InsightSheath.Debugging.Thread.ThreadContext@{InsightSheath.Debugging.Thread.ThreadContext}!ThreadCreationTime@{ThreadCreationTime}}
+\index{ThreadCreationTime@{ThreadCreationTime}!InsightSheath.Debugging.Thread.ThreadContext@{InsightSheath.Debugging.Thread.ThreadContext}}
+\doxysubsubsection{\texorpdfstring{ThreadCreationTime}{ThreadCreationTime}}
+{\footnotesize\ttfamily Time\+Span Insight\+Sheath.\+Debugging.\+Thread.\+Thread\+Context.\+Thread\+Creation\+Time\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+When the \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_thread}{Thread}} was created. Note this Refresh ALL items \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a4cb59b35f25b257eca7c4a97c7528e5d}{Thread\+Creation\+Time}}, \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_abd841f0dc790bf2c1a0cc2d1cfa37f00}{Thread\+Exit\+Time}}, \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_af4efb2c95752d8c15e7818af403f0f63}{User\+Processor\+Time}}, \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_abcce944b68eabed8bbe3a2dc68b7a572}{Kernel\+Processor\+Time}} values and returns the one you want 
+
+Because of performance reasons in watching in debugger browsing/viewing -\/ this is not browsable.
+
+Definition at line \mbox{\hyperlink{_thread_context_8cs_source_l00268}{268}} of file \mbox{\hyperlink{_thread_context_8cs_source}{Thread\+Context.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a0b3cca8872bf39633f4886f2734b498e}\label{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a0b3cca8872bf39633f4886f2734b498e}} 
+\index{InsightSheath.Debugging.Thread.ThreadContext@{InsightSheath.Debugging.Thread.ThreadContext}!ThreadDescription@{ThreadDescription}}
+\index{ThreadDescription@{ThreadDescription}!InsightSheath.Debugging.Thread.ThreadContext@{InsightSheath.Debugging.Thread.ThreadContext}}
+\doxysubsubsection{\texorpdfstring{ThreadDescription}{ThreadDescription}}
+{\footnotesize\ttfamily string Insight\+Sheath.\+Debugging.\+Thread.\+Thread\+Context.\+Thread\+Description\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+retrieve or set the thread\textquotesingle{}s description. WARNING May Heap Corruption on Getting value. Current fix is in Native Debug Build and it just does not call local free per the MSDN documentation BUT does not cause appear memory leak after looping thru code to get/set 1000000 times so either so ¯\+\_\+(ツ)\+\_\+/¯ Want to ensure the fix follows the documentation on MSDN unless MSDN is wrong. 
+
+
+
+Definition at line \mbox{\hyperlink{_thread_context_8cs_source_l00135}{135}} of file \mbox{\hyperlink{_thread_context_8cs_source}{Thread\+Context.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_abd841f0dc790bf2c1a0cc2d1cfa37f00}\label{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_abd841f0dc790bf2c1a0cc2d1cfa37f00}} 
+\index{InsightSheath.Debugging.Thread.ThreadContext@{InsightSheath.Debugging.Thread.ThreadContext}!ThreadExitTime@{ThreadExitTime}}
+\index{ThreadExitTime@{ThreadExitTime}!InsightSheath.Debugging.Thread.ThreadContext@{InsightSheath.Debugging.Thread.ThreadContext}}
+\doxysubsubsection{\texorpdfstring{ThreadExitTime}{ThreadExitTime}}
+{\footnotesize\ttfamily Time\+Span Insight\+Sheath.\+Debugging.\+Thread.\+Thread\+Context.\+Thread\+Exit\+Time\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+If thread active, (defined as MSDN\textquotesingle{}s get\+Thread\+Exit\+Code gets 259 for a exit code), returns 0 instead of Exit\+Time, Note this Refershs ALL \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a4cb59b35f25b257eca7c4a97c7528e5d}{Thread\+Creation\+Time}}, \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_abd841f0dc790bf2c1a0cc2d1cfa37f00}{Thread\+Exit\+Time}}, \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_af4efb2c95752d8c15e7818af403f0f63}{User\+Processor\+Time}}, \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_abcce944b68eabed8bbe3a2dc68b7a572}{Kernel\+Processor\+Time}} values and returns the one you want 
+
+
+
+Definition at line \mbox{\hyperlink{_thread_context_8cs_source_l00280}{280}} of file \mbox{\hyperlink{_thread_context_8cs_source}{Thread\+Context.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_ab3f4ff9ed17eb9fd1f7395334a3868df}\label{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_ab3f4ff9ed17eb9fd1f7395334a3868df}} 
+\index{InsightSheath.Debugging.Thread.ThreadContext@{InsightSheath.Debugging.Thread.ThreadContext}!ThreadId@{ThreadId}}
+\index{ThreadId@{ThreadId}!InsightSheath.Debugging.Thread.ThreadContext@{InsightSheath.Debugging.Thread.ThreadContext}}
+\doxysubsubsection{\texorpdfstring{ThreadId}{ThreadId}}
+{\footnotesize\ttfamily uint Insight\+Sheath.\+Debugging.\+Thread.\+Thread\+Context.\+Thread\+Id\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Get the ID of the thread this class is paired with. 
+
+
+
+Definition at line \mbox{\hyperlink{_thread_context_8cs_source_l00151}{151}} of file \mbox{\hyperlink{_thread_context_8cs_source}{Thread\+Context.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a99a29514336177de873cb83d54c7efe5}\label{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a99a29514336177de873cb83d54c7efe5}} 
+\index{InsightSheath.Debugging.Thread.ThreadContext@{InsightSheath.Debugging.Thread.ThreadContext}!ThreadPriority@{ThreadPriority}}
+\index{ThreadPriority@{ThreadPriority}!InsightSheath.Debugging.Thread.ThreadContext@{InsightSheath.Debugging.Thread.ThreadContext}}
+\doxysubsubsection{\texorpdfstring{ThreadPriority}{ThreadPriority}}
+{\footnotesize\ttfamily Thread\+Priority\+Level Insight\+Sheath.\+Debugging.\+Thread.\+Thread\+Context.\+Thread\+Priority\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Get or set the targeted thread\textquotesingle{}s priority. 
+
+
+
+Definition at line \mbox{\hyperlink{_thread_context_8cs_source_l00177}{177}} of file \mbox{\hyperlink{_thread_context_8cs_source}{Thread\+Context.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a93af54232dbbd84640d314b85545107e}\label{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a93af54232dbbd84640d314b85545107e}} 
+\index{InsightSheath.Debugging.Thread.ThreadContext@{InsightSheath.Debugging.Thread.ThreadContext}!ThreadStartAddress@{ThreadStartAddress}}
+\index{ThreadStartAddress@{ThreadStartAddress}!InsightSheath.Debugging.Thread.ThreadContext@{InsightSheath.Debugging.Thread.ThreadContext}}
+\doxysubsubsection{\texorpdfstring{ThreadStartAddress}{ThreadStartAddress}}
+{\footnotesize\ttfamily Int\+Ptr Insight\+Sheath.\+Debugging.\+Thread.\+Thread\+Context.\+Thread\+Start\+Address\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+NOT IMPLEMENTED 
+
+
+
+Definition at line \mbox{\hyperlink{_thread_context_8cs_source_l00225}{225}} of file \mbox{\hyperlink{_thread_context_8cs_source}{Thread\+Context.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a83ddb329e51df326df2bacb67a29dbf9}\label{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a83ddb329e51df326df2bacb67a29dbf9}} 
+\index{InsightSheath.Debugging.Thread.ThreadContext@{InsightSheath.Debugging.Thread.ThreadContext}!ThreadState@{ThreadState}}
+\index{ThreadState@{ThreadState}!InsightSheath.Debugging.Thread.ThreadContext@{InsightSheath.Debugging.Thread.ThreadContext}}
+\doxysubsubsection{\texorpdfstring{ThreadState}{ThreadState}}
+{\footnotesize\ttfamily Thread\+State Insight\+Sheath.\+Debugging.\+Thread.\+Thread\+Context.\+Thread\+State\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Here for future. NOT IMPLEMENTED for this class. TODO\+: Add this feature with support of the native DLL 
+
+
+
+Definition at line \mbox{\hyperlink{_thread_context_8cs_source_l00237}{237}} of file \mbox{\hyperlink{_thread_context_8cs_source}{Thread\+Context.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a9b7613733174aa75557298b6a28e2064}\label{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a9b7613733174aa75557298b6a28e2064}} 
+\index{InsightSheath.Debugging.Thread.ThreadContext@{InsightSheath.Debugging.Thread.ThreadContext}!ThreadWaitReason@{ThreadWaitReason}}
+\index{ThreadWaitReason@{ThreadWaitReason}!InsightSheath.Debugging.Thread.ThreadContext@{InsightSheath.Debugging.Thread.ThreadContext}}
+\doxysubsubsection{\texorpdfstring{ThreadWaitReason}{ThreadWaitReason}}
+{\footnotesize\ttfamily Thread\+Wait\+Reason Insight\+Sheath.\+Debugging.\+Thread.\+Thread\+Context.\+Thread\+Wait\+Reason\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Here for future. NOT IMPLEMENTED for this class. TODO\+: Add this feature with support of the native DLL 
+
+
+
+Definition at line \mbox{\hyperlink{_thread_context_8cs_source_l00252}{252}} of file \mbox{\hyperlink{_thread_context_8cs_source}{Thread\+Context.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_af88b16a71b59e65baf8284d5b7d9358c}\label{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_af88b16a71b59e65baf8284d5b7d9358c}} 
+\index{InsightSheath.Debugging.Thread.ThreadContext@{InsightSheath.Debugging.Thread.ThreadContext}!TotalProcessorTime@{TotalProcessorTime}}
+\index{TotalProcessorTime@{TotalProcessorTime}!InsightSheath.Debugging.Thread.ThreadContext@{InsightSheath.Debugging.Thread.ThreadContext}}
+\doxysubsubsection{\texorpdfstring{TotalProcessorTime}{TotalProcessorTime}}
+{\footnotesize\ttfamily Time\+Span Insight\+Sheath.\+Debugging.\+Thread.\+Thread\+Context.\+Total\+Processor\+Time\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Return \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_abcce944b68eabed8bbe3a2dc68b7a572}{Kernel\+Processor\+Time}} and \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_af4efb2c95752d8c15e7818af403f0f63}{User\+Processor\+Time}} added together for your convenience. 
+
+
+
+Definition at line \mbox{\hyperlink{_thread_context_8cs_source_l00315}{315}} of file \mbox{\hyperlink{_thread_context_8cs_source}{Thread\+Context.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_af4efb2c95752d8c15e7818af403f0f63}\label{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_af4efb2c95752d8c15e7818af403f0f63}} 
+\index{InsightSheath.Debugging.Thread.ThreadContext@{InsightSheath.Debugging.Thread.ThreadContext}!UserProcessorTime@{UserProcessorTime}}
+\index{UserProcessorTime@{UserProcessorTime}!InsightSheath.Debugging.Thread.ThreadContext@{InsightSheath.Debugging.Thread.ThreadContext}}
+\doxysubsubsection{\texorpdfstring{UserProcessorTime}{UserProcessorTime}}
+{\footnotesize\ttfamily Time\+Span Insight\+Sheath.\+Debugging.\+Thread.\+Thread\+Context.\+User\+Processor\+Time\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Amount of Time that the thread runs user level code, Note this Refreshes ALL \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a4cb59b35f25b257eca7c4a97c7528e5d}{Thread\+Creation\+Time}}, \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_abd841f0dc790bf2c1a0cc2d1cfa37f00}{Thread\+Exit\+Time}}, \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_af4efb2c95752d8c15e7818af403f0f63}{User\+Processor\+Time}}, \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_abcce944b68eabed8bbe3a2dc68b7a572}{Kernel\+Processor\+Time}} values and returns the one you want 
+
+
+
+Definition at line \mbox{\hyperlink{_thread_context_8cs_source_l00292}{292}} of file \mbox{\hyperlink{_thread_context_8cs_source}{Thread\+Context.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_aeee990ccc0e12a26aa9e753cf3a12e93}\label{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_aeee990ccc0e12a26aa9e753cf3a12e93}} 
+\index{InsightSheath.Debugging.Thread.ThreadContext@{InsightSheath.Debugging.Thread.ThreadContext}!Wow64Context@{Wow64Context}}
+\index{Wow64Context@{Wow64Context}!InsightSheath.Debugging.Thread.ThreadContext@{InsightSheath.Debugging.Thread.ThreadContext}}
+\doxysubsubsection{\texorpdfstring{Wow64Context}{Wow64Context}}
+{\footnotesize\ttfamily Int\+Ptr Insight\+Sheath.\+Debugging.\+Thread.\+Thread\+Context.\+Wow64\+Context\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Get a pointer to a wow64 context stuct for this thread. If it\textquotesingle{}s not a wow64 thread, returns Int\+Ptr.\+Zero instead. You can use \mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout}{Wow64\+Context\+Layout}} to access 
+
+
+
+Definition at line \mbox{\hyperlink{_thread_context_8cs_source_l00341}{341}} of file \mbox{\hyperlink{_thread_context_8cs_source}{Thread\+Context.\+cs}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Debugging/\+Thread/\mbox{\hyperlink{_thread_context_8cs}{Thread\+Context.\+cs}}\end{DoxyCompactItemize}

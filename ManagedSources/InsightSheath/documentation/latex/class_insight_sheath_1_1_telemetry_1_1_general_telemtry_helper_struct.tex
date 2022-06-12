@@ -1,0 +1,232 @@
+\hypertarget{class_insight_sheath_1_1_telemetry_1_1_general_telemtry_helper_struct}{}\doxysection{Insight\+Sheath.\+Telemetry.\+General\+Telemtry\+Helper\+Struct Class Reference}
+\label{class_insight_sheath_1_1_telemetry_1_1_general_telemtry_helper_struct}\index{InsightSheath.Telemetry.GeneralTelemtryHelperStruct@{InsightSheath.Telemetry.GeneralTelemtryHelperStruct}}
+
+
+General common values/code between the telemetry reader code.  
+
+
+Inheritance diagram for Insight\+Sheath.\+Telemetry.\+General\+Telemtry\+Helper\+Struct\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=1.352657cm]{class_insight_sheath_1_1_telemetry_1_1_general_telemtry_helper_struct}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_general_telemtry_helper_struct_aca7bc051cf097864fbb5466fa87e2dec}{General\+Telemtry\+Helper\+Struct}} (uint \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_general_telemtry_helper_struct_a3cf9468658bda6c3b5545fcdec4051e4}{Process\+Id}}, uint Thread\+ID, Int\+Ptr Force\+Handle, Int\+Ptr Last\+Error, \mbox{\hyperlink{namespace_insight_sheath_aa32853670318d8ddc9960b8750584fc7}{Machine\+Type}} \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_general_telemtry_helper_struct_a11006996136e61596f8723cc201fd170}{Type}})
+\item 
+void \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_general_telemtry_helper_struct_a16fa6c5e8c62c760adcb2fae22e8afc8}{Set\+Force\+Handle}} (Int\+Ptr Replacement\+Handle)
+\begin{DoxyCompactList}\small\item\em Duplicate the handle you provide into the process the exception was generated from and write it to the memory location specified by Force\+Handle \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_general_telemtry_helper_struct_a34b0e2287c32222d7168367956801dfe}{Set\+Force\+Handle}} ()
+\begin{DoxyCompactList}\small\item\em Set the handle to the appropriate invalid handle value based on the \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_general_telemtry_helper_struct_a11006996136e61596f8723cc201fd170}{Type}} value in this struct. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_general_telemtry_helper_struct_a80ea7894d419918c2f81ef70537aa8f3}{Set\+Force\+Handle}} (ulong Handle\+Value)
+\begin{DoxyCompactList}\small\item\em Set the 64-\/bit handle value to something other than an Int\+Ptr -\/ for example Invalid\+Handle\+Value64 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_general_telemtry_helper_struct_a07e9c0fd53304b47289493af7c76ad00}{Set\+Force\+Handle}} (uint Handle\+Value)
+\begin{DoxyCompactList}\small\item\em Set the 32-\/bit handle value to something other than an Int\+Ptr -\/ for example Invalid\+Handle\+Value32 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_general_telemtry_helper_struct_ac3609f54348342a33419cb3eca6ec817}{Set\+Last\+Error\+Value}} (uint New\+Value)
+\begin{DoxyCompactList}\small\item\em Set the last error value that will be set by the detouring routine when returning control to the debugged process. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+readonly \mbox{\hyperlink{namespace_insight_sheath_aa32853670318d8ddc9960b8750584fc7}{Machine\+Type}} \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_general_telemtry_helper_struct_a11006996136e61596f8723cc201fd170}{Type}}
+\begin{DoxyCompactList}\small\item\em Depends on what Debug\+Event.\+Is\+Process32\+Bit returns. Intended for determining pointer size only. If that\textquotesingle{}s true, Value is \mbox{\hyperlink{namespace_insight_sheath_aa32853670318d8ddc9960b8750584fc7ab2a95561dc10556507160dd63400322d}{Machine\+Type.\+Machine\+I386}} otherwise value is \mbox{\hyperlink{namespace_insight_sheath_aa32853670318d8ddc9960b8750584fc7a76f41d80a3b6cde6c17c740686b33ede}{Machine\+Type.\+Machine\+Amd64}} i386 pointer sizes are 4 bytes long and Amd64 pointer sizes are 8 bytes. This may not actually be the exact machine type as stored in the debugged process\textquotesingle{}s physical PE/\+EXE file. \end{DoxyCompactList}\item 
+readonly uint \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_general_telemtry_helper_struct_a3cf9468658bda6c3b5545fcdec4051e4}{Process\+Id}}
+\begin{DoxyCompactList}\small\item\em Process that the exception originated from. \end{DoxyCompactList}\item 
+readonly uint \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_general_telemtry_helper_struct_aeb2deb9b9fcaecec2a03eeaa3a36fa6c}{Thread\+Id}}
+\begin{DoxyCompactList}\small\item\em Thread that the exception originated from. \end{DoxyCompactList}\item 
+readonly Int\+Ptr \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_general_telemtry_helper_struct_a700395c0a23952a5c01d6ef8b840c736}{Force\+Handle\+Ptr}}
+\begin{DoxyCompactList}\small\item\em Pointer to the handle that is returned back to the target process after handling the exception. \end{DoxyCompactList}\item 
+readonly Int\+Ptr \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_general_telemtry_helper_struct_aee1b299a08992e39b984be53cfa37dc1}{Last\+Error\+Ptr}}
+\begin{DoxyCompactList}\small\item\em Depending on Context of target detoured routine, may be an NTSTATUS return value or an actual last error pointer. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+General common values/code between the telemetry reader code. 
+
+Definition at line \mbox{\hyperlink{_general_telemetry_8cs_source_l00029}{29}} of file \mbox{\hyperlink{_general_telemetry_8cs_source}{General\+Telemetry.\+cs}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_insight_sheath_1_1_telemetry_1_1_general_telemtry_helper_struct_aca7bc051cf097864fbb5466fa87e2dec}\label{class_insight_sheath_1_1_telemetry_1_1_general_telemtry_helper_struct_aca7bc051cf097864fbb5466fa87e2dec}} 
+\index{InsightSheath.Telemetry.GeneralTelemtryHelperStruct@{InsightSheath.Telemetry.GeneralTelemtryHelperStruct}!GeneralTelemtryHelperStruct@{GeneralTelemtryHelperStruct}}
+\index{GeneralTelemtryHelperStruct@{GeneralTelemtryHelperStruct}!InsightSheath.Telemetry.GeneralTelemtryHelperStruct@{InsightSheath.Telemetry.GeneralTelemtryHelperStruct}}
+\doxysubsubsection{\texorpdfstring{GeneralTelemtryHelperStruct()}{GeneralTelemtryHelperStruct()}}
+{\footnotesize\ttfamily Insight\+Sheath.\+Telemetry.\+General\+Telemtry\+Helper\+Struct.\+General\+Telemtry\+Helper\+Struct (\begin{DoxyParamCaption}\item[{uint}]{Process\+Id,  }\item[{uint}]{Thread\+ID,  }\item[{Int\+Ptr}]{Force\+Handle,  }\item[{Int\+Ptr}]{Last\+Error,  }\item[{\mbox{\hyperlink{namespace_insight_sheath_aa32853670318d8ddc9960b8750584fc7}{Machine\+Type}}}]{Type }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line \mbox{\hyperlink{_general_telemetry_8cs_source_l00031}{31}} of file \mbox{\hyperlink{_general_telemetry_8cs_source}{General\+Telemetry.\+cs}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_insight_sheath_1_1_telemetry_1_1_general_telemtry_helper_struct_a34b0e2287c32222d7168367956801dfe}\label{class_insight_sheath_1_1_telemetry_1_1_general_telemtry_helper_struct_a34b0e2287c32222d7168367956801dfe}} 
+\index{InsightSheath.Telemetry.GeneralTelemtryHelperStruct@{InsightSheath.Telemetry.GeneralTelemtryHelperStruct}!SetForceHandle@{SetForceHandle}}
+\index{SetForceHandle@{SetForceHandle}!InsightSheath.Telemetry.GeneralTelemtryHelperStruct@{InsightSheath.Telemetry.GeneralTelemtryHelperStruct}}
+\doxysubsubsection{\texorpdfstring{SetForceHandle()}{SetForceHandle()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily void Insight\+Sheath.\+Telemetry.\+General\+Telemtry\+Helper\+Struct.\+Set\+Force\+Handle (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Set the handle to the appropriate invalid handle value based on the \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_general_telemtry_helper_struct_a11006996136e61596f8723cc201fd170}{Type}} value in this struct. 
+
+
+
+Definition at line \mbox{\hyperlink{_general_telemetry_8cs_source_l00114}{114}} of file \mbox{\hyperlink{_general_telemetry_8cs_source}{General\+Telemetry.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_telemetry_1_1_general_telemtry_helper_struct_a16fa6c5e8c62c760adcb2fae22e8afc8}\label{class_insight_sheath_1_1_telemetry_1_1_general_telemtry_helper_struct_a16fa6c5e8c62c760adcb2fae22e8afc8}} 
+\index{InsightSheath.Telemetry.GeneralTelemtryHelperStruct@{InsightSheath.Telemetry.GeneralTelemtryHelperStruct}!SetForceHandle@{SetForceHandle}}
+\index{SetForceHandle@{SetForceHandle}!InsightSheath.Telemetry.GeneralTelemtryHelperStruct@{InsightSheath.Telemetry.GeneralTelemtryHelperStruct}}
+\doxysubsubsection{\texorpdfstring{SetForceHandle()}{SetForceHandle()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily void Insight\+Sheath.\+Telemetry.\+General\+Telemtry\+Helper\+Struct.\+Set\+Force\+Handle (\begin{DoxyParamCaption}\item[{Int\+Ptr}]{Replacement\+Handle }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Duplicate the handle you provide into the process the exception was generated from and write it to the memory location specified by Force\+Handle 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Replacement\+Handle} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{_general_telemetry_8cs_source_l00066}{66}} of file \mbox{\hyperlink{_general_telemetry_8cs_source}{General\+Telemetry.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_telemetry_1_1_general_telemtry_helper_struct_a07e9c0fd53304b47289493af7c76ad00}\label{class_insight_sheath_1_1_telemetry_1_1_general_telemtry_helper_struct_a07e9c0fd53304b47289493af7c76ad00}} 
+\index{InsightSheath.Telemetry.GeneralTelemtryHelperStruct@{InsightSheath.Telemetry.GeneralTelemtryHelperStruct}!SetForceHandle@{SetForceHandle}}
+\index{SetForceHandle@{SetForceHandle}!InsightSheath.Telemetry.GeneralTelemtryHelperStruct@{InsightSheath.Telemetry.GeneralTelemtryHelperStruct}}
+\doxysubsubsection{\texorpdfstring{SetForceHandle()}{SetForceHandle()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily void Insight\+Sheath.\+Telemetry.\+General\+Telemtry\+Helper\+Struct.\+Set\+Force\+Handle (\begin{DoxyParamCaption}\item[{uint}]{Handle\+Value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Set the 32-\/bit handle value to something other than an Int\+Ptr -\/ for example Invalid\+Handle\+Value32 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Handle\+Value} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{_general_telemetry_8cs_source_l00159}{159}} of file \mbox{\hyperlink{_general_telemetry_8cs_source}{General\+Telemetry.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_telemetry_1_1_general_telemtry_helper_struct_a80ea7894d419918c2f81ef70537aa8f3}\label{class_insight_sheath_1_1_telemetry_1_1_general_telemtry_helper_struct_a80ea7894d419918c2f81ef70537aa8f3}} 
+\index{InsightSheath.Telemetry.GeneralTelemtryHelperStruct@{InsightSheath.Telemetry.GeneralTelemtryHelperStruct}!SetForceHandle@{SetForceHandle}}
+\index{SetForceHandle@{SetForceHandle}!InsightSheath.Telemetry.GeneralTelemtryHelperStruct@{InsightSheath.Telemetry.GeneralTelemtryHelperStruct}}
+\doxysubsubsection{\texorpdfstring{SetForceHandle()}{SetForceHandle()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily void Insight\+Sheath.\+Telemetry.\+General\+Telemtry\+Helper\+Struct.\+Set\+Force\+Handle (\begin{DoxyParamCaption}\item[{ulong}]{Handle\+Value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Set the 64-\/bit handle value to something other than an Int\+Ptr -\/ for example Invalid\+Handle\+Value64 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Handle\+Value} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{_general_telemetry_8cs_source_l00129}{129}} of file \mbox{\hyperlink{_general_telemetry_8cs_source}{General\+Telemetry.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_telemetry_1_1_general_telemtry_helper_struct_ac3609f54348342a33419cb3eca6ec817}\label{class_insight_sheath_1_1_telemetry_1_1_general_telemtry_helper_struct_ac3609f54348342a33419cb3eca6ec817}} 
+\index{InsightSheath.Telemetry.GeneralTelemtryHelperStruct@{InsightSheath.Telemetry.GeneralTelemtryHelperStruct}!SetLastErrorValue@{SetLastErrorValue}}
+\index{SetLastErrorValue@{SetLastErrorValue}!InsightSheath.Telemetry.GeneralTelemtryHelperStruct@{InsightSheath.Telemetry.GeneralTelemtryHelperStruct}}
+\doxysubsubsection{\texorpdfstring{SetLastErrorValue()}{SetLastErrorValue()}}
+{\footnotesize\ttfamily void Insight\+Sheath.\+Telemetry.\+General\+Telemtry\+Helper\+Struct.\+Set\+Last\+Error\+Value (\begin{DoxyParamCaption}\item[{uint}]{New\+Value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Set the last error value that will be set by the detouring routine when returning control to the debugged process. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em New\+Value} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{_general_telemetry_8cs_source_l00191}{191}} of file \mbox{\hyperlink{_general_telemetry_8cs_source}{General\+Telemetry.\+cs}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{class_insight_sheath_1_1_telemetry_1_1_general_telemtry_helper_struct_a700395c0a23952a5c01d6ef8b840c736}\label{class_insight_sheath_1_1_telemetry_1_1_general_telemtry_helper_struct_a700395c0a23952a5c01d6ef8b840c736}} 
+\index{InsightSheath.Telemetry.GeneralTelemtryHelperStruct@{InsightSheath.Telemetry.GeneralTelemtryHelperStruct}!ForceHandlePtr@{ForceHandlePtr}}
+\index{ForceHandlePtr@{ForceHandlePtr}!InsightSheath.Telemetry.GeneralTelemtryHelperStruct@{InsightSheath.Telemetry.GeneralTelemtryHelperStruct}}
+\doxysubsubsection{\texorpdfstring{ForceHandlePtr}{ForceHandlePtr}}
+{\footnotesize\ttfamily readonly Int\+Ptr Insight\+Sheath.\+Telemetry.\+General\+Telemtry\+Helper\+Struct.\+Force\+Handle\+Ptr}
+
+
+
+Pointer to the handle that is returned back to the target process after handling the exception. 
+
+
+
+Definition at line \mbox{\hyperlink{_general_telemetry_8cs_source_l00055}{55}} of file \mbox{\hyperlink{_general_telemetry_8cs_source}{General\+Telemetry.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_telemetry_1_1_general_telemtry_helper_struct_aee1b299a08992e39b984be53cfa37dc1}\label{class_insight_sheath_1_1_telemetry_1_1_general_telemtry_helper_struct_aee1b299a08992e39b984be53cfa37dc1}} 
+\index{InsightSheath.Telemetry.GeneralTelemtryHelperStruct@{InsightSheath.Telemetry.GeneralTelemtryHelperStruct}!LastErrorPtr@{LastErrorPtr}}
+\index{LastErrorPtr@{LastErrorPtr}!InsightSheath.Telemetry.GeneralTelemtryHelperStruct@{InsightSheath.Telemetry.GeneralTelemtryHelperStruct}}
+\doxysubsubsection{\texorpdfstring{LastErrorPtr}{LastErrorPtr}}
+{\footnotesize\ttfamily readonly Int\+Ptr Insight\+Sheath.\+Telemetry.\+General\+Telemtry\+Helper\+Struct.\+Last\+Error\+Ptr}
+
+
+
+Depending on Context of target detoured routine, may be an NTSTATUS return value or an actual last error pointer. 
+
+
+
+Definition at line \mbox{\hyperlink{_general_telemetry_8cs_source_l00059}{59}} of file \mbox{\hyperlink{_general_telemetry_8cs_source}{General\+Telemetry.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_telemetry_1_1_general_telemtry_helper_struct_a3cf9468658bda6c3b5545fcdec4051e4}\label{class_insight_sheath_1_1_telemetry_1_1_general_telemtry_helper_struct_a3cf9468658bda6c3b5545fcdec4051e4}} 
+\index{InsightSheath.Telemetry.GeneralTelemtryHelperStruct@{InsightSheath.Telemetry.GeneralTelemtryHelperStruct}!ProcessId@{ProcessId}}
+\index{ProcessId@{ProcessId}!InsightSheath.Telemetry.GeneralTelemtryHelperStruct@{InsightSheath.Telemetry.GeneralTelemtryHelperStruct}}
+\doxysubsubsection{\texorpdfstring{ProcessId}{ProcessId}}
+{\footnotesize\ttfamily readonly uint Insight\+Sheath.\+Telemetry.\+General\+Telemtry\+Helper\+Struct.\+Process\+Id}
+
+
+
+Process that the exception originated from. 
+
+
+
+Definition at line \mbox{\hyperlink{_general_telemetry_8cs_source_l00047}{47}} of file \mbox{\hyperlink{_general_telemetry_8cs_source}{General\+Telemetry.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_telemetry_1_1_general_telemtry_helper_struct_aeb2deb9b9fcaecec2a03eeaa3a36fa6c}\label{class_insight_sheath_1_1_telemetry_1_1_general_telemtry_helper_struct_aeb2deb9b9fcaecec2a03eeaa3a36fa6c}} 
+\index{InsightSheath.Telemetry.GeneralTelemtryHelperStruct@{InsightSheath.Telemetry.GeneralTelemtryHelperStruct}!ThreadId@{ThreadId}}
+\index{ThreadId@{ThreadId}!InsightSheath.Telemetry.GeneralTelemtryHelperStruct@{InsightSheath.Telemetry.GeneralTelemtryHelperStruct}}
+\doxysubsubsection{\texorpdfstring{ThreadId}{ThreadId}}
+{\footnotesize\ttfamily readonly uint Insight\+Sheath.\+Telemetry.\+General\+Telemtry\+Helper\+Struct.\+Thread\+Id}
+
+
+
+Thread that the exception originated from. 
+
+
+
+Definition at line \mbox{\hyperlink{_general_telemetry_8cs_source_l00051}{51}} of file \mbox{\hyperlink{_general_telemetry_8cs_source}{General\+Telemetry.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_telemetry_1_1_general_telemtry_helper_struct_a11006996136e61596f8723cc201fd170}\label{class_insight_sheath_1_1_telemetry_1_1_general_telemtry_helper_struct_a11006996136e61596f8723cc201fd170}} 
+\index{InsightSheath.Telemetry.GeneralTelemtryHelperStruct@{InsightSheath.Telemetry.GeneralTelemtryHelperStruct}!Type@{Type}}
+\index{Type@{Type}!InsightSheath.Telemetry.GeneralTelemtryHelperStruct@{InsightSheath.Telemetry.GeneralTelemtryHelperStruct}}
+\doxysubsubsection{\texorpdfstring{Type}{Type}}
+{\footnotesize\ttfamily readonly \mbox{\hyperlink{namespace_insight_sheath_aa32853670318d8ddc9960b8750584fc7}{Machine\+Type}} Insight\+Sheath.\+Telemetry.\+General\+Telemtry\+Helper\+Struct.\+Type}
+
+
+
+Depends on what Debug\+Event.\+Is\+Process32\+Bit returns. Intended for determining pointer size only. If that\textquotesingle{}s true, Value is \mbox{\hyperlink{namespace_insight_sheath_aa32853670318d8ddc9960b8750584fc7ab2a95561dc10556507160dd63400322d}{Machine\+Type.\+Machine\+I386}} otherwise value is \mbox{\hyperlink{namespace_insight_sheath_aa32853670318d8ddc9960b8750584fc7a76f41d80a3b6cde6c17c740686b33ede}{Machine\+Type.\+Machine\+Amd64}} i386 pointer sizes are 4 bytes long and Amd64 pointer sizes are 8 bytes. This may not actually be the exact machine type as stored in the debugged process\textquotesingle{}s physical PE/\+EXE file. 
+
+
+
+Definition at line \mbox{\hyperlink{_general_telemetry_8cs_source_l00042}{42}} of file \mbox{\hyperlink{_general_telemetry_8cs_source}{General\+Telemetry.\+cs}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Telemetry/\mbox{\hyperlink{_general_telemetry_8cs}{General\+Telemetry.\+cs}}\end{DoxyCompactItemize}

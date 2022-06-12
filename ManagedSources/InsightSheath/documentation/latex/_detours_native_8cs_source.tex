@@ -1,0 +1,21 @@
+\hypertarget{_detours_native_8cs_source}{}\doxysection{Detours\+Native.\+cs}
+\label{_detours_native_8cs_source}\index{NativeImports/DetoursNative.cs@{NativeImports/DetoursNative.cs}}
+\mbox{\hyperlink{_detours_native_8cs}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_detours_native_8cs_source_l00001}00001 \textcolor{keyword}{using }System;}
+\DoxyCodeLine{\Hypertarget{_detours_native_8cs_source_l00002}00002 \textcolor{keyword}{using }System.Collections.Generic;}
+\DoxyCodeLine{\Hypertarget{_detours_native_8cs_source_l00003}00003 \textcolor{keyword}{using }System.Linq;}
+\DoxyCodeLine{\Hypertarget{_detours_native_8cs_source_l00004}00004 \textcolor{keyword}{using }System.Text;}
+\DoxyCodeLine{\Hypertarget{_detours_native_8cs_source_l00005}00005 \textcolor{keyword}{using }System.Threading.Tasks;}
+\DoxyCodeLine{\Hypertarget{_detours_native_8cs_source_l00006}00006 \textcolor{keyword}{using }System.Runtime.InteropServices;}
+\DoxyCodeLine{\Hypertarget{_detours_native_8cs_source_l00007}00007 }
+\DoxyCodeLine{\Hypertarget{_detours_native_8cs_source_l00008}00008 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespace_insight_sheath_1_1_native_imports}{InsightSheath.NativeImports}}}
+\DoxyCodeLine{\Hypertarget{_detours_native_8cs_source_l00009}00009 \{}
+\DoxyCodeLine{\Hypertarget{_detours_native_8cs_source_l00010}00010     \textcolor{keyword}{internal} \textcolor{keyword}{static} \textcolor{keyword}{partial class }NativeMethods}
+\DoxyCodeLine{\Hypertarget{_detours_native_8cs_source_l00011}00011     \{}
+\DoxyCodeLine{\Hypertarget{_detours_native_8cs_source_l00012}00012         [DllImport(\textcolor{stringliteral}{"{}InsightApi.Dll"{}},CallingConvention= CallingConvention.Winapi, SetLastError =\textcolor{keyword}{true},EntryPoint =\textcolor{stringliteral}{"{}DetourEnumerateModulesEx"{}})]}
+\DoxyCodeLine{\Hypertarget{_detours_native_8cs_source_l00013}00013         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keyword}{extern} IntPtr DetourEnumerateModulesEx(IntPtr hProcess, IntPtr hModule);}
+\DoxyCodeLine{\Hypertarget{_detours_native_8cs_source_l00014}00014     \}}
+\DoxyCodeLine{\Hypertarget{_detours_native_8cs_source_l00015}00015 \}}
+
+\end{DoxyCode}

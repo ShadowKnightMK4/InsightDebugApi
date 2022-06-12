@@ -1,0 +1,491 @@
+\hypertarget{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter}{}\doxysection{Insight\+Sheath.\+Debugging.\+Symbol\+Engine.\+Insight\+Hunter Class Reference}
+\label{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter}\index{InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}}
+
+
+A part of the symbol engine exported in Insight\+API in the Native DLL. This class is VERY VERY VERY tightly coupled with the Insight\+Process class but distinct enough to warrent its own class/wrapper wrappers. If you need not have symbol processing, disabling Insight\+Process.\+Enable\+Symbol\+Engine is set to false if fine. That turns off the code that updates the native \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter}{Insight\+Hunter}} class when the worker thread receives a debug event NOTE\+: You\textquotesingle{}ll need to spawn at least one process with Insight\+Process to get much use out of this.  
+
+
+Inheritance diagram for Insight\+Sheath.\+Debugging.\+Symbol\+Engine.\+Insight\+Hunter\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22}{Symbol\+Options\+Flags}} \+: uint \{ \newline
+\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22a19451994dce7721b3115bc63e322c51e}{Allow\+Absolute\+Symbols}} = 0x00000800
+, \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22acab130c2894de9217676a7fa9d2fefe9}{Allow\+Zero\+Address}} = 0x01000000
+, \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22a0688abb3dd74899f1bda18f8ddd29a04}{Auto\+Publics}} = 0x00010000
+, \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22ac1a84ee5b055f4ca465bb456589a2bda}{Case\+Insentive}} = 0x00000001
+, \newline
+\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22afe2e30f9ad4dc8f704457dfbd9c782ed}{Debug\+Mode}} = 0x80000000
+, \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22a7d27c80bcfcea6e1e9132555c7a6b1b5}{Deferred\+Load}} = 0x00000004
+, \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22a4c76b464f528010e0c4284fbb7084a79}{Disable\+Sym\+Server\+Auto\+Detect}} = 0x02000000
+, \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22a643897bfc8922fb44378a69a9c67a186}{Exact\+Symbol\+Required}} = 0x02000000
+, \newline
+\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22a3ee002379a7bfb97e28b4bde18916772}{Fail\+Critical\+Errors}} = 0x00000200
+, \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22aaecd0a6c7a785bfc9cf44248b72d7528}{Favor\+Compressed}} = 0x00800000
+, \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22a26e85c6d3d6e3c6127e2fac1d58aac69}{Flat\+Directory}} = 0x00400000
+, \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22ac78bfe8fed38346ae34661da2b9b5310}{Ignore\+Code\+View\+Record}} = 0x00000080
+, \newline
+\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22abf57179e4d19780ec3346de705bf8f1e}{Ignore\+Image\+Dir}} = 0x00200000
+, \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22aab770e815fba2a3b076ece72bd0f0dd5}{Ignore\+Nt\+Sym\+Path}} = 0x00001000
+, \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22a51b90f9c9ed6504d4de21a95da1e5a1b}{Include32\+Bit\+Modules}} = 0x00002000
+, \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22a6c205872b3b544a643962c74062c58da}{Load\+Anything}} = 0x00000040
+, \newline
+\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22ab67884c0def35840a431371f25d75f3b}{Load\+Lines}} = 0x00000010
+, \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22a8585cc63b8eb67d4246e80ceaeb0d36f}{SYMOPT\+\_\+\+NO\+\_\+\+CPP}} = 0x00000008
+, \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22a038ac76a487109cdbfc31726c17e7359}{No\+Image\+Search}} = 0x00020000
+, \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22aec84bf3aa03c44528fa762ccd245e8f3}{No\+Prompts}} = 0x00080000
+, \newline
+\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22a6136eebd51c299029e433551bcd57171}{No\+Publics}} = 0x00008000
+, \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22a893fd24183c2735cf40c05d35d57f081}{No\+Unqualified\+Loads}} = 0x00000100
+, \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22ada364eb37e143f6b2b5559aa03f5913a}{Overwrite}} = 0x00100000
+, \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22a14a16283411d701b2612b1fd0c5c8d5b}{Publics\+Only}} = 0x00004000
+, \newline
+\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22a6604fa9c7bbcd7b1553d7234010dde20}{Secure\+Mode}} = 0x00040000
+, \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22a53e6f701ad9427cdbb4960dc4729797b}{Undecorate\+Symbols}} = 0x00000002
+ \}
+\begin{DoxyCompactList}\small\item\em Specifies combinations of flags to Set for the symbol engine as seein in MSDN\textquotesingle{}s Sym\+Set\+Options \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ace561bfe714bc52ca42bfd665e5bfb1f}{Insight\+Hunter}} (Int\+Ptr That)
+\item 
+\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_a65cdad59e429386b63c320ebe7839ff1}{Insight\+Hunter}} (Int\+Ptr That, bool Free\+On\+Dispose)
+\item 
+bool \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_a721d08534350ccf32f1008f53fa61b7e}{Load\+Exe\+Symbol\+Info}} (\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{Debug\+Event}} debug\+Event)
+\begin{DoxyCompactList}\small\item\em Not normally need to be called (if using the working thread\texorpdfstring{$<$}{<}see cref=Debug\+Mode\+Type.\+Worker\+Thread\char`\"{}/$>$ in $<$see cref=\char`\"{}Insight\+Process"{}/\texorpdfstring{$>$}{>}. This tells the symbol engine to load an exe\textquotesingle{}s debug data in reponse to a CREATE\+\_\+\+PROCESS\+\_\+\+DEBUG\+\_\+\+EVENT \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ab4e4b216226fbf4facecc18ad3e935aa}{Load\+Exe\+Symbol\+Info}} (Int\+Ptr \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{Debug\+Event}})
+\begin{DoxyCompactList}\small\item\em Not normally need to be called (if using the working thread\texorpdfstring{$<$}{<}see cref=Debug\+Mode\+Type.\+Worker\+Thread\char`\"{}/$>$ in $<$see cref=\char`\"{}Insight\+Process"{}/\texorpdfstring{$>$}{>}. This tells the symbol engine to load an exe\textquotesingle{}s debug data in reponse to a CREATE\+\_\+\+PROCESS\+\_\+\+DEBUG\+\_\+\+EVENT \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_a4213e00d05d9c8c7fef21e3a6ca3dff7}{Load\+Dll\+Symbol\+Info}} (\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{Debug\+Event}} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{Debug\+Event}})
+\begin{DoxyCompactList}\small\item\em Not normally need to be called (if using the working thread\texorpdfstring{$<$}{<}see cref=Debug\+Mode\+Type.\+Worker\+Thread\char`\"{}/$>$ in $<$see cref=\char`\"{}Insight\+Process"{}/\texorpdfstring{$>$}{>}. This tells the symbol engine to load an exe\textquotesingle{}s debug data in resposne to a LOAD\+\_\+\+DLL\+\_\+\+DEBUG\+\_\+\+EVENT \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_a821de21ad33ad7fb7aa9dde82157ffbe}{Unload\+Dll\+Symbol\+Info}} (\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{Debug\+Event}} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{Debug\+Event}})
+\begin{DoxyCompactList}\small\item\em Not normally need to be called (if using the working thread\texorpdfstring{$<$}{<}see cref=Debug\+Mode\+Type.\+Worker\+Thread\char`\"{}/$>$ in $<$see cref=\char`\"{}Insight\+Process"{}/\texorpdfstring{$>$}{>}. This tells the symbol engine to load an exe\textquotesingle{}s debug data in resposne to a UNLOAD\+\_\+\+DLL\+\_\+\+DEBUG\+\_\+\+EVENT \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_a49d83971de249f59fc579e956c6021d1}{Unload\+Dll\+Symbol\+Info}} (Int\+Ptr \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{Debug\+Event}})
+\item 
+bool \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_a188b4676209bb83caaf68c09acbb7d19}{Set\+Parent\+Window}} (Int\+Ptr HWND)
+\begin{DoxyCompactList}\small\item\em Set the parent window for the symbol engine/ debug help api \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada0ad5924a034eb143adc4b53e848334}{Enumerate\+Symbols}} (string Search\+String, \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_a718f1d4ada1521328965a9403ea1e65e}{Insight\+Hunter\+\_\+\+Symbol\+Search\+Call\+Back\+Routine}} Dot\+Net\+Callback)
+\begin{DoxyCompactList}\small\item\em Enumerate loaded symbols for the debugged exe \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ab4206ab1119fc00d8d3b7bfde23186a0}{Enumerate\+Source\+Files}} (string Search\+String, \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_a2c969d17f715f5c8ab0b0046fd0af02f}{Insight\+Hunter\+\_\+\+Symbol\+Source\+Callback\+Routine}} Dot\+Net\+Call\+Back)
+\begin{DoxyCompactList}\small\item\em Enumerate loaded source files for symbol \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ac51cee1bbe1f02889a2bc33222a77531}{Refresh\+Modules}} ()
+\begin{DoxyCompactList}\small\item\em reload loaded modules. ~\newline
+ \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_a27a0c66403464f176839fb111c3d220c}{Sync\+Access}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Default is true. This being true means the Native\+Class \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter}{Insight\+Hunter}} synchronizes calls to the Debug Help Symbol Engine with a CRITICAL\+\_\+\+SECTION Win32 Object \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22}{Symbol\+Options\+Flags}} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_a89c603a5a79cbbb2a7795fd3d276d57c}{Symbol\+Options}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Specify what you want to the symbol handler to too. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_debug_help___api_version_struct}{Debug\+Help\+\_\+\+Api\+Version\+Struct}} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_a90cf61e7918fc42de31ea4d0595e79e3}{Debug\+Help\+\_\+\+Version}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Get Version Data on the Debug Help API the symbol engine actuallly uses. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_a_p_i___v_e_r_s_i_o_n}{API\+\_\+\+VERSION}} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_a3adbb405da14e5f0ffa3b7b5de502173}{Debug\+Help\+\_\+\+Version2}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+A part of the symbol engine exported in Insight\+API in the Native DLL. This class is VERY VERY VERY tightly coupled with the Insight\+Process class but distinct enough to warrent its own class/wrapper wrappers. If you need not have symbol processing, disabling Insight\+Process.\+Enable\+Symbol\+Engine is set to false if fine. That turns off the code that updates the native \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter}{Insight\+Hunter}} class when the worker thread receives a debug event NOTE\+: You\textquotesingle{}ll need to spawn at least one process with Insight\+Process to get much use out of this. 
+
+Definition at line \mbox{\hyperlink{_insight_hunter_8cs_source_l00030}{30}} of file \mbox{\hyperlink{_insight_hunter_8cs_source}{Insight\+Hunter.\+cs}}.
+
+
+
+\doxysubsection{Member Enumeration Documentation}
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22}\label{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22}} 
+\index{InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}!SymbolOptionsFlags@{SymbolOptionsFlags}}
+\index{SymbolOptionsFlags@{SymbolOptionsFlags}!InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}}
+\doxysubsubsection{\texorpdfstring{SymbolOptionsFlags}{SymbolOptionsFlags}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22}{Insight\+Sheath.\+Debugging.\+Symbol\+Engine.\+Insight\+Hunter.\+Symbol\+Options\+Flags}} \+: uint}
+
+
+
+Specifies combinations of flags to Set for the symbol engine as seein in MSDN\textquotesingle{}s Sym\+Set\+Options 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AllowAbsoluteSymbols@{AllowAbsoluteSymbols}!InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}}\index{InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}!AllowAbsoluteSymbols@{AllowAbsoluteSymbols}}}\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22a19451994dce7721b3115bc63e322c51e}\label{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22a19451994dce7721b3115bc63e322c51e}} 
+Allow\+Absolute\+Symbols&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AllowZeroAddress@{AllowZeroAddress}!InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}}\index{InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}!AllowZeroAddress@{AllowZeroAddress}}}\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22acab130c2894de9217676a7fa9d2fefe9}\label{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22acab130c2894de9217676a7fa9d2fefe9}} 
+Allow\+Zero\+Address&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AutoPublics@{AutoPublics}!InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}}\index{InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}!AutoPublics@{AutoPublics}}}\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22a0688abb3dd74899f1bda18f8ddd29a04}\label{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22a0688abb3dd74899f1bda18f8ddd29a04}} 
+Auto\+Publics&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CaseInsentive@{CaseInsentive}!InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}}\index{InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}!CaseInsentive@{CaseInsentive}}}\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22ac1a84ee5b055f4ca465bb456589a2bda}\label{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22ac1a84ee5b055f4ca465bb456589a2bda}} 
+Case\+Insentive&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{DebugMode@{DebugMode}!InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}}\index{InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}!DebugMode@{DebugMode}}}\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22afe2e30f9ad4dc8f704457dfbd9c782ed}\label{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22afe2e30f9ad4dc8f704457dfbd9c782ed}} 
+Debug\+Mode&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{DeferredLoad@{DeferredLoad}!InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}}\index{InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}!DeferredLoad@{DeferredLoad}}}\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22a7d27c80bcfcea6e1e9132555c7a6b1b5}\label{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22a7d27c80bcfcea6e1e9132555c7a6b1b5}} 
+Deferred\+Load&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{DisableSymServerAutoDetect@{DisableSymServerAutoDetect}!InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}}\index{InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}!DisableSymServerAutoDetect@{DisableSymServerAutoDetect}}}\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22a4c76b464f528010e0c4284fbb7084a79}\label{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22a4c76b464f528010e0c4284fbb7084a79}} 
+Disable\+Sym\+Server\+Auto\+Detect&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ExactSymbolRequired@{ExactSymbolRequired}!InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}}\index{InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}!ExactSymbolRequired@{ExactSymbolRequired}}}\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22a643897bfc8922fb44378a69a9c67a186}\label{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22a643897bfc8922fb44378a69a9c67a186}} 
+Exact\+Symbol\+Required&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FailCriticalErrors@{FailCriticalErrors}!InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}}\index{InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}!FailCriticalErrors@{FailCriticalErrors}}}\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22a3ee002379a7bfb97e28b4bde18916772}\label{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22a3ee002379a7bfb97e28b4bde18916772}} 
+Fail\+Critical\+Errors&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FavorCompressed@{FavorCompressed}!InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}}\index{InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}!FavorCompressed@{FavorCompressed}}}\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22aaecd0a6c7a785bfc9cf44248b72d7528}\label{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22aaecd0a6c7a785bfc9cf44248b72d7528}} 
+Favor\+Compressed&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FlatDirectory@{FlatDirectory}!InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}}\index{InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}!FlatDirectory@{FlatDirectory}}}\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22a26e85c6d3d6e3c6127e2fac1d58aac69}\label{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22a26e85c6d3d6e3c6127e2fac1d58aac69}} 
+Flat\+Directory&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{IgnoreCodeViewRecord@{IgnoreCodeViewRecord}!InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}}\index{InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}!IgnoreCodeViewRecord@{IgnoreCodeViewRecord}}}\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22ac78bfe8fed38346ae34661da2b9b5310}\label{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22ac78bfe8fed38346ae34661da2b9b5310}} 
+Ignore\+Code\+View\+Record&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{IgnoreImageDir@{IgnoreImageDir}!InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}}\index{InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}!IgnoreImageDir@{IgnoreImageDir}}}\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22abf57179e4d19780ec3346de705bf8f1e}\label{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22abf57179e4d19780ec3346de705bf8f1e}} 
+Ignore\+Image\+Dir&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{IgnoreNtSymPath@{IgnoreNtSymPath}!InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}}\index{InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}!IgnoreNtSymPath@{IgnoreNtSymPath}}}\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22aab770e815fba2a3b076ece72bd0f0dd5}\label{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22aab770e815fba2a3b076ece72bd0f0dd5}} 
+Ignore\+Nt\+Sym\+Path&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Include32BitModules@{Include32BitModules}!InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}}\index{InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}!Include32BitModules@{Include32BitModules}}}\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22a51b90f9c9ed6504d4de21a95da1e5a1b}\label{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22a51b90f9c9ed6504d4de21a95da1e5a1b}} 
+Include32\+Bit\+Modules&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LoadAnything@{LoadAnything}!InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}}\index{InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}!LoadAnything@{LoadAnything}}}\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22a6c205872b3b544a643962c74062c58da}\label{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22a6c205872b3b544a643962c74062c58da}} 
+Load\+Anything&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LoadLines@{LoadLines}!InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}}\index{InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}!LoadLines@{LoadLines}}}\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22ab67884c0def35840a431371f25d75f3b}\label{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22ab67884c0def35840a431371f25d75f3b}} 
+Load\+Lines&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SYMOPT\_NO\_CPP@{SYMOPT\_NO\_CPP}!InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}}\index{InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}!SYMOPT\_NO\_CPP@{SYMOPT\_NO\_CPP}}}\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22a8585cc63b8eb67d4246e80ceaeb0d36f}\label{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22a8585cc63b8eb67d4246e80ceaeb0d36f}} 
+SYMOPT\+\_\+\+NO\+\_\+\+CPP&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{NoImageSearch@{NoImageSearch}!InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}}\index{InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}!NoImageSearch@{NoImageSearch}}}\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22a038ac76a487109cdbfc31726c17e7359}\label{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22a038ac76a487109cdbfc31726c17e7359}} 
+No\+Image\+Search&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{NoPrompts@{NoPrompts}!InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}}\index{InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}!NoPrompts@{NoPrompts}}}\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22aec84bf3aa03c44528fa762ccd245e8f3}\label{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22aec84bf3aa03c44528fa762ccd245e8f3}} 
+No\+Prompts&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{NoPublics@{NoPublics}!InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}}\index{InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}!NoPublics@{NoPublics}}}\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22a6136eebd51c299029e433551bcd57171}\label{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22a6136eebd51c299029e433551bcd57171}} 
+No\+Publics&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{NoUnqualifiedLoads@{NoUnqualifiedLoads}!InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}}\index{InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}!NoUnqualifiedLoads@{NoUnqualifiedLoads}}}\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22a893fd24183c2735cf40c05d35d57f081}\label{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22a893fd24183c2735cf40c05d35d57f081}} 
+No\+Unqualified\+Loads&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Overwrite@{Overwrite}!InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}}\index{InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}!Overwrite@{Overwrite}}}\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22ada364eb37e143f6b2b5559aa03f5913a}\label{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22ada364eb37e143f6b2b5559aa03f5913a}} 
+Overwrite&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PublicsOnly@{PublicsOnly}!InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}}\index{InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}!PublicsOnly@{PublicsOnly}}}\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22a14a16283411d701b2612b1fd0c5c8d5b}\label{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22a14a16283411d701b2612b1fd0c5c8d5b}} 
+Publics\+Only&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SecureMode@{SecureMode}!InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}}\index{InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}!SecureMode@{SecureMode}}}\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22a6604fa9c7bbcd7b1553d7234010dde20}\label{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22a6604fa9c7bbcd7b1553d7234010dde20}} 
+Secure\+Mode&WARNING YOU CANNOT CLEAR this flag once set. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{UndecorateSymbols@{UndecorateSymbols}!InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}}\index{InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}!UndecorateSymbols@{UndecorateSymbols}}}\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22a53e6f701ad9427cdbb4960dc4729797b}\label{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22a53e6f701ad9427cdbb4960dc4729797b}} 
+Undecorate\+Symbols&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line \mbox{\hyperlink{_insight_hunter_8cs_source_l00036}{36}} of file \mbox{\hyperlink{_insight_hunter_8cs_source}{Insight\+Hunter.\+cs}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ace561bfe714bc52ca42bfd665e5bfb1f}\label{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ace561bfe714bc52ca42bfd665e5bfb1f}} 
+\index{InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}!InsightHunter@{InsightHunter}}
+\index{InsightHunter@{InsightHunter}!InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}}
+\doxysubsubsection{\texorpdfstring{InsightHunter()}{InsightHunter()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Insight\+Sheath.\+Debugging.\+Symbol\+Engine.\+Insight\+Hunter.\+Insight\+Hunter (\begin{DoxyParamCaption}\item[{Int\+Ptr}]{That }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line \mbox{\hyperlink{_insight_hunter_8cs_source_l00069}{69}} of file \mbox{\hyperlink{_insight_hunter_8cs_source}{Insight\+Hunter.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_a65cdad59e429386b63c320ebe7839ff1}\label{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_a65cdad59e429386b63c320ebe7839ff1}} 
+\index{InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}!InsightHunter@{InsightHunter}}
+\index{InsightHunter@{InsightHunter}!InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}}
+\doxysubsubsection{\texorpdfstring{InsightHunter()}{InsightHunter()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Insight\+Sheath.\+Debugging.\+Symbol\+Engine.\+Insight\+Hunter.\+Insight\+Hunter (\begin{DoxyParamCaption}\item[{Int\+Ptr}]{That,  }\item[{bool}]{Free\+On\+Dispose }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line \mbox{\hyperlink{_insight_hunter_8cs_source_l00074}{74}} of file \mbox{\hyperlink{_insight_hunter_8cs_source}{Insight\+Hunter.\+cs}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ab4206ab1119fc00d8d3b7bfde23186a0}\label{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ab4206ab1119fc00d8d3b7bfde23186a0}} 
+\index{InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}!EnumerateSourceFiles@{EnumerateSourceFiles}}
+\index{EnumerateSourceFiles@{EnumerateSourceFiles}!InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}}
+\doxysubsubsection{\texorpdfstring{EnumerateSourceFiles()}{EnumerateSourceFiles()}}
+{\footnotesize\ttfamily bool Insight\+Sheath.\+Debugging.\+Symbol\+Engine.\+Insight\+Hunter.\+Enumerate\+Source\+Files (\begin{DoxyParamCaption}\item[{string}]{Search\+String,  }\item[{\mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_a2c969d17f715f5c8ab0b0046fd0af02f}{Insight\+Hunter\+\_\+\+Symbol\+Source\+Callback\+Routine}}}]{Dot\+Net\+Call\+Back }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Enumerate loaded source files for symbol 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Search\+String} & \\
+\hline
+{\em Dot\+Net\+Call\+Back} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{_insight_hunter_8cs_source_l00159}{159}} of file \mbox{\hyperlink{_insight_hunter_8cs_source}{Insight\+Hunter.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada0ad5924a034eb143adc4b53e848334}\label{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada0ad5924a034eb143adc4b53e848334}} 
+\index{InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}!EnumerateSymbols@{EnumerateSymbols}}
+\index{EnumerateSymbols@{EnumerateSymbols}!InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}}
+\doxysubsubsection{\texorpdfstring{EnumerateSymbols()}{EnumerateSymbols()}}
+{\footnotesize\ttfamily bool Insight\+Sheath.\+Debugging.\+Symbol\+Engine.\+Insight\+Hunter.\+Enumerate\+Symbols (\begin{DoxyParamCaption}\item[{string}]{Search\+String,  }\item[{\mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_a718f1d4ada1521328965a9403ea1e65e}{Insight\+Hunter\+\_\+\+Symbol\+Search\+Call\+Back\+Routine}}}]{Dot\+Net\+Callback }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Enumerate loaded symbols for the debugged exe 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Search\+String} & \\
+\hline
+{\em Dot\+Net\+Callback} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{_insight_hunter_8cs_source_l00148}{148}} of file \mbox{\hyperlink{_insight_hunter_8cs_source}{Insight\+Hunter.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_a4213e00d05d9c8c7fef21e3a6ca3dff7}\label{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_a4213e00d05d9c8c7fef21e3a6ca3dff7}} 
+\index{InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}!LoadDllSymbolInfo@{LoadDllSymbolInfo}}
+\index{LoadDllSymbolInfo@{LoadDllSymbolInfo}!InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}}
+\doxysubsubsection{\texorpdfstring{LoadDllSymbolInfo()}{LoadDllSymbolInfo()}}
+{\footnotesize\ttfamily bool Insight\+Sheath.\+Debugging.\+Symbol\+Engine.\+Insight\+Hunter.\+Load\+Dll\+Symbol\+Info (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{Debug\+Event}}}]{Debug\+Event }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Not normally need to be called (if using the working thread\texorpdfstring{$<$}{<}see cref=Debug\+Mode\+Type.\+Worker\+Thread\char`\"{}/$>$ in $<$see cref=\char`\"{}Insight\+Process"{}/\texorpdfstring{$>$}{>}. This tells the symbol engine to load an exe\textquotesingle{}s debug data in resposne to a LOAD\+\_\+\+DLL\+\_\+\+DEBUG\+\_\+\+EVENT 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{Debug\+Event}}} & class instance containing a \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8afca498d4710b5539f369a6de68e749ab}{Debug\+Event\+Type.\+Load\+Dll\+Event}} event\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if ok, false on failuree
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{_insight_hunter_8cs_source_l00107}{107}} of file \mbox{\hyperlink{_insight_hunter_8cs_source}{Insight\+Hunter.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_a721d08534350ccf32f1008f53fa61b7e}\label{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_a721d08534350ccf32f1008f53fa61b7e}} 
+\index{InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}!LoadExeSymbolInfo@{LoadExeSymbolInfo}}
+\index{LoadExeSymbolInfo@{LoadExeSymbolInfo}!InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}}
+\doxysubsubsection{\texorpdfstring{LoadExeSymbolInfo()}{LoadExeSymbolInfo()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily bool Insight\+Sheath.\+Debugging.\+Symbol\+Engine.\+Insight\+Hunter.\+Load\+Exe\+Symbol\+Info (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{Debug\+Event}}}]{debug\+Event }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Not normally need to be called (if using the working thread\texorpdfstring{$<$}{<}see cref=Debug\+Mode\+Type.\+Worker\+Thread\char`\"{}/$>$ in $<$see cref=\char`\"{}Insight\+Process"{}/\texorpdfstring{$>$}{>}. This tells the symbol engine to load an exe\textquotesingle{}s debug data in reponse to a CREATE\+\_\+\+PROCESS\+\_\+\+DEBUG\+\_\+\+EVENT 
+
+
+\begin{DoxyParams}{Parameters}
+{\em debug\+Event} & \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{Debug\+Event}} class instance containing a \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8ab5636216d91a5febd3dfab18879d8200}{Debug\+Event\+Type.\+Create\+Process\+Event}} event\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if ok, false on failuree
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{_insight_hunter_8cs_source_l00085}{85}} of file \mbox{\hyperlink{_insight_hunter_8cs_source}{Insight\+Hunter.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ab4e4b216226fbf4facecc18ad3e935aa}\label{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ab4e4b216226fbf4facecc18ad3e935aa}} 
+\index{InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}!LoadExeSymbolInfo@{LoadExeSymbolInfo}}
+\index{LoadExeSymbolInfo@{LoadExeSymbolInfo}!InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}}
+\doxysubsubsection{\texorpdfstring{LoadExeSymbolInfo()}{LoadExeSymbolInfo()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily bool Insight\+Sheath.\+Debugging.\+Symbol\+Engine.\+Insight\+Hunter.\+Load\+Exe\+Symbol\+Info (\begin{DoxyParamCaption}\item[{Int\+Ptr}]{Debug\+Event }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Not normally need to be called (if using the working thread\texorpdfstring{$<$}{<}see cref=Debug\+Mode\+Type.\+Worker\+Thread\char`\"{}/$>$ in $<$see cref=\char`\"{}Insight\+Process"{}/\texorpdfstring{$>$}{>}. This tells the symbol engine to load an exe\textquotesingle{}s debug data in reponse to a CREATE\+\_\+\+PROCESS\+\_\+\+DEBUG\+\_\+\+EVENT 
+
+
+\begin{DoxyParams}{Parameters}
+{\em debug\+Event} & \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{Debug\+Event}} class instance containing a \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8ab5636216d91a5febd3dfab18879d8200}{Debug\+Event\+Type.\+Create\+Process\+Event}} event\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if ok, false on failuree
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{_insight_hunter_8cs_source_l00095}{95}} of file \mbox{\hyperlink{_insight_hunter_8cs_source}{Insight\+Hunter.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ac51cee1bbe1f02889a2bc33222a77531}\label{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ac51cee1bbe1f02889a2bc33222a77531}} 
+\index{InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}!RefreshModules@{RefreshModules}}
+\index{RefreshModules@{RefreshModules}!InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}}
+\doxysubsubsection{\texorpdfstring{RefreshModules()}{RefreshModules()}}
+{\footnotesize\ttfamily bool Insight\+Sheath.\+Debugging.\+Symbol\+Engine.\+Insight\+Hunter.\+Refresh\+Modules (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+reload loaded modules. ~\newline
+ 
+
+\begin{DoxyReturn}{Returns}
+true if it worked and false otherwise
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{_insight_hunter_8cs_source_l00167}{167}} of file \mbox{\hyperlink{_insight_hunter_8cs_source}{Insight\+Hunter.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_a188b4676209bb83caaf68c09acbb7d19}\label{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_a188b4676209bb83caaf68c09acbb7d19}} 
+\index{InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}!SetParentWindow@{SetParentWindow}}
+\index{SetParentWindow@{SetParentWindow}!InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}}
+\doxysubsubsection{\texorpdfstring{SetParentWindow()}{SetParentWindow()}}
+{\footnotesize\ttfamily bool Insight\+Sheath.\+Debugging.\+Symbol\+Engine.\+Insight\+Hunter.\+Set\+Parent\+Window (\begin{DoxyParamCaption}\item[{Int\+Ptr}]{HWND }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Set the parent window for the symbol engine/ debug help api 
+
+
+\begin{DoxyParams}{Parameters}
+{\em HWND} & Handle to Win32 Window that the debug help api will assume you\textquotesingle{}re outputting info too\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{_insight_hunter_8cs_source_l00136}{136}} of file \mbox{\hyperlink{_insight_hunter_8cs_source}{Insight\+Hunter.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_a821de21ad33ad7fb7aa9dde82157ffbe}\label{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_a821de21ad33ad7fb7aa9dde82157ffbe}} 
+\index{InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}!UnloadDllSymbolInfo@{UnloadDllSymbolInfo}}
+\index{UnloadDllSymbolInfo@{UnloadDllSymbolInfo}!InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}}
+\doxysubsubsection{\texorpdfstring{UnloadDllSymbolInfo()}{UnloadDllSymbolInfo()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily bool Insight\+Sheath.\+Debugging.\+Symbol\+Engine.\+Insight\+Hunter.\+Unload\+Dll\+Symbol\+Info (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{Debug\+Event}}}]{Debug\+Event }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Not normally need to be called (if using the working thread\texorpdfstring{$<$}{<}see cref=Debug\+Mode\+Type.\+Worker\+Thread\char`\"{}/$>$ in $<$see cref=\char`\"{}Insight\+Process"{}/\texorpdfstring{$>$}{>}. This tells the symbol engine to load an exe\textquotesingle{}s debug data in resposne to a UNLOAD\+\_\+\+DLL\+\_\+\+DEBUG\+\_\+\+EVENT 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{Debug\+Event}}} & class instance containing a \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8a048108bab17fa2e8fe8836ec7c81da01}{Debug\+Event\+Type.\+Unload\+Dll\+Event}} event\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if it worked, false otherwise
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{_insight_hunter_8cs_source_l00119}{119}} of file \mbox{\hyperlink{_insight_hunter_8cs_source}{Insight\+Hunter.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_a49d83971de249f59fc579e956c6021d1}\label{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_a49d83971de249f59fc579e956c6021d1}} 
+\index{InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}!UnloadDllSymbolInfo@{UnloadDllSymbolInfo}}
+\index{UnloadDllSymbolInfo@{UnloadDllSymbolInfo}!InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}}
+\doxysubsubsection{\texorpdfstring{UnloadDllSymbolInfo()}{UnloadDllSymbolInfo()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily bool Insight\+Sheath.\+Debugging.\+Symbol\+Engine.\+Insight\+Hunter.\+Unload\+Dll\+Symbol\+Info (\begin{DoxyParamCaption}\item[{Int\+Ptr}]{Debug\+Event }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line \mbox{\hyperlink{_insight_hunter_8cs_source_l00124}{124}} of file \mbox{\hyperlink{_insight_hunter_8cs_source}{Insight\+Hunter.\+cs}}.
+
+
+
+\doxysubsection{Property Documentation}
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_a90cf61e7918fc42de31ea4d0595e79e3}\label{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_a90cf61e7918fc42de31ea4d0595e79e3}} 
+\index{InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}!DebugHelp\_Version@{DebugHelp\_Version}}
+\index{DebugHelp\_Version@{DebugHelp\_Version}!InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}}
+\doxysubsubsection{\texorpdfstring{DebugHelp\_Version}{DebugHelp\_Version}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_debug_help___api_version_struct}{Debug\+Help\+\_\+\+Api\+Version\+Struct}} Insight\+Sheath.\+Debugging.\+Symbol\+Engine.\+Insight\+Hunter.\+Debug\+Help\+\_\+\+Version\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Get Version Data on the Debug Help API the symbol engine actuallly uses. 
+
+
+
+Definition at line \mbox{\hyperlink{_insight_hunter_8cs_source_l00207}{207}} of file \mbox{\hyperlink{_insight_hunter_8cs_source}{Insight\+Hunter.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_a3adbb405da14e5f0ffa3b7b5de502173}\label{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_a3adbb405da14e5f0ffa3b7b5de502173}} 
+\index{InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}!DebugHelp\_Version2@{DebugHelp\_Version2}}
+\index{DebugHelp\_Version2@{DebugHelp\_Version2}!InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}}
+\doxysubsubsection{\texorpdfstring{DebugHelp\_Version2}{DebugHelp\_Version2}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_a_p_i___v_e_r_s_i_o_n}{API\+\_\+\+VERSION}} Insight\+Sheath.\+Debugging.\+Symbol\+Engine.\+Insight\+Hunter.\+Debug\+Help\+\_\+\+Version2\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Definition at line \mbox{\hyperlink{_insight_hunter_8cs_source_l00219}{219}} of file \mbox{\hyperlink{_insight_hunter_8cs_source}{Insight\+Hunter.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_a89c603a5a79cbbb2a7795fd3d276d57c}\label{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_a89c603a5a79cbbb2a7795fd3d276d57c}} 
+\index{InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}!SymbolOptions@{SymbolOptions}}
+\index{SymbolOptions@{SymbolOptions}!InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}}
+\doxysubsubsection{\texorpdfstring{SymbolOptions}{SymbolOptions}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada33c26806a1c52fe6dabbc0eb453c22}{Symbol\+Options\+Flags}} Insight\+Sheath.\+Debugging.\+Symbol\+Engine.\+Insight\+Hunter.\+Symbol\+Options\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Specify what you want to the symbol handler to too. 
+
+
+
+Definition at line \mbox{\hyperlink{_insight_hunter_8cs_source_l00192}{192}} of file \mbox{\hyperlink{_insight_hunter_8cs_source}{Insight\+Hunter.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_a27a0c66403464f176839fb111c3d220c}\label{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_a27a0c66403464f176839fb111c3d220c}} 
+\index{InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}!SyncAccess@{SyncAccess}}
+\index{SyncAccess@{SyncAccess}!InsightSheath.Debugging.SymbolEngine.InsightHunter@{InsightSheath.Debugging.SymbolEngine.InsightHunter}}
+\doxysubsubsection{\texorpdfstring{SyncAccess}{SyncAccess}}
+{\footnotesize\ttfamily bool Insight\+Sheath.\+Debugging.\+Symbol\+Engine.\+Insight\+Hunter.\+Sync\+Access\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Default is true. This being true means the Native\+Class \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter}{Insight\+Hunter}} synchronizes calls to the Debug Help Symbol Engine with a CRITICAL\+\_\+\+SECTION Win32 Object 
+
+
+
+Definition at line \mbox{\hyperlink{_insight_hunter_8cs_source_l00177}{177}} of file \mbox{\hyperlink{_insight_hunter_8cs_source}{Insight\+Hunter.\+cs}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Debugging/\+Symbol\+Engine/\mbox{\hyperlink{_insight_hunter_8cs}{Insight\+Hunter.\+cs}}\end{DoxyCompactItemize}

@@ -1,0 +1,289 @@
+\hypertarget{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string}{}\doxysection{Insight\+Sheath.\+Win32\+Struct.\+Windows\+Unicode\+String Class Reference}
+\label{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string}\index{InsightSheath.Win32Struct.WindowsUnicodeString@{InsightSheath.Win32Struct.WindowsUnicodeString}}
+
+
+Encapsulates both a \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string32}{Unicode\+String32}} or \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string64}{Unicode\+String64}} and lets one indicate which one to use based on \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a9b56ba82d073acce64844a2011e97508}{Windows\+Unicode\+String.\+Struct\+Type}} You can use Helper\+Routines.\+Get\+PEMachine\+Type(string) on the process your dealing with to find what value was set as the machine type  
+
+
+Inheritance diagram for Insight\+Sheath.\+Win32\+Struct.\+Windows\+Unicode\+String\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=5.000000cm]{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_ac00f501c3ab45d5bc306aba1fa302a5a}{Windows\+Unicode\+String}} (Int\+Ptr \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}})
+\begin{DoxyCompactList}\small\item\em After creating an instance, call Set\+Struct\+Type(\+Mode\+Type) and specify which version of an Unicode string, this class contrains \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_ac6710f94632182d2b50bbbdbc03ba9eb}{Windows\+Unicode\+String}} (Int\+Ptr \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}, bool \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{Free\+On\+Cleanup}})
+\begin{DoxyCompactList}\small\item\em After creating an instance, call Set\+Struct\+Type(\+Mode\+Type) and specify which version of an Unicode string, this class contrains \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_a6fc913a5d98929e7bf9a7a2b59628626}{Windows\+Unicode\+String}} (Int\+Ptr \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}, bool \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{Free\+On\+Cleanup}}, \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129}{Struct\+Mode\+Type}} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a9b56ba82d073acce64844a2011e97508}{Struct\+Type}})
+\begin{DoxyCompactList}\small\item\em Create an instance of \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string}{Windows\+Unicode\+String}} and specify the native pointer, if the class will be subject to unmanaged cleanup and which Native Struct the pointer points too \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_a4833c628dfd2acac23c399fc686c2b4d}{Windows\+Unicode\+String}} (Int\+Ptr \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}, \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129}{Struct\+Mode\+Type}} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a9b56ba82d073acce64844a2011e97508}{Struct\+Type}})
+\begin{DoxyCompactList}\small\item\em Create an instance of \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string}{Windows\+Unicode\+String}} and specify the native pointer and which Native Struct the pointer points too \end{DoxyCompactList}\item 
+override string \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_a4367652ecd301206b0a07850c205a419}{To\+String}} ()
+\begin{DoxyCompactList}\small\item\em Equivalent to grabbing the \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_a374e7341715590774762132e5f8c7ac8}{Buffer}} property if \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_ad9b2f487847aa16551ddd0aa47a055c6}{Buffer\+Ptr}} is non zero \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+override void \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_a75c786da745eb345eb71eadd1536a4a5}{Blit}} ()
+\begin{DoxyCompactList}\small\item\em Marshals into a private \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string32}{Unicode\+String32}} or \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string64}{Unicode\+String64}} struct depending on the value of Platform\+Dependant\+Native\+Struct.\+Was\+Blit being false. Sets to true afterwords. Will throw an Invalid\+Operation\+Exception if Platform\+Dependant\+Native\+Struct.\+Struct\+Type is something other than \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129a5fd85da25b89193e8175dc10b594640e}{Struct\+Mode\+Type.\+Machinex64}} or \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129add44e166c885a1e1026d6da62c9ef9f3}{Struct\+Mode\+Type.\+Machinex86}} \end{DoxyCompactList}\item 
+override void \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_a34246e9d139c6b545bce096cdf29dabc}{Dispose}} (bool disposing)
+\begin{DoxyCompactList}\small\item\em The native memory is either a \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string32}{Unicode\+String32}} or \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string64}{Unicode\+String64}} struct Dependant on \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a9b56ba82d073acce64844a2011e97508}{Struct\+Type}}. Pointer is a separate allocated string. This means Native\+Imports.\+Native\+Methods.\+Simple\+Free(\+Int\+Ptr) is incorrect in this scenario. We\textquotesingle{}ll need to call Native\+Imports.\+Native\+Methods.\+Remote\+Free\+Unicode\+String(\+Int\+Ptr, bool) pointer here. Also \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{Free\+On\+Cleanup}} should be false if this structure is part of a larger struct directly and NOT A POINTER. \end{DoxyCompactList}\item 
+override void \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_ab0ffa0f36c8b5127a4ba3fe4c25ee853}{Apply}} ()
+\begin{DoxyCompactList}\small\item\em Not implemented \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_ae9cec3509b213e9cd91f3c0b32af3a7a}{Length}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Reads the current length of the string in \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_ad9b2f487847aa16551ddd0aa47a055c6}{Buffer\+Ptr}} based on the current \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a9b56ba82d073acce64844a2011e97508}{Struct\+Type}} setting \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_a431d9242d28cf439b99f3bb4df3219fe}{Max\+Length}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Reads the max length (in bytes) of the string in \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_ad9b2f487847aa16551ddd0aa47a055c6}{Buffer\+Ptr}} based on the current \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a9b56ba82d073acce64844a2011e97508}{Struct\+Type}} setting \end{DoxyCompactList}\item 
+ulong \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_ad9b2f487847aa16551ddd0aa47a055c6}{Buffer\+Ptr}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Return the buffer containing the string in the contained structure based on the current \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a9b56ba82d073acce64844a2011e97508}{Struct\+Type}} setting. x86 (4 byte sized) pointers are promoted to a x64 (8 byte sized) return value \end{DoxyCompactList}\item 
+string \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_a374e7341715590774762132e5f8c7ac8}{Buffer}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Retrieve a .NET managed string containing the String that \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_ad9b2f487847aa16551ddd0aa47a055c6}{Buffer\+Ptr}} points to. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+Encapsulates both a \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string32}{Unicode\+String32}} or \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string64}{Unicode\+String64}} and lets one indicate which one to use based on \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a9b56ba82d073acce64844a2011e97508}{Windows\+Unicode\+String.\+Struct\+Type}} You can use Helper\+Routines.\+Get\+PEMachine\+Type(string) on the process your dealing with to find what value was set as the machine type 
+
+Definition at line \mbox{\hyperlink{_windows_unicode_string_8cs_source_l00107}{107}} of file \mbox{\hyperlink{_windows_unicode_string_8cs_source}{Windows\+Unicode\+String.\+cs}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_ac00f501c3ab45d5bc306aba1fa302a5a}\label{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_ac00f501c3ab45d5bc306aba1fa302a5a}} 
+\index{InsightSheath.Win32Struct.WindowsUnicodeString@{InsightSheath.Win32Struct.WindowsUnicodeString}!WindowsUnicodeString@{WindowsUnicodeString}}
+\index{WindowsUnicodeString@{WindowsUnicodeString}!InsightSheath.Win32Struct.WindowsUnicodeString@{InsightSheath.Win32Struct.WindowsUnicodeString}}
+\doxysubsubsection{\texorpdfstring{WindowsUnicodeString()}{WindowsUnicodeString()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily Insight\+Sheath.\+Win32\+Struct.\+Windows\+Unicode\+String.\+Windows\+Unicode\+String (\begin{DoxyParamCaption}\item[{Int\+Ptr}]{Native }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+After creating an instance, call Set\+Struct\+Type(\+Mode\+Type) and specify which version of an Unicode string, this class contrains 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Native} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{_windows_unicode_string_8cs_source_l00113}{113}} of file \mbox{\hyperlink{_windows_unicode_string_8cs_source}{Windows\+Unicode\+String.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_ac6710f94632182d2b50bbbdbc03ba9eb}\label{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_ac6710f94632182d2b50bbbdbc03ba9eb}} 
+\index{InsightSheath.Win32Struct.WindowsUnicodeString@{InsightSheath.Win32Struct.WindowsUnicodeString}!WindowsUnicodeString@{WindowsUnicodeString}}
+\index{WindowsUnicodeString@{WindowsUnicodeString}!InsightSheath.Win32Struct.WindowsUnicodeString@{InsightSheath.Win32Struct.WindowsUnicodeString}}
+\doxysubsubsection{\texorpdfstring{WindowsUnicodeString()}{WindowsUnicodeString()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily Insight\+Sheath.\+Win32\+Struct.\+Windows\+Unicode\+String.\+Windows\+Unicode\+String (\begin{DoxyParamCaption}\item[{Int\+Ptr}]{Native,  }\item[{bool}]{Free\+On\+Cleanup }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+After creating an instance, call Set\+Struct\+Type(\+Mode\+Type) and specify which version of an Unicode string, this class contrains 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Native} & Native pointer to either a \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string32}{Unicode\+String32}} or \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string64}{Unicode\+String64}} to the structure this class will reference\\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{_windows_unicode_string_8cs_source_l00122}{122}} of file \mbox{\hyperlink{_windows_unicode_string_8cs_source}{Windows\+Unicode\+String.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_a6fc913a5d98929e7bf9a7a2b59628626}\label{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_a6fc913a5d98929e7bf9a7a2b59628626}} 
+\index{InsightSheath.Win32Struct.WindowsUnicodeString@{InsightSheath.Win32Struct.WindowsUnicodeString}!WindowsUnicodeString@{WindowsUnicodeString}}
+\index{WindowsUnicodeString@{WindowsUnicodeString}!InsightSheath.Win32Struct.WindowsUnicodeString@{InsightSheath.Win32Struct.WindowsUnicodeString}}
+\doxysubsubsection{\texorpdfstring{WindowsUnicodeString()}{WindowsUnicodeString()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily Insight\+Sheath.\+Win32\+Struct.\+Windows\+Unicode\+String.\+Windows\+Unicode\+String (\begin{DoxyParamCaption}\item[{Int\+Ptr}]{Native,  }\item[{bool}]{Free\+On\+Cleanup,  }\item[{\mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129}{Struct\+Mode\+Type}}}]{Struct\+Type }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Create an instance of \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string}{Windows\+Unicode\+String}} and specify the native pointer, if the class will be subject to unmanaged cleanup and which Native Struct the pointer points too 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Native} & Native pointer to either a \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string32}{Unicode\+String32}} or \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string64}{Unicode\+String64}} to the structure this class will reference\\
+\hline
+{\em Free\+On\+Cleanup} & if true then the structure is freed via Remote\+Read\+\_\+\+Simple\+Free() which itself is a call to C/\+C++\textquotesingle{}s free() . Set TO FALSE if dealing with structures declared in C/\+C++ code vs dynamically allocated\\
+\hline
+{\em Struct\+Type} & Use \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129add44e166c885a1e1026d6da62c9ef9f3}{Struct\+Mode\+Type.\+Machinex86}} to mark structure as a \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string32}{Unicode\+String32}} pointer and \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129a5fd85da25b89193e8175dc10b594640e}{Struct\+Mode\+Type.\+Machinex64}} to mark struct as a \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string64}{Unicode\+String64}} pointer\\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{_windows_unicode_string_8cs_source_l00133}{133}} of file \mbox{\hyperlink{_windows_unicode_string_8cs_source}{Windows\+Unicode\+String.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_a4833c628dfd2acac23c399fc686c2b4d}\label{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_a4833c628dfd2acac23c399fc686c2b4d}} 
+\index{InsightSheath.Win32Struct.WindowsUnicodeString@{InsightSheath.Win32Struct.WindowsUnicodeString}!WindowsUnicodeString@{WindowsUnicodeString}}
+\index{WindowsUnicodeString@{WindowsUnicodeString}!InsightSheath.Win32Struct.WindowsUnicodeString@{InsightSheath.Win32Struct.WindowsUnicodeString}}
+\doxysubsubsection{\texorpdfstring{WindowsUnicodeString()}{WindowsUnicodeString()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily Insight\+Sheath.\+Win32\+Struct.\+Windows\+Unicode\+String.\+Windows\+Unicode\+String (\begin{DoxyParamCaption}\item[{Int\+Ptr}]{Native,  }\item[{\mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129}{Struct\+Mode\+Type}}}]{Struct\+Type }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Create an instance of \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string}{Windows\+Unicode\+String}} and specify the native pointer and which Native Struct the pointer points too 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Native} & Native pointer to either a \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string32}{Unicode\+String32}} or \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string64}{Unicode\+String64}} to the structure this class will reference\\
+\hline
+{\em Struct\+Type} & Use \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129add44e166c885a1e1026d6da62c9ef9f3}{Struct\+Mode\+Type.\+Machinex86}} to mark structure as a \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string32}{Unicode\+String32}} pointer and \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129a5fd85da25b89193e8175dc10b594640e}{Struct\+Mode\+Type.\+Machinex64}} to mark struct as a \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string64}{Unicode\+String64}} pointer\\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{_windows_unicode_string_8cs_source_l00143}{143}} of file \mbox{\hyperlink{_windows_unicode_string_8cs_source}{Windows\+Unicode\+String.\+cs}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_ab0ffa0f36c8b5127a4ba3fe4c25ee853}\label{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_ab0ffa0f36c8b5127a4ba3fe4c25ee853}} 
+\index{InsightSheath.Win32Struct.WindowsUnicodeString@{InsightSheath.Win32Struct.WindowsUnicodeString}!Apply@{Apply}}
+\index{Apply@{Apply}!InsightSheath.Win32Struct.WindowsUnicodeString@{InsightSheath.Win32Struct.WindowsUnicodeString}}
+\doxysubsubsection{\texorpdfstring{Apply()}{Apply()}}
+{\footnotesize\ttfamily override void Insight\+Sheath.\+Win32\+Struct.\+Windows\+Unicode\+String.\+Apply (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+
+
+Not implemented 
+
+
+
+Implements \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a133b74e04a70011d23370823de9bdd2f}{Insight\+Sheath.\+Abstract.\+On\+Demand\+Marshal\+Native\+Struct}}.
+
+
+
+Definition at line \mbox{\hyperlink{_windows_unicode_string_8cs_source_l00327}{327}} of file \mbox{\hyperlink{_windows_unicode_string_8cs_source}{Windows\+Unicode\+String.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_a75c786da745eb345eb71eadd1536a4a5}\label{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_a75c786da745eb345eb71eadd1536a4a5}} 
+\index{InsightSheath.Win32Struct.WindowsUnicodeString@{InsightSheath.Win32Struct.WindowsUnicodeString}!Blit@{Blit}}
+\index{Blit@{Blit}!InsightSheath.Win32Struct.WindowsUnicodeString@{InsightSheath.Win32Struct.WindowsUnicodeString}}
+\doxysubsubsection{\texorpdfstring{Blit()}{Blit()}}
+{\footnotesize\ttfamily override void Insight\+Sheath.\+Win32\+Struct.\+Windows\+Unicode\+String.\+Blit (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+
+
+Marshals into a private \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string32}{Unicode\+String32}} or \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string64}{Unicode\+String64}} struct depending on the value of Platform\+Dependant\+Native\+Struct.\+Was\+Blit being false. Sets to true afterwords. Will throw an Invalid\+Operation\+Exception if Platform\+Dependant\+Native\+Struct.\+Struct\+Type is something other than \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129a5fd85da25b89193e8175dc10b594640e}{Struct\+Mode\+Type.\+Machinex64}} or \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129add44e166c885a1e1026d6da62c9ef9f3}{Struct\+Mode\+Type.\+Machinex86}} 
+
+
+
+Implements \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_ab40c79cada4587212e82f2356f264b5b}{Insight\+Sheath.\+Abstract.\+On\+Demand\+Marshal\+Native\+Struct}}.
+
+
+
+Definition at line \mbox{\hyperlink{_windows_unicode_string_8cs_source_l00159}{159}} of file \mbox{\hyperlink{_windows_unicode_string_8cs_source}{Windows\+Unicode\+String.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_a34246e9d139c6b545bce096cdf29dabc}\label{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_a34246e9d139c6b545bce096cdf29dabc}} 
+\index{InsightSheath.Win32Struct.WindowsUnicodeString@{InsightSheath.Win32Struct.WindowsUnicodeString}!Dispose@{Dispose}}
+\index{Dispose@{Dispose}!InsightSheath.Win32Struct.WindowsUnicodeString@{InsightSheath.Win32Struct.WindowsUnicodeString}}
+\doxysubsubsection{\texorpdfstring{Dispose()}{Dispose()}}
+{\footnotesize\ttfamily override void Insight\+Sheath.\+Win32\+Struct.\+Windows\+Unicode\+String.\+Dispose (\begin{DoxyParamCaption}\item[{bool}]{disposing }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+
+
+The native memory is either a \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string32}{Unicode\+String32}} or \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string64}{Unicode\+String64}} struct Dependant on \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a9b56ba82d073acce64844a2011e97508}{Struct\+Type}}. Pointer is a separate allocated string. This means Native\+Imports.\+Native\+Methods.\+Simple\+Free(\+Int\+Ptr) is incorrect in this scenario. We\textquotesingle{}ll need to call Native\+Imports.\+Native\+Methods.\+Remote\+Free\+Unicode\+String(\+Int\+Ptr, bool) pointer here. Also \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{Free\+On\+Cleanup}} should be false if this structure is part of a larger struct directly and NOT A POINTER. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em disposing} & \\
+\hline
+\end{DoxyParams}
+
+
+Native side always returns a \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string64}{Unicode\+String64}} bit. We simply calculate and discard value
+
+Reimplemented from \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a97164b9f00fd3c80819748096757d3cf}{Insight\+Sheath.\+Abstract.\+Platform\+Dependant\+Native\+Struct}}.
+
+
+
+Definition at line \mbox{\hyperlink{_windows_unicode_string_8cs_source_l00195}{195}} of file \mbox{\hyperlink{_windows_unicode_string_8cs_source}{Windows\+Unicode\+String.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_a4367652ecd301206b0a07850c205a419}\label{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_a4367652ecd301206b0a07850c205a419}} 
+\index{InsightSheath.Win32Struct.WindowsUnicodeString@{InsightSheath.Win32Struct.WindowsUnicodeString}!ToString@{ToString}}
+\index{ToString@{ToString}!InsightSheath.Win32Struct.WindowsUnicodeString@{InsightSheath.Win32Struct.WindowsUnicodeString}}
+\doxysubsubsection{\texorpdfstring{ToString()}{ToString()}}
+{\footnotesize\ttfamily override string Insight\+Sheath.\+Win32\+Struct.\+Windows\+Unicode\+String.\+To\+String (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Equivalent to grabbing the \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_a374e7341715590774762132e5f8c7ac8}{Buffer}} property if \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_ad9b2f487847aa16551ddd0aa47a055c6}{Buffer\+Ptr}} is non zero 
+
+\begin{DoxyReturn}{Returns}
+If \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_ad9b2f487847aa16551ddd0aa47a055c6}{Buffer\+Ptr}} is 0, return null. Otherwise returns \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_a374e7341715590774762132e5f8c7ac8}{Buffer}}
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Invalid\+Operation\+Exception} & Can be triggered if one forgets to set \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a9b56ba82d073acce64844a2011e97508}{Struct\+Type}}\\
+\hline
+\end{DoxyExceptions}
+
+
+Definition at line \mbox{\hyperlink{_windows_unicode_string_8cs_source_l00315}{315}} of file \mbox{\hyperlink{_windows_unicode_string_8cs_source}{Windows\+Unicode\+String.\+cs}}.
+
+
+
+\doxysubsection{Property Documentation}
+\mbox{\Hypertarget{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_a374e7341715590774762132e5f8c7ac8}\label{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_a374e7341715590774762132e5f8c7ac8}} 
+\index{InsightSheath.Win32Struct.WindowsUnicodeString@{InsightSheath.Win32Struct.WindowsUnicodeString}!Buffer@{Buffer}}
+\index{Buffer@{Buffer}!InsightSheath.Win32Struct.WindowsUnicodeString@{InsightSheath.Win32Struct.WindowsUnicodeString}}
+\doxysubsubsection{\texorpdfstring{Buffer}{Buffer}}
+{\footnotesize\ttfamily string Insight\+Sheath.\+Win32\+Struct.\+Windows\+Unicode\+String.\+Buffer\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Retrieve a .NET managed string containing the String that \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_ad9b2f487847aa16551ddd0aa47a055c6}{Buffer\+Ptr}} points to. 
+
+IMPORTANT!!!!! Use Remote.\+Remote\+Structure. (\+Int\+Ptr, Int\+Ptr, bool, bool) if dealing with a \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_ad9b2f487847aa16551ddd0aa47a055c6}{Buffer\+Ptr}} that is valid in the context of another process and not yours. This routine will take case or dealing with that. You\textquotesingle{}ll either get incorrect results or generate an exception if you don\textquotesingle{}t. 
+
+Definition at line \mbox{\hyperlink{_windows_unicode_string_8cs_source_l00292}{292}} of file \mbox{\hyperlink{_windows_unicode_string_8cs_source}{Windows\+Unicode\+String.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_ad9b2f487847aa16551ddd0aa47a055c6}\label{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_ad9b2f487847aa16551ddd0aa47a055c6}} 
+\index{InsightSheath.Win32Struct.WindowsUnicodeString@{InsightSheath.Win32Struct.WindowsUnicodeString}!BufferPtr@{BufferPtr}}
+\index{BufferPtr@{BufferPtr}!InsightSheath.Win32Struct.WindowsUnicodeString@{InsightSheath.Win32Struct.WindowsUnicodeString}}
+\doxysubsubsection{\texorpdfstring{BufferPtr}{BufferPtr}}
+{\footnotesize\ttfamily ulong Insight\+Sheath.\+Win32\+Struct.\+Windows\+Unicode\+String.\+Buffer\+Ptr\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Return the buffer containing the string in the contained structure based on the current \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a9b56ba82d073acce64844a2011e97508}{Struct\+Type}} setting. x86 (4 byte sized) pointers are promoted to a x64 (8 byte sized) return value 
+
+
+
+Definition at line \mbox{\hyperlink{_windows_unicode_string_8cs_source_l00270}{270}} of file \mbox{\hyperlink{_windows_unicode_string_8cs_source}{Windows\+Unicode\+String.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_ae9cec3509b213e9cd91f3c0b32af3a7a}\label{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_ae9cec3509b213e9cd91f3c0b32af3a7a}} 
+\index{InsightSheath.Win32Struct.WindowsUnicodeString@{InsightSheath.Win32Struct.WindowsUnicodeString}!Length@{Length}}
+\index{Length@{Length}!InsightSheath.Win32Struct.WindowsUnicodeString@{InsightSheath.Win32Struct.WindowsUnicodeString}}
+\doxysubsubsection{\texorpdfstring{Length}{Length}}
+{\footnotesize\ttfamily int Insight\+Sheath.\+Win32\+Struct.\+Windows\+Unicode\+String.\+Length\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Reads the current length of the string in \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_ad9b2f487847aa16551ddd0aa47a055c6}{Buffer\+Ptr}} based on the current \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a9b56ba82d073acce64844a2011e97508}{Struct\+Type}} setting 
+
+
+
+Definition at line \mbox{\hyperlink{_windows_unicode_string_8cs_source_l00228}{228}} of file \mbox{\hyperlink{_windows_unicode_string_8cs_source}{Windows\+Unicode\+String.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_a431d9242d28cf439b99f3bb4df3219fe}\label{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_a431d9242d28cf439b99f3bb4df3219fe}} 
+\index{InsightSheath.Win32Struct.WindowsUnicodeString@{InsightSheath.Win32Struct.WindowsUnicodeString}!MaxLength@{MaxLength}}
+\index{MaxLength@{MaxLength}!InsightSheath.Win32Struct.WindowsUnicodeString@{InsightSheath.Win32Struct.WindowsUnicodeString}}
+\doxysubsubsection{\texorpdfstring{MaxLength}{MaxLength}}
+{\footnotesize\ttfamily int Insight\+Sheath.\+Win32\+Struct.\+Windows\+Unicode\+String.\+Max\+Length\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Reads the max length (in bytes) of the string in \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_ad9b2f487847aa16551ddd0aa47a055c6}{Buffer\+Ptr}} based on the current \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a9b56ba82d073acce64844a2011e97508}{Struct\+Type}} setting 
+
+
+
+Definition at line \mbox{\hyperlink{_windows_unicode_string_8cs_source_l00249}{249}} of file \mbox{\hyperlink{_windows_unicode_string_8cs_source}{Windows\+Unicode\+String.\+cs}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Win32\+Struct/\mbox{\hyperlink{_windows_unicode_string_8cs}{Windows\+Unicode\+String.\+cs}}\end{DoxyCompactItemize}

@@ -39,16 +39,28 @@ namespace InsightSheath.Debugging.SymbolEngine
     /// </summary>
     public class DebugHelp_ApiVersionStruct : NativeStaticContainer
     {
+        /// <summary>
+        /// Initialize this wrapper class to point to an unmanaged memory structure containing one API_VERISON structy
+        /// </summary>
+        /// <param name="Native">non null native pointer</param>
         public DebugHelp_ApiVersionStruct(IntPtr Native) : base(Native)
         {
 
         }
 
+        /// <summary>
+        /// Initialize this wrapper class to point to an unmanaged memory structure containing one API_VERISON structy.
+        /// </summary>
+        /// <param name="Native">non null native pointer</param>
+        /// <param name="FreeOnClean">Ignored. Always false when calling the base <see cref="NativeStaticContainer"/> contructor</param>
         public DebugHelp_ApiVersionStruct(IntPtr Native, bool FreeOnClean) : base(Native, false)
         {
 
         }
 
+        /// <summary>
+        /// Get the Revison member of the API_VERSION data struct the Native pointer points too
+        /// </summary>
         public ushort Revision
         {
             get
@@ -56,6 +68,9 @@ namespace InsightSheath.Debugging.SymbolEngine
                 return DebugHelpApiVersionStructInternal.DebugHelp_ApiVerion_GetRevision(Native);
             }
         }
+        /// <summary>
+        /// Get the Major member of the API_VERSION data struct the Native pointer points too
+        /// </summary>
         public ushort Major
         {
             get
@@ -63,6 +78,10 @@ namespace InsightSheath.Debugging.SymbolEngine
                 return DebugHelpApiVersionStructInternal.DebugHelp_ApiVerion_GetMajor(Native);
             }
         }
+
+        /// <summary>
+        /// Get the Minor member of the API_VERSION data struct the Native pointer points too
+        /// </summary>
         public ushort Minor
         {
             get

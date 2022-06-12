@@ -1,0 +1,9 @@
+var searchData=
+[
+  ['referencecounternativestaticcontainer_0',['ReferenceCounterNativeStaticContainer',['../class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container.html#a12483e01c95bdb212c65e1857affe0ec',1,'InsightSheath.Abstract.ReferenceCounterNativeStaticContainer.ReferenceCounterNativeStaticContainer(IntPtr Native)'],['../class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container.html#a891008764a6336206815f87e9e599ae5',1,'InsightSheath.Abstract.ReferenceCounterNativeStaticContainer.ReferenceCounterNativeStaticContainer(IntPtr Native, bool FreeOnCleanup, ulong ReferenceCount)'],['../class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container.html#a1318b2e6789f7d273d18b0978ae06e40',1,'InsightSheath.Abstract.ReferenceCounterNativeStaticContainer.ReferenceCounterNativeStaticContainer(IntPtr Native, bool FreeOnCleanup)']]],
+  ['refreshmodules_1',['RefreshModules',['../class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter.html#ac51cee1bbe1f02889a2bc33222a77531',1,'InsightSheath::Debugging::SymbolEngine::InsightHunter']]],
+  ['release_2',['Release',['../class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container.html#a72cd0f0d7bf610d0553f5f9024702377',1,'InsightSheath::Abstract::ReferenceCounterNativeStaticContainer']]],
+  ['resetdetoursdlllist_3',['ResetDetoursDllList',['../class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_process.html#a95957858f8ea489ae906026e638965b8',1,'InsightSheath::Debugging::Process::InsightProcess']]],
+  ['resumethread_4',['ResumeThread',['../class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context.html#a39f584714b9a74db5999cc2ad6894235',1,'InsightSheath::Debugging::Thread::ThreadContext']]],
+  ['ripcallback_5',['RipCallback',['../class_insight_sheath_1_1_misc_1_1_event_debug_assist.html#aaa12bd14a91acf3c0957cf21c2b681bd',1,'InsightSheath::Misc::EventDebugAssist']]]
+];

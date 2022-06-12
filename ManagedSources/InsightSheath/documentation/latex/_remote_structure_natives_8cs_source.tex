@@ -1,0 +1,54 @@
+\hypertarget{_remote_structure_natives_8cs_source}{}\doxysection{Remote\+Structure\+Natives.\+cs}
+\label{_remote_structure_natives_8cs_source}\index{NativeImports/Win32Struct/Remote/RemoteStructureNatives.cs@{NativeImports/Win32Struct/Remote/RemoteStructureNatives.cs}}
+\mbox{\hyperlink{_remote_structure_natives_8cs}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_remote_structure_natives_8cs_source_l00001}00001 \textcolor{keyword}{using }System;}
+\DoxyCodeLine{\Hypertarget{_remote_structure_natives_8cs_source_l00002}00002 \textcolor{keyword}{using }System.Collections.Generic;}
+\DoxyCodeLine{\Hypertarget{_remote_structure_natives_8cs_source_l00003}00003 \textcolor{keyword}{using }System.Linq;}
+\DoxyCodeLine{\Hypertarget{_remote_structure_natives_8cs_source_l00004}00004 \textcolor{keyword}{using }System.Runtime.InteropServices;}
+\DoxyCodeLine{\Hypertarget{_remote_structure_natives_8cs_source_l00005}00005 \textcolor{keyword}{using }System.Text;}
+\DoxyCodeLine{\Hypertarget{_remote_structure_natives_8cs_source_l00006}00006 \textcolor{keyword}{using }System.Threading.Tasks;}
+\DoxyCodeLine{\Hypertarget{_remote_structure_natives_8cs_source_l00007}00007 \textcolor{keyword}{using }\mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct}{InsightSheath.Win32Struct}};}
+\DoxyCodeLine{\Hypertarget{_remote_structure_natives_8cs_source_l00008}00008 \textcolor{keyword}{using }\mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_1_1_remote}{InsightSheath.Win32Struct.Remote}};}
+\DoxyCodeLine{\Hypertarget{_remote_structure_natives_8cs_source_l00009}00009 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespace_insight_sheath_1_1_native_imports}{InsightSheath.NativeImports}}}
+\DoxyCodeLine{\Hypertarget{_remote_structure_natives_8cs_source_l00010}00010 \{}
+\DoxyCodeLine{\Hypertarget{_remote_structure_natives_8cs_source_l00014}00014     \textcolor{keyword}{static} \textcolor{keyword}{class }RemoteStructureInternal}
+\DoxyCodeLine{\Hypertarget{_remote_structure_natives_8cs_source_l00015}00015     \{}
+\DoxyCodeLine{\Hypertarget{_remote_structure_natives_8cs_source_l00023}00023         [DllImport(\textcolor{stringliteral}{"{}InsightApi.dll"{}}, CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, SetLastError = \textcolor{keyword}{true}, EntryPoint = \textcolor{stringliteral}{"{}RemoteReadUnicodeString"{}})]}
+\DoxyCodeLine{\Hypertarget{_remote_structure_natives_8cs_source_l00024}00024         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keyword}{extern} IntPtr RemoteReadUnicodeString(IntPtr ProcessHandle, IntPtr RemoteLocation, \textcolor{keywordtype}{bool} TargetIs32Bit);}
+\DoxyCodeLine{\Hypertarget{_remote_structure_natives_8cs_source_l00025}00025 }
+\DoxyCodeLine{\Hypertarget{_remote_structure_natives_8cs_source_l00026}00026     }
+\DoxyCodeLine{\Hypertarget{_remote_structure_natives_8cs_source_l00033}00033         [DllImport(\textcolor{stringliteral}{"{}InsightApi.dll"{}}, CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, SetLastError = \textcolor{keyword}{true}, EntryPoint = \textcolor{stringliteral}{"{}RemoteFreeUnicodeString"{}})]}
+\DoxyCodeLine{\Hypertarget{_remote_structure_natives_8cs_source_l00034}00034         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keyword}{extern} IntPtr RemoteFreeUnicodeString(IntPtr RemoteLocation, \textcolor{keywordtype}{bool} TargetIs32Bit);}
+\DoxyCodeLine{\Hypertarget{_remote_structure_natives_8cs_source_l00035}00035 }
+\DoxyCodeLine{\Hypertarget{_remote_structure_natives_8cs_source_l00041}00041         \textcolor{keyword}{public} \textcolor{keyword}{static} IntPtr RemoteFreeUnicodeString(IntPtr RemoteLocation)}
+\DoxyCodeLine{\Hypertarget{_remote_structure_natives_8cs_source_l00042}00042         \{}
+\DoxyCodeLine{\Hypertarget{_remote_structure_natives_8cs_source_l00043}00043             \textcolor{keywordflow}{return} RemoteFreeUnicodeString(RemoteLocation, \textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{_remote_structure_natives_8cs_source_l00044}00044         \}}
+\DoxyCodeLine{\Hypertarget{_remote_structure_natives_8cs_source_l00045}00045 }
+\DoxyCodeLine{\Hypertarget{_remote_structure_natives_8cs_source_l00046}00046 }
+\DoxyCodeLine{\Hypertarget{_remote_structure_natives_8cs_source_l00047}00047         [DllImport(\textcolor{stringliteral}{"{}InsightApi.dll"{}}, CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, SetLastError = \textcolor{keyword}{true}, EntryPoint = \textcolor{stringliteral}{"{}RemoteReadObjectAttributes"{}})]}
+\DoxyCodeLine{\Hypertarget{_remote_structure_natives_8cs_source_l00048}00048         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keyword}{extern} IntPtr RemoteReadObjectAttributes(IntPtr ProcessHandle, IntPtr RemoteLocation, \textcolor{keywordtype}{bool} TargetIs32Bit);}
+\DoxyCodeLine{\Hypertarget{_remote_structure_natives_8cs_source_l00049}00049 }
+\DoxyCodeLine{\Hypertarget{_remote_structure_natives_8cs_source_l00050}00050         [DllImport(\textcolor{stringliteral}{"{}InsightApi.dll"{}}, CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, SetLastError = \textcolor{keyword}{true}, EntryPoint = \textcolor{stringliteral}{"{}RemoteFreeObjectAttributes"{}})]}
+\DoxyCodeLine{\Hypertarget{_remote_structure_natives_8cs_source_l00051}00051         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keyword}{extern} \textcolor{keywordtype}{bool} RemoteFreeObjectAttributes(IntPtr RemoteLocation, \textcolor{keywordtype}{bool} TargetIs32Bit);}
+\DoxyCodeLine{\Hypertarget{_remote_structure_natives_8cs_source_l00052}00052 }
+\DoxyCodeLine{\Hypertarget{_remote_structure_natives_8cs_source_l00053}00053 }
+\DoxyCodeLine{\Hypertarget{_remote_structure_natives_8cs_source_l00054}00054 }
+\DoxyCodeLine{\Hypertarget{_remote_structure_natives_8cs_source_l00055}00055 }
+\DoxyCodeLine{\Hypertarget{_remote_structure_natives_8cs_source_l00063}00063         [DllImport(\textcolor{stringliteral}{"{}InsightApi.dll"{}},CallingConvention= CallingConvention.Winapi, CharSet= CharSet.Unicode, EntryPoint = \textcolor{stringliteral}{"{}RemoteReadStringW"{}}, SetLastError =\textcolor{keyword}{true})]}
+\DoxyCodeLine{\Hypertarget{_remote_structure_natives_8cs_source_l00064}00064         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keyword}{extern} IntPtr RemoteReadStringInternal(IntPtr ProcessHandle, IntPtr RemoteLocation, ulong char\_count);}
+\DoxyCodeLine{\Hypertarget{_remote_structure_natives_8cs_source_l00071}00071         [DllImport(\textcolor{stringliteral}{"{}InsightApi.Dll"{}}, CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, EntryPoint = \textcolor{stringliteral}{"{}RemoteReadDebugString"{}})]}
+\DoxyCodeLine{\Hypertarget{_remote_structure_natives_8cs_source_l00072}00072         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keyword}{extern} IntPtr RemoteReadDebugStringInternal(IntPtr ProcessHandle, IntPtr DebugEventPtr);}
+\DoxyCodeLine{\Hypertarget{_remote_structure_natives_8cs_source_l00073}00073 }
+\DoxyCodeLine{\Hypertarget{_remote_structure_natives_8cs_source_l00078}00078         [DllImport(\textcolor{stringliteral}{"{}InsightApi.Dll"{}}, CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, EntryPoint = \textcolor{stringliteral}{"{}RemoteFreeDebugString"{}})]}
+\DoxyCodeLine{\Hypertarget{_remote_structure_natives_8cs_source_l00079}00079         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keyword}{extern} \textcolor{keywordtype}{void} RemoteFreeDebugStringInternal(IntPtr Memory);}
+\DoxyCodeLine{\Hypertarget{_remote_structure_natives_8cs_source_l00080}00080 }
+\DoxyCodeLine{\Hypertarget{_remote_structure_natives_8cs_source_l00081}00081         \textcolor{comment}{//  VOID* WINAPI RemoteReadPointer(HANDLE Process, VOID* Target, DWORD pointerSize)}}
+\DoxyCodeLine{\Hypertarget{_remote_structure_natives_8cs_source_l00082}00082 }
+\DoxyCodeLine{\Hypertarget{_remote_structure_natives_8cs_source_l00090}00090         [DllImport(\textcolor{stringliteral}{"{}InsightApi.Dll"{}}, CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, EntryPoint = \textcolor{stringliteral}{"{}RemoteReadPointer"{}})]}
+\DoxyCodeLine{\Hypertarget{_remote_structure_natives_8cs_source_l00091}00091         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keyword}{extern} IntPtr RemoteReadPointer(IntPtr TargetProcess, IntPtr TargetLocation, uint PointerSize);}
+\DoxyCodeLine{\Hypertarget{_remote_structure_natives_8cs_source_l00092}00092     \}}
+\DoxyCodeLine{\Hypertarget{_remote_structure_natives_8cs_source_l00093}00093 \}}
+
+\end{DoxyCode}

@@ -1,0 +1,302 @@
+\hypertarget{namespace_insight_sheath_1_1_telemetry}{}\doxysection{Insight\+Sheath.\+Telemetry Namespace Reference}
+\label{namespace_insight_sheath_1_1_telemetry}\index{InsightSheath.Telemetry@{InsightSheath.Telemetry}}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class {\bfseries Anti\+Debugger\+Reader\+Extensions}
+\begin{DoxyCompactList}\small\item\em This class includes code to read exceptions generated via the Anti\+Debugger telemetry. \end{DoxyCompactList}\item 
+class {\bfseries Anti\+Debugger\+Reader\+Extention\+Checkers}
+\begin{DoxyCompactList}\small\item\em This class includes extentions to check if the exception in the Debug\+Event is the correct type \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_check_remote_debugger_present_settings}{Check\+Remote\+Debugger\+Present\+Settings}}
+\item 
+class {\bfseries General\+Telemetry}
+\begin{DoxyCompactList}\small\item\em holds some common defines between the included telemetry projects. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_general_telemtry_helper_struct}{General\+Telemtry\+Helper\+Struct}}
+\begin{DoxyCompactList}\small\item\em General common values/code between the telemetry reader code. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_generic_telemetry_exception}{Generic\+Telemetry\+Exception}}
+\item 
+class \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telememtry_exception_common_values}{Io\+Device\+Telememtry\+Exception\+Common\+Values}}
+\item 
+class {\bfseries Io\+Device\+Telemetry\+Exception\+Extensions\+Checkers}
+\item 
+class \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file}{Io\+Device\+Telemetry\+Nt\+Create\+File}}
+\item 
+class {\bfseries Io\+Device\+Telemetry\+Reader\+Extensions}
+\begin{DoxyCompactList}\small\item\em An Exception from the debug event struct that was generated via the Io\+Exception \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry}{Telemetry}} DLL. This class should contain code to read exceptions generated from telemetry dll Io\+Device\+Telemetry \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemety_create_file}{Io\+Device\+Telemety\+Create\+File}}
+\begin{DoxyCompactList}\small\item\em This structure contains data from an exception generated via Create\+File\+A/W. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct_insight_sheath_1_1_telemetry_1_1_l_a_r_g_e___i_n_t_e_g_e_r}{LARGE\+\_\+\+INTEGER}}
+\begin{DoxyCompactList}\small\item\em Large structure for getting \mbox{\hyperlink{struct_insight_sheath_1_1_telemetry_1_1_l_a_r_g_e___i_n_t_e_g_e_r}{LARGE\+\_\+\+INTEGER}} structs into .Net Hands \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a15b1b686153bd71b56704829fdee0233}{Nt\+Creation\+Disposition}} \+: uint \{ \newline
+\mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a15b1b686153bd71b56704829fdee0233ae8078c90e7b5b84c77a92a8a692ed682}{Supersede}} = 0x00000000
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a15b1b686153bd71b56704829fdee0233ac3bf447eabe632720a3aa1a7ce401274}{Open}} = 0x00000001
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a15b1b686153bd71b56704829fdee0233a686e697538050e4664636337cc3b834f}{Create}} = 0x00000002
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a15b1b686153bd71b56704829fdee0233ac0f59a3fc47f375e2733258aac6fcaa3}{Open\+If}} = 0x00000003
+, \newline
+\mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a15b1b686153bd71b56704829fdee0233ada364eb37e143f6b2b5559aa03f5913a}{Overwrite}} = 0x00000004
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a15b1b686153bd71b56704829fdee0233abdd7c767124a0efae8ad7801df534091}{Overwrite\+If}} = 0x00000005
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a15b1b686153bd71b56704829fdee0233af1f24b8ab1eb539d39ba14e33e195ccd}{Max\+Disposition}} = 0x00000005
+ \}
+\begin{DoxyCompactList}\small\item\em From once again winnt.\+h for values.  \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a1c7edc0d53c65d0de3f4e191357e46a7}{Creation\+Disposition}} \+: uint \{ \newline
+\mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a1c7edc0d53c65d0de3f4e191357e46a7a16aad4508a33afcd497d9cb37480722f}{Create\+New}} = 1
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a1c7edc0d53c65d0de3f4e191357e46a7a5007129116ac317941eafb99b92b62d7}{Create\+Always}} = 2
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a1c7edc0d53c65d0de3f4e191357e46a7a31e4ddcb0bdd2cb84245a1b4337dc4f0}{Open\+Existing}} = 3
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a1c7edc0d53c65d0de3f4e191357e46a7a05b613cd54f885812936f4186b159bdf}{Open\+Always}} = 4
+, \newline
+\mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a1c7edc0d53c65d0de3f4e191357e46a7a15ef87a1ec51975b50b651c1cce8f5b7}{Truncate\+Existing}} = 5
+ \}
+\begin{DoxyCompactList}\small\item\em Action to be taken by Create\+File\+A/W \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798bec}{Access\+Masks}} \+: uint \{ \newline
+\mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798beca88a12f09800c497f30b98781952b50f2}{No\+Access}} = 0
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798beca02104739967781f89c6b0e63dd2147ca}{Meta\+Data}} = No\+Access
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798becaf2a6c498fb90ee345d997f888fce3b18}{Delete}} = 0x00010000
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798beca63c8057a0734e068c56b90cd7a21811d}{Read\+Control}} = 0x00020000
+, \newline
+\mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798beca742b6dfa42a2c9e736bfa002839dcd7b}{File\+Read\+Data}} = 0x1
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798beca807b5cfdd263818458cca1b9e38f880a}{File\+List\+Directory}} = File\+Read\+Data
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798becab63591dd81fc84a5428bc2ddc4906b9a}{File\+Read\+Attributes}} = 0x0080
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798becac8574840e4a60434c2952264128368f8}{File\+Read\+Ea}} = 0x0008
+, \newline
+\mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798beca152afa2ce7614c99f5803a2a2d4c7fc4}{File\+Write\+Data}} = 0x0002
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798beca8f860406ee5b3b54b406281f8c6e307a}{File\+Write\+Attributes}} = 0x0100
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798becadb04826095bc521a931e8e488ca8960e}{File\+Write\+Ea}} = 0x0010
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798beca57c5cb773ffa54ec677668b5ba7c90f7}{File\+Append\+Data}} = 0x0004
+, \newline
+\mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798becae160952752c15b5e398b48ccdf50735a}{Write\+Dac}} = 0x00040000
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798becaeefa9ccbf2071c722eefe2ce44c70b02}{Write\+Owner}} = 0x00080000
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798becab18b960c57a784907dc1cd97ba8a8065}{Synchronize}} = 0x00100000
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798beca4087f2967fe43838c79aac4d53ce43d3}{File\+Execute}} = 0x0020
+, \newline
+\mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798beca90eef22a327480e5cb057202b7c11d72}{File\+Traverse}} = File\+Execute
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798becae94aab556e7fb8e739eeb1d24ce5db63}{Generic\+Read}} = 0x80000000
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798beca9a803576ff84a1f98a9d56984d3b1559}{Generic\+Write}} = 0x40000000
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798beca2590aa05c13a089855c36062a36c2279}{Generic\+Execute}} = 0x20000000
+, \newline
+\mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798beca8c96bd43f485eaae63016d4d96279546}{Generic\+All}} = 0x10000000
+ \}
+\begin{DoxyCompactList}\small\item\em from https\+://docs.\+microsoft.\+com/en-\/us/openspecs/windows\+\_\+protocols/ms-\/samr/262970b7-\/cd4a-\/41f4-\/8c4d-\/5a27f0092aaa, Windows SDK winnt.\+h and , these are the accessible flags \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a237ff392d0790b17d49ea0c828b3d14d}{Share\+Masks}} \+: uint \{ \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a237ff392d0790b17d49ea0c828b3d14da3ab12db4f0d17abdef8148d42847420f}{No\+Share}} = 0
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a237ff392d0790b17d49ea0c828b3d14dae200142a98f80eee22b8a055e7f5adb6}{Share\+Delete}} = 0x00000004
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a237ff392d0790b17d49ea0c828b3d14da6677b7f6889169649bc0da8cab9a7f25}{Share\+Read}} = 0x00000001
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a237ff392d0790b17d49ea0c828b3d14da2556113d2163252c5aff8fd313d7d05b}{Share\+Write}} = 0x00000002
+ \}
+\begin{DoxyCompactList}\small\item\em Share mode for Create\+File\+A/W \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798bec}\label{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798bec}} 
+\index{InsightSheath.Telemetry@{InsightSheath.Telemetry}!AccessMasks@{AccessMasks}}
+\index{AccessMasks@{AccessMasks}!InsightSheath.Telemetry@{InsightSheath.Telemetry}}
+\doxysubsubsection{\texorpdfstring{AccessMasks}{AccessMasks}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798bec}{Insight\+Sheath.\+Telemetry.\+Access\+Masks}} \+: uint}
+
+
+
+from https\+://docs.\+microsoft.\+com/en-\/us/openspecs/windows\+\_\+protocols/ms-\/samr/262970b7-\/cd4a-\/41f4-\/8c4d-\/5a27f0092aaa, Windows SDK winnt.\+h and , these are the accessible flags 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{NoAccess@{NoAccess}!InsightSheath.Telemetry@{InsightSheath.Telemetry}}\index{InsightSheath.Telemetry@{InsightSheath.Telemetry}!NoAccess@{NoAccess}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798beca88a12f09800c497f30b98781952b50f2}\label{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798beca88a12f09800c497f30b98781952b50f2}} 
+No\+Access&MSDN Create\+File\+A/W suggests meta data can be queried with opening for no access, hence the pair of these. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{MetaData@{MetaData}!InsightSheath.Telemetry@{InsightSheath.Telemetry}}\index{InsightSheath.Telemetry@{InsightSheath.Telemetry}!MetaData@{MetaData}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798beca02104739967781f89c6b0e63dd2147ca}\label{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798beca02104739967781f89c6b0e63dd2147ca}} 
+Meta\+Data&MSDN Create\+File\+A/W suggests meta data can be queried with opening for no access, hence the pair of these. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Delete@{Delete}!InsightSheath.Telemetry@{InsightSheath.Telemetry}}\index{InsightSheath.Telemetry@{InsightSheath.Telemetry}!Delete@{Delete}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798becaf2a6c498fb90ee345d997f888fce3b18}\label{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798becaf2a6c498fb90ee345d997f888fce3b18}} 
+Delete&Nt\+Open\+File/\+Nt\+Create\+File DELETE Value from \char`\"{}winnt.\+h\char`\"{} \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ReadControl@{ReadControl}!InsightSheath.Telemetry@{InsightSheath.Telemetry}}\index{InsightSheath.Telemetry@{InsightSheath.Telemetry}!ReadControl@{ReadControl}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798beca63c8057a0734e068c56b90cd7a21811d}\label{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798beca63c8057a0734e068c56b90cd7a21811d}} 
+Read\+Control&Nt\+Open\+File/\+Nt\+Create\+File READ\+\_\+\+CONTROL value from \char`\"{}winnt.\+h\char`\"{} \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FileReadData@{FileReadData}!InsightSheath.Telemetry@{InsightSheath.Telemetry}}\index{InsightSheath.Telemetry@{InsightSheath.Telemetry}!FileReadData@{FileReadData}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798beca742b6dfa42a2c9e736bfa002839dcd7b}\label{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798beca742b6dfa42a2c9e736bfa002839dcd7b}} 
+File\+Read\+Data&Windows Nt\+Open/\+Nt\+Create\+File Sourced from winnt.\+h \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FileListDirectory@{FileListDirectory}!InsightSheath.Telemetry@{InsightSheath.Telemetry}}\index{InsightSheath.Telemetry@{InsightSheath.Telemetry}!FileListDirectory@{FileListDirectory}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798beca807b5cfdd263818458cca1b9e38f880a}\label{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798beca807b5cfdd263818458cca1b9e38f880a}} 
+File\+List\+Directory&Same as File\+Read\+Data in winnt.\+h \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FileReadAttributes@{FileReadAttributes}!InsightSheath.Telemetry@{InsightSheath.Telemetry}}\index{InsightSheath.Telemetry@{InsightSheath.Telemetry}!FileReadAttributes@{FileReadAttributes}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798becab63591dd81fc84a5428bc2ddc4906b9a}\label{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798becab63591dd81fc84a5428bc2ddc4906b9a}} 
+File\+Read\+Attributes&Windows Nt\+Open/\+Nt\+Create\+File. Sourced from winnt.\+h. File\+Attribute flags, can be set/read. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FileReadEa@{FileReadEa}!InsightSheath.Telemetry@{InsightSheath.Telemetry}}\index{InsightSheath.Telemetry@{InsightSheath.Telemetry}!FileReadEa@{FileReadEa}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798becac8574840e4a60434c2952264128368f8}\label{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798becac8574840e4a60434c2952264128368f8}} 
+File\+Read\+Ea&Windows Nt\+Open/\+Nt\+Create\+File Sourced from winnt.\+h \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FileWriteData@{FileWriteData}!InsightSheath.Telemetry@{InsightSheath.Telemetry}}\index{InsightSheath.Telemetry@{InsightSheath.Telemetry}!FileWriteData@{FileWriteData}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798beca152afa2ce7614c99f5803a2a2d4c7fc4}\label{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798beca152afa2ce7614c99f5803a2a2d4c7fc4}} 
+File\+Write\+Data&Windows Nt\+Open/\+Nt\+Create\+File Sourced from winnt.\+h \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FileWriteAttributes@{FileWriteAttributes}!InsightSheath.Telemetry@{InsightSheath.Telemetry}}\index{InsightSheath.Telemetry@{InsightSheath.Telemetry}!FileWriteAttributes@{FileWriteAttributes}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798beca8f860406ee5b3b54b406281f8c6e307a}\label{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798beca8f860406ee5b3b54b406281f8c6e307a}} 
+File\+Write\+Attributes&Windows Nt\+Open/\+Nt\+Create\+File Sourced from winnt.\+h \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FileWriteEa@{FileWriteEa}!InsightSheath.Telemetry@{InsightSheath.Telemetry}}\index{InsightSheath.Telemetry@{InsightSheath.Telemetry}!FileWriteEa@{FileWriteEa}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798becadb04826095bc521a931e8e488ca8960e}\label{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798becadb04826095bc521a931e8e488ca8960e}} 
+File\+Write\+Ea&Windows Nt\+Open/\+Nt\+Create\+File Sourced from winnt.\+h \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FileAppendData@{FileAppendData}!InsightSheath.Telemetry@{InsightSheath.Telemetry}}\index{InsightSheath.Telemetry@{InsightSheath.Telemetry}!FileAppendData@{FileAppendData}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798beca57c5cb773ffa54ec677668b5ba7c90f7}\label{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798beca57c5cb773ffa54ec677668b5ba7c90f7}} 
+File\+Append\+Data&Windows Nt\+Open/\+Nt\+Create file. From winnt.\+h. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WriteDac@{WriteDac}!InsightSheath.Telemetry@{InsightSheath.Telemetry}}\index{InsightSheath.Telemetry@{InsightSheath.Telemetry}!WriteDac@{WriteDac}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798becae160952752c15b5e398b48ccdf50735a}\label{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798becae160952752c15b5e398b48ccdf50735a}} 
+Write\+Dac&Windows Nt\+Open/\+Nt\+Create file. From winnt.\+h. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WriteOwner@{WriteOwner}!InsightSheath.Telemetry@{InsightSheath.Telemetry}}\index{InsightSheath.Telemetry@{InsightSheath.Telemetry}!WriteOwner@{WriteOwner}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798becaeefa9ccbf2071c722eefe2ce44c70b02}\label{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798becaeefa9ccbf2071c722eefe2ce44c70b02}} 
+Write\+Owner&Windows Nt\+Open/\+Nt\+Create file. From winnt.\+h. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Synchronize@{Synchronize}!InsightSheath.Telemetry@{InsightSheath.Telemetry}}\index{InsightSheath.Telemetry@{InsightSheath.Telemetry}!Synchronize@{Synchronize}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798becab18b960c57a784907dc1cd97ba8a8065}\label{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798becab18b960c57a784907dc1cd97ba8a8065}} 
+Synchronize&Windows Nt\+Open/\+Nt\+Create file. From winnt.\+h. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FileExecute@{FileExecute}!InsightSheath.Telemetry@{InsightSheath.Telemetry}}\index{InsightSheath.Telemetry@{InsightSheath.Telemetry}!FileExecute@{FileExecute}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798beca4087f2967fe43838c79aac4d53ce43d3}\label{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798beca4087f2967fe43838c79aac4d53ce43d3}} 
+File\+Execute&Windows Nt\+Open/\+Nt\+Create file. From winnt.\+h. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FileTraverse@{FileTraverse}!InsightSheath.Telemetry@{InsightSheath.Telemetry}}\index{InsightSheath.Telemetry@{InsightSheath.Telemetry}!FileTraverse@{FileTraverse}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798beca90eef22a327480e5cb057202b7c11d72}\label{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798beca90eef22a327480e5cb057202b7c11d72}} 
+File\+Traverse&Same as File\+Exceute in winnt.\+h \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{GenericRead@{GenericRead}!InsightSheath.Telemetry@{InsightSheath.Telemetry}}\index{InsightSheath.Telemetry@{InsightSheath.Telemetry}!GenericRead@{GenericRead}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798becae94aab556e7fb8e739eeb1d24ce5db63}\label{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798becae94aab556e7fb8e739eeb1d24ce5db63}} 
+Generic\+Read&GENERIC\+\_\+\+READ / for read access \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{GenericWrite@{GenericWrite}!InsightSheath.Telemetry@{InsightSheath.Telemetry}}\index{InsightSheath.Telemetry@{InsightSheath.Telemetry}!GenericWrite@{GenericWrite}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798beca9a803576ff84a1f98a9d56984d3b1559}\label{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798beca9a803576ff84a1f98a9d56984d3b1559}} 
+Generic\+Write&GENERIC\+\_\+\+WRITE / for write access \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{GenericExecute@{GenericExecute}!InsightSheath.Telemetry@{InsightSheath.Telemetry}}\index{InsightSheath.Telemetry@{InsightSheath.Telemetry}!GenericExecute@{GenericExecute}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798beca2590aa05c13a089855c36062a36c2279}\label{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798beca2590aa05c13a089855c36062a36c2279}} 
+Generic\+Execute&GENERIC\+\_\+\+EXECUTE / for execute access \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{GenericAll@{GenericAll}!InsightSheath.Telemetry@{InsightSheath.Telemetry}}\index{InsightSheath.Telemetry@{InsightSheath.Telemetry}!GenericAll@{GenericAll}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798beca8c96bd43f485eaae63016d4d96279546}\label{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798beca8c96bd43f485eaae63016d4d96279546}} 
+Generic\+All&Generic all / for all possible access \\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line \mbox{\hyperlink{_io_device_telemetry_reader_8cs_source_l00122}{122}} of file \mbox{\hyperlink{_io_device_telemetry_reader_8cs_source}{Io\+Device\+Telemetry\+Reader.\+cs}}.
+
+\mbox{\Hypertarget{namespace_insight_sheath_1_1_telemetry_a1c7edc0d53c65d0de3f4e191357e46a7}\label{namespace_insight_sheath_1_1_telemetry_a1c7edc0d53c65d0de3f4e191357e46a7}} 
+\index{InsightSheath.Telemetry@{InsightSheath.Telemetry}!CreationDisposition@{CreationDisposition}}
+\index{CreationDisposition@{CreationDisposition}!InsightSheath.Telemetry@{InsightSheath.Telemetry}}
+\doxysubsubsection{\texorpdfstring{CreationDisposition}{CreationDisposition}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a1c7edc0d53c65d0de3f4e191357e46a7}{Insight\+Sheath.\+Telemetry.\+Creation\+Disposition}} \+: uint}
+
+
+
+Action to be taken by Create\+File\+A/W 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CreateNew@{CreateNew}!InsightSheath.Telemetry@{InsightSheath.Telemetry}}\index{InsightSheath.Telemetry@{InsightSheath.Telemetry}!CreateNew@{CreateNew}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_telemetry_a1c7edc0d53c65d0de3f4e191357e46a7a16aad4508a33afcd497d9cb37480722f}\label{namespace_insight_sheath_1_1_telemetry_a1c7edc0d53c65d0de3f4e191357e46a7a16aad4508a33afcd497d9cb37480722f}} 
+Create\+New&Makes a new file if said target does not already exists \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CreateAlways@{CreateAlways}!InsightSheath.Telemetry@{InsightSheath.Telemetry}}\index{InsightSheath.Telemetry@{InsightSheath.Telemetry}!CreateAlways@{CreateAlways}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_telemetry_a1c7edc0d53c65d0de3f4e191357e46a7a5007129116ac317941eafb99b92b62d7}\label{namespace_insight_sheath_1_1_telemetry_a1c7edc0d53c65d0de3f4e191357e46a7a5007129116ac317941eafb99b92b62d7}} 
+Create\+Always&Creates fil and truncates if file exists already, createfilea/w sets last error if truncating \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{OpenExisting@{OpenExisting}!InsightSheath.Telemetry@{InsightSheath.Telemetry}}\index{InsightSheath.Telemetry@{InsightSheath.Telemetry}!OpenExisting@{OpenExisting}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_telemetry_a1c7edc0d53c65d0de3f4e191357e46a7a31e4ddcb0bdd2cb84245a1b4337dc4f0}\label{namespace_insight_sheath_1_1_telemetry_a1c7edc0d53c65d0de3f4e191357e46a7a31e4ddcb0bdd2cb84245a1b4337dc4f0}} 
+Open\+Existing&open an existing file / device and fail if not found \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{OpenAlways@{OpenAlways}!InsightSheath.Telemetry@{InsightSheath.Telemetry}}\index{InsightSheath.Telemetry@{InsightSheath.Telemetry}!OpenAlways@{OpenAlways}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_telemetry_a1c7edc0d53c65d0de3f4e191357e46a7a05b613cd54f885812936f4186b159bdf}\label{namespace_insight_sheath_1_1_telemetry_a1c7edc0d53c65d0de3f4e191357e46a7a05b613cd54f885812936f4186b159bdf}} 
+Open\+Always&open existing file / -\/ attempts to create if not found \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{TruncateExisting@{TruncateExisting}!InsightSheath.Telemetry@{InsightSheath.Telemetry}}\index{InsightSheath.Telemetry@{InsightSheath.Telemetry}!TruncateExisting@{TruncateExisting}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_telemetry_a1c7edc0d53c65d0de3f4e191357e46a7a15ef87a1ec51975b50b651c1cce8f5b7}\label{namespace_insight_sheath_1_1_telemetry_a1c7edc0d53c65d0de3f4e191357e46a7a15ef87a1ec51975b50b651c1cce8f5b7}} 
+Truncate\+Existing&Open a file and truncate it to zero bytes long \\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line \mbox{\hyperlink{_io_device_telemetry_reader_8cs_source_l00090}{90}} of file \mbox{\hyperlink{_io_device_telemetry_reader_8cs_source}{Io\+Device\+Telemetry\+Reader.\+cs}}.
+
+\mbox{\Hypertarget{namespace_insight_sheath_1_1_telemetry_a15b1b686153bd71b56704829fdee0233}\label{namespace_insight_sheath_1_1_telemetry_a15b1b686153bd71b56704829fdee0233}} 
+\index{InsightSheath.Telemetry@{InsightSheath.Telemetry}!NtCreationDisposition@{NtCreationDisposition}}
+\index{NtCreationDisposition@{NtCreationDisposition}!InsightSheath.Telemetry@{InsightSheath.Telemetry}}
+\doxysubsubsection{\texorpdfstring{NtCreationDisposition}{NtCreationDisposition}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a15b1b686153bd71b56704829fdee0233}{Insight\+Sheath.\+Telemetry.\+Nt\+Creation\+Disposition}} \+: uint}
+
+
+
+From once again winnt.\+h for values.  
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Supersede@{Supersede}!InsightSheath.Telemetry@{InsightSheath.Telemetry}}\index{InsightSheath.Telemetry@{InsightSheath.Telemetry}!Supersede@{Supersede}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_telemetry_a15b1b686153bd71b56704829fdee0233ae8078c90e7b5b84c77a92a8a692ed682}\label{namespace_insight_sheath_1_1_telemetry_a15b1b686153bd71b56704829fdee0233ae8078c90e7b5b84c77a92a8a692ed682}} 
+Supersede&IF File exists already, replace with this new file. If nonexistent, create it. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Open@{Open}!InsightSheath.Telemetry@{InsightSheath.Telemetry}}\index{InsightSheath.Telemetry@{InsightSheath.Telemetry}!Open@{Open}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_telemetry_a15b1b686153bd71b56704829fdee0233ac3bf447eabe632720a3aa1a7ce401274}\label{namespace_insight_sheath_1_1_telemetry_a15b1b686153bd71b56704829fdee0233ac3bf447eabe632720a3aa1a7ce401274}} 
+Open&If file exists, open it. If it does not exist, fail the request. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Create@{Create}!InsightSheath.Telemetry@{InsightSheath.Telemetry}}\index{InsightSheath.Telemetry@{InsightSheath.Telemetry}!Create@{Create}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_telemetry_a15b1b686153bd71b56704829fdee0233a686e697538050e4664636337cc3b834f}\label{namespace_insight_sheath_1_1_telemetry_a15b1b686153bd71b56704829fdee0233a686e697538050e4664636337cc3b834f}} 
+Create&If the file exists, fail request. If it does not exist, create the file. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{OpenIf@{OpenIf}!InsightSheath.Telemetry@{InsightSheath.Telemetry}}\index{InsightSheath.Telemetry@{InsightSheath.Telemetry}!OpenIf@{OpenIf}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_telemetry_a15b1b686153bd71b56704829fdee0233ac0f59a3fc47f375e2733258aac6fcaa3}\label{namespace_insight_sheath_1_1_telemetry_a15b1b686153bd71b56704829fdee0233ac0f59a3fc47f375e2733258aac6fcaa3}} 
+Open\+If&If the file exists open it. Otherwise create it. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Overwrite@{Overwrite}!InsightSheath.Telemetry@{InsightSheath.Telemetry}}\index{InsightSheath.Telemetry@{InsightSheath.Telemetry}!Overwrite@{Overwrite}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_telemetry_a15b1b686153bd71b56704829fdee0233ada364eb37e143f6b2b5559aa03f5913a}\label{namespace_insight_sheath_1_1_telemetry_a15b1b686153bd71b56704829fdee0233ada364eb37e143f6b2b5559aa03f5913a}} 
+Overwrite&If the file exists, open and truncate it. Otherwise fail request. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{OverwriteIf@{OverwriteIf}!InsightSheath.Telemetry@{InsightSheath.Telemetry}}\index{InsightSheath.Telemetry@{InsightSheath.Telemetry}!OverwriteIf@{OverwriteIf}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_telemetry_a15b1b686153bd71b56704829fdee0233abdd7c767124a0efae8ad7801df534091}\label{namespace_insight_sheath_1_1_telemetry_a15b1b686153bd71b56704829fdee0233abdd7c767124a0efae8ad7801df534091}} 
+Overwrite\+If&If the file exists, open and truncate it. If it does not exist, create it. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{MaxDisposition@{MaxDisposition}!InsightSheath.Telemetry@{InsightSheath.Telemetry}}\index{InsightSheath.Telemetry@{InsightSheath.Telemetry}!MaxDisposition@{MaxDisposition}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_telemetry_a15b1b686153bd71b56704829fdee0233af1f24b8ab1eb539d39ba14e33e195ccd}\label{namespace_insight_sheath_1_1_telemetry_a15b1b686153bd71b56704829fdee0233af1f24b8ab1eb539d39ba14e33e195ccd}} 
+Max\+Disposition&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line \mbox{\hyperlink{_io_device_telemetry_reader_8cs_source_l00057}{57}} of file \mbox{\hyperlink{_io_device_telemetry_reader_8cs_source}{Io\+Device\+Telemetry\+Reader.\+cs}}.
+
+\mbox{\Hypertarget{namespace_insight_sheath_1_1_telemetry_a237ff392d0790b17d49ea0c828b3d14d}\label{namespace_insight_sheath_1_1_telemetry_a237ff392d0790b17d49ea0c828b3d14d}} 
+\index{InsightSheath.Telemetry@{InsightSheath.Telemetry}!ShareMasks@{ShareMasks}}
+\index{ShareMasks@{ShareMasks}!InsightSheath.Telemetry@{InsightSheath.Telemetry}}
+\doxysubsubsection{\texorpdfstring{ShareMasks}{ShareMasks}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a237ff392d0790b17d49ea0c828b3d14d}{Insight\+Sheath.\+Telemetry.\+Share\+Masks}} \+: uint}
+
+
+
+Share mode for Create\+File\+A/W 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{NoShare@{NoShare}!InsightSheath.Telemetry@{InsightSheath.Telemetry}}\index{InsightSheath.Telemetry@{InsightSheath.Telemetry}!NoShare@{NoShare}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_telemetry_a237ff392d0790b17d49ea0c828b3d14da3ab12db4f0d17abdef8148d42847420f}\label{namespace_insight_sheath_1_1_telemetry_a237ff392d0790b17d49ea0c828b3d14da3ab12db4f0d17abdef8148d42847420f}} 
+No\+Share&Don\textquotesingle{}t wanna share \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ShareDelete@{ShareDelete}!InsightSheath.Telemetry@{InsightSheath.Telemetry}}\index{InsightSheath.Telemetry@{InsightSheath.Telemetry}!ShareDelete@{ShareDelete}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_telemetry_a237ff392d0790b17d49ea0c828b3d14dae200142a98f80eee22b8a055e7f5adb6}\label{namespace_insight_sheath_1_1_telemetry_a237ff392d0790b17d49ea0c828b3d14dae200142a98f80eee22b8a055e7f5adb6}} 
+Share\+Delete&Share for delete requests only \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ShareRead@{ShareRead}!InsightSheath.Telemetry@{InsightSheath.Telemetry}}\index{InsightSheath.Telemetry@{InsightSheath.Telemetry}!ShareRead@{ShareRead}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_telemetry_a237ff392d0790b17d49ea0c828b3d14da6677b7f6889169649bc0da8cab9a7f25}\label{namespace_insight_sheath_1_1_telemetry_a237ff392d0790b17d49ea0c828b3d14da6677b7f6889169649bc0da8cab9a7f25}} 
+Share\+Read&Share for read access only \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ShareWrite@{ShareWrite}!InsightSheath.Telemetry@{InsightSheath.Telemetry}}\index{InsightSheath.Telemetry@{InsightSheath.Telemetry}!ShareWrite@{ShareWrite}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_telemetry_a237ff392d0790b17d49ea0c828b3d14da2556113d2163252c5aff8fd313d7d05b}\label{namespace_insight_sheath_1_1_telemetry_a237ff392d0790b17d49ea0c828b3d14da2556113d2163252c5aff8fd313d7d05b}} 
+Share\+Write&Share for write access only \\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line \mbox{\hyperlink{_io_device_telemetry_reader_8cs_source_l00218}{218}} of file \mbox{\hyperlink{_io_device_telemetry_reader_8cs_source}{Io\+Device\+Telemetry\+Reader.\+cs}}.
+

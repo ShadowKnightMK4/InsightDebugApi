@@ -36,6 +36,7 @@ namespace InsightSheath.Debugging
         /// <summary>
         /// Return Control of the debugged Software back to Windows and specify how to resume. This wraps MSDN's ContinueDebugEvent
         /// </summary>
+        /// <param name="that">Exists to let this routine to be an extension to <see cref="DebugEvent"/> </param>
         /// <param name="ProcessId">Process ID of the debug event that was generated</param>
         /// <param name="ThreadId">thread id of the debug event that was generated</param>
         /// <param name="ContinueState">how to return control back to Windows</param>

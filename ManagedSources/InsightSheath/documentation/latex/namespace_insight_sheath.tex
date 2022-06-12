@@ -1,0 +1,70 @@
+\hypertarget{namespace_insight_sheath}{}\doxysection{Insight\+Sheath Namespace Reference}
+\label{namespace_insight_sheath}\index{InsightSheath@{InsightSheath}}
+\doxysubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespace_insight_sheath_1_1_abstract}{Abstract}}
+\item 
+namespace \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging}{Debugging}}
+\item 
+namespace \mbox{\hyperlink{namespace_insight_sheath_1_1_misc}{Misc}}
+\item 
+namespace \mbox{\hyperlink{namespace_insight_sheath_1_1_native_imports}{Native\+Imports}}
+\item 
+namespace \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry}{Telemetry}}
+\item 
+namespace \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct}{Win32\+Struct}}
+\item 
+namespace \mbox{\hyperlink{namespace_insight_sheath_1_1_wrappers}{Wrappers}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class {\bfseries Helper\+Routines}
+\begin{DoxyCompactList}\small\item\em Class contains various miscellaneous routines that while not tied directly to the library\textquotesingle{}s purpose, they are used throughout the Sheath and wrappers. \end{DoxyCompactList}\item 
+class {\bfseries Memory\+Native}
+\begin{DoxyCompactList}\small\item\em Read and write to native memory via Peek and Poke routines. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{namespace_insight_sheath_aa32853670318d8ddc9960b8750584fc7}{Machine\+Type}} \{ \mbox{\hyperlink{namespace_insight_sheath_aa32853670318d8ddc9960b8750584fc7af3c49340cc8d2a42f66a43b7b4ac50f6}{Machine\+Invalid}} = 0
+, \mbox{\hyperlink{namespace_insight_sheath_aa32853670318d8ddc9960b8750584fc7ab2a95561dc10556507160dd63400322d}{Machine\+I386}} = 0x014c
+, \mbox{\hyperlink{namespace_insight_sheath_aa32853670318d8ddc9960b8750584fc7ade3ba58f206209510850ba6428a2860b}{Machine\+IA64}} = 0x0200
+, \mbox{\hyperlink{namespace_insight_sheath_aa32853670318d8ddc9960b8750584fc7a76f41d80a3b6cde6c17c740686b33ede}{Machine\+Amd64}} = 0x8664
+ \}
+\begin{DoxyCompactList}\small\item\em Machine Type values extractable \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{namespace_insight_sheath_aa32853670318d8ddc9960b8750584fc7}\label{namespace_insight_sheath_aa32853670318d8ddc9960b8750584fc7}} 
+\index{InsightSheath@{InsightSheath}!MachineType@{MachineType}}
+\index{MachineType@{MachineType}!InsightSheath@{InsightSheath}}
+\doxysubsubsection{\texorpdfstring{MachineType}{MachineType}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{namespace_insight_sheath_aa32853670318d8ddc9960b8750584fc7}{Insight\+Sheath.\+Machine\+Type}}}
+
+
+
+Machine Type values extractable 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{MachineInvalid@{MachineInvalid}!InsightSheath@{InsightSheath}}\index{InsightSheath@{InsightSheath}!MachineInvalid@{MachineInvalid}}}\mbox{\Hypertarget{namespace_insight_sheath_aa32853670318d8ddc9960b8750584fc7af3c49340cc8d2a42f66a43b7b4ac50f6}\label{namespace_insight_sheath_aa32853670318d8ddc9960b8750584fc7af3c49340cc8d2a42f66a43b7b4ac50f6}} 
+Machine\+Invalid&Returned on error with Helper\+Routines.\+Get\+PEMachine\+Type(string) \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{MachineI386@{MachineI386}!InsightSheath@{InsightSheath}}\index{InsightSheath@{InsightSheath}!MachineI386@{MachineI386}}}\mbox{\Hypertarget{namespace_insight_sheath_aa32853670318d8ddc9960b8750584fc7ab2a95561dc10556507160dd63400322d}\label{namespace_insight_sheath_aa32853670318d8ddc9960b8750584fc7ab2a95561dc10556507160dd63400322d}} 
+Machine\+I386&x86 based \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{MachineIA64@{MachineIA64}!InsightSheath@{InsightSheath}}\index{InsightSheath@{InsightSheath}!MachineIA64@{MachineIA64}}}\mbox{\Hypertarget{namespace_insight_sheath_aa32853670318d8ddc9960b8750584fc7ade3ba58f206209510850ba6428a2860b}\label{namespace_insight_sheath_aa32853670318d8ddc9960b8750584fc7ade3ba58f206209510850ba6428a2860b}} 
+Machine\+IA64&Intel Itanium based \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{MachineAmd64@{MachineAmd64}!InsightSheath@{InsightSheath}}\index{InsightSheath@{InsightSheath}!MachineAmd64@{MachineAmd64}}}\mbox{\Hypertarget{namespace_insight_sheath_aa32853670318d8ddc9960b8750584fc7a76f41d80a3b6cde6c17c740686b33ede}\label{namespace_insight_sheath_aa32853670318d8ddc9960b8750584fc7a76f41d80a3b6cde6c17c740686b33ede}} 
+Machine\+Amd64&x64 based \\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line \mbox{\hyperlink{_utility_8cs_source_l00015}{15}} of file \mbox{\hyperlink{_utility_8cs_source}{Utility.\+cs}}.
+

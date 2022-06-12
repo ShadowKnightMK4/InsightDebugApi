@@ -1,0 +1,345 @@
+\hypertarget{class_insight_sheath_1_1_abstract_1_1_native_static_container}{}\doxysection{Insight\+Sheath.\+Abstract.\+Native\+Static\+Container Class Reference}
+\label{class_insight_sheath_1_1_abstract_1_1_native_static_container}\index{InsightSheath.Abstract.NativeStaticContainer@{InsightSheath.Abstract.NativeStaticContainer}}
+
+
+Encapsulates a native pointer to an unmanaged structure that can potentially be freed with a single call to C/\+C++\textquotesingle{}s free(). If said Native class needs special free requirements, overwrite \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_aab47d778e6f074d10e4d0511471e8727}{Dispose(bool)}} with a a call to a routine to properly free it. If your wrapper is handing out multiple natiove pointers to the same object, you\textquotesingle{}ll need something like \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container}{Reference\+Counter\+Native\+Static\+Container}}  
+
+
+Inheritance diagram for Insight\+Sheath.\+Abstract.\+Native\+Static\+Container\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=7.439613cm]{class_insight_sheath_1_1_abstract_1_1_native_static_container}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+override bool \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a93bcb47f7c0c979bf6b432e7db9bb4e6}{Equals}} (object obj)
+\begin{DoxyCompactList}\small\item\em Native\+Static\+Contrain compares both \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}} pointers and returns true if equal \end{DoxyCompactList}\item 
+override int \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_adfb5ffa153edb48649ec1486900d1ec0}{Get\+Hash\+Code}} ()
+\begin{DoxyCompactList}\small\item\em Grab a hash of the native pointer. Logic being if two hashes are the same, we\textquotesingle{}re holding the same native struct/class \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_aab702cfc1a822d3a6f2fc9c8892d0b62}{Native\+Static\+Container}} (Int\+Ptr \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}})
+\begin{DoxyCompactList}\small\item\em Create instance of this with the passed Native Pointer. Subclasses of this should include routines to call the native class\textquotesingle{}s functions. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a2160ac4b83b524828f5263580ae5606d}{Native\+Static\+Container}} (Int\+Ptr \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}, bool \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{Free\+On\+Cleanup}})
+\begin{DoxyCompactList}\small\item\em Create an instance of the class with the object to specify if we free it. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af127a410fed6a497b46469243512249d}{Dispose}} ()
+\begin{DoxyCompactList}\small\item\em Trigger cleanup of this \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container}{Native\+Static\+Container}} based class \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a4603e0d1ed0ba9bf17c2fa20d08efa67}{Clear\+Native}} ()
+\begin{DoxyCompactList}\small\item\em place in disposable and call it after calling the current unmanaged cleanup routine. ~\newline
+ \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_aab47d778e6f074d10e4d0511471e8727}{Dispose}} (bool disposing)
+\begin{DoxyCompactList}\small\item\em Basic \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container}{Native\+Static\+Container}} disposal. Checks if not disposed, if Free\+On\+Cleanup is set and Native != 0 null before calling a routine exported in Insight\+API to free the memory. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Static Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static Argument\+Null\+Exception \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a60f71a71b160f25746e090649b304c8d}{Wrapper\+Constructor\+Received\+Null\+Pointer\+Error\+Exception}} (string Argument\+Prefix, string Alternative\+Instance, string Argument\+Name)
+\begin{DoxyCompactList}\small\item\em Used to make the Argument\+Null\+Exception message using \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_ad65fc79318c781352fada8abad1114a6}{Received\+Null\+Pointer\+On\+Constructor}} template \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Int\+Ptr \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}
+\begin{DoxyCompactList}\small\item\em Holds a physical unmanaged pointer to a relevant structure. Child classes use this \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a8c06b4f0d2c1c2162f9ba5e8c13f3914}{Free\+On\+Cleanup\+Container}}
+\begin{DoxyCompactList}\small\item\em Holds the free on cleanup value. Recommend only disposal() routines modify this. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Static Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+const string \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a4f54b065a9314ee795d618b5fc473cfd}{Unmanaged\+Constructor\+Returned\+Null}} = \char`\"{}The unmanaged routine \{0\} to build the unmanaged part of \{1\} returned null.\char`\"{}
+\begin{DoxyCompactList}\small\item\em This is using in \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container}{Native\+Static\+Container}} based classes when their static builder (For example Insight\+Process.\+Create\+Instance) receive null from the unmanaged constructor routine \end{DoxyCompactList}\item 
+const string \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_ad65fc79318c781352fada8abad1114a6}{Received\+Null\+Pointer\+On\+Constructor}} = \char`\"{}\{0\} Cannot be 0. Use \{1\} to make a new instance and use this to point this managed wrapper to a native instance of the class\+: (\{2\}\}\char`\"{}
+\begin{DoxyCompactList}\small\item\em This is used in \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container}{Native\+Static\+Container}} based classes a template to an exception message to indicate it received null when being built \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+Int\+Ptr \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a171844a2662b7c3d6136fe21f70f50eb}{Native\+Pointer}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em WARNING! WARNING! WARNING! Return the underlying pointer. Should this block of memory be freed (releases/ deleted), the instance of this \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container}{Native\+Static\+Container}} will break. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{Free\+On\+Cleanup}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Conditional free on dispose. Set this to true if you\textquotesingle{}re manipulated a block of unmanaged memory dynamically located by the API. Set to false if you\textquotesingle{}re working with a previously allocated structure or the struct was given as part of a callback to you or part of a larger structure \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a3b5f095a4ebad847e806352cb349a6f2}{Is\+Disposed}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Was this class disposed? \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Encapsulates a native pointer to an unmanaged structure that can potentially be freed with a single call to C/\+C++\textquotesingle{}s free(). If said Native class needs special free requirements, overwrite \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_aab47d778e6f074d10e4d0511471e8727}{Dispose(bool)}} with a a call to a routine to properly free it. If your wrapper is handing out multiple natiove pointers to the same object, you\textquotesingle{}ll need something like \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container}{Reference\+Counter\+Native\+Static\+Container}} 
+
+Definition at line \mbox{\hyperlink{_native_static_container_8cs_source_l00015}{15}} of file \mbox{\hyperlink{_native_static_container_8cs_source}{Native\+Static\+Container.\+cs}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_insight_sheath_1_1_abstract_1_1_native_static_container_aab702cfc1a822d3a6f2fc9c8892d0b62}\label{class_insight_sheath_1_1_abstract_1_1_native_static_container_aab702cfc1a822d3a6f2fc9c8892d0b62}} 
+\index{InsightSheath.Abstract.NativeStaticContainer@{InsightSheath.Abstract.NativeStaticContainer}!NativeStaticContainer@{NativeStaticContainer}}
+\index{NativeStaticContainer@{NativeStaticContainer}!InsightSheath.Abstract.NativeStaticContainer@{InsightSheath.Abstract.NativeStaticContainer}}
+\doxysubsubsection{\texorpdfstring{NativeStaticContainer()}{NativeStaticContainer()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Insight\+Sheath.\+Abstract.\+Native\+Static\+Container.\+Native\+Static\+Container (\begin{DoxyParamCaption}\item[{Int\+Ptr}]{Native }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Create instance of this with the passed Native Pointer. Subclasses of this should include routines to call the native class\textquotesingle{}s functions. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Native} & The Native pointer to keep track of.\\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{_native_static_container_8cs_source_l00071}{71}} of file \mbox{\hyperlink{_native_static_container_8cs_source}{Native\+Static\+Container.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_abstract_1_1_native_static_container_a2160ac4b83b524828f5263580ae5606d}\label{class_insight_sheath_1_1_abstract_1_1_native_static_container_a2160ac4b83b524828f5263580ae5606d}} 
+\index{InsightSheath.Abstract.NativeStaticContainer@{InsightSheath.Abstract.NativeStaticContainer}!NativeStaticContainer@{NativeStaticContainer}}
+\index{NativeStaticContainer@{NativeStaticContainer}!InsightSheath.Abstract.NativeStaticContainer@{InsightSheath.Abstract.NativeStaticContainer}}
+\doxysubsubsection{\texorpdfstring{NativeStaticContainer()}{NativeStaticContainer()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Insight\+Sheath.\+Abstract.\+Native\+Static\+Container.\+Native\+Static\+Container (\begin{DoxyParamCaption}\item[{Int\+Ptr}]{Native,  }\item[{bool}]{Free\+On\+Cleanup }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Create an instance of the class with the object to specify if we free it. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Native} & Native pointer to the structure this class will reference\\
+\hline
+{\em Free\+On\+Cleanup} & if true then the structure is freed via Remote\+Read\+\_\+\+Simple\+Free() which itself is a call to C/\+C++\textquotesingle{}s free() . Set TO FALSE if dealing with structures declared in C/\+C++ code vs dynamically allocated\\
+\hline
+\end{DoxyParams}
+
+
+Free\+On\+Cleanup is a bit dependent on your knowledge of the native code. If the native pointer points to something dynamically allocated with malloc() / Heap\+Alloc(), specify true. If it\textquotesingle{}s declared in the Native source directly or on the stack as a function variable, use false.
+
+Definition at line \mbox{\hyperlink{_native_static_container_8cs_source_l00082}{82}} of file \mbox{\hyperlink{_native_static_container_8cs_source}{Native\+Static\+Container.\+cs}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_insight_sheath_1_1_abstract_1_1_native_static_container_a4603e0d1ed0ba9bf17c2fa20d08efa67}\label{class_insight_sheath_1_1_abstract_1_1_native_static_container_a4603e0d1ed0ba9bf17c2fa20d08efa67}} 
+\index{InsightSheath.Abstract.NativeStaticContainer@{InsightSheath.Abstract.NativeStaticContainer}!ClearNative@{ClearNative}}
+\index{ClearNative@{ClearNative}!InsightSheath.Abstract.NativeStaticContainer@{InsightSheath.Abstract.NativeStaticContainer}}
+\doxysubsubsection{\texorpdfstring{ClearNative()}{ClearNative()}}
+{\footnotesize\ttfamily void Insight\+Sheath.\+Abstract.\+Native\+Static\+Container.\+Clear\+Native (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
+
+
+
+place in disposable and call it after calling the current unmanaged cleanup routine. ~\newline
+ 
+
+
+
+Definition at line \mbox{\hyperlink{_native_static_container_8cs_source_l00103}{103}} of file \mbox{\hyperlink{_native_static_container_8cs_source}{Native\+Static\+Container.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_abstract_1_1_native_static_container_af127a410fed6a497b46469243512249d}\label{class_insight_sheath_1_1_abstract_1_1_native_static_container_af127a410fed6a497b46469243512249d}} 
+\index{InsightSheath.Abstract.NativeStaticContainer@{InsightSheath.Abstract.NativeStaticContainer}!Dispose@{Dispose}}
+\index{Dispose@{Dispose}!InsightSheath.Abstract.NativeStaticContainer@{InsightSheath.Abstract.NativeStaticContainer}}
+\doxysubsubsection{\texorpdfstring{Dispose()}{Dispose()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void Insight\+Sheath.\+Abstract.\+Native\+Static\+Container.\+Dispose (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Trigger cleanup of this \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container}{Native\+Static\+Container}} based class 
+
+
+
+Definition at line \mbox{\hyperlink{_native_static_container_8cs_source_l00192}{192}} of file \mbox{\hyperlink{_native_static_container_8cs_source}{Native\+Static\+Container.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_abstract_1_1_native_static_container_aab47d778e6f074d10e4d0511471e8727}\label{class_insight_sheath_1_1_abstract_1_1_native_static_container_aab47d778e6f074d10e4d0511471e8727}} 
+\index{InsightSheath.Abstract.NativeStaticContainer@{InsightSheath.Abstract.NativeStaticContainer}!Dispose@{Dispose}}
+\index{Dispose@{Dispose}!InsightSheath.Abstract.NativeStaticContainer@{InsightSheath.Abstract.NativeStaticContainer}}
+\doxysubsubsection{\texorpdfstring{Dispose()}{Dispose()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily virtual void Insight\+Sheath.\+Abstract.\+Native\+Static\+Container.\+Dispose (\begin{DoxyParamCaption}\item[{bool}]{disposing }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+
+
+Basic \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container}{Native\+Static\+Container}} disposal. Checks if not disposed, if Free\+On\+Cleanup is set and Native != 0 null before calling a routine exported in Insight\+API to free the memory. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em disposing} & set to true if disposing of managed resources in addition to unmanaged.\\
+\hline
+\end{DoxyParams}
+
+
+IMPORTANT! If your child class needs special needs beyond C/\+C++\textquotesingle{}s free(), override this and take care of them before calling base(). Should your custom class allocate multiple things for example Windows\+Unicode\+String\textquotesingle{}s implementation for reading from remote processes Win32\+Struct.\+Remote.\+Remote\+Structure.\+Remote\+Read\+Unicode\+String(\+Int\+Ptr, Int\+Ptr, bool, bool), you will need to make a routine to properly free. That routine allocates 2 buffers instead of 1. Calling C/\+C++\textquotesingle{}s free() alone is leaking memory. Design checks\+: list type=\char`\"{}number\char`\"{}\texorpdfstring{$>$}{>} listheader\texorpdfstring{$>$}{>} description \texorpdfstring{$>$}{>} First, override disposal()  /listheader \texorpdfstring{$>$}{>} item\texorpdfstring{$>$}{>}  Nest, add a private variable in your class called is\+Disposed. Set this to true when your class\textquotesingle{}s native pointer is cleaned up completely  /item \texorpdfstring{$>$}{>} item\texorpdfstring{$>$}{>} description\texorpdfstring{$>$}{>}if \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container}{Reference\+Counter\+Native\+Static\+Container}} is NOT in the hierarchy then your routine should dispose of unmanaged resourced when is\+Disposed is true, Free\+On\+Cleanup is true and the Native pointer is not null. It should set the native pointer to null when FULLY done disposing it. /item\texorpdfstring{$>$}{>} item\texorpdfstring{$>$}{>} description\texorpdfstring{$>$}{>}if \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container}{Reference\+Counter\+Native\+Static\+Container}} IS in the hierarchy then your routine should dispose of unmanaged resourced when is\+Disposed is true, Free\+On\+Cleanup is AND THE REFERENCE COUNTER being decreased is 0, and the Native pointer is not null. If the reference counter is more than 0 when decreased, set native to null instead of disposing. /item\texorpdfstring{$>$}{>} 
+
+Reimplemented in \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a97164b9f00fd3c80819748096757d3cf}{Insight\+Sheath.\+Abstract.\+Platform\+Dependant\+Native\+Struct}}, \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container_aa02ca717c563ff5dae806e6c34c5d248}{Insight\+Sheath.\+Debugging.\+Debug\+Event\+Static\+Container}}, \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_a5f1870d26f95fce0eae803e237e24bbc}{Insight\+Sheath.\+Debugging.\+Debug\+Event}}, \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_a2eba802dc5737fa2fb5ba5be55bba0fe}{Insight\+Sheath.\+Debugging.\+Process.\+Insight\+Memory}}, \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a1b897c801bbc4ec684f26d7daeea9aa1}{Insight\+Sheath.\+Debugging.\+Thread.\+Thread\+Context}}, \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a0a6d4ac696ab6098246a87a3ebcc4491}{Insight\+Sheath.\+Debugging.\+Thread.\+Wow64\+Context}}, \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_aee00c365fa1ada7f9df0f4cd3e40d7a0}{Insight\+Sheath.\+Win32\+Struct.\+Startup\+Info\+ExW}}, \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_object_attributes_aace7d3a113243af62e5ea62356e74abd}{Insight\+Sheath.\+Win32\+Struct.\+Windows\+Object\+Attributes}}, \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_a34246e9d139c6b545bce096cdf29dabc}{Insight\+Sheath.\+Win32\+Struct.\+Windows\+Unicode\+String}}, and \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_process_a69a7774977d411b1f3dbe1ee9a370a53}{Insight\+Sheath.\+Debugging.\+Process.\+Insight\+Process}}.
+
+
+
+Definition at line \mbox{\hyperlink{_native_static_container_8cs_source_l00158}{158}} of file \mbox{\hyperlink{_native_static_container_8cs_source}{Native\+Static\+Container.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_abstract_1_1_native_static_container_a93bcb47f7c0c979bf6b432e7db9bb4e6}\label{class_insight_sheath_1_1_abstract_1_1_native_static_container_a93bcb47f7c0c979bf6b432e7db9bb4e6}} 
+\index{InsightSheath.Abstract.NativeStaticContainer@{InsightSheath.Abstract.NativeStaticContainer}!Equals@{Equals}}
+\index{Equals@{Equals}!InsightSheath.Abstract.NativeStaticContainer@{InsightSheath.Abstract.NativeStaticContainer}}
+\doxysubsubsection{\texorpdfstring{Equals()}{Equals()}}
+{\footnotesize\ttfamily override bool Insight\+Sheath.\+Abstract.\+Native\+Static\+Container.\+Equals (\begin{DoxyParamCaption}\item[{object}]{obj }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Native\+Static\+Contrain compares both \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}} pointers and returns true if equal 
+
+
+\begin{DoxyParams}{Parameters}
+{\em obj} & the other one\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{_native_static_container_8cs_source_l00045}{45}} of file \mbox{\hyperlink{_native_static_container_8cs_source}{Native\+Static\+Container.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_abstract_1_1_native_static_container_adfb5ffa153edb48649ec1486900d1ec0}\label{class_insight_sheath_1_1_abstract_1_1_native_static_container_adfb5ffa153edb48649ec1486900d1ec0}} 
+\index{InsightSheath.Abstract.NativeStaticContainer@{InsightSheath.Abstract.NativeStaticContainer}!GetHashCode@{GetHashCode}}
+\index{GetHashCode@{GetHashCode}!InsightSheath.Abstract.NativeStaticContainer@{InsightSheath.Abstract.NativeStaticContainer}}
+\doxysubsubsection{\texorpdfstring{GetHashCode()}{GetHashCode()}}
+{\footnotesize\ttfamily override int Insight\+Sheath.\+Abstract.\+Native\+Static\+Container.\+Get\+Hash\+Code (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Grab a hash of the native pointer. Logic being if two hashes are the same, we\textquotesingle{}re holding the same native struct/class 
+
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{_native_static_container_8cs_source_l00062}{62}} of file \mbox{\hyperlink{_native_static_container_8cs_source}{Native\+Static\+Container.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_abstract_1_1_native_static_container_a60f71a71b160f25746e090649b304c8d}\label{class_insight_sheath_1_1_abstract_1_1_native_static_container_a60f71a71b160f25746e090649b304c8d}} 
+\index{InsightSheath.Abstract.NativeStaticContainer@{InsightSheath.Abstract.NativeStaticContainer}!WrapperConstructorReceivedNullPointerErrorException@{WrapperConstructorReceivedNullPointerErrorException}}
+\index{WrapperConstructorReceivedNullPointerErrorException@{WrapperConstructorReceivedNullPointerErrorException}!InsightSheath.Abstract.NativeStaticContainer@{InsightSheath.Abstract.NativeStaticContainer}}
+\doxysubsubsection{\texorpdfstring{WrapperConstructorReceivedNullPointerErrorException()}{WrapperConstructorReceivedNullPointerErrorException()}}
+{\footnotesize\ttfamily static Argument\+Null\+Exception Insight\+Sheath.\+Abstract.\+Native\+Static\+Container.\+Wrapper\+Constructor\+Received\+Null\+Pointer\+Error\+Exception (\begin{DoxyParamCaption}\item[{string}]{Argument\+Prefix,  }\item[{string}]{Alternative\+Instance,  }\item[{string}]{Argument\+Name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}, {\ttfamily [protected]}}
+
+
+
+Used to make the Argument\+Null\+Exception message using \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_ad65fc79318c781352fada8abad1114a6}{Received\+Null\+Pointer\+On\+Constructor}} template 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Argument\+Prefix} & \\
+\hline
+{\em Alternative\+Instance} & \\
+\hline
+{\em Argument\+Name} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{_native_static_container_8cs_source_l00035}{35}} of file \mbox{\hyperlink{_native_static_container_8cs_source}{Native\+Static\+Container.\+cs}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{class_insight_sheath_1_1_abstract_1_1_native_static_container_a8c06b4f0d2c1c2162f9ba5e8c13f3914}\label{class_insight_sheath_1_1_abstract_1_1_native_static_container_a8c06b4f0d2c1c2162f9ba5e8c13f3914}} 
+\index{InsightSheath.Abstract.NativeStaticContainer@{InsightSheath.Abstract.NativeStaticContainer}!FreeOnCleanupContainer@{FreeOnCleanupContainer}}
+\index{FreeOnCleanupContainer@{FreeOnCleanupContainer}!InsightSheath.Abstract.NativeStaticContainer@{InsightSheath.Abstract.NativeStaticContainer}}
+\doxysubsubsection{\texorpdfstring{FreeOnCleanupContainer}{FreeOnCleanupContainer}}
+{\footnotesize\ttfamily bool Insight\+Sheath.\+Abstract.\+Native\+Static\+Container.\+Free\+On\+Cleanup\+Container\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Holds the free on cleanup value. Recommend only disposal() routines modify this. 
+
+
+
+Definition at line \mbox{\hyperlink{_native_static_container_8cs_source_l00125}{125}} of file \mbox{\hyperlink{_native_static_container_8cs_source}{Native\+Static\+Container.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}\label{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}} 
+\index{InsightSheath.Abstract.NativeStaticContainer@{InsightSheath.Abstract.NativeStaticContainer}!Native@{Native}}
+\index{Native@{Native}!InsightSheath.Abstract.NativeStaticContainer@{InsightSheath.Abstract.NativeStaticContainer}}
+\doxysubsubsection{\texorpdfstring{Native}{Native}}
+{\footnotesize\ttfamily Int\+Ptr Insight\+Sheath.\+Abstract.\+Native\+Static\+Container.\+Native\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Holds a physical unmanaged pointer to a relevant structure. Child classes use this 
+
+
+
+Definition at line \mbox{\hyperlink{_native_static_container_8cs_source_l00110}{110}} of file \mbox{\hyperlink{_native_static_container_8cs_source}{Native\+Static\+Container.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_abstract_1_1_native_static_container_ad65fc79318c781352fada8abad1114a6}\label{class_insight_sheath_1_1_abstract_1_1_native_static_container_ad65fc79318c781352fada8abad1114a6}} 
+\index{InsightSheath.Abstract.NativeStaticContainer@{InsightSheath.Abstract.NativeStaticContainer}!ReceivedNullPointerOnConstructor@{ReceivedNullPointerOnConstructor}}
+\index{ReceivedNullPointerOnConstructor@{ReceivedNullPointerOnConstructor}!InsightSheath.Abstract.NativeStaticContainer@{InsightSheath.Abstract.NativeStaticContainer}}
+\doxysubsubsection{\texorpdfstring{ReceivedNullPointerOnConstructor}{ReceivedNullPointerOnConstructor}}
+{\footnotesize\ttfamily const string Insight\+Sheath.\+Abstract.\+Native\+Static\+Container.\+Received\+Null\+Pointer\+On\+Constructor = \char`\"{}\{0\} Cannot be 0. Use \{1\} to make a new instance and use this to point this managed wrapper to a native instance of the class\+: (\{2\}\}\char`\"{}\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [protected]}}
+
+
+
+This is used in \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container}{Native\+Static\+Container}} based classes a template to an exception message to indicate it received null when being built 
+
+
+
+Definition at line \mbox{\hyperlink{_native_static_container_8cs_source_l00024}{24}} of file \mbox{\hyperlink{_native_static_container_8cs_source}{Native\+Static\+Container.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_abstract_1_1_native_static_container_a4f54b065a9314ee795d618b5fc473cfd}\label{class_insight_sheath_1_1_abstract_1_1_native_static_container_a4f54b065a9314ee795d618b5fc473cfd}} 
+\index{InsightSheath.Abstract.NativeStaticContainer@{InsightSheath.Abstract.NativeStaticContainer}!UnmanagedConstructorReturnedNull@{UnmanagedConstructorReturnedNull}}
+\index{UnmanagedConstructorReturnedNull@{UnmanagedConstructorReturnedNull}!InsightSheath.Abstract.NativeStaticContainer@{InsightSheath.Abstract.NativeStaticContainer}}
+\doxysubsubsection{\texorpdfstring{UnmanagedConstructorReturnedNull}{UnmanagedConstructorReturnedNull}}
+{\footnotesize\ttfamily const string Insight\+Sheath.\+Abstract.\+Native\+Static\+Container.\+Unmanaged\+Constructor\+Returned\+Null = \char`\"{}The unmanaged routine \{0\} to build the unmanaged part of \{1\} returned null.\char`\"{}\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [protected]}}
+
+
+
+This is using in \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container}{Native\+Static\+Container}} based classes when their static builder (For example Insight\+Process.\+Create\+Instance) receive null from the unmanaged constructor routine 
+
+
+
+Definition at line \mbox{\hyperlink{_native_static_container_8cs_source_l00020}{20}} of file \mbox{\hyperlink{_native_static_container_8cs_source}{Native\+Static\+Container.\+cs}}.
+
+
+
+\doxysubsection{Property Documentation}
+\mbox{\Hypertarget{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}\label{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}} 
+\index{InsightSheath.Abstract.NativeStaticContainer@{InsightSheath.Abstract.NativeStaticContainer}!FreeOnCleanup@{FreeOnCleanup}}
+\index{FreeOnCleanup@{FreeOnCleanup}!InsightSheath.Abstract.NativeStaticContainer@{InsightSheath.Abstract.NativeStaticContainer}}
+\doxysubsubsection{\texorpdfstring{FreeOnCleanup}{FreeOnCleanup}}
+{\footnotesize\ttfamily bool Insight\+Sheath.\+Abstract.\+Native\+Static\+Container.\+Free\+On\+Cleanup\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [protected]}}
+
+
+
+Conditional free on dispose. Set this to true if you\textquotesingle{}re manipulated a block of unmanaged memory dynamically located by the API. Set to false if you\textquotesingle{}re working with a previously allocated structure or the struct was given as part of a callback to you or part of a larger structure 
+
+
+
+Definition at line \mbox{\hyperlink{_native_static_container_8cs_source_l00114}{114}} of file \mbox{\hyperlink{_native_static_container_8cs_source}{Native\+Static\+Container.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_abstract_1_1_native_static_container_a3b5f095a4ebad847e806352cb349a6f2}\label{class_insight_sheath_1_1_abstract_1_1_native_static_container_a3b5f095a4ebad847e806352cb349a6f2}} 
+\index{InsightSheath.Abstract.NativeStaticContainer@{InsightSheath.Abstract.NativeStaticContainer}!IsDisposed@{IsDisposed}}
+\index{IsDisposed@{IsDisposed}!InsightSheath.Abstract.NativeStaticContainer@{InsightSheath.Abstract.NativeStaticContainer}}
+\doxysubsubsection{\texorpdfstring{IsDisposed}{IsDisposed}}
+{\footnotesize\ttfamily bool Insight\+Sheath.\+Abstract.\+Native\+Static\+Container.\+Is\+Disposed\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Was this class disposed? 
+
+
+
+Definition at line \mbox{\hyperlink{_native_static_container_8cs_source_l00134}{134}} of file \mbox{\hyperlink{_native_static_container_8cs_source}{Native\+Static\+Container.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_abstract_1_1_native_static_container_a171844a2662b7c3d6136fe21f70f50eb}\label{class_insight_sheath_1_1_abstract_1_1_native_static_container_a171844a2662b7c3d6136fe21f70f50eb}} 
+\index{InsightSheath.Abstract.NativeStaticContainer@{InsightSheath.Abstract.NativeStaticContainer}!NativePointer@{NativePointer}}
+\index{NativePointer@{NativePointer}!InsightSheath.Abstract.NativeStaticContainer@{InsightSheath.Abstract.NativeStaticContainer}}
+\doxysubsubsection{\texorpdfstring{NativePointer}{NativePointer}}
+{\footnotesize\ttfamily Int\+Ptr Insight\+Sheath.\+Abstract.\+Native\+Static\+Container.\+Native\+Pointer\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+WARNING! WARNING! WARNING! Return the underlying pointer. Should this block of memory be freed (releases/ deleted), the instance of this \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container}{Native\+Static\+Container}} will break. 
+
+
+
+Definition at line \mbox{\hyperlink{_native_static_container_8cs_source_l00092}{92}} of file \mbox{\hyperlink{_native_static_container_8cs_source}{Native\+Static\+Container.\+cs}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Abstracts/\mbox{\hyperlink{_native_static_container_8cs}{Native\+Static\+Container.\+cs}}\end{DoxyCompactItemize}

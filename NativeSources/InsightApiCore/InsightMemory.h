@@ -108,7 +108,7 @@ public:
 	/// <summary>
 	/// Return if each individual call to GetXXXUSage() gets an updated value. Disabling can inprovate performance provided you put a call to UpdateMemoryStats() before you call the GetXXXRoutines()
 	/// </summary>
-	/// <returns></returns>
+	/// <returns>returns if iit workedor oto</returns>
 	BOOL GetAutoRefreshMemoryStats();
 
 	

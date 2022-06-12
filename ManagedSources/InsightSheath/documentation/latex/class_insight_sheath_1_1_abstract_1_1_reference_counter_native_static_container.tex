@@ -1,0 +1,164 @@
+\hypertarget{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container}{}\doxysection{Insight\+Sheath.\+Abstract.\+Reference\+Counter\+Native\+Static\+Container Class Reference}
+\label{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container}\index{InsightSheath.Abstract.ReferenceCounterNativeStaticContainer@{InsightSheath.Abstract.ReferenceCounterNativeStaticContainer}}
+
+
+This class contains an \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_a129a0deb3f221ac2779a5cf00f9e97e3}{Add\+Ref()}}/ \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_a72cd0f0d7bf610d0553f5f9024702377}{Release()}} component for child classes. Destructors(), Call \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_a72cd0f0d7bf610d0553f5f9024702377}{Release()}} and if that returns 0, free as appropriate. Not needed if the class itself is a 1 to 1 ie Sheath class pointer that contains one pointer, this can skip. Sheath, Debug\+Event classes have this in the change, because they give out multiple references to a native class like candy. Each multiple class in the sheath points to a single native class. when the sheath class is freed(),  
+
+
+Inheritance diagram for Insight\+Sheath.\+Abstract.\+Reference\+Counter\+Native\+Static\+Container\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=10.425531cm]{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_a12483e01c95bdb212c65e1857affe0ec}{Reference\+Counter\+Native\+Static\+Container}} (Int\+Ptr \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}})
+\begin{DoxyCompactList}\small\item\em Create instance of this with the passed Native Pointer. Subclasses of this should include routines to call the native class\textquotesingle{}s functions. Reference counter is set to 1. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_a891008764a6336206815f87e9e599ae5}{Reference\+Counter\+Native\+Static\+Container}} (Int\+Ptr \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}, bool \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{Free\+On\+Cleanup}}, ulong Reference\+Count)
+\begin{DoxyCompactList}\small\item\em Create instance of this with the passed Native Pointer. Subclasses of this should include routines to call the native class\textquotesingle{}s functions. Reference counter is set to Referene\+Count. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_a1318b2e6789f7d273d18b0978ae06e40}{Reference\+Counter\+Native\+Static\+Container}} (Int\+Ptr \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}, bool \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{Free\+On\+Cleanup}})
+\begin{DoxyCompactList}\small\item\em Create instance of this with the passed Native Pointer. Subclasses of this should include routines to call the native class\textquotesingle{}s functions. Reference counter is set to 11. \end{DoxyCompactList}\item 
+ulong \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_a129a0deb3f221ac2779a5cf00f9e97e3}{Add\+Ref}} ()
+\begin{DoxyCompactList}\small\item\em Increase the Reference count to the native pointer and return the value. Call this when returning a seperate sheath class that may outlive the primary sheath class \end{DoxyCompactList}\item 
+ulong \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_a72cd0f0d7bf610d0553f5f9024702377}{Release}} ()
+\begin{DoxyCompactList}\small\item\em Decrease the Reference count to the native pointer and return the value. If zero is returned, your native pointer should be ok to safely cleanup/free \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+ulong \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_aad062cdb982cb6aec2fae05278b46627}{Reference\+Counter}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Get reference count without adjusting it. Increase the reference counter when returning a pointer to a class \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+This class contains an \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_a129a0deb3f221ac2779a5cf00f9e97e3}{Add\+Ref()}}/ \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_a72cd0f0d7bf610d0553f5f9024702377}{Release()}} component for child classes. Destructors(), Call \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_a72cd0f0d7bf610d0553f5f9024702377}{Release()}} and if that returns 0, free as appropriate. Not needed if the class itself is a 1 to 1 ie Sheath class pointer that contains one pointer, this can skip. Sheath, Debug\+Event classes have this in the change, because they give out multiple references to a native class like candy. Each multiple class in the sheath points to a single native class. when the sheath class is freed(), 
+
+Definition at line \mbox{\hyperlink{_reference_counter_native_static_container_8cs_source_l00021}{21}} of file \mbox{\hyperlink{_reference_counter_native_static_container_8cs_source}{Reference\+Counter\+Native\+Static\+Container.\+cs}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_a12483e01c95bdb212c65e1857affe0ec}\label{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_a12483e01c95bdb212c65e1857affe0ec}} 
+\index{InsightSheath.Abstract.ReferenceCounterNativeStaticContainer@{InsightSheath.Abstract.ReferenceCounterNativeStaticContainer}!ReferenceCounterNativeStaticContainer@{ReferenceCounterNativeStaticContainer}}
+\index{ReferenceCounterNativeStaticContainer@{ReferenceCounterNativeStaticContainer}!InsightSheath.Abstract.ReferenceCounterNativeStaticContainer@{InsightSheath.Abstract.ReferenceCounterNativeStaticContainer}}
+\doxysubsubsection{\texorpdfstring{ReferenceCounterNativeStaticContainer()}{ReferenceCounterNativeStaticContainer()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily Insight\+Sheath.\+Abstract.\+Reference\+Counter\+Native\+Static\+Container.\+Reference\+Counter\+Native\+Static\+Container (\begin{DoxyParamCaption}\item[{Int\+Ptr}]{Native }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Create instance of this with the passed Native Pointer. Subclasses of this should include routines to call the native class\textquotesingle{}s functions. Reference counter is set to 1. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Native} & The Native pointer to keep track of.\\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{_reference_counter_native_static_container_8cs_source_l00027}{27}} of file \mbox{\hyperlink{_reference_counter_native_static_container_8cs_source}{Reference\+Counter\+Native\+Static\+Container.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_a891008764a6336206815f87e9e599ae5}\label{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_a891008764a6336206815f87e9e599ae5}} 
+\index{InsightSheath.Abstract.ReferenceCounterNativeStaticContainer@{InsightSheath.Abstract.ReferenceCounterNativeStaticContainer}!ReferenceCounterNativeStaticContainer@{ReferenceCounterNativeStaticContainer}}
+\index{ReferenceCounterNativeStaticContainer@{ReferenceCounterNativeStaticContainer}!InsightSheath.Abstract.ReferenceCounterNativeStaticContainer@{InsightSheath.Abstract.ReferenceCounterNativeStaticContainer}}
+\doxysubsubsection{\texorpdfstring{ReferenceCounterNativeStaticContainer()}{ReferenceCounterNativeStaticContainer()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily Insight\+Sheath.\+Abstract.\+Reference\+Counter\+Native\+Static\+Container.\+Reference\+Counter\+Native\+Static\+Container (\begin{DoxyParamCaption}\item[{Int\+Ptr}]{Native,  }\item[{bool}]{Free\+On\+Cleanup,  }\item[{ulong}]{Reference\+Count }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Create instance of this with the passed Native Pointer. Subclasses of this should include routines to call the native class\textquotesingle{}s functions. Reference counter is set to Referene\+Count. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Native} & The Native pointer to keep track of.\\
+\hline
+{\em Free\+On\+Cleanup} & indicate if we are to invoke the unmanaged cleanup routine for free()\\
+\hline
+{\em Reference\+Count} & Starting reference count number. The unmanaged resource should not be freed during disposal if this is more than 0 after decreasing by 1\\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{_reference_counter_native_static_container_8cs_source_l00038}{38}} of file \mbox{\hyperlink{_reference_counter_native_static_container_8cs_source}{Reference\+Counter\+Native\+Static\+Container.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_a1318b2e6789f7d273d18b0978ae06e40}\label{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_a1318b2e6789f7d273d18b0978ae06e40}} 
+\index{InsightSheath.Abstract.ReferenceCounterNativeStaticContainer@{InsightSheath.Abstract.ReferenceCounterNativeStaticContainer}!ReferenceCounterNativeStaticContainer@{ReferenceCounterNativeStaticContainer}}
+\index{ReferenceCounterNativeStaticContainer@{ReferenceCounterNativeStaticContainer}!InsightSheath.Abstract.ReferenceCounterNativeStaticContainer@{InsightSheath.Abstract.ReferenceCounterNativeStaticContainer}}
+\doxysubsubsection{\texorpdfstring{ReferenceCounterNativeStaticContainer()}{ReferenceCounterNativeStaticContainer()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily Insight\+Sheath.\+Abstract.\+Reference\+Counter\+Native\+Static\+Container.\+Reference\+Counter\+Native\+Static\+Container (\begin{DoxyParamCaption}\item[{Int\+Ptr}]{Native,  }\item[{bool}]{Free\+On\+Cleanup }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Create instance of this with the passed Native Pointer. Subclasses of this should include routines to call the native class\textquotesingle{}s functions. Reference counter is set to 11. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Native} & The Native pointer to keep track of.\\
+\hline
+{\em Free\+On\+Cleanup} & indicate if we are to invoke the unmanaged cleanup routine for free()\\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{_reference_counter_native_static_container_8cs_source_l00049}{49}} of file \mbox{\hyperlink{_reference_counter_native_static_container_8cs_source}{Reference\+Counter\+Native\+Static\+Container.\+cs}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_a129a0deb3f221ac2779a5cf00f9e97e3}\label{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_a129a0deb3f221ac2779a5cf00f9e97e3}} 
+\index{InsightSheath.Abstract.ReferenceCounterNativeStaticContainer@{InsightSheath.Abstract.ReferenceCounterNativeStaticContainer}!AddRef@{AddRef}}
+\index{AddRef@{AddRef}!InsightSheath.Abstract.ReferenceCounterNativeStaticContainer@{InsightSheath.Abstract.ReferenceCounterNativeStaticContainer}}
+\doxysubsubsection{\texorpdfstring{AddRef()}{AddRef()}}
+{\footnotesize\ttfamily ulong Insight\+Sheath.\+Abstract.\+Reference\+Counter\+Native\+Static\+Container.\+Add\+Ref (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Increase the Reference count to the native pointer and return the value. Call this when returning a seperate sheath class that may outlive the primary sheath class 
+
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{_reference_counter_native_static_container_8cs_source_l00073}{73}} of file \mbox{\hyperlink{_reference_counter_native_static_container_8cs_source}{Reference\+Counter\+Native\+Static\+Container.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_a72cd0f0d7bf610d0553f5f9024702377}\label{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_a72cd0f0d7bf610d0553f5f9024702377}} 
+\index{InsightSheath.Abstract.ReferenceCounterNativeStaticContainer@{InsightSheath.Abstract.ReferenceCounterNativeStaticContainer}!Release@{Release}}
+\index{Release@{Release}!InsightSheath.Abstract.ReferenceCounterNativeStaticContainer@{InsightSheath.Abstract.ReferenceCounterNativeStaticContainer}}
+\doxysubsubsection{\texorpdfstring{Release()}{Release()}}
+{\footnotesize\ttfamily ulong Insight\+Sheath.\+Abstract.\+Reference\+Counter\+Native\+Static\+Container.\+Release (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Decrease the Reference count to the native pointer and return the value. If zero is returned, your native pointer should be ok to safely cleanup/free 
+
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{_reference_counter_native_static_container_8cs_source_l00082}{82}} of file \mbox{\hyperlink{_reference_counter_native_static_container_8cs_source}{Reference\+Counter\+Native\+Static\+Container.\+cs}}.
+
+
+
+\doxysubsection{Property Documentation}
+\mbox{\Hypertarget{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_aad062cdb982cb6aec2fae05278b46627}\label{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_aad062cdb982cb6aec2fae05278b46627}} 
+\index{InsightSheath.Abstract.ReferenceCounterNativeStaticContainer@{InsightSheath.Abstract.ReferenceCounterNativeStaticContainer}!ReferenceCounter@{ReferenceCounter}}
+\index{ReferenceCounter@{ReferenceCounter}!InsightSheath.Abstract.ReferenceCounterNativeStaticContainer@{InsightSheath.Abstract.ReferenceCounterNativeStaticContainer}}
+\doxysubsubsection{\texorpdfstring{ReferenceCounter}{ReferenceCounter}}
+{\footnotesize\ttfamily ulong Insight\+Sheath.\+Abstract.\+Reference\+Counter\+Native\+Static\+Container.\+Reference\+Counter\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Get reference count without adjusting it. Increase the reference counter when returning a pointer to a class 
+
+
+
+Definition at line \mbox{\hyperlink{_reference_counter_native_static_container_8cs_source_l00059}{59}} of file \mbox{\hyperlink{_reference_counter_native_static_container_8cs_source}{Reference\+Counter\+Native\+Static\+Container.\+cs}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Abstracts/\mbox{\hyperlink{_reference_counter_native_static_container_8cs}{Reference\+Counter\+Native\+Static\+Container.\+cs}}\end{DoxyCompactItemize}

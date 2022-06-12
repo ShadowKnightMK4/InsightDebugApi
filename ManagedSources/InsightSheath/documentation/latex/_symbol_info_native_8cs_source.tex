@@ -1,0 +1,81 @@
+\hypertarget{_symbol_info_native_8cs_source}{}\doxysection{Symbol\+Info\+Native.\+cs}
+\label{_symbol_info_native_8cs_source}\index{NativeImports/Debugging/SymbolEngine/SymbolInfoNative.cs@{NativeImports/Debugging/SymbolEngine/SymbolInfoNative.cs}}
+\mbox{\hyperlink{_symbol_info_native_8cs}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00001}00001 \textcolor{keyword}{using }System;}
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00002}00002 \textcolor{keyword}{using }System.Collections.Generic;}
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00003}00003 \textcolor{keyword}{using }System.Linq;}
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00004}00004 \textcolor{keyword}{using }System.Text;}
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00005}00005 \textcolor{keyword}{using }System.Threading.Tasks;}
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00006}00006 \textcolor{keyword}{using }System.Runtime.InteropServices;}
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00007}00007 \textcolor{keyword}{using }\mbox{\hyperlink{namespace_insight_sheath_1_1_wrappers}{InsightSheath.Wrappers}};}
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00008}00008 \textcolor{keyword}{using }\mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine}{InsightSheath.Debugging.SymbolEngine}};}
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00009}00009 }
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00010}00010 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespace_insight_sheath_1_1_native_imports}{InsightSheath.NativeImports}}}
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00011}00011 \{}
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00015}00015     \textcolor{keyword}{internal} \textcolor{keyword}{static} \textcolor{keyword}{class }SymbolInfoInternal}
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00016}00016     \{}
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00017}00017         [DllImport(\textcolor{stringliteral}{"{}InsightApi.Dll"{}}, BestFitMapping = \textcolor{keyword}{false}, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi, EntryPoint = \textcolor{stringliteral}{"{}SymbolInfoW\_GetStructSize"{}}, ExactSpelling = \textcolor{keyword}{false})]}
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00018}00018         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keyword}{extern} uint SymbolInfo\_GetStructSize(IntPtr That);}
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00019}00019 }
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00020}00020         [DllImport(\textcolor{stringliteral}{"{}InsightApi.Dll"{}}, BestFitMapping = \textcolor{keyword}{false}, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi, EntryPoint = \textcolor{stringliteral}{"{}SymbolInfoW\_GetStructSize"{}}, ExactSpelling = \textcolor{keyword}{false})]}
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00021}00021         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keyword}{extern} uint SymbolInfo\_GetTypeIndex(IntPtr That);}
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00022}00022 }
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00023}00023         [DllImport(\textcolor{stringliteral}{"{}InsightApi.Dll"{}}, BestFitMapping = \textcolor{keyword}{false}, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi, EntryPoint = \textcolor{stringliteral}{"{}SymbolInfoW\_GetStructSize"{}}, ExactSpelling = \textcolor{keyword}{false})]}
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00024}00024         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keyword}{extern} uint SymbolInfo\_GetSymbolSize(IntPtr That);}
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00025}00025 }
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00026}00026 }
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00027}00027         [DllImport(\textcolor{stringliteral}{"{}InsightApi.Dll"{}}, BestFitMapping = \textcolor{keyword}{false}, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi, EntryPoint = \textcolor{stringliteral}{"{}SymbolInfoW\_GetFlags"{}}, ExactSpelling = \textcolor{keyword}{false})]}
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00028}00028         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keyword}{extern} \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874c}{SymbolFlags}} SymbolInfo\_GetFlags(IntPtr That);}
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00029}00029 }
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00030}00030 }
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00031}00031         [DllImport(\textcolor{stringliteral}{"{}InsightApi.Dll"{}}, BestFitMapping = \textcolor{keyword}{false}, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi, EntryPoint = \textcolor{stringliteral}{"{}SymbolInfoW\_GetVal"{}}, ExactSpelling = \textcolor{keyword}{false})]}
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00032}00032         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keyword}{extern} uint SymbolInfo\_GetVal(IntPtr That);}
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00033}00033 }
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00034}00034 }
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00035}00035 }
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00036}00036         [DllImport(\textcolor{stringliteral}{"{}InsightApi.Dll"{}}, BestFitMapping = \textcolor{keyword}{false}, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi, EntryPoint = \textcolor{stringliteral}{"{}SymbolInfoW\_GetReg"{}}, ExactSpelling = \textcolor{keyword}{false})]}
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00037}00037         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keyword}{extern} uint SymbolInfo\_GetReg(IntPtr That);}
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00038}00038 }
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00039}00039 }
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00040}00040 }
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00041}00041         [DllImport(\textcolor{stringliteral}{"{}InsightApi.Dll"{}}, BestFitMapping = \textcolor{keyword}{false}, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi, EntryPoint = \textcolor{stringliteral}{"{}SymbolInfoW\_GetValOrReg"{}}, ExactSpelling = \textcolor{keyword}{false})]}
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00042}00042         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keyword}{extern} uint SymbolInfo\_GetValOrReg(IntPtr That);}
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00043}00043 }
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00044}00044 }
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00045}00045 }
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00046}00046         [DllImport(\textcolor{stringliteral}{"{}InsightApi.Dll"{}}, BestFitMapping = \textcolor{keyword}{false}, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi, EntryPoint = \textcolor{stringliteral}{"{}SymbolInfoW\_GetScope"{}}, ExactSpelling = \textcolor{keyword}{false})]}
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00047}00047         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keyword}{extern} uint SymbolInfo\_GetScope(IntPtr That);}
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00048}00048 }
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00049}00049 }
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00050}00050 }
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00051}00051         [DllImport(\textcolor{stringliteral}{"{}InsightApi.Dll"{}}, BestFitMapping = \textcolor{keyword}{false}, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi, EntryPoint = \textcolor{stringliteral}{"{}SymbolInfoW\_GetName"{}}, ExactSpelling = \textcolor{keyword}{false})]}
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00052}00052         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keyword}{extern} IntPtr SymbolInfo\_GetName(IntPtr That);}
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00053}00053 }
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00054}00054 }
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00055}00055 }
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00056}00056         [DllImport(\textcolor{stringliteral}{"{}InsightApi.Dll"{}}, BestFitMapping = \textcolor{keyword}{false}, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi, EntryPoint = \textcolor{stringliteral}{"{}SymbolInfoW\_GetNameCharCount"{}}, ExactSpelling = \textcolor{keyword}{false})]}
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00057}00057         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keyword}{extern} uint SymbolInfo\_GetNameLemngth(IntPtr That);}
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00058}00058 }
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00059}00059 }
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00060}00060 }
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00061}00061         [DllImport(\textcolor{stringliteral}{"{}InsightApi.Dll"{}}, BestFitMapping = \textcolor{keyword}{false}, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi, EntryPoint = \textcolor{stringliteral}{"{}SymbolInfoW\_GetIndex"{}}, ExactSpelling = \textcolor{keyword}{false})]}
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00062}00062         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keyword}{extern} uint SymbolInfo\_GetIndex(IntPtr That);}
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00063}00063 }
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00064}00064 }
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00065}00065         }
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00066}00066         [DllImport(\textcolor{stringliteral}{"{}InsightApi.Dll"{}}, BestFitMapping = \textcolor{keyword}{false}, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi, EntryPoint = \textcolor{stringliteral}{"{}SymbolInfoW\_GetModBase"{}}, ExactSpelling = \textcolor{keyword}{false})]}
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00067}00067         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keyword}{extern} ulong SymbolInfo\_GetModuleBase(IntPtr That);}
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00068}00068 }
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00069}00069         }
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00070}00070 }
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00071}00071 }
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00072}00072 }
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00073}00073         [DllImport(\textcolor{stringliteral}{"{}InsightApi.Dll"{}}, BestFitMapping = \textcolor{keyword}{false}, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi, EntryPoint = \textcolor{stringliteral}{"{}SymbolInfo\_GetTagType"{}}, ExactSpelling = \textcolor{keyword}{false})]}
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00074}00074         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keyword}{extern} \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aa11f6fc86be219002e0d5ef6e4824d05}{SymbolTagType}} SymbolInfo\_GetTagType(IntPtr That);}
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00075}00075 }
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00076}00076 }
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00077}00077     \}}
+\DoxyCodeLine{\Hypertarget{_symbol_info_native_8cs_source_l00078}00078 \}}
+
+\end{DoxyCode}

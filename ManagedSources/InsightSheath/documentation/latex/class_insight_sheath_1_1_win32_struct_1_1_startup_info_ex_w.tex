@@ -1,0 +1,375 @@
+\hypertarget{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w}{}\doxysection{Insight\+Sheath.\+Win32\+Struct.\+Startup\+Info\+ExW Class Reference}
+\label{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w}\index{InsightSheath.Win32Struct.StartupInfoExW@{InsightSheath.Win32Struct.StartupInfoExW}}
+
+
+Wrapper for the \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w}{Startup\+Info\+ExW}} struct handler exported in Insight\+Api.\+dll.  
+
+
+Inheritance diagram for Insight\+Sheath.\+Win32\+Struct.\+Startup\+Info\+ExW\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_ab91dbbd370b8e39f3ae598842e67e42c}{Startup\+Info\+ExW}} (Int\+Ptr \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}})
+\item 
+\mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_ac008d3d86d932feb4b4f6f126a47cc11}{Startup\+Info\+ExW}} (Int\+Ptr \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}, bool Free\+Con\+Cleanup)
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w}{Startup\+Info\+ExW}} \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a3ed50f764178511c9b5818ea21acd09d}{Make\+Instance}} ()
+\begin{DoxyCompactList}\small\item\em Call the routine on the native side to make an instance and return a pointer to the wrapper class already pointed to that. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+override void \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_aee00c365fa1ada7f9df0f4cd3e40d7a0}{Dispose}} (bool disposing)
+\begin{DoxyCompactList}\small\item\em Basic \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_aab702cfc1a822d3a6f2fc9c8892d0b62}{Native\+Static\+Container}} disposal. Checks if not disposed, if Free\+On\+Cleanup is set and Native != 0 null before calling a routine exported in Insight\+API to free the memory. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a8aa0a42e75db2f50fcccdb386050008b}{Flag\+Setter\+Container}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+string \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a77b236c4ba1e8305c5f16bcc3cf8cda4}{Desktop}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Get or set the desktop the process will be started on. Leave null to try inheriting the desktop the spawning process is running on. \end{DoxyCompactList}\item 
+string \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a2568e6255422c8b9dc476fe450d6ecb0}{Title}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Get or Set the name of the Console Window Title. No Extra Flags Needed. MSDN Documentation recommends this be NULL for Console processes that don\textquotesingle{}t need a window or GUI processes that don\textquotesingle{}t create a window \end{DoxyCompactList}\item 
+uint \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a0047a2b24eb6a72a7d13a48e3176f222}{X}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Get or set the X position of the starting window (in pixels), use \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812a11bdc22f05e14a90ee4e44482abbb151}{Startup\+Info\+Ex\+W\+\_\+\+Flags.\+Startf\+\_\+\+Use\+Position}} in \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a47a4922eee565324e8eeab8e9f9b3107}{Flags}} to set \end{DoxyCompactList}\item 
+uint \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a2332d41774b21efa28b8a77c27fb29e5}{Y}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Get or set the Y position of the starting window (in pixels), use \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812a11bdc22f05e14a90ee4e44482abbb151}{Startup\+Info\+Ex\+W\+\_\+\+Flags.\+Startf\+\_\+\+Use\+Position}} in \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a47a4922eee565324e8eeab8e9f9b3107}{Flags}} to set \end{DoxyCompactList}\item 
+uint \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a7fe5aec1e48cc614c3f30bf0b54b1f10}{XSize}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Get or Set the Width of the Window (in pixels), use \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812a5e2149c0fe12a019fd2adb0f69322e4c}{Startup\+Info\+Ex\+W\+\_\+\+Flags.\+Startf\+\_\+\+Use\+Size}} in \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a47a4922eee565324e8eeab8e9f9b3107}{Flags}} to set \end{DoxyCompactList}\item 
+uint \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_ad5e96209eca1212e100c69960dffdf95}{YSize}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Get or Set the Height of the Window (in pixels), use \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812a5e2149c0fe12a019fd2adb0f69322e4c}{Startup\+Info\+Ex\+W\+\_\+\+Flags.\+Startf\+\_\+\+Use\+Size}} in \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a47a4922eee565324e8eeab8e9f9b3107}{Flags}} to set \end{DoxyCompactList}\item 
+uint \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a62b85d4fc6b931da15a57c9e6b0a7f43}{XCount\+Chars}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Get or set the starting width of the Console (if created and is in char rows), use \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812ad2db444dca169c1ac56e9e84d1404915}{Startup\+Info\+Ex\+W\+\_\+\+Flags.\+Startf\+\_\+\+Use\+Count\+Chars}}) in \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a47a4922eee565324e8eeab8e9f9b3107}{Flags}} to set \end{DoxyCompactList}\item 
+uint \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a4c7864f8daf3f1dd925d28edbb9b1026}{YCount\+Chars}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Get or set the starting height of the Console (if created and is in char rows), use \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812ad2db444dca169c1ac56e9e84d1404915}{Startup\+Info\+Ex\+W\+\_\+\+Flags.\+Startf\+\_\+\+Use\+Count\+Chars}}) in \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a47a4922eee565324e8eeab8e9f9b3107}{Flags}} to set \end{DoxyCompactList}\item 
+uint \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a0904b8748b30785038eeb51bd25f6b34}{Fill\+Atribute}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Get or set how the Console window colors will be starting out (ignored if no console), use \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812ac5ba68a5a2dd2189b7f01d1157797a28}{Startup\+Info\+Ex\+W\+\_\+\+Flags.\+Startf\+\_\+\+Use\+Fill\+Attribute}} in \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a47a4922eee565324e8eeab8e9f9b3107}{Flags}} to set \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812}{Startup\+Info\+Ex\+W\+\_\+\+Flags}} \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a47a4922eee565324e8eeab8e9f9b3107}{Flags}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Get or set the flags that indicate which part of startup info is valid. Remember to set otherwise the system will ignore it. Look at \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812}{Startup\+Info\+Ex\+W\+\_\+\+Flags}} or go to the source at  \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_a019b0f083dbe4f01880797be80c0ab22}{Startup\+Info\+Ex\+W\+\_\+\+Show\+Window}} \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_ad970c769467f01b46eeee06886fd5808}{Show\+Window}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Specify how to show the initial window. Use \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812ad2fb85b109f25d3c39efb5f6e39c6142}{Startup\+Info\+Ex\+W\+\_\+\+Flags.\+Startf\+\_\+\+Use\+Show\+Window}} in \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a47a4922eee565324e8eeab8e9f9b3107}{Flags}} to indicate use. \end{DoxyCompactList}\item 
+Int\+Ptr \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a13dd46a9b879287f2dd772fa28c1e123}{Standard\+Input}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Get or set what\textquotesingle{}s passed along to the h\+Std\+Input member, use \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812a69d849d86ad87a03e0168e2baecb8e9d}{Startup\+Info\+Ex\+W\+\_\+\+Flags.\+Startf\+\_\+\+Use\+Hot\+Key}}. or \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812a0747368a34d28f95ab9acb4be2d46528}{Startup\+Info\+Ex\+W\+\_\+\+Flags.\+Startf\+\_\+\+Use\+Std\+Handles}} to indicate how this will be interpreted in the \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a47a4922eee565324e8eeab8e9f9b3107}{Flags}} setting \end{DoxyCompactList}\item 
+Int\+Ptr \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a71460747c35e7c493e9daf53c9d5919a}{Standard\+Output}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Get or set what\textquotesingle{}s passed to the h\+Std\+Output member, use \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812a0747368a34d28f95ab9acb4be2d46528}{Startup\+Info\+Ex\+W\+\_\+\+Flags.\+Startf\+\_\+\+Use\+Std\+Handles}} in \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a47a4922eee565324e8eeab8e9f9b3107}{Flags}} to indicate how to use. \end{DoxyCompactList}\item 
+Int\+Ptr \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_abf89ff614c03302b59bed8569f41da66}{Standard\+Error}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Get or set what\textquotesingle{}s passed to the h\+Std\+Error member, use \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812a0747368a34d28f95ab9acb4be2d46528}{Startup\+Info\+Ex\+W\+\_\+\+Flags.\+Startf\+\_\+\+Use\+Std\+Handles}} in \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a47a4922eee565324e8eeab8e9f9b3107}{Flags}} to indicate how to use. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a3995d878e3070606fff7912383f7b901}{Flag\+Setter\+Helper}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Manged side only. Set to true to enable setting the \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a47a4922eee565324e8eeab8e9f9b3107}{Flags}} value on setting the members in this class EXCEPT for \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a13dd46a9b879287f2dd772fa28c1e123}{Standard\+Input}} \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+Wrapper for the \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w}{Startup\+Info\+ExW}} struct handler exported in Insight\+Api.\+dll. 
+
+Definition at line \mbox{\hyperlink{_startup_info_ex_w_8cs_source_l00064}{64}} of file \mbox{\hyperlink{_startup_info_ex_w_8cs_source}{Startup\+Info\+Ex\+W.\+cs}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_ab91dbbd370b8e39f3ae598842e67e42c}\label{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_ab91dbbd370b8e39f3ae598842e67e42c}} 
+\index{InsightSheath.Win32Struct.StartupInfoExW@{InsightSheath.Win32Struct.StartupInfoExW}!StartupInfoExW@{StartupInfoExW}}
+\index{StartupInfoExW@{StartupInfoExW}!InsightSheath.Win32Struct.StartupInfoExW@{InsightSheath.Win32Struct.StartupInfoExW}}
+\doxysubsubsection{\texorpdfstring{StartupInfoExW()}{StartupInfoExW()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Insight\+Sheath.\+Win32\+Struct.\+Startup\+Info\+Ex\+W.\+Startup\+Info\+ExW (\begin{DoxyParamCaption}\item[{Int\+Ptr}]{Native }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line \mbox{\hyperlink{_startup_info_ex_w_8cs_source_l00074}{74}} of file \mbox{\hyperlink{_startup_info_ex_w_8cs_source}{Startup\+Info\+Ex\+W.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_ac008d3d86d932feb4b4f6f126a47cc11}\label{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_ac008d3d86d932feb4b4f6f126a47cc11}} 
+\index{InsightSheath.Win32Struct.StartupInfoExW@{InsightSheath.Win32Struct.StartupInfoExW}!StartupInfoExW@{StartupInfoExW}}
+\index{StartupInfoExW@{StartupInfoExW}!InsightSheath.Win32Struct.StartupInfoExW@{InsightSheath.Win32Struct.StartupInfoExW}}
+\doxysubsubsection{\texorpdfstring{StartupInfoExW()}{StartupInfoExW()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Insight\+Sheath.\+Win32\+Struct.\+Startup\+Info\+Ex\+W.\+Startup\+Info\+ExW (\begin{DoxyParamCaption}\item[{Int\+Ptr}]{Native,  }\item[{bool}]{Free\+Con\+Cleanup }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line \mbox{\hyperlink{_startup_info_ex_w_8cs_source_l00079}{79}} of file \mbox{\hyperlink{_startup_info_ex_w_8cs_source}{Startup\+Info\+Ex\+W.\+cs}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_aee00c365fa1ada7f9df0f4cd3e40d7a0}\label{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_aee00c365fa1ada7f9df0f4cd3e40d7a0}} 
+\index{InsightSheath.Win32Struct.StartupInfoExW@{InsightSheath.Win32Struct.StartupInfoExW}!Dispose@{Dispose}}
+\index{Dispose@{Dispose}!InsightSheath.Win32Struct.StartupInfoExW@{InsightSheath.Win32Struct.StartupInfoExW}}
+\doxysubsubsection{\texorpdfstring{Dispose()}{Dispose()}}
+{\footnotesize\ttfamily override void Insight\+Sheath.\+Win32\+Struct.\+Startup\+Info\+Ex\+W.\+Dispose (\begin{DoxyParamCaption}\item[{bool}]{disposing }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+
+
+Basic \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_aab702cfc1a822d3a6f2fc9c8892d0b62}{Native\+Static\+Container}} disposal. Checks if not disposed, if Free\+On\+Cleanup is set and Native != 0 null before calling a routine exported in Insight\+API to free the memory. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em disposing} & set to true if disposing of managed resources in addition to unmanaged.\\
+\hline
+\end{DoxyParams}
+
+
+IMPORTANT! If your child class needs special needs beyond C/\+C++\textquotesingle{}s free(), override this and take care of them before calling base(). Should your custom class allocate multiple things for example \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string}{Windows\+Unicode\+String}}\textquotesingle{}s implementation for reading from remote processes Win32\+Struct.\+Remote.\+Remote\+Structure.\+Remote\+Read\+Unicode\+String(\+Int\+Ptr, Int\+Ptr, bool, bool), you will need to make a routine to properly free. That routine allocates 2 buffers instead of 1. Calling C/\+C++\textquotesingle{}s free() alone is leaking memory. Design checks\+: list type=\char`\"{}number\char`\"{}\texorpdfstring{$>$}{>} listheader\texorpdfstring{$>$}{>} description \texorpdfstring{$>$}{>} First, override disposal()  /listheader \texorpdfstring{$>$}{>} item\texorpdfstring{$>$}{>}  Nest, add a private variable in your class called is\+Disposed. Set this to true when your class\textquotesingle{}s native pointer is cleaned up completely  /item \texorpdfstring{$>$}{>} item\texorpdfstring{$>$}{>} description\texorpdfstring{$>$}{>}if Reference\+Counter\+Native\+Static\+Container is NOT in the hierarchy then your routine should dispose of unmanaged resourced when is\+Disposed is true, Free\+On\+Cleanup is true and the Native pointer is not null. It should set the native pointer to null when FULLY done disposing it. /item\texorpdfstring{$>$}{>} item\texorpdfstring{$>$}{>} description\texorpdfstring{$>$}{>}if Reference\+Counter\+Native\+Static\+Container IS in the hierarchy then your routine should dispose of unmanaged resourced when is\+Disposed is true, Free\+On\+Cleanup is AND THE REFERENCE COUNTER being decreased is 0, and the Native pointer is not null. If the reference counter is more than 0 when decreased, set native to null instead of disposing. /item\texorpdfstring{$>$}{>} 
+
+Reimplemented from \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_aab47d778e6f074d10e4d0511471e8727}{Insight\+Sheath.\+Abstract.\+Native\+Static\+Container}}.
+
+
+
+Definition at line \mbox{\hyperlink{_startup_info_ex_w_8cs_source_l00085}{85}} of file \mbox{\hyperlink{_startup_info_ex_w_8cs_source}{Startup\+Info\+Ex\+W.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a3ed50f764178511c9b5818ea21acd09d}\label{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a3ed50f764178511c9b5818ea21acd09d}} 
+\index{InsightSheath.Win32Struct.StartupInfoExW@{InsightSheath.Win32Struct.StartupInfoExW}!MakeInstance@{MakeInstance}}
+\index{MakeInstance@{MakeInstance}!InsightSheath.Win32Struct.StartupInfoExW@{InsightSheath.Win32Struct.StartupInfoExW}}
+\doxysubsubsection{\texorpdfstring{MakeInstance()}{MakeInstance()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w}{Startup\+Info\+ExW}} Insight\+Sheath.\+Win32\+Struct.\+Startup\+Info\+Ex\+W.\+Make\+Instance (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Call the routine on the native side to make an instance and return a pointer to the wrapper class already pointed to that. 
+
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{_startup_info_ex_w_8cs_source_l00070}{70}} of file \mbox{\hyperlink{_startup_info_ex_w_8cs_source}{Startup\+Info\+Ex\+W.\+cs}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a8aa0a42e75db2f50fcccdb386050008b}\label{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a8aa0a42e75db2f50fcccdb386050008b}} 
+\index{InsightSheath.Win32Struct.StartupInfoExW@{InsightSheath.Win32Struct.StartupInfoExW}!FlagSetterContainer@{FlagSetterContainer}}
+\index{FlagSetterContainer@{FlagSetterContainer}!InsightSheath.Win32Struct.StartupInfoExW@{InsightSheath.Win32Struct.StartupInfoExW}}
+\doxysubsubsection{\texorpdfstring{FlagSetterContainer}{FlagSetterContainer}}
+{\footnotesize\ttfamily bool Insight\+Sheath.\+Win32\+Struct.\+Startup\+Info\+Ex\+W.\+Flag\+Setter\+Container\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{_startup_info_ex_w_8cs_source_l00372}{372}} of file \mbox{\hyperlink{_startup_info_ex_w_8cs_source}{Startup\+Info\+Ex\+W.\+cs}}.
+
+
+
+\doxysubsection{Property Documentation}
+\mbox{\Hypertarget{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a77b236c4ba1e8305c5f16bcc3cf8cda4}\label{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a77b236c4ba1e8305c5f16bcc3cf8cda4}} 
+\index{InsightSheath.Win32Struct.StartupInfoExW@{InsightSheath.Win32Struct.StartupInfoExW}!Desktop@{Desktop}}
+\index{Desktop@{Desktop}!InsightSheath.Win32Struct.StartupInfoExW@{InsightSheath.Win32Struct.StartupInfoExW}}
+\doxysubsubsection{\texorpdfstring{Desktop}{Desktop}}
+{\footnotesize\ttfamily string Insight\+Sheath.\+Win32\+Struct.\+Startup\+Info\+Ex\+W.\+Desktop\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Get or set the desktop the process will be started on. Leave null to try inheriting the desktop the spawning process is running on. 
+
+
+
+Definition at line \mbox{\hyperlink{_startup_info_ex_w_8cs_source_l00103}{103}} of file \mbox{\hyperlink{_startup_info_ex_w_8cs_source}{Startup\+Info\+Ex\+W.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a0904b8748b30785038eeb51bd25f6b34}\label{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a0904b8748b30785038eeb51bd25f6b34}} 
+\index{InsightSheath.Win32Struct.StartupInfoExW@{InsightSheath.Win32Struct.StartupInfoExW}!FillAtribute@{FillAtribute}}
+\index{FillAtribute@{FillAtribute}!InsightSheath.Win32Struct.StartupInfoExW@{InsightSheath.Win32Struct.StartupInfoExW}}
+\doxysubsubsection{\texorpdfstring{FillAtribute}{FillAtribute}}
+{\footnotesize\ttfamily uint Insight\+Sheath.\+Win32\+Struct.\+Startup\+Info\+Ex\+W.\+Fill\+Atribute\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Get or set how the Console window colors will be starting out (ignored if no console), use \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812ac5ba68a5a2dd2189b7f01d1157797a28}{Startup\+Info\+Ex\+W\+\_\+\+Flags.\+Startf\+\_\+\+Use\+Fill\+Attribute}} in \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a47a4922eee565324e8eeab8e9f9b3107}{Flags}} to set 
+
+
+
+Definition at line \mbox{\hyperlink{_startup_info_ex_w_8cs_source_l00253}{253}} of file \mbox{\hyperlink{_startup_info_ex_w_8cs_source}{Startup\+Info\+Ex\+W.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a47a4922eee565324e8eeab8e9f9b3107}\label{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a47a4922eee565324e8eeab8e9f9b3107}} 
+\index{InsightSheath.Win32Struct.StartupInfoExW@{InsightSheath.Win32Struct.StartupInfoExW}!Flags@{Flags}}
+\index{Flags@{Flags}!InsightSheath.Win32Struct.StartupInfoExW@{InsightSheath.Win32Struct.StartupInfoExW}}
+\doxysubsubsection{\texorpdfstring{Flags}{Flags}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812}{Startup\+Info\+Ex\+W\+\_\+\+Flags}} Insight\+Sheath.\+Win32\+Struct.\+Startup\+Info\+Ex\+W.\+Flags\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Get or set the flags that indicate which part of startup info is valid. Remember to set otherwise the system will ignore it. Look at \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812}{Startup\+Info\+Ex\+W\+\_\+\+Flags}} or go to the source at  
+
+
+
+Definition at line \mbox{\hyperlink{_startup_info_ex_w_8cs_source_l00272}{272}} of file \mbox{\hyperlink{_startup_info_ex_w_8cs_source}{Startup\+Info\+Ex\+W.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a3995d878e3070606fff7912383f7b901}\label{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a3995d878e3070606fff7912383f7b901}} 
+\index{InsightSheath.Win32Struct.StartupInfoExW@{InsightSheath.Win32Struct.StartupInfoExW}!FlagSetterHelper@{FlagSetterHelper}}
+\index{FlagSetterHelper@{FlagSetterHelper}!InsightSheath.Win32Struct.StartupInfoExW@{InsightSheath.Win32Struct.StartupInfoExW}}
+\doxysubsubsection{\texorpdfstring{FlagSetterHelper}{FlagSetterHelper}}
+{\footnotesize\ttfamily bool Insight\+Sheath.\+Win32\+Struct.\+Startup\+Info\+Ex\+W.\+Flag\+Setter\+Helper\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Manged side only. Set to true to enable setting the \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a47a4922eee565324e8eeab8e9f9b3107}{Flags}} value on setting the members in this class EXCEPT for \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a13dd46a9b879287f2dd772fa28c1e123}{Standard\+Input}} 
+
+
+
+Definition at line \mbox{\hyperlink{_startup_info_ex_w_8cs_source_l00361}{361}} of file \mbox{\hyperlink{_startup_info_ex_w_8cs_source}{Startup\+Info\+Ex\+W.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_ad970c769467f01b46eeee06886fd5808}\label{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_ad970c769467f01b46eeee06886fd5808}} 
+\index{InsightSheath.Win32Struct.StartupInfoExW@{InsightSheath.Win32Struct.StartupInfoExW}!ShowWindow@{ShowWindow}}
+\index{ShowWindow@{ShowWindow}!InsightSheath.Win32Struct.StartupInfoExW@{InsightSheath.Win32Struct.StartupInfoExW}}
+\doxysubsubsection{\texorpdfstring{ShowWindow}{ShowWindow}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_a019b0f083dbe4f01880797be80c0ab22}{Startup\+Info\+Ex\+W\+\_\+\+Show\+Window}} Insight\+Sheath.\+Win32\+Struct.\+Startup\+Info\+Ex\+W.\+Show\+Window\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Specify how to show the initial window. Use \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812ad2fb85b109f25d3c39efb5f6e39c6142}{Startup\+Info\+Ex\+W\+\_\+\+Flags.\+Startf\+\_\+\+Use\+Show\+Window}} in \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a47a4922eee565324e8eeab8e9f9b3107}{Flags}} to indicate use. 
+
+
+
+Definition at line \mbox{\hyperlink{_startup_info_ex_w_8cs_source_l00286}{286}} of file \mbox{\hyperlink{_startup_info_ex_w_8cs_source}{Startup\+Info\+Ex\+W.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_abf89ff614c03302b59bed8569f41da66}\label{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_abf89ff614c03302b59bed8569f41da66}} 
+\index{InsightSheath.Win32Struct.StartupInfoExW@{InsightSheath.Win32Struct.StartupInfoExW}!StandardError@{StandardError}}
+\index{StandardError@{StandardError}!InsightSheath.Win32Struct.StartupInfoExW@{InsightSheath.Win32Struct.StartupInfoExW}}
+\doxysubsubsection{\texorpdfstring{StandardError}{StandardError}}
+{\footnotesize\ttfamily Int\+Ptr Insight\+Sheath.\+Win32\+Struct.\+Startup\+Info\+Ex\+W.\+Standard\+Error\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Get or set what\textquotesingle{}s passed to the h\+Std\+Error member, use \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812a0747368a34d28f95ab9acb4be2d46528}{Startup\+Info\+Ex\+W\+\_\+\+Flags.\+Startf\+\_\+\+Use\+Std\+Handles}} in \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a47a4922eee565324e8eeab8e9f9b3107}{Flags}} to indicate how to use. 
+
+
+
+Definition at line \mbox{\hyperlink{_startup_info_ex_w_8cs_source_l00340}{340}} of file \mbox{\hyperlink{_startup_info_ex_w_8cs_source}{Startup\+Info\+Ex\+W.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a13dd46a9b879287f2dd772fa28c1e123}\label{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a13dd46a9b879287f2dd772fa28c1e123}} 
+\index{InsightSheath.Win32Struct.StartupInfoExW@{InsightSheath.Win32Struct.StartupInfoExW}!StandardInput@{StandardInput}}
+\index{StandardInput@{StandardInput}!InsightSheath.Win32Struct.StartupInfoExW@{InsightSheath.Win32Struct.StartupInfoExW}}
+\doxysubsubsection{\texorpdfstring{StandardInput}{StandardInput}}
+{\footnotesize\ttfamily Int\+Ptr Insight\+Sheath.\+Win32\+Struct.\+Startup\+Info\+Ex\+W.\+Standard\+Input\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Get or set what\textquotesingle{}s passed along to the h\+Std\+Input member, use \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812a69d849d86ad87a03e0168e2baecb8e9d}{Startup\+Info\+Ex\+W\+\_\+\+Flags.\+Startf\+\_\+\+Use\+Hot\+Key}}. or \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812a0747368a34d28f95ab9acb4be2d46528}{Startup\+Info\+Ex\+W\+\_\+\+Flags.\+Startf\+\_\+\+Use\+Std\+Handles}} to indicate how this will be interpreted in the \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a47a4922eee565324e8eeab8e9f9b3107}{Flags}} setting 
+
+
+
+Definition at line \mbox{\hyperlink{_startup_info_ex_w_8cs_source_l00305}{305}} of file \mbox{\hyperlink{_startup_info_ex_w_8cs_source}{Startup\+Info\+Ex\+W.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a71460747c35e7c493e9daf53c9d5919a}\label{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a71460747c35e7c493e9daf53c9d5919a}} 
+\index{InsightSheath.Win32Struct.StartupInfoExW@{InsightSheath.Win32Struct.StartupInfoExW}!StandardOutput@{StandardOutput}}
+\index{StandardOutput@{StandardOutput}!InsightSheath.Win32Struct.StartupInfoExW@{InsightSheath.Win32Struct.StartupInfoExW}}
+\doxysubsubsection{\texorpdfstring{StandardOutput}{StandardOutput}}
+{\footnotesize\ttfamily Int\+Ptr Insight\+Sheath.\+Win32\+Struct.\+Startup\+Info\+Ex\+W.\+Standard\+Output\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Get or set what\textquotesingle{}s passed to the h\+Std\+Output member, use \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812a0747368a34d28f95ab9acb4be2d46528}{Startup\+Info\+Ex\+W\+\_\+\+Flags.\+Startf\+\_\+\+Use\+Std\+Handles}} in \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a47a4922eee565324e8eeab8e9f9b3107}{Flags}} to indicate how to use. 
+
+
+
+Definition at line \mbox{\hyperlink{_startup_info_ex_w_8cs_source_l00320}{320}} of file \mbox{\hyperlink{_startup_info_ex_w_8cs_source}{Startup\+Info\+Ex\+W.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a2568e6255422c8b9dc476fe450d6ecb0}\label{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a2568e6255422c8b9dc476fe450d6ecb0}} 
+\index{InsightSheath.Win32Struct.StartupInfoExW@{InsightSheath.Win32Struct.StartupInfoExW}!Title@{Title}}
+\index{Title@{Title}!InsightSheath.Win32Struct.StartupInfoExW@{InsightSheath.Win32Struct.StartupInfoExW}}
+\doxysubsubsection{\texorpdfstring{Title}{Title}}
+{\footnotesize\ttfamily string Insight\+Sheath.\+Win32\+Struct.\+Startup\+Info\+Ex\+W.\+Title\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Get or Set the name of the Console Window Title. No Extra Flags Needed. MSDN Documentation recommends this be NULL for Console processes that don\textquotesingle{}t need a window or GUI processes that don\textquotesingle{}t create a window 
+
+
+
+Definition at line \mbox{\hyperlink{_startup_info_ex_w_8cs_source_l00123}{123}} of file \mbox{\hyperlink{_startup_info_ex_w_8cs_source}{Startup\+Info\+Ex\+W.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a0047a2b24eb6a72a7d13a48e3176f222}\label{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a0047a2b24eb6a72a7d13a48e3176f222}} 
+\index{InsightSheath.Win32Struct.StartupInfoExW@{InsightSheath.Win32Struct.StartupInfoExW}!X@{X}}
+\index{X@{X}!InsightSheath.Win32Struct.StartupInfoExW@{InsightSheath.Win32Struct.StartupInfoExW}}
+\doxysubsubsection{\texorpdfstring{X}{X}}
+{\footnotesize\ttfamily uint Insight\+Sheath.\+Win32\+Struct.\+Startup\+Info\+Ex\+W.\+X\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Get or set the X position of the starting window (in pixels), use \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812a11bdc22f05e14a90ee4e44482abbb151}{Startup\+Info\+Ex\+W\+\_\+\+Flags.\+Startf\+\_\+\+Use\+Position}} in \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a47a4922eee565324e8eeab8e9f9b3107}{Flags}} to set 
+
+
+
+Definition at line \mbox{\hyperlink{_startup_info_ex_w_8cs_source_l00143}{143}} of file \mbox{\hyperlink{_startup_info_ex_w_8cs_source}{Startup\+Info\+Ex\+W.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a62b85d4fc6b931da15a57c9e6b0a7f43}\label{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a62b85d4fc6b931da15a57c9e6b0a7f43}} 
+\index{InsightSheath.Win32Struct.StartupInfoExW@{InsightSheath.Win32Struct.StartupInfoExW}!XCountChars@{XCountChars}}
+\index{XCountChars@{XCountChars}!InsightSheath.Win32Struct.StartupInfoExW@{InsightSheath.Win32Struct.StartupInfoExW}}
+\doxysubsubsection{\texorpdfstring{XCountChars}{XCountChars}}
+{\footnotesize\ttfamily uint Insight\+Sheath.\+Win32\+Struct.\+Startup\+Info\+Ex\+W.\+XCount\+Chars\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Get or set the starting width of the Console (if created and is in char rows), use \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812ad2db444dca169c1ac56e9e84d1404915}{Startup\+Info\+Ex\+W\+\_\+\+Flags.\+Startf\+\_\+\+Use\+Count\+Chars}}) in \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a47a4922eee565324e8eeab8e9f9b3107}{Flags}} to set 
+
+
+
+Definition at line \mbox{\hyperlink{_startup_info_ex_w_8cs_source_l00220}{220}} of file \mbox{\hyperlink{_startup_info_ex_w_8cs_source}{Startup\+Info\+Ex\+W.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a7fe5aec1e48cc614c3f30bf0b54b1f10}\label{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a7fe5aec1e48cc614c3f30bf0b54b1f10}} 
+\index{InsightSheath.Win32Struct.StartupInfoExW@{InsightSheath.Win32Struct.StartupInfoExW}!XSize@{XSize}}
+\index{XSize@{XSize}!InsightSheath.Win32Struct.StartupInfoExW@{InsightSheath.Win32Struct.StartupInfoExW}}
+\doxysubsubsection{\texorpdfstring{XSize}{XSize}}
+{\footnotesize\ttfamily uint Insight\+Sheath.\+Win32\+Struct.\+Startup\+Info\+Ex\+W.\+XSize\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Get or Set the Width of the Window (in pixels), use \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812a5e2149c0fe12a019fd2adb0f69322e4c}{Startup\+Info\+Ex\+W\+\_\+\+Flags.\+Startf\+\_\+\+Use\+Size}} in \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a47a4922eee565324e8eeab8e9f9b3107}{Flags}} to set 
+
+
+
+Definition at line \mbox{\hyperlink{_startup_info_ex_w_8cs_source_l00181}{181}} of file \mbox{\hyperlink{_startup_info_ex_w_8cs_source}{Startup\+Info\+Ex\+W.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a2332d41774b21efa28b8a77c27fb29e5}\label{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a2332d41774b21efa28b8a77c27fb29e5}} 
+\index{InsightSheath.Win32Struct.StartupInfoExW@{InsightSheath.Win32Struct.StartupInfoExW}!Y@{Y}}
+\index{Y@{Y}!InsightSheath.Win32Struct.StartupInfoExW@{InsightSheath.Win32Struct.StartupInfoExW}}
+\doxysubsubsection{\texorpdfstring{Y}{Y}}
+{\footnotesize\ttfamily uint Insight\+Sheath.\+Win32\+Struct.\+Startup\+Info\+Ex\+W.\+Y\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Get or set the Y position of the starting window (in pixels), use \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812a11bdc22f05e14a90ee4e44482abbb151}{Startup\+Info\+Ex\+W\+\_\+\+Flags.\+Startf\+\_\+\+Use\+Position}} in \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a47a4922eee565324e8eeab8e9f9b3107}{Flags}} to set 
+
+
+
+Definition at line \mbox{\hyperlink{_startup_info_ex_w_8cs_source_l00162}{162}} of file \mbox{\hyperlink{_startup_info_ex_w_8cs_source}{Startup\+Info\+Ex\+W.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a4c7864f8daf3f1dd925d28edbb9b1026}\label{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a4c7864f8daf3f1dd925d28edbb9b1026}} 
+\index{InsightSheath.Win32Struct.StartupInfoExW@{InsightSheath.Win32Struct.StartupInfoExW}!YCountChars@{YCountChars}}
+\index{YCountChars@{YCountChars}!InsightSheath.Win32Struct.StartupInfoExW@{InsightSheath.Win32Struct.StartupInfoExW}}
+\doxysubsubsection{\texorpdfstring{YCountChars}{YCountChars}}
+{\footnotesize\ttfamily uint Insight\+Sheath.\+Win32\+Struct.\+Startup\+Info\+Ex\+W.\+YCount\+Chars\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Get or set the starting height of the Console (if created and is in char rows), use \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812ad2db444dca169c1ac56e9e84d1404915}{Startup\+Info\+Ex\+W\+\_\+\+Flags.\+Startf\+\_\+\+Use\+Count\+Chars}}) in \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a47a4922eee565324e8eeab8e9f9b3107}{Flags}} to set 
+
+
+
+Definition at line \mbox{\hyperlink{_startup_info_ex_w_8cs_source_l00238}{238}} of file \mbox{\hyperlink{_startup_info_ex_w_8cs_source}{Startup\+Info\+Ex\+W.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_ad5e96209eca1212e100c69960dffdf95}\label{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_ad5e96209eca1212e100c69960dffdf95}} 
+\index{InsightSheath.Win32Struct.StartupInfoExW@{InsightSheath.Win32Struct.StartupInfoExW}!YSize@{YSize}}
+\index{YSize@{YSize}!InsightSheath.Win32Struct.StartupInfoExW@{InsightSheath.Win32Struct.StartupInfoExW}}
+\doxysubsubsection{\texorpdfstring{YSize}{YSize}}
+{\footnotesize\ttfamily uint Insight\+Sheath.\+Win32\+Struct.\+Startup\+Info\+Ex\+W.\+YSize\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Get or Set the Height of the Window (in pixels), use \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_a6a6bda4ecfe16ea2cffc5c1d46ad2812a5e2149c0fe12a019fd2adb0f69322e4c}{Startup\+Info\+Ex\+W\+\_\+\+Flags.\+Startf\+\_\+\+Use\+Size}} in \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_startup_info_ex_w_a47a4922eee565324e8eeab8e9f9b3107}{Flags}} to set 
+
+
+
+Definition at line \mbox{\hyperlink{_startup_info_ex_w_8cs_source_l00201}{201}} of file \mbox{\hyperlink{_startup_info_ex_w_8cs_source}{Startup\+Info\+Ex\+W.\+cs}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Win32\+Struct/\mbox{\hyperlink{_startup_info_ex_w_8cs}{Startup\+Info\+Ex\+W.\+cs}}\end{DoxyCompactItemize}

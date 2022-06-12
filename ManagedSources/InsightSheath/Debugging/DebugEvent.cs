@@ -179,6 +179,9 @@ namespace InsightSheath.Debugging
 
     }
 
+    /// <summary>
+    /// Type of error that is contained <see cref="DebugEventRipInfo.ErrorType"/>
+    /// </summary>
     public enum RipErrorType
     {
         /// <summary>
@@ -208,12 +211,16 @@ namespace InsightSheath.Debugging
     /// </summary>
     public abstract class DebugEventStaticContainer : ReferenceCounterNativeStaticContainer
     {
+        /// <summary>
+        /// Constructor for the base <see cref="DebugEvent"/> abstract class
+        /// </summary>
+        /// <param name="Native">Native pointer to the structure</param>
         public DebugEventStaticContainer(IntPtr Native): base(Native)
         {
             
         }
         /// <summary>
-        /// Constructor
+        /// Constructor for the base <see cref="DebugEvent"/> abstract class
         /// </summary>
         /// <param name="Native">Native pointer to the structure</param>
         /// <param name="FreeOnCleanup">if true then the structure is freed via RemoteRead_SimpleFree(). Set TO FALSE if dealing with structures declared in C/C++ code vs dynamically allocated</param>
@@ -222,21 +229,29 @@ namespace InsightSheath.Debugging
             
         }
 
+        /// <summary>
+        /// Constructor for the base <see cref="DebugEvent"/> class
+        /// </summary>
+        /// <param name="Native">Native pointer to the structure</param>
+        /// <param name="FreeOnCleanup">if true then the structure is freed via RemoteRead_SimpleFree(). Set TO FALSE if dealing with structures declared in C/C++ code vs dynamically allocated</param>
+        /// <param name="ReferenceCounter">Specify the starting reference count.</param>
         public DebugEventStaticContainer(IntPtr Native, bool FreeOnCleanup, ulong ReferenceCounter): base(Native, FreeOnCleanup, ReferenceCounter)
         {
 
         }
 
-
+        /// <summary>
+        ///  my personal disposed value
+        /// </summary>
+        private bool disposedValue;
         protected override void Dispose(bool disposing)
         {
 
-            
-            if (!disposedValue)
+            if (!IsDisposed)
             {
                 if (Release() == 0)
                 {
-                    if (this.FreeOnCleanup)
+                    if (FreeOnCleanup)
                     {
                         NativeMethods.SimpleFree(Native);
                     }
@@ -246,21 +261,22 @@ namespace InsightSheath.Debugging
                 {
                     ClearNative();
                 }
-
-                // TODO: set large fields to null
                 disposedValue = true;
             }
             base.Dispose(disposing);
 
         }
 
+  
+        ///<summary>
+        ///Finalizer for the base <see cref="DebugEvent"/> class
+        ///<summary>
         ~DebugEventStaticContainer()
          {
                   Dispose(disposing: false);
          }
 
 
-        private bool disposedValue;
 
         /// <summary>
         /// Get the process id that this event happed too
@@ -310,6 +326,9 @@ namespace InsightSheath.Debugging
     }
 
     
+    /// <summary>
+    /// Provides access to a <see cref="DebugEventType.LoadDllEvent"/> in a <see cref="DebugEvent"/> struct
+    /// </summary>
     public class DebugEventLoadDllInfo : DebugEventStaticContainer
     {
         public DebugEventLoadDllInfo(IntPtr Nat) : base(Nat)
@@ -433,7 +452,6 @@ namespace InsightSheath.Debugging
 
     /// <summary>
     /// Class Wrapper dealing with extracting Exception information from a <see cref="DebugEvent"/>.
-    /// TODO: Insert code on native side that remaps 32-bit handling to 64-bit and transparently deal with it there. Managed Side need not see the different.
     /// </summary>
     public class DebugEventExceptionInfo : DebugEventStaticContainer
     {
@@ -478,7 +496,7 @@ namespace InsightSheath.Debugging
                     IntPtr stepper = ptr;
                     for (int step = 0; step < ExceptionParameterCount; step++)
                     {
-                        ret[step] = (uint) LocalUnmanagedMemory.Peek8(stepper);
+                        ret[step] = (uint) MemoryNative.Peek8(stepper);
                         stepper += sizeof(ulong);
                     }
                     NativeMethods.SimpleFree(ptr);
@@ -502,7 +520,7 @@ namespace InsightSheath.Debugging
                     IntPtr stepper = ptr;
                     for (int step = 0; step < ExceptionParameterCount; step++)
                     {
-                        ret[step] = LocalUnmanagedMemory.Peek8(stepper);
+                        ret[step] = MemoryNative.Peek8(stepper);
                         stepper += sizeof(ulong);
                     }
                     NativeMethods.SimpleFree(ptr);
@@ -876,24 +894,39 @@ namespace InsightSheath.Debugging
 
 
 
-    public class DebugEventUnloadDllInfo: DebugEventStaticContainer
+    /// <summary>
+    /// Wrapper for a Debug Event containing an UNLOAD_DLL_DEBUG_EVENT.
+    /// </summary>
+    public class DebugEventUnloadDllInfo : DebugEventStaticContainer
     {
 
         /// <summary>
-        /// Creation.  Does NOT free the underling pointer 
+        /// Creation.  Does NOT free the underling pointer. Reference counter set to 1.
         /// </summary>
-        /// <param name="NativePtr"></param>
+        /// <param name="NativePtr">native pointer to a DEUBG_EVENT struct containing one UNLOAD_DLL_DEBUG_EVENT. </param>
         public DebugEventUnloadDllInfo(IntPtr NativePtr) : base(NativePtr)
         {
 
         }
 
-        public DebugEventUnloadDllInfo(IntPtr Nat, bool FreeOnCleanup) : base(Nat, FreeOnCleanup, 1)
+        /// <summary>
+        /// Creation.  Reference counter set to one.
+        /// </summary>
+        /// <param name="NativePtr">native pointer to a DEUBG_EVENT struct containing one UNLOAD_DLL_DEBUG_EVENT. </param>
+        /// <param name="FreeOnCleanup">Indicate if we're claling free() when GC clean this instance up.</param>
+        public DebugEventUnloadDllInfo(IntPtr NativePtr, bool FreeOnCleanup) : base(NativePtr, FreeOnCleanup, 1)
         {
 
         }
 
-        public DebugEventUnloadDllInfo(IntPtr Nat, bool FreeOnCleanup, ulong RefCount) : base(Nat, FreeOnCleanup, RefCount)
+
+        /// <summary>
+        /// Creation.  Reference counter set to one.
+        /// </summary>
+        /// <param name="NativePtr">native pointer to a DEUBG_EVENT struct containing one UNLOAD_DLL_DEBUG_EVENT. </param>
+        /// <param name="FreeOnCleanup">Indicate if we're claling free() when GC clean this instance up.</param>
+        /// <param name="RefCount">Indicate the current reference counter for the unmanaged memory block.  Block is freed only if reference counter decreases to zero during GC collection.</param>
+        public DebugEventUnloadDllInfo(IntPtr NativePtr, bool FreeOnCleanup, ulong RefCount) : base(NativePtr, FreeOnCleanup, RefCount)
         {
 
         }
@@ -921,19 +954,32 @@ namespace InsightSheath.Debugging
         private static readonly string error_msg_bad_event_fetch = "Attempt to fetch {0} from an event that does not contain the event {1}";
 
         /// <summary>
-        /// Creation.  Does NOT free the underling pointer 
+        /// Creation.  Does NOT free the underling pointer.
         /// </summary>
-        /// <param name="NativePtr"></param>
+        /// <param name="NativePtr">Native pointer to one DEBUG</param>
         public DebugEvent(IntPtr NativePtr) : base(NativePtr)
         {
             FreeOnCleanupContainer = false;
         }
 
 
+        /// <summary>
+        /// Create the wrapper for a DEBUG_EVENT native struct. 
+        /// </summary>
+        /// <param name="Nat">block of unmanaged memory that points to a buffer the sizeof of a DEBUG_EVENT</param>
+        /// <param name="FreeOnCleanup">true to call free() when done and false if not</param>
+        /// <remarks>Reference count is set to 1</remarks>
         public DebugEvent(IntPtr Nat, bool FreeOnCleanup) : base(Nat, FreeOnCleanup, 1)
         {
 
         }
+        /// <summary>
+        /// Create the wrapper for a DEBUG_EVENT native struct. 
+        /// </summary>
+        /// <param name="Nat">block of unmanaged memory that points to a buffer the sizeof of a DEBUG_EVENT</param>
+        /// <param name="FreeOnCleanup">true to call free() when done and false if not</param>
+        /// <param name="RefCount">Specifies the reference count</param>
+        /// <remarks>Reference count is set to 1</remarks>
 
         public DebugEvent(IntPtr Nat, bool FreeOnCleanup, ulong RefCount) : base(Nat, FreeOnCleanup, RefCount)
         {
@@ -952,13 +998,12 @@ namespace InsightSheath.Debugging
 
 
         bool disposedValue;
+        /// <summary>
+        /// Nothing special needed to dispose off. Defaultis ok.
+        /// </summary>
+        /// <param name="disposing"></param>
         protected override void Dispose(bool disposing)
         {
-            if (!disposedValue)
-            {
-
-                disposedValue = true;
-            }
             base.Dispose(disposing);
         }
 
@@ -984,6 +1029,10 @@ namespace InsightSheath.Debugging
             return ret;
         }
 
+        /// <summary>
+        /// Retrieve an instance of <see cref="DebugEventCreateThreadInfo"/> pointing to the same unmanaged memory as this class.
+        /// </summary>
+        /// <returns>Returns a new instance of <see cref="DebugEventCreateThreadInfo"/> if <see cref=""/></returns>
         public DebugEventCreateThreadInfo GetDebugEventCreateThreadInfo()
         {
             if (DebugEventNative.DebugEvent_GetEventType(Native) != DebugEventType.CreateTheadEvent)

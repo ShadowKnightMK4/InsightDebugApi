@@ -1,0 +1,610 @@
+\hypertarget{_wow64_context_8cs_source}{}\doxysection{Wow64\+Context.\+cs}
+\label{_wow64_context_8cs_source}\index{Debugging/Thread/Wow64Context.cs@{Debugging/Thread/Wow64Context.cs}}
+\mbox{\hyperlink{_wow64_context_8cs}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00001}00001 \textcolor{keyword}{using }\mbox{\hyperlink{namespace_insight_sheath_1_1_abstract}{InsightSheath.Abstract}};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00002}00002 \textcolor{keyword}{using }\mbox{\hyperlink{namespace_insight_sheath_1_1_wrappers}{InsightSheath.Wrappers}};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00003}00003 \textcolor{keyword}{using }System;}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00004}00004 \textcolor{keyword}{using }System.Collections.Generic;}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00005}00005 \textcolor{keyword}{using }System.Linq;}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00006}00006 \textcolor{keyword}{using }System.Runtime.InteropServices;}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00007}00007 \textcolor{keyword}{using }System.Text;}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00008}00008 \textcolor{keyword}{using }System.Threading.Tasks;}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00009}00009 }
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00010}00010 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_thread}{InsightSheath.Debugging.Thread}}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00011}00011 \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00012}00012     \textcolor{comment}{/*}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00013}00013 \textcolor{comment}{     * typedef struct \_WOW64\_FLOATING\_SAVE\_AREA \{}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00014}00014 \textcolor{comment}{    DWORD   ControlWord;}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00015}00015 \textcolor{comment}{    DWORD   StatusWord;}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00016}00016 \textcolor{comment}{    DWORD   TagWord;}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00017}00017 \textcolor{comment}{    DWORD   ErrorOffset;}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00018}00018 \textcolor{comment}{    DWORD   ErrorSelector;}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00019}00019 \textcolor{comment}{    DWORD   DataOffset;}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00020}00020 \textcolor{comment}{    DWORD   DataSelector;}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00021}00021 \textcolor{comment}{    BYTE    RegisterArea[WOW64\_SIZE\_OF\_80387\_REGISTERS];}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00022}00022 \textcolor{comment}{    DWORD   Cr0NpxState;}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00023}00023 \textcolor{comment}{\} WOW64\_FLOATING\_SAVE\_AREA;}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00024}00024 \textcolor{comment}{     * ypedef struct \_WOW64\_CONTEXT \{}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00025}00025 \textcolor{comment}{  DWORD                    ContextFlags;}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00026}00026 \textcolor{comment}{  DWORD                    Dr0;}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00027}00027 \textcolor{comment}{  DWORD                    Dr1;}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00028}00028 \textcolor{comment}{  DWORD                    Dr2;}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00029}00029 \textcolor{comment}{  DWORD                    Dr3;}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00030}00030 \textcolor{comment}{  DWORD                    Dr6;}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00031}00031 \textcolor{comment}{  DWORD                    Dr7;}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00032}00032 \textcolor{comment}{  WOW64\_FLOATING\_SAVE\_AREA FloatSave;}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00033}00033 \textcolor{comment}{  DWORD                    SegGs;}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00034}00034 \textcolor{comment}{  DWORD                    SegFs;}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00035}00035 \textcolor{comment}{  DWORD                    SegEs;}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00036}00036 \textcolor{comment}{  DWORD                    SegDs;}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00037}00037 \textcolor{comment}{  DWORD                    Edi;}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00038}00038 \textcolor{comment}{  DWORD                    Esi;}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00039}00039 \textcolor{comment}{  DWORD                    Ebx;}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00040}00040 \textcolor{comment}{  DWORD                    Edx;}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00041}00041 \textcolor{comment}{  DWORD                    Ecx;}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00042}00042 \textcolor{comment}{  DWORD                    Eax;}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00043}00043 \textcolor{comment}{  DWORD                    Ebp;}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00044}00044 \textcolor{comment}{  DWORD                    Eip;}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00045}00045 \textcolor{comment}{  DWORD                    SegCs;}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00046}00046 \textcolor{comment}{  DWORD                    EFlags;}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00047}00047 \textcolor{comment}{  DWORD                    Esp;}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00048}00048 \textcolor{comment}{  DWORD                    SegSs;}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00049}00049 \textcolor{comment}{  BYTE                     ExtendedRegisters[WOW64\_MAXIMUM\_SUPPORTED\_EXTENSION];}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00050}00050 \textcolor{comment}{\} WOW64\_CONTEXT;}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00051}00051 \textcolor{comment}{     * */}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00052}00052 }
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00053}00053     [StructLayout(LayoutKind.Sequential)]}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00054}\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_floating_point_save_area}{00054}}     \textcolor{keyword}{public} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_floating_point_save_area}{Wow64FloatingPointSaveArea}}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00055}00055     \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00056}\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_floating_point_save_area_a6a72c61252797f39ea8c445ddc8550f6}{00056}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_floating_point_save_area_a6a72c61252797f39ea8c445ddc8550f6}{ControlWord}};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00057}\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_floating_point_save_area_aa28f35773a8b05b830f3fcc588678983}{00057}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_floating_point_save_area_aa28f35773a8b05b830f3fcc588678983}{StatusWord}};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00058}\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_floating_point_save_area_ae6096dad23e7760c53039d131c8f5359}{00058}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_floating_point_save_area_ae6096dad23e7760c53039d131c8f5359}{TagWord}};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00059}\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_floating_point_save_area_a20a7b2808b3a4fa41fe3c4c1d0b8f264}{00059}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_floating_point_save_area_a20a7b2808b3a4fa41fe3c4c1d0b8f264}{ErrorOffset}};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00060}\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_floating_point_save_area_a1edaa0265b670da2560fafffd63772cf}{00060}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_floating_point_save_area_a1edaa0265b670da2560fafffd63772cf}{ErrorSelector}};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00061}\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_floating_point_save_area_a4820ac1fc6c7380c0e1d34f755fd6fd5}{00061}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_floating_point_save_area_a4820ac1fc6c7380c0e1d34f755fd6fd5}{DataOffset}};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00062}\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_floating_point_save_area_a88e760f269fa130645d1fc79391c2322}{00062}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_floating_point_save_area_a88e760f269fa130645d1fc79391c2322}{DataSelector}};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00063}00063         \textcolor{comment}{/* WOW64\_SIZE\_OF\_80387\_REGISTERS = 80 in winnt.h */}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00064}00064         [MarshalAs(UnmanagedType.ByValArray, ArraySubType = UnmanagedType.U1, SizeConst =80)]}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00065}\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_floating_point_save_area_ac02ccba582102888b44f73cbac0d984b}{00065}}         \textcolor{keyword}{public} \textcolor{keywordtype}{byte}[] \mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_floating_point_save_area_ac02ccba582102888b44f73cbac0d984b}{RegisterArea}};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00066}\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_floating_point_save_area_ab728d836be9b249e5636cb5c57ba1125}{00066}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_floating_point_save_area_ab728d836be9b249e5636cb5c57ba1125}{Cr0NpxState}};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00067}00067 }
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00068}00068     \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00072}00072     [StructLayout(LayoutKind.Sequential)]}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00073}\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout}{00073}}     \textcolor{keyword}{public} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout}{Wow64ContextLayout}}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00074}00074     \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00075}\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_a427e40022811a487a87198672ee948fd}{00075}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_a427e40022811a487a87198672ee948fd}{ContextFlags}};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00076}\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_a62f2089d1d39bc0af605ae8782783b5c}{00076}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_a62f2089d1d39bc0af605ae8782783b5c}{Dr0}};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00077}\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_a7bf1788611dafe1502a7ef416b0b5105}{00077}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_a7bf1788611dafe1502a7ef416b0b5105}{Dr1}};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00078}\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_a65828b2ae0b73d4ce17b92d057ffee07}{00078}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_a65828b2ae0b73d4ce17b92d057ffee07}{Dr2}};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00079}\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_a6579f906ee0086519bc9391935fa1c7d}{00079}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_a6579f906ee0086519bc9391935fa1c7d}{Dr3}};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00080}\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_ab569b36ceefefb51adbd79181e50fecc}{00080}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_ab569b36ceefefb51adbd79181e50fecc}{Dr6}};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00081}\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_a80af8d0078d8a05e2fb5550814f3fab9}{00081}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_a80af8d0078d8a05e2fb5550814f3fab9}{Dr7}};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00082}\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_a7ba6d1efe6357cde13f684b763a361e9}{00082}}         \textcolor{keyword}{public} \mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_floating_point_save_area}{Wow64FloatingPointSaveArea}} \mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_a7ba6d1efe6357cde13f684b763a361e9}{FloatSave}};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00083}\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_a5596989a1fad400fdff658fd3a76f0ab}{00083}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_a5596989a1fad400fdff658fd3a76f0ab}{SegGs}};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00084}\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_a3ed3ac346d6a19727862b1fa6398d117}{00084}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_a3ed3ac346d6a19727862b1fa6398d117}{SegFs}};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00085}\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_a99624a1d6ceeecfd2cb11001aeef09bc}{00085}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_a99624a1d6ceeecfd2cb11001aeef09bc}{SegEs}};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00086}\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_a275b88f7a936b7f7f729659563fca229}{00086}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_a275b88f7a936b7f7f729659563fca229}{SegDs}};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00087}\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_a2013714b72d0b046d5daed89d65a65e3}{00087}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_a2013714b72d0b046d5daed89d65a65e3}{Edi}};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00088}\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_a567d66664b4bbed0b92adb56ae247e1f}{00088}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_a567d66664b4bbed0b92adb56ae247e1f}{Esi}};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00089}\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_a12d6f3e1c805d8130e38d67d554cce00}{00089}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_a12d6f3e1c805d8130e38d67d554cce00}{Ebx}};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00090}\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_ab5527e1732bf6b0760d08b7cf3768052}{00090}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_ab5527e1732bf6b0760d08b7cf3768052}{Edx}};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00091}\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_a5b05935ef1cde5bacf6ee00f54fd0b19}{00091}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_a5b05935ef1cde5bacf6ee00f54fd0b19}{Ecx}};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00092}\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_a30ebd2c837dbddf4673623a9cf5d3296}{00092}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_a30ebd2c837dbddf4673623a9cf5d3296}{Eax}};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00093}\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_a532fe1cfb9d7ef452ba778dc2634734d}{00093}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_a532fe1cfb9d7ef452ba778dc2634734d}{Ebp}};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00094}\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_aba460d5074a0002421e89d0a16d2f816}{00094}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_aba460d5074a0002421e89d0a16d2f816}{Eip}};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00095}\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_a3cc5daa8a1089a33c87b61490fe8aca1}{00095}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_a3cc5daa8a1089a33c87b61490fe8aca1}{SegCs}};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00096}\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_aa6b0945c4835ac118d707650a1a98b5c}{00096}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_aa6b0945c4835ac118d707650a1a98b5c}{EFlags}};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00097}\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_a8bc2528dfb6dbd4c12ba5ffe57770ea8}{00097}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_a8bc2528dfb6dbd4c12ba5ffe57770ea8}{Esp}};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00098}\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_a528526c6adf17a2069984e7250881a70}{00098}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_a528526c6adf17a2069984e7250881a70}{SegSs}};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00099}00099         \textcolor{comment}{/* WOW64\_MAXIMUM\_SUPPORTED\_EXTENSION is 512 in winnt.h*/}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00100}00100         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 512)]}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00101}\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_a6a8ae8802abce6c8b17702054053b7c6}{00101}}         \textcolor{keyword}{public} \textcolor{keywordtype}{byte}[] \mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_a6a8ae8802abce6c8b17702054053b7c6}{ExtendedRegisters}};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00102}00102     \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00103}00103 }
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00104}00104     }
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00105}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context}{00105}}     \textcolor{keyword}{public} \textcolor{keyword}{class }\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context}{Wow64Context}}: \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct}{OnDemandMarshalNativeStruct}}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00106}00106     \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00107}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a0b24542037e113582c2ca0379da3a174}{00107}}         \textcolor{keyword}{public} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a0b24542037e113582c2ca0379da3a174}{Wow64Context}}(IntPtr \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}): base(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}})}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00108}00108         \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00109}00109             \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a0b0506b31628601c4e517b1197c9bb94}{WasBlit}} = \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00110}00110             \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a09c17c6f529ca3920a1c56119daed14a}{StaleManagedStruct}} = \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00111}00111             }
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00112}00112         \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00113}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a2eace8174a4d6acfe63645e1876bc6cd}{00113}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a2eace8174a4d6acfe63645e1876bc6cd}{ContextFlags}}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00114}00114         \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00115}00115             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00116}00116             \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00117}00117                 \textcolor{keywordflow}{if} (!\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a0b0506b31628601c4e517b1197c9bb94}{WasBlit}})}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00118}00118                 \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00119}00119                     \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a9d7637da3065164dc1dc7d40b6943c9c}{Blit}}();}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00120}00120                 \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00121}00121                 \textcolor{keywordflow}{return} Private.\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_a427e40022811a487a87198672ee948fd}{ContextFlags}};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00122}00122             \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00123}00123             \textcolor{keyword}{set}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00124}00124             \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00125}00125                 Private.ContextFlags = value;}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00126}00126                 \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a09c17c6f529ca3920a1c56119daed14a}{StaleManagedStruct}} = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00127}00127             \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00128}00128         \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00129}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a857a806f8b8b7c81ef1dd8d41408b1ed}{00129}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a857a806f8b8b7c81ef1dd8d41408b1ed}{Dr0}}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00130}00130         \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00131}00131             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00132}00132             \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00133}00133                 \textcolor{keywordflow}{if} (!\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a0b0506b31628601c4e517b1197c9bb94}{WasBlit}})}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00134}00134                 \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00135}00135                     \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a9d7637da3065164dc1dc7d40b6943c9c}{Blit}}();}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00136}00136                 \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00137}00137                 \textcolor{keywordflow}{return} Private.\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_a62f2089d1d39bc0af605ae8782783b5c}{Dr0}};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00138}00138             \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00139}00139             \textcolor{keyword}{set}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00140}00140             \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00141}00141                 Private.Dr0 = value;}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00142}00142                 \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a09c17c6f529ca3920a1c56119daed14a}{StaleManagedStruct}} = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00143}00143             \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00144}00144         \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00145}00145 }
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00146}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_aaf4b5814f0ce26daa62725f31245affb}{00146}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_aaf4b5814f0ce26daa62725f31245affb}{Dr1}}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00147}00147         \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00148}00148             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00149}00149             \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00150}00150                 \textcolor{keywordflow}{if} (!\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a0b0506b31628601c4e517b1197c9bb94}{WasBlit}})}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00151}00151                 \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00152}00152                     \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a9d7637da3065164dc1dc7d40b6943c9c}{Blit}}();}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00153}00153                 \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00154}00154                 \textcolor{keywordflow}{return} Private.\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_a7bf1788611dafe1502a7ef416b0b5105}{Dr1}};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00155}00155             \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00156}00156             \textcolor{keyword}{set}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00157}00157             \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00158}00158                 Private.Dr1 = value;}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00159}00159                 \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a09c17c6f529ca3920a1c56119daed14a}{StaleManagedStruct}} = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00160}00160             \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00161}00161         \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00162}00162 }
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00163}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a164fe1344f547cec2feb6659a60e69e3}{00163}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a164fe1344f547cec2feb6659a60e69e3}{Dr2}}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00164}00164         \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00165}00165             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00166}00166             \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00167}00167                 \textcolor{keywordflow}{if} (!\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a0b0506b31628601c4e517b1197c9bb94}{WasBlit}})}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00168}00168                 \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00169}00169                     \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a9d7637da3065164dc1dc7d40b6943c9c}{Blit}}();}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00170}00170                 \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00171}00171                 \textcolor{keywordflow}{return} Private.\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_a65828b2ae0b73d4ce17b92d057ffee07}{Dr2}};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00172}00172             \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00173}00173             \textcolor{keyword}{set}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00174}00174             \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00175}00175                 Private.Dr2 = value;}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00176}00176                 \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a09c17c6f529ca3920a1c56119daed14a}{StaleManagedStruct}} = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00177}00177             \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00178}00178         \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00179}00179 }
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00180}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a51b87e7a6b2e43ad6028e80b9f2fc2e2}{00180}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a51b87e7a6b2e43ad6028e80b9f2fc2e2}{Dr3}}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00181}00181         \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00182}00182             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00183}00183             \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00184}00184                 \textcolor{keywordflow}{if} (!\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a0b0506b31628601c4e517b1197c9bb94}{WasBlit}})}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00185}00185                 \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00186}00186                     \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a9d7637da3065164dc1dc7d40b6943c9c}{Blit}}();}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00187}00187                 \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00188}00188                 \textcolor{keywordflow}{return} Private.\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_a6579f906ee0086519bc9391935fa1c7d}{Dr3}};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00189}00189                 \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a09c17c6f529ca3920a1c56119daed14a}{StaleManagedStruct}} = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00190}00190             \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00191}00191             \textcolor{keyword}{set}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00192}00192             \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00193}00193                 Private.Dr3 = value;}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00194}00194             \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00195}00195         \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00196}00196 }
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00197}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a286bb9b719f337f12180f0f75a1b82d5}{00197}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a286bb9b719f337f12180f0f75a1b82d5}{Dr6}}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00198}00198         \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00199}00199             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00200}00200             \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00201}00201                 \textcolor{keywordflow}{if} (!\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a0b0506b31628601c4e517b1197c9bb94}{WasBlit}})}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00202}00202                 \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00203}00203                     \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a9d7637da3065164dc1dc7d40b6943c9c}{Blit}}();}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00204}00204                 \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00205}00205                 \textcolor{keywordflow}{return} Private.\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_ab569b36ceefefb51adbd79181e50fecc}{Dr6}};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00206}00206 }
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00207}00207             \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00208}00208             \textcolor{keyword}{set}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00209}00209             \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00210}00210                 Private.Dr6 = value;}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00211}00211                 \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a09c17c6f529ca3920a1c56119daed14a}{StaleManagedStruct}} = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00212}00212             \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00213}00213         \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00214}00214 }
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00215}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a105601d8e4681a698e03f09b9552d0ea}{00215}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a105601d8e4681a698e03f09b9552d0ea}{Dr7}}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00216}00216         \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00217}00217             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00218}00218             \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00219}00219                 \textcolor{keywordflow}{if} (!\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a0b0506b31628601c4e517b1197c9bb94}{WasBlit}})}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00220}00220                 \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00221}00221                     \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a9d7637da3065164dc1dc7d40b6943c9c}{Blit}}();}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00222}00222                 \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00223}00223                 \textcolor{keywordflow}{return} Private.\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_a80af8d0078d8a05e2fb5550814f3fab9}{Dr7}};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00224}00224             \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00225}00225             \textcolor{keyword}{set}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00226}00226             \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00227}00227                 Private.Dr7 = value;}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00228}00228                 \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a09c17c6f529ca3920a1c56119daed14a}{StaleManagedStruct}} = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00229}00229             \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00230}00230         \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00231}00231 }
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00232}00232 }
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00233}00233         }
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00234}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_af99338779260db62c7a2e611051fcfe5}{00234}}         \textcolor{keyword}{public} \mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_floating_point_save_area}{Wow64FloatingPointSaveArea}} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_af99338779260db62c7a2e611051fcfe5}{FloatSave}}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00235}00235         \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00236}00236             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00237}00237             \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00238}00238                 \textcolor{keywordflow}{if} (!\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a0b0506b31628601c4e517b1197c9bb94}{WasBlit}})}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00239}00239                 \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00240}00240                     \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a9d7637da3065164dc1dc7d40b6943c9c}{Blit}}();}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00241}00241                 \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00242}00242                 \textcolor{keywordflow}{return} Private.\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_a7ba6d1efe6357cde13f684b763a361e9}{FloatSave}};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00243}00243             \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00244}00244             \textcolor{keyword}{set}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00245}00245             \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00246}00246                 Private.FloatSave = value;}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00247}00247                 \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a09c17c6f529ca3920a1c56119daed14a}{StaleManagedStruct}} = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00248}00248             \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00249}00249         \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00250}00250 }
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00251}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_ad5e2ac26f265c6f9a82abc80c89216e5}{00251}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_ad5e2ac26f265c6f9a82abc80c89216e5}{SegGs}}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00252}00252         \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00253}00253             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00254}00254             \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00255}00255                 \textcolor{keywordflow}{if} (!\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a0b0506b31628601c4e517b1197c9bb94}{WasBlit}})}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00256}00256                 \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00257}00257                     \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a9d7637da3065164dc1dc7d40b6943c9c}{Blit}}();}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00258}00258                 \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00259}00259                 \textcolor{keywordflow}{return} Private.\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_a5596989a1fad400fdff658fd3a76f0ab}{SegGs}};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00260}00260             \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00261}00261             \textcolor{keyword}{set}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00262}00262             \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00263}00263                 Private.SegGs = value;}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00264}00264                 \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a09c17c6f529ca3920a1c56119daed14a}{StaleManagedStruct}} = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00265}00265             \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00266}00266         \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00267}00267 }
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00268}00268 }
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00269}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_abd6c4a22ff172b823711721f37709c53}{00269}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_abd6c4a22ff172b823711721f37709c53}{SegFs}}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00270}00270         \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00271}00271             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00272}00272             \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00273}00273                 \textcolor{keywordflow}{if} (!\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a0b0506b31628601c4e517b1197c9bb94}{WasBlit}})}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00274}00274                 \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00275}00275                     \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a9d7637da3065164dc1dc7d40b6943c9c}{Blit}}();}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00276}00276                 \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00277}00277                 \textcolor{keywordflow}{return} Private.\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_a3ed3ac346d6a19727862b1fa6398d117}{SegFs}};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00278}00278             \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00279}00279             \textcolor{keyword}{set}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00280}00280             \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00281}00281                 Private.SegFs = value;}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00282}00282                 \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a09c17c6f529ca3920a1c56119daed14a}{StaleManagedStruct}} = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00283}00283             \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00284}00284         \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00285}00285 }
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00286}00286 }
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00287}00287 }
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00288}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a67cae144af74dc8e03d99356d684fd32}{00288}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a67cae144af74dc8e03d99356d684fd32}{SegEs}}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00289}00289         \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00290}00290             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00291}00291             \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00292}00292                 \textcolor{keywordflow}{if} (!\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a0b0506b31628601c4e517b1197c9bb94}{WasBlit}})}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00293}00293                 \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00294}00294                     \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a9d7637da3065164dc1dc7d40b6943c9c}{Blit}}();}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00295}00295                 \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00296}00296                 \textcolor{keywordflow}{return} Private.\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_a99624a1d6ceeecfd2cb11001aeef09bc}{SegEs}};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00297}00297             \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00298}00298             \textcolor{keyword}{set}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00299}00299             \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00300}00300                 Private.SegEs = value;}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00301}00301                 \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a09c17c6f529ca3920a1c56119daed14a}{StaleManagedStruct}} = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00302}00302             \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00303}00303         \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00304}00304 }
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00305}00305 }
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00306}00306 }
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00307}00307 }
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00308}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_aff50115b7d724b2abd46de0779edb09a}{00308}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_aff50115b7d724b2abd46de0779edb09a}{SegDs}}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00309}00309         \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00310}00310             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00311}00311             \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00312}00312                 \textcolor{keywordflow}{if} (!\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a0b0506b31628601c4e517b1197c9bb94}{WasBlit}})}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00313}00313                 \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00314}00314                     \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a9d7637da3065164dc1dc7d40b6943c9c}{Blit}}();}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00315}00315                 \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00316}00316                 \textcolor{keywordflow}{return} Private.\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_a275b88f7a936b7f7f729659563fca229}{SegDs}};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00317}00317             \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00318}00318             \textcolor{keyword}{set}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00319}00319             \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00320}00320                 Private.SegDs = value;}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00321}00321                 \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a09c17c6f529ca3920a1c56119daed14a}{StaleManagedStruct}} = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00322}00322             \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00323}00323         \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00324}00324 }
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00325}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a6a1ca2553475cc3e45ce8163dde02a49}{00325}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a6a1ca2553475cc3e45ce8163dde02a49}{Ebp}}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00326}00326         \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00327}00327             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00328}00328             \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00329}00329                 \textcolor{keywordflow}{if} (!\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a0b0506b31628601c4e517b1197c9bb94}{WasBlit}})}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00330}00330                 \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00331}00331                     \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a9d7637da3065164dc1dc7d40b6943c9c}{Blit}}();}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00332}00332                 \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00333}00333                 \textcolor{keywordflow}{return} Private.\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_a532fe1cfb9d7ef452ba778dc2634734d}{Ebp}};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00334}00334             \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00335}00335             \textcolor{keyword}{set}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00336}00336             \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00337}00337                 Private.Ebp = value;}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00338}00338                 \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a09c17c6f529ca3920a1c56119daed14a}{StaleManagedStruct}} = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00339}00339             \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00340}00340         \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00341}00341 }
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00342}00342 }
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00343}00343 }
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00344}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_aa68f04d90ac3686129887d34aa5cd9de}{00344}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_aa68f04d90ac3686129887d34aa5cd9de}{Eip}}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00345}00345         \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00346}00346             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00347}00347             \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00348}00348                 \textcolor{keywordflow}{if} (!\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a0b0506b31628601c4e517b1197c9bb94}{WasBlit}})}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00349}00349                 \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00350}00350                     \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a9d7637da3065164dc1dc7d40b6943c9c}{Blit}}();}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00351}00351                 \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00352}00352                 \textcolor{keywordflow}{return} Private.\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_aba460d5074a0002421e89d0a16d2f816}{Eip}};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00353}00353             \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00354}00354             \textcolor{keyword}{set}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00355}00355             \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00356}00356                 Private.Eip = value;}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00357}00357                 \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a09c17c6f529ca3920a1c56119daed14a}{StaleManagedStruct}} = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00358}00358             \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00359}00359         \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00360}00360 }
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00361}00361 }
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00362}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a962f2fde16ead28ddf63c714d468f9e4}{00362}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a962f2fde16ead28ddf63c714d468f9e4}{Ecx}}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00363}00363         \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00364}00364             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00365}00365             \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00366}00366                 \textcolor{keywordflow}{if} (!\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a0b0506b31628601c4e517b1197c9bb94}{WasBlit}})}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00367}00367                 \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00368}00368                     \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a9d7637da3065164dc1dc7d40b6943c9c}{Blit}}();}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00369}00369                 \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00370}00370                 \textcolor{keywordflow}{return} Private.\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_a5b05935ef1cde5bacf6ee00f54fd0b19}{Ecx}};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00371}00371             \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00372}00372             \textcolor{keyword}{set}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00373}00373             \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00374}00374                 Private.Ecx = value;}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00375}00375                 \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a09c17c6f529ca3920a1c56119daed14a}{StaleManagedStruct}} = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00376}00376             \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00377}00377         \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00378}00378 }
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00379}00379 }
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00380}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a8df94b2d4664429f3b04c78244ef42ee}{00380}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a8df94b2d4664429f3b04c78244ef42ee}{Eax}}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00381}00381         \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00382}00382             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00383}00383             \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00384}00384                 \textcolor{keywordflow}{if} (!\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a0b0506b31628601c4e517b1197c9bb94}{WasBlit}})}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00385}00385                 \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00386}00386                     \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a9d7637da3065164dc1dc7d40b6943c9c}{Blit}}();}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00387}00387                 \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00388}00388                 \textcolor{keywordflow}{return} Private.\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_a30ebd2c837dbddf4673623a9cf5d3296}{Eax}};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00389}00389             \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00390}00390             \textcolor{keyword}{set}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00391}00391             \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00392}00392                 Private.Eax = value;}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00393}00393                 \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a09c17c6f529ca3920a1c56119daed14a}{StaleManagedStruct}} = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00394}00394             \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00395}00395         \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00396}00396 }
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00397}00397 }
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00398}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a11985e661524b32153d08f51fe083555}{00398}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a11985e661524b32153d08f51fe083555}{Edx}}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00399}00399         \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00400}00400             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00401}00401             \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00402}00402                 \textcolor{keywordflow}{if} (!\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a0b0506b31628601c4e517b1197c9bb94}{WasBlit}})}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00403}00403                 \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00404}00404                     \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a9d7637da3065164dc1dc7d40b6943c9c}{Blit}}();}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00405}00405                 \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00406}00406                 \textcolor{keywordflow}{return} Private.\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_ab5527e1732bf6b0760d08b7cf3768052}{Edx}};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00407}00407             \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00408}00408             \textcolor{keyword}{set}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00409}00409             \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00410}00410                 Private.Edx = value;}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00411}00411                 \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a09c17c6f529ca3920a1c56119daed14a}{StaleManagedStruct}} = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00412}00412             \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00413}00413         \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00414}00414 }
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00415}00415 }
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00416}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a3c6fb62caa413ba5e63f21e671f1215b}{00416}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a3c6fb62caa413ba5e63f21e671f1215b}{Ebx}}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00417}00417         \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00418}00418             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00419}00419             \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00420}00420                 \textcolor{keywordflow}{if} (!\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a0b0506b31628601c4e517b1197c9bb94}{WasBlit}})}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00421}00421                 \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00422}00422                     \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a9d7637da3065164dc1dc7d40b6943c9c}{Blit}}();}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00423}00423                 \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00424}00424                 \textcolor{keywordflow}{return} Private.\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_a12d6f3e1c805d8130e38d67d554cce00}{Ebx}};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00425}00425             \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00426}00426             \textcolor{keyword}{set}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00427}00427             \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00428}00428                 Private.Ebx = value;}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00429}00429                 \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a09c17c6f529ca3920a1c56119daed14a}{StaleManagedStruct}} = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00430}00430             \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00431}00431         \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00432}00432 }
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00433}00433 }
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00434}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_afa62cc34436d5eefd5c0cc6bd9a93d6c}{00434}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_afa62cc34436d5eefd5c0cc6bd9a93d6c}{Esi}}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00435}00435         \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00436}00436             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00437}00437             \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00438}00438                 \textcolor{keywordflow}{if} (!\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a0b0506b31628601c4e517b1197c9bb94}{WasBlit}})}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00439}00439                 \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00440}00440                     \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a9d7637da3065164dc1dc7d40b6943c9c}{Blit}}();}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00441}00441                 \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00442}00442                 \textcolor{keywordflow}{return} Private.\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_a567d66664b4bbed0b92adb56ae247e1f}{Esi}};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00443}00443             \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00444}00444             \textcolor{keyword}{set}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00445}00445             \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00446}00446                 Private.Esi = value;}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00447}00447                 \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a09c17c6f529ca3920a1c56119daed14a}{StaleManagedStruct}} = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00448}00448             \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00449}00449         \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00450}00450 }
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00451}00451 }
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00452}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a81ed5effa555164a6bcb56234f7b3d57}{00452}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a81ed5effa555164a6bcb56234f7b3d57}{Edi}}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00453}00453         \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00454}00454             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00455}00455             \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00456}00456                 \textcolor{keywordflow}{if} (!\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a0b0506b31628601c4e517b1197c9bb94}{WasBlit}})}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00457}00457                 \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00458}00458                     \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a9d7637da3065164dc1dc7d40b6943c9c}{Blit}}();}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00459}00459                 \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00460}00460                 \textcolor{keywordflow}{return} Private.\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_a2013714b72d0b046d5daed89d65a65e3}{Edi}};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00461}00461             \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00462}00462             \textcolor{keyword}{set}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00463}00463             \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00464}00464                 Private.Edi = value;}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00465}00465                 \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a09c17c6f529ca3920a1c56119daed14a}{StaleManagedStruct}} = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00466}00466             \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00467}00467         \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00468}00468 }
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00469}00469 }
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00470}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a8d79a0cec950f9e5604084a5c5e83ad3}{00470}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a8d79a0cec950f9e5604084a5c5e83ad3}{SegCs}}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00471}00471         \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00472}00472             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00473}00473             \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00474}00474                 \textcolor{keywordflow}{if} (!\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a0b0506b31628601c4e517b1197c9bb94}{WasBlit}})}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00475}00475                 \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00476}00476                     \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a9d7637da3065164dc1dc7d40b6943c9c}{Blit}}();}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00477}00477                 \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00478}00478                 \textcolor{keywordflow}{return} Private.\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_a3cc5daa8a1089a33c87b61490fe8aca1}{SegCs}};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00479}00479             \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00480}00480             \textcolor{keyword}{set}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00481}00481             \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00482}00482                 Private.SegCs = value;}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00483}00483                 \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a09c17c6f529ca3920a1c56119daed14a}{StaleManagedStruct}} = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00484}00484             \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00485}00485         \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00486}00486 }
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00487}00487 }
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00488}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a156c7290ad92852cc17e4d8e760a8ed4}{00488}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a156c7290ad92852cc17e4d8e760a8ed4}{EFlags}}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00489}00489         \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00490}00490             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00491}00491             \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00492}00492                 \textcolor{keywordflow}{if} (!\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a0b0506b31628601c4e517b1197c9bb94}{WasBlit}})}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00493}00493                 \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00494}00494                     \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a9d7637da3065164dc1dc7d40b6943c9c}{Blit}}();}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00495}00495                 \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00496}00496                 \textcolor{keywordflow}{return} Private.\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_aa6b0945c4835ac118d707650a1a98b5c}{EFlags}};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00497}00497             \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00498}00498             \textcolor{keyword}{set}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00499}00499             \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00500}00500                 Private.EFlags = value;}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00501}00501                 \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a09c17c6f529ca3920a1c56119daed14a}{StaleManagedStruct}} = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00502}00502             \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00503}00503         \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00504}00504 }
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00505}00505 }
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00506}00506 }
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00507}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a406ea2bd904b91c076f26595563c8726}{00507}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a406ea2bd904b91c076f26595563c8726}{Esp}}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00508}00508         \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00509}00509             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00510}00510             \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00511}00511                 \textcolor{keywordflow}{if} (!\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a0b0506b31628601c4e517b1197c9bb94}{WasBlit}})}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00512}00512                 \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00513}00513                     \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a9d7637da3065164dc1dc7d40b6943c9c}{Blit}}();}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00514}00514                 \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00515}00515                 \textcolor{keywordflow}{return} Private.\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_a8bc2528dfb6dbd4c12ba5ffe57770ea8}{Esp}};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00516}00516             \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00517}00517             \textcolor{keyword}{set}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00518}00518             \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00519}00519                 Private.Esp = value;}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00520}00520                 \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a09c17c6f529ca3920a1c56119daed14a}{StaleManagedStruct}} = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00521}00521             \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00522}00522         \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00523}00523 }
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00524}00524 }
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00525}00525 }
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00526}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a19b5b5c19e5c142a35363793e4873cc6}{00526}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a19b5b5c19e5c142a35363793e4873cc6}{SegSs}}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00527}00527         \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00528}00528             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00529}00529             \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00530}00530                 \textcolor{keywordflow}{if} (!\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a0b0506b31628601c4e517b1197c9bb94}{WasBlit}})}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00531}00531                 \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00532}00532                     \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a9d7637da3065164dc1dc7d40b6943c9c}{Blit}}();}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00533}00533                 \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00534}00534                 \textcolor{keywordflow}{return} Private.\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_a528526c6adf17a2069984e7250881a70}{SegSs}};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00535}00535             \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00536}00536             \textcolor{keyword}{set}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00537}00537             \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00538}00538                 Private.SegSs = value;}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00539}00539                 \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a09c17c6f529ca3920a1c56119daed14a}{StaleManagedStruct}} = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00540}00540             \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00541}00541         \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00542}00542 }
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00543}00543         }
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00544}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_adf2a73218236769b6597f589d3882451}{00544}}         \textcolor{keyword}{public} \textcolor{keywordtype}{byte}[] \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_adf2a73218236769b6597f589d3882451}{ExtendedRegisters}}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00545}00545         \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00546}00546             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00547}00547             \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00548}00548                 \textcolor{keywordflow}{if} (!\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a0b0506b31628601c4e517b1197c9bb94}{WasBlit}})}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00549}00549                 \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00550}00550                     \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a9d7637da3065164dc1dc7d40b6943c9c}{Blit}}();}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00551}00551                 \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00552}00552                 \textcolor{keywordflow}{return} Private.\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout_a6a8ae8802abce6c8b17702054053b7c6}{ExtendedRegisters}};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00553}00553             \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00554}00554             \textcolor{keyword}{set}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00555}00555             \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00556}00556                 Private.ExtendedRegisters = value;}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00557}00557                 \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a09c17c6f529ca3920a1c56119daed14a}{StaleManagedStruct}} = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00558}00558             \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00559}00559         \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00560}00560                 }
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00561}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a75b2d5f9a1417a9e4226066e4a05af67}{00561}}         \textcolor{keyword}{public} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a75b2d5f9a1417a9e4226066e4a05af67}{Wow64Context}}(IntPtr \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}, \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}}): base(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}, \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}})}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00562}00562         \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00563}00563 }
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00564}00564         \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00565}00565 }
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00566}00566         }
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00567}00567 }
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00568}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a9d7637da3065164dc1dc7d40b6943c9c}{00568}}         \textcolor{keyword}{protected} \textcolor{keyword}{override} \textcolor{keywordtype}{void} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a9d7637da3065164dc1dc7d40b6943c9c}{Blit}}()}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00569}00569         \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00570}00570             \textcolor{keywordflow}{if} (\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a09c17c6f529ca3920a1c56119daed14a}{StaleManagedStruct}})}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00571}00571             \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00572}00572                 \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a8a4f1cc840102ed0f76d79ed111ec3fb}{Apply}}();}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00573}00573             \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00574}00574             \textcolor{keywordflow}{if} (!\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a0b0506b31628601c4e517b1197c9bb94}{WasBlit}})}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00575}00575             \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00576}00576                 Private = Marshal.PtrToStructure<\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout}{Wow64ContextLayout}}>(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}});}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00577}00577                 \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a0b0506b31628601c4e517b1197c9bb94}{WasBlit}} = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00578}00578             \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00579}00579         \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00580}00580 }
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00581}00581        }
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00582}00582         \textcolor{keyword}{private} \textcolor{keywordtype}{bool} disposedValue;}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00583}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a0a6d4ac696ab6098246a87a3ebcc4491}{00583}}         \textcolor{keyword}{protected} \textcolor{keyword}{override} \textcolor{keywordtype}{void} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a0a6d4ac696ab6098246a87a3ebcc4491}{Dispose}}(\textcolor{keywordtype}{bool} disposing)}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00584}00584         \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00585}00585             \textcolor{keywordflow}{if} (!disposedValue)}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00586}00586             \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00587}00587                 \textcolor{keywordflow}{if} (\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}})}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00588}00588                 \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00589}00589                     NativeImports.NativeMethods.SimpleFree(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}});}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00590}00590                 \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00591}00591                 \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a4603e0d1ed0ba9bf17c2fa20d08efa67}{ClearNative}}();}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00592}00592                 disposedValue = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00593}00593             \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00594}00594         \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00595}00595 }
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00596}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a8a4f1cc840102ed0f76d79ed111ec3fb}{00596}}         \textcolor{keyword}{protected} \textcolor{keyword}{override} \textcolor{keywordtype}{void} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_a8a4f1cc840102ed0f76d79ed111ec3fb}{Apply}}()}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00597}00597         \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00598}00598             \textcolor{keywordflow}{if} ( (\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a09c17c6f529ca3920a1c56119daed14a}{StaleManagedStruct}}) \&\& (\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}} != IntPtr.Zero))}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00599}00599             \{}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00600}00600                 Marshal.StructureToPtr(Private, \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}, \textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00601}00601                 \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a09c17c6f529ca3920a1c56119daed14a}{StaleManagedStruct}} = \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00602}00602             \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00603}00603         \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00604}00604 }
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00605}00605         \mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context_layout}{Wow64ContextLayout}} Private;}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00606}00606     \}}
+\DoxyCodeLine{\Hypertarget{_wow64_context_8cs_source_l00607}00607 \}}
+
+\end{DoxyCode}

@@ -1,0 +1,114 @@
+\hypertarget{_thread_context_native_8cs_source}{}\doxysection{Thread\+Context\+Native.\+cs}
+\label{_thread_context_native_8cs_source}\index{NativeImports/Debugging/Thread/ThreadContextNative.cs@{NativeImports/Debugging/Thread/ThreadContextNative.cs}}
+\mbox{\hyperlink{_thread_context_native_8cs}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00001}00001 \textcolor{keyword}{using }System;}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00002}00002 \textcolor{keyword}{using }System.Collections.Generic;}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00003}00003 \textcolor{keyword}{using }System.Linq;}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00004}00004 \textcolor{keyword}{using }System.Runtime.InteropServices;}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00005}00005 \textcolor{keyword}{using }System.Runtime.InteropServices.ComTypes;}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00006}00006 \textcolor{keyword}{using }System.Text;}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00007}00007 \textcolor{keyword}{using }System.Threading.Tasks;}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00008}00008 \textcolor{keyword}{using }\mbox{\hyperlink{namespace_insight_sheath_1_1_wrappers}{InsightSheath.Wrappers}};}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00009}00009 \textcolor{keyword}{using }\mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_thread}{InsightSheath.Debugging.Thread}};}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00010}00010 }
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00011}00011 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespace_insight_sheath_1_1_native_imports}{InsightSheath.NativeImports}}}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00012}00012 \{}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00016}00016     \textcolor{keyword}{internal} \textcolor{keyword}{enum} ThreadConext\_Arguments: uint}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00017}00017     \{}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00018}00018         UseHandle = 0,}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00019}00019         UseThreadId = 1}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00020}00020     \}}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00021}00021 }
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00025}00025     \textcolor{keyword}{static} \textcolor{keyword}{class }ThreadContextInternal}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00026}00026     \{}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00034}00034         [DllImport(\textcolor{stringliteral}{"{}InsightApi.Dll"{}}, BestFitMapping = \textcolor{keyword}{false}, CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, EntryPoint = \textcolor{stringliteral}{"{}ThreadContext\_SetThreadDescriptionW"{}})]}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00035}00035         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keyword}{extern} \textcolor{keywordtype}{bool} ThreadContext\_SetTheadDescriptionW(IntPtr That, [MarshalAs(UnmanagedType.LPWStr)] \textcolor{keywordtype}{string} NewDescription);}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00042}00042         [DllImport(\textcolor{stringliteral}{"{}InsightApi.Dll"{}}, BestFitMapping = \textcolor{keyword}{false}, CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, EntryPoint = \textcolor{stringliteral}{"{}ThreadContext\_GetThreadDescriptionW"{}})]}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00043}00043         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keyword}{extern} \textcolor{keywordtype}{string} ThreadContext\_GetThreadDescriptionW(IntPtr that);}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00044}00044 }
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00052}00052         [DllImport(\textcolor{stringliteral}{"{}InsightApi.Dll"{}}, BestFitMapping = \textcolor{keyword}{false}, CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, EntryPoint = \textcolor{stringliteral}{"{}ThreadContext\_CreateInstance"{}})]}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00053}00053         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keyword}{extern} IntPtr ThreadContext\_CreateInstance(ulong HandleOrThreadId, uint Flags);}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00054}00054 }
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00061}00061         [DllImport(\textcolor{stringliteral}{"{}InsightApi.Dll"{}}, BestFitMapping = \textcolor{keyword}{false}, CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, EntryPoint = \textcolor{stringliteral}{"{}ThreadContext\_KillInstance"{}})]}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00062}00062         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keyword}{extern} \textcolor{keywordtype}{bool} ThreadContext\_KillInstance(IntPtr That);}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00063}00063 }
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00064}00064         [DllImport(\textcolor{stringliteral}{"{}InsightApi.Dll"{}}, BestFitMapping = \textcolor{keyword}{false}, CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, EntryPoint = \textcolor{stringliteral}{"{}ThreadContext\_SetTargetThread"{}})]}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00065}00065         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keyword}{extern} \textcolor{keywordtype}{bool} ThreadContext\_SetTargetThread(IntPtr That, IntPtr HandleOfThread, ThreadConext\_Arguments Flags);}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00066}00066 }
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00072}00072         [DllImport(\textcolor{stringliteral}{"{}InsightApi.Dll"{}}, BestFitMapping = \textcolor{keyword}{false}, CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, EntryPoint = \textcolor{stringliteral}{"{}ThreadContext\_GetPriority"{}})]}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00073}00073         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keyword}{extern} \textcolor{keywordtype}{int} ThreadContext\_GetPriority(IntPtr That);}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00074}00074 }
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00075}00075         [DllImport(\textcolor{stringliteral}{"{}InsightApi.Dll"{}}, BestFitMapping = \textcolor{keyword}{false}, CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, EntryPoint = \textcolor{stringliteral}{"{}ThreadContext\_SetPriority"{}})]}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00076}00076         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keyword}{extern} \textcolor{keywordtype}{bool} ThreadContext\_SetPriority(IntPtr That, \textcolor{keywordtype}{int} NewPriority);}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00077}00077 }
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00078}00078         [DllImport(\textcolor{stringliteral}{"{}InsightApi.Dll"{}}, BestFitMapping = \textcolor{keyword}{false}, CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, EntryPoint = \textcolor{stringliteral}{"{}ThreadContext\_DupInstance"{}})]}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00079}00079         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keyword}{extern} IntPtr ThreadContext\_DupInstance(IntPtr That);}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00080}00080 }
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00081}00081 }
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00082}00082         [DllImport(\textcolor{stringliteral}{"{}InsightApi.Dll"{}}, BestFitMapping = \textcolor{keyword}{false}, CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, EntryPoint = \textcolor{stringliteral}{"{}ThreadContext\_GetThreadTimeCreationTime"{}})]}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00083}00083         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keyword}{extern} IntPtr ThreadContext\_GetThreadTimeCreationTime(IntPtr That);}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00084}00084 }
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00085}00085         [DllImport(\textcolor{stringliteral}{"{}InsightApi.Dll"{}}, BestFitMapping = \textcolor{keyword}{false}, CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, EntryPoint = \textcolor{stringliteral}{"{}ThreadContext\_GetThreadTimeExitTime"{}})]}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00086}00086         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keyword}{extern} IntPtr ThreadContext\_GetThreadTimeExitTime(IntPtr That);}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00087}00087 }
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00088}00088         [DllImport(\textcolor{stringliteral}{"{}InsightApi.Dll"{}}, BestFitMapping = \textcolor{keyword}{false}, CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, EntryPoint = \textcolor{stringliteral}{"{}ThreadContext\_GetThreadTimeUserTime"{}})]}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00089}00089         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keyword}{extern} IntPtr ThreadContext\_GetThreadTimeUserTime(IntPtr That);}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00090}00090 }
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00091}00091         [DllImport(\textcolor{stringliteral}{"{}InsightApi.Dll"{}}, BestFitMapping = \textcolor{keyword}{false}, CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, EntryPoint = \textcolor{stringliteral}{"{}ThreadContext\_GetThreadTimeKernelTime"{}})]}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00092}00092         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keyword}{extern} IntPtr ThreadContext\_GetThreadTimeKernelTime(IntPtr That);}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00093}00093 }
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00099}00099         [DllImport(\textcolor{stringliteral}{"{}InsightApi.Dll"{}}, BestFitMapping = \textcolor{keyword}{false}, CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, EntryPoint = \textcolor{stringliteral}{"{}ThreadContext\_GetTargetThreadId"{}})]}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00100}00100         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keyword}{extern} uint ThreadContext\_GetTargetThreadId(IntPtr That);}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00101}00101 }
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00102}00102 }
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00103}00103         [DllImport(\textcolor{stringliteral}{"{}InsightApi.Dll"{}}, BestFitMapping = \textcolor{keyword}{false}, CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, EntryPoint = \textcolor{stringliteral}{"{}ThreadContext\_GetIdealProcessor"{}})]}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00104}00104         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keyword}{extern} uint ThreadContext\_GetIdealProcessor(IntPtr That);}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00105}00105 }
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00106}00106         }
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00107}00107         [DllImport(\textcolor{stringliteral}{"{}InsightApi.Dll"{}}, BestFitMapping = \textcolor{keyword}{false}, CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, EntryPoint = \textcolor{stringliteral}{"{}ThreadContext\_SetIdealProcessor"{}})]}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00108}00108         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keyword}{extern} uint ThreadContext\_SetIdealProcessor(IntPtr That, uint NewIdealProcessor);}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00109}00109 }
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00110}00110 }
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00111}00111         [DllImport(\textcolor{stringliteral}{"{}InsightApi.Dll"{}}, BestFitMapping = \textcolor{keyword}{false}, CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, EntryPoint = \textcolor{stringliteral}{"{}ThreadContext\_GetThreadPriorityBoostSetting"{}})]}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00112}00112         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keyword}{extern} \textcolor{keywordtype}{bool} ThreadContext\_GetThreadPriorityBoostSetting(IntPtr That);}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00113}00113 }
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00114}00114         [DllImport(\textcolor{stringliteral}{"{}InsightApi.Dll"{}}, BestFitMapping = \textcolor{keyword}{false}, CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, EntryPoint = \textcolor{stringliteral}{"{}ThreadContext\_SetThreadPriorityBoostSetting"{}})]}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00115}00115         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keyword}{extern} \textcolor{keywordtype}{bool} ThreadContext\_SetThreadPriorityBoostSetting(IntPtr That, \textcolor{keywordtype}{bool} EnablePriorityBoost);}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00116}00116 }
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00117}00117         [DllImport(\textcolor{stringliteral}{"{}InsightApi.Dll"{}}, BestFitMapping = \textcolor{keyword}{false}, CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, EntryPoint = \textcolor{stringliteral}{"{}ThreadContext\_GetThreadProcessAffinityMask"{}})]}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00118}00118         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keyword}{extern} uint ThreadContext\_GetThreadProcessAffinityMask(IntPtr That);}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00119}00119 }
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00120}00120 }
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00121}00121         [DllImport(\textcolor{stringliteral}{"{}InsightApi.Dll"{}}, BestFitMapping = \textcolor{keyword}{false}, CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, EntryPoint = \textcolor{stringliteral}{"{}ThreadContext\_SetThreadProcessAffinityMask"{}})]}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00122}00122         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keyword}{extern} uint ThreadContext\_SetThreadProcessAffinityMask(IntPtr That, uint NewIdealProcessor);}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00123}00123 }
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00124}00124         [DllImport(\textcolor{stringliteral}{"{}InsightApi.Dll"{}}, BestFitMapping = \textcolor{keyword}{false}, CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, EntryPoint = \textcolor{stringliteral}{"{}ThreadContext\_SuspendThread"{}})]}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00130}00130         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keyword}{extern} uint ThreadContext\_SuspendThread(IntPtr that);}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00131}00131 }
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00132}00132         [DllImport(\textcolor{stringliteral}{"{}InsightApi.Dll"{}}, BestFitMapping = \textcolor{keyword}{false}, CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, EntryPoint = \textcolor{stringliteral}{"{}ThreadContext\_ResumeThread"{}})]}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00138}00138         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keyword}{extern} uint ThreadContext\_ResumeThread(IntPtr that);}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00139}00139 }
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00140}00140         [DllImport(\textcolor{stringliteral}{"{}InsightApi.Dll"{}}, BestFitMapping = \textcolor{keyword}{false}, CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, EntryPoint = \textcolor{stringliteral}{"{}ThreadContext\_GetContext"{}})]}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00146}00146         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keyword}{extern} IntPtr ThreadContext\_GetContext(IntPtr that);}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00147}00147 }
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00148}00148 }
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00149}00149         [DllImport(\textcolor{stringliteral}{"{}InsightApi.Dll"{}}, BestFitMapping = \textcolor{keyword}{false}, CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, EntryPoint = \textcolor{stringliteral}{"{}ThreadContext\_SetContext"{}})]}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00156}00156         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keyword}{extern} \textcolor{keywordtype}{bool} ThreadContext\_SetContext(IntPtr that, IntPtr NewContext);}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00157}00157 }
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00158}00158 }
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00159}00159         [DllImport(\textcolor{stringliteral}{"{}InsightApi.Dll"{}}, BestFitMapping = \textcolor{keyword}{false}, CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, EntryPoint = \textcolor{stringliteral}{"{}ThreadContext\_GetWow64Context"{}})]}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00165}00165         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keyword}{extern} IntPtr ThreadContext\_GetWow64Context(IntPtr that);}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00166}00166 }
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00167}00167 }
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00168}00168 }
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00169}00169 }
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00170}00170         [DllImport(\textcolor{stringliteral}{"{}InsightApi.Dll"{}}, BestFitMapping = \textcolor{keyword}{false}, CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, EntryPoint = \textcolor{stringliteral}{"{}ThreadContext\_SetWow64Context"{}})]}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00176}00176         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keyword}{extern} \textcolor{keywordtype}{bool} ThreadContext\_SetWow64Context(IntPtr that, IntPtr NewContext);}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00177}00177 }
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00178}00178 }
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00179}00179 }
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00180}00180     \}}
+\DoxyCodeLine{\Hypertarget{_thread_context_native_8cs_source_l00181}00181 \}}
+
+\end{DoxyCode}

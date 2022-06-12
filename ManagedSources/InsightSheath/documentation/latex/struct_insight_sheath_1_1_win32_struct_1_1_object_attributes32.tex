@@ -1,0 +1,148 @@
+\hypertarget{struct_insight_sheath_1_1_win32_struct_1_1_object_attributes32}{}\doxysection{Insight\+Sheath.\+Win32\+Struct.\+Object\+Attributes32 Struct Reference}
+\label{struct_insight_sheath_1_1_win32_struct_1_1_object_attributes32}\index{InsightSheath.Win32Struct.ObjectAttributes32@{InsightSheath.Win32Struct.ObjectAttributes32}}
+
+
+This is the Object Attributes struct for a Wow / x86 bit process. Specs from   
+
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_object_attributes64}{Object\+Attributes64}} \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_object_attributes32_acbb860cf4e48528e07d239627e073a5d}{Promotion}} ()
+\begin{DoxyCompactList}\small\item\em Return a 64-\/bit version with the 32-\/bit values promoted to 64-\/bit. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+uint \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_object_attributes32_a52ae03b5dae88ae0620b15ccd9f171da}{Length}}
+\begin{DoxyCompactList}\small\item\em Length of the struct. For x86, a proper value is 24. \end{DoxyCompactList}\item 
+uint \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_object_attributes32_a3539d498c8e1c883c295c94e9342b3be}{Root\+Directory}}
+\begin{DoxyCompactList}\small\item\em 4 byte potentially 0 Handle value indicated the root that \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_object_attributes32_a8b1e24c54b5c311a729bc6841a7c1eef}{Object\+Name}} specifies. \end{DoxyCompactList}\item 
+uint \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_object_attributes32_a8b1e24c54b5c311a729bc6841a7c1eef}{Object\+Name}}
+\begin{DoxyCompactList}\small\item\em a 4 byte pointer to a \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string32}{Unicode\+String32}} struct. This is the name of the item this struct points too \end{DoxyCompactList}\item 
+uint \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_object_attributes32_ae8a917ab02a21d3f20c8cf56902aa929}{Attributes}}
+\begin{DoxyCompactList}\small\item\em 4 byte value indicating object attributes. \end{DoxyCompactList}\item 
+uint \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_object_attributes32_a53d54ab21479574dd1b718e9fe6a6546}{Security\+Descriptor}}
+\begin{DoxyCompactList}\small\item\em 4 byte pointer to the defined security descriptor. May be (null/0) if default is fine. \end{DoxyCompactList}\item 
+uint \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_object_attributes32_a1499b38f564cfd8fc6eb9b57873f542d}{Security\+QoS}}
+\begin{DoxyCompactList}\small\item\em 4 byte pointer to the defined security quality of service. May be (null/0) if default is fine. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+This is the Object Attributes struct for a Wow / x86 bit process. Specs from  
+
+For x86 (32-\/bit) processes, handles, pointers, uints are all 4 bytes long. This is not true for x64 processes and that\textquotesingle{}s why \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_object_attributes64}{Object\+Attributes64}} exists
+
+Definition at line \mbox{\hyperlink{_object_attributes__x86_8cs_source_l00017}{17}} of file \mbox{\hyperlink{_object_attributes__x86_8cs_source}{Object\+Attributes\+\_\+x86.\+cs}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{struct_insight_sheath_1_1_win32_struct_1_1_object_attributes32_acbb860cf4e48528e07d239627e073a5d}\label{struct_insight_sheath_1_1_win32_struct_1_1_object_attributes32_acbb860cf4e48528e07d239627e073a5d}} 
+\index{InsightSheath.Win32Struct.ObjectAttributes32@{InsightSheath.Win32Struct.ObjectAttributes32}!Promotion@{Promotion}}
+\index{Promotion@{Promotion}!InsightSheath.Win32Struct.ObjectAttributes32@{InsightSheath.Win32Struct.ObjectAttributes32}}
+\doxysubsubsection{\texorpdfstring{Promotion()}{Promotion()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_object_attributes64}{Object\+Attributes64}} Insight\+Sheath.\+Win32\+Struct.\+Object\+Attributes32.\+Promotion (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Return a 64-\/bit version with the 32-\/bit values promoted to 64-\/bit. 
+
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{_object_attributes__x86_8cs_source_l00048}{48}} of file \mbox{\hyperlink{_object_attributes__x86_8cs_source}{Object\+Attributes\+\_\+x86.\+cs}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{struct_insight_sheath_1_1_win32_struct_1_1_object_attributes32_ae8a917ab02a21d3f20c8cf56902aa929}\label{struct_insight_sheath_1_1_win32_struct_1_1_object_attributes32_ae8a917ab02a21d3f20c8cf56902aa929}} 
+\index{InsightSheath.Win32Struct.ObjectAttributes32@{InsightSheath.Win32Struct.ObjectAttributes32}!Attributes@{Attributes}}
+\index{Attributes@{Attributes}!InsightSheath.Win32Struct.ObjectAttributes32@{InsightSheath.Win32Struct.ObjectAttributes32}}
+\doxysubsubsection{\texorpdfstring{Attributes}{Attributes}}
+{\footnotesize\ttfamily uint Insight\+Sheath.\+Win32\+Struct.\+Object\+Attributes32.\+Attributes}
+
+
+
+4 byte value indicating object attributes. 
+
+
+
+Definition at line \mbox{\hyperlink{_object_attributes__x86_8cs_source_l00034}{34}} of file \mbox{\hyperlink{_object_attributes__x86_8cs_source}{Object\+Attributes\+\_\+x86.\+cs}}.
+
+\mbox{\Hypertarget{struct_insight_sheath_1_1_win32_struct_1_1_object_attributes32_a52ae03b5dae88ae0620b15ccd9f171da}\label{struct_insight_sheath_1_1_win32_struct_1_1_object_attributes32_a52ae03b5dae88ae0620b15ccd9f171da}} 
+\index{InsightSheath.Win32Struct.ObjectAttributes32@{InsightSheath.Win32Struct.ObjectAttributes32}!Length@{Length}}
+\index{Length@{Length}!InsightSheath.Win32Struct.ObjectAttributes32@{InsightSheath.Win32Struct.ObjectAttributes32}}
+\doxysubsubsection{\texorpdfstring{Length}{Length}}
+{\footnotesize\ttfamily uint Insight\+Sheath.\+Win32\+Struct.\+Object\+Attributes32.\+Length}
+
+
+
+Length of the struct. For x86, a proper value is 24. 
+
+
+
+Definition at line \mbox{\hyperlink{_object_attributes__x86_8cs_source_l00022}{22}} of file \mbox{\hyperlink{_object_attributes__x86_8cs_source}{Object\+Attributes\+\_\+x86.\+cs}}.
+
+\mbox{\Hypertarget{struct_insight_sheath_1_1_win32_struct_1_1_object_attributes32_a8b1e24c54b5c311a729bc6841a7c1eef}\label{struct_insight_sheath_1_1_win32_struct_1_1_object_attributes32_a8b1e24c54b5c311a729bc6841a7c1eef}} 
+\index{InsightSheath.Win32Struct.ObjectAttributes32@{InsightSheath.Win32Struct.ObjectAttributes32}!ObjectName@{ObjectName}}
+\index{ObjectName@{ObjectName}!InsightSheath.Win32Struct.ObjectAttributes32@{InsightSheath.Win32Struct.ObjectAttributes32}}
+\doxysubsubsection{\texorpdfstring{ObjectName}{ObjectName}}
+{\footnotesize\ttfamily uint Insight\+Sheath.\+Win32\+Struct.\+Object\+Attributes32.\+Object\+Name}
+
+
+
+a 4 byte pointer to a \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string32}{Unicode\+String32}} struct. This is the name of the item this struct points too 
+
+
+
+Definition at line \mbox{\hyperlink{_object_attributes__x86_8cs_source_l00030}{30}} of file \mbox{\hyperlink{_object_attributes__x86_8cs_source}{Object\+Attributes\+\_\+x86.\+cs}}.
+
+\mbox{\Hypertarget{struct_insight_sheath_1_1_win32_struct_1_1_object_attributes32_a3539d498c8e1c883c295c94e9342b3be}\label{struct_insight_sheath_1_1_win32_struct_1_1_object_attributes32_a3539d498c8e1c883c295c94e9342b3be}} 
+\index{InsightSheath.Win32Struct.ObjectAttributes32@{InsightSheath.Win32Struct.ObjectAttributes32}!RootDirectory@{RootDirectory}}
+\index{RootDirectory@{RootDirectory}!InsightSheath.Win32Struct.ObjectAttributes32@{InsightSheath.Win32Struct.ObjectAttributes32}}
+\doxysubsubsection{\texorpdfstring{RootDirectory}{RootDirectory}}
+{\footnotesize\ttfamily uint Insight\+Sheath.\+Win32\+Struct.\+Object\+Attributes32.\+Root\+Directory}
+
+
+
+4 byte potentially 0 Handle value indicated the root that \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_object_attributes32_a8b1e24c54b5c311a729bc6841a7c1eef}{Object\+Name}} specifies. 
+
+
+
+Definition at line \mbox{\hyperlink{_object_attributes__x86_8cs_source_l00026}{26}} of file \mbox{\hyperlink{_object_attributes__x86_8cs_source}{Object\+Attributes\+\_\+x86.\+cs}}.
+
+\mbox{\Hypertarget{struct_insight_sheath_1_1_win32_struct_1_1_object_attributes32_a53d54ab21479574dd1b718e9fe6a6546}\label{struct_insight_sheath_1_1_win32_struct_1_1_object_attributes32_a53d54ab21479574dd1b718e9fe6a6546}} 
+\index{InsightSheath.Win32Struct.ObjectAttributes32@{InsightSheath.Win32Struct.ObjectAttributes32}!SecurityDescriptor@{SecurityDescriptor}}
+\index{SecurityDescriptor@{SecurityDescriptor}!InsightSheath.Win32Struct.ObjectAttributes32@{InsightSheath.Win32Struct.ObjectAttributes32}}
+\doxysubsubsection{\texorpdfstring{SecurityDescriptor}{SecurityDescriptor}}
+{\footnotesize\ttfamily uint Insight\+Sheath.\+Win32\+Struct.\+Object\+Attributes32.\+Security\+Descriptor}
+
+
+
+4 byte pointer to the defined security descriptor. May be (null/0) if default is fine. 
+
+
+
+Definition at line \mbox{\hyperlink{_object_attributes__x86_8cs_source_l00038}{38}} of file \mbox{\hyperlink{_object_attributes__x86_8cs_source}{Object\+Attributes\+\_\+x86.\+cs}}.
+
+\mbox{\Hypertarget{struct_insight_sheath_1_1_win32_struct_1_1_object_attributes32_a1499b38f564cfd8fc6eb9b57873f542d}\label{struct_insight_sheath_1_1_win32_struct_1_1_object_attributes32_a1499b38f564cfd8fc6eb9b57873f542d}} 
+\index{InsightSheath.Win32Struct.ObjectAttributes32@{InsightSheath.Win32Struct.ObjectAttributes32}!SecurityQoS@{SecurityQoS}}
+\index{SecurityQoS@{SecurityQoS}!InsightSheath.Win32Struct.ObjectAttributes32@{InsightSheath.Win32Struct.ObjectAttributes32}}
+\doxysubsubsection{\texorpdfstring{SecurityQoS}{SecurityQoS}}
+{\footnotesize\ttfamily uint Insight\+Sheath.\+Win32\+Struct.\+Object\+Attributes32.\+Security\+QoS}
+
+
+
+4 byte pointer to the defined security quality of service. May be (null/0) if default is fine. 
+
+
+
+Definition at line \mbox{\hyperlink{_object_attributes__x86_8cs_source_l00042}{42}} of file \mbox{\hyperlink{_object_attributes__x86_8cs_source}{Object\+Attributes\+\_\+x86.\+cs}}.
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Win32\+Struct/\mbox{\hyperlink{_object_attributes__x86_8cs}{Object\+Attributes\+\_\+x86.\+cs}}\end{DoxyCompactItemize}

@@ -1,0 +1,47 @@
+\hypertarget{_reference_counter_8cs_source}{}\doxysection{Reference\+Counter.\+cs}
+\label{_reference_counter_8cs_source}\index{Misc/ReferenceCounter.cs@{Misc/ReferenceCounter.cs}}
+\mbox{\hyperlink{_reference_counter_8cs}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_reference_counter_8cs_source_l00001}00001 \textcolor{keyword}{using }System;}
+\DoxyCodeLine{\Hypertarget{_reference_counter_8cs_source_l00002}00002 \textcolor{keyword}{using }System.Collections.Generic;}
+\DoxyCodeLine{\Hypertarget{_reference_counter_8cs_source_l00003}00003 \textcolor{keyword}{using }System.Linq;}
+\DoxyCodeLine{\Hypertarget{_reference_counter_8cs_source_l00004}00004 \textcolor{keyword}{using }System.Text;}
+\DoxyCodeLine{\Hypertarget{_reference_counter_8cs_source_l00005}00005 \textcolor{keyword}{using }System.Threading.Tasks;}
+\DoxyCodeLine{\Hypertarget{_reference_counter_8cs_source_l00006}00006 }
+\DoxyCodeLine{\Hypertarget{_reference_counter_8cs_source_l00007}00007 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespace_insight_sheath_1_1_misc}{InsightSheath.Misc}}}
+\DoxyCodeLine{\Hypertarget{_reference_counter_8cs_source_l00008}00008 \{}
+\DoxyCodeLine{\Hypertarget{_reference_counter_8cs_source_l00026}\mbox{\hyperlink{class_insight_sheath_1_1_misc_1_1_reference_counter}{00026}}     \textcolor{keyword}{public} \textcolor{keyword}{class }\mbox{\hyperlink{class_insight_sheath_1_1_misc_1_1_reference_counter}{ReferenceCounter}}}
+\DoxyCodeLine{\Hypertarget{_reference_counter_8cs_source_l00027}00027     \{}
+\DoxyCodeLine{\Hypertarget{_reference_counter_8cs_source_l00028}\mbox{\hyperlink{class_insight_sheath_1_1_misc_1_1_reference_counter_af622a95ff4d0fcbf7470227f3613201d}{00028}}         \textcolor{keyword}{public} ulong \mbox{\hyperlink{class_insight_sheath_1_1_misc_1_1_reference_counter_af622a95ff4d0fcbf7470227f3613201d}{AddRef}}()}
+\DoxyCodeLine{\Hypertarget{_reference_counter_8cs_source_l00029}00029         \{}
+\DoxyCodeLine{\Hypertarget{_reference_counter_8cs_source_l00030}00030             \textcolor{keywordflow}{if} (RefContainer != ulong.MaxValue)}
+\DoxyCodeLine{\Hypertarget{_reference_counter_8cs_source_l00031}00031                 RefContainer++;}
+\DoxyCodeLine{\Hypertarget{_reference_counter_8cs_source_l00032}00032             \textcolor{keywordflow}{return} RefContainer;}
+\DoxyCodeLine{\Hypertarget{_reference_counter_8cs_source_l00033}00033         \}}
+\DoxyCodeLine{\Hypertarget{_reference_counter_8cs_source_l00034}00034 }
+\DoxyCodeLine{\Hypertarget{_reference_counter_8cs_source_l00035}\mbox{\hyperlink{class_insight_sheath_1_1_misc_1_1_reference_counter_a10924ef0fa8993d1bb13d8e5c0e11705}{00035}}         \textcolor{keyword}{public} ulong \mbox{\hyperlink{class_insight_sheath_1_1_misc_1_1_reference_counter_a10924ef0fa8993d1bb13d8e5c0e11705}{DecRef}}()}
+\DoxyCodeLine{\Hypertarget{_reference_counter_8cs_source_l00036}00036         \{}
+\DoxyCodeLine{\Hypertarget{_reference_counter_8cs_source_l00037}00037             \textcolor{keywordflow}{if} (RefContainer != ulong.MinValue)}
+\DoxyCodeLine{\Hypertarget{_reference_counter_8cs_source_l00038}00038                 RefContainer-\/-\/;}
+\DoxyCodeLine{\Hypertarget{_reference_counter_8cs_source_l00039}00039             \textcolor{keywordflow}{return} RefContainer;}
+\DoxyCodeLine{\Hypertarget{_reference_counter_8cs_source_l00040}00040         \}}
+\DoxyCodeLine{\Hypertarget{_reference_counter_8cs_source_l00041}00041 }
+\DoxyCodeLine{\Hypertarget{_reference_counter_8cs_source_l00042}\mbox{\hyperlink{class_insight_sheath_1_1_misc_1_1_reference_counter_af289415a46a2de93759f104f8f97c85d}{00042}}         \textcolor{keyword}{public} ulong \mbox{\hyperlink{class_insight_sheath_1_1_misc_1_1_reference_counter_af289415a46a2de93759f104f8f97c85d}{Ref}}}
+\DoxyCodeLine{\Hypertarget{_reference_counter_8cs_source_l00043}00043         \{}
+\DoxyCodeLine{\Hypertarget{_reference_counter_8cs_source_l00044}00044             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_reference_counter_8cs_source_l00045}00045             \{}
+\DoxyCodeLine{\Hypertarget{_reference_counter_8cs_source_l00046}00046                 \textcolor{keywordflow}{return} RefContainer;}
+\DoxyCodeLine{\Hypertarget{_reference_counter_8cs_source_l00047}00047             \}}
+\DoxyCodeLine{\Hypertarget{_reference_counter_8cs_source_l00048}00048             \textcolor{keyword}{set}}
+\DoxyCodeLine{\Hypertarget{_reference_counter_8cs_source_l00049}00049             \{}
+\DoxyCodeLine{\Hypertarget{_reference_counter_8cs_source_l00050}00050                 RefContainer = value;}
+\DoxyCodeLine{\Hypertarget{_reference_counter_8cs_source_l00051}00051             \}}
+\DoxyCodeLine{\Hypertarget{_reference_counter_8cs_source_l00052}00052         \}}
+\DoxyCodeLine{\Hypertarget{_reference_counter_8cs_source_l00053}00053 }
+\DoxyCodeLine{\Hypertarget{_reference_counter_8cs_source_l00054}00054         \textcolor{keyword}{private} ulong RefContainer;}
+\DoxyCodeLine{\Hypertarget{_reference_counter_8cs_source_l00055}00055 }
+\DoxyCodeLine{\Hypertarget{_reference_counter_8cs_source_l00056}00056         }
+\DoxyCodeLine{\Hypertarget{_reference_counter_8cs_source_l00057}00057     \}}
+\DoxyCodeLine{\Hypertarget{_reference_counter_8cs_source_l00058}00058 \}}
+
+\end{DoxyCode}

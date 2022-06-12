@@ -69,26 +69,45 @@ namespace InsightSheath.Win32Struct
         /// <returns></returns>
         public static StartupInfoExW MakeInstance()
         {
-            return null;
+            return new StartupInfoExW(InternalStartupInfoExW.StartupInfoWrapper_MakeInstance());
         }
+
+        /// <summary>
+        /// Make an instance of the wrapper class for this unamanged non-null native pointer.
+        /// </summary>
+        /// <param name="Native">Non null native poionter</param>
         public StartupInfoExW(IntPtr Native): base(Native)
         {
-
+            if (Native == IntPtr.Zero)
+            {
+                throw WrapperConstructorReceivedNullPointerErrorException("ERROR", "StartupInfoExW.MakeInstance", nameof(Native));
+            }
         }
-
-        public StartupInfoExW(IntPtr Native, bool FreeConCleanup): base(Native, FreeConCleanup)
+        /// <summary>
+        /// Make an instance of the wrapper class for this unamanged non-null native pointer.
+        /// </summary>
+        /// <param name="Native">Non null native poionter</param>
+        /// <param name="FreeonCleanup">Indicate if we're calling the unmanaged routine to delete this or non on GC collection</param>
+        public StartupInfoExW(IntPtr Native, bool FreeonCleanup): base(Native, FreeonCleanup)
         {
-
+            if (Native == IntPtr.Zero)
+            {
+                throw WrapperConstructorReceivedNullPointerErrorException("ERROR", "StartupInfoExW.MakeInstance", nameof(Native));
+            }
         }
 
         private bool disposedValue;
+        /// <summary>
+        /// Call the appropriate unamanged routine to clean up this class.
+        /// </summary>
+        /// <param name="disposing">true if disposing of managed resources also.</param>
         protected override void Dispose(bool disposing)
         {
             if (!disposedValue)
             {
                 if (FreeOnCleanup)
                 {
-                    StartupInfoExWInternal.StartupInfoWrapper_DeleteInstance(Native);
+                    InternalStartupInfoExW.StartupInfoWrapper_DeleteInstance(Native);
                     ClearNative();
                 }
                 disposedValue = true;
@@ -104,7 +123,7 @@ namespace InsightSheath.Win32Struct
         {
             get
             {
-                IntPtr ret = StartupInfoExWInternal.StartupInfoWrapper_GetDesktop(Native);
+                IntPtr ret = InternalStartupInfoExW.StartupInfoWrapper_GetDesktop(Native);
                 if (ret != IntPtr.Zero)
                 {
                     return Marshal.PtrToStringUni(ret);
@@ -113,7 +132,7 @@ namespace InsightSheath.Win32Struct
             }
             set
             {
-                StartupInfoExWInternal.StartupInfoWrapper_SetDesktop(Native, value);
+                InternalStartupInfoExW.StartupInfoWrapper_SetDesktop(Native, value);
             }
         }
 
@@ -124,7 +143,7 @@ namespace InsightSheath.Win32Struct
         {
             get
             {
-                IntPtr ret = StartupInfoExWInternal.StartupInfoWrapper_GetTitle(Native);
+                IntPtr ret = InternalStartupInfoExW.StartupInfoWrapper_GetTitle(Native);
                 if (ret != IntPtr.Zero)
                 {
                     return Marshal.PtrToStringUni(ret);
@@ -133,7 +152,7 @@ namespace InsightSheath.Win32Struct
             }
             set
             {
-                StartupInfoExWInternal.StartupInfoWrapper_SetTitle(Native, value);
+                InternalStartupInfoExW.StartupInfoWrapper_SetTitle(Native, value);
             }
         }
 
@@ -144,7 +163,7 @@ namespace InsightSheath.Win32Struct
         {
             get
             {
-                return StartupInfoExWInternal.StartupInfoWrapper_GetdwX(Native);
+                return InternalStartupInfoExW.StartupInfoWrapper_GetdwX(Native);
             }
             set
             {
@@ -152,7 +171,7 @@ namespace InsightSheath.Win32Struct
                 {
                     Flags |= StartupInfoExW_Flags.Startf_UsePosition ;
                 }
-                StartupInfoExWInternal.StartupInfoWrapper_SetdwX(Native, value);
+                InternalStartupInfoExW.StartupInfoWrapper_SetdwX(Native, value);
             }
         }
 
@@ -163,7 +182,7 @@ namespace InsightSheath.Win32Struct
         {
             get
             {
-                return StartupInfoExWInternal.StartupInfoWrapper_GetdwY(Native);
+                return InternalStartupInfoExW.StartupInfoWrapper_GetdwY(Native);
             }
             set
             {
@@ -171,7 +190,7 @@ namespace InsightSheath.Win32Struct
                 {
                     Flags |= StartupInfoExW_Flags.Startf_UseSize;
                 }
-                StartupInfoExWInternal.StartupInfoWrapper_SetdwY(Native, value);
+                InternalStartupInfoExW.StartupInfoWrapper_SetdwY(Native, value);
             }
         }
 
@@ -182,7 +201,7 @@ namespace InsightSheath.Win32Struct
         {
             get
             {
-                return StartupInfoExWInternal.StartupInfoWrapper_GetXSize(Native);
+                return InternalStartupInfoExW.StartupInfoWrapper_GetXSize(Native);
             }
             set
             {
@@ -190,7 +209,7 @@ namespace InsightSheath.Win32Struct
                 {
                     Flags |= StartupInfoExW_Flags.Startf_UseSize;
                 }
-                StartupInfoExWInternal.StartupInfoWrapper_SetXSize(Native, value);
+                InternalStartupInfoExW.StartupInfoWrapper_SetXSize(Native, value);
             }
         }
 
@@ -202,7 +221,7 @@ namespace InsightSheath.Win32Struct
         {
             get
             {
-                return StartupInfoExWInternal.StartupInfoWrapper_GetYSize(Native);
+                return InternalStartupInfoExW.StartupInfoWrapper_GetYSize(Native);
             }
             set
             {
@@ -210,7 +229,7 @@ namespace InsightSheath.Win32Struct
                 {
                     Flags |= StartupInfoExW_Flags.Startf_UseCountChars;
                 }
-                StartupInfoExWInternal.StartupInfoWrapper_SetYSize(Native, value);
+                InternalStartupInfoExW.StartupInfoWrapper_SetYSize(Native, value);
             }
         }
 
@@ -221,7 +240,7 @@ namespace InsightSheath.Win32Struct
         {
             get
             {
-                return StartupInfoExWInternal.StartupInfoWrapper_GetdwXCountChars(Native);
+                return InternalStartupInfoExW.StartupInfoWrapper_GetdwXCountChars(Native);
             }
             set
             {
@@ -229,7 +248,7 @@ namespace InsightSheath.Win32Struct
                 {
                     Flags |= StartupInfoExW_Flags.Startf_UseCountChars;
                 }
-                StartupInfoExWInternal.StartupInfoWrapper_SetdwXCountChars(Native, value);
+                InternalStartupInfoExW.StartupInfoWrapper_SetdwXCountChars(Native, value);
             }
         }
         /// <summary>
@@ -239,11 +258,11 @@ namespace InsightSheath.Win32Struct
         {
             get
             {
-                return StartupInfoExWInternal.StartupInfoWrapper_GetdwYCountChars(Native);
+                return InternalStartupInfoExW.StartupInfoWrapper_GetdwYCountChars(Native);
             }
             set
             {
-                StartupInfoExWInternal.StartupInfoWrapper_SetdwYCountChars(Native, value);
+                InternalStartupInfoExW.StartupInfoWrapper_SetdwYCountChars(Native, value);
             }
         }
 
@@ -254,7 +273,7 @@ namespace InsightSheath.Win32Struct
         {
             get
             {
-                return StartupInfoExWInternal.StartupInfo_GetdwFillAttributes(Native);
+                return InternalStartupInfoExW.StartupInfo_GetdwFillAttributes(Native);
             }
             set
             {
@@ -262,7 +281,7 @@ namespace InsightSheath.Win32Struct
                 {
                     Flags |= StartupInfoExW_Flags.Startf_UseFillAttribute;
                 }
-                StartupInfoExWInternal.StartupInfo_SetdwFillAttribute(Native, value);
+                InternalStartupInfoExW.StartupInfo_SetdwFillAttribute(Native, value);
             }
         }
 
@@ -273,11 +292,11 @@ namespace InsightSheath.Win32Struct
         {
             get
             {
-                return (StartupInfoExW_Flags)StartupInfoExWInternal.StartupInfo_GetdwFlags(Native);
+                return (StartupInfoExW_Flags)InternalStartupInfoExW.StartupInfo_GetdwFlags(Native);
             }
             set
             {
-                StartupInfoExWInternal.StartupInfo_SetdwFlags(Native, (uint)value);
+                InternalStartupInfoExW.StartupInfo_SetdwFlags(Native, (uint)value);
             }
         }
         /// <summary>
@@ -287,7 +306,7 @@ namespace InsightSheath.Win32Struct
         {
             get
             {
-                return (StartupInfoExW_ShowWindow)StartupInfoExWInternal.StartupInfo_GetShowWindow(Native);
+                return (StartupInfoExW_ShowWindow)InternalStartupInfoExW.StartupInfo_GetShowWindow(Native);
             }
             set
             {
@@ -295,7 +314,7 @@ namespace InsightSheath.Win32Struct
                 {
                     Flags |= StartupInfoExW_Flags.Startf_UseShowWindow;
                 }
-                StartupInfoExWInternal.StartupInfo_SetShowWindow(Native, (ushort) value);
+                InternalStartupInfoExW.StartupInfo_SetShowWindow(Native, (ushort) value);
             }
         }
 
@@ -306,11 +325,11 @@ namespace InsightSheath.Win32Struct
         {
             get
             {
-                return StartupInfoExWInternal.StartupInfo_GetStdInput(Native);
+                return InternalStartupInfoExW.StartupInfo_GetStdInput(Native);
             }
             set
             {
-                StartupInfoExWInternal.StartupInfo_SetStdInput(Native, value);
+                InternalStartupInfoExW.StartupInfo_SetStdInput(Native, value);
             }
         }
 
@@ -321,7 +340,7 @@ namespace InsightSheath.Win32Struct
         {
             get
             {
-                return StartupInfoExWInternal.StartupInfo_GetStdOutput(Native);
+                return InternalStartupInfoExW.StartupInfo_GetStdOutput(Native);
             }
             set
             {
@@ -329,7 +348,7 @@ namespace InsightSheath.Win32Struct
                 {
                     Flags |= StartupInfoExW_Flags.Startf_UseStdHandles;
                 }
-                StartupInfoExWInternal.StartupInfo_SetStdOutput(Native, value);
+                InternalStartupInfoExW.StartupInfo_SetStdOutput(Native, value);
             }
         }
 
@@ -341,7 +360,7 @@ namespace InsightSheath.Win32Struct
         {
             get
             {
-                return StartupInfoExWInternal.StartupInfo_GetStdError(Native);
+                return InternalStartupInfoExW.StartupInfo_GetStdError(Native);
             }
             set
             {
@@ -349,7 +368,7 @@ namespace InsightSheath.Win32Struct
                 {
                     Flags |= StartupInfoExW_Flags.Startf_UseStdHandles;
                 }
-                StartupInfoExWInternal.StartupInfo_SetStdError(Native, value);
+                InternalStartupInfoExW.StartupInfo_SetStdError(Native, value);
             }
 
         }
@@ -369,6 +388,9 @@ namespace InsightSheath.Win32Struct
                 FlagSetterContainer = value;
             }
         }
+        /// <summary>
+        /// Protected variable that <see cref="FlagSetterHelper"/> accesses.
+        /// </summary>
         protected bool FlagSetterContainer;
     }
 }

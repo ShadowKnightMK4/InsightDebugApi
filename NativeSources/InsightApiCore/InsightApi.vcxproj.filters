@@ -163,6 +163,9 @@
     <Filter Include="Source Files\C Level Struct Wrappers">
       <UniqueIdentifier>{5b64991a-cc67-4951-88f7-30eb8374de33}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\DetoursExtras">
+      <UniqueIdentifier>{c812f9f3-4794-4314-85ab-cc319ca34a4e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="NamingScheme.txt" />
@@ -170,6 +173,9 @@
   <ItemGroup>
     <None Include="Exports.def">
       <Filter>DllExportStuff</Filter>
+    </None>
+    <None Include="DetoursExt.cpp">
+      <Filter>Source Files\DetoursExtras</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

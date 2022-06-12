@@ -1,0 +1,253 @@
+\hypertarget{class_insight_sheath_1_1_win32_struct_1_1_windows_object_attributes}{}\doxysection{Insight\+Sheath.\+Win32\+Struct.\+Windows\+Object\+Attributes Class Reference}
+\label{class_insight_sheath_1_1_win32_struct_1_1_windows_object_attributes}\index{InsightSheath.Win32Struct.WindowsObjectAttributes@{InsightSheath.Win32Struct.WindowsObjectAttributes}}
+
+
+made from specs here   
+
+
+Inheritance diagram for Insight\+Sheath.\+Win32\+Struct.\+Windows\+Object\+Attributes\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=5.000000cm]{class_insight_sheath_1_1_win32_struct_1_1_windows_object_attributes}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_object_attributes_a300b1df9f616fb2f80227ba3faf5479d}{Windows\+Object\+Attributes}} (Int\+Ptr \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}})
+\item 
+\mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_object_attributes_a8d583dd7f6ce17d3d9d7a29a210b780f}{Windows\+Object\+Attributes}} (Int\+Ptr \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}, bool \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{Free\+On\+Cleanup}})
+\item 
+\mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_object_attributes_a5e573370134980d6cb3243f32afe152d}{Windows\+Object\+Attributes}} (Int\+Ptr \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}, bool \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{Free\+On\+Cleanup}}, \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129}{Struct\+Mode\+Type}} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a9b56ba82d073acce64844a2011e97508}{Struct\+Type}})
+\item 
+\mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_object_attributes_a8ea1f113a202c6d0feda1753442cf7a2}{Windows\+Object\+Attributes}} (Int\+Ptr \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}, \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129}{Struct\+Mode\+Type}} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a9b56ba82d073acce64844a2011e97508}{Struct\+Type}})
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+override void \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_object_attributes_aace7d3a113243af62e5ea62356e74abd}{Dispose}} (bool disposing)
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_object_attributes}{Windows\+Object\+Attributes}} cleanup. We need to call the current native routine to cleanup and clear the cleanup flag so we don\textquotesingle{}t delete mememory already deleted \end{DoxyCompactList}\item 
+override void \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_object_attributes_a4cf277a98a71629136e600989549408e}{Blit}} ()
+\begin{DoxyCompactList}\small\item\em This code should marshal the relevant struct from the native pointer if \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a0b0506b31628601c4e517b1197c9bb94}{Was\+Blit}} is not set and set afterwards. Accessors should call this each time they are called to retrieve values. Additionally, if the .NET struct will need to make changes to the land, you\textquotesingle{}re going to need to call \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_object_attributes_a648d815bcdb573b98a88bb41bf32b5ef}{Apply}} BEFORE reading the managed struct. Not doing this will revert your changes on the managed side to the equivalent native values. \end{DoxyCompactList}\item 
+override void \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_object_attributes_a648d815bcdb573b98a88bb41bf32b5ef}{Apply}} ()
+\begin{DoxyCompactList}\small\item\em Not currently implemented \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+ulong \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_object_attributes_a44acdf3270185700008fe8bb0298b527}{Length}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Retrieve the length value of the structure on the native size. \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a1b82320dc9e7ae327eac5c277995a96b}{Struct\+Type\+Container}} must be set to something other than \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129ae1aeeb4a7efba7b23e8994f9c12ca39c}{Struct\+Mode\+Type.\+Machine\+Unknown}} \end{DoxyCompactList}\item 
+Int\+Ptr \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_object_attributes_afd9d331721c0022cb368f18591c8a73b}{Root\+Directory}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Retrieve the handle value of the structure on the native size. 4 byte values are already promoted to 8 bytes long when returned. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string}{Windows\+Unicode\+String}} \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_object_attributes_a1de428b0fbbdff4120434c3f4f2eb127}{Object\+Name}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Retrieve (and set the current \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129}{Struct\+Mode\+Type}} for the current Unicode\+String structure pointed to. Can return null if that\textquotesingle{}s not set \end{DoxyCompactList}\item 
+uint \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_object_attributes_a0061501feb50b82301a15daf9d4d180a}{Attributes}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Return the object attributes of the native struct. \end{DoxyCompactList}\item 
+Int\+Ptr \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_object_attributes_a9174e2c44fcd219caee11c9f3c0192b2}{Security\+Descriptor}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Return a pointer to the security descriptor (may be not be relative to Your process.  to read the data. \end{DoxyCompactList}\item 
+Int\+Ptr \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_object_attributes_ae7aa217d3f9d518929ecce4b8b31f955}{Security\+Quality\+Of\+Service}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Return a pointer to the security quality of service struct (may be not be relative to Your process.  to read the data. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+made from specs here  
+
+Definition at line \mbox{\hyperlink{_windows_object_attributes_8cs_source_l00019}{19}} of file \mbox{\hyperlink{_windows_object_attributes_8cs_source}{Windows\+Object\+Attributes.\+cs}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_insight_sheath_1_1_win32_struct_1_1_windows_object_attributes_a300b1df9f616fb2f80227ba3faf5479d}\label{class_insight_sheath_1_1_win32_struct_1_1_windows_object_attributes_a300b1df9f616fb2f80227ba3faf5479d}} 
+\index{InsightSheath.Win32Struct.WindowsObjectAttributes@{InsightSheath.Win32Struct.WindowsObjectAttributes}!WindowsObjectAttributes@{WindowsObjectAttributes}}
+\index{WindowsObjectAttributes@{WindowsObjectAttributes}!InsightSheath.Win32Struct.WindowsObjectAttributes@{InsightSheath.Win32Struct.WindowsObjectAttributes}}
+\doxysubsubsection{\texorpdfstring{WindowsObjectAttributes()}{WindowsObjectAttributes()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily Insight\+Sheath.\+Win32\+Struct.\+Windows\+Object\+Attributes.\+Windows\+Object\+Attributes (\begin{DoxyParamCaption}\item[{Int\+Ptr}]{Native }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line \mbox{\hyperlink{_windows_object_attributes_8cs_source_l00021}{21}} of file \mbox{\hyperlink{_windows_object_attributes_8cs_source}{Windows\+Object\+Attributes.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_win32_struct_1_1_windows_object_attributes_a8d583dd7f6ce17d3d9d7a29a210b780f}\label{class_insight_sheath_1_1_win32_struct_1_1_windows_object_attributes_a8d583dd7f6ce17d3d9d7a29a210b780f}} 
+\index{InsightSheath.Win32Struct.WindowsObjectAttributes@{InsightSheath.Win32Struct.WindowsObjectAttributes}!WindowsObjectAttributes@{WindowsObjectAttributes}}
+\index{WindowsObjectAttributes@{WindowsObjectAttributes}!InsightSheath.Win32Struct.WindowsObjectAttributes@{InsightSheath.Win32Struct.WindowsObjectAttributes}}
+\doxysubsubsection{\texorpdfstring{WindowsObjectAttributes()}{WindowsObjectAttributes()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily Insight\+Sheath.\+Win32\+Struct.\+Windows\+Object\+Attributes.\+Windows\+Object\+Attributes (\begin{DoxyParamCaption}\item[{Int\+Ptr}]{Native,  }\item[{bool}]{Free\+On\+Cleanup }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line \mbox{\hyperlink{_windows_object_attributes_8cs_source_l00026}{26}} of file \mbox{\hyperlink{_windows_object_attributes_8cs_source}{Windows\+Object\+Attributes.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_win32_struct_1_1_windows_object_attributes_a5e573370134980d6cb3243f32afe152d}\label{class_insight_sheath_1_1_win32_struct_1_1_windows_object_attributes_a5e573370134980d6cb3243f32afe152d}} 
+\index{InsightSheath.Win32Struct.WindowsObjectAttributes@{InsightSheath.Win32Struct.WindowsObjectAttributes}!WindowsObjectAttributes@{WindowsObjectAttributes}}
+\index{WindowsObjectAttributes@{WindowsObjectAttributes}!InsightSheath.Win32Struct.WindowsObjectAttributes@{InsightSheath.Win32Struct.WindowsObjectAttributes}}
+\doxysubsubsection{\texorpdfstring{WindowsObjectAttributes()}{WindowsObjectAttributes()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily Insight\+Sheath.\+Win32\+Struct.\+Windows\+Object\+Attributes.\+Windows\+Object\+Attributes (\begin{DoxyParamCaption}\item[{Int\+Ptr}]{Native,  }\item[{bool}]{Free\+On\+Cleanup,  }\item[{\mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129}{Struct\+Mode\+Type}}}]{Struct\+Type }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line \mbox{\hyperlink{_windows_object_attributes_8cs_source_l00031}{31}} of file \mbox{\hyperlink{_windows_object_attributes_8cs_source}{Windows\+Object\+Attributes.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_win32_struct_1_1_windows_object_attributes_a8ea1f113a202c6d0feda1753442cf7a2}\label{class_insight_sheath_1_1_win32_struct_1_1_windows_object_attributes_a8ea1f113a202c6d0feda1753442cf7a2}} 
+\index{InsightSheath.Win32Struct.WindowsObjectAttributes@{InsightSheath.Win32Struct.WindowsObjectAttributes}!WindowsObjectAttributes@{WindowsObjectAttributes}}
+\index{WindowsObjectAttributes@{WindowsObjectAttributes}!InsightSheath.Win32Struct.WindowsObjectAttributes@{InsightSheath.Win32Struct.WindowsObjectAttributes}}
+\doxysubsubsection{\texorpdfstring{WindowsObjectAttributes()}{WindowsObjectAttributes()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily Insight\+Sheath.\+Win32\+Struct.\+Windows\+Object\+Attributes.\+Windows\+Object\+Attributes (\begin{DoxyParamCaption}\item[{Int\+Ptr}]{Native,  }\item[{\mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129}{Struct\+Mode\+Type}}}]{Struct\+Type }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line \mbox{\hyperlink{_windows_object_attributes_8cs_source_l00035}{35}} of file \mbox{\hyperlink{_windows_object_attributes_8cs_source}{Windows\+Object\+Attributes.\+cs}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_insight_sheath_1_1_win32_struct_1_1_windows_object_attributes_a648d815bcdb573b98a88bb41bf32b5ef}\label{class_insight_sheath_1_1_win32_struct_1_1_windows_object_attributes_a648d815bcdb573b98a88bb41bf32b5ef}} 
+\index{InsightSheath.Win32Struct.WindowsObjectAttributes@{InsightSheath.Win32Struct.WindowsObjectAttributes}!Apply@{Apply}}
+\index{Apply@{Apply}!InsightSheath.Win32Struct.WindowsObjectAttributes@{InsightSheath.Win32Struct.WindowsObjectAttributes}}
+\doxysubsubsection{\texorpdfstring{Apply()}{Apply()}}
+{\footnotesize\ttfamily override void Insight\+Sheath.\+Win32\+Struct.\+Windows\+Object\+Attributes.\+Apply (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+
+
+Not currently implemented 
+
+
+
+Implements \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a133b74e04a70011d23370823de9bdd2f}{Insight\+Sheath.\+Abstract.\+On\+Demand\+Marshal\+Native\+Struct}}.
+
+
+
+Definition at line \mbox{\hyperlink{_windows_object_attributes_8cs_source_l00100}{100}} of file \mbox{\hyperlink{_windows_object_attributes_8cs_source}{Windows\+Object\+Attributes.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_win32_struct_1_1_windows_object_attributes_a4cf277a98a71629136e600989549408e}\label{class_insight_sheath_1_1_win32_struct_1_1_windows_object_attributes_a4cf277a98a71629136e600989549408e}} 
+\index{InsightSheath.Win32Struct.WindowsObjectAttributes@{InsightSheath.Win32Struct.WindowsObjectAttributes}!Blit@{Blit}}
+\index{Blit@{Blit}!InsightSheath.Win32Struct.WindowsObjectAttributes@{InsightSheath.Win32Struct.WindowsObjectAttributes}}
+\doxysubsubsection{\texorpdfstring{Blit()}{Blit()}}
+{\footnotesize\ttfamily override void Insight\+Sheath.\+Win32\+Struct.\+Windows\+Object\+Attributes.\+Blit (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+
+
+This code should marshal the relevant struct from the native pointer if \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a0b0506b31628601c4e517b1197c9bb94}{Was\+Blit}} is not set and set afterwards. Accessors should call this each time they are called to retrieve values. Additionally, if the .NET struct will need to make changes to the land, you\textquotesingle{}re going to need to call \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_object_attributes_a648d815bcdb573b98a88bb41bf32b5ef}{Apply}} BEFORE reading the managed struct. Not doing this will revert your changes on the managed side to the equivalent native values. 
+
+
+
+Implements \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_ab40c79cada4587212e82f2356f264b5b}{Insight\+Sheath.\+Abstract.\+On\+Demand\+Marshal\+Native\+Struct}}.
+
+
+
+Definition at line \mbox{\hyperlink{_windows_object_attributes_8cs_source_l00074}{74}} of file \mbox{\hyperlink{_windows_object_attributes_8cs_source}{Windows\+Object\+Attributes.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_win32_struct_1_1_windows_object_attributes_aace7d3a113243af62e5ea62356e74abd}\label{class_insight_sheath_1_1_win32_struct_1_1_windows_object_attributes_aace7d3a113243af62e5ea62356e74abd}} 
+\index{InsightSheath.Win32Struct.WindowsObjectAttributes@{InsightSheath.Win32Struct.WindowsObjectAttributes}!Dispose@{Dispose}}
+\index{Dispose@{Dispose}!InsightSheath.Win32Struct.WindowsObjectAttributes@{InsightSheath.Win32Struct.WindowsObjectAttributes}}
+\doxysubsubsection{\texorpdfstring{Dispose()}{Dispose()}}
+{\footnotesize\ttfamily override void Insight\+Sheath.\+Win32\+Struct.\+Windows\+Object\+Attributes.\+Dispose (\begin{DoxyParamCaption}\item[{bool}]{disposing }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+
+
+\mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_object_attributes}{Windows\+Object\+Attributes}} cleanup. We need to call the current native routine to cleanup and clear the cleanup flag so we don\textquotesingle{}t delete mememory already deleted 
+
+
+\begin{DoxyParams}{Parameters}
+{\em disposing} & \\
+\hline
+\end{DoxyParams}
+
+
+Reimplemented from \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a97164b9f00fd3c80819748096757d3cf}{Insight\+Sheath.\+Abstract.\+Platform\+Dependant\+Native\+Struct}}.
+
+
+
+Definition at line \mbox{\hyperlink{_windows_object_attributes_8cs_source_l00045}{45}} of file \mbox{\hyperlink{_windows_object_attributes_8cs_source}{Windows\+Object\+Attributes.\+cs}}.
+
+
+
+\doxysubsection{Property Documentation}
+\mbox{\Hypertarget{class_insight_sheath_1_1_win32_struct_1_1_windows_object_attributes_a0061501feb50b82301a15daf9d4d180a}\label{class_insight_sheath_1_1_win32_struct_1_1_windows_object_attributes_a0061501feb50b82301a15daf9d4d180a}} 
+\index{InsightSheath.Win32Struct.WindowsObjectAttributes@{InsightSheath.Win32Struct.WindowsObjectAttributes}!Attributes@{Attributes}}
+\index{Attributes@{Attributes}!InsightSheath.Win32Struct.WindowsObjectAttributes@{InsightSheath.Win32Struct.WindowsObjectAttributes}}
+\doxysubsubsection{\texorpdfstring{Attributes}{Attributes}}
+{\footnotesize\ttfamily uint Insight\+Sheath.\+Win32\+Struct.\+Windows\+Object\+Attributes.\+Attributes\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Return the object attributes of the native struct. 
+
+Platform\+Dependant\+Native\+Struct.\+Struct\+Type\+Container must be set to something other than \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129ae1aeeb4a7efba7b23e8994f9c12ca39c}{Struct\+Mode\+Type.\+Machine\+Unknown}}
+
+Definition at line \mbox{\hyperlink{_windows_object_attributes_8cs_source_l00203}{203}} of file \mbox{\hyperlink{_windows_object_attributes_8cs_source}{Windows\+Object\+Attributes.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_win32_struct_1_1_windows_object_attributes_a44acdf3270185700008fe8bb0298b527}\label{class_insight_sheath_1_1_win32_struct_1_1_windows_object_attributes_a44acdf3270185700008fe8bb0298b527}} 
+\index{InsightSheath.Win32Struct.WindowsObjectAttributes@{InsightSheath.Win32Struct.WindowsObjectAttributes}!Length@{Length}}
+\index{Length@{Length}!InsightSheath.Win32Struct.WindowsObjectAttributes@{InsightSheath.Win32Struct.WindowsObjectAttributes}}
+\doxysubsubsection{\texorpdfstring{Length}{Length}}
+{\footnotesize\ttfamily ulong Insight\+Sheath.\+Win32\+Struct.\+Windows\+Object\+Attributes.\+Length\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Retrieve the length value of the structure on the native size. \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a1b82320dc9e7ae327eac5c277995a96b}{Struct\+Type\+Container}} must be set to something other than \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129ae1aeeb4a7efba7b23e8994f9c12ca39c}{Struct\+Mode\+Type.\+Machine\+Unknown}} 
+
+
+
+Definition at line \mbox{\hyperlink{_windows_object_attributes_8cs_source_l00111}{111}} of file \mbox{\hyperlink{_windows_object_attributes_8cs_source}{Windows\+Object\+Attributes.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_win32_struct_1_1_windows_object_attributes_a1de428b0fbbdff4120434c3f4f2eb127}\label{class_insight_sheath_1_1_win32_struct_1_1_windows_object_attributes_a1de428b0fbbdff4120434c3f4f2eb127}} 
+\index{InsightSheath.Win32Struct.WindowsObjectAttributes@{InsightSheath.Win32Struct.WindowsObjectAttributes}!ObjectName@{ObjectName}}
+\index{ObjectName@{ObjectName}!InsightSheath.Win32Struct.WindowsObjectAttributes@{InsightSheath.Win32Struct.WindowsObjectAttributes}}
+\doxysubsubsection{\texorpdfstring{ObjectName}{ObjectName}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string}{Windows\+Unicode\+String}} Insight\+Sheath.\+Win32\+Struct.\+Windows\+Object\+Attributes.\+Object\+Name\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Retrieve (and set the current \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129}{Struct\+Mode\+Type}} for the current Unicode\+String structure pointed to. Can return null if that\textquotesingle{}s not set 
+
+The returned object is pointing to the same native object as this class. If you want a unique one, duplicate it. Platform\+Dependant\+Native\+Struct.\+Struct\+Type\+Container must be set to something other than \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129ae1aeeb4a7efba7b23e8994f9c12ca39c}{Struct\+Mode\+Type.\+Machine\+Unknown}}
+
+Definition at line \mbox{\hyperlink{_windows_object_attributes_8cs_source_l00161}{161}} of file \mbox{\hyperlink{_windows_object_attributes_8cs_source}{Windows\+Object\+Attributes.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_win32_struct_1_1_windows_object_attributes_afd9d331721c0022cb368f18591c8a73b}\label{class_insight_sheath_1_1_win32_struct_1_1_windows_object_attributes_afd9d331721c0022cb368f18591c8a73b}} 
+\index{InsightSheath.Win32Struct.WindowsObjectAttributes@{InsightSheath.Win32Struct.WindowsObjectAttributes}!RootDirectory@{RootDirectory}}
+\index{RootDirectory@{RootDirectory}!InsightSheath.Win32Struct.WindowsObjectAttributes@{InsightSheath.Win32Struct.WindowsObjectAttributes}}
+\doxysubsubsection{\texorpdfstring{RootDirectory}{RootDirectory}}
+{\footnotesize\ttfamily Int\+Ptr Insight\+Sheath.\+Win32\+Struct.\+Windows\+Object\+Attributes.\+Root\+Directory\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Retrieve the handle value of the structure on the native size. 4 byte values are already promoted to 8 bytes long when returned. 
+
+Platform\+Dependant\+Native\+Struct.\+Struct\+Type\+Container must be set to something other than \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129ae1aeeb4a7efba7b23e8994f9c12ca39c}{Struct\+Mode\+Type.\+Machine\+Unknown}}
+
+Definition at line \mbox{\hyperlink{_windows_object_attributes_8cs_source_l00129}{129}} of file \mbox{\hyperlink{_windows_object_attributes_8cs_source}{Windows\+Object\+Attributes.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_win32_struct_1_1_windows_object_attributes_a9174e2c44fcd219caee11c9f3c0192b2}\label{class_insight_sheath_1_1_win32_struct_1_1_windows_object_attributes_a9174e2c44fcd219caee11c9f3c0192b2}} 
+\index{InsightSheath.Win32Struct.WindowsObjectAttributes@{InsightSheath.Win32Struct.WindowsObjectAttributes}!SecurityDescriptor@{SecurityDescriptor}}
+\index{SecurityDescriptor@{SecurityDescriptor}!InsightSheath.Win32Struct.WindowsObjectAttributes@{InsightSheath.Win32Struct.WindowsObjectAttributes}}
+\doxysubsubsection{\texorpdfstring{SecurityDescriptor}{SecurityDescriptor}}
+{\footnotesize\ttfamily Int\+Ptr Insight\+Sheath.\+Win32\+Struct.\+Windows\+Object\+Attributes.\+Security\+Descriptor\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Return a pointer to the security descriptor (may be not be relative to Your process.  to read the data. 
+
+Platform\+Dependant\+Native\+Struct.\+Struct\+Type\+Container must be set to something other than \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129ae1aeeb4a7efba7b23e8994f9c12ca39c}{Struct\+Mode\+Type.\+Machine\+Unknown}}. This can be 0 if the default one is OK. 4 byte pointers are promoted to 8 bytes long. The Remote.\+Remote\+Structure.\+xxx routine does not read this into your process currently.
+
+Definition at line \mbox{\hyperlink{_windows_object_attributes_8cs_source_l00226}{226}} of file \mbox{\hyperlink{_windows_object_attributes_8cs_source}{Windows\+Object\+Attributes.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_win32_struct_1_1_windows_object_attributes_ae7aa217d3f9d518929ecce4b8b31f955}\label{class_insight_sheath_1_1_win32_struct_1_1_windows_object_attributes_ae7aa217d3f9d518929ecce4b8b31f955}} 
+\index{InsightSheath.Win32Struct.WindowsObjectAttributes@{InsightSheath.Win32Struct.WindowsObjectAttributes}!SecurityQualityOfService@{SecurityQualityOfService}}
+\index{SecurityQualityOfService@{SecurityQualityOfService}!InsightSheath.Win32Struct.WindowsObjectAttributes@{InsightSheath.Win32Struct.WindowsObjectAttributes}}
+\doxysubsubsection{\texorpdfstring{SecurityQualityOfService}{SecurityQualityOfService}}
+{\footnotesize\ttfamily Int\+Ptr Insight\+Sheath.\+Win32\+Struct.\+Windows\+Object\+Attributes.\+Security\+Quality\+Of\+Service\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Return a pointer to the security quality of service struct (may be not be relative to Your process.  to read the data. 
+
+Platform\+Dependant\+Native\+Struct.\+Struct\+Type\+Container must be set to something other than \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129ae1aeeb4a7efba7b23e8994f9c12ca39c}{Struct\+Mode\+Type.\+Machine\+Unknown}}. This can be 0 if the default one is OK. 4 byte pointers are promoted to 8 bytes long. The Remote.\+Remote\+Structure.\+xxx routine does not read this into your process currently.
+
+Definition at line \mbox{\hyperlink{_windows_object_attributes_8cs_source_l00256}{256}} of file \mbox{\hyperlink{_windows_object_attributes_8cs_source}{Windows\+Object\+Attributes.\+cs}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Win32\+Struct/\mbox{\hyperlink{_windows_object_attributes_8cs}{Windows\+Object\+Attributes.\+cs}}\end{DoxyCompactItemize}

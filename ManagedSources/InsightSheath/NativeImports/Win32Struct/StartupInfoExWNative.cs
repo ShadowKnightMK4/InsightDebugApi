@@ -10,7 +10,7 @@ namespace InsightSheath.NativeImports
     /// <summary>
     /// Internal Class. This imports the routines used in <see cref="StartupInfoExW"/> class.
     /// </summary>
-    internal static class StartupInfoExWInternal
+    internal static class InternalStartupInfoExW
     {
         [DllImport("InsightApi.Dll", CallingConvention = CallingConvention.Winapi, SetLastError = true, EntryPoint = "StartupInfo_MakeInstance")]
         public static extern IntPtr StartupInfoWrapper_MakeInstance();

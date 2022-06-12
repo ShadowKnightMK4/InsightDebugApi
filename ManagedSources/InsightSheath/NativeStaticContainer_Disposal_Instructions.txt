@@ -1,0 +1,80 @@
+﻿
+
+	The goal of the NativeStaticContainer is hold one unmanaged pointer and be subclassed as needed. It's widely used throughout this project. This does follow 
+a small difference from disposal() guidlines.
+
+
+GUIDELINES for non NativeStaticContainer.
+
+You're going to need to be able these questions:
+
+#1 Can the unmanaged memory block can safely be cleaned up via C/C++'s free()?
+	-> If it needs something more than a single call to free it (for example native pointer is a c++ class or COM object)
+#2 Is my subclassed class going to be futher subclassed?
+	-> We will need to be defensive in not calling our unmanaged cleanup routine if already done.
+#3 Is my subclass handing out new instances of classes pointing to the same unmanaged memory as my main subclass.
+	-> If this is the case. You need to Be subclassed from RefereceCounterNativeStatic instead.
+	
+
+
+/* NON ReferenceCounterNativeStaticContainer disposal*/
+private bool disposedValue; 
+        protected override void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (FreeOnCleanup)
+                {
+                    if (Native != IntPtr.Zero)
+                    {
+                        StartupInfoExWInternal.StartupInfoWrapper_DeleteInstance(Native);
+                    }
+                    ClearNative();  // sets it to zero.since we're fully disposased of the object.
+                }
+                disposedValue = true;
+            }
+            
+        }
+
+/*  ReferenceCounterNativeStaticContainer disposal*/
+        private bool disposedValue;
+        protected override void Dispose(bool disposing)
+        {
+
+            if (!IsDisposed)
+            {
+                if (Release() == 0)     // A return of Zero from this call means all other pointers to the unmanaged object are cone and we can safely fre the target.
+                {
+                    if (FreeOnCleanup)
+                    {
+                        NativeMethods.SimpleFree(Native);   // in this case the call to C/C++'s free() is ok.
+                    }
+                    ClearNative();
+                }
+                else                // someone somewhere has an additional reference to our unmanaged object. It is not safe to free it.  We can set *our* copy to zero.
+                {
+                    ClearNative();
+                }
+                disposedValue = true;
+            }
+            base.Dispose(disposing);
+        }
+
+        /* Routine from a ReferenceCounterNativeStaticContainer based class */
+        public DebugEventCreateProcessInfo GetDebugEventCreateProcessInfo()
+        {
+            /* checks to ensure the call is valid.*/
+            if (DebugEventNative.DebugEvent_GetEventType(Native) != DebugEventType.CreateProcessEvent)
+            {
+                throw new InvalidOperationException(string.Format(error_msg_bad_event_fetch, new object[] { "Create Process Information", " Create Process Event" }));
+            }
+            // someone wants a reference to our same underyling pointer but through a different class. Call AddRef().
+            AddRef();
+            var ret = new DebugEventCreateProcessInfo(Native, FreeOnCleanup, ReferenceCounter);
+            if (ret == null)
+            {
+                // failed to create the instance pointing to our unmanaged pointer, decrease the count back to previous.
+                Release();
+            }
+            return ret;
+        }

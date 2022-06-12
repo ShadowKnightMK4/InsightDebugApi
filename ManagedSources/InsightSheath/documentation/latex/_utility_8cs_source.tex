@@ -1,0 +1,98 @@
+\hypertarget{_utility_8cs_source}{}\doxysection{Utility.\+cs}
+\mbox{\hyperlink{_utility_8cs}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00001}00001 \textcolor{keyword}{using }System;}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00002}00002 \textcolor{keyword}{using }System.Collections.Generic;}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00003}00003 \textcolor{keyword}{using }System.Linq;}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00004}00004 \textcolor{keyword}{using }System.Runtime.InteropServices;}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00005}00005 \textcolor{keyword}{using }System.Text;}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00006}00006 \textcolor{keyword}{using }System.Threading.Tasks;}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00007}00007 }
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00008}00008 \textcolor{keyword}{using }\mbox{\hyperlink{namespace_insight_sheath_1_1_native_imports}{InsightSheath.NativeImports}};}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00009}00009 }
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00010}00010 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespace_insight_sheath}{InsightSheath}}}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00011}00011 \{}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00015}\mbox{\hyperlink{namespace_insight_sheath_aa32853670318d8ddc9960b8750584fc7}{00015}}     \textcolor{keyword}{public} \textcolor{keyword}{enum} \mbox{\hyperlink{namespace_insight_sheath_aa32853670318d8ddc9960b8750584fc7}{MachineType}}}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00016}00016     \{}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00020}00020         \mbox{\hyperlink{namespace_insight_sheath_aa32853670318d8ddc9960b8750584fc7af3c49340cc8d2a42f66a43b7b4ac50f6}{MachineInvalid}} = 0,}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00024}00024         \mbox{\hyperlink{namespace_insight_sheath_aa32853670318d8ddc9960b8750584fc7ab2a95561dc10556507160dd63400322d}{MachineI386}} = 0x014c,}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00028}00028         \mbox{\hyperlink{namespace_insight_sheath_aa32853670318d8ddc9960b8750584fc7ade3ba58f206209510850ba6428a2860b}{MachineIA64}} = 0x0200,}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00032}00032         \mbox{\hyperlink{namespace_insight_sheath_aa32853670318d8ddc9960b8750584fc7a76f41d80a3b6cde6c17c740686b33ede}{MachineAmd64}} = 0x8664}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00033}00033     \}}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00034}00034     }
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00035}00035 }
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00039}00039     \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keyword}{class }HelperRoutines}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00040}00040     \{}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00041}00041 }
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00048}00048         \textcolor{keyword}{public} \textcolor{keyword}{static} \mbox{\hyperlink{namespace_insight_sheath_aa32853670318d8ddc9960b8750584fc7}{MachineType}} GetPEMachineType(\textcolor{keywordtype}{string} TargetExe)}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00049}00049         \{}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00050}00050             \textcolor{keywordflow}{return} NativeMethods.GetPEMachineType(TargetExe);}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00051}00051         \}}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00052}00052 }
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00062}00062         \textcolor{keyword}{public} \textcolor{keyword}{static} IntPtr DuplicateHandleToRemote(IntPtr CurrentHandle, uint Access, \textcolor{keywordtype}{bool} CopyAccess, IntPtr TargetProcess, \textcolor{keywordtype}{bool} AllowInherit)}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00063}00063         \{}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00064}00064             \textcolor{keywordflow}{return} NativeMethods.DuplicateHandleIntoTarget(CurrentHandle, Access, CopyAccess, TargetProcess, AllowInherit);}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00065}00065         \}}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00071}00071         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keywordtype}{string} GetProcessNameViaHandle(IntPtr ProcessHandle)}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00072}00072         \{}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00073}00073             \textcolor{keywordflow}{return} GetModuleNameViaHandle(ProcessHandle, IntPtr.Zero);}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00074}00074         \}}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00080}00080         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keywordtype}{string} GetModuleNameViaHandle(IntPtr ProcessHandle)}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00081}00081         \{}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00082}00082             \textcolor{keywordflow}{return} GetModuleNameViaHandle(ProcessHandle, IntPtr.Zero);}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00083}00083         \}}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00084}00084 }
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00091}00091         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keywordtype}{string} GetModuleNameViaHandle(IntPtr ProcessHandle, IntPtr HModule)}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00092}00092         \{}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00093}00093             IntPtr retPtr = NativeMethods.GetModuleNameViaHandleInternal(ProcessHandle, HModule );}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00094}00094             \textcolor{keywordflow}{if} (retPtr == IntPtr.Zero)}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00095}00095             \{}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00096}00096                 \textcolor{keywordflow}{return} \textcolor{keyword}{null};}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00097}00097             \}}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00098}00098             \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00099}00099             \{}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00100}00100                 \textcolor{keywordtype}{string} ret = Marshal.PtrToStringUni(retPtr);}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00101}00101                 NativeMethods.FreeModuleNameViaHandleInternal(retPtr);}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00102}00102                 \textcolor{keywordflow}{return} ret;}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00103}00103             \}}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00104}00104         \}}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00105}00105 }
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00111}00111         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keywordtype}{string} GetFileNameViaHandle(IntPtr FileHandle)}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00112}00112         \{}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00113}00113             IntPtr retPtr = NativeMethods.GetFileNameViaHandle(FileHandle);}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00114}00114             \textcolor{keywordflow}{if} (retPtr == IntPtr.Zero)}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00115}00115             \{}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00116}00116                 \textcolor{keywordflow}{return} \textcolor{keyword}{null};}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00117}00117             \}}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00118}00118             \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00119}00119             \{}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00120}00120                 \textcolor{keywordtype}{string} ret = Marshal.PtrToStringUni(retPtr);}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00121}00121                 NativeMethods.FreeFileNameViaHandleInternal(retPtr);}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00122}00122                 \textcolor{keywordflow}{return} ret;}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00123}00123             \}}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00124}00124         \}}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00130}00130 }
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00131}00131         \textcolor{keyword}{public} \textcolor{keyword}{static} IntPtr OpenProcessForVirtualMemory(uint ProcessId)}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00132}00132         \{}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00133}00133             \textcolor{keywordflow}{return} NativeMethods.OpenProcessForMemoryAccess(ProcessId);}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00134}00134         \}}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00135}00135 }
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00141}00141         \textcolor{keyword}{public} \textcolor{keyword}{static} IntPtr OpenProcessForQueryInformation(uint ProcessId)}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00142}00142         \{}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00143}00143             \textcolor{keywordflow}{return} NativeMethods.OpenProcesForQueryInformation(ProcessId);}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00144}00144         \}}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00145}00145 }
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00151}00151         \textcolor{keyword}{public} \textcolor{keyword}{static} IntPtr OpenProcessForHandleDuplicating(uint ProcessID)}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00152}00152         \{}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00153}00153             \textcolor{keywordflow}{return} NativeMethods.OpenProcessForDuplicatingHandle(ProcessID);}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00154}00154         \}}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00155}00155 }
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00156}00156 }
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00163}00163         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keywordtype}{bool} CloseHandle(IntPtr Handle)}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00164}00164         \{}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00165}00165             \textcolor{keywordflow}{return} NativeMethods.CloseHandle(Handle);}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00166}00166         \}}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00167}00167     \}}
+\DoxyCodeLine{\Hypertarget{_utility_8cs_source_l00168}00168 \}}
+
+\end{DoxyCode}

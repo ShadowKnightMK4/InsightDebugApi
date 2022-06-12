@@ -1,0 +1,71 @@
+\hypertarget{class_insight_sheath_1_1_misc_1_1_reference_counter}{}\doxysection{Insight\+Sheath.\+Misc.\+Reference\+Counter Class Reference}
+\label{class_insight_sheath_1_1_misc_1_1_reference_counter}\index{InsightSheath.Misc.ReferenceCounter@{InsightSheath.Misc.ReferenceCounter}}
+
+
+USed by the Reference\+Counter\+Native\+Static\+Container to track and change a reference. This is primary used by the Debug\+Event class collection as we\textquotesingle{}re handing out Multiple REferences to the same Native Pointer like candy and need to take steps to prevent users of the library from prematuring freeing the same sheath.  
+
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+ulong \mbox{\hyperlink{class_insight_sheath_1_1_misc_1_1_reference_counter_af622a95ff4d0fcbf7470227f3613201d}{Add\+Ref}} ()
+\item 
+ulong \mbox{\hyperlink{class_insight_sheath_1_1_misc_1_1_reference_counter_a10924ef0fa8993d1bb13d8e5c0e11705}{Dec\+Ref}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+ulong \mbox{\hyperlink{class_insight_sheath_1_1_misc_1_1_reference_counter_af289415a46a2de93759f104f8f97c85d}{Ref}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+USed by the Reference\+Counter\+Native\+Static\+Container to track and change a reference. This is primary used by the Debug\+Event class collection as we\textquotesingle{}re handing out Multiple REferences to the same Native Pointer like candy and need to take steps to prevent users of the library from prematuring freeing the same sheath. 
+
+Why? GC knows Debug\+Event, Debug\+Event\+Create\+Process both end up using Nativec\+Static\+Container GC does NOT know of the Native Side being a block of memory for a DEBUG\+\_\+\+EVENT struct. GC does not know that Debug\+Event hands out Debug\+Event\+Create\+Processes that point to the same Native\+Pointer
+
+Got the above? Consider this example GC frees Debug\+Event\+Create\+Process, memory is invalided on the nativeside GC has not freed Debug\+Event but memory thsi class points too is know invalid Debug\+Event breaks.
+
+Definition at line \mbox{\hyperlink{_reference_counter_8cs_source_l00026}{26}} of file \mbox{\hyperlink{_reference_counter_8cs_source}{Reference\+Counter.\+cs}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_insight_sheath_1_1_misc_1_1_reference_counter_af622a95ff4d0fcbf7470227f3613201d}\label{class_insight_sheath_1_1_misc_1_1_reference_counter_af622a95ff4d0fcbf7470227f3613201d}} 
+\index{InsightSheath.Misc.ReferenceCounter@{InsightSheath.Misc.ReferenceCounter}!AddRef@{AddRef}}
+\index{AddRef@{AddRef}!InsightSheath.Misc.ReferenceCounter@{InsightSheath.Misc.ReferenceCounter}}
+\doxysubsubsection{\texorpdfstring{AddRef()}{AddRef()}}
+{\footnotesize\ttfamily ulong Insight\+Sheath.\+Misc.\+Reference\+Counter.\+Add\+Ref (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line \mbox{\hyperlink{_reference_counter_8cs_source_l00028}{28}} of file \mbox{\hyperlink{_reference_counter_8cs_source}{Reference\+Counter.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_misc_1_1_reference_counter_a10924ef0fa8993d1bb13d8e5c0e11705}\label{class_insight_sheath_1_1_misc_1_1_reference_counter_a10924ef0fa8993d1bb13d8e5c0e11705}} 
+\index{InsightSheath.Misc.ReferenceCounter@{InsightSheath.Misc.ReferenceCounter}!DecRef@{DecRef}}
+\index{DecRef@{DecRef}!InsightSheath.Misc.ReferenceCounter@{InsightSheath.Misc.ReferenceCounter}}
+\doxysubsubsection{\texorpdfstring{DecRef()}{DecRef()}}
+{\footnotesize\ttfamily ulong Insight\+Sheath.\+Misc.\+Reference\+Counter.\+Dec\+Ref (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line \mbox{\hyperlink{_reference_counter_8cs_source_l00035}{35}} of file \mbox{\hyperlink{_reference_counter_8cs_source}{Reference\+Counter.\+cs}}.
+
+
+
+\doxysubsection{Property Documentation}
+\mbox{\Hypertarget{class_insight_sheath_1_1_misc_1_1_reference_counter_af289415a46a2de93759f104f8f97c85d}\label{class_insight_sheath_1_1_misc_1_1_reference_counter_af289415a46a2de93759f104f8f97c85d}} 
+\index{InsightSheath.Misc.ReferenceCounter@{InsightSheath.Misc.ReferenceCounter}!Ref@{Ref}}
+\index{Ref@{Ref}!InsightSheath.Misc.ReferenceCounter@{InsightSheath.Misc.ReferenceCounter}}
+\doxysubsubsection{\texorpdfstring{Ref}{Ref}}
+{\footnotesize\ttfamily ulong Insight\+Sheath.\+Misc.\+Reference\+Counter.\+Ref\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Definition at line \mbox{\hyperlink{_reference_counter_8cs_source_l00042}{42}} of file \mbox{\hyperlink{_reference_counter_8cs_source}{Reference\+Counter.\+cs}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Misc/\mbox{\hyperlink{_reference_counter_8cs}{Reference\+Counter.\+cs}}\end{DoxyCompactItemize}

@@ -42,7 +42,7 @@ namespace FileSandBox_GUI
         {
             DebugEvent Debug = new DebugEvent(DebugEvent);
             
-            //LocalUnmanagedMemory.SetDebugEventCallbackResponse(ContStat, DebugContState.DebugExceptionNotHandled);
+            //MemoryNative.SetDebugEventCallbackResponse(ContStat, DebugContState.DebugExceptionNotHandled);
 
             //InsightProcess.Poke4(ContStat, unchecked ((int)DebugContState.DebugExceptionNotHandled));
             InsightProcess.SetDebugEventCallbackResponse(ContStat, DebugContState.DebugExceptionNotHandled);
@@ -126,7 +126,7 @@ namespace FileSandBox_GUI
                         
                         Console.WriteLine(test.ExceptionCode + " exception");
 
-                        LocalUnmanagedMemory.SetDebugEventCallbackResponse(ContStat, DebugContState.DebugExceptionNotHandled);
+                        MemoryNative.SetDebugEventCallbackResponse(ContStat, DebugContState.DebugExceptionNotHandled);
        
                         
                         break;

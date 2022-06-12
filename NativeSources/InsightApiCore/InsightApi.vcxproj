@@ -252,6 +252,7 @@ del "$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\lib\InsightApi.*"
     <Text Include="NamingScheme.txt" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="DetoursExt.cpp" />
     <None Include="Exports.def" />
   </ItemGroup>
   <ItemGroup>

@@ -1,0 +1,186 @@
+\hypertarget{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine}{}\doxysection{Insight\+Sheath.\+Debugging.\+Symbol\+Engine Namespace Reference}
+\label{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine}\index{InsightSheath.Debugging.SymbolEngine@{InsightSheath.Debugging.SymbolEngine}}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_a_p_i___v_e_r_s_i_o_n}{API\+\_\+\+VERSION}}
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_a_p_i___v_e_r_s_i_o_n}{API\+\_\+\+VERSION}} struct for Debug\+Help symbol library. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_debug_help___api_version_struct}{Debug\+Help\+\_\+\+Api\+Version\+Struct}}
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{namespace_insight_sheath_1_1_wrappers}{Wrappers}} for Api Version struture. Note\+: Impementation in Insight has the struct as part of it, you DON\textquotesingle{}T want to free any pointer to it you get from insite. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter}{Insight\+Hunter}}
+\begin{DoxyCompactList}\small\item\em A part of the symbol engine exported in Insight\+API in the Native DLL. This class is VERY VERY VERY tightly coupled with the Insight\+Process class but distinct enough to warrent its own class/wrapper wrappers. If you need not have symbol processing, disabling Insight\+Process.\+Enable\+Symbol\+Engine is set to false if fine. That turns off the code that updates the native \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter}{Insight\+Hunter}} class when the worker thread receives a debug event NOTE\+: You\textquotesingle{}ll need to spawn at least one process with Insight\+Process to get much use out of this. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_source_file}{Source\+File}}
+\item 
+class \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_symbol_info}{Symbol\+Info}}
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{namespace_insight_sheath_1_1_wrappers}{Wrappers}} imported for dealing with Symbol\+InfoW Native structures. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aa11f6fc86be219002e0d5ef6e4824d05}{Symbol\+Tag\+Type}} \+: uint \{ \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aa11f6fc86be219002e0d5ef6e4824d05abbb93ef26e3c101ff11cdd21cab08a94}{Null}} = 0
+ \}
+\begin{DoxyCompactList}\small\item\em Should be from the Sym\+Tag\+Enum at MSDN \href{https://docs.microsoft.com/en-us/previous-versions/visualstudio/visual-studio-2010/bkedss5f(v=vs.100)}{\texttt{ https\+://docs.\+microsoft.\+com/en-\/us/previous-\/versions/visualstudio/visual-\/studio-\/2010/bkedss5f(v=vs.\+100)}} \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874c}{Symbol\+Flags}} \+: uint \{ \newline
+\mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874ca699c97397e2f87eefd794266b608bfc7}{Clr\+Token}} = 0x00040000
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874cacb17869fe51048b5a5c4c6106551a255}{Constant}} = 0x00000100
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874ca0095a9fa74d1713e43e370a7d7846224}{Export}} = 0x00000200
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874ca2d361d5fe6d74b7550e0aa35d94342ec}{Forwarder}} = 0x00000400
+, \newline
+\mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874ca0d70390c0f6763290711a3cef430388d}{Frame\+Rel}} = 0x00000020
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874ca86408593c34af77fdd90df932f8b5261}{Function}} = 0x00000800
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874caddd8ec5841fbebcc90ef0e99d484a440}{Irl\+Rel}} = 0x00010000
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874ca509820290d57f333403f490dde7316f4}{Local}} =0x00000080
+, \newline
+\mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874cace21470ab49d1d1976bc3dc72438c183}{Metadata}} = 0x00020000
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874ca83f499a540b1323009c200d6f8cc9396}{Parameter}} = 0x00000040
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874ca0ba7583639a274c434bbe6ef797115a4}{Register}} = 0x00000008
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874ca17d63c695c39837a07bae1dea6ea8f77}{Regrel}} = 0x00000010
+, \newline
+\mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874ca9234cc57c43f272b55a94b0069fe62d1}{Slot}} = 0x00008000
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874cad23b094e66eef00330206ffe8cd8b6f5}{Thunk}} = 0x00002000
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874cad1a004b6465baf1d922d649bf0c2a063}{Tls\+Rel}} = 0x00004000
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874cacebc543dc7fc7bebca49278e2703eeff}{Value\+Present}} = 0x00000001
+, \newline
+\mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874ca615e6f9baca5553d44683a098d342b70}{Virtual}} = 0x00001000
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+delegate bool \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_a718f1d4ada1521328965a9403ea1e65e}{Insight\+Hunter\+\_\+\+Symbol\+Search\+Call\+Back\+Routine}} (Int\+Ptr \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_symbol_info}{Symbol\+Info}})
+\begin{DoxyCompactList}\small\item\em This is the callback for \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada0ad5924a034eb143adc4b53e848334}{Insight\+Hunter.\+Enumerate\+Symbols(string, Insight\+Hunter\+\_\+\+Symbol\+Search\+Call\+Back\+Routine)}}. The passed pointer to your routine is a native pointer to a struct \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_symbol_info}{Symbol\+Info}}\textquotesingle{}s that exists for while your routine is active. \end{DoxyCompactList}\item 
+delegate bool \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_a2c969d17f715f5c8ab0b0046fd0af02f}{Insight\+Hunter\+\_\+\+Symbol\+Source\+Callback\+Routine}} (Int\+Ptr Source\+Info)
+\begin{DoxyCompactList}\small\item\em Callback for Enumerating source files. Return true to continue and false to quit. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874c}\label{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874c}} 
+\index{InsightSheath.Debugging.SymbolEngine@{InsightSheath.Debugging.SymbolEngine}!SymbolFlags@{SymbolFlags}}
+\index{SymbolFlags@{SymbolFlags}!InsightSheath.Debugging.SymbolEngine@{InsightSheath.Debugging.SymbolEngine}}
+\doxysubsubsection{\texorpdfstring{SymbolFlags}{SymbolFlags}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874c}{Insight\+Sheath.\+Debugging.\+Symbol\+Engine.\+Symbol\+Flags}} \+: uint}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ClrToken@{ClrToken}!InsightSheath.Debugging.SymbolEngine@{InsightSheath.Debugging.SymbolEngine}}\index{InsightSheath.Debugging.SymbolEngine@{InsightSheath.Debugging.SymbolEngine}!ClrToken@{ClrToken}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874ca699c97397e2f87eefd794266b608bfc7}\label{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874ca699c97397e2f87eefd794266b608bfc7}} 
+Clr\+Token&The symbol is a CLR token. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Constant@{Constant}!InsightSheath.Debugging.SymbolEngine@{InsightSheath.Debugging.SymbolEngine}}\index{InsightSheath.Debugging.SymbolEngine@{InsightSheath.Debugging.SymbolEngine}!Constant@{Constant}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874cacb17869fe51048b5a5c4c6106551a255}\label{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874cacb17869fe51048b5a5c4c6106551a255}} 
+Constant&The symbol is a constant. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Export@{Export}!InsightSheath.Debugging.SymbolEngine@{InsightSheath.Debugging.SymbolEngine}}\index{InsightSheath.Debugging.SymbolEngine@{InsightSheath.Debugging.SymbolEngine}!Export@{Export}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874ca0095a9fa74d1713e43e370a7d7846224}\label{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874ca0095a9fa74d1713e43e370a7d7846224}} 
+Export&The symbol is from the export table. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Forwarder@{Forwarder}!InsightSheath.Debugging.SymbolEngine@{InsightSheath.Debugging.SymbolEngine}}\index{InsightSheath.Debugging.SymbolEngine@{InsightSheath.Debugging.SymbolEngine}!Forwarder@{Forwarder}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874ca2d361d5fe6d74b7550e0aa35d94342ec}\label{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874ca2d361d5fe6d74b7550e0aa35d94342ec}} 
+Forwarder&The symbol is a forwarder. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FrameRel@{FrameRel}!InsightSheath.Debugging.SymbolEngine@{InsightSheath.Debugging.SymbolEngine}}\index{InsightSheath.Debugging.SymbolEngine@{InsightSheath.Debugging.SymbolEngine}!FrameRel@{FrameRel}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874ca0d70390c0f6763290711a3cef430388d}\label{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874ca0d70390c0f6763290711a3cef430388d}} 
+Frame\+Rel&Offsets are frame relative. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Function@{Function}!InsightSheath.Debugging.SymbolEngine@{InsightSheath.Debugging.SymbolEngine}}\index{InsightSheath.Debugging.SymbolEngine@{InsightSheath.Debugging.SymbolEngine}!Function@{Function}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874ca86408593c34af77fdd90df932f8b5261}\label{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874ca86408593c34af77fdd90df932f8b5261}} 
+Function&The symbol is a known function. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{IrlRel@{IrlRel}!InsightSheath.Debugging.SymbolEngine@{InsightSheath.Debugging.SymbolEngine}}\index{InsightSheath.Debugging.SymbolEngine@{InsightSheath.Debugging.SymbolEngine}!IrlRel@{IrlRel}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874caddd8ec5841fbebcc90ef0e99d484a440}\label{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874caddd8ec5841fbebcc90ef0e99d484a440}} 
+Irl\+Rel&The symbol address is an offset relative to the beginning of the intermediate language block. This applies to managed code only. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Local@{Local}!InsightSheath.Debugging.SymbolEngine@{InsightSheath.Debugging.SymbolEngine}}\index{InsightSheath.Debugging.SymbolEngine@{InsightSheath.Debugging.SymbolEngine}!Local@{Local}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874ca509820290d57f333403f490dde7316f4}\label{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874ca509820290d57f333403f490dde7316f4}} 
+Local&The symbol is a local variable. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Metadata@{Metadata}!InsightSheath.Debugging.SymbolEngine@{InsightSheath.Debugging.SymbolEngine}}\index{InsightSheath.Debugging.SymbolEngine@{InsightSheath.Debugging.SymbolEngine}!Metadata@{Metadata}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874cace21470ab49d1d1976bc3dc72438c183}\label{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874cace21470ab49d1d1976bc3dc72438c183}} 
+Metadata&The symbol is managed meta data. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Parameter@{Parameter}!InsightSheath.Debugging.SymbolEngine@{InsightSheath.Debugging.SymbolEngine}}\index{InsightSheath.Debugging.SymbolEngine@{InsightSheath.Debugging.SymbolEngine}!Parameter@{Parameter}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874ca83f499a540b1323009c200d6f8cc9396}\label{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874ca83f499a540b1323009c200d6f8cc9396}} 
+Parameter&The symbol is a parameter. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Register@{Register}!InsightSheath.Debugging.SymbolEngine@{InsightSheath.Debugging.SymbolEngine}}\index{InsightSheath.Debugging.SymbolEngine@{InsightSheath.Debugging.SymbolEngine}!Register@{Register}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874ca0ba7583639a274c434bbe6ef797115a4}\label{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874ca0ba7583639a274c434bbe6ef797115a4}} 
+Register&The symbol is a register. The Register member is used. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Regrel@{Regrel}!InsightSheath.Debugging.SymbolEngine@{InsightSheath.Debugging.SymbolEngine}}\index{InsightSheath.Debugging.SymbolEngine@{InsightSheath.Debugging.SymbolEngine}!Regrel@{Regrel}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874ca17d63c695c39837a07bae1dea6ea8f77}\label{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874ca17d63c695c39837a07bae1dea6ea8f77}} 
+Regrel&Offsets are register relative. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Slot@{Slot}!InsightSheath.Debugging.SymbolEngine@{InsightSheath.Debugging.SymbolEngine}}\index{InsightSheath.Debugging.SymbolEngine@{InsightSheath.Debugging.SymbolEngine}!Slot@{Slot}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874ca9234cc57c43f272b55a94b0069fe62d1}\label{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874ca9234cc57c43f272b55a94b0069fe62d1}} 
+Slot&The symbol is a managed code slot. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Thunk@{Thunk}!InsightSheath.Debugging.SymbolEngine@{InsightSheath.Debugging.SymbolEngine}}\index{InsightSheath.Debugging.SymbolEngine@{InsightSheath.Debugging.SymbolEngine}!Thunk@{Thunk}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874cad23b094e66eef00330206ffe8cd8b6f5}\label{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874cad23b094e66eef00330206ffe8cd8b6f5}} 
+Thunk&The symbol is a thunk. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{TlsRel@{TlsRel}!InsightSheath.Debugging.SymbolEngine@{InsightSheath.Debugging.SymbolEngine}}\index{InsightSheath.Debugging.SymbolEngine@{InsightSheath.Debugging.SymbolEngine}!TlsRel@{TlsRel}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874cad1a004b6465baf1d922d649bf0c2a063}\label{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874cad1a004b6465baf1d922d649bf0c2a063}} 
+Tls\+Rel&The symbol is an offset into the TLS data area. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ValuePresent@{ValuePresent}!InsightSheath.Debugging.SymbolEngine@{InsightSheath.Debugging.SymbolEngine}}\index{InsightSheath.Debugging.SymbolEngine@{InsightSheath.Debugging.SymbolEngine}!ValuePresent@{ValuePresent}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874cacebc543dc7fc7bebca49278e2703eeff}\label{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874cacebc543dc7fc7bebca49278e2703eeff}} 
+Value\+Present&The Value member is used. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Virtual@{Virtual}!InsightSheath.Debugging.SymbolEngine@{InsightSheath.Debugging.SymbolEngine}}\index{InsightSheath.Debugging.SymbolEngine@{InsightSheath.Debugging.SymbolEngine}!Virtual@{Virtual}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874ca615e6f9baca5553d44683a098d342b70}\label{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874ca615e6f9baca5553d44683a098d342b70}} 
+Virtual&The symbol is a virtual symbol created by the Sym\+Add\+Symbol function. ~\newline
+ \\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line \mbox{\hyperlink{_symbol_info_8cs_source_l00020}{20}} of file \mbox{\hyperlink{_symbol_info_8cs_source}{Symbol\+Info.\+cs}}.
+
+\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aa11f6fc86be219002e0d5ef6e4824d05}\label{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aa11f6fc86be219002e0d5ef6e4824d05}} 
+\index{InsightSheath.Debugging.SymbolEngine@{InsightSheath.Debugging.SymbolEngine}!SymbolTagType@{SymbolTagType}}
+\index{SymbolTagType@{SymbolTagType}!InsightSheath.Debugging.SymbolEngine@{InsightSheath.Debugging.SymbolEngine}}
+\doxysubsubsection{\texorpdfstring{SymbolTagType}{SymbolTagType}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aa11f6fc86be219002e0d5ef6e4824d05}{Insight\+Sheath.\+Debugging.\+Symbol\+Engine.\+Symbol\+Tag\+Type}} \+: uint}
+
+
+
+Should be from the Sym\+Tag\+Enum at MSDN \href{https://docs.microsoft.com/en-us/previous-versions/visualstudio/visual-studio-2010/bkedss5f(v=vs.100)}{\texttt{ https\+://docs.\+microsoft.\+com/en-\/us/previous-\/versions/visualstudio/visual-\/studio-\/2010/bkedss5f(v=vs.\+100)}} 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Null@{Null}!InsightSheath.Debugging.SymbolEngine@{InsightSheath.Debugging.SymbolEngine}}\index{InsightSheath.Debugging.SymbolEngine@{InsightSheath.Debugging.SymbolEngine}!Null@{Null}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aa11f6fc86be219002e0d5ef6e4824d05abbb93ef26e3c101ff11cdd21cab08a94}\label{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aa11f6fc86be219002e0d5ef6e4824d05abbb93ef26e3c101ff11cdd21cab08a94}} 
+Null&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line \mbox{\hyperlink{_symbol_info_8cs_source_l00015}{15}} of file \mbox{\hyperlink{_symbol_info_8cs_source}{Symbol\+Info.\+cs}}.
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_a718f1d4ada1521328965a9403ea1e65e}\label{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_a718f1d4ada1521328965a9403ea1e65e}} 
+\index{InsightSheath.Debugging.SymbolEngine@{InsightSheath.Debugging.SymbolEngine}!InsightHunter\_SymbolSearchCallBackRoutine@{InsightHunter\_SymbolSearchCallBackRoutine}}
+\index{InsightHunter\_SymbolSearchCallBackRoutine@{InsightHunter\_SymbolSearchCallBackRoutine}!InsightSheath.Debugging.SymbolEngine@{InsightSheath.Debugging.SymbolEngine}}
+\doxysubsubsection{\texorpdfstring{InsightHunter\_SymbolSearchCallBackRoutine()}{InsightHunter\_SymbolSearchCallBackRoutine()}}
+{\footnotesize\ttfamily delegate bool Insight\+Sheath.\+Debugging.\+Symbol\+Engine.\+Insight\+Hunter\+\_\+\+Symbol\+Search\+Call\+Back\+Routine (\begin{DoxyParamCaption}\item[{Int\+Ptr}]{Symbol\+Info }\end{DoxyParamCaption})}
+
+
+
+This is the callback for \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada0ad5924a034eb143adc4b53e848334}{Insight\+Hunter.\+Enumerate\+Symbols(string, Insight\+Hunter\+\_\+\+Symbol\+Search\+Call\+Back\+Routine)}}. The passed pointer to your routine is a native pointer to a struct \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_symbol_info}{Symbol\+Info}}\textquotesingle{}s that exists for while your routine is active. 
+
+Your Routine should return TRUE to keep going and FALSE to quit
+
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+
+
+The exact routine pointer that this is based off is typedef BOOL (WINAPI$\ast$ Symbol\+Search\+Callback)(SYMBOL\+\_\+\+INFOW); MSDC documentation for the callback being invoked here\+:  and the API being called is  \mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_a2c969d17f715f5c8ab0b0046fd0af02f}\label{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_a2c969d17f715f5c8ab0b0046fd0af02f}} 
+\index{InsightSheath.Debugging.SymbolEngine@{InsightSheath.Debugging.SymbolEngine}!InsightHunter\_SymbolSourceCallbackRoutine@{InsightHunter\_SymbolSourceCallbackRoutine}}
+\index{InsightHunter\_SymbolSourceCallbackRoutine@{InsightHunter\_SymbolSourceCallbackRoutine}!InsightSheath.Debugging.SymbolEngine@{InsightSheath.Debugging.SymbolEngine}}
+\doxysubsubsection{\texorpdfstring{InsightHunter\_SymbolSourceCallbackRoutine()}{InsightHunter\_SymbolSourceCallbackRoutine()}}
+{\footnotesize\ttfamily delegate bool Insight\+Sheath.\+Debugging.\+Symbol\+Engine.\+Insight\+Hunter\+\_\+\+Symbol\+Source\+Callback\+Routine (\begin{DoxyParamCaption}\item[{Int\+Ptr}]{Source\+Info }\end{DoxyParamCaption})}
+
+
+
+Callback for Enumerating source files. Return true to continue and false to quit. 
+

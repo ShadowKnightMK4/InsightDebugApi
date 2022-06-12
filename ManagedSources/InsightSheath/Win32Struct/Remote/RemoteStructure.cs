@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using InsightSheath.Win32Struct;
+using InsightSheath.Debugging;
 namespace InsightSheath.Win32Struct.Remote
 {
     /// <summary>
@@ -65,13 +66,13 @@ namespace InsightSheath.Win32Struct.Remote
 
         
         /// <summary>
-        /// Read either a <see cref="UnicodeString32"/> or <see cref="UnicodeString64"/> from the location. Note: This does assume the NativeExport from InsightAPI.DLL will always return a 64-bit version of the struct.
+        /// Read either a <see cref="UnicodeString32"/> or <see cref="UnicodeString64"/> from the location. Note: This does assume the NativeExport from InsightAPI.DLL will always return a 64-bit version of the struct and quitely remote the 32-bit version when extracting from the target
         /// </summary>
         /// <param name="ProcessHandle">Handle to Read From</param>
         /// <param name="Location">location to read from</param>
         /// <param name="IsTarget32Bit">determines which type of struct we're reading from</param>
         /// <param name="FreeOnCleanup">argument terminates if we trigger GC </param>
-        /// <returns></returns>
+        /// <returns>Returns a unique instance of a <see cref="WindowsUnicodeString"/> ready for use.</returns>
         public static WindowsUnicodeString RemoteReadUnicodeString(IntPtr ProcessHandle, IntPtr Location, bool IsTarget32Bit, bool FreeOnCleanup)
         {
             IntPtr retptr = IntPtr.Zero;
@@ -85,59 +86,6 @@ namespace InsightSheath.Win32Struct.Remote
             return null;
         }
 
-        /// <summary>
-        /// Primary for writing HANDLEs to debugged process. This writes 4 byte value to the remote process in question at the location at the virtual memory location specified in the target
-        /// </summary>
-        /// <param name="ProcessHandle">at minimum should have PROCESS_VM_WRITE and/or PROCESS_VM_OPERATION access</param>
-        /// <param name="value">value to write</param>
-        /// <param name="RemoteLocation">virtual memory in the TARGET process location to write too.</param>
-        /// <returns></returns>
-        public static bool RemotePoke4NoExceptions(IntPtr ProcessHandle, uint value, IntPtr RemoteLocation)
-        {
-            return RemoteStructureInternal.RemotePoke4(ProcessHandle, value, RemoteLocation);
-        }
-
-        /// <summary>
-        /// Primary for writing 32-bit HANDLEs to debugged process. This writes 4 byte value to the remote process in question at the location specified in the virtual memory of the target. 
-        /// </summary>
-        /// <param name="ProcessHandle">at minimum should have PROCESS_VM_WRITE and/or PROCESS_VM_OPERATION access</param>
-        /// <param name="value">value to write</param>
-        /// <param name="RemoteLocation">Remote memory target</param>
-        /// <exception cref="Win32Exception"> Win32Exceptions are thrown if the write failed (for security, bad memory location, in correct process and so on)</exception>
-        public static void RemotePoke4(IntPtr ProcessHandle, uint value, IntPtr RemoteLocation)
-        {
-            if (!RemoteStructureInternal.RemotePoke4(ProcessHandle, value, RemoteLocation))
-            {
-                throw new Win32Exception(Marshal.GetLastWin32Error());
-            }
-        }
-
-        /// <summary>
-        /// Primary for writing 64-bit HANDLEs to debugged process. This writes 4 byte value to the remote process in question at the location specified in the virtual memory of the target. 
-        /// </summary>
-        /// <param name="ProcessHandle">at minimum should have PROCESS_VM_WRITE and/or PROCESS_VM_OPERATION access</param>
-        /// <param name="value">value to write</param>
-        /// <param name="RemoteLocation">Remote memory target</param>
-        public static bool RemotePoke8NoException(IntPtr ProcessHandle, ulong value, IntPtr RemoteLocation)
-        {
-            return RemoteStructureInternal.RemotePoke8(ProcessHandle, value, RemoteLocation);
-        }
-
-        /// <summary>
-        /// Primary for writing 64-bit HANDLEs to debugged process. This writes 8 byte value to the remote process in question at the location specified in the virtual memory of the target. 
-        /// </summary>
-        /// <param name="ProcessHandle">at minimum should have PROCESS_VM_WRITE and/or PROCESS_VM_OPERATION access</param>
-        /// <param name="value">value to write</param>
-        /// <param name="RemoteLocation">Remote memory target</param>
-        /// <exception cref="Win32Exception"> Win32Exceptions are thrown if the write failed (for security, bad memory location, in correct process and so on)</exception>
-
-        public static void RemotePoke8(IntPtr ProcessHandle, ulong value, IntPtr RemoteLocation)
-        {
-            if (!RemoteStructureInternal.RemotePoke8(ProcessHandle, value, RemoteLocation))
-            {
-                throw new Win32Exception(Marshal.GetLastWin32Error());
-            }
-        }
 
         /// <summary>
         /// Extract an Unicode string from the remote process. You will need to know how long the string is.
@@ -160,7 +108,7 @@ namespace InsightSheath.Win32Struct.Remote
         }
 
         /// <summary>
-        /// Extract a DebugString from an OUTPUT_DEBUG_EVENT
+        /// Extract a DebugString from an OUTPUT_DEBUG_EVENT <see cref="DebugEvent"/> and <see cref="DebugEventStringInfo"/> for other ways
         /// </summary>
         /// <param name="ProcessHandle">Handle to the process</param>
         /// <param name="DebugEventStruct">Pointer to a DebugEvent native structure</param>

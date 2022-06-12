@@ -1,0 +1,369 @@
+\hypertarget{_io_device_telemetry_reader_8cs_source}{}\doxysection{Io\+Device\+Telemetry\+Reader.\+cs}
+\label{_io_device_telemetry_reader_8cs_source}\index{Telemetry/IoDeviceTelemetryReader.cs@{Telemetry/IoDeviceTelemetryReader.cs}}
+\mbox{\hyperlink{_io_device_telemetry_reader_8cs}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00001}00001 \textcolor{keyword}{using }System;}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00002}00002 \textcolor{keyword}{using }System.Collections.Generic;}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00003}00003 \textcolor{keyword}{using }System.Linq;}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00004}00004 \textcolor{keyword}{using }System.Text;}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00005}00005 \textcolor{keyword}{using }System.Threading.Tasks;}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00006}00006 \textcolor{keyword}{using }\mbox{\hyperlink{namespace_insight_sheath_1_1_wrappers}{InsightSheath.Wrappers}};}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00007}00007 \textcolor{keyword}{using }\mbox{\hyperlink{namespace_insight_sheath_1_1_misc}{InsightSheath.Misc}};}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00008}00008 \textcolor{keyword}{using }System.Runtime.InteropServices;}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00009}00009 \textcolor{keyword}{using }System.IO;}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00010}00010 \textcolor{keyword}{using }\mbox{\hyperlink{namespace_insight_sheath_1_1_debugging}{InsightSheath.Debugging}};}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00011}00011 \textcolor{keyword}{using }\mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_1_1_remote}{InsightSheath.Win32Struct.Remote}};}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00012}00012 \textcolor{keyword}{using }\mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct}{InsightSheath.Win32Struct}};}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00013}00013 }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00014}00014 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry}{InsightSheath.Telemetry}}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00015}00015 \{}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00016}00016 }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00020}00020     [StructLayout(LayoutKind.Explicit)]}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00021}\mbox{\hyperlink{struct_insight_sheath_1_1_telemetry_1_1_l_a_r_g_e___i_n_t_e_g_e_r}{00021}}     \textcolor{keyword}{public} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_insight_sheath_1_1_telemetry_1_1_l_a_r_g_e___i_n_t_e_g_e_r}{LARGE\_INTEGER}}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00022}00022     \{}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00023}00023         }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00024}00024         [FieldOffset(0)]}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00025}\mbox{\hyperlink{struct_insight_sheath_1_1_telemetry_1_1_l_a_r_g_e___i_n_t_e_g_e_r_a7edd804535651d5ff9277a3f31e1a9a9}{00025}}         \textcolor{keyword}{public} UInt32 \mbox{\hyperlink{struct_insight_sheath_1_1_telemetry_1_1_l_a_r_g_e___i_n_t_e_g_e_r_a7edd804535651d5ff9277a3f31e1a9a9}{LowPart}};}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00026}00026         [FieldOffset(4)]}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00027}\mbox{\hyperlink{struct_insight_sheath_1_1_telemetry_1_1_l_a_r_g_e___i_n_t_e_g_e_r_ad150861de0a8730b9f64aed40e6b63d4}{00027}}         \textcolor{keyword}{public} Int32 \mbox{\hyperlink{struct_insight_sheath_1_1_telemetry_1_1_l_a_r_g_e___i_n_t_e_g_e_r_ad150861de0a8730b9f64aed40e6b63d4}{HighPart}};}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00028}00028         [FieldOffset(0)]}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00029}\mbox{\hyperlink{struct_insight_sheath_1_1_telemetry_1_1_l_a_r_g_e___i_n_t_e_g_e_r_a8a5663479454014214cab49da03c1014}{00029}}         \textcolor{keyword}{public} ulong \mbox{\hyperlink{struct_insight_sheath_1_1_telemetry_1_1_l_a_r_g_e___i_n_t_e_g_e_r_a8a5663479454014214cab49da03c1014}{QuadPart}};}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00030}00030     \}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00031}00031 }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00032}00032 }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00033}\mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telememtry_exception_common_values}{00033}}     \textcolor{keyword}{public} \textcolor{keyword}{class }\mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telememtry_exception_common_values}{IoDeviceTelememtryExceptionCommonValues}} : \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_general_telemtry_helper_struct}{GeneralTelemtryHelperStruct}}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00034}00034     \{}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00035}\mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telememtry_exception_common_values_ae37f2b96394109a872d5790a0fe2fac4}{00035}}         \textcolor{keyword}{public} \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telememtry_exception_common_values_ae37f2b96394109a872d5790a0fe2fac4}{IoDeviceTelememtryExceptionCommonValues}}(uint \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_general_telemtry_helper_struct_a3cf9468658bda6c3b5545fcdec4051e4}{ProcessId}}, uint ThreadID, IntPtr ForceHandle, IntPtr LastError, \mbox{\hyperlink{namespace_insight_sheath_aa32853670318d8ddc9960b8750584fc7}{MachineType}} \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_general_telemtry_helper_struct_a11006996136e61596f8723cc201fd170}{Type}}) : base(\mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_general_telemtry_helper_struct_a3cf9468658bda6c3b5545fcdec4051e4}{ProcessId}}, ThreadID, ForceHandle, LastError, \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_general_telemtry_helper_struct_a11006996136e61596f8723cc201fd170}{Type}})}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00036}00036         \{}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00037}00037 }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00038}00038         \}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00039}00039         }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00040}00040 }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00041}00041 }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00045}\mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telememtry_exception_common_values_a2d141f006db75ea7ce674890d4150849}{00045}}         \textcolor{keyword}{public} \textcolor{keyword}{static} readonly uint \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telememtry_exception_common_values_a2d141f006db75ea7ce674890d4150849}{InvalidHandleValue32}} = (0xffffffff);}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00049}\mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telememtry_exception_common_values_a6d5fc3a938566abb9d7f24c386c77020}{00049}}         \textcolor{keyword}{public} \textcolor{keyword}{static} readonly ulong \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telememtry_exception_common_values_a6d5fc3a938566abb9d7f24c386c77020}{InvalidHandleValue64}} = (0xffffffffffffffff);}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00050}00050 }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00051}00051     \}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00052}00052 }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00053}00053 }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00057}\mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a15b1b686153bd71b56704829fdee0233}{00057}}     \textcolor{keyword}{public} \textcolor{keyword}{enum} \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a15b1b686153bd71b56704829fdee0233}{NtCreationDisposition}} : uint }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00058}00058     \{}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00062}00062         \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a15b1b686153bd71b56704829fdee0233ae8078c90e7b5b84c77a92a8a692ed682}{Supersede}} = 0x00000000,}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00066}00066         \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a15b1b686153bd71b56704829fdee0233ac3bf447eabe632720a3aa1a7ce401274}{Open}} = 0x00000001,}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00070}00070         \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a15b1b686153bd71b56704829fdee0233a686e697538050e4664636337cc3b834f}{Create}} = 0x00000002,}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00074}00074         \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a15b1b686153bd71b56704829fdee0233ac0f59a3fc47f375e2733258aac6fcaa3}{OpenIf}} = 0x00000003,}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00078}00078         \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a15b1b686153bd71b56704829fdee0233ada364eb37e143f6b2b5559aa03f5913a}{Overwrite}} = 0x00000004,}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00082}00082         \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a15b1b686153bd71b56704829fdee0233abdd7c767124a0efae8ad7801df534091}{OverwriteIf}} = 0x00000005,}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00083}00083         \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a15b1b686153bd71b56704829fdee0233af1f24b8ab1eb539d39ba14e33e195ccd}{MaxDisposition}} = 0x00000005}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00084}00084     \}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00085}00085 }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00086}00086 }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00090}\mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a1c7edc0d53c65d0de3f4e191357e46a7}{00090}}     \textcolor{keyword}{public} \textcolor{keyword}{enum} \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a1c7edc0d53c65d0de3f4e191357e46a7}{CreationDisposition}}: uint}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00091}00091     \{ }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00095}00095         \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a1c7edc0d53c65d0de3f4e191357e46a7a16aad4508a33afcd497d9cb37480722f}{CreateNew}} = 1,}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00099}00099         \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a1c7edc0d53c65d0de3f4e191357e46a7a5007129116ac317941eafb99b92b62d7}{CreateAlways}} = 2,}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00103}00103         \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a1c7edc0d53c65d0de3f4e191357e46a7a31e4ddcb0bdd2cb84245a1b4337dc4f0}{OpenExisting}} = 3,}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00107}00107         \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a1c7edc0d53c65d0de3f4e191357e46a7a05b613cd54f885812936f4186b159bdf}{OpenAlways}} = 4,}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00111}00111         \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a1c7edc0d53c65d0de3f4e191357e46a7a15ef87a1ec51975b50b651c1cce8f5b7}{TruncateExisting}} = 5}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00112}00112     \}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00113}00113 }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00114}00114     }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00115}00115     [Flags]}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00122}\mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798bec}{00122}}     \textcolor{keyword}{public} \textcolor{keyword}{enum} \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798bec}{AccessMasks}}: uint}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00123}00123     \{}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00127}00127         \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798beca88a12f09800c497f30b98781952b50f2}{NoAccess}} = 0,}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00131}00131         \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798beca02104739967781f89c6b0e63dd2147ca}{MetaData}} = \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798beca88a12f09800c497f30b98781952b50f2}{NoAccess}},}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00132}00132 }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00136}00136         \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798becaf2a6c498fb90ee345d997f888fce3b18}{Delete}} = 0x00010000,}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00140}00140         \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798beca63c8057a0734e068c56b90cd7a21811d}{ReadControl}} = 0x00020000,}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00144}00144         \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798beca742b6dfa42a2c9e736bfa002839dcd7b}{FileReadData}} = 0x1,}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00148}00148         \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798beca807b5cfdd263818458cca1b9e38f880a}{FileListDirectory}} = \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798beca742b6dfa42a2c9e736bfa002839dcd7b}{FileReadData}},}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00152}00152         \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798becab63591dd81fc84a5428bc2ddc4906b9a}{FileReadAttributes}} = 0x0080,}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00156}00156         \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798becac8574840e4a60434c2952264128368f8}{FileReadEa}} = 0x0008,}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00160}00160         \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798beca152afa2ce7614c99f5803a2a2d4c7fc4}{FileWriteData}} = 0x0002,}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00164}00164         \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798beca8f860406ee5b3b54b406281f8c6e307a}{FileWriteAttributes}} = 0x0100,}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00168}00168         \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798becadb04826095bc521a931e8e488ca8960e}{FileWriteEa}} = 0x0010,}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00172}00172         \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798beca57c5cb773ffa54ec677668b5ba7c90f7}{FileAppendData}} = 0x0004,}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00176}00176         \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798becae160952752c15b5e398b48ccdf50735a}{WriteDac}} = 0x00040000,}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00180}00180         \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798becaeefa9ccbf2071c722eefe2ce44c70b02}{WriteOwner}} = 0x00080000,}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00184}00184         \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798becab18b960c57a784907dc1cd97ba8a8065}{Synchronize}} = 0x00100000,}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00188}00188         \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798beca4087f2967fe43838c79aac4d53ce43d3}{FileExecute}} = 0x0020,}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00192}00192         \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798beca90eef22a327480e5cb057202b7c11d72}{FileTraverse}} = \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798beca4087f2967fe43838c79aac4d53ce43d3}{FileExecute}},}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00193}00193 }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00197}00197         \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798becae94aab556e7fb8e739eeb1d24ce5db63}{GenericRead}} = 0x80000000,}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00201}00201         \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798beca9a803576ff84a1f98a9d56984d3b1559}{GenericWrite}} = 0x40000000,}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00205}00205         \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798beca2590aa05c13a089855c36062a36c2279}{GenericExecute}} = 0x20000000,}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00209}00209         \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798beca8c96bd43f485eaae63016d4d96279546}{GenericAll}} = 0x10000000}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00210}00210     \}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00211}00211 }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00212}00212     }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00213}00213 }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00217}00217     [Flags]}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00218}\mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a237ff392d0790b17d49ea0c828b3d14d}{00218}}     \textcolor{keyword}{public} \textcolor{keyword}{enum} \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a237ff392d0790b17d49ea0c828b3d14d}{ShareMasks}}: uint}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00219}00219     \{}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00223}00223         \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a237ff392d0790b17d49ea0c828b3d14da3ab12db4f0d17abdef8148d42847420f}{NoShare}} = 0,}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00227}00227         \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a237ff392d0790b17d49ea0c828b3d14dae200142a98f80eee22b8a055e7f5adb6}{ShareDelete}} = 0x00000004,}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00231}00231         \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a237ff392d0790b17d49ea0c828b3d14da6677b7f6889169649bc0da8cab9a7f25}{ShareRead}} = 0x00000001,}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00235}00235         \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a237ff392d0790b17d49ea0c828b3d14da2556113d2163252c5aff8fd313d7d05b}{ShareWrite}} = 0x00000002}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00236}00236     \}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00237}00237 }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00238}00238     \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keyword}{class }IoDeviceTelemetryExceptionExtensionsCheckers}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00239}00239     \{}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00245}00245         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keywordtype}{bool} IsIoDeviceTelemetryException(\textcolor{keyword}{this} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exception_info}{DebugEventExceptionInfo}} that)}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00246}00246         \{}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00247}00247             \textcolor{keywordflow}{if} ((uint)that.\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exception_info_a92b3280690862f3f3d9ddd6266c34d7b}{ExceptionCode}} == IoDeviceTelemetryReaderExtensions.FixedExceptionCode)}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00248}00248             \{}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00249}00249                 \textcolor{keywordflow}{return} \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00250}00250             \}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00251}00251             \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00252}00252         \}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00258}00258         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keywordtype}{bool} IsIoDeviceTelemetryException(\textcolor{keyword}{this} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{DebugEvent}} that)}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00259}00259         \{}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00260}00260             \textcolor{keywordflow}{if} (that.\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container_ab034e2af7cf3fc0e426b3d0ebf051f6d}{EventType}} == \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8}{DebugEventType}}.ExceptionEvent)}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00261}00261             \{}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00262}00262                 \textcolor{keywordflow}{if} ((uint)that.\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_a4d9f1661131e0b682a1f17ed66f07997}{GetDebugEventExceptionInfo}}().\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exception_info_a92b3280690862f3f3d9ddd6266c34d7b}{ExceptionCode}} == IoDeviceTelemetryReaderExtensions.FixedExceptionCode)}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00263}00263                 \{}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00264}00264                     \textcolor{keywordflow}{return} \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00265}00265                 \}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00266}00266             \}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00267}00267             \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00268}00268         \}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00269}00269 }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00270}00270     \}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00271}00271 }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00272}\mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file}{00272}}     \textcolor{keyword}{public} \textcolor{keyword}{class }\mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file}{IoDeviceTelemetryNtCreateFile}}: \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telememtry_exception_common_values}{IoDeviceTelememtryExceptionCommonValues}}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00273}00273     \{}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00274}00274 }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00275}\mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_a6029faa8555564938c65863d042218c3}{00275}}         \textcolor{keyword}{public} \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_a6029faa8555564938c65863d042218c3}{IoDeviceTelemetryNtCreateFile}}(uint \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_general_telemtry_helper_struct_a3cf9468658bda6c3b5545fcdec4051e4}{ProcessId}}, uint ThreadID, IntPtr ForceHandle, IntPtr LastError, \mbox{\hyperlink{namespace_insight_sheath_aa32853670318d8ddc9960b8750584fc7}{MachineType}} \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_general_telemtry_helper_struct_a11006996136e61596f8723cc201fd170}{Type}}): base(\mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_general_telemtry_helper_struct_a3cf9468658bda6c3b5545fcdec4051e4}{ProcessId}}, ThreadID, ForceHandle, LastError, \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_general_telemtry_helper_struct_a11006996136e61596f8723cc201fd170}{Type}})}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00276}00276         \{}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00277}00277 }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00278}00278         \}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00282}\mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_a91a3971d07a28bb54848e7da9e3614b3}{00282}}         \textcolor{keyword}{public} readonly IntPtr \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_a91a3971d07a28bb54848e7da9e3614b3}{FileOutHandle}};}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00286}\mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_a528667b63dd8edcecff4b495de5dfc57}{00286}}         \textcolor{keyword}{public} \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798bec}{AccessMasks}} \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_a528667b63dd8edcecff4b495de5dfc57}{DesiredAccess}};}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00290}\mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_aa1dbae64a0cb03d63e73687c24d4d61f}{00290}}         \textcolor{keyword}{public} \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_object_attributes}{WindowsObjectAttributes}} \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_aa1dbae64a0cb03d63e73687c24d4d61f}{ObjectAttributes}};}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00294}\mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_a86716be37645387a7e1279fbdb143756}{00294}}         \textcolor{keyword}{public} readonly IntPtr \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_a86716be37645387a7e1279fbdb143756}{IoStatusBlock}};}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00298}\mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_aaf9302add84ab93f42a966a01b01049c}{00298}}         \textcolor{keyword}{public} \mbox{\hyperlink{struct_insight_sheath_1_1_telemetry_1_1_l_a_r_g_e___i_n_t_e_g_e_r}{LARGE\_INTEGER}} \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_aaf9302add84ab93f42a966a01b01049c}{AllocationSize}};}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00302}\mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_a9ae1d97ace82d2cd5918106586840298}{00302}}         \textcolor{keyword}{public} \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_a9ae1d97ace82d2cd5918106586840298}{FileAttributes}} \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_a9ae1d97ace82d2cd5918106586840298}{FileAttributes}};}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00306}\mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_a56b6babcc3621047cba281f1f2b4fd6d}{00306}}         \textcolor{keyword}{public} FileShare \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_a56b6babcc3621047cba281f1f2b4fd6d}{ShareAccess}};}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00310}\mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_ad7b9e98d886a5df809f0b310b07eae7f}{00310}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_ad7b9e98d886a5df809f0b310b07eae7f}{CreationOptions}};}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00314}\mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_a9a992ba03b0ceead9030efaba7556832}{00314}}         \textcolor{keyword}{public} \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a15b1b686153bd71b56704829fdee0233}{NtCreationDisposition}} \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_a9a992ba03b0ceead9030efaba7556832}{CreateDisposition}};}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00318}\mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_a603e74dd198d06047f65bf8a0bf3dc8c}{00318}}         \textcolor{keyword}{public} IntPtr \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_a603e74dd198d06047f65bf8a0bf3dc8c}{EaBuffer}};}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00322}\mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_a33997082ce1d3474fcb3ffcc41739864}{00322}}         \textcolor{keyword}{public} ulong \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_a33997082ce1d3474fcb3ffcc41739864}{EaSize}};}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00323}00323 }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00327}00327         \textcolor{comment}{//public readonly IntPtr ForceHandle;   <-\/ now in generic parent class}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00331}00331 \textcolor{comment}{}        \textcolor{comment}{//public readonly IntPtr ReturnValue <-\/ ow in generic parent class;}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00332}00332 }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00333}00333 }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00334}00334         }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00339}\mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_a5a19fef4df903ab3b4bea060e34e599d}{00339}}         \textcolor{keyword}{public} \textcolor{keywordtype}{void} \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_a5a19fef4df903ab3b4bea060e34e599d}{SetReturnValue}}(uint ReturnValue)}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00340}00340         \{}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00341}00341             \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_general_telemtry_helper_struct_ac3609f54348342a33419cb3eca6ec817}{SetLastErrorValue}}(ReturnValue);}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00342}00342         \}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00343}00343     \}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00344}00344 }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00345}00345     }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00346}00346 }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00350}\mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemety_create_file}{00350}}     \textcolor{keyword}{public} \textcolor{keyword}{class }\mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemety_create_file}{IoDeviceTelemetyCreateFile}}: \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telememtry_exception_common_values}{IoDeviceTelememtryExceptionCommonValues}}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00351}00351     \{}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00352}\mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemety_create_file_a304ef1bed606e6431d5dea0f175fdef7}{00352}}         \textcolor{keyword}{public} \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemety_create_file_a304ef1bed606e6431d5dea0f175fdef7}{IoDeviceTelemetyCreateFile}}(uint dwProcess, uint dwThread, IntPtr HandlePtr, IntPtr ErrorPtr, \mbox{\hyperlink{namespace_insight_sheath_aa32853670318d8ddc9960b8750584fc7}{MachineType}} \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_general_telemtry_helper_struct_a11006996136e61596f8723cc201fd170}{Type}}): base(dwProcess, dwThread, HandlePtr, ErrorPtr, \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_general_telemtry_helper_struct_a11006996136e61596f8723cc201fd170}{Type}})}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00353}00353         \{}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00354}00354             \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemety_create_file_a9f0b5036e157963cdb8486dc2619860b}{FileName}} = \textcolor{keyword}{null};}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00355}00355             \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemety_create_file_a63a063a7f6fd114355fc2b59710472e2}{DesiredAccess}} = \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798bec}{AccessMasks}}.NoAccess;}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00356}00356             \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemety_create_file_aed509564ea1f6293bd968070c6f87c7e}{SharedMode}} = FileShare.None;}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00357}00357             \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemety_create_file_ae244c545b5071d78abb783daf1d81f34}{SecurityAttrib}} = IntPtr.Zero;}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00358}00358             \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemety_create_file_a27aca4ea20a4108ac933a32bc4adf793}{CreateDisposition}} = 0;}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00359}00359             \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemety_create_file_a24ef1b54af8afe990a2270e132655197}{FlagsAndAttributes}} = 0;}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00360}00360             \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemety_create_file_a050b75aac67b60f6c59f8ca812cb803a}{TemplateFile}} = IntPtr.Zero;}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00361}00361         \}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00362}00362 }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00363}00363 }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00367}\mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemety_create_file_a9f0b5036e157963cdb8486dc2619860b}{00367}}         \textcolor{keyword}{public} \textcolor{keywordtype}{string} \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemety_create_file_a9f0b5036e157963cdb8486dc2619860b}{FileName}};}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00371}\mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemety_create_file_a63a063a7f6fd114355fc2b59710472e2}{00371}}         \textcolor{keyword}{public} \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798bec}{AccessMasks}} \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemety_create_file_a63a063a7f6fd114355fc2b59710472e2}{DesiredAccess}};}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00375}\mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemety_create_file_aed509564ea1f6293bd968070c6f87c7e}{00375}}         \textcolor{keyword}{public} FileShare \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemety_create_file_aed509564ea1f6293bd968070c6f87c7e}{SharedMode}};}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00379}\mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemety_create_file_ae244c545b5071d78abb783daf1d81f34}{00379}}         \textcolor{keyword}{public} IntPtr \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemety_create_file_ae244c545b5071d78abb783daf1d81f34}{SecurityAttrib}};}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00383}\mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemety_create_file_a27aca4ea20a4108ac933a32bc4adf793}{00383}}         \textcolor{keyword}{public} \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a1c7edc0d53c65d0de3f4e191357e46a7}{CreationDisposition}} \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemety_create_file_a27aca4ea20a4108ac933a32bc4adf793}{CreateDisposition}};}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00387}\mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemety_create_file_a24ef1b54af8afe990a2270e132655197}{00387}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemety_create_file_a24ef1b54af8afe990a2270e132655197}{FlagsAndAttributes}};}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00391}\mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemety_create_file_a050b75aac67b60f6c59f8ca812cb803a}{00391}}         \textcolor{keyword}{public} IntPtr \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemety_create_file_a050b75aac67b60f6c59f8ca812cb803a}{TemplateFile}};}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00395}00395         \textcolor{comment}{//public readonly IntPtr ForceHandle;}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00396}00396 }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00400}00400         \textcolor{comment}{//public  readonly IntPtr ForceLastError;}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00401}00401 }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00402}00402         }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00403}00403 }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00404}00404     \}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00405}00405 }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00406}00406 }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00410}00410     \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keyword}{class }IoDeviceTelemetryReaderExtensions}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00411}00411     \{}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00412}00412         \textcolor{keyword}{const} uint ExceptionArgType = 0;}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00413}00413 }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00414}00414 }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00415}00415 }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00416}00416         \textcolor{comment}{//const uint ExceptionSubType = 0;}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00417}00417         \textcolor{comment}{//const uint LastError\_Ptr = 1;}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00418}00418 }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00419}00419 }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00420}00420         \textcolor{comment}{/* if exception is NotificationType.CreateFile */}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00421}00421         \textcolor{keyword}{const} uint CreateFile\_FilenamePtr = 2;}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00422}00422         \textcolor{keyword}{const} uint CreateFile\_FileNameCharLen = 3;}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00423}00423         \textcolor{keyword}{const} uint CreateFile\_DesiredAccess = 4;}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00424}00424         \textcolor{keyword}{const} uint CreateFile\_ShareMode = 5;}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00425}00425         \textcolor{keyword}{const} uint CreateFile\_SecurityPtr = 6;}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00426}00426         \textcolor{keyword}{const} uint CreateFile\_CreationDisposition = 7;}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00427}00427         \textcolor{keyword}{const} uint CreateFile\_FlagsAndAttribs = 8;}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00428}00428         \textcolor{keyword}{const} uint CreateFile\_TemplateFile = 9;}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00429}00429         \textcolor{keyword}{const} uint CreateFile\_OvrridePtr = 10;}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00430}00430 }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00431}00431 }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00432}00432         \textcolor{keyword}{const} uint NtCreateFile\_ReturnHandle = 2;}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00433}00433         \textcolor{keyword}{const} uint NtCreateFile\_DesiredAccess = 3;}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00434}00434         \textcolor{keyword}{const} uint NtCreateFile\_ObjectAttributes = 4;}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00435}00435         \textcolor{keyword}{const} uint NtCreateFile\_IoStatusBlock = 5;}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00436}00436         \textcolor{keyword}{const} uint NtCreateFile\_AllocationSize = 6;}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00437}00437         \textcolor{keyword}{const} uint NtCreateFile\_FileAttributs = 7;}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00438}00438         \textcolor{keyword}{const} uint NtCreateFile\_ShareAccess = 8;}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00439}00439         \textcolor{keyword}{const} uint NtCreateFile\_CreateDisposition = 9;}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00440}00440         \textcolor{keyword}{const} uint NtCreateFile\_CreateOptions = 10;}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00441}00441         \textcolor{keyword}{const} uint NtCreateFile\_EaBuffer = 11;}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00442}00442         \textcolor{keyword}{const} uint NtCreateFile\_EaLength = 12;}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00443}00443         \textcolor{keyword}{const} uint NtCreateFile\_OverwriteHandle = 13;}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00444}00444 }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00445}00445 }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00446}00446         \textcolor{comment}{/* if exception is NotificationType.NTCreateFIle*/}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00447}00447         \textcolor{comment}{/*}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00448}00448 \textcolor{comment}{         * ExceptionArgs[EXCEPTION\_LAST\_ERROR] = (ULONG)ReturnValue;}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00449}00449 \textcolor{comment}{    ExceptionArgs[NTCF\_AW\_OUTPUTHANDLE] = (ULONG)FileHandle;}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00450}00450 \textcolor{comment}{    ExceptionArgs[NTCT\_AW\_DESIRED\_ACCESS] = (ULONG)DesiredAccess;}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00451}00451 \textcolor{comment}{    ExceptionArgs[NTCT\_AW\_OBJECT\_ATTRIBUTES] = (ULONG)ObjectAttributes;}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00452}00452 \textcolor{comment}{    ExceptionArgs[NTCT\_AW\_IOSTATUSBLOCK] = (ULONG)IoStatusBlock;}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00453}00453 \textcolor{comment}{    ExceptionArgs[NTCT\_AW\_ALLOCATION\_SIZE] = (ULONG)AllocationSize;}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00454}00454 \textcolor{comment}{    ExceptionArgs[NTCT\_AW\_FILEATRIBUTES] = (ULONG)FileAttributes;}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00455}00455 \textcolor{comment}{    ExceptionArgs[NTCT\_AW\_SHARE\_ACCESS] = (ULONG)ShareAccess;}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00456}00456 \textcolor{comment}{    ExceptionArgs[NTCT\_AW\_CREATEOPTION] = (ULONG)CreateDisposition;}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00457}00457 \textcolor{comment}{    ExceptionArgs[NTCT\_AW\_EABUFFER] = (ULONG)EaBuffer;}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00458}00458 \textcolor{comment}{    ExceptionArgs[NTCT\_AW\_EALENGTH] = (ULONG)EaLength;}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00459}00459 \textcolor{comment}{    ExceptionArgs[NTCT\_AW\_OVERRIDE\_HANDLE] = (ULONG)OverwriteHandle;}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00460}00460 \textcolor{comment}{         */}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00461}00461 }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00462}00462 }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00463}00463 }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00467}00467         \textcolor{comment}{//public static readonly uint FixedExceptionCode = 0x68ACB7A9;}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00468}00468         \textcolor{comment}{// DEBUG ONLY x86 and x64 exception tracking down}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00469}00469         \textcolor{keyword}{public} \textcolor{keyword}{static} readonly uint FixedExceptionCode = 2;}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00470}00470         \textcolor{keyword}{public} \textcolor{keyword}{enum} NotificationType}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00471}00471         \{}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00475}00475             CreateFile = 1,}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00479}00479             CreateFileTransacted = 2,}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00483}00483             CloseHandle = 3,}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00487}00487             NtCreateFile = 4,}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00491}00491             NtOpenFile =5}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00492}00492         \}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00493}00493 }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00499}00499         \textcolor{keyword}{public} \textcolor{keyword}{static} NotificationType GetIoDeviceExceptionType(\textcolor{keyword}{this} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exception_info}{DebugEventExceptionInfo}} that)}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00500}00500         \{}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00501}00501             \textcolor{keywordflow}{return} (NotificationType)that.\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exception_info_a06c52ad72b7c779c89221c76df0d5482}{ExceptionParameter64}}[GeneralTelemetry.ExceptionSubType];}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00502}00502         \}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00503}00503 }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00504}00504  }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00510}00510         \textcolor{keyword}{public} \textcolor{keyword}{static} IoDeviceTelemetryNtCreateFile GetNtCreateFileSettings(\textcolor{keyword}{this} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exception_info}{DebugEventExceptionInfo}} that)}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00511}00511         \{}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00512}00512             IoDeviceTelemetryNtCreateFile ret;}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00513}00513             \mbox{\hyperlink{namespace_insight_sheath_aa32853670318d8ddc9960b8750584fc7}{MachineType}} Type;}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00514}00514             IntPtr Handle = HelperRoutines.OpenProcessForVirtualMemory(that.\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container_a08d3f29a495fb403db61394d48e02cd5}{ProcessID}});}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00515}00515             var arguments = that.\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exception_info_a06c52ad72b7c779c89221c76df0d5482}{ExceptionParameter64}};}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00516}00516             \textcolor{keywordflow}{if} (that.\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container_a667bb84f38a59ae63405d33b2301bc34}{IsEventFrom32BitProcess}})}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00517}00517             \{}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00518}00518                 Type = \mbox{\hyperlink{namespace_insight_sheath_aa32853670318d8ddc9960b8750584fc7}{MachineType}}.MachineI386;}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00519}00519             \}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00520}00520             \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00521}00521             \{}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00522}00522                 Type = \mbox{\hyperlink{namespace_insight_sheath_aa32853670318d8ddc9960b8750584fc7}{MachineType}}.MachineAmd64;}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00523}00523             \}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00524}00524             \textcolor{keywordflow}{try}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00525}00525             \{}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00526}00526                 ret = \textcolor{keyword}{new} IoDeviceTelemetryNtCreateFile(that.\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container_a08d3f29a495fb403db61394d48e02cd5}{ProcessID}}, that.\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container_a7f47285083f09c3815934d8cc2d027c6}{ThreadID}}, \textcolor{keyword}{new} IntPtr((\textcolor{keywordtype}{long})arguments[NtCreateFile\_ReturnHandle]), \textcolor{keyword}{new} IntPtr((\textcolor{keywordtype}{long})arguments[GeneralTelemetry.LastError\_Ptr]), Type) ;}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00527}00527 \textcolor{comment}{//                ret.ReturnValue = new IntPtr((long)arguments[LastError\_Ptr]);}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00528}00528   \textcolor{comment}{//              ret.FileOutHandle = new IntPtr((long)arguments[NtCreateFile\_ReturnHandle]);}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00529}00529                 ret.DesiredAccess = (\mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798bec}{AccessMasks}}) arguments[NtCreateFile\_DesiredAccess];}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00530}00530                 \textcolor{keywordflow}{if} (arguments[NtCreateFile\_ObjectAttributes] == 0)}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00531}00531                 \{}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00532}00532                     ret.ObjectAttributes = \textcolor{keyword}{null};}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00533}00533                 \}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00534}00534                 \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00535}00535                 \{}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00536}00536                     \textcolor{comment}{//ret.ObjectAttributes = new Structs.WindowsObjectAttributes(new IntPtr((long)arguments[NtCreateFile\_ObjectAttributes]));}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00537}00537                     \textcolor{keywordflow}{if} (arguments[NtCreateFile\_ObjectAttributes] != 0)}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00538}00538                     \{}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00539}00539                         ret.ObjectAttributes = RemoteStructure.RemoteReadObjectAttributes(Handle, \textcolor{keyword}{new} IntPtr((\textcolor{keywordtype}{long})arguments[NtCreateFile\_ObjectAttributes]), that.\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container_a667bb84f38a59ae63405d33b2301bc34}{IsEventFrom32BitProcess}}, \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00540}00540                     \}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00541}00541                     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00542}00542                     \{}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00543}00543                         ret.ObjectAttributes = \textcolor{keyword}{null}; }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00544}00544                     \}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00545}00545                     }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00546}00546                 \}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00547}00547                 \textcolor{keywordflow}{if} (arguments[NtCreateFile\_AllocationSize] != 0)}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00548}00548                 \{}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00549}00549                     ret.AllocationSize = Marshal.PtrToStructure<LARGE\_INTEGER>(\textcolor{keyword}{new} IntPtr((\textcolor{keywordtype}{long})arguments[NtCreateFile\_AllocationSize]));}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00550}00550                 \}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00551}00551                 \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00552}00552                 \{}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00553}00553                     ret.AllocationSize = \textcolor{keyword}{new} LARGE\_INTEGER();}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00554}00554                 \}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00555}00555                 ret.FileAttributes = (FileAttributes) arguments[NtCreateFile\_FileAttributs];}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00556}00556                 ret.ShareAccess = (FileShare) arguments[NtCreateFile\_ShareAccess];}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00557}00557                 }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00558}00558                 ret.CreateDisposition = (\mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a15b1b686153bd71b56704829fdee0233}{NtCreationDisposition}}) arguments[NtCreateFile\_CreateDisposition];}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00559}00559                 ret.CreationOptions = (uint)arguments[NtCreateFile\_CreateOptions];}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00560}00560                 ret.EaBuffer = \textcolor{keyword}{new} IntPtr((\textcolor{keywordtype}{long})arguments[NtCreateFile\_EaBuffer]);}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00561}00561                 ret.EaSize = arguments[NtCreateFile\_EaLength];}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00562}00562                 \textcolor{comment}{//ret.ForceHandle = new IntPtr((long)arguments[NtCreateFile\_OverwriteHandle]);}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00563}00563                 \textcolor{keywordflow}{return} ret;}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00564}00564             \}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00565}00565             \textcolor{keywordflow}{finally}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00566}00566             \{}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00567}00567                 HelperRoutines.CloseHandle(Handle);}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00568}00568             \}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00569}00569         \}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00570}00570 }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00576}00576         \textcolor{keyword}{public} \textcolor{keyword}{static} IoDeviceTelemetyCreateFile GetCreateFileSettings(\textcolor{keyword}{this} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exception_info}{DebugEventExceptionInfo}} that)}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00577}00577         \{}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00578}00578             \mbox{\hyperlink{namespace_insight_sheath_aa32853670318d8ddc9960b8750584fc7}{MachineType}} type;}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00579}00579             IoDeviceTelemetyCreateFile ret;}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00580}00580             var Arguments = that.\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exception_info_a06c52ad72b7c779c89221c76df0d5482}{ExceptionParameter64}};}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00581}00581             IntPtr Handle = HelperRoutines.OpenProcessForVirtualMemory(that.\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container_a08d3f29a495fb403db61394d48e02cd5}{ProcessID}});}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00582}00582 }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00583}00583             \textcolor{keywordflow}{try}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00584}00584             \{}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00585}00585                 \textcolor{keywordflow}{if} (that.\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container_a667bb84f38a59ae63405d33b2301bc34}{IsEventFrom32BitProcess}})}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00586}00586                 \{}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00587}00587                     type = \mbox{\hyperlink{namespace_insight_sheath_aa32853670318d8ddc9960b8750584fc7}{MachineType}}.MachineI386;}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00588}00588                 \}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00589}00589                 \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00590}00590                 \{}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00591}00591                     type = \mbox{\hyperlink{namespace_insight_sheath_aa32853670318d8ddc9960b8750584fc7}{MachineType}}.MachineAmd64;}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00592}00592                 \}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00593}00593                 ret = \textcolor{keyword}{new} IoDeviceTelemetyCreateFile(that.\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container_a08d3f29a495fb403db61394d48e02cd5}{ProcessID}}, that.\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container_a7f47285083f09c3815934d8cc2d027c6}{ThreadID}}, (IntPtr)Arguments[CreateFile\_OvrridePtr], (IntPtr)Arguments[GeneralTelemetry.LastError\_Ptr], type)}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00594}00594                 \{}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00595}00595                     FileName = RemoteStructure.RemoteReadString(Handle, \textcolor{keyword}{new} IntPtr((\textcolor{keywordtype}{long})Arguments[CreateFile\_FilenamePtr]), Arguments[CreateFile\_FileNameCharLen]),}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00596}00596                     DesiredAccess = (\mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798bec}{AccessMasks}})Arguments[CreateFile\_DesiredAccess],}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00597}00597                     SharedMode = (FileShare)Arguments[CreateFile\_ShareMode],}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00598}00598                     SecurityAttrib = \textcolor{keyword}{new} IntPtr((\textcolor{keywordtype}{long})Arguments[CreateFile\_SecurityPtr]),}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00599}00599                     CreateDisposition = (\mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a1c7edc0d53c65d0de3f4e191357e46a7}{CreationDisposition}})Arguments[CreateFile\_CreationDisposition],}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00600}00600                     FlagsAndAttributes = (uint)Arguments[CreateFile\_FlagsAndAttribs],}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00601}00601                     TemplateFile = \textcolor{keyword}{new} IntPtr((\textcolor{keywordtype}{long})Arguments[CreateFile\_TemplateFile])}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00602}00602                 \};}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00603}00603 }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00604}00604 }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00605}00605             \}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00606}00606             \textcolor{keywordflow}{finally}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00607}00607             \{}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00608}00608                 HelperRoutines.CloseHandle(Handle);}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00609}00609             \}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00610}00610             \textcolor{keywordflow}{return} ret;}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00611}00611         \}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00612}00612 }
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00613}00613     \}}
+\DoxyCodeLine{\Hypertarget{_io_device_telemetry_reader_8cs_source_l00614}00614 \}}
+
+\end{DoxyCode}

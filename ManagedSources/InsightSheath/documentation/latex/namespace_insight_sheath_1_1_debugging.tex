@@ -1,0 +1,305 @@
+\hypertarget{namespace_insight_sheath_1_1_debugging}{}\doxysection{Insight\+Sheath.\+Debugging Namespace Reference}
+\label{namespace_insight_sheath_1_1_debugging}\index{InsightSheath.Debugging@{InsightSheath.Debugging}}
+\doxysubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_process}{Process}}
+\item 
+namespace \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine}{Symbol\+Engine}}
+\item 
+namespace \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_thread}{Thread}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{Debug\+Event}}
+\begin{DoxyCompactList}\small\item\em This encapsulates the Native \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{Debug\+Event}} structure via calling exported C routines in Insight\+API.\+dll. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_create_process_info}{Debug\+Event\+Create\+Process\+Info}}
+\item 
+class \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_create_thread_info}{Debug\+Event\+Create\+Thread\+Info}}
+\item 
+class \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exception_info}{Debug\+Event\+Exception\+Info}}
+\begin{DoxyCompactList}\small\item\em Class Wrapper dealing with extracting Exception information from a \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{Debug\+Event}}. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exit_process_info}{Debug\+Event\+Exit\+Process\+Info}}
+\item 
+class \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exit_thread_info}{Debug\+Event\+Exit\+Thread\+Info}}
+\item 
+class \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info}{Debug\+Event\+Load\+Dll\+Info}}
+\begin{DoxyCompactList}\small\item\em Provides access to a \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8afca498d4710b5539f369a6de68e749ab}{Debug\+Event\+Type.\+Load\+Dll\+Event}} in a \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{Debug\+Event}} struct \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_rip_info}{Debug\+Event\+Rip\+Info}}
+\begin{DoxyCompactList}\small\item\em Providers a wrapper to access the underlying structure. Assumes memory management is done elsewhere. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container}{Debug\+Event\+Static\+Container}}
+\begin{DoxyCompactList}\small\item\em Implements the basis of disposal the other \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{Debug\+Event}} classes use. Also exposes routines to read the Process\+ID and Thread\+ID that triggered the event \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_string_info}{Debug\+Event\+String\+Info}}
+\begin{DoxyCompactList}\small\item\em Providers a wrapper to process specific \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8a117b38a6e59c745c9c605870e6e2f4de}{Debug\+Event\+Type.\+Output\+Debug\+String}} components. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_unload_dll_info}{Debug\+Event\+Unload\+Dll\+Info}}
+\item 
+class {\bfseries Debug\+Event\+Worker\+Thread\+Support}
+\begin{DoxyCompactList}\small\item\em If you are wanting to control your debug message pump on the .NET side rather than native (why?), then these routines will help you glue everything together. This class exists only in the sheath and is not duplicated in Native. Some routines here may be echoed in other classes in the sheath Some of the routines here exist as extensions to \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{Debug\+Event}} \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a6975d875b77ecf5b2c7bdaa5586bd01c}{Debug\+Exception\+In\+Page\+\_\+\+Type}} \{ \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a6975d875b77ecf5b2c7bdaa5586bd01cac24aa5adc8d48dd886a2220685a7258a}{Read\+Exception}} = 0
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a6975d875b77ecf5b2c7bdaa5586bd01caccae2b91ec46bae08dab9bd47c939d91}{Write\+Exception}} = 1
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a6975d875b77ecf5b2c7bdaa5586bd01ca0930de762f3b53650711bafc1a16e0a5}{Dep\+Exception}} = 8
+ \}
+\begin{DoxyCompactList}\small\item\em Type of In Page exception flags. You can check if the exception is that at Debug\+Event\+Exception\+Info.\+Exception\+Code \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eea}{Debug\+Exception\+Types}} \+: uint \{ \newline
+\mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaac86b6caf254b06854e24c5c4510c5f85}{Access\+Violation}} = 0x\+C0000005
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaae045f93c8b16d405f06bc8ca6cb970d1}{Array\+Bounds\+Exceeded}} = 0x\+C000008C
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaa7129472c5eb598faf47e4e877f2618fd}{Breakpoint}} = 0x80000003
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaaa9460aab5a24c543bbd6675fc0e9f62a}{Datatyp\+\_\+\+Misalighment}} = 0x80000002
+, \newline
+\mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaaf8e37d5951c984e46851f0f5cea02ff9}{Float\+Point\+\_\+\+Denormal\+\_\+\+Operand}} = 0x\+C000008D
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaa239caa9b11657607e956a05ad3bf28f1}{Float\+\_\+\+Divide\+By\+Zero}} = 0x\+C000008E
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaa8957307cab6552b556b18f3c822803f9}{Float\+\_\+\+Inexact\+Result}} = 0x\+C000008F
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaa9885d673a8eef7c043bdea24b3ab4ea9}{Float\+\_\+\+Overflow}} = 0x\+C0000091
+, \newline
+\mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaa5c11fe7b57ecd1b331b10c17b80975c6}{Float\+\_\+\+Stack\+Check}} = 0x\+C0000092
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaaaec9c5b6c7cca858ebf107fd3be1b64c}{Float\+\_\+\+Underflow}} = 0x\+C0000093
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaa6a485c16e3ee17cce0a9c54e72469bc5}{Illegal\+Instrution}} = 0x\+C000001D
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaa54356d3c602bdb23cd9c94c09c149a28}{In\+Page\+Error}} = 0x\+C0000006
+, \newline
+\mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaadda5f240b1a9a07af0b710b5a761a760}{Int\+\_\+\+Divide\+By\+Zero}} = 0x\+C0000094
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaa2ed9edad6b3873b22e23af6168681bb0}{Int\+\_\+\+Overflow}} = 0x\+C0000095
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaa27891f27c10f3f334d207b5631bba65e}{Invalid\+Disposition}} = 0x\+C0000026
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaa6148798b6e90ec93983d433ec1d0396b}{Non\+Continuable\+Exception}} = 0x\+C0000025
+, \newline
+\mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaac9ffe9bb6e32f9780591be75b325148c}{Priv\+Instruction}} = 0x\+C0000096
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaa84d7dc19766c446f5e4084e8fce87f82}{Stack\+Overflow}} = 0x\+C00000\+FD
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaaa5f3ba85c4804d1a7343045a4f895d8a}{Debug\+Console\+ControlC}} = 0x\+C000013A
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaa41b894072e8bd873f5dfcad73d99be8f}{Invalid\+Handle\+Close\+Exception}} = 0x\+C0000008
+ \}
+\begin{DoxyCompactList}\small\item\em Enum for the exceptions specifies within the MSDN documentation. NOT EXHAUSTIVE. Sourced from minwinbase.\+h in Visual studio \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8}{Debug\+Event\+Type}} \{ \newline
+\mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8ab99aec4ac74ac742607baba21937f82d}{Exception\+Event}} = 1
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8a9d9d4d2da23a55dc9713df01ef36ae8f}{Create\+Thead\+Event}} = 2
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8ab5636216d91a5febd3dfab18879d8200}{Create\+Process\+Event}} = 3
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8afe451e18cfa42a717ccef2a32d67e5c3}{Exit\+Thread\+Event}} = 4
+, \newline
+\mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8a7d83cd4a7180f43b8d9b415ed6cc84b5}{Exit\+Process\+Event}} = 5
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8afca498d4710b5539f369a6de68e749ab}{Load\+Dll\+Event}} = 6
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8a048108bab17fa2e8fe8836ec7c81da01}{Unload\+Dll\+Event}} = 7
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8a117b38a6e59c745c9c605870e6e2f4de}{Output\+Debug\+String}} = 8
+, \newline
+\mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8a5f9cc9dc2291a80c635daf1981cd2aa1}{Rip\+Event}} = 9
+ \}
+\begin{DoxyCompactList}\small\item\em Helpful enum for the various debug event types. Also specifies which C\# class will assist in reading the event\textquotesingle{}s data. \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_acb21c97b0a5bbef4e410cb10937b6b63}{Rip\+Error\+Type}} \{ \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_acb21c97b0a5bbef4e410cb10937b6b63a9015f16795f0394c3cd8ad9613a1487a}{Sle\+No\+Type}} = 0
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_acb21c97b0a5bbef4e410cb10937b6b63a757d78540676e4d279a4e3f292b7b52b}{Sle\+Error}} = 0x00000001
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_acb21c97b0a5bbef4e410cb10937b6b63a4521ce113ca92713872cff4abc6f876b}{Sle\+Minor\+Error}} = 0x00000002
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_acb21c97b0a5bbef4e410cb10937b6b63abebe6ccd449e7d4f7576379c908f02bd}{Sle\+Warning}} = 0x00000003
+ \}
+\begin{DoxyCompactList}\small\item\em Type of error that is contained Debug\+Event\+Rip\+Info.\+Error\+Type \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8}\label{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8}} 
+\index{InsightSheath.Debugging@{InsightSheath.Debugging}!DebugEventType@{DebugEventType}}
+\index{DebugEventType@{DebugEventType}!InsightSheath.Debugging@{InsightSheath.Debugging}}
+\doxysubsubsection{\texorpdfstring{DebugEventType}{DebugEventType}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8}{Insight\+Sheath.\+Debugging.\+Debug\+Event\+Type}}}
+
+
+
+Helpful enum for the various debug event types. Also specifies which C\# class will assist in reading the event\textquotesingle{}s data. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ExceptionEvent@{ExceptionEvent}!InsightSheath.Debugging@{InsightSheath.Debugging}}\index{InsightSheath.Debugging@{InsightSheath.Debugging}!ExceptionEvent@{ExceptionEvent}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8ab99aec4ac74ac742607baba21937f82d}\label{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8ab99aec4ac74ac742607baba21937f82d}} 
+Exception\+Event&Event is an exception. \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exception_info}{Debug\+Event\+Exception\+Info}} \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CreateTheadEvent@{CreateTheadEvent}!InsightSheath.Debugging@{InsightSheath.Debugging}}\index{InsightSheath.Debugging@{InsightSheath.Debugging}!CreateTheadEvent@{CreateTheadEvent}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8a9d9d4d2da23a55dc9713df01ef36ae8f}\label{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8a9d9d4d2da23a55dc9713df01ef36ae8f}} 
+Create\+Thead\+Event&Event is a create thread. \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_create_thread_info}{Debug\+Event\+Create\+Thread\+Info}} \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CreateProcessEvent@{CreateProcessEvent}!InsightSheath.Debugging@{InsightSheath.Debugging}}\index{InsightSheath.Debugging@{InsightSheath.Debugging}!CreateProcessEvent@{CreateProcessEvent}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8ab5636216d91a5febd3dfab18879d8200}\label{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8ab5636216d91a5febd3dfab18879d8200}} 
+Create\+Process\+Event&Event is a create process event. \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_create_process_info}{Debug\+Event\+Create\+Process\+Info}} \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ExitThreadEvent@{ExitThreadEvent}!InsightSheath.Debugging@{InsightSheath.Debugging}}\index{InsightSheath.Debugging@{InsightSheath.Debugging}!ExitThreadEvent@{ExitThreadEvent}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8afe451e18cfa42a717ccef2a32d67e5c3}\label{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8afe451e18cfa42a717ccef2a32d67e5c3}} 
+Exit\+Thread\+Event&Event is an exit thread event. \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exit_thread_info}{Debug\+Event\+Exit\+Thread\+Info}} \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ExitProcessEvent@{ExitProcessEvent}!InsightSheath.Debugging@{InsightSheath.Debugging}}\index{InsightSheath.Debugging@{InsightSheath.Debugging}!ExitProcessEvent@{ExitProcessEvent}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8a7d83cd4a7180f43b8d9b415ed6cc84b5}\label{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8a7d83cd4a7180f43b8d9b415ed6cc84b5}} 
+Exit\+Process\+Event&Event is a exit process event. \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exit_process_info}{Debug\+Event\+Exit\+Process\+Info}} \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LoadDllEvent@{LoadDllEvent}!InsightSheath.Debugging@{InsightSheath.Debugging}}\index{InsightSheath.Debugging@{InsightSheath.Debugging}!LoadDllEvent@{LoadDllEvent}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8afca498d4710b5539f369a6de68e749ab}\label{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8afca498d4710b5539f369a6de68e749ab}} 
+Load\+Dll\+Event&Event is a load DLL event. \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info}{Debug\+Event\+Load\+Dll\+Info}} \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{UnloadDllEvent@{UnloadDllEvent}!InsightSheath.Debugging@{InsightSheath.Debugging}}\index{InsightSheath.Debugging@{InsightSheath.Debugging}!UnloadDllEvent@{UnloadDllEvent}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8a048108bab17fa2e8fe8836ec7c81da01}\label{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8a048108bab17fa2e8fe8836ec7c81da01}} 
+Unload\+Dll\+Event&Event is unload DLL event. \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_unload_dll_info}{Debug\+Event\+Unload\+Dll\+Info}} \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{OutputDebugString@{OutputDebugString}!InsightSheath.Debugging@{InsightSheath.Debugging}}\index{InsightSheath.Debugging@{InsightSheath.Debugging}!OutputDebugString@{OutputDebugString}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8a117b38a6e59c745c9c605870e6e2f4de}\label{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8a117b38a6e59c745c9c605870e6e2f4de}} 
+Output\+Debug\+String&Event is output debug string (can use Remote\+Structure.\+Remote\+Read\+Debug\+String(\+Int\+Ptr, Int\+Ptr) OR \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_string_info}{Debug\+Event\+String\+Info}} which does this for you \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RipEvent@{RipEvent}!InsightSheath.Debugging@{InsightSheath.Debugging}}\index{InsightSheath.Debugging@{InsightSheath.Debugging}!RipEvent@{RipEvent}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8a5f9cc9dc2291a80c635daf1981cd2aa1}\label{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8a5f9cc9dc2291a80c635daf1981cd2aa1}} 
+Rip\+Event&Event is System RIP Debug Event \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_rip_info}{Debug\+Event\+Rip\+Info}} \\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line \mbox{\hyperlink{_debug_event_8cs_source_l00141}{141}} of file \mbox{\hyperlink{_debug_event_8cs_source}{Debug\+Event.\+cs}}.
+
+\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_a6975d875b77ecf5b2c7bdaa5586bd01c}\label{namespace_insight_sheath_1_1_debugging_a6975d875b77ecf5b2c7bdaa5586bd01c}} 
+\index{InsightSheath.Debugging@{InsightSheath.Debugging}!DebugExceptionInPage\_Type@{DebugExceptionInPage\_Type}}
+\index{DebugExceptionInPage\_Type@{DebugExceptionInPage\_Type}!InsightSheath.Debugging@{InsightSheath.Debugging}}
+\doxysubsubsection{\texorpdfstring{DebugExceptionInPage\_Type}{DebugExceptionInPage\_Type}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a6975d875b77ecf5b2c7bdaa5586bd01c}{Insight\+Sheath.\+Debugging.\+Debug\+Exception\+In\+Page\+\_\+\+Type}}}
+
+
+
+Type of In Page exception flags. You can check if the exception is that at \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exception_info_a92b3280690862f3f3d9ddd6266c34d7b}{Debug\+Event\+Exception\+Info.\+Exception\+Code}} 
+
+This file provides a wrapper between c\# and the Insight\+Api.\+Dll that deals with the debug event structure. The base class \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container}{Debug\+Event\+Static\+Container}} is the root for the other classes in this file. It handles holding an Int\+Ptr that represents the unmanaged DEBUG\+\_\+\+EVENT structure. This pointer gets passes to various routines in the Insight\+Api.\+Dll DLL which then return data bases on that pointer -\/ usually about the DEBUG\+\_\+\+EVENT struct. Each DEBUG\+\_\+\+EVENT in the MSDN documentation has its own C\# class \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8}{Debug\+Event\+Type}} About Exceptions The MSDN documentation has certain exceptions listed. Those have been added to the \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eea}{Debug\+Exception\+Types}} enum. That\textquotesingle{}s not actually exhaustive. winbase.\+h lists MANY MANY MANY more. \begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ReadException@{ReadException}!InsightSheath.Debugging@{InsightSheath.Debugging}}\index{InsightSheath.Debugging@{InsightSheath.Debugging}!ReadException@{ReadException}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_a6975d875b77ecf5b2c7bdaa5586bd01cac24aa5adc8d48dd886a2220685a7258a}\label{namespace_insight_sheath_1_1_debugging_a6975d875b77ecf5b2c7bdaa5586bd01cac24aa5adc8d48dd886a2220685a7258a}} 
+Read\+Exception&Target process thread with the \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaa54356d3c602bdb23cd9c94c09c149a28}{Debug\+Exception\+Types.\+In\+Page\+Error}} tried reading something it\textquotesingle{}s not allowed too \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WriteException@{WriteException}!InsightSheath.Debugging@{InsightSheath.Debugging}}\index{InsightSheath.Debugging@{InsightSheath.Debugging}!WriteException@{WriteException}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_a6975d875b77ecf5b2c7bdaa5586bd01caccae2b91ec46bae08dab9bd47c939d91}\label{namespace_insight_sheath_1_1_debugging_a6975d875b77ecf5b2c7bdaa5586bd01caccae2b91ec46bae08dab9bd47c939d91}} 
+Write\+Exception&Target process thread with the \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaa54356d3c602bdb23cd9c94c09c149a28}{Debug\+Exception\+Types.\+In\+Page\+Error}} tried writing to something it\textquotesingle{}s not allowed too \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{DepException@{DepException}!InsightSheath.Debugging@{InsightSheath.Debugging}}\index{InsightSheath.Debugging@{InsightSheath.Debugging}!DepException@{DepException}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_a6975d875b77ecf5b2c7bdaa5586bd01ca0930de762f3b53650711bafc1a16e0a5}\label{namespace_insight_sheath_1_1_debugging_a6975d875b77ecf5b2c7bdaa5586bd01ca0930de762f3b53650711bafc1a16e0a5}} 
+Dep\+Exception&Target process thread had a user mode DEP violation. \\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line \mbox{\hyperlink{_debug_event_8cs_source_l00031}{31}} of file \mbox{\hyperlink{_debug_event_8cs_source}{Debug\+Event.\+cs}}.
+
+\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eea}\label{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eea}} 
+\index{InsightSheath.Debugging@{InsightSheath.Debugging}!DebugExceptionTypes@{DebugExceptionTypes}}
+\index{DebugExceptionTypes@{DebugExceptionTypes}!InsightSheath.Debugging@{InsightSheath.Debugging}}
+\doxysubsubsection{\texorpdfstring{DebugExceptionTypes}{DebugExceptionTypes}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eea}{Insight\+Sheath.\+Debugging.\+Debug\+Exception\+Types}} \+: uint}
+
+
+
+Enum for the exceptions specifies within the MSDN documentation. NOT EXHAUSTIVE. Sourced from minwinbase.\+h in Visual studio 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AccessViolation@{AccessViolation}!InsightSheath.Debugging@{InsightSheath.Debugging}}\index{InsightSheath.Debugging@{InsightSheath.Debugging}!AccessViolation@{AccessViolation}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaac86b6caf254b06854e24c5c4510c5f85}\label{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaac86b6caf254b06854e24c5c4510c5f85}} 
+Access\+Violation&Target tried reading/ writing to virtual memory it is not allowed too. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ArrayBoundsExceeded@{ArrayBoundsExceeded}!InsightSheath.Debugging@{InsightSheath.Debugging}}\index{InsightSheath.Debugging@{InsightSheath.Debugging}!ArrayBoundsExceeded@{ArrayBoundsExceeded}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaae045f93c8b16d405f06bc8ca6cb970d1}\label{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaae045f93c8b16d405f06bc8ca6cb970d1}} 
+Array\+Bounds\+Exceeded&Target tried accessing an array element that\textquotesingle{}s out of bounds (hardware supported bounds checking? according to MSDN documentation) \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Breakpoint@{Breakpoint}!InsightSheath.Debugging@{InsightSheath.Debugging}}\index{InsightSheath.Debugging@{InsightSheath.Debugging}!Breakpoint@{Breakpoint}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaa7129472c5eb598faf47e4e877f2618fd}\label{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaa7129472c5eb598faf47e4e877f2618fd}} 
+Breakpoint&Hit a breakpoint in the target. Important! Windows will generate a breakpoint once its finished loading the process before sending your first debugger message to you. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Datatyp\_Misalighment@{Datatyp\_Misalighment}!InsightSheath.Debugging@{InsightSheath.Debugging}}\index{InsightSheath.Debugging@{InsightSheath.Debugging}!Datatyp\_Misalighment@{Datatyp\_Misalighment}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaaa9460aab5a24c543bbd6675fc0e9f62a}\label{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaaa9460aab5a24c543bbd6675fc0e9f62a}} 
+Datatyp\+\_\+\+Misalighment&tread in the target attempting to read misaligned data \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FloatPoint\_Denormal\_Operand@{FloatPoint\_Denormal\_Operand}!InsightSheath.Debugging@{InsightSheath.Debugging}}\index{InsightSheath.Debugging@{InsightSheath.Debugging}!FloatPoint\_Denormal\_Operand@{FloatPoint\_Denormal\_Operand}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaaf8e37d5951c984e46851f0f5cea02ff9}\label{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaaf8e37d5951c984e46851f0f5cea02ff9}} 
+Float\+Point\+\_\+\+Denormal\+\_\+\+Operand&MSDN\+: float point operation resulted in a value to small to be represented. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Float\_DivideByZero@{Float\_DivideByZero}!InsightSheath.Debugging@{InsightSheath.Debugging}}\index{InsightSheath.Debugging@{InsightSheath.Debugging}!Float\_DivideByZero@{Float\_DivideByZero}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaa239caa9b11657607e956a05ad3bf28f1}\label{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaa239caa9b11657607e956a05ad3bf28f1}} 
+Float\+\_\+\+Divide\+By\+Zero&Float division by zero \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Float\_InexactResult@{Float\_InexactResult}!InsightSheath.Debugging@{InsightSheath.Debugging}}\index{InsightSheath.Debugging@{InsightSheath.Debugging}!Float\_InexactResult@{Float\_InexactResult}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaa8957307cab6552b556b18f3c822803f9}\label{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaa8957307cab6552b556b18f3c822803f9}} 
+Float\+\_\+\+Inexact\+Result&MSDN Can\textquotesingle{}t represent a float as a decimal fraction precisely \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Float\_Overflow@{Float\_Overflow}!InsightSheath.Debugging@{InsightSheath.Debugging}}\index{InsightSheath.Debugging@{InsightSheath.Debugging}!Float\_Overflow@{Float\_Overflow}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaa9885d673a8eef7c043bdea24b3ab4ea9}\label{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaa9885d673a8eef7c043bdea24b3ab4ea9}} 
+Float\+\_\+\+Overflow&float\textquotesingle{}s exponent is too big \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Float\_StackCheck@{Float\_StackCheck}!InsightSheath.Debugging@{InsightSheath.Debugging}}\index{InsightSheath.Debugging@{InsightSheath.Debugging}!Float\_StackCheck@{Float\_StackCheck}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaa5c11fe7b57ecd1b331b10c17b80975c6}\label{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaa5c11fe7b57ecd1b331b10c17b80975c6}} 
+Float\+\_\+\+Stack\+Check&Float point value over or underflowed after an operation \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Float\_Underflow@{Float\_Underflow}!InsightSheath.Debugging@{InsightSheath.Debugging}}\index{InsightSheath.Debugging@{InsightSheath.Debugging}!Float\_Underflow@{Float\_Underflow}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaaaec9c5b6c7cca858ebf107fd3be1b64c}\label{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaaaec9c5b6c7cca858ebf107fd3be1b64c}} 
+Float\+\_\+\+Underflow&Float point is less that the magnitude allowed \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{IllegalInstrution@{IllegalInstrution}!InsightSheath.Debugging@{InsightSheath.Debugging}}\index{InsightSheath.Debugging@{InsightSheath.Debugging}!IllegalInstrution@{IllegalInstrution}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaa6a485c16e3ee17cce0a9c54e72469bc5}\label{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaa6a485c16e3ee17cce0a9c54e72469bc5}} 
+Illegal\+Instrution&Invalid instruction attempted \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{InPageError@{InPageError}!InsightSheath.Debugging@{InsightSheath.Debugging}}\index{InsightSheath.Debugging@{InsightSheath.Debugging}!InPageError@{InPageError}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaa54356d3c602bdb23cd9c94c09c149a28}\label{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaa54356d3c602bdb23cd9c94c09c149a28}} 
+In\+Page\+Error&MSDN\+: \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_thread}{Thread}} tried to access a page that\textquotesingle{}s not present and system couldn\textquotesingle{}t load page \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Int\_DivideByZero@{Int\_DivideByZero}!InsightSheath.Debugging@{InsightSheath.Debugging}}\index{InsightSheath.Debugging@{InsightSheath.Debugging}!Int\_DivideByZero@{Int\_DivideByZero}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaadda5f240b1a9a07af0b710b5a761a760}\label{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaadda5f240b1a9a07af0b710b5a761a760}} 
+Int\+\_\+\+Divide\+By\+Zero&Int divide by zero \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Int\_Overflow@{Int\_Overflow}!InsightSheath.Debugging@{InsightSheath.Debugging}}\index{InsightSheath.Debugging@{InsightSheath.Debugging}!Int\_Overflow@{Int\_Overflow}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaa2ed9edad6b3873b22e23af6168681bb0}\label{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaa2ed9edad6b3873b22e23af6168681bb0}} 
+Int\+\_\+\+Overflow&Inter overflowed the most significant bit \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{InvalidDisposition@{InvalidDisposition}!InsightSheath.Debugging@{InsightSheath.Debugging}}\index{InsightSheath.Debugging@{InsightSheath.Debugging}!InvalidDisposition@{InvalidDisposition}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaa27891f27c10f3f334d207b5631bba65e}\label{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaa27891f27c10f3f334d207b5631bba65e}} 
+Invalid\+Disposition&Exception handled returned invalid disposition \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{NonContinuableException@{NonContinuableException}!InsightSheath.Debugging@{InsightSheath.Debugging}}\index{InsightSheath.Debugging@{InsightSheath.Debugging}!NonContinuableException@{NonContinuableException}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaa6148798b6e90ec93983d433ec1d0396b}\label{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaa6148798b6e90ec93983d433ec1d0396b}} 
+Non\+Continuable\+Exception&Exception triggered when attempting to continue an exception that says that\textquotesingle{}s not possible \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PrivInstruction@{PrivInstruction}!InsightSheath.Debugging@{InsightSheath.Debugging}}\index{InsightSheath.Debugging@{InsightSheath.Debugging}!PrivInstruction@{PrivInstruction}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaac9ffe9bb6e32f9780591be75b325148c}\label{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaac9ffe9bb6e32f9780591be75b325148c}} 
+Priv\+Instruction&Attempt to execute instructions that aren\textquotesingle{}t allowed in the current machine mode \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{StackOverflow@{StackOverflow}!InsightSheath.Debugging@{InsightSheath.Debugging}}\index{InsightSheath.Debugging@{InsightSheath.Debugging}!StackOverflow@{StackOverflow}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaa84d7dc19766c446f5e4084e8fce87f82}\label{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaa84d7dc19766c446f5e4084e8fce87f82}} 
+Stack\+Overflow&target used up its stack \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{DebugConsoleControlC@{DebugConsoleControlC}!InsightSheath.Debugging@{InsightSheath.Debugging}}\index{InsightSheath.Debugging@{InsightSheath.Debugging}!DebugConsoleControlC@{DebugConsoleControlC}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaaa5f3ba85c4804d1a7343045a4f895d8a}\label{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaaa5f3ba85c4804d1a7343045a4f895d8a}} 
+Debug\+Console\+ControlC&Console Window/\+Application\+: CTRL-\/C pressed the debugged application \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{InvalidHandleCloseException@{InvalidHandleCloseException}!InsightSheath.Debugging@{InsightSheath.Debugging}}\index{InsightSheath.Debugging@{InsightSheath.Debugging}!InvalidHandleCloseException@{InvalidHandleCloseException}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaa41b894072e8bd873f5dfcad73d99be8f}\label{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaa41b894072e8bd873f5dfcad73d99be8f}} 
+Invalid\+Handle\+Close\+Exception&Is generated by Kernel32\textquotesingle{}s Close\+Handle() when an invalid handle is attempting to be closed in the process being debuggefd. ~\newline
+ IMPORTANT. How you handle this depends if you\textquotesingle{}re debugging / learning about a target. If it\textquotesingle{}s debug resistant (for example malware), your debugger is NOT going to want to mark that exception as being handled as then it likely will have just revealed itself. \\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line \mbox{\hyperlink{_debug_event_8cs_source_l00050}{50}} of file \mbox{\hyperlink{_debug_event_8cs_source}{Debug\+Event.\+cs}}.
+
+\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_acb21c97b0a5bbef4e410cb10937b6b63}\label{namespace_insight_sheath_1_1_debugging_acb21c97b0a5bbef4e410cb10937b6b63}} 
+\index{InsightSheath.Debugging@{InsightSheath.Debugging}!RipErrorType@{RipErrorType}}
+\index{RipErrorType@{RipErrorType}!InsightSheath.Debugging@{InsightSheath.Debugging}}
+\doxysubsubsection{\texorpdfstring{RipErrorType}{RipErrorType}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_acb21c97b0a5bbef4e410cb10937b6b63}{Insight\+Sheath.\+Debugging.\+Rip\+Error\+Type}}}
+
+
+
+Type of error that is contained \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_rip_info_a0458eab68517fdf495d35040405697a6}{Debug\+Event\+Rip\+Info.\+Error\+Type}} 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SleNoType@{SleNoType}!InsightSheath.Debugging@{InsightSheath.Debugging}}\index{InsightSheath.Debugging@{InsightSheath.Debugging}!SleNoType@{SleNoType}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_acb21c97b0a5bbef4e410cb10937b6b63a9015f16795f0394c3cd8ad9613a1487a}\label{namespace_insight_sheath_1_1_debugging_acb21c97b0a5bbef4e410cb10937b6b63a9015f16795f0394c3cd8ad9613a1487a}} 
+Sle\+No\+Type&Only Error value was set \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SleError@{SleError}!InsightSheath.Debugging@{InsightSheath.Debugging}}\index{InsightSheath.Debugging@{InsightSheath.Debugging}!SleError@{SleError}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_acb21c97b0a5bbef4e410cb10937b6b63a757d78540676e4d279a4e3f292b7b52b}\label{namespace_insight_sheath_1_1_debugging_acb21c97b0a5bbef4e410cb10937b6b63a757d78540676e4d279a4e3f292b7b52b}} 
+Sle\+Error&Invalid data passed to function what caused debugged application to fail \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SleMinorError@{SleMinorError}!InsightSheath.Debugging@{InsightSheath.Debugging}}\index{InsightSheath.Debugging@{InsightSheath.Debugging}!SleMinorError@{SleMinorError}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_acb21c97b0a5bbef4e410cb10937b6b63a4521ce113ca92713872cff4abc6f876b}\label{namespace_insight_sheath_1_1_debugging_acb21c97b0a5bbef4e410cb10937b6b63a4521ce113ca92713872cff4abc6f876b}} 
+Sle\+Minor\+Error&Invalid data passed to a function maybe won\textquotesingle{}t cause the application to fail \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SleWarning@{SleWarning}!InsightSheath.Debugging@{InsightSheath.Debugging}}\index{InsightSheath.Debugging@{InsightSheath.Debugging}!SleWarning@{SleWarning}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_acb21c97b0a5bbef4e410cb10937b6b63abebe6ccd449e7d4f7576379c908f02bd}\label{namespace_insight_sheath_1_1_debugging_acb21c97b0a5bbef4e410cb10937b6b63abebe6ccd449e7d4f7576379c908f02bd}} 
+Sle\+Warning&Potentially Invalid data passed to a function but function finished any. \\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line \mbox{\hyperlink{_debug_event_8cs_source_l00185}{185}} of file \mbox{\hyperlink{_debug_event_8cs_source}{Debug\+Event.\+cs}}.
+

@@ -1,0 +1,241 @@
+\hypertarget{_windows_unicode_string_8cs_source}{}\doxysection{Windows\+Unicode\+String.\+cs}
+\label{_windows_unicode_string_8cs_source}\index{Win32Struct/WindowsUnicodeString.cs@{Win32Struct/WindowsUnicodeString.cs}}
+\mbox{\hyperlink{_windows_unicode_string_8cs}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00001}00001 \textcolor{keyword}{using }\mbox{\hyperlink{namespace_insight_sheath_1_1_wrappers}{InsightSheath.Wrappers}};}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00002}00002 \textcolor{keyword}{using }System;}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00003}00003 \textcolor{keyword}{using }System.Collections.Generic;}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00004}00004 \textcolor{keyword}{using }System.Linq;}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00005}00005 \textcolor{keyword}{using }System.Runtime.InteropServices;}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00006}00006 \textcolor{keyword}{using }System.Text;}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00007}00007 \textcolor{keyword}{using }System.Threading.Tasks;}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00008}00008 \textcolor{keyword}{using }\mbox{\hyperlink{namespace_insight_sheath_1_1_abstract}{InsightSheath.Abstract}};}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00009}00009 \textcolor{keyword}{using }\mbox{\hyperlink{namespace_insight_sheath_1_1_native_imports}{InsightSheath.NativeImports}};}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00010}00010 }
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00011}00011 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct}{InsightSheath.Win32Struct}}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00012}00012 \{}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00013}00013 }
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00017}\mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129}{00017}}     \textcolor{keyword}{public} \textcolor{keyword}{enum} \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129}{StructModeType}}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00018}00018     \{}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00022}00022         \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129ae1aeeb4a7efba7b23e8994f9c12ca39c}{MachineUnknown}} = 0,}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00026}00026         \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129add44e166c885a1e1026d6da62c9ef9f3}{Machinex86}} = 1,}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00030}00030         \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129a5fd85da25b89193e8175dc10b594640e}{Machinex64}} = 2}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00031}00031     \}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00032}00032 }
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00033}00033 }
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00034}00034 }
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00035}00035     \textcolor{comment}{/*}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00036}00036 \textcolor{comment}{     *  struct UNICODE\_STRING32}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00037}00037 \textcolor{comment}{    \{}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00038}00038 \textcolor{comment}{        USHORT Length;}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00039}00039 \textcolor{comment}{        USHORT MaxLength;}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00040}00040 \textcolor{comment}{        UINT Buffer;}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00041}00041 \textcolor{comment}{    \};}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00042}00042 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00046}00046 \textcolor{comment}{    struct UNICODE\_STRING64}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00047}00047 \textcolor{comment}{    \{}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00048}00048 \textcolor{comment}{        USHORT Length;}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00049}00049 \textcolor{comment}{        USHORT MaxLength;}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00050}00050 \textcolor{comment}{        INT Padding; // alights buffer to correct location}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00051}00051 \textcolor{comment}{        ULONGLONG Buffer;}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00052}00052 \textcolor{comment}{    \};*/}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00053}00053 }
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00058}00058     [StructLayout(LayoutKind.Sequential)]}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00059}\mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string32}{00059}}     \textcolor{keyword}{public} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string32}{UnicodeString32}}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00060}00060     \{}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00064}\mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string32_aa9d455c1afa230319dc72c419b9ce64e}{00064}}         \textcolor{keyword}{public} ushort \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string32_aa9d455c1afa230319dc72c419b9ce64e}{Length}};}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00068}\mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string32_a88a16f6aa5b638a7f2715cfa92703721}{00068}}         \textcolor{keyword}{public} ushort \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string32_a88a16f6aa5b638a7f2715cfa92703721}{MaxLength}};}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00072}\mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string32_a1e1ce136f83201c56a69ee03b56e8564}{00072}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string32_a1e1ce136f83201c56a69ee03b56e8564}{Buffer}};}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00073}00073     \}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00074}00074 }
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00081}00081     [StructLayout(LayoutKind.Sequential)]}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00082}\mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string64}{00082}}     \textcolor{keyword}{public} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string64}{UnicodeString64}}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00083}00083     \{}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00087}\mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string64_a150637bd2739b8d5c6f3e5ff746b03a5}{00087}}         \textcolor{keyword}{public} ushort \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string64_a150637bd2739b8d5c6f3e5ff746b03a5}{Length}};}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00091}\mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string64_a3594a6eb47befbcc5886a7c6f7ce0b04}{00091}}         \textcolor{keyword}{public} ushort \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string64_a3594a6eb47befbcc5886a7c6f7ce0b04}{MaxLength}};}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00095}\mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string64_a08b57916e0daa89c6e78aaf907711a37}{00095}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string64_a08b57916e0daa89c6e78aaf907711a37}{Padding}};}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00099}\mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string64_a621d2ebb0d788fcfbef6238cea29e295}{00099}}         \textcolor{keyword}{public} ulong \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string64_a621d2ebb0d788fcfbef6238cea29e295}{Buffer}};}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00100}00100     \}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00101}00101 }
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00102}00102 }
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00103}00103     }
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00107}\mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string}{00107}}     \textcolor{keyword}{public} \textcolor{keyword}{class }\mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string}{WindowsUnicodeString}}: \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct}{PlatformDependantNativeStruct}}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00108}00108     \{}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00113}\mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_ac00f501c3ab45d5bc306aba1fa302a5a}{00113}}         \textcolor{keyword}{public} \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_ac00f501c3ab45d5bc306aba1fa302a5a}{WindowsUnicodeString}}(IntPtr \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}): base(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}})}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00114}00114         \{}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00115}00115             \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a9b56ba82d073acce64844a2011e97508}{StructType}} = \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129}{StructModeType}}.MachineUnknown;}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00116}00116         \}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00117}00117 }
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00122}\mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_ac6710f94632182d2b50bbbdbc03ba9eb}{00122}}         \textcolor{keyword}{public} \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_ac6710f94632182d2b50bbbdbc03ba9eb}{WindowsUnicodeString}}(IntPtr \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}, \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}}): base(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}, \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}})}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00123}00123         \{}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00124}00124             \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a9b56ba82d073acce64844a2011e97508}{StructType}} = \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129}{StructModeType}}.MachineUnknown;}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00125}00125         \}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00126}00126 }
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00133}\mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_a6fc913a5d98929e7bf9a7a2b59628626}{00133}}         \textcolor{keyword}{public} \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_a6fc913a5d98929e7bf9a7a2b59628626}{WindowsUnicodeString}}(IntPtr \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}, \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}}, \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129}{StructModeType}} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a9b56ba82d073acce64844a2011e97508}{StructType}}) : base(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}, \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}}, \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a9b56ba82d073acce64844a2011e97508}{StructType}})}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00134}00134         \{}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00135}00135 }
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00136}00136         \}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00137}00137 }
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00143}\mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_a4833c628dfd2acac23c399fc686c2b4d}{00143}}         \textcolor{keyword}{public} \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_a4833c628dfd2acac23c399fc686c2b4d}{WindowsUnicodeString}}(IntPtr \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}, \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129}{StructModeType}} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a9b56ba82d073acce64844a2011e97508}{StructType}}): base(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}, \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a9b56ba82d073acce64844a2011e97508}{StructType}})}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00144}00144         \{}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00145}00145 }
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00146}00146         \}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00147}00147 }
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00151}00151         \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string}{\string~WindowsUnicodeString}}()}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00152}00152         \{}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00153}00153             \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af127a410fed6a497b46469243512249d}{Dispose}}(\textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00154}00154         \}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00155}00155 }
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00159}\mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_a75c786da745eb345eb71eadd1536a4a5}{00159}}         \textcolor{keyword}{protected} \textcolor{keyword}{override} \textcolor{keywordtype}{void} \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_a75c786da745eb345eb71eadd1536a4a5}{Blit}}()}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00160}00160         \{}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00161}00161             \{}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00162}00162                 \textcolor{keywordflow}{if} (!\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a0b0506b31628601c4e517b1197c9bb94}{WasBlit}})}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00163}00163                 \{}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00164}00164                     \textcolor{keywordflow}{switch} (\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a9b56ba82d073acce64844a2011e97508}{StructType}})}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00165}00165                     \{}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00166}00166                         \textcolor{keywordflow}{case} \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129}{StructModeType}}.Machinex64:}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00167}00167                             \{}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00168}00168                                 Machine64 = Marshal.PtrToStructure<\mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string64}{UnicodeString64}}>(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}});}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00169}00169                                 \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00170}00170                             \}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00171}00171                         \textcolor{keywordflow}{case} \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129}{StructModeType}}.Machinex86:}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00172}00172                             \{}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00173}00173                                 Machine32 = Marshal.PtrToStructure<\mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string32}{UnicodeString32}}>(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}});}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00174}00174                                 \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00175}00175                             \}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00176}00176                         \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00177}00177                             \{}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00178}00178                                 \textcolor{keywordflow}{throw} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a463c3ab825107ec670542fb2af596f56}{ThrowNewInvalidOpMessage}}(GetType().Name);}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00179}00179                             \}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00180}00180                     \}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00181}00181 }
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00182}00182                     \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct_a0b0506b31628601c4e517b1197c9bb94}{WasBlit}} = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00183}00183                 \}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00184}00184             \}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00185}00185         \}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00186}00186 }
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00187}00187 }
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00188}00188         \textcolor{keyword}{private} \textcolor{keywordtype}{bool} disposedValue;}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00195}\mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_a34246e9d139c6b545bce096cdf29dabc}{00195}}         \textcolor{keyword}{protected} \textcolor{keyword}{override} \textcolor{keywordtype}{void} \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_a34246e9d139c6b545bce096cdf29dabc}{Dispose}}(\textcolor{keywordtype}{bool} disposing)}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00196}00196         \{}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00197}00197             \textcolor{keywordflow}{if} (!disposedValue)}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00198}00198             \{}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00199}00199                 \textcolor{keywordtype}{bool} bit32Mode;}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00200}00200                 \textcolor{keywordflow}{if} (this.\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a9b56ba82d073acce64844a2011e97508}{StructType}} == \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129}{StructModeType}}.Machinex86)}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00201}00201                 \{}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00202}00202                     bit32Mode = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00203}00203                 \}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00204}00204                 \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00205}00205                 \{}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00206}00206                     bit32Mode = \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00207}00207                     \textcolor{keywordflow}{if} (\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a9b56ba82d073acce64844a2011e97508}{StructType}} == \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129}{StructModeType}}.MachineUnknown)}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00208}00208                     \{}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00209}00209                         \textcolor{keywordflow}{throw} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a463c3ab825107ec670542fb2af596f56}{ThrowNewInvalidOpMessage}}(this.GetType().Name);}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00210}00210                     \}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00211}00211                 \}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00212}00212 }
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00213}00213                 \textcolor{keywordflow}{if} (\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}})}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00214}00214                 \{}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00215}00215                     RemoteStructureInternal.RemoteFreeUnicodeString(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}});}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00216}00216                     \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a4603e0d1ed0ba9bf17c2fa20d08efa67}{ClearNative}}();}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00217}00217                 \}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00218}00218                 disposedValue = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00219}00219             \}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00220}00220             base.Dispose(disposing);}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00221}00221         \}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00222}00222 }
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00223}00223         }
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00224}00224 }
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00228}\mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_ae9cec3509b213e9cd91f3c0b32af3a7a}{00228}}         \textcolor{keyword}{public} \textcolor{keywordtype}{int} \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_ae9cec3509b213e9cd91f3c0b32af3a7a}{Length}}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00229}00229         \{}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00230}00230             \textcolor{keyword}{get} }
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00231}00231             \{}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00232}00232                 \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_a75c786da745eb345eb71eadd1536a4a5}{Blit}}();}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00233}00233                 \textcolor{keywordflow}{if} (\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a9b56ba82d073acce64844a2011e97508}{StructType}} == \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129}{StructModeType}}.Machinex64)}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00234}00234                 \{}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00235}00235                     \textcolor{keywordflow}{return} Machine64.\mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string64_a150637bd2739b8d5c6f3e5ff746b03a5}{Length}};}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00236}00236                 \}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00237}00237                 \textcolor{keywordflow}{if} (\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a9b56ba82d073acce64844a2011e97508}{StructType}} == \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129}{StructModeType}}.Machinex86)}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00238}00238                 \{}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00239}00239                     \textcolor{keywordflow}{return} Machine32.\mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string32_aa9d455c1afa230319dc72c419b9ce64e}{Length}};}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00240}00240                 \}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00241}00241 }
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00242}00242                 \textcolor{keywordflow}{throw} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a463c3ab825107ec670542fb2af596f56}{ThrowNewInvalidOpMessage}}(GetType().Name);}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00243}00243             \}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00244}00244         \}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00245}00245 }
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00249}\mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_a431d9242d28cf439b99f3bb4df3219fe}{00249}}         \textcolor{keyword}{public} \textcolor{keywordtype}{int} \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_a431d9242d28cf439b99f3bb4df3219fe}{MaxLength}}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00250}00250         \{}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00251}00251             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00252}00252             \{}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00253}00253                 \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_a75c786da745eb345eb71eadd1536a4a5}{Blit}}();}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00254}00254                 \textcolor{keywordflow}{if} (\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a9b56ba82d073acce64844a2011e97508}{StructType}} == \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129}{StructModeType}}.Machinex64)}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00255}00255                 \{}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00256}00256                     \textcolor{keywordflow}{return} Machine64.\mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string64_a3594a6eb47befbcc5886a7c6f7ce0b04}{MaxLength}};}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00257}00257                 \}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00258}00258                 \textcolor{keywordflow}{if} (\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a9b56ba82d073acce64844a2011e97508}{StructType}} == \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129}{StructModeType}}.Machinex86)}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00259}00259                 \{}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00260}00260                     \textcolor{keywordflow}{return} Machine32.\mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string32_a88a16f6aa5b638a7f2715cfa92703721}{MaxLength}};}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00261}00261                 \}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00262}00262 }
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00263}00263                 \textcolor{keywordflow}{throw} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a463c3ab825107ec670542fb2af596f56}{ThrowNewInvalidOpMessage}}(GetType().Name);}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00264}00264             \}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00265}00265         \}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00266}00266 }
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00270}\mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_ad9b2f487847aa16551ddd0aa47a055c6}{00270}}         \textcolor{keyword}{public} ulong \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_ad9b2f487847aa16551ddd0aa47a055c6}{BufferPtr}}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00271}00271         \{}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00272}00272             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00273}00273             \{}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00274}00274                 \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_a75c786da745eb345eb71eadd1536a4a5}{Blit}}();}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00275}00275                 \textcolor{keywordflow}{if} (\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a9b56ba82d073acce64844a2011e97508}{StructType}} == \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129}{StructModeType}}.Machinex64)}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00276}00276                 \{}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00277}00277                     \textcolor{keywordflow}{return} Machine64.\mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string64_a621d2ebb0d788fcfbef6238cea29e295}{Buffer}};}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00278}00278                 \}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00279}00279                 \textcolor{keywordflow}{if} (\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a9b56ba82d073acce64844a2011e97508}{StructType}} == \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129}{StructModeType}}.Machinex86)}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00280}00280                 \{}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00281}00281                     \textcolor{keywordflow}{return} Machine32.\mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string32_a1e1ce136f83201c56a69ee03b56e8564}{Buffer}};}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00282}00282                 \}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00283}00283                 \textcolor{keywordflow}{throw} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a463c3ab825107ec670542fb2af596f56}{ThrowNewInvalidOpMessage}}(GetType().Name);}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00284}00284             \}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00285}00285         \}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00286}00286 }
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00292}\mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_a374e7341715590774762132e5f8c7ac8}{00292}}         \textcolor{keyword}{public} \textcolor{keywordtype}{string} \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_a374e7341715590774762132e5f8c7ac8}{Buffer}}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00293}00293         \{}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00294}00294             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00295}00295             \{}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00296}00296                 \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_a75c786da745eb345eb71eadd1536a4a5}{Blit}}();}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00297}00297                 \textcolor{keywordflow}{if} (\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a9b56ba82d073acce64844a2011e97508}{StructType}} == \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129}{StructModeType}}.Machinex64)}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00298}00298                 \{}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00299}00299                     \textcolor{keywordflow}{return} Marshal.PtrToStringUni(\textcolor{keyword}{new} IntPtr((\textcolor{keywordtype}{long})Machine64.\mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string64_a621d2ebb0d788fcfbef6238cea29e295}{Buffer}}));}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00300}00300                 \}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00301}00301                 \textcolor{keywordflow}{if} (\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a9b56ba82d073acce64844a2011e97508}{StructType}} == \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129}{StructModeType}}.Machinex86)}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00302}00302                 \{}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00303}00303                     \textcolor{keywordflow}{return} Marshal.PtrToStringUni(\textcolor{keyword}{new} IntPtr((\textcolor{keywordtype}{int})Machine32.\mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string32_a1e1ce136f83201c56a69ee03b56e8564}{Buffer}}));}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00304}00304                 \}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00305}00305                 \textcolor{keywordflow}{throw} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a463c3ab825107ec670542fb2af596f56}{ThrowNewInvalidOpMessage}}(GetType().Name);}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00306}00306             \}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00307}00307         \}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00308}00308 }
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00309}00309 }
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00315}\mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_a4367652ecd301206b0a07850c205a419}{00315}}         \textcolor{keyword}{public} \textcolor{keyword}{override} \textcolor{keywordtype}{string} \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_a4367652ecd301206b0a07850c205a419}{ToString}}()}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00316}00316         \{}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00317}00317             \textcolor{keywordflow}{if} (\mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_ad9b2f487847aa16551ddd0aa47a055c6}{BufferPtr}} == 0)}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00318}00318             \{}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00319}00319                 \textcolor{keywordflow}{return} \textcolor{keyword}{null};}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00320}00320             \}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00321}00321             \textcolor{keywordflow}{return} \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_a374e7341715590774762132e5f8c7ac8}{Buffer}};}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00322}00322         \}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00323}00323 }
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00327}\mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_ab0ffa0f36c8b5127a4ba3fe4c25ee853}{00327}}         \textcolor{keyword}{protected} \textcolor{keyword}{override} \textcolor{keywordtype}{void} \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_ab0ffa0f36c8b5127a4ba3fe4c25ee853}{Apply}}()}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00328}00328         \{}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00329}00329             \textcolor{keywordflow}{throw} \textcolor{keyword}{new} NotImplementedException();}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00330}00330         \}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00331}00331 }
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00332}00332 }
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00336}00336         \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string64}{UnicodeString64}} Machine64;}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00340}00340         \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string32}{UnicodeString32}} Machine32;}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00341}00341         }
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00342}00342     \}}
+\DoxyCodeLine{\Hypertarget{_windows_unicode_string_8cs_source_l00343}00343 \}}
+
+\end{DoxyCode}

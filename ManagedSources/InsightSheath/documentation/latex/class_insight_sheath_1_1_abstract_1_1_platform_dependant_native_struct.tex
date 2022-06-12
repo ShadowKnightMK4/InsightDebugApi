@@ -1,0 +1,240 @@
+\hypertarget{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct}{}\doxysection{Insight\+Sheath.\+Abstract.\+Platform\+Dependant\+Native\+Struct Class Reference}
+\label{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct}\index{InsightSheath.Abstract.PlatformDependantNativeStruct@{InsightSheath.Abstract.PlatformDependantNativeStruct}}
+
+
+This class serves as a foundation to classes that encapsulates a native pointer to either a x64 bit struct or x86 struct dependent on the target.  
+
+
+Inheritance diagram for Insight\+Sheath.\+Abstract.\+Platform\+Dependant\+Native\+Struct\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=4.268293cm]{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_ae3883999d480822f43b8250d683ab3f1}{Platform\+Dependant\+Native\+Struct}} (Int\+Ptr \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}})
+\item 
+\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a82c055c7595410e7fbb9b9defd3e33c0}{Platform\+Dependant\+Native\+Struct}} (Int\+Ptr \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}, bool \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{Free\+On\+Cleanup}})
+\begin{DoxyCompactList}\small\item\em Create an instance of the class with the object to specify if we free it. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_affd434f66d9efb294771d54a1a3283f4}{Platform\+Dependant\+Native\+Struct}} (Int\+Ptr \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}, bool \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{Free\+On\+Cleanup}}, \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129}{Struct\+Mode\+Type}} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a9b56ba82d073acce64844a2011e97508}{Struct\+Type}})
+\item 
+\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_ab71448d8c306320716e30a28d5c6e280}{Platform\+Dependant\+Native\+Struct}} (Int\+Ptr \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}, \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129}{Struct\+Mode\+Type}} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a9b56ba82d073acce64844a2011e97508}{Struct\+Type}})
+\begin{DoxyCompactList}\small\item\em Make an instance of this class with the \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a9b56ba82d073acce64844a2011e97508}{Struct\+Type}} specified. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+override void \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a97164b9f00fd3c80819748096757d3cf}{Dispose}} (bool disposing)
+\begin{DoxyCompactList}\small\item\em Platform Dependant native structure does not allocate anything and does nothing other than hold the specifics for the child class. Specifically struct \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Static Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static string \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a32726e2a950db2438d3d4f1835b7d111}{Machine\+Type\+Unspecified\+Error\+Make\+Message}} (string Type0, string Type1, string classname)
+\item 
+static Invalid\+Operation\+Exception \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a463c3ab825107ec670542fb2af596f56}{Throw\+New\+Invalid\+Op\+Message}} (string classname)
+\begin{DoxyCompactList}\small\item\em This throws a message wither everything except class name prefilled by calling \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a32726e2a950db2438d3d4f1835b7d111}{Machine\+Type\+Unspecified\+Error\+Make\+Message(string, string, string)}} \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129}{Struct\+Mode\+Type}} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a1b82320dc9e7ae327eac5c277995a96b}{Struct\+Type\+Container}}
+\begin{DoxyCompactList}\small\item\em protected container for \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a9b56ba82d073acce64844a2011e97508}{Struct\+Type}} \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Static Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+const string \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_ac59b0e2cb9d7632b05d3dc1fcea4c828}{Machine\+Type\+Unspecified\+Error}} = \char`\"{}Pick which version of the struct to use. Set \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a9b56ba82d073acce64844a2011e97508}{Struct\+Type}} to either \{0\} or \{1\} then attempt to access. Class name\+: \{2\}\char`\"{}
+\begin{DoxyCompactList}\small\item\em canned error message for when user does not specify a machine. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129}{Struct\+Mode\+Type}} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a9b56ba82d073acce64844a2011e97508}{Struct\+Type}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Get or set the type of structure that\textquotesingle{}s correct for this class to use. Also resets a flag to trigger Marshalling from that native side when set. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+This class serves as a foundation to classes that encapsulates a native pointer to either a x64 bit struct or x86 struct dependent on the target. 
+
+Definition at line \mbox{\hyperlink{_platform_dependant_native_struct_8cs_source_l00014}{14}} of file \mbox{\hyperlink{_platform_dependant_native_struct_8cs_source}{Platform\+Dependant\+Native\+Struct.\+cs}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_ae3883999d480822f43b8250d683ab3f1}\label{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_ae3883999d480822f43b8250d683ab3f1}} 
+\index{InsightSheath.Abstract.PlatformDependantNativeStruct@{InsightSheath.Abstract.PlatformDependantNativeStruct}!PlatformDependantNativeStruct@{PlatformDependantNativeStruct}}
+\index{PlatformDependantNativeStruct@{PlatformDependantNativeStruct}!InsightSheath.Abstract.PlatformDependantNativeStruct@{InsightSheath.Abstract.PlatformDependantNativeStruct}}
+\doxysubsubsection{\texorpdfstring{PlatformDependantNativeStruct()}{PlatformDependantNativeStruct()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily Insight\+Sheath.\+Abstract.\+Platform\+Dependant\+Native\+Struct.\+Platform\+Dependant\+Native\+Struct (\begin{DoxyParamCaption}\item[{Int\+Ptr}]{Native }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line \mbox{\hyperlink{_platform_dependant_native_struct_8cs_source_l00016}{16}} of file \mbox{\hyperlink{_platform_dependant_native_struct_8cs_source}{Platform\+Dependant\+Native\+Struct.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a82c055c7595410e7fbb9b9defd3e33c0}\label{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a82c055c7595410e7fbb9b9defd3e33c0}} 
+\index{InsightSheath.Abstract.PlatformDependantNativeStruct@{InsightSheath.Abstract.PlatformDependantNativeStruct}!PlatformDependantNativeStruct@{PlatformDependantNativeStruct}}
+\index{PlatformDependantNativeStruct@{PlatformDependantNativeStruct}!InsightSheath.Abstract.PlatformDependantNativeStruct@{InsightSheath.Abstract.PlatformDependantNativeStruct}}
+\doxysubsubsection{\texorpdfstring{PlatformDependantNativeStruct()}{PlatformDependantNativeStruct()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily Insight\+Sheath.\+Abstract.\+Platform\+Dependant\+Native\+Struct.\+Platform\+Dependant\+Native\+Struct (\begin{DoxyParamCaption}\item[{Int\+Ptr}]{Native,  }\item[{bool}]{Free\+On\+Cleanup }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Create an instance of the class with the object to specify if we free it. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Native} & Native pointer to the structure this class will reference\\
+\hline
+{\em Free\+On\+Cleanup} & if true then the structure is freed via Remote\+Read\+\_\+\+Simple\+Free() which itself is a call to C/\+C++\textquotesingle{}s free() . Set TO FALSE if dealing with structures declared in C/\+C++ code vs dynamically allocated\\
+\hline
+\end{DoxyParams}
+
+
+Free\+On\+Cleanup is a bit dependent on your knowledge of the native code. If the native pointer points to something dynamically allocated with malloc() / Heap\+Alloc(), specify true. If it\textquotesingle{}s declared in the Native source directly or on the stack as a function variable, use false
+
+Definition at line \mbox{\hyperlink{_platform_dependant_native_struct_8cs_source_l00027}{27}} of file \mbox{\hyperlink{_platform_dependant_native_struct_8cs_source}{Platform\+Dependant\+Native\+Struct.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_affd434f66d9efb294771d54a1a3283f4}\label{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_affd434f66d9efb294771d54a1a3283f4}} 
+\index{InsightSheath.Abstract.PlatformDependantNativeStruct@{InsightSheath.Abstract.PlatformDependantNativeStruct}!PlatformDependantNativeStruct@{PlatformDependantNativeStruct}}
+\index{PlatformDependantNativeStruct@{PlatformDependantNativeStruct}!InsightSheath.Abstract.PlatformDependantNativeStruct@{InsightSheath.Abstract.PlatformDependantNativeStruct}}
+\doxysubsubsection{\texorpdfstring{PlatformDependantNativeStruct()}{PlatformDependantNativeStruct()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily Insight\+Sheath.\+Abstract.\+Platform\+Dependant\+Native\+Struct.\+Platform\+Dependant\+Native\+Struct (\begin{DoxyParamCaption}\item[{Int\+Ptr}]{Native,  }\item[{bool}]{Free\+On\+Cleanup,  }\item[{\mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129}{Struct\+Mode\+Type}}}]{Struct\+Type }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line \mbox{\hyperlink{_platform_dependant_native_struct_8cs_source_l00032}{32}} of file \mbox{\hyperlink{_platform_dependant_native_struct_8cs_source}{Platform\+Dependant\+Native\+Struct.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_ab71448d8c306320716e30a28d5c6e280}\label{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_ab71448d8c306320716e30a28d5c6e280}} 
+\index{InsightSheath.Abstract.PlatformDependantNativeStruct@{InsightSheath.Abstract.PlatformDependantNativeStruct}!PlatformDependantNativeStruct@{PlatformDependantNativeStruct}}
+\index{PlatformDependantNativeStruct@{PlatformDependantNativeStruct}!InsightSheath.Abstract.PlatformDependantNativeStruct@{InsightSheath.Abstract.PlatformDependantNativeStruct}}
+\doxysubsubsection{\texorpdfstring{PlatformDependantNativeStruct()}{PlatformDependantNativeStruct()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily Insight\+Sheath.\+Abstract.\+Platform\+Dependant\+Native\+Struct.\+Platform\+Dependant\+Native\+Struct (\begin{DoxyParamCaption}\item[{Int\+Ptr}]{Native,  }\item[{\mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129}{Struct\+Mode\+Type}}}]{Struct\+Type }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Make an instance of this class with the \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a9b56ba82d073acce64844a2011e97508}{Struct\+Type}} specified. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Native} & Pointer to an unmanaged memory block this class is dealing with.\\
+\hline
+{\em Struct\+Type} & Structures with points are different sizes depending on if they\textquotesingle{}re lifting from x86 or x64 code. Indicate if this is a Struct\+Mode\+Type.\+Machinex86 (for 4 byte pointers) or a Struct\+Mode\+Type.\+Machinex64 for 8 byte pointers\\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{_platform_dependant_native_struct_8cs_source_l00042}{42}} of file \mbox{\hyperlink{_platform_dependant_native_struct_8cs_source}{Platform\+Dependant\+Native\+Struct.\+cs}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a97164b9f00fd3c80819748096757d3cf}\label{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a97164b9f00fd3c80819748096757d3cf}} 
+\index{InsightSheath.Abstract.PlatformDependantNativeStruct@{InsightSheath.Abstract.PlatformDependantNativeStruct}!Dispose@{Dispose}}
+\index{Dispose@{Dispose}!InsightSheath.Abstract.PlatformDependantNativeStruct@{InsightSheath.Abstract.PlatformDependantNativeStruct}}
+\doxysubsubsection{\texorpdfstring{Dispose()}{Dispose()}}
+{\footnotesize\ttfamily override void Insight\+Sheath.\+Abstract.\+Platform\+Dependant\+Native\+Struct.\+Dispose (\begin{DoxyParamCaption}\item[{bool}]{disposing }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+
+
+Platform Dependant native structure does not allocate anything and does nothing other than hold the specifics for the child class. Specifically struct 
+
+
+\begin{DoxyParams}{Parameters}
+{\em disposing} & \\
+\hline
+\end{DoxyParams}
+
+
+Reimplemented from \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_aab47d778e6f074d10e4d0511471e8727}{Insight\+Sheath.\+Abstract.\+Native\+Static\+Container}}.
+
+
+
+Reimplemented in \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_object_attributes_aace7d3a113243af62e5ea62356e74abd}{Insight\+Sheath.\+Win32\+Struct.\+Windows\+Object\+Attributes}}, and \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string_a34246e9d139c6b545bce096cdf29dabc}{Insight\+Sheath.\+Win32\+Struct.\+Windows\+Unicode\+String}}.
+
+
+
+Definition at line \mbox{\hyperlink{_platform_dependant_native_struct_8cs_source_l00051}{51}} of file \mbox{\hyperlink{_platform_dependant_native_struct_8cs_source}{Platform\+Dependant\+Native\+Struct.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a32726e2a950db2438d3d4f1835b7d111}\label{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a32726e2a950db2438d3d4f1835b7d111}} 
+\index{InsightSheath.Abstract.PlatformDependantNativeStruct@{InsightSheath.Abstract.PlatformDependantNativeStruct}!MachineTypeUnspecifiedErrorMakeMessage@{MachineTypeUnspecifiedErrorMakeMessage}}
+\index{MachineTypeUnspecifiedErrorMakeMessage@{MachineTypeUnspecifiedErrorMakeMessage}!InsightSheath.Abstract.PlatformDependantNativeStruct@{InsightSheath.Abstract.PlatformDependantNativeStruct}}
+\doxysubsubsection{\texorpdfstring{MachineTypeUnspecifiedErrorMakeMessage()}{MachineTypeUnspecifiedErrorMakeMessage()}}
+{\footnotesize\ttfamily static string Insight\+Sheath.\+Abstract.\+Platform\+Dependant\+Native\+Struct.\+Machine\+Type\+Unspecified\+Error\+Make\+Message (\begin{DoxyParamCaption}\item[{string}]{Type0,  }\item[{string}]{Type1,  }\item[{string}]{classname }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}, {\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{_platform_dependant_native_struct_8cs_source_l00080}{80}} of file \mbox{\hyperlink{_platform_dependant_native_struct_8cs_source}{Platform\+Dependant\+Native\+Struct.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a463c3ab825107ec670542fb2af596f56}\label{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a463c3ab825107ec670542fb2af596f56}} 
+\index{InsightSheath.Abstract.PlatformDependantNativeStruct@{InsightSheath.Abstract.PlatformDependantNativeStruct}!ThrowNewInvalidOpMessage@{ThrowNewInvalidOpMessage}}
+\index{ThrowNewInvalidOpMessage@{ThrowNewInvalidOpMessage}!InsightSheath.Abstract.PlatformDependantNativeStruct@{InsightSheath.Abstract.PlatformDependantNativeStruct}}
+\doxysubsubsection{\texorpdfstring{ThrowNewInvalidOpMessage()}{ThrowNewInvalidOpMessage()}}
+{\footnotesize\ttfamily static Invalid\+Operation\+Exception Insight\+Sheath.\+Abstract.\+Platform\+Dependant\+Native\+Struct.\+Throw\+New\+Invalid\+Op\+Message (\begin{DoxyParamCaption}\item[{string}]{classname }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}, {\ttfamily [protected]}}
+
+
+
+This throws a message wither everything except class name prefilled by calling \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a32726e2a950db2438d3d4f1835b7d111}{Machine\+Type\+Unspecified\+Error\+Make\+Message(string, string, string)}} 
+
+
+\begin{DoxyParams}{Parameters}
+{\em classname} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{_platform_dependant_native_struct_8cs_source_l00089}{89}} of file \mbox{\hyperlink{_platform_dependant_native_struct_8cs_source}{Platform\+Dependant\+Native\+Struct.\+cs}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_ac59b0e2cb9d7632b05d3dc1fcea4c828}\label{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_ac59b0e2cb9d7632b05d3dc1fcea4c828}} 
+\index{InsightSheath.Abstract.PlatformDependantNativeStruct@{InsightSheath.Abstract.PlatformDependantNativeStruct}!MachineTypeUnspecifiedError@{MachineTypeUnspecifiedError}}
+\index{MachineTypeUnspecifiedError@{MachineTypeUnspecifiedError}!InsightSheath.Abstract.PlatformDependantNativeStruct@{InsightSheath.Abstract.PlatformDependantNativeStruct}}
+\doxysubsubsection{\texorpdfstring{MachineTypeUnspecifiedError}{MachineTypeUnspecifiedError}}
+{\footnotesize\ttfamily const string Insight\+Sheath.\+Abstract.\+Platform\+Dependant\+Native\+Struct.\+Machine\+Type\+Unspecified\+Error = \char`\"{}Pick which version of the struct to use. Set \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a9b56ba82d073acce64844a2011e97508}{Struct\+Type}} to either \{0\} or \{1\} then attempt to access. Class name\+: \{2\}\char`\"{}\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [protected]}}
+
+
+
+canned error message for when user does not specify a machine. 
+
+
+
+Definition at line \mbox{\hyperlink{_platform_dependant_native_struct_8cs_source_l00079}{79}} of file \mbox{\hyperlink{_platform_dependant_native_struct_8cs_source}{Platform\+Dependant\+Native\+Struct.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a1b82320dc9e7ae327eac5c277995a96b}\label{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a1b82320dc9e7ae327eac5c277995a96b}} 
+\index{InsightSheath.Abstract.PlatformDependantNativeStruct@{InsightSheath.Abstract.PlatformDependantNativeStruct}!StructTypeContainer@{StructTypeContainer}}
+\index{StructTypeContainer@{StructTypeContainer}!InsightSheath.Abstract.PlatformDependantNativeStruct@{InsightSheath.Abstract.PlatformDependantNativeStruct}}
+\doxysubsubsection{\texorpdfstring{StructTypeContainer}{StructTypeContainer}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129}{Struct\+Mode\+Type}} Insight\+Sheath.\+Abstract.\+Platform\+Dependant\+Native\+Struct.\+Struct\+Type\+Container\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+protected container for \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a9b56ba82d073acce64844a2011e97508}{Struct\+Type}} 
+
+
+
+Definition at line \mbox{\hyperlink{_platform_dependant_native_struct_8cs_source_l00073}{73}} of file \mbox{\hyperlink{_platform_dependant_native_struct_8cs_source}{Platform\+Dependant\+Native\+Struct.\+cs}}.
+
+
+
+\doxysubsection{Property Documentation}
+\mbox{\Hypertarget{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a9b56ba82d073acce64844a2011e97508}\label{class_insight_sheath_1_1_abstract_1_1_platform_dependant_native_struct_a9b56ba82d073acce64844a2011e97508}} 
+\index{InsightSheath.Abstract.PlatformDependantNativeStruct@{InsightSheath.Abstract.PlatformDependantNativeStruct}!StructType@{StructType}}
+\index{StructType@{StructType}!InsightSheath.Abstract.PlatformDependantNativeStruct@{InsightSheath.Abstract.PlatformDependantNativeStruct}}
+\doxysubsubsection{\texorpdfstring{StructType}{StructType}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_aee355d9a5d19161ff8752a0924d75129}{Struct\+Mode\+Type}} Insight\+Sheath.\+Abstract.\+Platform\+Dependant\+Native\+Struct.\+Struct\+Type\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Get or set the type of structure that\textquotesingle{}s correct for this class to use. Also resets a flag to trigger Marshalling from that native side when set. 
+
+
+
+Definition at line \mbox{\hyperlink{_platform_dependant_native_struct_8cs_source_l00059}{59}} of file \mbox{\hyperlink{_platform_dependant_native_struct_8cs_source}{Platform\+Dependant\+Native\+Struct.\+cs}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Abstracts/\mbox{\hyperlink{_platform_dependant_native_struct_8cs}{Platform\+Dependant\+Native\+Struct.\+cs}}\end{DoxyCompactItemize}

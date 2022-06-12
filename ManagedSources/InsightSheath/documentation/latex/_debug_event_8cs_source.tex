@@ -1,0 +1,875 @@
+\hypertarget{_debug_event_8cs_source}{}\doxysection{Debug\+Event.\+cs}
+\label{_debug_event_8cs_source}\index{Debugging/DebugEvent.cs@{Debugging/DebugEvent.cs}}
+\mbox{\hyperlink{_debug_event_8cs}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00001}00001 \textcolor{keyword}{using }System;}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00002}00002 \textcolor{keyword}{using }System.Collections.Generic;}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00003}00003 \textcolor{keyword}{using }System.IO;}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00004}00004 \textcolor{keyword}{using }System.Linq;}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00005}00005 \textcolor{keyword}{using }System.Text;}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00006}00006 \textcolor{keyword}{using }System.Threading.Tasks;}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00007}00007 \textcolor{keyword}{using }\mbox{\hyperlink{namespace_insight_sheath_1_1_native_imports}{InsightSheath.NativeImports}};}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00008}00008 \textcolor{keyword}{using }\mbox{\hyperlink{namespace_insight_sheath}{InsightSheath}};}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00009}00009 \textcolor{keyword}{using }System.Runtime.InteropServices;}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00010}00010 \textcolor{keyword}{using }\mbox{\hyperlink{namespace_insight_sheath_1_1_abstract}{InsightSheath.Abstract}};}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00011}00011 \textcolor{keyword}{using }\mbox{\hyperlink{namespace_insight_sheath_1_1_win32_struct_1_1_remote}{InsightSheath.Win32Struct.Remote}};}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00012}00012 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00013}\mbox{\hyperlink{namespace_insight_sheath_1_1_debugging}{00013}} \textcolor{keyword}{namespace }\mbox{\hyperlink{namespace_insight_sheath_1_1_debugging}{InsightSheath.Debugging}}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00014}00014 \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00015}00015 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00016}00016 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00026}00026     }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00027}00027     }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00031}\mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a6975d875b77ecf5b2c7bdaa5586bd01c}{00031}}     \textcolor{keyword}{public} \textcolor{keyword}{enum} \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a6975d875b77ecf5b2c7bdaa5586bd01c}{DebugExceptionInPage\_Type}}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00032}00032     \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00036}00036         \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a6975d875b77ecf5b2c7bdaa5586bd01cac24aa5adc8d48dd886a2220685a7258a}{ReadException}} = 0,}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00040}00040         \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a6975d875b77ecf5b2c7bdaa5586bd01caccae2b91ec46bae08dab9bd47c939d91}{WriteException}} = 1,}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00044}00044         \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a6975d875b77ecf5b2c7bdaa5586bd01ca0930de762f3b53650711bafc1a16e0a5}{DepException}} = 8,}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00045}00045     \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00046}00046 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00050}\mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eea}{00050}}     \textcolor{keyword}{public} \textcolor{keyword}{enum} \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eea}{DebugExceptionTypes}}: uint}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00051}00051     \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00055}00055          \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaac86b6caf254b06854e24c5c4510c5f85}{AccessViolation}} =  0xC0000005,}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00059}00059          \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaae045f93c8b16d405f06bc8ca6cb970d1}{ArrayBoundsExceeded}} = 0xC000008C,}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00063}00063          \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaa7129472c5eb598faf47e4e877f2618fd}{Breakpoint}} = 0x80000003,}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00067}00067          \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaaa9460aab5a24c543bbd6675fc0e9f62a}{Datatyp\_Misalighment}} = 0x80000002,}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00071}00071          \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaaf8e37d5951c984e46851f0f5cea02ff9}{FloatPoint\_Denormal\_Operand}} = 0xC000008D,}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00075}00075          \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaa239caa9b11657607e956a05ad3bf28f1}{Float\_DivideByZero}} = 0xC000008E,}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00079}00079         \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaa8957307cab6552b556b18f3c822803f9}{Float\_InexactResult}} = 0xC000008F,}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00083}00083          \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaa9885d673a8eef7c043bdea24b3ab4ea9}{Float\_Overflow}} = 0xC0000091,}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00087}00087          \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaa5c11fe7b57ecd1b331b10c17b80975c6}{Float\_StackCheck}} = 0xC0000092,}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00091}00091          \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaaaec9c5b6c7cca858ebf107fd3be1b64c}{Float\_Underflow}} = 0xC0000093,}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00095}00095          \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaa6a485c16e3ee17cce0a9c54e72469bc5}{IllegalInstrution}} = 0xC000001D,}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00099}00099          \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaa54356d3c602bdb23cd9c94c09c149a28}{InPageError}}= 0xC0000006,}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00103}00103          \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaadda5f240b1a9a07af0b710b5a761a760}{Int\_DivideByZero}}= 0xC0000094,}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00107}00107          \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaa2ed9edad6b3873b22e23af6168681bb0}{Int\_Overflow}}= 0xC0000095,}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00111}00111          \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaa27891f27c10f3f334d207b5631bba65e}{InvalidDisposition}}= 0xC0000026,}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00115}00115          \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaa6148798b6e90ec93983d433ec1d0396b}{NonContinuableException}}= 0xC0000025,}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00119}00119          \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaac9ffe9bb6e32f9780591be75b325148c}{PrivInstruction}}= 0xC0000096,}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00123}00123         \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaa84d7dc19766c446f5e4084e8fce87f82}{StackOverflow}} = 0xC00000FD,}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00127}00127          \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaaa5f3ba85c4804d1a7343045a4f895d8a}{DebugConsoleControlC}} = 0xC000013A,}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00132}00132          \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eeaa41b894072e8bd873f5dfcad73d99be8f}{InvalidHandleCloseException}} = 0xC0000008,}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00133}00133 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00134}00134 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00135}00135     \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00136}00136     }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00137}00137 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00141}\mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8}{00141}}     \textcolor{keyword}{public} \textcolor{keyword}{enum} \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8}{DebugEventType}}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00142}00142     \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00146}00146         \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8ab99aec4ac74ac742607baba21937f82d}{ExceptionEvent}} = 1,}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00150}00150         \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8a9d9d4d2da23a55dc9713df01ef36ae8f}{CreateTheadEvent}} = 2,}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00154}00154         \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8ab5636216d91a5febd3dfab18879d8200}{CreateProcessEvent}} = 3,}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00158}00158         \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8afe451e18cfa42a717ccef2a32d67e5c3}{ExitThreadEvent}} = 4,}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00162}00162         \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8a7d83cd4a7180f43b8d9b415ed6cc84b5}{ExitProcessEvent}} = 5,}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00166}00166         \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8afca498d4710b5539f369a6de68e749ab}{LoadDllEvent}} = 6,}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00170}00170         \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8a048108bab17fa2e8fe8836ec7c81da01}{UnloadDllEvent}} = 7,}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00174}00174         \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8a117b38a6e59c745c9c605870e6e2f4de}{OutputDebugString}} = 8,}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00178}00178         \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8a5f9cc9dc2291a80c635daf1981cd2aa1}{RipEvent}} = 9}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00179}00179 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00180}00180     \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00181}00181 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00185}\mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_acb21c97b0a5bbef4e410cb10937b6b63}{00185}}     \textcolor{keyword}{public} \textcolor{keyword}{enum} \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_acb21c97b0a5bbef4e410cb10937b6b63}{RipErrorType}}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00186}00186     \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00190}00190         \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_acb21c97b0a5bbef4e410cb10937b6b63a9015f16795f0394c3cd8ad9613a1487a}{SleNoType}} = 0,}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00194}00194         \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_acb21c97b0a5bbef4e410cb10937b6b63a757d78540676e4d279a4e3f292b7b52b}{SleError}} = 0x00000001,}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00198}00198         \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_acb21c97b0a5bbef4e410cb10937b6b63a4521ce113ca92713872cff4abc6f876b}{SleMinorError}} = 0x00000002,}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00202}00202         \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_acb21c97b0a5bbef4e410cb10937b6b63abebe6ccd449e7d4f7576379c908f02bd}{SleWarning}} = 0x00000003}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00203}00203     \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00204}00204 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00205}00205 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00206}00206 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00207}00207 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00208}00208 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00212}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container}{00212}}     \textcolor{keyword}{public} \textcolor{keyword}{abstract} \textcolor{keyword}{class }\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container}{DebugEventStaticContainer}} : \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container}{ReferenceCounterNativeStaticContainer}}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00213}00213     \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00218}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container_aa9b6243f684fb18e0b1000ac86198396}{00218}}         \textcolor{keyword}{public} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container_aa9b6243f684fb18e0b1000ac86198396}{DebugEventStaticContainer}}(IntPtr \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}): base(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}})}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00219}00219         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00220}00220             }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00221}00221         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00227}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container_a93a4a201552c18127a180c5bc9b09a0c}{00227}}         \textcolor{keyword}{public} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container_a93a4a201552c18127a180c5bc9b09a0c}{DebugEventStaticContainer}}(IntPtr \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}, \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}}): base(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}, \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}})}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00228}00228         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00229}00229             }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00230}00230         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00231}00231 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00238}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container_acb4edd7deda4e203c89f20a94056dc1f}{00238}}         \textcolor{keyword}{public} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container_acb4edd7deda4e203c89f20a94056dc1f}{DebugEventStaticContainer}}(IntPtr \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}, \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}}, ulong \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_aad062cdb982cb6aec2fae05278b46627}{ReferenceCounter}}): base(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}, \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}}, \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_aad062cdb982cb6aec2fae05278b46627}{ReferenceCounter}})}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00239}00239         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00240}00240 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00241}00241         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00242}00242 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00243}00243 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00244}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container_aa02ca717c563ff5dae806e6c34c5d248}{00244}}         \textcolor{keyword}{protected} \textcolor{keyword}{override} \textcolor{keywordtype}{void} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container_aa02ca717c563ff5dae806e6c34c5d248}{Dispose}}(\textcolor{keywordtype}{bool} disposing)}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00245}00245         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00246}00246 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00247}00247             }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00248}00248             \textcolor{keywordflow}{if} (!\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a3b5f095a4ebad847e806352cb349a6f2}{IsDisposed}})}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00249}00249             \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00250}00250                 \textcolor{keywordflow}{if} (\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_a72cd0f0d7bf610d0553f5f9024702377}{Release}}() == 0)}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00251}00251                 \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00252}00252                     \textcolor{keywordflow}{if} (\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}})}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00253}00253                     \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00254}00254                         NativeMethods.SimpleFree(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}});}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00255}00255                     \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00256}00256                     \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a4603e0d1ed0ba9bf17c2fa20d08efa67}{ClearNative}}();}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00257}00257                 \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00258}00258                 \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00259}00259                 \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00260}00260                     \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a4603e0d1ed0ba9bf17c2fa20d08efa67}{ClearNative}}();}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00261}00261                 \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00262}00262             \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00263}00263             base.Dispose(disposing);}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00264}00264 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00265}00265         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00266}00266 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00270}00270         \textcolor{keyword}{private} \textcolor{keywordtype}{bool} disposedValue;}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00274}00274         \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container}{\string~DebugEventStaticContainer}}()}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00275}00275          \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00276}00276                   \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af127a410fed6a497b46469243512249d}{Dispose}}(disposing: \textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00277}00277          \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00278}00278 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00279}00279 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00280}00280 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00284}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container_a08d3f29a495fb403db61394d48e02cd5}{00284}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container_a08d3f29a495fb403db61394d48e02cd5}{ProcessID}}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00285}00285         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00286}00286             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00287}00287             \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00288}00288                 \textcolor{keywordflow}{return} DebugEventNative.DebugEvent\_GetProcessID(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}});}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00289}00289             \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00290}00290         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00291}00291 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00295}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container_a7f47285083f09c3815934d8cc2d027c6}{00295}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container_a7f47285083f09c3815934d8cc2d027c6}{ThreadID}}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00296}00296         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00297}00297             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00298}00298             \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00299}00299                 \textcolor{keywordflow}{return} DebugEventNative.DebugEvent\_GetThreadID(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}});}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00300}00300             \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00301}00301         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00302}00302 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00306}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container_ab034e2af7cf3fc0e426b3d0ebf051f6d}{00306}}         \textcolor{keyword}{public} \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8}{DebugEventType}} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container_ab034e2af7cf3fc0e426b3d0ebf051f6d}{EventType}}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00307}00307         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00308}00308             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00309}00309             \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00310}00310                 \textcolor{keywordflow}{return} DebugEventNative.DebugEvent\_GetEventType(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}});}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00311}00311             \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00312}00312         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00313}00313         }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00318}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container_a667bb84f38a59ae63405d33b2301bc34}{00318}}         \textcolor{keyword}{public} \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container_a667bb84f38a59ae63405d33b2301bc34}{IsEventFrom32BitProcess}}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00319}00319         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00320}00320             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00321}00321             \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00322}00322                 \textcolor{keywordflow}{return} DebugEventNative.DebugEvent\_IsEventFrom32Bit(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}});}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00323}00323             \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00324}00324         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00325}00325 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00326}00326     \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00327}00327 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00328}00328     }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00332}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info}{00332}}     \textcolor{keyword}{public} \textcolor{keyword}{class }\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info}{DebugEventLoadDllInfo}} : \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container}{DebugEventStaticContainer}}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00333}00333     \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00334}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info_acd7a11babaa5571b33701d9a903b0c00}{00334}}         \textcolor{keyword}{public} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info_acd7a11babaa5571b33701d9a903b0c00}{DebugEventLoadDllInfo}}(IntPtr Nat) : base(Nat)}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00335}00335         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00336}00336 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00337}00337         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00338}00338 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00339}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info_a4f4e8c6d2646702cf2db1cfd9501f6e6}{00339}}         \textcolor{keyword}{public} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info_a4f4e8c6d2646702cf2db1cfd9501f6e6}{DebugEventLoadDllInfo}}(IntPtr Nat, \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}}) : base(Nat, \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}}, 1)}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00340}00340         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00341}00341 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00342}00342         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00343}00343 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00344}00344 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00345}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info_aec47da85afe35b987fa1c58efdaf6c66}{00345}}         \textcolor{keyword}{public} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info_aec47da85afe35b987fa1c58efdaf6c66}{DebugEventLoadDllInfo}}(IntPtr Nat, \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}}, ulong RefCount) : base(Nat, \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}}, RefCount)}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00346}00346         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00347}00347 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00348}00348         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00349}00349 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00353}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info_a20bd85de45d66b1d65e743f73ee03da4}{00353}}         \textcolor{keyword}{public} IntPtr \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info_a20bd85de45d66b1d65e743f73ee03da4}{FileHandle}}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00354}00354         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00355}00355             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00356}00356             \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00357}00357                 \textcolor{keywordflow}{return} DebugEventNative.DebugEvent\_LoadDllInfo\_GetHFile(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}});}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00358}00358             \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00359}00359         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00360}00360 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00364}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info_a45b89ed8f0c115b6bc0edd3ad3dde7c9}{00364}}         \textcolor{keyword}{public} IntPtr \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info_a45b89ed8f0c115b6bc0edd3ad3dde7c9}{DllBaseAddress}}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00365}00365         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00366}00366             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00367}00367             \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00368}00368                 \textcolor{keywordflow}{return} DebugEventNative.DebugEvent\_LoadDllInfo\_GetBaseOfDll(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}});}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00369}00369             \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00370}00370         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00371}00371 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00375}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info_ac05d7d30a2a6d9fc8c0a8022d306f436}{00375}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info_ac05d7d30a2a6d9fc8c0a8022d306f436}{DebugInfoSize}}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00376}00376         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00377}00377             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00378}00378             \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00379}00379                 \textcolor{keywordflow}{return} DebugEventNative.DebugEvent\_LoadDllINfo\_GetDebugInfoSize(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}});}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00380}00380             \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00381}00381         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00385}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info_a69a49ef8fce33abf7e75c948dc980438}{00385}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info_a69a49ef8fce33abf7e75c948dc980438}{DebugInfoOffset}}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00386}00386         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00387}00387             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00388}00388             \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00389}00389                 \textcolor{keywordflow}{return} DebugEventNative.DebugEvent\_LoadDllINfo\_GetDebugInfoOffset(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}});}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00390}00390             \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00391}00391         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00392}00392 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00393}00393 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00397}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info_acf4522ef3052286051c7eef6cca3ed16}{00397}}         \textcolor{keyword}{public} \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info_acf4522ef3052286051c7eef6cca3ed16}{IsImageNameStringUnicode}}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00398}00398         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00399}00399             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00400}00400             \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00401}00401                 \textcolor{keywordflow}{if} (DebugEventNative.DebugEvent\_LoadDllInfo\_GetUnicodeFlag(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}) != 0) }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00402}00402                 \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00403}00403                     \textcolor{keywordflow}{return} \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00404}00404                 \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00405}00405                 \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00406}00406             \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00407}00407         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00408}00408 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00414}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info_a334a2198f51ca2ceeaa648961b2bd38a}{00414}}         \textcolor{keyword}{public} \textcolor{keywordtype}{byte}[] \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info_a334a2198f51ca2ceeaa648961b2bd38a}{GetDebugInfo}}()}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00415}00415         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00416}00416             \textcolor{keywordflow}{if} (this.\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info_a20bd85de45d66b1d65e743f73ee03da4}{FileHandle}} == IntPtr.Zero)}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00417}00417             \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00418}00418                 \textcolor{keywordflow}{return} \textcolor{keyword}{null};}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00419}00419             \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00420}00420             \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00421}00421             \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00422}00422                 \textcolor{keywordflow}{if} (\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info_ac05d7d30a2a6d9fc8c0a8022d306f436}{DebugInfoSize}} != 0)}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00423}00423                 \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00424}00424                     var ret = \textcolor{keyword}{new} \textcolor{keywordtype}{byte}[this.\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info_ac05d7d30a2a6d9fc8c0a8022d306f436}{DebugInfoSize}}];}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00425}00425                     \textcolor{keyword}{using} (var fn = \textcolor{keyword}{new} FileStream(\textcolor{keyword}{new} Microsoft.Win32.SafeHandles.SafeFileHandle(\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info_a20bd85de45d66b1d65e743f73ee03da4}{FileHandle}},\textcolor{keyword}{false}), FileAccess.ReadWrite))}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00426}00426                     \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00427}00427                         fn.Seek(\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info_a69a49ef8fce33abf7e75c948dc980438}{DebugInfoOffset}}, SeekOrigin.Begin);}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00428}00428                         fn.Read(ret, 0, ret.Length);}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00429}00429                         \textcolor{keywordflow}{return} ret;}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00430}00430                     \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00431}00431                 \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00432}00432                 \textcolor{keywordflow}{return} \textcolor{keyword}{null};}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00433}00433 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00434}00434             \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00435}00435         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00436}00436 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00440}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info_ae9b11222ced6f5cde516bce1793d00f7}{00440}}         \textcolor{keyword}{public} \textcolor{keywordtype}{string} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info_ae9b11222ced6f5cde516bce1793d00f7}{ImageName}}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00441}00441         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00442}00442             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00443}00443             \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00444}00444                 \textcolor{keywordflow}{if} (\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info_a20bd85de45d66b1d65e743f73ee03da4}{FileHandle}} != IntPtr.Zero)}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00445}00445                 \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00446}00446                     \textcolor{keywordflow}{return} HelperRoutines.GetFileNameViaHandle(\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info_a20bd85de45d66b1d65e743f73ee03da4}{FileHandle}});}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00447}00447                 \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00448}00448                 \textcolor{keywordflow}{return} \textcolor{keyword}{null}; }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00449}00449             \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00450}00450         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00451}00451     \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00452}00452 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00456}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exception_info}{00456}}     \textcolor{keyword}{public} \textcolor{keyword}{class }\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exception_info}{DebugEventExceptionInfo}} : \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container}{DebugEventStaticContainer}}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00457}00457     \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00458}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exception_info_a1120e6874baeb6129bb9672897ee81e8}{00458}}         \textcolor{keyword}{public} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exception_info_a1120e6874baeb6129bb9672897ee81e8}{DebugEventExceptionInfo}}(IntPtr Nat) : base(Nat)}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00459}00459         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00460}00460 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00461}00461         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00462}00462 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00463}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exception_info_ac159b419c685fefeef66f9c230e59c14}{00463}}         \textcolor{keyword}{public} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exception_info_ac159b419c685fefeef66f9c230e59c14}{DebugEventExceptionInfo}}(IntPtr Nat, \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}}) : base(Nat, \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}}, 1)}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00464}00464         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00465}00465 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00466}00466         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00467}00467 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00468}00468 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00469}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exception_info_ae4ece86eefa3804a9abd31f7605153bc}{00469}}         \textcolor{keyword}{public} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exception_info_ae4ece86eefa3804a9abd31f7605153bc}{DebugEventExceptionInfo}}(IntPtr Nat, \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}}, ulong RefCount) : base(Nat, \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}}, RefCount)}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00470}00470         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00471}00471 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00472}00472         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00473}00473 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00474}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exception_info_a535d8f8feb4bd5ba0f24ca01914a3cd1}{00474}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exception_info_a535d8f8feb4bd5ba0f24ca01914a3cd1}{ExceptionParameterCount}}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00475}00475         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00476}00476             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00477}00477             \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00478}00478                 \textcolor{keywordflow}{return} DebugEventNative.DebugEvent\_ExceptionInfo\_GetExceptionArgumentCount(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}});}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00479}00479             \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00480}00480         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00481}00481 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00482}00482         }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00483}00483 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00488}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exception_info_aab66fa50ab0df06212b683e4a2d04c90}{00488}}         \textcolor{keyword}{public} uint[] \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exception_info_aab66fa50ab0df06212b683e4a2d04c90}{ExceptionParameter32}}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00489}00489         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00490}00490             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00491}00491             \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00492}00492                 IntPtr ptr = DebugEventNative.DebugEvent\_ExceptionInfo\_GetExceptionInformation(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}});}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00493}00493                 \textcolor{keywordflow}{if} (ptr != IntPtr.Zero)}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00494}00494                 \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00495}00495                     uint[] ret = \textcolor{keyword}{new} uint[\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exception_info_a535d8f8feb4bd5ba0f24ca01914a3cd1}{ExceptionParameterCount}}];}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00496}00496                     IntPtr stepper = ptr;}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00497}00497                     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} step = 0; step < \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exception_info_a535d8f8feb4bd5ba0f24ca01914a3cd1}{ExceptionParameterCount}}; step++)}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00498}00498                     \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00499}00499                         ret[step] = (uint) MemoryNative.Peek8(stepper);}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00500}00500                         stepper += \textcolor{keyword}{sizeof}(ulong);}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00501}00501                     \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00502}00502                     NativeMethods.SimpleFree(ptr);}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00503}00503                     \textcolor{keywordflow}{return} ret;}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00504}00504                 \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00505}00505                 \textcolor{keywordflow}{return} \textcolor{keyword}{null};}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00506}00506             \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00507}00507         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00508}00508 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00512}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exception_info_a06c52ad72b7c779c89221c76df0d5482}{00512}}         \textcolor{keyword}{public} ulong[] \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exception_info_a06c52ad72b7c779c89221c76df0d5482}{ExceptionParameter64}}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00513}00513         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00514}00514             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00515}00515             \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00516}00516                 IntPtr ptr = DebugEventNative.DebugEvent\_ExceptionInfo\_GetExceptionInformation(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}});}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00517}00517                 \textcolor{keywordflow}{if} (ptr != IntPtr.Zero)}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00518}00518                 \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00519}00519                     ulong[] ret = \textcolor{keyword}{new} ulong[\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exception_info_a535d8f8feb4bd5ba0f24ca01914a3cd1}{ExceptionParameterCount}}];}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00520}00520                     IntPtr stepper = ptr;}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00521}00521                     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} step = 0; step < \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exception_info_a535d8f8feb4bd5ba0f24ca01914a3cd1}{ExceptionParameterCount}}; step++)}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00522}00522                     \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00523}00523                         ret[step] = MemoryNative.Peek8(stepper);}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00524}00524                         stepper += \textcolor{keyword}{sizeof}(ulong);}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00525}00525                     \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00526}00526                     NativeMethods.SimpleFree(ptr);}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00527}00527                     \textcolor{keywordflow}{return} ret;}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00528}00528                 \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00529}00529                 \textcolor{keywordflow}{return} \textcolor{keyword}{null};}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00530}00530             \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00531}00531         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00532}00532 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00536}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exception_info_a171bdd50db2d3a7fe73a343c62a86912}{00536}}         \textcolor{keyword}{public} ulong \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exception_info_a171bdd50db2d3a7fe73a343c62a86912}{ExceptionAddress64}}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00537}00537         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00538}00538             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00539}00539             \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00540}00540                 \textcolor{keywordflow}{return} DebugEventNative.DebugEvent\_ExceptionInfo\_GetExceptionAddress(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}});}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00541}00541             \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00542}00542         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00543}00543 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00547}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exception_info_acfcf71f40b094da5bcf5c695631828fb}{00547}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exception_info_acfcf71f40b094da5bcf5c695631828fb}{ExceptionAddress32}}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00548}00548         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00549}00549             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00550}00550             \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00551}00551                 \textcolor{keywordflow}{return} (uint)DebugEventNative.DebugEvent\_ExceptionInfo\_GetExceptionAddress(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}});}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00552}00552             \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00553}00553         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00554}00554 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00555}00555 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00556}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exception_info_af58f5a15d3f22221d58dd2738873b9aa}{00556}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exception_info_af58f5a15d3f22221d58dd2738873b9aa}{ExceptionFlags}}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00557}00557         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00558}00558             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00559}00559             \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00560}00560                 \textcolor{keywordflow}{return} DebugEventNative.DebugEvent\_ExceptionInfo\_GetExceptionFlags(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}});}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00561}00561             \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00562}00562         \}    }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00563}00563 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00564}00564 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00568}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exception_info_a0e6eff322fad3163217a31ed4911def2}{00568}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exception_info_a0e6eff322fad3163217a31ed4911def2}{ExceptionCode\_as\_int}}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00569}00569         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00570}00570             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00571}00571             \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00572}00572                 \textcolor{keywordflow}{return} DebugEventNative.DebugEvent\_ExceptionInfo\_GetExceptionCode(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}});}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00573}00573             \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00574}00574         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00575}00575 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00576}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exception_info_a92b3280690862f3f3d9ddd6266c34d7b}{00576}}         \textcolor{keyword}{public} \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eea}{DebugExceptionTypes}} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exception_info_a92b3280690862f3f3d9ddd6266c34d7b}{ExceptionCode}}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00577}00577         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00578}00578             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00579}00579             \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00580}00580                 \textcolor{keywordflow}{return} (\mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a23216c00cf8ff42a3c0ae9c7fc7a8eea}{DebugExceptionTypes}})DebugEventNative.DebugEvent\_ExceptionInfo\_GetExceptionCode(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}});}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00581}00581             \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00582}00582         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00583}00583 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00587}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exception_info_a352b71b1fd528b7fd4dba1ec94e965b2}{00587}}         \textcolor{keyword}{public} \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exception_info_a352b71b1fd528b7fd4dba1ec94e965b2}{IsFirstChanceException}}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00588}00588         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00589}00589             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00590}00590             \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00591}00591                 \textcolor{keywordflow}{if} (DebugEventNative.DebugEvent\_ExceptionInfo\_GetFirstChance(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}) != 0)}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00592}00592                 \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00593}00593                     \textcolor{keywordflow}{return} \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00594}00594                 \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00595}00595                 \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00596}00596             \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00597}00597         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00598}00598     \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00599}00599 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00600}00600 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00601}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_create_thread_info}{00601}}     \textcolor{keyword}{public} \textcolor{keyword}{class }\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_create_thread_info}{DebugEventCreateThreadInfo}} : \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container}{DebugEventStaticContainer}}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00602}00602     \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00603}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_create_thread_info_ad6bdb4dbe1b8cfbfab44a0636e57650c}{00603}}         \textcolor{keyword}{public} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_create_thread_info_ad6bdb4dbe1b8cfbfab44a0636e57650c}{DebugEventCreateThreadInfo}}(IntPtr Nat) : base(Nat)}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00604}00604         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00605}00605 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00606}00606         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00607}00607 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00608}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_create_thread_info_a7e3cd6b3c2cdb6fc0bd18037b6b48574}{00608}}         \textcolor{keyword}{public} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_create_thread_info_a7e3cd6b3c2cdb6fc0bd18037b6b48574}{DebugEventCreateThreadInfo}}(IntPtr Nat, \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}}) : base(Nat, \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}}, 1)}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00609}00609         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00610}00610 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00611}00611         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00612}00612 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00613}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_create_thread_info_a8a6cae99d2eef4505adb33db58a88397}{00613}}         \textcolor{keyword}{public} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_create_thread_info_a8a6cae99d2eef4505adb33db58a88397}{DebugEventCreateThreadInfo}}(IntPtr Nat, \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}}, ulong RefCount) : base(Nat, \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}}, RefCount)}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00614}00614         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00615}00615 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00616}00616         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00617}00617 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00621}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_create_thread_info_a9d4342e973a63c957371c2bf2462b048}{00621}}         \textcolor{keyword}{public} IntPtr \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_create_thread_info_a9d4342e973a63c957371c2bf2462b048}{ThreadHandle}}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00622}00622         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00623}00623             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00624}00624             \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00625}00625                 \textcolor{keywordflow}{return} DebugEventNative.DebugEvent\_CreateThreadInfo\_GetThreadHandle(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}});}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00626}00626             \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00627}00627         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00628}00628 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00632}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_create_thread_info_a151e7f5488447baf8fb9405e0a10c528}{00632}}         \textcolor{keyword}{public} IntPtr \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_create_thread_info_a151e7f5488447baf8fb9405e0a10c528}{ThreadStartAddress}}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00633}00633         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00634}00634             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00635}00635             \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00636}00636                 \textcolor{keywordflow}{return} DebugEventNative.DebugEvent\_CreateThreadInfo\_GetThreadStartAddress(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}});}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00637}00637             \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00638}00638         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00639}00639 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00643}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_create_thread_info_a45264104d6a1c0d4354d0eb24c70f194}{00643}}         \textcolor{keyword}{public} IntPtr \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_create_thread_info_a45264104d6a1c0d4354d0eb24c70f194}{ThreadLocalBase}}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00644}00644         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00645}00645             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00646}00646             \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00647}00647                 \textcolor{keywordflow}{return} DebugEventNative.DebugEvent\_CreateThreadInfo\_GetThreadLocalBase(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}});}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00648}00648             \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00649}00649         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00650}00650 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00654}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_create_thread_info_ac497028b0cd44aa6ce1f5e890b235c2e}{00654}}         \textcolor{keyword}{public} IntPtr \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_create_thread_info_ac497028b0cd44aa6ce1f5e890b235c2e}{ThreadLocalStoragePointer}}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00655}00655         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00656}00656             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00657}00657             \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00658}00658                 \textcolor{keywordflow}{return} \textcolor{keyword}{new} IntPtr(\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_create_thread_info_a45264104d6a1c0d4354d0eb24c70f194}{ThreadLocalBase}}.ToInt32() + 0x2C);}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00659}00659             \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00660}00660         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00661}00661     \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00662}00662 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00663}00663 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00664}00664 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00665}00665 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00666}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exit_thread_info}{00666}}     \textcolor{keyword}{public} \textcolor{keyword}{class }\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exit_thread_info}{DebugEventExitThreadInfo}} : \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container}{DebugEventStaticContainer}}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00667}00667     \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00668}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exit_thread_info_acfb4c3786b90375b42115a5b491bba08}{00668}}         \textcolor{keyword}{public} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exit_thread_info_acfb4c3786b90375b42115a5b491bba08}{DebugEventExitThreadInfo}}(IntPtr Nat) : base(Nat)}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00669}00669         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00670}00670 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00671}00671         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00672}00672 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00673}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exit_thread_info_a734f99805f9e7f4f7cb7a425e31dcc65}{00673}}         \textcolor{keyword}{public} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exit_thread_info_a734f99805f9e7f4f7cb7a425e31dcc65}{DebugEventExitThreadInfo}}(IntPtr Nat, \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}}) : base(Nat, \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}}, 1)}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00674}00674         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00675}00675 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00676}00676         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00677}00677 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00678}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exit_thread_info_a0a2d905ac9e054f295b8324e05d2f4c4}{00678}}         \textcolor{keyword}{public} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exit_thread_info_a0a2d905ac9e054f295b8324e05d2f4c4}{DebugEventExitThreadInfo}}(IntPtr Nat, \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}}, ulong RefCount) : base(Nat, \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}}, RefCount)}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00679}00679         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00680}00680 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00681}00681         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00682}00682 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00683}00683 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00687}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exit_thread_info_a368c1d50b8c6968db2442ebe2d284483}{00687}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exit_thread_info_a368c1d50b8c6968db2442ebe2d284483}{ExitCode}}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00688}00688         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00689}00689             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00690}00690             \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00691}00691                 \textcolor{keywordflow}{return} DebugEventNative.DebugEvent\_ExitThreadInfo\_GetExitCode(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}});}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00692}00692             \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00693}00693         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00694}00694     \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00695}00695 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00696}00696 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00697}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exit_process_info}{00697}}     \textcolor{keyword}{public} \textcolor{keyword}{class }\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exit_process_info}{DebugEventExitProcessInfo}} : \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container}{DebugEventStaticContainer}}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00698}00698     \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00699}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exit_process_info_aaea3893c239eef370b77fa4e20a498de}{00699}}         \textcolor{keyword}{public} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exit_process_info_aaea3893c239eef370b77fa4e20a498de}{DebugEventExitProcessInfo}}(IntPtr Nat) : base(Nat)}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00700}00700         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00701}00701 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00702}00702         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00703}00703 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00704}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exit_process_info_a0b0be9b68f99958c28106d1bb196800c}{00704}}         \textcolor{keyword}{public} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exit_process_info_a0b0be9b68f99958c28106d1bb196800c}{DebugEventExitProcessInfo}}(IntPtr Nat, \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}}) : base(Nat, \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}}, 1)}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00705}00705         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00706}00706 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00707}00707         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00708}00708 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00709}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exit_process_info_aa4ed1e281165ef114c39a796931fb4a5}{00709}}         \textcolor{keyword}{public} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exit_process_info_aa4ed1e281165ef114c39a796931fb4a5}{DebugEventExitProcessInfo}}(IntPtr Nat, \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}}, ulong RefCount) : base(Nat, \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}}, RefCount)}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00710}00710         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00711}00711 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00712}00712         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00713}00713 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00717}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exit_process_info_a28afcd5d1105e1bfdad867e36b758278}{00717}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exit_process_info_a28afcd5d1105e1bfdad867e36b758278}{ExitCode}}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00718}00718         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00719}00719             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00720}00720             \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00721}00721                 \textcolor{keywordflow}{return} DebugEventNative.DebugEvent\_ExitProcessInfo\_GetExitCode(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}});}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00722}00722             \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00723}00723         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00724}00724     \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00725}00725 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00726}00726 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00727}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_create_process_info}{00727}}     \textcolor{keyword}{public} \textcolor{keyword}{class }\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_create_process_info}{DebugEventCreateProcessInfo}} :\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container}{DebugEventStaticContainer}}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00728}00728     \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00729}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_create_process_info_ad472c672e352ef1d377ca5b0f1611e04}{00729}}         \textcolor{keyword}{public} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_create_process_info_ad472c672e352ef1d377ca5b0f1611e04}{DebugEventCreateProcessInfo}}(IntPtr Nat): base(Nat)}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00730}00730         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00731}00731             }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00732}00732         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00733}00733 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00734}00734 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00735}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_create_process_info_a9ae6f163586af094a9cf6fe19db56570}{00735}}         \textcolor{keyword}{public} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_create_process_info_a9ae6f163586af094a9cf6fe19db56570}{DebugEventCreateProcessInfo}}(IntPtr Nat, \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}}) : base(Nat, \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}}, 1)}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00736}00736         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00737}00737 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00738}00738         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00739}00739 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00740}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_create_process_info_a5852e889f2cceb1f97b7bd9b9edb534c}{00740}}         \textcolor{keyword}{public} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_create_process_info_a5852e889f2cceb1f97b7bd9b9edb534c}{DebugEventCreateProcessInfo}}(IntPtr Nat, \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}}, ulong RefCount) : base(Nat, \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}}, RefCount)}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00741}00741         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00742}00742 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00743}00743         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00744}00744 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00748}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_create_process_info_a33a18110582f30db18763a3cf3c04589}{00748}}         \textcolor{keyword}{public} IntPtr \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_create_process_info_a33a18110582f30db18763a3cf3c04589}{NativeFileHandle}}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00749}00749         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00750}00750             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00751}00751             \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00752}00752                 \textcolor{keywordflow}{return} DebugEventNative.DebugEvent\_CreateProcessGetFileHandle(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}});}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00753}00753             \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00754}00754         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00755}00755 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00756}00756 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00760}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_create_process_info_a6bf840b6fafd359a630914298dc537aa}{00760}}         \textcolor{keyword}{public} \textcolor{keywordtype}{string} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_create_process_info_a6bf840b6fafd359a630914298dc537aa}{ImageName}}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00761}00761         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00762}00762             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00763}00763             \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00764}00764                 \textcolor{keywordflow}{return} HelperRoutines.GetFileNameViaHandle(\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_create_process_info_a33a18110582f30db18763a3cf3c04589}{NativeFileHandle}}); }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00765}00765             \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00766}00766         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00767}00767 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00772}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_create_process_info_ae8427a7e4261c09a4d3995c35239359e}{00772}}         \textcolor{keyword}{public} \textcolor{keywordtype}{byte}[] \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_create_process_info_ae8427a7e4261c09a4d3995c35239359e}{GetFileContents}}()}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00773}00773         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00774}00774             }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00775}00775             \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00776}00776                 \textcolor{keywordflow}{if} (\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_create_process_info_a33a18110582f30db18763a3cf3c04589}{NativeFileHandle}} != IntPtr.Zero)}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00777}00777                 \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00778}00778                    }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00779}00779                     \textcolor{keywordflow}{if} (\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_create_process_info_a6bf840b6fafd359a630914298dc537aa}{ImageName}} != \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00780}00780                     \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00781}00781                         \textcolor{keywordflow}{return} File.ReadAllBytes(\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_create_process_info_a6bf840b6fafd359a630914298dc537aa}{ImageName}});}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00782}00782                     \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00783}00783                 \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00784}00784                 \textcolor{keywordflow}{return} \textcolor{keyword}{null};}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00785}00785             \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00786}00786         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00787}00787 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00788}00788         }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00789}00789 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00790}00790 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00791}00791  }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00792}00792         }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00793}00793     \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00797}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_string_info}{00797}}     \textcolor{keyword}{public} \textcolor{keyword}{class }\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_string_info}{DebugEventStringInfo}}: \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container}{DebugEventStaticContainer}}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00798}00798     \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00799}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_string_info_af19ad29e2880a7dbb55e841d8bdd5579}{00799}}         \textcolor{keyword}{public} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_string_info_af19ad29e2880a7dbb55e841d8bdd5579}{DebugEventStringInfo}}(IntPtr \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}) :base(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}})}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00800}00800         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00801}00801             }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00802}00802         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00803}00803 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00804}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_string_info_af5ac377d9bcfaa8f283405d70e437677}{00804}}         \textcolor{keyword}{public} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_string_info_af5ac377d9bcfaa8f283405d70e437677}{DebugEventStringInfo}}(IntPtr Nat, \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}}) : base(Nat, \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}}, 1)}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00805}00805         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00806}00806 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00807}00807         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00808}00808 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00809}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_string_info_a29688939dec958de83f887335f12943b}{00809}}         \textcolor{keyword}{public} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_string_info_a29688939dec958de83f887335f12943b}{DebugEventStringInfo}}(IntPtr Nat, \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}}, ulong RefCount) : base(Nat, \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}}, RefCount)}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00810}00810         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00811}00811 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00812}00812         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00813}00813 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00814}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_string_info_a9240848d8c6f38162fbce7413bea7c37}{00814}}         \textcolor{keyword}{public} \textcolor{keyword}{override} \textcolor{keywordtype}{string} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_string_info_a9240848d8c6f38162fbce7413bea7c37}{ToString}}()}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00815}00815         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00816}00816             \textcolor{keywordflow}{return} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_string_info_a5fcd92e429f19977a2be35aadb2083aa}{OutputString}};}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00817}00817         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00821}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_string_info_a5fcd92e429f19977a2be35aadb2083aa}{00821}}         \textcolor{keyword}{public} \textcolor{keywordtype}{string} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_string_info_a5fcd92e429f19977a2be35aadb2083aa}{OutputString}}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00822}00822         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00823}00823             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00824}00824             \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00825}00825                 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00826}00826                 \textcolor{keywordflow}{if} (DebugEventNative.DebugEvent\_GetEventType(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}) != \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8}{DebugEventType}}.OutputDebugString)}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00827}00827                 \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00828}00828                     \textcolor{keywordflow}{return} \textcolor{keyword}{null};}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00829}00829                 \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00830}00830                 \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00831}00831                 \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00832}00832                     IntPtr NativeHandle = NativeMethods.OpenProcessForMemoryAccess(DebugEventNative.DebugEvent\_GetProcessID(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}));}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00833}00833                     \textcolor{keywordflow}{if} (NativeHandle == IntPtr.Zero)}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00834}00834                     \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00835}00835                         \textcolor{keywordflow}{return} \textcolor{keyword}{null};}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00836}00836                     \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00840}00840                     \textcolor{keywordtype}{string} Managed = RemoteStructure.RemoteReadDebugString(NativeHandle, \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}});}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00841}00841                     NativeMethods.CloseHandle(NativeHandle);}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00842}00842                     \textcolor{keywordflow}{return} Managed;}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00843}00843                 \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00844}00844             \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00845}00845         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00846}00846         }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00847}00847     \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00848}00848 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00852}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_rip_info}{00852}}     \textcolor{keyword}{public} \textcolor{keyword}{class }\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_rip_info}{DebugEventRipInfo}}: \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container}{DebugEventStaticContainer}}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00853}00853     \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00854}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_rip_info_a5496497a99af578971cadd063022c35d}{00854}}         \textcolor{keyword}{public} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_rip_info_a5496497a99af578971cadd063022c35d}{DebugEventRipInfo}}(IntPtr NativePtr) : base(NativePtr)}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00855}00855         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00856}00856 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00857}00857         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00858}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_rip_info_ac26d9ffb279a007796990d3ef565abb1}{00858}}         \textcolor{keyword}{public} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_rip_info_ac26d9ffb279a007796990d3ef565abb1}{DebugEventRipInfo}}(IntPtr Nat, \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}}) : base(Nat, \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}}, 1)}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00859}00859         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00860}00860 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00861}00861         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00862}00862 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00863}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_rip_info_a45e7b54728b0f5c3509e2f82ad3c1819}{00863}}         \textcolor{keyword}{public} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_rip_info_a45e7b54728b0f5c3509e2f82ad3c1819}{DebugEventRipInfo}}(IntPtr Nat, \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}}, ulong RefCount) : base(Nat, \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}}, RefCount)}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00864}00864         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00865}00865 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00866}00866         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00867}00867 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00868}00868 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00869}00869 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00873}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_rip_info_a4c588116610fd0b778cc1c4187fe6259}{00873}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_rip_info_a4c588116610fd0b778cc1c4187fe6259}{Error}}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00874}00874             \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00875}00875                 \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00876}00876                 \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00877}00877                     \textcolor{keywordflow}{return} DebugEventNative.DebugEvent\_RipGetError(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}});}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00878}00878                 \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00879}00879             \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00880}00880 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00881}00881 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00885}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_rip_info_a0458eab68517fdf495d35040405697a6}{00885}}             \textcolor{keyword}{public} \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_acb21c97b0a5bbef4e410cb10937b6b63}{RipErrorType}} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_rip_info_a0458eab68517fdf495d35040405697a6}{ErrorType}}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00886}00886             \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00887}00887                 \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00888}00888                 \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00889}00889                     \textcolor{keywordflow}{return} DebugEventNative.DebugEvent\_RipGetErrorType(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}});}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00890}00890                 \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00891}00891             \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00892}00892 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00893}00893         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00894}00894 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00895}00895 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00896}00896 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00897}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_unload_dll_info}{00897}}     \textcolor{keyword}{public} \textcolor{keyword}{class }\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_unload_dll_info}{DebugEventUnloadDllInfo}}: \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container}{DebugEventStaticContainer}}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00898}00898     \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00899}00899 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00904}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_unload_dll_info_a5a9d6826cd720386922046cb11ab6343}{00904}}         \textcolor{keyword}{public} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_unload_dll_info_a5a9d6826cd720386922046cb11ab6343}{DebugEventUnloadDllInfo}}(IntPtr NativePtr) : base(NativePtr)}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00905}00905         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00906}00906 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00907}00907         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00908}00908 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00909}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_unload_dll_info_ad9e6c8a05164409f44cce5c3027f7015}{00909}}         \textcolor{keyword}{public} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_unload_dll_info_ad9e6c8a05164409f44cce5c3027f7015}{DebugEventUnloadDllInfo}}(IntPtr Nat, \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}}) : base(Nat, \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}}, 1)}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00910}00910         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00911}00911 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00912}00912         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00913}00913 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00914}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_unload_dll_info_a66a73755bb71adb2171aa9edd54b2f3e}{00914}}         \textcolor{keyword}{public} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_unload_dll_info_a66a73755bb71adb2171aa9edd54b2f3e}{DebugEventUnloadDllInfo}}(IntPtr Nat, \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}}, ulong RefCount) : base(Nat, \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}}, RefCount)}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00915}00915         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00916}00916 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00917}00917         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00918}00918 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00919}00919 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00923}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_unload_dll_info_ab1061a8d2393d24939ada7d92b5f4e19}{00923}}         \textcolor{keyword}{public} IntPtr \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_unload_dll_info_ab1061a8d2393d24939ada7d92b5f4e19}{BaseOfDll}}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00924}00924         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00925}00925             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00926}00926             \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00927}00927                 \textcolor{keywordflow}{return} \textcolor{keyword}{new} IntPtr((\textcolor{keywordtype}{long})DebugEventNative.DebugEvent\_UnloadDllInfo\_GetBaseAddress(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}));}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00928}00928             \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00929}00929         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00930}00930 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00931}00931     \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00932}00932 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00936}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{00936}}     \textcolor{keyword}{public} \textcolor{keyword}{class }\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{DebugEvent}} : \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container}{DebugEventStaticContainer}}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00937}00937     \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00938}00938        }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00939}00939         \textcolor{keyword}{private} \textcolor{keyword}{static} readonly \textcolor{keywordtype}{string} error\_msg\_bad\_event\_fetch = \textcolor{stringliteral}{"{}Attempt to fetch \{0\} from an event that does not contain the event \{1\}"{}};}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00940}00940 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00945}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_a87c5378eb7d2e7d89ff54be510996227}{00945}}         \textcolor{keyword}{public} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_a87c5378eb7d2e7d89ff54be510996227}{DebugEvent}}(IntPtr NativePtr) : base(NativePtr)}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00946}00946         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00947}00947             \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a8c06b4f0d2c1c2162f9ba5e8c13f3914}{FreeOnCleanupContainer}} = \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00948}00948         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00949}00949 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00950}00950 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00951}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_a18103ca5431487bbd949f4c449596960}{00951}}         \textcolor{keyword}{public} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_a18103ca5431487bbd949f4c449596960}{DebugEvent}}(IntPtr Nat, \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}}) : base(Nat, \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}}, 1)}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00952}00952         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00953}00953 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00954}00954         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00955}00955 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00956}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_affbfffb19e33710d80dfe85540ca5ce2}{00956}}         \textcolor{keyword}{public} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_affbfffb19e33710d80dfe85540ca5ce2}{DebugEvent}}(IntPtr Nat, \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}}, ulong RefCount) : base(Nat, \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}}, RefCount)}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00957}00957         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00958}00958 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00959}00959         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00960}00960 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00965}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_a56c9dfc3a6a87940ec5f9483838e2bcf}{00965}}         \textcolor{keyword}{public} \textcolor{keyword}{static} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{DebugEvent}} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_a56c9dfc3a6a87940ec5f9483838e2bcf}{CreatePrivateStruct}}()}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00966}00966         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00967}00967             \textcolor{keywordflow}{return} \textcolor{keyword}{new} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_a87c5378eb7d2e7d89ff54be510996227}{DebugEvent}}(DebugEventNative.DebugEvent\_AllocateStructure(), \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00968}00968         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00969}00969   }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00970}00970 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00971}00971 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00972}00972         \textcolor{keywordtype}{bool} disposedValue;}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00973}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_a5f1870d26f95fce0eae803e237e24bbc}{00973}}         \textcolor{keyword}{protected} \textcolor{keyword}{override} \textcolor{keywordtype}{void} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_a5f1870d26f95fce0eae803e237e24bbc}{Dispose}}(\textcolor{keywordtype}{bool} disposing)}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00974}00974         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00975}00975             \textcolor{keywordflow}{if} (!disposedValue)}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00976}00976             \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00977}00977 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00978}00978                 disposedValue = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00979}00979             \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00980}00980             base.Dispose(disposing);}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00981}00981         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00982}00982 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00983}00983 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00984}00984 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00985}00985 \textcolor{preprocessor}{        \#region Wrapper Creation}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00990}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_a2c7a8287dfd66faea219fe21b98471c6}{00990}}         \textcolor{keyword}{public} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_create_process_info}{DebugEventCreateProcessInfo}} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_a2c7a8287dfd66faea219fe21b98471c6}{GetDebugEventCreateProcessInfo}}()}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00991}00991         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00992}00992             \textcolor{keywordflow}{if} (DebugEventNative.DebugEvent\_GetEventType(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}) != \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8}{DebugEventType}}.CreateProcessEvent)}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00993}00993             \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00994}00994                 \textcolor{keywordflow}{throw} \textcolor{keyword}{new} InvalidOperationException(\textcolor{keywordtype}{string}.Format(error\_msg\_bad\_event\_fetch, \textcolor{keyword}{new} \textcolor{keywordtype}{object}[] \{ \textcolor{stringliteral}{"{}Create Process Information"{}}, \textcolor{stringliteral}{"{} Create Process Event"{}} \}));}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00995}00995             \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00996}00996             \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_a129a0deb3f221ac2779a5cf00f9e97e3}{AddRef}}();}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00997}00997             var ret = \textcolor{keyword}{new} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_create_process_info}{DebugEventCreateProcessInfo}}(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}, \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}}, \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_aad062cdb982cb6aec2fae05278b46627}{ReferenceCounter}});}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00998}00998             \textcolor{keywordflow}{if} (ret == \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l00999}00999             \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01000}01000                 \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_a72cd0f0d7bf610d0553f5f9024702377}{Release}}();}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01001}01001             \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01002}01002             \textcolor{keywordflow}{return} ret;}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01003}01003         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01004}01004 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01005}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_aa4931172739f0fa6c31c96889547cf77}{01005}}         \textcolor{keyword}{public} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_create_thread_info}{DebugEventCreateThreadInfo}} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_aa4931172739f0fa6c31c96889547cf77}{GetDebugEventCreateThreadInfo}}()}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01006}01006         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01007}01007             \textcolor{keywordflow}{if} (DebugEventNative.DebugEvent\_GetEventType(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}) != \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8}{DebugEventType}}.CreateTheadEvent)}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01008}01008             \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01009}01009                 \textcolor{keywordflow}{throw} \textcolor{keyword}{new} InvalidOperationException(\textcolor{keywordtype}{string}.Format(error\_msg\_bad\_event\_fetch, \textcolor{keyword}{new} \textcolor{keywordtype}{object}[] \{ \textcolor{stringliteral}{"{}Create Thread Information"{}}, \textcolor{stringliteral}{"{} Create Thread Event"{}} \}));}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01010}01010             \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01011}01011             \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_a129a0deb3f221ac2779a5cf00f9e97e3}{AddRef}}();}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01012}01012             var ret = \textcolor{keyword}{new} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_create_thread_info}{DebugEventCreateThreadInfo}}(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}, \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}}, \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_aad062cdb982cb6aec2fae05278b46627}{ReferenceCounter}});}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01013}01013             \textcolor{keywordflow}{if} (ret == \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01014}01014             \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01015}01015                 \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_a72cd0f0d7bf610d0553f5f9024702377}{Release}}();}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01016}01016             \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01017}01017             \textcolor{keywordflow}{return} ret;}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01018}01018         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01019}01019 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01020}01020 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01021}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_a4d9f1661131e0b682a1f17ed66f07997}{01021}}         \textcolor{keyword}{public} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exception_info}{DebugEventExceptionInfo}} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_a4d9f1661131e0b682a1f17ed66f07997}{GetDebugEventExceptionInfo}}()}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01022}01022         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01023}01023             \textcolor{keywordflow}{if} (DebugEventNative.DebugEvent\_GetEventType(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}) != \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8}{DebugEventType}}.ExceptionEvent)}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01024}01024             \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01025}01025                 \textcolor{keywordflow}{throw} \textcolor{keyword}{new} InvalidOperationException(\textcolor{keywordtype}{string}.Format(error\_msg\_bad\_event\_fetch, \textcolor{keyword}{new} \textcolor{keywordtype}{object}[] \{ \textcolor{stringliteral}{"{}Exception Information"{}}, \textcolor{stringliteral}{"{} Exception Event"{}} \}));}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01026}01026             \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01027}01027 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01028}01028             \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_a129a0deb3f221ac2779a5cf00f9e97e3}{AddRef}}();}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01029}01029             var ret = \textcolor{keyword}{new} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exception_info}{DebugEventExceptionInfo}}(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}, \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}}, \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_aad062cdb982cb6aec2fae05278b46627}{ReferenceCounter}});}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01030}01030             \textcolor{keywordflow}{if} (ret == \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01031}01031             \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01032}01032                 \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_a72cd0f0d7bf610d0553f5f9024702377}{Release}}();}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01033}01033             \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01034}01034             \textcolor{keywordflow}{return} ret;}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01035}01035 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01036}01036             }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01037}01037         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01038}01038 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01039}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_a901abab49bfc4021a70f189918c18390}{01039}}         \textcolor{keyword}{public} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exit_process_info}{DebugEventExitProcessInfo}} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_a901abab49bfc4021a70f189918c18390}{GetEventExitProcessInfo}}()}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01040}01040         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01041}01041             \textcolor{keywordflow}{if} (DebugEventNative.DebugEvent\_GetEventType(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}) != \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8}{DebugEventType}}.ExitProcessEvent)}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01042}01042             \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01043}01043                 \textcolor{keywordflow}{throw} \textcolor{keyword}{new} InvalidOperationException(\textcolor{keywordtype}{string}.Format(error\_msg\_bad\_event\_fetch, \textcolor{keyword}{new} \textcolor{keywordtype}{object}[] \{ \textcolor{stringliteral}{"{}Process Exit Information"{}}, \textcolor{stringliteral}{"{} Process Exit Event"{}} \}));}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01044}01044             \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01045}01045 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01046}01046             \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_a129a0deb3f221ac2779a5cf00f9e97e3}{AddRef}}();}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01047}01047             var ret = \textcolor{keyword}{new} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exit_process_info}{DebugEventExitProcessInfo}}(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}, \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}}, \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_aad062cdb982cb6aec2fae05278b46627}{ReferenceCounter}});}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01048}01048             \textcolor{keywordflow}{if} (ret == \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01049}01049             \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01050}01050                 \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_a72cd0f0d7bf610d0553f5f9024702377}{Release}}();}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01051}01051             \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01052}01052             \textcolor{keywordflow}{return} ret;}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01053}01053 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01054}01054         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01055}01055 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01056}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_a2859ffbc2506fb73ad8facde21f77bbe}{01056}}         \textcolor{keyword}{public} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exit_thread_info}{DebugEventExitThreadInfo}} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_a2859ffbc2506fb73ad8facde21f77bbe}{GetEventExitThreadInfo}}()}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01057}01057         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01058}01058             \textcolor{keywordflow}{if} (DebugEventNative.DebugEvent\_GetEventType(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}) != \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8}{DebugEventType}}.ExitThreadEvent)}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01059}01059             \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01060}01060                 \textcolor{keywordflow}{throw} \textcolor{keyword}{new} InvalidOperationException(\textcolor{keywordtype}{string}.Format(error\_msg\_bad\_event\_fetch, \textcolor{keyword}{new} \textcolor{keywordtype}{object}[] \{ \textcolor{stringliteral}{"{}Thread Exit Information"{}}, \textcolor{stringliteral}{"{} Thread Exit Event"{}} \}));}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01061}01061             \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01062}01062 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01063}01063             \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_a129a0deb3f221ac2779a5cf00f9e97e3}{AddRef}}();}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01064}01064             var ret = \textcolor{keyword}{new} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exit_thread_info}{DebugEventExitThreadInfo}}(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}, \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}}, \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_aad062cdb982cb6aec2fae05278b46627}{ReferenceCounter}});}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01065}01065             \textcolor{keywordflow}{if} (ret == \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01066}01066             \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01067}01067                 \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_a72cd0f0d7bf610d0553f5f9024702377}{Release}}();}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01068}01068             \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01069}01069             \textcolor{keywordflow}{return} ret;}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01070}01070         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01071}01071 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01072}01072 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01073}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_ab0ffefec0091efb1c43b997d92b168e6}{01073}}         \textcolor{keyword}{public} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info}{DebugEventLoadDllInfo}} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_ab0ffefec0091efb1c43b997d92b168e6}{GetDebugEventLoadDll}}()}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01074}01074         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01075}01075             \textcolor{keywordflow}{if} (DebugEventNative.DebugEvent\_GetEventType(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}) != \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8}{DebugEventType}}.LoadDllEvent)}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01076}01076             \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01077}01077                 \textcolor{keywordflow}{throw} \textcolor{keyword}{new} InvalidOperationException(\textcolor{keywordtype}{string}.Format(error\_msg\_bad\_event\_fetch, \textcolor{keyword}{new} \textcolor{keywordtype}{object}[] \{ \textcolor{stringliteral}{"{}DLL Load Information"{}}, \textcolor{stringliteral}{"{} DLL Load  Event"{}} \}));}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01078}01078             \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01079}01079 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01080}01080             \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_a129a0deb3f221ac2779a5cf00f9e97e3}{AddRef}}();}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01081}01081             var ret = \textcolor{keyword}{new} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info}{DebugEventLoadDllInfo}}(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}, \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}}, \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_aad062cdb982cb6aec2fae05278b46627}{ReferenceCounter}});}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01082}01082             \textcolor{keywordflow}{if} (ret == \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01083}01083             \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01084}01084                 \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_a72cd0f0d7bf610d0553f5f9024702377}{Release}}();}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01085}01085             \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01086}01086             \textcolor{keywordflow}{return} ret;}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01087}01087         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01088}01088 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01093}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_adfd6eb75ce8e2dd1f9ecb06fde82968a}{01093}}         \textcolor{keyword}{public} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_string_info}{DebugEventStringInfo}} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_adfd6eb75ce8e2dd1f9ecb06fde82968a}{GetDebugEventStringInfo}}()}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01094}01094         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01095}01095             \textcolor{keywordflow}{if} (DebugEventNative.DebugEvent\_GetEventType(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}) != \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8}{DebugEventType}}.OutputDebugString)}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01096}01096             \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01097}01097                 \textcolor{keywordflow}{throw} \textcolor{keyword}{new} InvalidOperationException(\textcolor{keywordtype}{string}.Format(error\_msg\_bad\_event\_fetch, \textcolor{keyword}{new} \textcolor{keywordtype}{object}[] \{ \textcolor{stringliteral}{"{}Debug String Information"{}}, \textcolor{stringliteral}{"{} Debug String Struct"{}} \}));}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01098}01098             \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01099}01099 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01100}01100             \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_a129a0deb3f221ac2779a5cf00f9e97e3}{AddRef}}();}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01101}01101             var ret = \textcolor{keyword}{new} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_string_info}{DebugEventStringInfo}}(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}, \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}}, \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_aad062cdb982cb6aec2fae05278b46627}{ReferenceCounter}});}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01102}01102             \textcolor{keywordflow}{if} (ret == \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01103}01103             \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01104}01104                 \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_a72cd0f0d7bf610d0553f5f9024702377}{Release}}();}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01105}01105             \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01106}01106             \textcolor{keywordflow}{return} ret;}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01107}01107         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01108}01108 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01109}01109 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01115}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_af46bb829a91b9ed28d3362b11c1f80db}{01115}}         \textcolor{keyword}{public} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_rip_info}{DebugEventRipInfo}} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_af46bb829a91b9ed28d3362b11c1f80db}{GetDebugEventRipInfo}}()}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01116}01116         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01117}01117             \textcolor{keywordflow}{if} (DebugEventNative.DebugEvent\_GetEventType(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}) != \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8}{DebugEventType}}.RipEvent)}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01118}01118             \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01119}01119                 \textcolor{keywordflow}{throw} \textcolor{keyword}{new} InvalidOperationException(\textcolor{keywordtype}{string}.Format(error\_msg\_bad\_event\_fetch, \textcolor{keyword}{new} \textcolor{keywordtype}{object}[] \{ \textcolor{stringliteral}{"{}Rip Information"{}}, \textcolor{stringliteral}{"{}Rip Struct"{}} \}));}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01120}01120             \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01121}01121             \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_a129a0deb3f221ac2779a5cf00f9e97e3}{AddRef}}();}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01122}01122             var ret = \textcolor{keyword}{new} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_rip_info}{DebugEventRipInfo}}(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}, \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}}, \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_aad062cdb982cb6aec2fae05278b46627}{ReferenceCounter}});}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01123}01123             \textcolor{keywordflow}{if} (ret == \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01124}01124             \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01125}01125                 \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_a72cd0f0d7bf610d0553f5f9024702377}{Release}}();}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01126}01126             \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01127}01127             \textcolor{keywordflow}{return} ret;}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01128}01128         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01129}01129 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01130}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_a78d712c3c9367ad1ac51c97c3d49cad5}{01130}}         \textcolor{keyword}{public} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_unload_dll_info}{DebugEventUnloadDllInfo}} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_a78d712c3c9367ad1ac51c97c3d49cad5}{GetDebugEventUnloadDllInfo}}()}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01131}01131         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01132}01132             \textcolor{keywordflow}{if} (DebugEventNative.DebugEvent\_GetEventType(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}) != \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8}{DebugEventType}}.UnloadDllEvent)}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01133}01133             \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01134}01134                 \textcolor{keywordflow}{throw} \textcolor{keyword}{new} InvalidOperationException(\textcolor{keywordtype}{string}.Format(error\_msg\_bad\_event\_fetch, \textcolor{keyword}{new} \textcolor{keywordtype}{object}[] \{ \textcolor{stringliteral}{"{}Dll free/unload Information"{}}, \textcolor{stringliteral}{"{} Unload Dll Event"{}} \}));}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01135}01135             \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01136}01136             \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_a129a0deb3f221ac2779a5cf00f9e97e3}{AddRef}}();}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01137}01137             var ret = \textcolor{keyword}{new} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_unload_dll_info}{DebugEventUnloadDllInfo}}(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}, \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}}, \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_aad062cdb982cb6aec2fae05278b46627}{ReferenceCounter}});}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01138}01138             \textcolor{keywordflow}{if} (ret == \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01139}01139             \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01140}01140                 \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_a72cd0f0d7bf610d0553f5f9024702377}{Release}}();}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01141}01141             \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01142}01142             \textcolor{keywordflow}{return} ret;}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01143}01143         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01144}01144 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01145}01145 \textcolor{preprocessor}{        \#endregion}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01146}01146 \textcolor{preprocessor}{        \#region C\# boiler plate dispose and the underlying struct}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01147}01147 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01148}01148 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01149}01149 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01150}01150 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01151}01151         \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{\string~DebugEvent}}()}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01152}01152          \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01153}01153              \textcolor{comment}{// Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01154}01154              \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af127a410fed6a497b46469243512249d}{Dispose}}(disposing: \textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01155}01155          \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01156}01156 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01157}01157 }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01158}01158 \textcolor{preprocessor}{        \#endregion}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01159}01159  }
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01160}01160     \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_8cs_source_l01161}01161 \}}
+
+\end{DoxyCode}

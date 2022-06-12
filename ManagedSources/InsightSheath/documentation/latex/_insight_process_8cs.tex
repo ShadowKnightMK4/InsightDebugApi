@@ -1,0 +1,28 @@
+\hypertarget{_insight_process_8cs}{}\doxysection{Debugging/\+Process/\+Insight\+Process.cs File Reference}
+\label{_insight_process_8cs}\index{Debugging/Process/InsightProcess.cs@{Debugging/Process/InsightProcess.cs}}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_process}{Insight\+Sheath.\+Debugging.\+Process.\+Insight\+Process}}
+\begin{DoxyCompactList}\small\item\em choose an environment and spawn a process. This class is a wrapper for the C++ Class named \char`\"{}\+Insight\+Process\char`\"{} implemented as a native DLL in the source PS\+\_\+\+Process\+Information.\+cpp and said class is the functionally the heart of the DLL. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespace_insight_sheath}{Insight\+Sheath}}
+\item 
+namespace \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging}{Insight\+Sheath.\+Debugging}}
+\item 
+namespace \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_process}{Insight\+Sheath.\+Debugging.\+Process}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_process_a0c189e28a27b763c01274d76e65be1a6}{Insight\+Sheath.\+Debugging.\+Process.\+Debug\+Cont\+State}} \+: uint \{ \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_process_a0c189e28a27b763c01274d76e65be1a6ab8b6eb47c4d84218537d5cb2fbad482b}{Insight\+Sheath.\+Debugging.\+Process.\+Debug\+Continue\+State}} = 0x00010002
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_process_a0c189e28a27b763c01274d76e65be1a6ab7bd41214b2c6ad64c60aa8793f23746}{Insight\+Sheath.\+Debugging.\+Process.\+Debug\+Exception\+Not\+Handled}} = 0x80010001
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_process_a0c189e28a27b763c01274d76e65be1a6aa5290547c8b264a68afb260dbf648cfe}{Insight\+Sheath.\+Debugging.\+Process.\+Debug\+Exception\+Reply\+Later}} = 0x40010001
+ \}
+\begin{DoxyCompactList}\small\item\em Enum to control how to return control of a debugged process your debugger is respending too back to Windows. Used in several spots. Insight\+Process, Debug\+Event\+Worker\+Thread\+Support \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_process_aa787f83d4cbbadefed0b16b27565cd96}{Insight\+Sheath.\+Debugging.\+Process.\+Debug\+Mode\+Type}} \{ \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_process_aa787f83d4cbbadefed0b16b27565cd96ac73299acc75a07672862bbdeb5fd66ea}{Insight\+Sheath.\+Debugging.\+Process.\+No\+Worker\+Thread}} = 0
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_process_aa787f83d4cbbadefed0b16b27565cd96a9abc02b718af43d5e1598e0fe5702dd6}{Insight\+Sheath.\+Debugging.\+Process.\+Worker\+Thread}} = 1
+ \}
+\begin{DoxyCompactList}\small\item\em Flags to indicate to Insight\+Process if you want the worker thread or not. \end{DoxyCompactList}\end{DoxyCompactItemize}

@@ -52,27 +52,6 @@ namespace InsightSheath.NativeImports
 
 
 
-        /// <summary>
-        /// Write an 8 byte value to a process you specify
-        /// </summary>
-        /// <param name="ProcessHandle"></param>
-        /// <param name="value"></param>
-        /// <param name="remote_location"></param>
-        /// <returns></returns>
-        [DllImport("InsightApi.dll", CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, SetLastError = true, EntryPoint = "RemotePoke8")]
-        public static extern bool RemotePoke8(IntPtr ProcessHandle, ulong value, IntPtr remote_location);
-
-
-
-        /// <summary>
-        /// Write a 4 byte value to a process you specify
-        /// </summary>
-        /// <param name="ProcessHandle"></param>
-        /// <param name="value"></param>
-        /// <param name="remote_location"></param>
-        /// <returns></returns>
-        [DllImport("InsightApi.dll", CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, SetLastError =true, EntryPoint = "RemotePoke4")]
-        public static extern bool RemotePoke4(IntPtr ProcessHandle, uint value , IntPtr remote_location);
 
         /// <summary>
         /// Read a string from a remote process

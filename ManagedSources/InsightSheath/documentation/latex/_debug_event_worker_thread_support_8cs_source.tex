@@ -1,0 +1,38 @@
+\hypertarget{_debug_event_worker_thread_support_8cs_source}{}\doxysection{Debug\+Event\+Worker\+Thread\+Support.\+cs}
+\label{_debug_event_worker_thread_support_8cs_source}\index{Debugging/DebugEventWorkerThreadSupport.cs@{Debugging/DebugEventWorkerThreadSupport.cs}}
+\mbox{\hyperlink{_debug_event_worker_thread_support_8cs}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_debug_event_worker_thread_support_8cs_source_l00001}00001 \textcolor{keyword}{using }System;}
+\DoxyCodeLine{\Hypertarget{_debug_event_worker_thread_support_8cs_source_l00002}00002 \textcolor{keyword}{using }System.Collections.Generic;}
+\DoxyCodeLine{\Hypertarget{_debug_event_worker_thread_support_8cs_source_l00003}00003 \textcolor{keyword}{using }System.Linq;}
+\DoxyCodeLine{\Hypertarget{_debug_event_worker_thread_support_8cs_source_l00004}00004 \textcolor{keyword}{using }System.Text;}
+\DoxyCodeLine{\Hypertarget{_debug_event_worker_thread_support_8cs_source_l00005}00005 \textcolor{keyword}{using }System.Threading.Tasks;}
+\DoxyCodeLine{\Hypertarget{_debug_event_worker_thread_support_8cs_source_l00006}00006 \textcolor{keyword}{using }System.Runtime.InteropServices;}
+\DoxyCodeLine{\Hypertarget{_debug_event_worker_thread_support_8cs_source_l00007}00007 \textcolor{keyword}{using }\mbox{\hyperlink{namespace_insight_sheath}{InsightSheath}};}
+\DoxyCodeLine{\Hypertarget{_debug_event_worker_thread_support_8cs_source_l00008}00008 \textcolor{keyword}{using }\mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_process}{InsightSheath.Debugging.Process}};}
+\DoxyCodeLine{\Hypertarget{_debug_event_worker_thread_support_8cs_source_l00009}00009 }
+\DoxyCodeLine{\Hypertarget{_debug_event_worker_thread_support_8cs_source_l00010}00010 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespace_insight_sheath_1_1_debugging}{InsightSheath.Debugging}}}
+\DoxyCodeLine{\Hypertarget{_debug_event_worker_thread_support_8cs_source_l00011}00011 \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_worker_thread_support_8cs_source_l00017}00017     \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keyword}{class }DebugEventWorkerThreadSupport}
+\DoxyCodeLine{\Hypertarget{_debug_event_worker_thread_support_8cs_source_l00018}00018     \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_worker_thread_support_8cs_source_l00019}00019         [DllImport(\textcolor{stringliteral}{"{}kernel32.dll"{}},SetLastError =\textcolor{keyword}{true})]}
+\DoxyCodeLine{\Hypertarget{_debug_event_worker_thread_support_8cs_source_l00020}00020         \textcolor{keyword}{internal} \textcolor{keyword}{static} \textcolor{keyword}{extern} \textcolor{keywordtype}{bool} WaitForDebugEventEx(IntPtr \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{DebugEvent}}, uint Timeout);}
+\DoxyCodeLine{\Hypertarget{_debug_event_worker_thread_support_8cs_source_l00021}00021 }
+\DoxyCodeLine{\Hypertarget{_debug_event_worker_thread_support_8cs_source_l00022}00022         [DllImport(\textcolor{stringliteral}{"{}kernel32.dll"{}}, SetLastError = \textcolor{keyword}{true}, EntryPoint =\textcolor{stringliteral}{"{}ContinueDebugEvent"{}})]}
+\DoxyCodeLine{\Hypertarget{_debug_event_worker_thread_support_8cs_source_l00023}00023         \textcolor{keyword}{internal} \textcolor{keyword}{static} \textcolor{keyword}{extern} \textcolor{keywordtype}{bool} ContinueDebugEventInternal(uint ProcessId, uint ThreadID, uint ContinueState);}
+\DoxyCodeLine{\Hypertarget{_debug_event_worker_thread_support_8cs_source_l00024}00024 }
+\DoxyCodeLine{\Hypertarget{_debug_event_worker_thread_support_8cs_source_l00031}00031         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keywordtype}{bool} WaitForDebugEvent(\textcolor{keyword}{this} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{DebugEvent}} Output, uint WaitTime)}
+\DoxyCodeLine{\Hypertarget{_debug_event_worker_thread_support_8cs_source_l00032}00032         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_worker_thread_support_8cs_source_l00033}00033             \textcolor{keywordflow}{return} WaitForDebugEventEx(Output.\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a171844a2662b7c3d6136fe21f70f50eb}{NativePointer}}, WaitTime);}
+\DoxyCodeLine{\Hypertarget{_debug_event_worker_thread_support_8cs_source_l00034}00034         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_worker_thread_support_8cs_source_l00035}00035 }
+\DoxyCodeLine{\Hypertarget{_debug_event_worker_thread_support_8cs_source_l00044}00044 \textcolor{preprocessor}{\#pragma warning disable IDE0060 }\textcolor{comment}{// Remove unused parameter}}
+\DoxyCodeLine{\Hypertarget{_debug_event_worker_thread_support_8cs_source_l00045}00045         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keywordtype}{bool} ContinueDebugEvent(\textcolor{keyword}{this} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{DebugEvent}} that,uint ProcessId, uint ThreadId, \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_process_a0c189e28a27b763c01274d76e65be1a6}{DebugContState}} ContinueState)}
+\DoxyCodeLine{\Hypertarget{_debug_event_worker_thread_support_8cs_source_l00046}00046 \textcolor{preprocessor}{\#pragma warning restore IDE0060 }\textcolor{comment}{// Remove unused parameter}}
+\DoxyCodeLine{\Hypertarget{_debug_event_worker_thread_support_8cs_source_l00047}00047         \{}
+\DoxyCodeLine{\Hypertarget{_debug_event_worker_thread_support_8cs_source_l00048}00048             \textcolor{keywordflow}{return} ContinueDebugEventInternal(ProcessId, ThreadId, (uint)ContinueState);}
+\DoxyCodeLine{\Hypertarget{_debug_event_worker_thread_support_8cs_source_l00049}00049         \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_worker_thread_support_8cs_source_l00050}00050     \}}
+\DoxyCodeLine{\Hypertarget{_debug_event_worker_thread_support_8cs_source_l00051}00051 \}}
+
+\end{DoxyCode}

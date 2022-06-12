@@ -1,0 +1,382 @@
+\hypertarget{class_insight_sheath_1_1_misc_1_1_event_debug_assist}{}\doxysection{Insight\+Sheath.\+Misc.\+Event\+Debug\+Assist Class Reference}
+\label{class_insight_sheath_1_1_misc_1_1_event_debug_assist}\index{InsightSheath.Misc.EventDebugAssist@{InsightSheath.Misc.EventDebugAssist}}
+
+
+Implements an event debugger system for processing events. You will need to link a way to call \mbox{\hyperlink{class_insight_sheath_1_1_misc_1_1_event_debug_assist_a860345a3690b1616048e365ee1a81f3f}{Event\+Debug\+Assist.\+Fire\+Events(\+Debug\+Event)}} in order to actually make to the thing work  
+
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+delegate void \mbox{\hyperlink{class_insight_sheath_1_1_misc_1_1_event_debug_assist_a113a8082e1743be48bd67b1d311de3f2}{Create\+Process\+Event\+Callback}} (\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{Debug\+Event}} Ptr)
+\item 
+delegate void \mbox{\hyperlink{class_insight_sheath_1_1_misc_1_1_event_debug_assist_ae780860a8c09facdb5a3de2673c87e39}{Create\+Thread\+Event\+Callback}} (\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{Debug\+Event}} Ptr)
+\item 
+delegate void \mbox{\hyperlink{class_insight_sheath_1_1_misc_1_1_event_debug_assist_a7f0f4690c55767bbf784a0e5a412e822}{Exception\+Debug\+Event\+Callback}} (\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{Debug\+Event}} Ptr)
+\item 
+delegate void \mbox{\hyperlink{class_insight_sheath_1_1_misc_1_1_event_debug_assist_a8879bcc37d88c6a8f5f20d2dabf82e9a}{Exit\+Process\+Debug\+Event\+Callback}} (\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{Debug\+Event}} Ptr)
+\item 
+delegate void \mbox{\hyperlink{class_insight_sheath_1_1_misc_1_1_event_debug_assist_a5d9b5a813945179aabc70af2cb3ed850}{Exit\+Thread\+Debug\+Event\+Callback}} (\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{Debug\+Event}} Ptr)
+\item 
+delegate void \mbox{\hyperlink{class_insight_sheath_1_1_misc_1_1_event_debug_assist_a55ab6011683abe702a85826cde399597}{Load\+Dll\+Debug\+Event\+Callback}} (\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{Debug\+Event}} Ptr)
+\item 
+delegate void \mbox{\hyperlink{class_insight_sheath_1_1_misc_1_1_event_debug_assist_ad0688f4f97ca7eded591cf04b86199cd}{Output\+Debug\+String\+Callback}} (\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{Debug\+Event}} Ptr)
+\item 
+delegate void \mbox{\hyperlink{class_insight_sheath_1_1_misc_1_1_event_debug_assist_aaa12bd14a91acf3c0957cf21c2b681bd}{Rip\+Callback}} (\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{Debug\+Event}} Ptr)
+\item 
+delegate void \mbox{\hyperlink{class_insight_sheath_1_1_misc_1_1_event_debug_assist_afd86faa8564b589cc9c56ae13dc0a0d5}{Unload\+Debug\+Event\+Callback}} (\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{Debug\+Event}} Ptr)
+\item 
+delegate void \mbox{\hyperlink{class_insight_sheath_1_1_misc_1_1_event_debug_assist_a482ab8990d5d8e5368f2fadc0d9259cb}{General\+Debug\+Event\+Callback}} (\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{Debug\+Event}} Ptr)
+\item 
+virtual void \mbox{\hyperlink{class_insight_sheath_1_1_misc_1_1_event_debug_assist_a860345a3690b1616048e365ee1a81f3f}{Fire\+Events}} (\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{Debug\+Event}} Ptr)
+\begin{DoxyCompactList}\small\item\em Your code will need to actual call this to trigger getting events. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Events}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_insight_sheath_1_1_misc_1_1_event_debug_assist_a113a8082e1743be48bd67b1d311de3f2}{Create\+Process\+Event\+Callback}} \mbox{\hyperlink{class_insight_sheath_1_1_misc_1_1_event_debug_assist_a31ef2c5712390c071cd8cf64f42aaa78}{Create\+Process\+Event}}
+\begin{DoxyCompactList}\small\item\em Subscribe to get Create\+Process Events \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_insight_sheath_1_1_misc_1_1_event_debug_assist_ae780860a8c09facdb5a3de2673c87e39}{Create\+Thread\+Event\+Callback}} \mbox{\hyperlink{class_insight_sheath_1_1_misc_1_1_event_debug_assist_aebb732947728576ffc4712f2ec66efa1}{Create\+Thread\+Event}}
+\begin{DoxyCompactList}\small\item\em Subsrubte to get Create\+Thread \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_insight_sheath_1_1_misc_1_1_event_debug_assist_a7f0f4690c55767bbf784a0e5a412e822}{Exception\+Debug\+Event\+Callback}} \mbox{\hyperlink{class_insight_sheath_1_1_misc_1_1_event_debug_assist_a23cf0209d97d8431ff1c73cfc75f3fbd}{Exception\+Event}}
+\begin{DoxyCompactList}\small\item\em Subscribe to get Exceptions \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_insight_sheath_1_1_misc_1_1_event_debug_assist_a8879bcc37d88c6a8f5f20d2dabf82e9a}{Exit\+Process\+Debug\+Event\+Callback}} \mbox{\hyperlink{class_insight_sheath_1_1_misc_1_1_event_debug_assist_a5cfd99e9da149f6ec329fb9378027e9a}{Exit\+Process\+Event}}
+\begin{DoxyCompactList}\small\item\em Subscribe to get Exit\+Proess \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_insight_sheath_1_1_misc_1_1_event_debug_assist_a5d9b5a813945179aabc70af2cb3ed850}{Exit\+Thread\+Debug\+Event\+Callback}} \mbox{\hyperlink{class_insight_sheath_1_1_misc_1_1_event_debug_assist_a0fb30d91a74eda0776f8206521faa1dc}{Exit\+Thread\+Event}}
+\begin{DoxyCompactList}\small\item\em Subscvribe to get Exit\+Thread \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_insight_sheath_1_1_misc_1_1_event_debug_assist_a55ab6011683abe702a85826cde399597}{Load\+Dll\+Debug\+Event\+Callback}} \mbox{\hyperlink{class_insight_sheath_1_1_misc_1_1_event_debug_assist_a5b24a4850bce50200fc20de3c151cd39}{Load\+Dll\+Event}}
+\begin{DoxyCompactList}\small\item\em Subscribe to load Dll events \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_insight_sheath_1_1_misc_1_1_event_debug_assist_ad0688f4f97ca7eded591cf04b86199cd}{Output\+Debug\+String\+Callback}} \mbox{\hyperlink{class_insight_sheath_1_1_misc_1_1_event_debug_assist_ac5ab5111de540b706cfcb5d8137fbc8e}{Output\+Debug\+String\+Event}}
+\begin{DoxyCompactList}\small\item\em Subsvrube to get output debug strings \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_insight_sheath_1_1_misc_1_1_event_debug_assist_aaa12bd14a91acf3c0957cf21c2b681bd}{Rip\+Callback}} \mbox{\hyperlink{class_insight_sheath_1_1_misc_1_1_event_debug_assist_a76126aeb9e2b352876d6ca8ec1d5976a}{Rip\+Event}}
+\item 
+\mbox{\hyperlink{class_insight_sheath_1_1_misc_1_1_event_debug_assist_afd86faa8564b589cc9c56ae13dc0a0d5}{Unload\+Debug\+Event\+Callback}} \mbox{\hyperlink{class_insight_sheath_1_1_misc_1_1_event_debug_assist_a05f936a4d111f2cefee0f2ff9683ed52}{Unload\+Dll\+Event}}
+\begin{DoxyCompactList}\small\item\em Subscvribe to get RIp events \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_insight_sheath_1_1_misc_1_1_event_debug_assist_a482ab8990d5d8e5368f2fadc0d9259cb}{General\+Debug\+Event\+Callback}} \mbox{\hyperlink{class_insight_sheath_1_1_misc_1_1_event_debug_assist_a4de494d635713251289d5f07b84a72a4}{General\+Event}}
+\begin{DoxyCompactList}\small\item\em Subscribe to catch all the other invents. IMPORTANT!. This is called before the others! \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Implements an event debugger system for processing events. You will need to link a way to call \mbox{\hyperlink{class_insight_sheath_1_1_misc_1_1_event_debug_assist_a860345a3690b1616048e365ee1a81f3f}{Event\+Debug\+Assist.\+Fire\+Events(\+Debug\+Event)}} in order to actually make to the thing work 
+
+Definition at line \mbox{\hyperlink{_event_debug_8cs_source_l00014}{14}} of file \mbox{\hyperlink{_event_debug_8cs_source}{Event\+Debug.\+cs}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_insight_sheath_1_1_misc_1_1_event_debug_assist_a113a8082e1743be48bd67b1d311de3f2}\label{class_insight_sheath_1_1_misc_1_1_event_debug_assist_a113a8082e1743be48bd67b1d311de3f2}} 
+\index{InsightSheath.Misc.EventDebugAssist@{InsightSheath.Misc.EventDebugAssist}!CreateProcessEventCallback@{CreateProcessEventCallback}}
+\index{CreateProcessEventCallback@{CreateProcessEventCallback}!InsightSheath.Misc.EventDebugAssist@{InsightSheath.Misc.EventDebugAssist}}
+\doxysubsubsection{\texorpdfstring{CreateProcessEventCallback()}{CreateProcessEventCallback()}}
+{\footnotesize\ttfamily delegate void Insight\+Sheath.\+Misc.\+Event\+Debug\+Assist.\+Create\+Process\+Event\+Callback (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{Debug\+Event}}}]{Ptr }\end{DoxyParamCaption})}
+
+
+
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em Ptr} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_insight_sheath_1_1_misc_1_1_event_debug_assist_ae780860a8c09facdb5a3de2673c87e39}\label{class_insight_sheath_1_1_misc_1_1_event_debug_assist_ae780860a8c09facdb5a3de2673c87e39}} 
+\index{InsightSheath.Misc.EventDebugAssist@{InsightSheath.Misc.EventDebugAssist}!CreateThreadEventCallback@{CreateThreadEventCallback}}
+\index{CreateThreadEventCallback@{CreateThreadEventCallback}!InsightSheath.Misc.EventDebugAssist@{InsightSheath.Misc.EventDebugAssist}}
+\doxysubsubsection{\texorpdfstring{CreateThreadEventCallback()}{CreateThreadEventCallback()}}
+{\footnotesize\ttfamily delegate void Insight\+Sheath.\+Misc.\+Event\+Debug\+Assist.\+Create\+Thread\+Event\+Callback (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{Debug\+Event}}}]{Ptr }\end{DoxyParamCaption})}
+
+
+
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em Ptr} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_insight_sheath_1_1_misc_1_1_event_debug_assist_a7f0f4690c55767bbf784a0e5a412e822}\label{class_insight_sheath_1_1_misc_1_1_event_debug_assist_a7f0f4690c55767bbf784a0e5a412e822}} 
+\index{InsightSheath.Misc.EventDebugAssist@{InsightSheath.Misc.EventDebugAssist}!ExceptionDebugEventCallback@{ExceptionDebugEventCallback}}
+\index{ExceptionDebugEventCallback@{ExceptionDebugEventCallback}!InsightSheath.Misc.EventDebugAssist@{InsightSheath.Misc.EventDebugAssist}}
+\doxysubsubsection{\texorpdfstring{ExceptionDebugEventCallback()}{ExceptionDebugEventCallback()}}
+{\footnotesize\ttfamily delegate void Insight\+Sheath.\+Misc.\+Event\+Debug\+Assist.\+Exception\+Debug\+Event\+Callback (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{Debug\+Event}}}]{Ptr }\end{DoxyParamCaption})}
+
+
+
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em Ptr} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_insight_sheath_1_1_misc_1_1_event_debug_assist_a8879bcc37d88c6a8f5f20d2dabf82e9a}\label{class_insight_sheath_1_1_misc_1_1_event_debug_assist_a8879bcc37d88c6a8f5f20d2dabf82e9a}} 
+\index{InsightSheath.Misc.EventDebugAssist@{InsightSheath.Misc.EventDebugAssist}!ExitProcessDebugEventCallback@{ExitProcessDebugEventCallback}}
+\index{ExitProcessDebugEventCallback@{ExitProcessDebugEventCallback}!InsightSheath.Misc.EventDebugAssist@{InsightSheath.Misc.EventDebugAssist}}
+\doxysubsubsection{\texorpdfstring{ExitProcessDebugEventCallback()}{ExitProcessDebugEventCallback()}}
+{\footnotesize\ttfamily delegate void Insight\+Sheath.\+Misc.\+Event\+Debug\+Assist.\+Exit\+Process\+Debug\+Event\+Callback (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{Debug\+Event}}}]{Ptr }\end{DoxyParamCaption})}
+
+
+
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em Ptr} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_insight_sheath_1_1_misc_1_1_event_debug_assist_a5d9b5a813945179aabc70af2cb3ed850}\label{class_insight_sheath_1_1_misc_1_1_event_debug_assist_a5d9b5a813945179aabc70af2cb3ed850}} 
+\index{InsightSheath.Misc.EventDebugAssist@{InsightSheath.Misc.EventDebugAssist}!ExitThreadDebugEventCallback@{ExitThreadDebugEventCallback}}
+\index{ExitThreadDebugEventCallback@{ExitThreadDebugEventCallback}!InsightSheath.Misc.EventDebugAssist@{InsightSheath.Misc.EventDebugAssist}}
+\doxysubsubsection{\texorpdfstring{ExitThreadDebugEventCallback()}{ExitThreadDebugEventCallback()}}
+{\footnotesize\ttfamily delegate void Insight\+Sheath.\+Misc.\+Event\+Debug\+Assist.\+Exit\+Thread\+Debug\+Event\+Callback (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{Debug\+Event}}}]{Ptr }\end{DoxyParamCaption})}
+
+
+
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em Ptr} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_insight_sheath_1_1_misc_1_1_event_debug_assist_a860345a3690b1616048e365ee1a81f3f}\label{class_insight_sheath_1_1_misc_1_1_event_debug_assist_a860345a3690b1616048e365ee1a81f3f}} 
+\index{InsightSheath.Misc.EventDebugAssist@{InsightSheath.Misc.EventDebugAssist}!FireEvents@{FireEvents}}
+\index{FireEvents@{FireEvents}!InsightSheath.Misc.EventDebugAssist@{InsightSheath.Misc.EventDebugAssist}}
+\doxysubsubsection{\texorpdfstring{FireEvents()}{FireEvents()}}
+{\footnotesize\ttfamily virtual void Insight\+Sheath.\+Misc.\+Event\+Debug\+Assist.\+Fire\+Events (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{Debug\+Event}}}]{Ptr }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Your code will need to actual call this to trigger getting events. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Ptr} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{_event_debug_8cs_source_l00113}{113}} of file \mbox{\hyperlink{_event_debug_8cs_source}{Event\+Debug.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_misc_1_1_event_debug_assist_a482ab8990d5d8e5368f2fadc0d9259cb}\label{class_insight_sheath_1_1_misc_1_1_event_debug_assist_a482ab8990d5d8e5368f2fadc0d9259cb}} 
+\index{InsightSheath.Misc.EventDebugAssist@{InsightSheath.Misc.EventDebugAssist}!GeneralDebugEventCallback@{GeneralDebugEventCallback}}
+\index{GeneralDebugEventCallback@{GeneralDebugEventCallback}!InsightSheath.Misc.EventDebugAssist@{InsightSheath.Misc.EventDebugAssist}}
+\doxysubsubsection{\texorpdfstring{GeneralDebugEventCallback()}{GeneralDebugEventCallback()}}
+{\footnotesize\ttfamily delegate void Insight\+Sheath.\+Misc.\+Event\+Debug\+Assist.\+General\+Debug\+Event\+Callback (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{Debug\+Event}}}]{Ptr }\end{DoxyParamCaption})}
+
+
+
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em Ptr} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_insight_sheath_1_1_misc_1_1_event_debug_assist_a55ab6011683abe702a85826cde399597}\label{class_insight_sheath_1_1_misc_1_1_event_debug_assist_a55ab6011683abe702a85826cde399597}} 
+\index{InsightSheath.Misc.EventDebugAssist@{InsightSheath.Misc.EventDebugAssist}!LoadDllDebugEventCallback@{LoadDllDebugEventCallback}}
+\index{LoadDllDebugEventCallback@{LoadDllDebugEventCallback}!InsightSheath.Misc.EventDebugAssist@{InsightSheath.Misc.EventDebugAssist}}
+\doxysubsubsection{\texorpdfstring{LoadDllDebugEventCallback()}{LoadDllDebugEventCallback()}}
+{\footnotesize\ttfamily delegate void Insight\+Sheath.\+Misc.\+Event\+Debug\+Assist.\+Load\+Dll\+Debug\+Event\+Callback (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{Debug\+Event}}}]{Ptr }\end{DoxyParamCaption})}
+
+
+
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em Ptr} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_insight_sheath_1_1_misc_1_1_event_debug_assist_ad0688f4f97ca7eded591cf04b86199cd}\label{class_insight_sheath_1_1_misc_1_1_event_debug_assist_ad0688f4f97ca7eded591cf04b86199cd}} 
+\index{InsightSheath.Misc.EventDebugAssist@{InsightSheath.Misc.EventDebugAssist}!OutputDebugStringCallback@{OutputDebugStringCallback}}
+\index{OutputDebugStringCallback@{OutputDebugStringCallback}!InsightSheath.Misc.EventDebugAssist@{InsightSheath.Misc.EventDebugAssist}}
+\doxysubsubsection{\texorpdfstring{OutputDebugStringCallback()}{OutputDebugStringCallback()}}
+{\footnotesize\ttfamily delegate void Insight\+Sheath.\+Misc.\+Event\+Debug\+Assist.\+Output\+Debug\+String\+Callback (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{Debug\+Event}}}]{Ptr }\end{DoxyParamCaption})}
+
+
+
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em Ptr} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_insight_sheath_1_1_misc_1_1_event_debug_assist_aaa12bd14a91acf3c0957cf21c2b681bd}\label{class_insight_sheath_1_1_misc_1_1_event_debug_assist_aaa12bd14a91acf3c0957cf21c2b681bd}} 
+\index{InsightSheath.Misc.EventDebugAssist@{InsightSheath.Misc.EventDebugAssist}!RipCallback@{RipCallback}}
+\index{RipCallback@{RipCallback}!InsightSheath.Misc.EventDebugAssist@{InsightSheath.Misc.EventDebugAssist}}
+\doxysubsubsection{\texorpdfstring{RipCallback()}{RipCallback()}}
+{\footnotesize\ttfamily delegate void Insight\+Sheath.\+Misc.\+Event\+Debug\+Assist.\+Rip\+Callback (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{Debug\+Event}}}]{Ptr }\end{DoxyParamCaption})}
+
+
+
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em Ptr} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_insight_sheath_1_1_misc_1_1_event_debug_assist_afd86faa8564b589cc9c56ae13dc0a0d5}\label{class_insight_sheath_1_1_misc_1_1_event_debug_assist_afd86faa8564b589cc9c56ae13dc0a0d5}} 
+\index{InsightSheath.Misc.EventDebugAssist@{InsightSheath.Misc.EventDebugAssist}!UnloadDebugEventCallback@{UnloadDebugEventCallback}}
+\index{UnloadDebugEventCallback@{UnloadDebugEventCallback}!InsightSheath.Misc.EventDebugAssist@{InsightSheath.Misc.EventDebugAssist}}
+\doxysubsubsection{\texorpdfstring{UnloadDebugEventCallback()}{UnloadDebugEventCallback()}}
+{\footnotesize\ttfamily delegate void Insight\+Sheath.\+Misc.\+Event\+Debug\+Assist.\+Unload\+Debug\+Event\+Callback (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{Debug\+Event}}}]{Ptr }\end{DoxyParamCaption})}
+
+
+
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em Ptr} & \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Event Documentation}
+\mbox{\Hypertarget{class_insight_sheath_1_1_misc_1_1_event_debug_assist_a31ef2c5712390c071cd8cf64f42aaa78}\label{class_insight_sheath_1_1_misc_1_1_event_debug_assist_a31ef2c5712390c071cd8cf64f42aaa78}} 
+\index{InsightSheath.Misc.EventDebugAssist@{InsightSheath.Misc.EventDebugAssist}!CreateProcessEvent@{CreateProcessEvent}}
+\index{CreateProcessEvent@{CreateProcessEvent}!InsightSheath.Misc.EventDebugAssist@{InsightSheath.Misc.EventDebugAssist}}
+\doxysubsubsection{\texorpdfstring{CreateProcessEvent}{CreateProcessEvent}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_insight_sheath_1_1_misc_1_1_event_debug_assist_a113a8082e1743be48bd67b1d311de3f2}{Create\+Process\+Event\+Callback}} Insight\+Sheath.\+Misc.\+Event\+Debug\+Assist.\+Create\+Process\+Event}
+
+
+
+Subscribe to get Create\+Process Events 
+
+
+
+Definition at line \mbox{\hyperlink{_event_debug_8cs_source_l00071}{71}} of file \mbox{\hyperlink{_event_debug_8cs_source}{Event\+Debug.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_misc_1_1_event_debug_assist_aebb732947728576ffc4712f2ec66efa1}\label{class_insight_sheath_1_1_misc_1_1_event_debug_assist_aebb732947728576ffc4712f2ec66efa1}} 
+\index{InsightSheath.Misc.EventDebugAssist@{InsightSheath.Misc.EventDebugAssist}!CreateThreadEvent@{CreateThreadEvent}}
+\index{CreateThreadEvent@{CreateThreadEvent}!InsightSheath.Misc.EventDebugAssist@{InsightSheath.Misc.EventDebugAssist}}
+\doxysubsubsection{\texorpdfstring{CreateThreadEvent}{CreateThreadEvent}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_insight_sheath_1_1_misc_1_1_event_debug_assist_ae780860a8c09facdb5a3de2673c87e39}{Create\+Thread\+Event\+Callback}} Insight\+Sheath.\+Misc.\+Event\+Debug\+Assist.\+Create\+Thread\+Event}
+
+
+
+Subsrubte to get Create\+Thread 
+
+
+
+Definition at line \mbox{\hyperlink{_event_debug_8cs_source_l00075}{75}} of file \mbox{\hyperlink{_event_debug_8cs_source}{Event\+Debug.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_misc_1_1_event_debug_assist_a23cf0209d97d8431ff1c73cfc75f3fbd}\label{class_insight_sheath_1_1_misc_1_1_event_debug_assist_a23cf0209d97d8431ff1c73cfc75f3fbd}} 
+\index{InsightSheath.Misc.EventDebugAssist@{InsightSheath.Misc.EventDebugAssist}!ExceptionEvent@{ExceptionEvent}}
+\index{ExceptionEvent@{ExceptionEvent}!InsightSheath.Misc.EventDebugAssist@{InsightSheath.Misc.EventDebugAssist}}
+\doxysubsubsection{\texorpdfstring{ExceptionEvent}{ExceptionEvent}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_insight_sheath_1_1_misc_1_1_event_debug_assist_a7f0f4690c55767bbf784a0e5a412e822}{Exception\+Debug\+Event\+Callback}} Insight\+Sheath.\+Misc.\+Event\+Debug\+Assist.\+Exception\+Event}
+
+
+
+Subscribe to get Exceptions 
+
+
+
+Definition at line \mbox{\hyperlink{_event_debug_8cs_source_l00079}{79}} of file \mbox{\hyperlink{_event_debug_8cs_source}{Event\+Debug.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_misc_1_1_event_debug_assist_a5cfd99e9da149f6ec329fb9378027e9a}\label{class_insight_sheath_1_1_misc_1_1_event_debug_assist_a5cfd99e9da149f6ec329fb9378027e9a}} 
+\index{InsightSheath.Misc.EventDebugAssist@{InsightSheath.Misc.EventDebugAssist}!ExitProcessEvent@{ExitProcessEvent}}
+\index{ExitProcessEvent@{ExitProcessEvent}!InsightSheath.Misc.EventDebugAssist@{InsightSheath.Misc.EventDebugAssist}}
+\doxysubsubsection{\texorpdfstring{ExitProcessEvent}{ExitProcessEvent}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_insight_sheath_1_1_misc_1_1_event_debug_assist_a8879bcc37d88c6a8f5f20d2dabf82e9a}{Exit\+Process\+Debug\+Event\+Callback}} Insight\+Sheath.\+Misc.\+Event\+Debug\+Assist.\+Exit\+Process\+Event}
+
+
+
+Subscribe to get Exit\+Proess 
+
+
+
+Definition at line \mbox{\hyperlink{_event_debug_8cs_source_l00083}{83}} of file \mbox{\hyperlink{_event_debug_8cs_source}{Event\+Debug.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_misc_1_1_event_debug_assist_a0fb30d91a74eda0776f8206521faa1dc}\label{class_insight_sheath_1_1_misc_1_1_event_debug_assist_a0fb30d91a74eda0776f8206521faa1dc}} 
+\index{InsightSheath.Misc.EventDebugAssist@{InsightSheath.Misc.EventDebugAssist}!ExitThreadEvent@{ExitThreadEvent}}
+\index{ExitThreadEvent@{ExitThreadEvent}!InsightSheath.Misc.EventDebugAssist@{InsightSheath.Misc.EventDebugAssist}}
+\doxysubsubsection{\texorpdfstring{ExitThreadEvent}{ExitThreadEvent}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_insight_sheath_1_1_misc_1_1_event_debug_assist_a5d9b5a813945179aabc70af2cb3ed850}{Exit\+Thread\+Debug\+Event\+Callback}} Insight\+Sheath.\+Misc.\+Event\+Debug\+Assist.\+Exit\+Thread\+Event}
+
+
+
+Subscvribe to get Exit\+Thread 
+
+
+
+Definition at line \mbox{\hyperlink{_event_debug_8cs_source_l00087}{87}} of file \mbox{\hyperlink{_event_debug_8cs_source}{Event\+Debug.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_misc_1_1_event_debug_assist_a4de494d635713251289d5f07b84a72a4}\label{class_insight_sheath_1_1_misc_1_1_event_debug_assist_a4de494d635713251289d5f07b84a72a4}} 
+\index{InsightSheath.Misc.EventDebugAssist@{InsightSheath.Misc.EventDebugAssist}!GeneralEvent@{GeneralEvent}}
+\index{GeneralEvent@{GeneralEvent}!InsightSheath.Misc.EventDebugAssist@{InsightSheath.Misc.EventDebugAssist}}
+\doxysubsubsection{\texorpdfstring{GeneralEvent}{GeneralEvent}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_insight_sheath_1_1_misc_1_1_event_debug_assist_a482ab8990d5d8e5368f2fadc0d9259cb}{General\+Debug\+Event\+Callback}} Insight\+Sheath.\+Misc.\+Event\+Debug\+Assist.\+General\+Event}
+
+
+
+Subscribe to catch all the other invents. IMPORTANT!. This is called before the others! 
+
+
+
+Definition at line \mbox{\hyperlink{_event_debug_8cs_source_l00107}{107}} of file \mbox{\hyperlink{_event_debug_8cs_source}{Event\+Debug.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_misc_1_1_event_debug_assist_a5b24a4850bce50200fc20de3c151cd39}\label{class_insight_sheath_1_1_misc_1_1_event_debug_assist_a5b24a4850bce50200fc20de3c151cd39}} 
+\index{InsightSheath.Misc.EventDebugAssist@{InsightSheath.Misc.EventDebugAssist}!LoadDllEvent@{LoadDllEvent}}
+\index{LoadDllEvent@{LoadDllEvent}!InsightSheath.Misc.EventDebugAssist@{InsightSheath.Misc.EventDebugAssist}}
+\doxysubsubsection{\texorpdfstring{LoadDllEvent}{LoadDllEvent}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_insight_sheath_1_1_misc_1_1_event_debug_assist_a55ab6011683abe702a85826cde399597}{Load\+Dll\+Debug\+Event\+Callback}} Insight\+Sheath.\+Misc.\+Event\+Debug\+Assist.\+Load\+Dll\+Event}
+
+
+
+Subscribe to load Dll events 
+
+
+
+Definition at line \mbox{\hyperlink{_event_debug_8cs_source_l00091}{91}} of file \mbox{\hyperlink{_event_debug_8cs_source}{Event\+Debug.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_misc_1_1_event_debug_assist_ac5ab5111de540b706cfcb5d8137fbc8e}\label{class_insight_sheath_1_1_misc_1_1_event_debug_assist_ac5ab5111de540b706cfcb5d8137fbc8e}} 
+\index{InsightSheath.Misc.EventDebugAssist@{InsightSheath.Misc.EventDebugAssist}!OutputDebugStringEvent@{OutputDebugStringEvent}}
+\index{OutputDebugStringEvent@{OutputDebugStringEvent}!InsightSheath.Misc.EventDebugAssist@{InsightSheath.Misc.EventDebugAssist}}
+\doxysubsubsection{\texorpdfstring{OutputDebugStringEvent}{OutputDebugStringEvent}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_insight_sheath_1_1_misc_1_1_event_debug_assist_ad0688f4f97ca7eded591cf04b86199cd}{Output\+Debug\+String\+Callback}} Insight\+Sheath.\+Misc.\+Event\+Debug\+Assist.\+Output\+Debug\+String\+Event}
+
+
+
+Subsvrube to get output debug strings 
+
+
+
+Definition at line \mbox{\hyperlink{_event_debug_8cs_source_l00095}{95}} of file \mbox{\hyperlink{_event_debug_8cs_source}{Event\+Debug.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_misc_1_1_event_debug_assist_a76126aeb9e2b352876d6ca8ec1d5976a}\label{class_insight_sheath_1_1_misc_1_1_event_debug_assist_a76126aeb9e2b352876d6ca8ec1d5976a}} 
+\index{InsightSheath.Misc.EventDebugAssist@{InsightSheath.Misc.EventDebugAssist}!RipEvent@{RipEvent}}
+\index{RipEvent@{RipEvent}!InsightSheath.Misc.EventDebugAssist@{InsightSheath.Misc.EventDebugAssist}}
+\doxysubsubsection{\texorpdfstring{RipEvent}{RipEvent}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_insight_sheath_1_1_misc_1_1_event_debug_assist_aaa12bd14a91acf3c0957cf21c2b681bd}{Rip\+Callback}} Insight\+Sheath.\+Misc.\+Event\+Debug\+Assist.\+Rip\+Event}
+
+
+
+
+
+
+
+Definition at line \mbox{\hyperlink{_event_debug_8cs_source_l00099}{99}} of file \mbox{\hyperlink{_event_debug_8cs_source}{Event\+Debug.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_misc_1_1_event_debug_assist_a05f936a4d111f2cefee0f2ff9683ed52}\label{class_insight_sheath_1_1_misc_1_1_event_debug_assist_a05f936a4d111f2cefee0f2ff9683ed52}} 
+\index{InsightSheath.Misc.EventDebugAssist@{InsightSheath.Misc.EventDebugAssist}!UnloadDllEvent@{UnloadDllEvent}}
+\index{UnloadDllEvent@{UnloadDllEvent}!InsightSheath.Misc.EventDebugAssist@{InsightSheath.Misc.EventDebugAssist}}
+\doxysubsubsection{\texorpdfstring{UnloadDllEvent}{UnloadDllEvent}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_insight_sheath_1_1_misc_1_1_event_debug_assist_afd86faa8564b589cc9c56ae13dc0a0d5}{Unload\+Debug\+Event\+Callback}} Insight\+Sheath.\+Misc.\+Event\+Debug\+Assist.\+Unload\+Dll\+Event}
+
+
+
+Subscvribe to get RIp events 
+
+
+
+Definition at line \mbox{\hyperlink{_event_debug_8cs_source_l00103}{103}} of file \mbox{\hyperlink{_event_debug_8cs_source}{Event\+Debug.\+cs}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Misc/\mbox{\hyperlink{_event_debug_8cs}{Event\+Debug.\+cs}}\end{DoxyCompactItemize}

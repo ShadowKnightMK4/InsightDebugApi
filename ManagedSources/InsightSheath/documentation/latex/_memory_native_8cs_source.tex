@@ -1,0 +1,53 @@
+\hypertarget{_memory_native_8cs_source}{}\doxysection{Memory\+Native.\+cs}
+\mbox{\hyperlink{_memory_native_8cs}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_memory_native_8cs_source_l00001}00001 \textcolor{keyword}{using }\mbox{\hyperlink{namespace_insight_sheath_1_1_native_imports}{InsightSheath.NativeImports}};}
+\DoxyCodeLine{\Hypertarget{_memory_native_8cs_source_l00002}00002 \textcolor{keyword}{using }System;}
+\DoxyCodeLine{\Hypertarget{_memory_native_8cs_source_l00003}00003 \textcolor{keyword}{using }System.Collections.Generic;}
+\DoxyCodeLine{\Hypertarget{_memory_native_8cs_source_l00004}00004 \textcolor{keyword}{using }System.Linq;}
+\DoxyCodeLine{\Hypertarget{_memory_native_8cs_source_l00005}00005 \textcolor{keyword}{using }System.Text;}
+\DoxyCodeLine{\Hypertarget{_memory_native_8cs_source_l00006}00006 \textcolor{keyword}{using }System.Threading.Tasks;}
+\DoxyCodeLine{\Hypertarget{_memory_native_8cs_source_l00007}00007 \textcolor{keyword}{using }\mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_process}{InsightSheath.Debugging.Process}};}
+\DoxyCodeLine{\Hypertarget{_memory_native_8cs_source_l00008}00008 \textcolor{keyword}{using }\mbox{\hyperlink{namespace_insight_sheath_1_1_debugging}{InsightSheath.Debugging}};}
+\DoxyCodeLine{\Hypertarget{_memory_native_8cs_source_l00009}00009 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespace_insight_sheath}{InsightSheath}}}
+\DoxyCodeLine{\Hypertarget{_memory_native_8cs_source_l00010}00010 \{}
+\DoxyCodeLine{\Hypertarget{_memory_native_8cs_source_l00015}00015     \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keyword}{class }MemoryNative}
+\DoxyCodeLine{\Hypertarget{_memory_native_8cs_source_l00016}00016     \{}
+\DoxyCodeLine{\Hypertarget{_memory_native_8cs_source_l00022}00022         \textcolor{keyword}{public} \textcolor{keyword}{static} uint Peek4(IntPtr Target)}
+\DoxyCodeLine{\Hypertarget{_memory_native_8cs_source_l00023}00023         \{}
+\DoxyCodeLine{\Hypertarget{_memory_native_8cs_source_l00024}00024             \textcolor{keywordflow}{return} MemoryNativeInternal.Peek4(Target);}
+\DoxyCodeLine{\Hypertarget{_memory_native_8cs_source_l00025}00025         \}}
+\DoxyCodeLine{\Hypertarget{_memory_native_8cs_source_l00026}00026 }
+\DoxyCodeLine{\Hypertarget{_memory_native_8cs_source_l00032}00032         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keywordtype}{void} Poke4(IntPtr Target, uint value)}
+\DoxyCodeLine{\Hypertarget{_memory_native_8cs_source_l00033}00033         \{}
+\DoxyCodeLine{\Hypertarget{_memory_native_8cs_source_l00034}00034             MemoryNativeInternal.Poke4(Target, value);}
+\DoxyCodeLine{\Hypertarget{_memory_native_8cs_source_l00035}00035         \}}
+\DoxyCodeLine{\Hypertarget{_memory_native_8cs_source_l00036}00036 }
+\DoxyCodeLine{\Hypertarget{_memory_native_8cs_source_l00043}00043         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keywordtype}{void} SetDebugEventCallbackResponse(IntPtr ContState, \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_process_a0c189e28a27b763c01274d76e65be1a6}{DebugContState}} Response)}
+\DoxyCodeLine{\Hypertarget{_memory_native_8cs_source_l00044}00044         \{}
+\DoxyCodeLine{\Hypertarget{_memory_native_8cs_source_l00045}00045             MemoryNativeInternal.Poke4(ContState, (uint)Response);}
+\DoxyCodeLine{\Hypertarget{_memory_native_8cs_source_l00046}00046         \}}
+\DoxyCodeLine{\Hypertarget{_memory_native_8cs_source_l00047}00047 }
+\DoxyCodeLine{\Hypertarget{_memory_native_8cs_source_l00053}00053         \textcolor{keyword}{public} \textcolor{keyword}{static} ulong Peek8(IntPtr Target)}
+\DoxyCodeLine{\Hypertarget{_memory_native_8cs_source_l00054}00054         \{}
+\DoxyCodeLine{\Hypertarget{_memory_native_8cs_source_l00055}00055             \textcolor{keywordflow}{return} MemoryNativeInternal.Peek8(Target);}
+\DoxyCodeLine{\Hypertarget{_memory_native_8cs_source_l00056}00056         \}}
+\DoxyCodeLine{\Hypertarget{_memory_native_8cs_source_l00057}00057 }
+\DoxyCodeLine{\Hypertarget{_memory_native_8cs_source_l00064}00064         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keywordtype}{bool} Poke8(IntPtr Target, ulong val)}
+\DoxyCodeLine{\Hypertarget{_memory_native_8cs_source_l00065}00065         \{}
+\DoxyCodeLine{\Hypertarget{_memory_native_8cs_source_l00066}00066             \textcolor{keywordflow}{return} MemoryNativeInternal.Poke8(Target, val);}
+\DoxyCodeLine{\Hypertarget{_memory_native_8cs_source_l00067}00067         \}}
+\DoxyCodeLine{\Hypertarget{_memory_native_8cs_source_l00068}00068 }
+\DoxyCodeLine{\Hypertarget{_memory_native_8cs_source_l00076}00076         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keywordtype}{bool} RemotePoke4(IntPtr ProcessHandle, uint val, IntPtr RemoteLocation)}
+\DoxyCodeLine{\Hypertarget{_memory_native_8cs_source_l00077}00077         \{}
+\DoxyCodeLine{\Hypertarget{_memory_native_8cs_source_l00078}00078             \textcolor{keywordflow}{return} MemoryNativeInternal.RemotePoke4(ProcessHandle, val, RemoteLocation);}
+\DoxyCodeLine{\Hypertarget{_memory_native_8cs_source_l00079}00079         \}}
+\DoxyCodeLine{\Hypertarget{_memory_native_8cs_source_l00080}00080 }
+\DoxyCodeLine{\Hypertarget{_memory_native_8cs_source_l00088}00088         \textcolor{keyword}{public} \textcolor{keyword}{static} \textcolor{keywordtype}{bool} RemotePoke8(IntPtr ProcessHandle, ulong val, IntPtr RemoteLocation)}
+\DoxyCodeLine{\Hypertarget{_memory_native_8cs_source_l00089}00089         \{}
+\DoxyCodeLine{\Hypertarget{_memory_native_8cs_source_l00090}00090             \textcolor{keywordflow}{return} MemoryNativeInternal.RemotePoke8(ProcessHandle, val, RemoteLocation);}
+\DoxyCodeLine{\Hypertarget{_memory_native_8cs_source_l00091}00091         \}}
+\DoxyCodeLine{\Hypertarget{_memory_native_8cs_source_l00092}00092     \}}
+\DoxyCodeLine{\Hypertarget{_memory_native_8cs_source_l00093}00093 \}}
+
+\end{DoxyCode}

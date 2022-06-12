@@ -1,0 +1,208 @@
+\hypertarget{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container}{}\doxysection{Insight\+Sheath.\+Debugging.\+Debug\+Event\+Static\+Container Class Reference}
+\label{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container}\index{InsightSheath.Debugging.DebugEventStaticContainer@{InsightSheath.Debugging.DebugEventStaticContainer}}
+
+
+Implements the basis of disposal the other \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{Debug\+Event}} classes use. Also exposes routines to read the Process\+ID and Thread\+ID that triggered the event  
+
+
+Inheritance diagram for Insight\+Sheath.\+Debugging.\+Debug\+Event\+Static\+Container\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=10.425531cm]{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container_aa9b6243f684fb18e0b1000ac86198396}{Debug\+Event\+Static\+Container}} (Int\+Ptr \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}})
+\begin{DoxyCompactList}\small\item\em Constructor for the base \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{Debug\+Event}} abstract class \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container_a93a4a201552c18127a180c5bc9b09a0c}{Debug\+Event\+Static\+Container}} (Int\+Ptr \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}, bool \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{Free\+On\+Cleanup}})
+\begin{DoxyCompactList}\small\item\em Constructor for the base \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{Debug\+Event}} abstract class \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container_acb4edd7deda4e203c89f20a94056dc1f}{Debug\+Event\+Static\+Container}} (Int\+Ptr \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}, bool \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{Free\+On\+Cleanup}}, ulong \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_aad062cdb982cb6aec2fae05278b46627}{Reference\+Counter}})
+\begin{DoxyCompactList}\small\item\em Constructor for the base \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{Debug\+Event}} class \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+override void \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container_aa02ca717c563ff5dae806e6c34c5d248}{Dispose}} (bool disposing)
+\begin{DoxyCompactList}\small\item\em Basic \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_aab702cfc1a822d3a6f2fc9c8892d0b62}{Native\+Static\+Container}} disposal. Checks if not disposed, if Free\+On\+Cleanup is set and Native != 0 null before calling a routine exported in Insight\+API to free the memory. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+uint \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container_a08d3f29a495fb403db61394d48e02cd5}{Process\+ID}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Get the process id that this event happed too \end{DoxyCompactList}\item 
+uint \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container_a7f47285083f09c3815934d8cc2d027c6}{Thread\+ID}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Get the thread of the code that this event happened too \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8}{Debug\+Event\+Type}} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container_ab034e2af7cf3fc0e426b3d0ebf051f6d}{Event\+Type}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Get which type of structure this debug event contains. \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8}{Debug\+Event\+Type}} \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container_a667bb84f38a59ae63405d33b2301bc34}{Is\+Event\+From32\+Bit\+Process}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Makes a couple of calls to Get\+Native\+System\+Info() and asks Is\+Wow64\+Process() if the this process\+ID is running under WOW or not. This is NOT part of \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{Debug\+Event}} structure itself BUT is useful in letter the debugger know is the debugged application is 32-\/bit vs 64-\/bit \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+Implements the basis of disposal the other \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{Debug\+Event}} classes use. Also exposes routines to read the Process\+ID and Thread\+ID that triggered the event 
+
+Definition at line \mbox{\hyperlink{_debug_event_8cs_source_l00212}{212}} of file \mbox{\hyperlink{_debug_event_8cs_source}{Debug\+Event.\+cs}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container_aa9b6243f684fb18e0b1000ac86198396}\label{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container_aa9b6243f684fb18e0b1000ac86198396}} 
+\index{InsightSheath.Debugging.DebugEventStaticContainer@{InsightSheath.Debugging.DebugEventStaticContainer}!DebugEventStaticContainer@{DebugEventStaticContainer}}
+\index{DebugEventStaticContainer@{DebugEventStaticContainer}!InsightSheath.Debugging.DebugEventStaticContainer@{InsightSheath.Debugging.DebugEventStaticContainer}}
+\doxysubsubsection{\texorpdfstring{DebugEventStaticContainer()}{DebugEventStaticContainer()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily Insight\+Sheath.\+Debugging.\+Debug\+Event\+Static\+Container.\+Debug\+Event\+Static\+Container (\begin{DoxyParamCaption}\item[{Int\+Ptr}]{Native }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Constructor for the base \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{Debug\+Event}} abstract class 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Native} & Native pointer to the structure\\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{_debug_event_8cs_source_l00218}{218}} of file \mbox{\hyperlink{_debug_event_8cs_source}{Debug\+Event.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container_a93a4a201552c18127a180c5bc9b09a0c}\label{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container_a93a4a201552c18127a180c5bc9b09a0c}} 
+\index{InsightSheath.Debugging.DebugEventStaticContainer@{InsightSheath.Debugging.DebugEventStaticContainer}!DebugEventStaticContainer@{DebugEventStaticContainer}}
+\index{DebugEventStaticContainer@{DebugEventStaticContainer}!InsightSheath.Debugging.DebugEventStaticContainer@{InsightSheath.Debugging.DebugEventStaticContainer}}
+\doxysubsubsection{\texorpdfstring{DebugEventStaticContainer()}{DebugEventStaticContainer()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily Insight\+Sheath.\+Debugging.\+Debug\+Event\+Static\+Container.\+Debug\+Event\+Static\+Container (\begin{DoxyParamCaption}\item[{Int\+Ptr}]{Native,  }\item[{bool}]{Free\+On\+Cleanup }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Constructor for the base \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{Debug\+Event}} abstract class 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Native} & Native pointer to the structure\\
+\hline
+{\em Free\+On\+Cleanup} & if true then the structure is freed via Remote\+Read\+\_\+\+Simple\+Free(). Set TO FALSE if dealing with structures declared in C/\+C++ code vs dynamically allocated\\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{_debug_event_8cs_source_l00227}{227}} of file \mbox{\hyperlink{_debug_event_8cs_source}{Debug\+Event.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container_acb4edd7deda4e203c89f20a94056dc1f}\label{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container_acb4edd7deda4e203c89f20a94056dc1f}} 
+\index{InsightSheath.Debugging.DebugEventStaticContainer@{InsightSheath.Debugging.DebugEventStaticContainer}!DebugEventStaticContainer@{DebugEventStaticContainer}}
+\index{DebugEventStaticContainer@{DebugEventStaticContainer}!InsightSheath.Debugging.DebugEventStaticContainer@{InsightSheath.Debugging.DebugEventStaticContainer}}
+\doxysubsubsection{\texorpdfstring{DebugEventStaticContainer()}{DebugEventStaticContainer()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily Insight\+Sheath.\+Debugging.\+Debug\+Event\+Static\+Container.\+Debug\+Event\+Static\+Container (\begin{DoxyParamCaption}\item[{Int\+Ptr}]{Native,  }\item[{bool}]{Free\+On\+Cleanup,  }\item[{ulong}]{Reference\+Counter }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Constructor for the base \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{Debug\+Event}} class 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Native} & Native pointer to the structure\\
+\hline
+{\em Free\+On\+Cleanup} & if true then the structure is freed via Remote\+Read\+\_\+\+Simple\+Free(). Set TO FALSE if dealing with structures declared in C/\+C++ code vs dynamically allocated\\
+\hline
+{\em Reference\+Counter} & Specify the starting reference count.\\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{_debug_event_8cs_source_l00238}{238}} of file \mbox{\hyperlink{_debug_event_8cs_source}{Debug\+Event.\+cs}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container_aa02ca717c563ff5dae806e6c34c5d248}\label{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container_aa02ca717c563ff5dae806e6c34c5d248}} 
+\index{InsightSheath.Debugging.DebugEventStaticContainer@{InsightSheath.Debugging.DebugEventStaticContainer}!Dispose@{Dispose}}
+\index{Dispose@{Dispose}!InsightSheath.Debugging.DebugEventStaticContainer@{InsightSheath.Debugging.DebugEventStaticContainer}}
+\doxysubsubsection{\texorpdfstring{Dispose()}{Dispose()}}
+{\footnotesize\ttfamily override void Insight\+Sheath.\+Debugging.\+Debug\+Event\+Static\+Container.\+Dispose (\begin{DoxyParamCaption}\item[{bool}]{disposing }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+
+
+Basic \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_aab702cfc1a822d3a6f2fc9c8892d0b62}{Native\+Static\+Container}} disposal. Checks if not disposed, if Free\+On\+Cleanup is set and Native != 0 null before calling a routine exported in Insight\+API to free the memory. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em disposing} & set to true if disposing of managed resources in addition to unmanaged.\\
+\hline
+\end{DoxyParams}
+
+
+IMPORTANT! If your child class needs special needs beyond C/\+C++\textquotesingle{}s free(), override this and take care of them before calling base(). Should your custom class allocate multiple things for example Windows\+Unicode\+String\textquotesingle{}s implementation for reading from remote processes Win32\+Struct.\+Remote.\+Remote\+Structure.\+Remote\+Read\+Unicode\+String(\+Int\+Ptr, Int\+Ptr, bool, bool), you will need to make a routine to properly free. That routine allocates 2 buffers instead of 1. Calling C/\+C++\textquotesingle{}s free() alone is leaking memory. Design checks\+: list type=\char`\"{}number\char`\"{}\texorpdfstring{$>$}{>} listheader\texorpdfstring{$>$}{>} description \texorpdfstring{$>$}{>} First, override disposal()  /listheader \texorpdfstring{$>$}{>} item\texorpdfstring{$>$}{>}  Nest, add a private variable in your class called is\+Disposed. Set this to true when your class\textquotesingle{}s native pointer is cleaned up completely  /item \texorpdfstring{$>$}{>} item\texorpdfstring{$>$}{>} description\texorpdfstring{$>$}{>}if \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_a12483e01c95bdb212c65e1857affe0ec}{Reference\+Counter\+Native\+Static\+Container}} is NOT in the hierarchy then your routine should dispose of unmanaged resourced when is\+Disposed is true, Free\+On\+Cleanup is true and the Native pointer is not null. It should set the native pointer to null when FULLY done disposing it. /item\texorpdfstring{$>$}{>} item\texorpdfstring{$>$}{>} description\texorpdfstring{$>$}{>}if \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_a12483e01c95bdb212c65e1857affe0ec}{Reference\+Counter\+Native\+Static\+Container}} IS in the hierarchy then your routine should dispose of unmanaged resourced when is\+Disposed is true, Free\+On\+Cleanup is AND THE REFERENCE COUNTER being decreased is 0, and the Native pointer is not null. If the reference counter is more than 0 when decreased, set native to null instead of disposing. /item\texorpdfstring{$>$}{>} 
+
+Reimplemented from \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_aab47d778e6f074d10e4d0511471e8727}{Insight\+Sheath.\+Abstract.\+Native\+Static\+Container}}.
+
+
+
+Reimplemented in \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_a5f1870d26f95fce0eae803e237e24bbc}{Insight\+Sheath.\+Debugging.\+Debug\+Event}}.
+
+
+
+Definition at line \mbox{\hyperlink{_debug_event_8cs_source_l00244}{244}} of file \mbox{\hyperlink{_debug_event_8cs_source}{Debug\+Event.\+cs}}.
+
+
+
+\doxysubsection{Property Documentation}
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container_ab034e2af7cf3fc0e426b3d0ebf051f6d}\label{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container_ab034e2af7cf3fc0e426b3d0ebf051f6d}} 
+\index{InsightSheath.Debugging.DebugEventStaticContainer@{InsightSheath.Debugging.DebugEventStaticContainer}!EventType@{EventType}}
+\index{EventType@{EventType}!InsightSheath.Debugging.DebugEventStaticContainer@{InsightSheath.Debugging.DebugEventStaticContainer}}
+\doxysubsubsection{\texorpdfstring{EventType}{EventType}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8}{Debug\+Event\+Type}} Insight\+Sheath.\+Debugging.\+Debug\+Event\+Static\+Container.\+Event\+Type\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Get which type of structure this debug event contains. \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8}{Debug\+Event\+Type}} 
+
+
+
+Definition at line \mbox{\hyperlink{_debug_event_8cs_source_l00306}{306}} of file \mbox{\hyperlink{_debug_event_8cs_source}{Debug\+Event.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container_a667bb84f38a59ae63405d33b2301bc34}\label{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container_a667bb84f38a59ae63405d33b2301bc34}} 
+\index{InsightSheath.Debugging.DebugEventStaticContainer@{InsightSheath.Debugging.DebugEventStaticContainer}!IsEventFrom32BitProcess@{IsEventFrom32BitProcess}}
+\index{IsEventFrom32BitProcess@{IsEventFrom32BitProcess}!InsightSheath.Debugging.DebugEventStaticContainer@{InsightSheath.Debugging.DebugEventStaticContainer}}
+\doxysubsubsection{\texorpdfstring{IsEventFrom32BitProcess}{IsEventFrom32BitProcess}}
+{\footnotesize\ttfamily bool Insight\+Sheath.\+Debugging.\+Debug\+Event\+Static\+Container.\+Is\+Event\+From32\+Bit\+Process\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Makes a couple of calls to Get\+Native\+System\+Info() and asks Is\+Wow64\+Process() if the this process\+ID is running under WOW or not. This is NOT part of \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{Debug\+Event}} structure itself BUT is useful in letter the debugger know is the debugged application is 32-\/bit vs 64-\/bit 
+
+
+
+Definition at line \mbox{\hyperlink{_debug_event_8cs_source_l00318}{318}} of file \mbox{\hyperlink{_debug_event_8cs_source}{Debug\+Event.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container_a08d3f29a495fb403db61394d48e02cd5}\label{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container_a08d3f29a495fb403db61394d48e02cd5}} 
+\index{InsightSheath.Debugging.DebugEventStaticContainer@{InsightSheath.Debugging.DebugEventStaticContainer}!ProcessID@{ProcessID}}
+\index{ProcessID@{ProcessID}!InsightSheath.Debugging.DebugEventStaticContainer@{InsightSheath.Debugging.DebugEventStaticContainer}}
+\doxysubsubsection{\texorpdfstring{ProcessID}{ProcessID}}
+{\footnotesize\ttfamily uint Insight\+Sheath.\+Debugging.\+Debug\+Event\+Static\+Container.\+Process\+ID\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Get the process id that this event happed too 
+
+
+
+Definition at line \mbox{\hyperlink{_debug_event_8cs_source_l00284}{284}} of file \mbox{\hyperlink{_debug_event_8cs_source}{Debug\+Event.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container_a7f47285083f09c3815934d8cc2d027c6}\label{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container_a7f47285083f09c3815934d8cc2d027c6}} 
+\index{InsightSheath.Debugging.DebugEventStaticContainer@{InsightSheath.Debugging.DebugEventStaticContainer}!ThreadID@{ThreadID}}
+\index{ThreadID@{ThreadID}!InsightSheath.Debugging.DebugEventStaticContainer@{InsightSheath.Debugging.DebugEventStaticContainer}}
+\doxysubsubsection{\texorpdfstring{ThreadID}{ThreadID}}
+{\footnotesize\ttfamily uint Insight\+Sheath.\+Debugging.\+Debug\+Event\+Static\+Container.\+Thread\+ID\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Get the thread of the code that this event happened too 
+
+
+
+Definition at line \mbox{\hyperlink{_debug_event_8cs_source_l00295}{295}} of file \mbox{\hyperlink{_debug_event_8cs_source}{Debug\+Event.\+cs}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Debugging/\mbox{\hyperlink{_debug_event_8cs}{Debug\+Event.\+cs}}\end{DoxyCompactItemize}

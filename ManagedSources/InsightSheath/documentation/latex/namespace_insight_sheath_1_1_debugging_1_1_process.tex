@@ -1,0 +1,86 @@
+\hypertarget{namespace_insight_sheath_1_1_debugging_1_1_process}{}\doxysection{Insight\+Sheath.\+Debugging.\+Process Namespace Reference}
+\label{namespace_insight_sheath_1_1_debugging_1_1_process}\index{InsightSheath.Debugging.Process@{InsightSheath.Debugging.Process}}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory}{Insight\+Memory}}
+\begin{DoxyCompactList}\small\item\em Get memory data about an arbitrary process of your choice \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_process}{Insight\+Process}}
+\begin{DoxyCompactList}\small\item\em choose an environment and spawn a process. This class is a wrapper for the C++ Class named \char`\"{}\+Insight\+Process\char`\"{} implemented as a native DLL in the source PS\+\_\+\+Process\+Information.\+cpp and said class is the functionally the heart of the DLL. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_process_1_1_process_memory_count32}{Process\+Memory\+Count32}}
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_process}{Process}} Memory count for 32-\/bit process \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_process_1_1_process_memory_count64}{Process\+Memory\+Count64}}
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_process}{Process}} Memory count for 64-\/bit process \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_process_1_1_p_s_a_p_i___w_o_r_k_i_n_g___s_e_t___e_x___b_l_o_c_k}{PSAPI\+\_\+\+WORKING\+\_\+\+SET\+\_\+\+EX\+\_\+\+BLOCK}}
+\begin{DoxyCompactList}\small\item\em \href{https://docs.microsoft.com/en-us/windows/win32/api/psapi/ns-psapi-psapi_working_set_ex_block}{\texttt{ https\+://docs.\+microsoft.\+com/en-\/us/windows/win32/api/psapi/ns-\/psapi-\/psapi\+\_\+working\+\_\+set\+\_\+ex\+\_\+block}} \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_p_s_a_p_i___w_o_r_k_i_n_g___s_e_t___e_x___i_n_f_o_r_m_a_t_i_o_n}{PSAPI\+\_\+\+WORKING\+\_\+\+SET\+\_\+\+EX\+\_\+\+INFORMATION}}
+\item 
+class \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_query_working_structs}{Query\+Working\+Structs}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_process_a0c189e28a27b763c01274d76e65be1a6}{Debug\+Cont\+State}} \+: uint \{ \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_process_a0c189e28a27b763c01274d76e65be1a6ab8b6eb47c4d84218537d5cb2fbad482b}{Debug\+Continue\+State}} = 0x00010002
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_process_a0c189e28a27b763c01274d76e65be1a6ab7bd41214b2c6ad64c60aa8793f23746}{Debug\+Exception\+Not\+Handled}} = 0x80010001
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_process_a0c189e28a27b763c01274d76e65be1a6aa5290547c8b264a68afb260dbf648cfe}{Debug\+Exception\+Reply\+Later}} = 0x40010001
+ \}
+\begin{DoxyCompactList}\small\item\em Enum to control how to return control of a debugged process your debugger is respending too back to Windows. Used in several spots. Insight\+Process, Debug\+Event\+Worker\+Thread\+Support \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_process_aa787f83d4cbbadefed0b16b27565cd96}{Debug\+Mode\+Type}} \{ \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_process_aa787f83d4cbbadefed0b16b27565cd96ac73299acc75a07672862bbdeb5fd66ea}{No\+Worker\+Thread}} = 0
+, \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_process_aa787f83d4cbbadefed0b16b27565cd96a9abc02b718af43d5e1598e0fe5702dd6}{Worker\+Thread}} = 1
+ \}
+\begin{DoxyCompactList}\small\item\em Flags to indicate to Insight\+Process if you want the worker thread or not. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_1_1_process_a0c189e28a27b763c01274d76e65be1a6}\label{namespace_insight_sheath_1_1_debugging_1_1_process_a0c189e28a27b763c01274d76e65be1a6}} 
+\index{InsightSheath.Debugging.Process@{InsightSheath.Debugging.Process}!DebugContState@{DebugContState}}
+\index{DebugContState@{DebugContState}!InsightSheath.Debugging.Process@{InsightSheath.Debugging.Process}}
+\doxysubsubsection{\texorpdfstring{DebugContState}{DebugContState}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_process_a0c189e28a27b763c01274d76e65be1a6}{Insight\+Sheath.\+Debugging.\+Process.\+Debug\+Cont\+State}} \+: uint}
+
+
+
+Enum to control how to return control of a debugged process your debugger is respending too back to Windows. Used in several spots. \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_process}{Insight\+Process}}, Debug\+Event\+Worker\+Thread\+Support 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{DebugContinueState@{DebugContinueState}!InsightSheath.Debugging.Process@{InsightSheath.Debugging.Process}}\index{InsightSheath.Debugging.Process@{InsightSheath.Debugging.Process}!DebugContinueState@{DebugContinueState}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_1_1_process_a0c189e28a27b763c01274d76e65be1a6ab8b6eb47c4d84218537d5cb2fbad482b}\label{namespace_insight_sheath_1_1_debugging_1_1_process_a0c189e28a27b763c01274d76e65be1a6ab8b6eb47c4d84218537d5cb2fbad482b}} 
+Debug\+Continue\+State&The event was processed OK and program execution can continue safely (Use to continue all events and if an Exception Was Handled \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{DebugExceptionNotHandled@{DebugExceptionNotHandled}!InsightSheath.Debugging.Process@{InsightSheath.Debugging.Process}}\index{InsightSheath.Debugging.Process@{InsightSheath.Debugging.Process}!DebugExceptionNotHandled@{DebugExceptionNotHandled}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_1_1_process_a0c189e28a27b763c01274d76e65be1a6ab7bd41214b2c6ad64c60aa8793f23746}\label{namespace_insight_sheath_1_1_debugging_1_1_process_a0c189e28a27b763c01274d76e65be1a6ab7bd41214b2c6ad64c60aa8793f23746}} 
+Debug\+Exception\+Not\+Handled&The Exception Was not handled at all by the your debugger, pass it back to the debugged program \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{DebugExceptionReplyLater@{DebugExceptionReplyLater}!InsightSheath.Debugging.Process@{InsightSheath.Debugging.Process}}\index{InsightSheath.Debugging.Process@{InsightSheath.Debugging.Process}!DebugExceptionReplyLater@{DebugExceptionReplyLater}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_1_1_process_a0c189e28a27b763c01274d76e65be1a6aa5290547c8b264a68afb260dbf648cfe}\label{namespace_insight_sheath_1_1_debugging_1_1_process_a0c189e28a27b763c01274d76e65be1a6aa5290547c8b264a68afb260dbf648cfe}} 
+Debug\+Exception\+Reply\+Later&I\textquotesingle{}m sorry, I\textquotesingle{}m not in right now to deal with this exception. Tells Windows to reply the event later. \\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line \mbox{\hyperlink{_insight_process_8cs_source_l00018}{18}} of file \mbox{\hyperlink{_insight_process_8cs_source}{Insight\+Process.\+cs}}.
+
+\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_1_1_process_aa787f83d4cbbadefed0b16b27565cd96}\label{namespace_insight_sheath_1_1_debugging_1_1_process_aa787f83d4cbbadefed0b16b27565cd96}} 
+\index{InsightSheath.Debugging.Process@{InsightSheath.Debugging.Process}!DebugModeType@{DebugModeType}}
+\index{DebugModeType@{DebugModeType}!InsightSheath.Debugging.Process@{InsightSheath.Debugging.Process}}
+\doxysubsubsection{\texorpdfstring{DebugModeType}{DebugModeType}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_process_aa787f83d4cbbadefed0b16b27565cd96}{Insight\+Sheath.\+Debugging.\+Process.\+Debug\+Mode\+Type}}}
+
+
+
+Flags to indicate to \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_process}{Insight\+Process}} if you want the worker thread or not. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{NoWorkerThread@{NoWorkerThread}!InsightSheath.Debugging.Process@{InsightSheath.Debugging.Process}}\index{InsightSheath.Debugging.Process@{InsightSheath.Debugging.Process}!NoWorkerThread@{NoWorkerThread}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_1_1_process_aa787f83d4cbbadefed0b16b27565cd96ac73299acc75a07672862bbdeb5fd66ea}\label{namespace_insight_sheath_1_1_debugging_1_1_process_aa787f83d4cbbadefed0b16b27565cd96ac73299acc75a07672862bbdeb5fd66ea}} 
+No\+Worker\+Thread&Tells Insight\textquotesingle{}s native DLL to Not Spawn any worker threads for debug handling. If you don\textquotesingle{}t implement a debug loop, you will never see your process show up. Irrelevant if the process is not being debugged. You\textquotesingle{}re going to want the Worker\+Thread as development features in this thread are not exported yet for use without the worker thread. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WorkerThread@{WorkerThread}!InsightSheath.Debugging.Process@{InsightSheath.Debugging.Process}}\index{InsightSheath.Debugging.Process@{InsightSheath.Debugging.Process}!WorkerThread@{WorkerThread}}}\mbox{\Hypertarget{namespace_insight_sheath_1_1_debugging_1_1_process_aa787f83d4cbbadefed0b16b27565cd96a9abc02b718af43d5e1598e0fe5702dd6}\label{namespace_insight_sheath_1_1_debugging_1_1_process_aa787f83d4cbbadefed0b16b27565cd96a9abc02b718af43d5e1598e0fe5702dd6}} 
+Worker\+Thread&When Spawning a process for debugger, Insight\+Api.\+DLL implements a debug loop and offloads the loop to a worker thread. Put a call to \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_process_a31702a1b5cd9e86125382916df492c77}{Insight\+Process.\+Pulse\+Debug\+Event\+Thead}} to continue after handling your debug event on a regular basis. Skipping that means, your debugged process won\textquotesingle{}t continue after the first event. \\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line \mbox{\hyperlink{_insight_process_8cs_source_l00038}{38}} of file \mbox{\hyperlink{_insight_process_8cs_source}{Insight\+Process.\+cs}}.
+

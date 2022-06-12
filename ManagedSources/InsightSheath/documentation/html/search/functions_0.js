@@ -1,0 +1,6 @@
+var searchData=
+[
+  ['adddetoursdll_0',['AddDetoursDll',['../class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_process.html#a0e0aaa32426bf60592645e8f0ecbd740',1,'InsightSheath::Debugging::Process::InsightProcess']]],
+  ['addref_1',['AddRef',['../class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container.html#a129a0deb3f221ac2779a5cf00f9e97e3',1,'InsightSheath.Abstract.ReferenceCounterNativeStaticContainer.AddRef()'],['../class_insight_sheath_1_1_misc_1_1_reference_counter.html#af622a95ff4d0fcbf7470227f3613201d',1,'InsightSheath.Misc.ReferenceCounter.AddRef()']]],
+  ['apply_2',['Apply',['../class_insight_sheath_1_1_abstract_1_1_on_demand_marshal_native_struct.html#a133b74e04a70011d23370823de9bdd2f',1,'InsightSheath.Abstract.OnDemandMarshalNativeStruct.Apply()'],['../class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context.html#a8a4f1cc840102ed0f76d79ed111ec3fb',1,'InsightSheath.Debugging.Thread.Wow64Context.Apply()'],['../class_insight_sheath_1_1_win32_struct_1_1_windows_object_attributes.html#a648d815bcdb573b98a88bb41bf32b5ef',1,'InsightSheath.Win32Struct.WindowsObjectAttributes.Apply()'],['../class_insight_sheath_1_1_win32_struct_1_1_windows_unicode_string.html#ab0ffa0f36c8b5127a4ba3fe4c25ee853',1,'InsightSheath.Win32Struct.WindowsUnicodeString.Apply()']]]
+];

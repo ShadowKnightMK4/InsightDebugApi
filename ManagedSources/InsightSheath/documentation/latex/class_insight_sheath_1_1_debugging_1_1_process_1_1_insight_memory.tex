@@ -1,0 +1,498 @@
+\hypertarget{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory}{}\doxysection{Insight\+Sheath.\+Debugging.\+Process.\+Insight\+Memory Class Reference}
+\label{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory}\index{InsightSheath.Debugging.Process.InsightMemory@{InsightSheath.Debugging.Process.InsightMemory}}
+
+
+Get memory data about an arbitrary process of your choice  
+
+
+Inheritance diagram for Insight\+Sheath.\+Debugging.\+Process.\+Insight\+Memory\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_ab5a66b883de5730dea402ed523514a70}{Insight\+Memory}} (Int\+Ptr that)
+\begin{DoxyCompactList}\small\item\em Create an instance of the wrapper class and point to the native pointer for the native side of the class. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_aca15479f5324441e99e8eb5bd958f800}{Insight\+Memory}} (Int\+Ptr that, bool \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{Free\+On\+Cleanup}})
+\begin{DoxyCompactList}\small\item\em Create an instance of the wrapper class and point to the native pointer for the native side of the class. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_ad9edc8190fb96219d282c6947be79481}{Set\+Target\+Process}} (Int\+Ptr Handle)
+\begin{DoxyCompactList}\small\item\em Choose which process this instance of the class is going to ask about via a Win32 Handle. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_a2d0ccddf2e5e56b1a25fd96e16653db3}{Set\+Target\+Process}} (uint Process\+Id)
+\begin{DoxyCompactList}\small\item\em Choose which process this instance of the class is going to ask about via a process Handle. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_ab2b58fe7f155bd3fda7e4adc72b55867}{Manual\+Refresh\+Stats}} ()
+\begin{DoxyCompactList}\small\item\em Trigger a manual refresh of the Memory information. Note if \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_a2e37225bafb3a6feaa923dd4b3df8b56}{Auto\+Update\+Memory}} is true, this routine does NOT need to be called. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory}{Insight\+Memory}} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_a7c238030abe164682e18a8701bbe4bcf}{Create\+Instance}} ()
+\begin{DoxyCompactList}\small\item\em Create an instance of \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory}{Insight\+Memory}} from the unmanaged DLL and return a pointer encapsulated in the .NET class. \end{DoxyCompactList}\item 
+static \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory}{Insight\+Memory}} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_a93c235fd98744979d310317a9b20b499}{Create\+Instance}} (Int\+Ptr Handle)
+\begin{DoxyCompactList}\small\item\em Duplicate an instance of \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory}{Insight\+Memory}} from the passed pointer. ~\newline
+ \end{DoxyCompactList}\item 
+static \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory}{Insight\+Memory}} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_a54b6e98c6ed54f8b3c48d39843a3a199}{Create\+Instance}} (uint Process)
+\begin{DoxyCompactList}\small\item\em Create an instance of \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory}{Insight\+Memory}} and point it to read about the passed process. \end{DoxyCompactList}\item 
+static \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory}{Insight\+Memory}} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_ab1bb533d44edb8886b40e1a29739eb07}{Duplicate\+Instance}} (\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory}{Insight\+Memory}} Other)
+\begin{DoxyCompactList}\small\item\em Duplicate an instance of \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory}{Insight\+Memory}} from an existing copy. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+override void \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_a2eba802dc5737fa2fb5ba5be55bba0fe}{Dispose}} (bool disposing)
+\begin{DoxyCompactList}\small\item\em Invoke the proper clean up routine for \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory}{Insight\+Memory}} for unmanaged resources and also managed if dispose is true \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_a2e37225bafb3a6feaa923dd4b3df8b56}{Auto\+Update\+Memory}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Control if each call to one of these values will result in another call to get an updated value. The default is true; however, that can BE A PERFORMANCE PENALTY if you\textquotesingle{}re getting the value individually for each setting frequently in a loop. Recommend False if you\textquotesingle{}re reading them a lot \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_process_1_1_process_memory_count32}{Process\+Memory\+Count32}}? \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_a2ab865fae2e5c3471655d29bb4e516e2}{Memory\+Stats\+Bulk32}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Return the x86 bit version of the underlying structure containing the memory statistics. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_process_1_1_process_memory_count64}{Process\+Memory\+Count64}}? \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_a4d0923587ca56d6fdb95c64fb365f511}{Memory\+Stats\+Bulk64}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Return the x64 bit version of the underlying structure containing the memory statistics. \end{DoxyCompactList}\item 
+ulong \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_a9f4c765b049ac55e7e42eaeca9ac77a8}{Page\+Fault\+Count}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Get the number of page faults for the targeted process. \end{DoxyCompactList}\item 
+ulong \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_aa2b3688d92b17052741e3502077c348f}{Peak\+Working\+Set\+Size}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Get the peak working set size, in bytes for the targeted process. \end{DoxyCompactList}\item 
+ulong \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_ad5648c0dce35e35ac39c1fdc0f588e4b}{Working\+Set\+Size}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Get the current working set size in bytes for the targeted process \end{DoxyCompactList}\item 
+ulong \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_a4f80809033c26822c5affc9d87dd2759}{Quota\+Peak\+Paged\+Pool\+Usage}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Get the peak paged pool usage in bytes for the targeted process \end{DoxyCompactList}\item 
+ulong \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_ad0291e8f15b2272234f79487d22e6c65}{Quota\+Paged\+Pool\+Usage}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Get the current paged pool usage in bytes for the targeted process \end{DoxyCompactList}\item 
+ulong \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_ad3aefc992ce36c1bd24079517271e2d1}{Quota\+Peak\+Non\+Paged\+Pool\+Usage}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Get the peak non paged pool usage in bytes. \end{DoxyCompactList}\item 
+ulong \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_a3c2ba957a84796a2ba9b9392646ce880}{Quota\+Non\+Paged\+Pool\+Usage}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Get the current non paged pool usage in bytes. \end{DoxyCompactList}\item 
+ulong \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_afbbb8c6fe1e96fc09479cf89f2289d5a}{Page\+File\+Usage}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Get the Commit Charge for the targeted process in bytes. This is the total private amount of memory allocated to the targeted process by Windows. \end{DoxyCompactList}\item 
+ulong \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_afee514d7b779d66ea6f8086381e98421}{Peak\+Page\+File\+Usage}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Get the peak value in bytes of the Commit Charge during the targeted process\textquotesingle{}s lifetime. \end{DoxyCompactList}\item 
+ulong \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_adb6708333b6936d9f3c79b4c2eca5b6d}{Private\+Usage}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Same as \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_afbbb8c6fe1e96fc09479cf89f2289d5a}{Page\+File\+Usage}} in a post Windows 7+/\+Windows Server 2012+ world per MSDN documentation \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+Get memory data about an arbitrary process of your choice 
+
+Definition at line \mbox{\hyperlink{_insight_memory_8cs_source_l00016}{16}} of file \mbox{\hyperlink{_insight_memory_8cs_source}{Insight\+Memory.\+cs}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_ab5a66b883de5730dea402ed523514a70}\label{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_ab5a66b883de5730dea402ed523514a70}} 
+\index{InsightSheath.Debugging.Process.InsightMemory@{InsightSheath.Debugging.Process.InsightMemory}!InsightMemory@{InsightMemory}}
+\index{InsightMemory@{InsightMemory}!InsightSheath.Debugging.Process.InsightMemory@{InsightSheath.Debugging.Process.InsightMemory}}
+\doxysubsubsection{\texorpdfstring{InsightMemory()}{InsightMemory()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Insight\+Sheath.\+Debugging.\+Process.\+Insight\+Memory.\+Insight\+Memory (\begin{DoxyParamCaption}\item[{Int\+Ptr}]{that }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Create an instance of the wrapper class and point to the native pointer for the native side of the class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em that} & Non-\/null pointer\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Argument\+Null\+Exception} & Raises this if argument is null\\
+\hline
+\end{DoxyExceptions}
+
+
+Definition at line \mbox{\hyperlink{_insight_memory_8cs_source_l00065}{65}} of file \mbox{\hyperlink{_insight_memory_8cs_source}{Insight\+Memory.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_aca15479f5324441e99e8eb5bd958f800}\label{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_aca15479f5324441e99e8eb5bd958f800}} 
+\index{InsightSheath.Debugging.Process.InsightMemory@{InsightSheath.Debugging.Process.InsightMemory}!InsightMemory@{InsightMemory}}
+\index{InsightMemory@{InsightMemory}!InsightSheath.Debugging.Process.InsightMemory@{InsightSheath.Debugging.Process.InsightMemory}}
+\doxysubsubsection{\texorpdfstring{InsightMemory()}{InsightMemory()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Insight\+Sheath.\+Debugging.\+Process.\+Insight\+Memory.\+Insight\+Memory (\begin{DoxyParamCaption}\item[{Int\+Ptr}]{that,  }\item[{bool}]{Free\+On\+Cleanup }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Create an instance of the wrapper class and point to the native pointer for the native side of the class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em that} & Non-\/null pointer\\
+\hline
+{\em Free\+On\+Cleanup} & Ignored\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Argument\+Null\+Exception} & Raises this if argument is null\\
+\hline
+\end{DoxyExceptions}
+
+
+Definition at line \mbox{\hyperlink{_insight_memory_8cs_source_l00081}{81}} of file \mbox{\hyperlink{_insight_memory_8cs_source}{Insight\+Memory.\+cs}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_a7c238030abe164682e18a8701bbe4bcf}\label{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_a7c238030abe164682e18a8701bbe4bcf}} 
+\index{InsightSheath.Debugging.Process.InsightMemory@{InsightSheath.Debugging.Process.InsightMemory}!CreateInstance@{CreateInstance}}
+\index{CreateInstance@{CreateInstance}!InsightSheath.Debugging.Process.InsightMemory@{InsightSheath.Debugging.Process.InsightMemory}}
+\doxysubsubsection{\texorpdfstring{CreateInstance()}{CreateInstance()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory}{Insight\+Memory}} Insight\+Sheath.\+Debugging.\+Process.\+Insight\+Memory.\+Create\+Instance (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Create an instance of \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory}{Insight\+Memory}} from the unmanaged DLL and return a pointer encapsulated in the .NET class. 
+
+\begin{DoxyReturn}{Returns}
+Returns an instance of \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory}{Insight\+Memory}} already set to point to the unmanaged DLL\textquotesingle{}s code
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{_insight_memory_8cs_source_l00022}{22}} of file \mbox{\hyperlink{_insight_memory_8cs_source}{Insight\+Memory.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_a93c235fd98744979d310317a9b20b499}\label{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_a93c235fd98744979d310317a9b20b499}} 
+\index{InsightSheath.Debugging.Process.InsightMemory@{InsightSheath.Debugging.Process.InsightMemory}!CreateInstance@{CreateInstance}}
+\index{CreateInstance@{CreateInstance}!InsightSheath.Debugging.Process.InsightMemory@{InsightSheath.Debugging.Process.InsightMemory}}
+\doxysubsubsection{\texorpdfstring{CreateInstance()}{CreateInstance()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory}{Insight\+Memory}} Insight\+Sheath.\+Debugging.\+Process.\+Insight\+Memory.\+Create\+Instance (\begin{DoxyParamCaption}\item[{Int\+Ptr}]{Handle }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Duplicate an instance of \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory}{Insight\+Memory}} from the passed pointer. ~\newline
+ 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Handle} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns an instance of \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory}{Insight\+Memory}} already set to point to the same process that the passed pointer. Each instance can separately point to other pointers
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{_insight_memory_8cs_source_l00032}{32}} of file \mbox{\hyperlink{_insight_memory_8cs_source}{Insight\+Memory.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_a54b6e98c6ed54f8b3c48d39843a3a199}\label{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_a54b6e98c6ed54f8b3c48d39843a3a199}} 
+\index{InsightSheath.Debugging.Process.InsightMemory@{InsightSheath.Debugging.Process.InsightMemory}!CreateInstance@{CreateInstance}}
+\index{CreateInstance@{CreateInstance}!InsightSheath.Debugging.Process.InsightMemory@{InsightSheath.Debugging.Process.InsightMemory}}
+\doxysubsubsection{\texorpdfstring{CreateInstance()}{CreateInstance()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory}{Insight\+Memory}} Insight\+Sheath.\+Debugging.\+Process.\+Insight\+Memory.\+Create\+Instance (\begin{DoxyParamCaption}\item[{uint}]{Process }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Create an instance of \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory}{Insight\+Memory}} and point it to read about the passed process. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_process}{Process}}} & process id to read about. It must be able to be opened for PROCESS\+\_\+\+QUERY\+\_\+\+INFORMATION and PROECSS\+\_\+\+VM\+\_\+\+READ \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns an instance of \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory}{Insight\+Memory}} already set to point to the unmanaged DLL\textquotesingle{}s code. The class is pointed to use the passed process
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{_insight_memory_8cs_source_l00044}{44}} of file \mbox{\hyperlink{_insight_memory_8cs_source}{Insight\+Memory.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_a2eba802dc5737fa2fb5ba5be55bba0fe}\label{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_a2eba802dc5737fa2fb5ba5be55bba0fe}} 
+\index{InsightSheath.Debugging.Process.InsightMemory@{InsightSheath.Debugging.Process.InsightMemory}!Dispose@{Dispose}}
+\index{Dispose@{Dispose}!InsightSheath.Debugging.Process.InsightMemory@{InsightSheath.Debugging.Process.InsightMemory}}
+\doxysubsubsection{\texorpdfstring{Dispose()}{Dispose()}}
+{\footnotesize\ttfamily override void Insight\+Sheath.\+Debugging.\+Process.\+Insight\+Memory.\+Dispose (\begin{DoxyParamCaption}\item[{bool}]{disposing }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+
+
+Invoke the proper clean up routine for \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory}{Insight\+Memory}} for unmanaged resources and also managed if dispose is true 
+
+
+\begin{DoxyParams}{Parameters}
+{\em disposing} & set to true if disposing of managed resources also.\\
+\hline
+\end{DoxyParams}
+
+
+Reimplemented from \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_aab47d778e6f074d10e4d0511471e8727}{Insight\+Sheath.\+Abstract.\+Native\+Static\+Container}}.
+
+
+
+Definition at line \mbox{\hyperlink{_insight_memory_8cs_source_l00093}{93}} of file \mbox{\hyperlink{_insight_memory_8cs_source}{Insight\+Memory.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_ab1bb533d44edb8886b40e1a29739eb07}\label{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_ab1bb533d44edb8886b40e1a29739eb07}} 
+\index{InsightSheath.Debugging.Process.InsightMemory@{InsightSheath.Debugging.Process.InsightMemory}!DuplicateInstance@{DuplicateInstance}}
+\index{DuplicateInstance@{DuplicateInstance}!InsightSheath.Debugging.Process.InsightMemory@{InsightSheath.Debugging.Process.InsightMemory}}
+\doxysubsubsection{\texorpdfstring{DuplicateInstance()}{DuplicateInstance()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory}{Insight\+Memory}} Insight\+Sheath.\+Debugging.\+Process.\+Insight\+Memory.\+Duplicate\+Instance (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory}{Insight\+Memory}}}]{Other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Duplicate an instance of \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory}{Insight\+Memory}} from an existing copy. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Other} & separate instance of \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory}{Insight\+Memory}}\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns a separate instance of \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory}{Insight\+Memory}} already set.
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{_insight_memory_8cs_source_l00055}{55}} of file \mbox{\hyperlink{_insight_memory_8cs_source}{Insight\+Memory.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_ab2b58fe7f155bd3fda7e4adc72b55867}\label{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_ab2b58fe7f155bd3fda7e4adc72b55867}} 
+\index{InsightSheath.Debugging.Process.InsightMemory@{InsightSheath.Debugging.Process.InsightMemory}!ManualRefreshStats@{ManualRefreshStats}}
+\index{ManualRefreshStats@{ManualRefreshStats}!InsightSheath.Debugging.Process.InsightMemory@{InsightSheath.Debugging.Process.InsightMemory}}
+\doxysubsubsection{\texorpdfstring{ManualRefreshStats()}{ManualRefreshStats()}}
+{\footnotesize\ttfamily bool Insight\+Sheath.\+Debugging.\+Process.\+Insight\+Memory.\+Manual\+Refresh\+Stats (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Trigger a manual refresh of the Memory information. Note if \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_a2e37225bafb3a6feaa923dd4b3df8b56}{Auto\+Update\+Memory}} is true, this routine does NOT need to be called. 
+
+\begin{DoxyReturn}{Returns}
+returns true if it worked and false if it did not
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{_insight_memory_8cs_source_l00176}{176}} of file \mbox{\hyperlink{_insight_memory_8cs_source}{Insight\+Memory.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_ad9edc8190fb96219d282c6947be79481}\label{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_ad9edc8190fb96219d282c6947be79481}} 
+\index{InsightSheath.Debugging.Process.InsightMemory@{InsightSheath.Debugging.Process.InsightMemory}!SetTargetProcess@{SetTargetProcess}}
+\index{SetTargetProcess@{SetTargetProcess}!InsightSheath.Debugging.Process.InsightMemory@{InsightSheath.Debugging.Process.InsightMemory}}
+\doxysubsubsection{\texorpdfstring{SetTargetProcess()}{SetTargetProcess()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily bool Insight\+Sheath.\+Debugging.\+Process.\+Insight\+Memory.\+Set\+Target\+Process (\begin{DoxyParamCaption}\item[{Int\+Ptr}]{Handle }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Choose which process this instance of the class is going to ask about via a Win32 Handle. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Handle} & Win32 Native Handle that should at least have PROCESS\+\_\+\+QUERY\+\_\+\+INFORMATION and likely PROCESS\+\_\+\+VM\+\_\+\+READ. Handle is duplicated to a private variable in the native side. You don\textquotesingle{}t need to keep this handle open afterwards\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if we successfully switched to this handle and false otherwise.
+\end{DoxyReturn}
+
+
+The Native routine duplicates the handle for PROCESS\+\_\+\+QUERY\+\_\+\+INFORMATION and PROCES\+\_\+\+VM\+\_\+\+READ. You do not need the keep the handle open afterwards
+
+Definition at line \mbox{\hyperlink{_insight_memory_8cs_source_l00156}{156}} of file \mbox{\hyperlink{_insight_memory_8cs_source}{Insight\+Memory.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_a2d0ccddf2e5e56b1a25fd96e16653db3}\label{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_a2d0ccddf2e5e56b1a25fd96e16653db3}} 
+\index{InsightSheath.Debugging.Process.InsightMemory@{InsightSheath.Debugging.Process.InsightMemory}!SetTargetProcess@{SetTargetProcess}}
+\index{SetTargetProcess@{SetTargetProcess}!InsightSheath.Debugging.Process.InsightMemory@{InsightSheath.Debugging.Process.InsightMemory}}
+\doxysubsubsection{\texorpdfstring{SetTargetProcess()}{SetTargetProcess()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily bool Insight\+Sheath.\+Debugging.\+Process.\+Insight\+Memory.\+Set\+Target\+Process (\begin{DoxyParamCaption}\item[{uint}]{Process\+Id }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Choose which process this instance of the class is going to ask about via a process Handle. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Process\+Id} & The process should be able to be opened for PROCESS\+\_\+\+QUERY\+\_\+\+INFOMRAITON and likely PROCES\+\_\+\+VM\+\_\+\+READ. Handle is kept in a private variable for the life of the class until the Native copy is deleted\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if we successfully switched to this handle and false otherwise.
+\end{DoxyReturn}
+
+
+The Native routine opens the process for PROCESS\+\_\+\+QUERY\+\_\+\+INFORMATION and PROCES\+\_\+\+VM\+\_\+\+READ. You do not need the keep the handle open afterwards
+
+Definition at line \mbox{\hyperlink{_insight_memory_8cs_source_l00167}{167}} of file \mbox{\hyperlink{_insight_memory_8cs_source}{Insight\+Memory.\+cs}}.
+
+
+
+\doxysubsection{Property Documentation}
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_a2e37225bafb3a6feaa923dd4b3df8b56}\label{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_a2e37225bafb3a6feaa923dd4b3df8b56}} 
+\index{InsightSheath.Debugging.Process.InsightMemory@{InsightSheath.Debugging.Process.InsightMemory}!AutoUpdateMemory@{AutoUpdateMemory}}
+\index{AutoUpdateMemory@{AutoUpdateMemory}!InsightSheath.Debugging.Process.InsightMemory@{InsightSheath.Debugging.Process.InsightMemory}}
+\doxysubsubsection{\texorpdfstring{AutoUpdateMemory}{AutoUpdateMemory}}
+{\footnotesize\ttfamily bool Insight\+Sheath.\+Debugging.\+Process.\+Insight\+Memory.\+Auto\+Update\+Memory\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Control if each call to one of these values will result in another call to get an updated value. The default is true; however, that can BE A PERFORMANCE PENALTY if you\textquotesingle{}re getting the value individually for each setting frequently in a loop. Recommend False if you\textquotesingle{}re reading them a lot 
+
+
+
+Definition at line \mbox{\hyperlink{_insight_memory_8cs_source_l00104}{104}} of file \mbox{\hyperlink{_insight_memory_8cs_source}{Insight\+Memory.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_a2ab865fae2e5c3471655d29bb4e516e2}\label{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_a2ab865fae2e5c3471655d29bb4e516e2}} 
+\index{InsightSheath.Debugging.Process.InsightMemory@{InsightSheath.Debugging.Process.InsightMemory}!MemoryStatsBulk32@{MemoryStatsBulk32}}
+\index{MemoryStatsBulk32@{MemoryStatsBulk32}!InsightSheath.Debugging.Process.InsightMemory@{InsightSheath.Debugging.Process.InsightMemory}}
+\doxysubsubsection{\texorpdfstring{MemoryStatsBulk32}{MemoryStatsBulk32}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_process_1_1_process_memory_count32}{Process\+Memory\+Count32}}? Insight\+Sheath.\+Debugging.\+Process.\+Insight\+Memory.\+Memory\+Stats\+Bulk32\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Return the x86 bit version of the underlying structure containing the memory statistics. 
+
+Know if you\textquotesingle{}re asking about an x86 or x64 process. While this shouldn\textquotesingle{}t crash, grabbing the wrong one will produce garbage values
+
+Definition at line \mbox{\hyperlink{_insight_memory_8cs_source_l00121}{121}} of file \mbox{\hyperlink{_insight_memory_8cs_source}{Insight\+Memory.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_a4d0923587ca56d6fdb95c64fb365f511}\label{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_a4d0923587ca56d6fdb95c64fb365f511}} 
+\index{InsightSheath.Debugging.Process.InsightMemory@{InsightSheath.Debugging.Process.InsightMemory}!MemoryStatsBulk64@{MemoryStatsBulk64}}
+\index{MemoryStatsBulk64@{MemoryStatsBulk64}!InsightSheath.Debugging.Process.InsightMemory@{InsightSheath.Debugging.Process.InsightMemory}}
+\doxysubsubsection{\texorpdfstring{MemoryStatsBulk64}{MemoryStatsBulk64}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_insight_sheath_1_1_debugging_1_1_process_1_1_process_memory_count64}{Process\+Memory\+Count64}}? Insight\+Sheath.\+Debugging.\+Process.\+Insight\+Memory.\+Memory\+Stats\+Bulk64\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Return the x64 bit version of the underlying structure containing the memory statistics. 
+
+Know if you\textquotesingle{}re asking about an x86 or x64 process. While this shouldn\textquotesingle{}t crash, grabbing the wrong one will produce garbage values
+
+Definition at line \mbox{\hyperlink{_insight_memory_8cs_source_l00138}{138}} of file \mbox{\hyperlink{_insight_memory_8cs_source}{Insight\+Memory.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_a9f4c765b049ac55e7e42eaeca9ac77a8}\label{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_a9f4c765b049ac55e7e42eaeca9ac77a8}} 
+\index{InsightSheath.Debugging.Process.InsightMemory@{InsightSheath.Debugging.Process.InsightMemory}!PageFaultCount@{PageFaultCount}}
+\index{PageFaultCount@{PageFaultCount}!InsightSheath.Debugging.Process.InsightMemory@{InsightSheath.Debugging.Process.InsightMemory}}
+\doxysubsubsection{\texorpdfstring{PageFaultCount}{PageFaultCount}}
+{\footnotesize\ttfamily ulong Insight\+Sheath.\+Debugging.\+Process.\+Insight\+Memory.\+Page\+Fault\+Count\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Get the number of page faults for the targeted process. 
+
+Call \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_ab2b58fe7f155bd3fda7e4adc72b55867}{Manual\+Refresh\+Stats}} if \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_a2e37225bafb3a6feaa923dd4b3df8b56}{Auto\+Update\+Memory}} is false get up to date values.
+
+Definition at line \mbox{\hyperlink{_insight_memory_8cs_source_l00185}{185}} of file \mbox{\hyperlink{_insight_memory_8cs_source}{Insight\+Memory.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_afbbb8c6fe1e96fc09479cf89f2289d5a}\label{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_afbbb8c6fe1e96fc09479cf89f2289d5a}} 
+\index{InsightSheath.Debugging.Process.InsightMemory@{InsightSheath.Debugging.Process.InsightMemory}!PageFileUsage@{PageFileUsage}}
+\index{PageFileUsage@{PageFileUsage}!InsightSheath.Debugging.Process.InsightMemory@{InsightSheath.Debugging.Process.InsightMemory}}
+\doxysubsubsection{\texorpdfstring{PageFileUsage}{PageFileUsage}}
+{\footnotesize\ttfamily ulong Insight\+Sheath.\+Debugging.\+Process.\+Insight\+Memory.\+Page\+File\+Usage\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Get the Commit Charge for the targeted process in bytes. This is the total private amount of memory allocated to the targeted process by Windows. 
+
+In a pre\+Widows 7/ Server 2012 R2 World this is always zero. Please use \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_adb6708333b6936d9f3c79b4c2eca5b6d}{Private\+Usage}} instead. Don\textquotesingle{}t forget to \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_ab2b58fe7f155bd3fda7e4adc72b55867}{Manual\+Refresh\+Stats}} if \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_a2e37225bafb3a6feaa923dd4b3df8b56}{Auto\+Update\+Memory}} is false get up to date values.
+
+Definition at line \mbox{\hyperlink{_insight_memory_8cs_source_l00267}{267}} of file \mbox{\hyperlink{_insight_memory_8cs_source}{Insight\+Memory.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_afee514d7b779d66ea6f8086381e98421}\label{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_afee514d7b779d66ea6f8086381e98421}} 
+\index{InsightSheath.Debugging.Process.InsightMemory@{InsightSheath.Debugging.Process.InsightMemory}!PeakPageFileUsage@{PeakPageFileUsage}}
+\index{PeakPageFileUsage@{PeakPageFileUsage}!InsightSheath.Debugging.Process.InsightMemory@{InsightSheath.Debugging.Process.InsightMemory}}
+\doxysubsubsection{\texorpdfstring{PeakPageFileUsage}{PeakPageFileUsage}}
+{\footnotesize\ttfamily ulong Insight\+Sheath.\+Debugging.\+Process.\+Insight\+Memory.\+Peak\+Page\+File\+Usage\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Get the peak value in bytes of the Commit Charge during the targeted process\textquotesingle{}s lifetime. 
+
+Call \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_ab2b58fe7f155bd3fda7e4adc72b55867}{Manual\+Refresh\+Stats}} if \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_a2e37225bafb3a6feaa923dd4b3df8b56}{Auto\+Update\+Memory}} is false get up to date values.
+
+Definition at line \mbox{\hyperlink{_insight_memory_8cs_source_l00278}{278}} of file \mbox{\hyperlink{_insight_memory_8cs_source}{Insight\+Memory.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_aa2b3688d92b17052741e3502077c348f}\label{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_aa2b3688d92b17052741e3502077c348f}} 
+\index{InsightSheath.Debugging.Process.InsightMemory@{InsightSheath.Debugging.Process.InsightMemory}!PeakWorkingSetSize@{PeakWorkingSetSize}}
+\index{PeakWorkingSetSize@{PeakWorkingSetSize}!InsightSheath.Debugging.Process.InsightMemory@{InsightSheath.Debugging.Process.InsightMemory}}
+\doxysubsubsection{\texorpdfstring{PeakWorkingSetSize}{PeakWorkingSetSize}}
+{\footnotesize\ttfamily ulong Insight\+Sheath.\+Debugging.\+Process.\+Insight\+Memory.\+Peak\+Working\+Set\+Size\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Get the peak working set size, in bytes for the targeted process. 
+
+Call \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_ab2b58fe7f155bd3fda7e4adc72b55867}{Manual\+Refresh\+Stats}} if \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_a2e37225bafb3a6feaa923dd4b3df8b56}{Auto\+Update\+Memory}} is false get up to date values.
+
+Definition at line \mbox{\hyperlink{_insight_memory_8cs_source_l00197}{197}} of file \mbox{\hyperlink{_insight_memory_8cs_source}{Insight\+Memory.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_adb6708333b6936d9f3c79b4c2eca5b6d}\label{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_adb6708333b6936d9f3c79b4c2eca5b6d}} 
+\index{InsightSheath.Debugging.Process.InsightMemory@{InsightSheath.Debugging.Process.InsightMemory}!PrivateUsage@{PrivateUsage}}
+\index{PrivateUsage@{PrivateUsage}!InsightSheath.Debugging.Process.InsightMemory@{InsightSheath.Debugging.Process.InsightMemory}}
+\doxysubsubsection{\texorpdfstring{PrivateUsage}{PrivateUsage}}
+{\footnotesize\ttfamily ulong Insight\+Sheath.\+Debugging.\+Process.\+Insight\+Memory.\+Private\+Usage\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Same as \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_afbbb8c6fe1e96fc09479cf89f2289d5a}{Page\+File\+Usage}} in a post Windows 7+/\+Windows Server 2012+ world per MSDN documentation 
+
+Call \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_ab2b58fe7f155bd3fda7e4adc72b55867}{Manual\+Refresh\+Stats}} if \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_a2e37225bafb3a6feaa923dd4b3df8b56}{Auto\+Update\+Memory}} is false get up to date values.
+
+Definition at line \mbox{\hyperlink{_insight_memory_8cs_source_l00290}{290}} of file \mbox{\hyperlink{_insight_memory_8cs_source}{Insight\+Memory.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_a3c2ba957a84796a2ba9b9392646ce880}\label{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_a3c2ba957a84796a2ba9b9392646ce880}} 
+\index{InsightSheath.Debugging.Process.InsightMemory@{InsightSheath.Debugging.Process.InsightMemory}!QuotaNonPagedPoolUsage@{QuotaNonPagedPoolUsage}}
+\index{QuotaNonPagedPoolUsage@{QuotaNonPagedPoolUsage}!InsightSheath.Debugging.Process.InsightMemory@{InsightSheath.Debugging.Process.InsightMemory}}
+\doxysubsubsection{\texorpdfstring{QuotaNonPagedPoolUsage}{QuotaNonPagedPoolUsage}}
+{\footnotesize\ttfamily ulong Insight\+Sheath.\+Debugging.\+Process.\+Insight\+Memory.\+Quota\+Non\+Paged\+Pool\+Usage\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Get the current non paged pool usage in bytes. 
+
+Call \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_ab2b58fe7f155bd3fda7e4adc72b55867}{Manual\+Refresh\+Stats}} if \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_a2e37225bafb3a6feaa923dd4b3df8b56}{Auto\+Update\+Memory}} is false get up to date values.
+
+Definition at line \mbox{\hyperlink{_insight_memory_8cs_source_l00255}{255}} of file \mbox{\hyperlink{_insight_memory_8cs_source}{Insight\+Memory.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_ad0291e8f15b2272234f79487d22e6c65}\label{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_ad0291e8f15b2272234f79487d22e6c65}} 
+\index{InsightSheath.Debugging.Process.InsightMemory@{InsightSheath.Debugging.Process.InsightMemory}!QuotaPagedPoolUsage@{QuotaPagedPoolUsage}}
+\index{QuotaPagedPoolUsage@{QuotaPagedPoolUsage}!InsightSheath.Debugging.Process.InsightMemory@{InsightSheath.Debugging.Process.InsightMemory}}
+\doxysubsubsection{\texorpdfstring{QuotaPagedPoolUsage}{QuotaPagedPoolUsage}}
+{\footnotesize\ttfamily ulong Insight\+Sheath.\+Debugging.\+Process.\+Insight\+Memory.\+Quota\+Paged\+Pool\+Usage\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Get the current paged pool usage in bytes for the targeted process 
+
+Call \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_ab2b58fe7f155bd3fda7e4adc72b55867}{Manual\+Refresh\+Stats}} if \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_a2e37225bafb3a6feaa923dd4b3df8b56}{Auto\+Update\+Memory}} is false get up to date values.
+
+Definition at line \mbox{\hyperlink{_insight_memory_8cs_source_l00231}{231}} of file \mbox{\hyperlink{_insight_memory_8cs_source}{Insight\+Memory.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_ad3aefc992ce36c1bd24079517271e2d1}\label{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_ad3aefc992ce36c1bd24079517271e2d1}} 
+\index{InsightSheath.Debugging.Process.InsightMemory@{InsightSheath.Debugging.Process.InsightMemory}!QuotaPeakNonPagedPoolUsage@{QuotaPeakNonPagedPoolUsage}}
+\index{QuotaPeakNonPagedPoolUsage@{QuotaPeakNonPagedPoolUsage}!InsightSheath.Debugging.Process.InsightMemory@{InsightSheath.Debugging.Process.InsightMemory}}
+\doxysubsubsection{\texorpdfstring{QuotaPeakNonPagedPoolUsage}{QuotaPeakNonPagedPoolUsage}}
+{\footnotesize\ttfamily ulong Insight\+Sheath.\+Debugging.\+Process.\+Insight\+Memory.\+Quota\+Peak\+Non\+Paged\+Pool\+Usage\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Get the peak non paged pool usage in bytes. 
+
+Call \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_ab2b58fe7f155bd3fda7e4adc72b55867}{Manual\+Refresh\+Stats}} if \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_a2e37225bafb3a6feaa923dd4b3df8b56}{Auto\+Update\+Memory}} is false get up to date values.
+
+Definition at line \mbox{\hyperlink{_insight_memory_8cs_source_l00242}{242}} of file \mbox{\hyperlink{_insight_memory_8cs_source}{Insight\+Memory.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_a4f80809033c26822c5affc9d87dd2759}\label{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_a4f80809033c26822c5affc9d87dd2759}} 
+\index{InsightSheath.Debugging.Process.InsightMemory@{InsightSheath.Debugging.Process.InsightMemory}!QuotaPeakPagedPoolUsage@{QuotaPeakPagedPoolUsage}}
+\index{QuotaPeakPagedPoolUsage@{QuotaPeakPagedPoolUsage}!InsightSheath.Debugging.Process.InsightMemory@{InsightSheath.Debugging.Process.InsightMemory}}
+\doxysubsubsection{\texorpdfstring{QuotaPeakPagedPoolUsage}{QuotaPeakPagedPoolUsage}}
+{\footnotesize\ttfamily ulong Insight\+Sheath.\+Debugging.\+Process.\+Insight\+Memory.\+Quota\+Peak\+Paged\+Pool\+Usage\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Get the peak paged pool usage in bytes for the targeted process 
+
+Call \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_ab2b58fe7f155bd3fda7e4adc72b55867}{Manual\+Refresh\+Stats}} if \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_a2e37225bafb3a6feaa923dd4b3df8b56}{Auto\+Update\+Memory}} is false get up to date values.
+
+Definition at line \mbox{\hyperlink{_insight_memory_8cs_source_l00220}{220}} of file \mbox{\hyperlink{_insight_memory_8cs_source}{Insight\+Memory.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_ad5648c0dce35e35ac39c1fdc0f588e4b}\label{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_ad5648c0dce35e35ac39c1fdc0f588e4b}} 
+\index{InsightSheath.Debugging.Process.InsightMemory@{InsightSheath.Debugging.Process.InsightMemory}!WorkingSetSize@{WorkingSetSize}}
+\index{WorkingSetSize@{WorkingSetSize}!InsightSheath.Debugging.Process.InsightMemory@{InsightSheath.Debugging.Process.InsightMemory}}
+\doxysubsubsection{\texorpdfstring{WorkingSetSize}{WorkingSetSize}}
+{\footnotesize\ttfamily ulong Insight\+Sheath.\+Debugging.\+Process.\+Insight\+Memory.\+Working\+Set\+Size\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Get the current working set size in bytes for the targeted process 
+
+Call \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_ab2b58fe7f155bd3fda7e4adc72b55867}{Manual\+Refresh\+Stats}} if \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_memory_a2e37225bafb3a6feaa923dd4b3df8b56}{Auto\+Update\+Memory}} is false get up to date values.
+
+Definition at line \mbox{\hyperlink{_insight_memory_8cs_source_l00208}{208}} of file \mbox{\hyperlink{_insight_memory_8cs_source}{Insight\+Memory.\+cs}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Debugging/\+Process/\mbox{\hyperlink{_insight_memory_8cs}{Insight\+Memory.\+cs}}\end{DoxyCompactItemize}

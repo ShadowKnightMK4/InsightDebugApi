@@ -1,0 +1,23 @@
+\hypertarget{_insight_hunter_8cs}{}\doxysection{Debugging/\+Symbol\+Engine/\+Insight\+Hunter.cs File Reference}
+\label{_insight_hunter_8cs}\index{Debugging/SymbolEngine/InsightHunter.cs@{Debugging/SymbolEngine/InsightHunter.cs}}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter}{Insight\+Sheath.\+Debugging.\+Symbol\+Engine.\+Insight\+Hunter}}
+\begin{DoxyCompactList}\small\item\em A part of the symbol engine exported in Insight\+API in the Native DLL. This class is VERY VERY VERY tightly coupled with the Insight\+Process class but distinct enough to warrent its own class/wrapper wrappers. If you need not have symbol processing, disabling Insight\+Process.\+Enable\+Symbol\+Engine is set to false if fine. That turns off the code that updates the native \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter}{Insight\+Hunter}} class when the worker thread receives a debug event NOTE\+: You\textquotesingle{}ll need to spawn at least one process with Insight\+Process to get much use out of this. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespace_insight_sheath}{Insight\+Sheath}}
+\item 
+namespace \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging}{Insight\+Sheath.\+Debugging}}
+\item 
+namespace \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine}{Insight\+Sheath.\+Debugging.\+Symbol\+Engine}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+delegate bool \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_a718f1d4ada1521328965a9403ea1e65e}{Insight\+Sheath.\+Debugging.\+Symbol\+Engine.\+Insight\+Hunter\+\_\+\+Symbol\+Search\+Call\+Back\+Routine}} (Int\+Ptr Symbol\+Info)
+\begin{DoxyCompactList}\small\item\em This is the callback for \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter_ada0ad5924a034eb143adc4b53e848334}{Insight\+Hunter.\+Enumerate\+Symbols(string, Insight\+Hunter\+\_\+\+Symbol\+Search\+Call\+Back\+Routine)}}. The passed pointer to your routine is a native pointer to a struct \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_symbol_info}{Symbol\+Info}}\textquotesingle{}s that exists for while your routine is active. \end{DoxyCompactList}\item 
+delegate bool \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_a2c969d17f715f5c8ab0b0046fd0af02f}{Insight\+Sheath.\+Debugging.\+Symbol\+Engine.\+Insight\+Hunter\+\_\+\+Symbol\+Source\+Callback\+Routine}} (Int\+Ptr Source\+Info)
+\begin{DoxyCompactList}\small\item\em Callback for Enumerating source files. Return true to continue and false to quit. \end{DoxyCompactList}\end{DoxyCompactItemize}

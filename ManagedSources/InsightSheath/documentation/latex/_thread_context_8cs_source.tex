@@ -1,0 +1,265 @@
+\hypertarget{_thread_context_8cs_source}{}\doxysection{Thread\+Context.\+cs}
+\label{_thread_context_8cs_source}\index{Debugging/Thread/ThreadContext.cs@{Debugging/Thread/ThreadContext.cs}}
+\mbox{\hyperlink{_thread_context_8cs}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00001}00001 \textcolor{keyword}{using }\mbox{\hyperlink{namespace_insight_sheath_1_1_abstract}{InsightSheath.Abstract}};}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00002}00002 \textcolor{keyword}{using }\mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_process}{InsightSheath.Debugging.Process}};}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00003}00003 \textcolor{keyword}{using }\mbox{\hyperlink{namespace_insight_sheath_1_1_native_imports}{InsightSheath.NativeImports}};}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00004}00004 \textcolor{keyword}{using }System;}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00005}00005 \textcolor{keyword}{using }System.Collections.Generic;}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00006}00006 \textcolor{keyword}{using }System.Diagnostics;}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00007}00007 \textcolor{keyword}{using }System.Linq;}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00008}00008 \textcolor{keyword}{using }System.Runtime.InteropServices.ComTypes;}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00009}00009 \textcolor{keyword}{using }System.Text;}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00010}00010 \textcolor{keyword}{using }System.Threading.Tasks;}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00011}00011 }
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00012}\mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_thread}{00012}} \textcolor{keyword}{namespace }\mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_thread}{InsightSheath.Debugging.Thread}}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00013}00013 \{}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00014}00014 }
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00015}00015     }
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00020}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context}{00020}}     \textcolor{keyword}{public} \textcolor{keyword}{class }\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context}{ThreadContext}} : \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container}{NativeStaticContainer}}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00021}00021     \{}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00022}00022 }
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00023}00023 }
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00028}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a879a7204feaf897aeaed945128244ff7}{00028}}         \textcolor{keyword}{public} \textcolor{keyword}{static} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context}{ThreadContext}} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a879a7204feaf897aeaed945128244ff7}{CreateInstance}}(uint threadId)}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00029}00029         \{}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00030}00030             \textcolor{keywordflow}{return} \textcolor{keyword}{new} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a89a04f565115458f44245f19ecd7a330}{ThreadContext}}(ThreadContextInternal.ThreadContext\_CreateInstance(threadId, 1));}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00031}00031         \}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00032}00032 }
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00037}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a830d3f2488f35ed706820478e69bffa6}{00037}}         \textcolor{keyword}{public} \textcolor{keyword}{static} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context}{ThreadContext}} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a830d3f2488f35ed706820478e69bffa6}{CreateInstance}}(IntPtr ThreadHandle)}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00038}00038         \{}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00039}00039             \textcolor{keywordflow}{return} \textcolor{keyword}{new} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a89a04f565115458f44245f19ecd7a330}{ThreadContext}}(ThreadContextInternal.ThreadContext\_CreateInstance((ulong)ThreadHandle.ToInt64(), 0));}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00040}00040         \}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00041}00041 }
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00046}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a89a04f565115458f44245f19ecd7a330}{00046}}         \textcolor{keyword}{public} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a89a04f565115458f44245f19ecd7a330}{ThreadContext}}(IntPtr \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}) : base(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}})}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00047}00047         \{}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00048}00048             \textcolor{keywordflow}{if} (\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a171844a2662b7c3d6136fe21f70f50eb}{NativePointer}} == IntPtr.Zero)}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00049}00049             \{}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00050}00050                 \textcolor{comment}{//throw new ArgumentNullException(WrapperConstructorReceivedNullPointerErrorMsg("{}Argument"{}, "{}ThreadContext.CreateInstance"{}, nameof(Native)));}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00051}00051                 \textcolor{keywordflow}{throw} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a60f71a71b160f25746e090649b304c8d}{WrapperConstructorReceivedNullPointerErrorException}}(\textcolor{stringliteral}{"{}Argument"{}}, GetType().Name + \textcolor{stringliteral}{"{}.CreateInstance"{}}, nameof(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}));}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00052}00052             \}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00053}00053             }
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00054}00054         \}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00055}00055 }
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00061}00061 \textcolor{preprocessor}{\#pragma warning disable IDE0060 }\textcolor{comment}{// Remove unused parameter}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00062}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a5cf2c80370f1ee4183e335bf3f815a86}{00062}}         \textcolor{keyword}{public} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a5cf2c80370f1ee4183e335bf3f815a86}{ThreadContext}}(IntPtr \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}, \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}}): base(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}, false)}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00063}00063 \#pragma warning restore IDE0060 \textcolor{comment}{// Remove unused parameter}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00064}00064         \{}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00065}00065             \textcolor{keywordflow}{if} (\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a171844a2662b7c3d6136fe21f70f50eb}{NativePointer}} == IntPtr.Zero)}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00066}00066             \{}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00067}00067                 \textcolor{comment}{//throw new ArgumentNullException(WrapperConstructorReceivedNullPointerErrorMsg("{}Argument"{}, "{}ThreadContext.CreateInstance"{}, nameof(Native)));}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00068}00068                 \textcolor{keywordflow}{throw} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a60f71a71b160f25746e090649b304c8d}{WrapperConstructorReceivedNullPointerErrorException}}(\textcolor{stringliteral}{"{}Argument"{}}, GetType().Name + \textcolor{stringliteral}{"{}.CreateInstance"{}}, nameof(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}));}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00069}00069             \}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00070}00070         \}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00075}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a1b897c801bbc4ec684f26d7daeea9aa1}{00075}}         \textcolor{keyword}{protected} \textcolor{keyword}{override} \textcolor{keywordtype}{void} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a1b897c801bbc4ec684f26d7daeea9aa1}{Dispose}}(\textcolor{keywordtype}{bool} disposing)}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00076}00076         \{}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00077}00077             \textcolor{keywordflow}{if} (disposing)}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00078}00078             \{}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00079}00079 }
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00080}00080 }
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00081}00081             \}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00082}00082             \textcolor{keywordflow}{if} (\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}})}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00083}00083             \{}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00084}00084                 ThreadContextInternal.ThreadContext\_KillInstance(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}});}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00085}00085             \}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00086}00086             \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a4603e0d1ed0ba9bf17c2fa20d08efa67}{ClearNative}}();}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00087}00087             base.Dispose(disposing);}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00088}00088         \}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00089}00089 }
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00090}00090 }
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00091}00091 }
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00096}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a832907beb1f4a5458ebe1158e0cf76c7}{00096}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a832907beb1f4a5458ebe1158e0cf76c7}{SuspendThread}}()}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00097}00097         \{}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00098}00098             \textcolor{keywordflow}{return} ThreadContextInternal.ThreadContext\_SuspendThread(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}});}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00099}00099         \}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00100}00100 }
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00101}00101 }
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00106}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a39f584714b9a74db5999cc2ad6894235}{00106}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a39f584714b9a74db5999cc2ad6894235}{ResumeThread}}()}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00107}00107         \{}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00108}00108             \textcolor{keywordflow}{return} ThreadContextInternal.ThreadContext\_ResumeThread(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}});}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00109}00109         \}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00110}00110 }
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00116}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_ac95dbb0d319cfa71de24ab3a5941f4b4}{00116}}         \textcolor{keyword}{public} \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_ac95dbb0d319cfa71de24ab3a5941f4b4}{SetTargetThread}}(IntPtr ThreadHandleNative)}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00117}00117         \{}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00118}00118             \textcolor{keywordflow}{return} ThreadContextInternal.ThreadContext\_SetTargetThread(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}, ThreadHandleNative, ThreadConext\_Arguments.UseHandle);}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00119}00119         \}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00120}00120 }
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00126}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_ab0f5effe304554b83d34274b7072a34d}{00126}}         \textcolor{keyword}{public} \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_ab0f5effe304554b83d34274b7072a34d}{SetTargetThread}}(uint \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_ab3f4ff9ed17eb9fd1f7395334a3868df}{ThreadId}})}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00127}00127         \{}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00128}00128             \textcolor{keywordflow}{return} ThreadContextInternal.ThreadContext\_SetTargetThread(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}},  (IntPtr) \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_ab3f4ff9ed17eb9fd1f7395334a3868df}{ThreadId}}, ThreadConext\_Arguments.UseThreadId);}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00129}00129         \}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00135}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a0b3cca8872bf39633f4886f2734b498e}{00135}}         \textcolor{keyword}{public} \textcolor{keywordtype}{string} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a0b3cca8872bf39633f4886f2734b498e}{ThreadDescription}}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00136}00136         \{}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00137}00137             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00138}00138             \{}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00139}00139                 \textcolor{keywordflow}{return} ThreadContextInternal.ThreadContext\_GetThreadDescriptionW(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}});}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00140}00140             \}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00141}00141             \textcolor{keyword}{set}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00142}00142             \{}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00143}00143                 ThreadContextInternal.ThreadContext\_SetTheadDescriptionW(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}, value);}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00144}00144             \}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00145}00145         \}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00146}00146 }
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00147}00147         }
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00151}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_ab3f4ff9ed17eb9fd1f7395334a3868df}{00151}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_ab3f4ff9ed17eb9fd1f7395334a3868df}{ThreadId}}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00152}00152         \{}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00153}00153             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00154}00154             \{}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00155}00155                 \textcolor{keywordflow}{return} ThreadContextInternal.ThreadContext\_GetTargetThreadId(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}});}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00156}00156             \}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00157}00157         \}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00158}00158 }
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00162}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a1764bea32d47666d4f9fbfc5302948a6}{00162}}         \textcolor{keyword}{public} \textcolor{keywordtype}{int} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a1764bea32d47666d4f9fbfc5302948a6}{IdealProcessor}}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00163}00163         \{}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00164}00164             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00165}00165             \{}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00166}00166                 \textcolor{keywordflow}{return} (\textcolor{keywordtype}{int})ThreadContextInternal.ThreadContext\_GetIdealProcessor(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}});}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00167}00167             \}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00168}00168             \textcolor{keyword}{set}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00169}00169             \{}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00170}00170                 \_ = ThreadContextInternal.ThreadContext\_SetIdealProcessor(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}, (uint)value);}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00171}00171             \}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00172}00172         \}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00173}00173     }
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00177}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a99a29514336177de873cb83d54c7efe5}{00177}}         \textcolor{keyword}{public} ThreadPriorityLevel \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a99a29514336177de873cb83d54c7efe5}{ThreadPriority}}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00178}00178         \{}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00179}00179             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00180}00180             \{}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00181}00181                 \textcolor{keywordflow}{return} (ThreadPriorityLevel)ThreadContextInternal.ThreadContext\_GetPriority(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}});}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00182}00182             \}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00183}00183             \textcolor{keyword}{set}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00184}00184             \{}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00185}00185                 ThreadContextInternal.ThreadContext\_SetPriority(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}, (\textcolor{keywordtype}{int})value);}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00186}00186             \}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00187}00187         \}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00188}00188 }
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00192}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a2bde223855400a49b6bc3b579b051dd7}{00192}}         \textcolor{keyword}{public} \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a2bde223855400a49b6bc3b579b051dd7}{PriorityBoost}}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00193}00193         \{}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00194}00194             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00195}00195             \{}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00196}00196                 \textcolor{keywordflow}{return} ThreadContextInternal.ThreadContext\_GetThreadPriorityBoostSetting(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}});}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00197}00197             \}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00198}00198             \textcolor{keyword}{set}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00199}00199             \{}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00200}00200                 ThreadContextInternal.ThreadContext\_SetThreadPriorityBoostSetting(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}, value);}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00201}00201             \}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00202}00202         }
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00203}00203         \}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00204}00204 }
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00205}00205 }
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00209}00209 }
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00210}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_aacfd19c3e4a29c85cb19d5f570b78f49}{00210}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_aacfd19c3e4a29c85cb19d5f570b78f49}{ProcessorAffinity}}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00211}00211         \{}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00212}00212             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00213}00213             \{}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00214}00214                 \textcolor{keywordflow}{return} ThreadContextInternal.ThreadContext\_GetThreadProcessAffinityMask(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}});}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00215}00215             \}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00216}00216             \textcolor{keyword}{set}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00217}00217             \{}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00218}00218                 ThreadContextInternal.ThreadContext\_SetThreadProcessAffinityMask(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}, value);}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00219}00219             \}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00220}00220         \}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00221}00221 }
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00225}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a93af54232dbbd84640d314b85545107e}{00225}}         \textcolor{keyword}{public} IntPtr \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a93af54232dbbd84640d314b85545107e}{ThreadStartAddress}}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00226}00226         \{}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00227}00227             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00228}00228             \{}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00229}00229                 \textcolor{keywordflow}{throw} \textcolor{keyword}{new} NotImplementedException(nameof(\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a93af54232dbbd84640d314b85545107e}{ThreadStartAddress}}));}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00230}00230             \}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00231}00231         \}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00232}00232 }
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00233}00233 }
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00237}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a83ddb329e51df326df2bacb67a29dbf9}{00237}}         \textcolor{keyword}{public} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a83ddb329e51df326df2bacb67a29dbf9}{ThreadState}} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a83ddb329e51df326df2bacb67a29dbf9}{ThreadState}}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00238}00238         \{}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00239}00239             \textcolor{keyword}{get} }
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00240}00240             \{}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00241}00241                 \textcolor{keywordflow}{throw} \textcolor{keyword}{new} NotImplementedException(nameof(\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a83ddb329e51df326df2bacb67a29dbf9}{ThreadState}}));}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00242}00242             \}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00243}00243             \textcolor{keyword}{set}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00244}00244             \{}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00245}00245                \textcolor{keywordflow}{throw} \textcolor{keyword}{new} NotImplementedException(nameof(\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a83ddb329e51df326df2bacb67a29dbf9}{ThreadState}}));}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00246}00246             \}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00247}00247         \}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00248}00248 }
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00252}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a9b7613733174aa75557298b6a28e2064}{00252}}         \textcolor{keyword}{public} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a9b7613733174aa75557298b6a28e2064}{ThreadWaitReason}} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a9b7613733174aa75557298b6a28e2064}{ThreadWaitReason}}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00253}00253         \{}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00254}00254             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00255}00255             \{}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00256}00256                 \textcolor{keywordflow}{throw} \textcolor{keyword}{new} NotImplementedException(nameof(\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a9b7613733174aa75557298b6a28e2064}{ThreadWaitReason}}));}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00257}00257             \}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00258}00258             \textcolor{keyword}{set}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00259}00259             \{}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00260}00260                 \textcolor{keywordflow}{throw} \textcolor{keyword}{new} NotImplementedException(nameof(\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a9b7613733174aa75557298b6a28e2064}{ThreadWaitReason}}));}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00261}00261             \}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00262}00262         \}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00267}00267         [DebuggerBrowsable(DebuggerBrowsableState.Never)]}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00268}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a4cb59b35f25b257eca7c4a97c7528e5d}{00268}}         \textcolor{keyword}{public} TimeSpan \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a4cb59b35f25b257eca7c4a97c7528e5d}{ThreadCreationTime}}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00269}00269         \{}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00270}00270             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00271}00271             \{}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00272}00272                 \textcolor{keywordflow}{return}  \textcolor{keyword}{new} TimeSpan((\textcolor{keywordtype}{long})MemoryNative.Peek8(ThreadContextInternal.ThreadContext\_GetThreadTimeCreationTime(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}})));}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00273}00273             \}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00274}00274         \}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00275}00275 }
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00279}00279         }
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00280}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_abd841f0dc790bf2c1a0cc2d1cfa37f00}{00280}}         \textcolor{keyword}{public} TimeSpan \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_abd841f0dc790bf2c1a0cc2d1cfa37f00}{ThreadExitTime}}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00281}00281         \{}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00282}00282             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00283}00283             \{}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00284}00284                 \textcolor{keywordflow}{return} \textcolor{keyword}{new} TimeSpan((\textcolor{keywordtype}{long})MemoryNative.Peek8(ThreadContextInternal.ThreadContext\_GetThreadTimeExitTime(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}})));}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00285}00285             \}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00286}00286         \}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00287}00287 }
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00291}00291         }
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00292}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_af4efb2c95752d8c15e7818af403f0f63}{00292}}         \textcolor{keyword}{public} TimeSpan \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_af4efb2c95752d8c15e7818af403f0f63}{UserProcessorTime}}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00293}00293         \{}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00294}00294             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00295}00295             \{}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00296}00296                 \textcolor{keywordflow}{return} \textcolor{keyword}{new} TimeSpan((\textcolor{keywordtype}{long})MemoryNative.Peek8(ThreadContextInternal.ThreadContext\_GetThreadTimeUserTime(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}})));}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00297}00297             \}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00298}00298         \}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00299}00299 }
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00303}00303         }
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00304}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_abcce944b68eabed8bbe3a2dc68b7a572}{00304}}         \textcolor{keyword}{public} TimeSpan \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_abcce944b68eabed8bbe3a2dc68b7a572}{KernelProcessorTime}}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00305}00305         \{}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00306}00306             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00307}00307             \{}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00308}00308                 \textcolor{keywordflow}{return} \textcolor{keyword}{new} TimeSpan((\textcolor{keywordtype}{long})MemoryNative.Peek8(ThreadContextInternal.ThreadContext\_GetThreadTimeKernelTime(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}})));}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00309}00309             \}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00310}00310         \}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00311}00311 }
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00315}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_af88b16a71b59e65baf8284d5b7d9358c}{00315}}         \textcolor{keyword}{public} TimeSpan \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_af88b16a71b59e65baf8284d5b7d9358c}{TotalProcessorTime}}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00316}00316         \{}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00317}00317             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00318}00318             \{}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00319}00319                 \textcolor{keywordflow}{return} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_abcce944b68eabed8bbe3a2dc68b7a572}{KernelProcessorTime}} + \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_af4efb2c95752d8c15e7818af403f0f63}{UserProcessorTime}};}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00320}00320             \}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00321}00321         \}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00322}00322 }
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00326}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a7fa20dcd0cfb3856534238397a7d56d9}{00326}}         \textcolor{keyword}{public} IntPtr \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_a7fa20dcd0cfb3856534238397a7d56d9}{Context}}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00327}00327         \{}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00328}00328             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00329}00329             \{}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00330}00330                 \textcolor{keywordflow}{return} ThreadContextInternal.ThreadContext\_GetContext(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}});}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00331}00331             \}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00332}00332             \textcolor{keyword}{set}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00333}00333             \{}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00334}00334                 ThreadContextInternal.ThreadContext\_SetContext(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}, value);}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00335}00335             \}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00336}00336         \}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00337}00337 }
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00341}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_thread_context_aeee990ccc0e12a26aa9e753cf3a12e93}{00341}}         \textcolor{keyword}{public} IntPtr \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_thread_1_1_wow64_context}{Wow64Context}}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00342}00342         \{}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00343}00343             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00344}00344             \{}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00345}00345                 \textcolor{keywordflow}{return} ThreadContextInternal.ThreadContext\_GetWow64Context(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}});}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00346}00346             \}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00347}00347             \textcolor{keyword}{set}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00348}00348             \{}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00349}00349                 ThreadContextInternal.ThreadContext\_SetWow64Context(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}, value);}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00350}00350             \}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00351}00351         \}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00352}00352     \}}
+\DoxyCodeLine{\Hypertarget{_thread_context_8cs_source_l00353}00353 \}}
+
+\end{DoxyCode}

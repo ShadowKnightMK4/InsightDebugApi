@@ -209,7 +209,7 @@ DWORD WINAPI __LoadLibraryExW_Alert(
 		*/
 		if (EditableString != 0)
 		{
-			if (wcsicmp(EditableString, lpLibFileName) == 0)
+			if (_wcsicmp(EditableString, lpLibFileName) == 0)
 			{
 				VirtualFree(EditableString, 0, MEM_RELEASE);
 				*NewFileName = lpLibFileName;

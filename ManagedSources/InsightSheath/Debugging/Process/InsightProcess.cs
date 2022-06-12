@@ -19,7 +19,7 @@ namespace InsightSheath.Debugging.Process
     {
         /// <summary>
         /// The event was processed OK and program execution can continue safely (Use to continue all events and if an Exception Was Handled
-        /// </summary
+        /// </summary>
         DebugContinueState = 0x00010002,
         /// <summary>
         /// The Exception Was not handled at all by the your debugger,  pass it back to the debugged program
@@ -63,21 +63,37 @@ namespace InsightSheath.Debugging.Process
          */
 
         #endregion
+        /// <summary>
+        /// return an instance of <see cref="InsightProcess"/> with it's native pointer set to the unmanaged part of InsightAPI's InsightProcess
+        /// </summary>
+        /// <param name="That">non null instance of the unmanaged part of <see cref="InsightProcess"/></param>
+        /// <exception cref="ArgumentNullException">Thrown if argument is equal to null."/></exception>
         public InsightProcess(IntPtr That): base(That)
         {
             if (That == IntPtr.Zero)
             {
-                throw new ArgumentNullException(ConstructReceivedNullPointerOnConstructor_message("Argument", "PsProcessInformation.CreateInstance", nameof(Native)));
+                //throw new ArgumentNullException(WrapperConstructorReceivedNullPointerErrorMsg("Argument", this.GetType().Name + ".CreateInstance", nameof(Native)));
+                throw WrapperConstructorReceivedNullPointerErrorException("Argument", GetType().Name + ".CreateInstance", nameof(Native));
             }
         }
-
+        /// <summary>
+        /// return an instance of <see cref="InsightProcess"/> with it's native pointer set to the unmanaged part of InsightAPI's InsightProcess
+        /// </summary>
+        /// <param name="That">non null instance of the unmanaged part of <see cref="InsightProcess"/></param>
+        /// <param name="FreeOnCleanup">Indicate if during GC cleanup, we'll get calling an unmanaged routine to delete this. You usually will want this to bve true unless your playing with multiple wraooe classes pointing to the same unmanaged pointer</param>
+        /// <exception cref="ArgumentNullException">Thrown if argument is equal to null."/></exception>
         public InsightProcess(IntPtr That, bool FreeOnCleanup): base(That, FreeOnCleanup)
         {
             if (That == IntPtr.Zero)
             {
-                throw new ArgumentNullException(ConstructReceivedNullPointerOnConstructor_message("Argument", "PsProcessInformation.CreateInstance", nameof(Native)));
+                //throw new ArgumentNullException(WrapperConstructorReceivedNullPointerErrorMsg("Argument", this.GetType().Name + ".CreateInstance", nameof(Native)));
+                throw WrapperConstructorReceivedNullPointerErrorException("Argument", GetType().Name + ".CreateInstance", nameof(Native));
             }
         }
+        /// <summary>
+        /// Get a hash of the native pointer used by this current <see cref="InsightProcess"/> instance
+        /// </summary>
+        /// <returns>Returns a hash of the native pointer used by this current <see cref="InsightProcess"/> instance</returns>
         public override int GetHashCode()
         {
             return Native.GetHashCode();
@@ -86,17 +102,17 @@ namespace InsightSheath.Debugging.Process
         /// This delegate is used in the native worker thread to notify your .NET code when a debug event occurs.
         /// </summary>
         /// <param name="DebugEvent">Pointer to a DEBUG_EVENT struct. <see cref="DebugEvent"/> to make a wrapper for it. IMPORTANT: Your stub is receiving a pointer off the unmanaged heap and should make your wrapper with FreeOnCleanUp=false aka <see cref="DebugEvent(IntPtr)"/></param>
-        /// <param name="ContinueState">Pointer to a 4 byte value where to write how your debugger callback responded to the routine. <see cref="SetDebugEventCallbackResponse(IntPtr, DebugContState)"/> or <see cref="LocalUnmanagedMemory.SetDebugEventCallbackResponse(IntPtr, DebugContState)"/> or <see cref="LocalUnmanagedMemory.Poke4(IntPtr, uint)"/> </param>
+        /// <param name="ContinueState">Pointer to a 4 byte value where to write how your debugger callback responded to the routine. <see cref="SetDebugEventCallbackResponse(IntPtr, DebugContState)"/> or <see cref="LocalUnmanagedMemory.SetDebugEventCallbackResponse(IntPtr, DebugContState)"/> or <see cref="MemoryNative.Poke4(IntPtr, uint)"></see></param>
         /// <param name="WaitTimer">Pointer to a 4 byte value where to write how long to wait until receiving the next debug event. Note: If this timer expires, the worker thread is NOT going to call your callback. <see cref="LocalUnmanagedMemory.Poke4(IntPtr, uint)"/></param>
         /// <param name="CustomArg">Reserved. Always 0. </param>
         /// <returns>Your delegate should return 0 to keep going and non zero to quit. Value does not matter currently.</returns>
         /// <remarks> current C/C++ callback define for this is "typedef int(WINAPI* DebugEventCallBackRoutine)(LPDEBUG_EVENT lpCurEvent, DWORD* ContinueStatus, DWORD* WaitTimer, DWORD CustomArg);" </remarks>
         public delegate int DebugEventCallBackRoutine(IntPtr DebugEvent, IntPtr ContinueState, IntPtr WaitTimer, IntPtr CustomArg);
 
-        [Obsolete("Not supported anymore")]
         /// <summary>
-        /// The various commandment flags to enable. (These are constants defined is PS_ProcessInformation.h and should be kept synced
+        /// TODO: something with this. (These are constants defined is PS_ProcessInformation.h and should be kept synced) That's the only reason i've not deleted this as I'm figuring I'll forgot to add it again
         /// </summary>
+        [Obsolete("Not supported anymore")]
         public enum ProcessRestriction : uint
         {
             /// <summary>
@@ -176,9 +192,10 @@ namespace InsightSheath.Debugging.Process
         }
 
         /// <summary>
-        /// Create an instance of PsProcessInformation on  the native side and return a DotNot size class ready to use.
+        /// Create an instance of <see cref="InsightProcess"/> on  the native side and return an instance of the wrapper class <see cref="InsightProcess"/> set to use this native pointer
         /// </summary>
-        /// <returns></returns>
+        /// <returns>returns instance of <see cref="InsightProcess"/> already set to us the unmanaged pointer of the class</returns>
+        /// <exception cref="InvalidOperationException">Should the unmanaged constructor routine fail to make an intance (return 0), this is thrown</exception>
         public static InsightProcess CreateInstance()
         {
             IntPtr ret = InsightProcessInternal.CreateInsightProcessNativeClass();
@@ -780,7 +797,7 @@ namespace InsightSheath.Debugging.Process
         /// <param name="Response">Indicate your response to Windows using <see cref="DebugContState"/></param>
         public static void SetDebugEventCallbackResponse(IntPtr contStat, DebugContState Response)
         {
-            LocalUnmanagedMemory.SetDebugEventCallbackResponse(contStat, Response);
+            MemoryNative.SetDebugEventCallbackResponse(contStat, Response);
         }
 
         /// <summary>

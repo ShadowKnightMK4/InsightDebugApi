@@ -1,0 +1,23 @@
+var searchData=
+[
+  ['native_0',['Native',['../class_insight_sheath_1_1_abstract_1_1_native_static_container.html#af70a5336c0b773b727338954e4636e8b',1,'InsightSheath::Abstract::NativeStaticContainer']]],
+  ['nativefilehandle_1',['NativeFileHandle',['../class_insight_sheath_1_1_debugging_1_1_debug_event_create_process_info.html#a33a18110582f30db18763a3cf3c04589',1,'InsightSheath::Debugging::DebugEventCreateProcessInfo']]],
+  ['nativepointer_2',['NativePointer',['../class_insight_sheath_1_1_abstract_1_1_native_static_container.html#a171844a2662b7c3d6136fe21f70f50eb',1,'InsightSheath::Abstract::NativeStaticContainer']]],
+  ['nativestaticcontainer_3',['NativeStaticContainer',['../class_insight_sheath_1_1_abstract_1_1_native_static_container.html',1,'InsightSheath.Abstract.NativeStaticContainer'],['../class_insight_sheath_1_1_abstract_1_1_native_static_container.html#aab702cfc1a822d3a6f2fc9c8892d0b62',1,'InsightSheath.Abstract.NativeStaticContainer.NativeStaticContainer(IntPtr Native)'],['../class_insight_sheath_1_1_abstract_1_1_native_static_container.html#a2160ac4b83b524828f5263580ae5606d',1,'InsightSheath.Abstract.NativeStaticContainer.NativeStaticContainer(IntPtr Native, bool FreeOnCleanup)']]],
+  ['nativestaticcontainer_2ecs_4',['NativeStaticContainer.cs',['../_native_static_container_8cs.html',1,'']]],
+  ['negativedenyfilereadrequest_5',['NegativeDenyFileReadRequest',['../class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_process.html#a32e014a50139be015bfffa122f0c1720a39d390156c85a3cfece5895b00013c86',1,'InsightSheath::Debugging::Process::InsightProcess']]],
+  ['negativedenyfilewriterequests_6',['NegativeDenyFileWriteRequests',['../class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_process.html#a32e014a50139be015bfffa122f0c1720a54d14b1ac079a0e0295960e987bfa75a',1,'InsightSheath::Debugging::Process::InsightProcess']]],
+  ['negativedenyprocessspawn_7',['NegativeDenyProcessSpawn',['../class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_process.html#a32e014a50139be015bfffa122f0c1720a9e24ec396bc70ae792984efb5b30b2ca',1,'InsightSheath::Debugging::Process::InsightProcess']]],
+  ['noaccess_8',['NoAccess',['../namespace_insight_sheath_1_1_telemetry.html#a69c531e69b53afa28b7e3dfb55798beca88a12f09800c497f30b98781952b50f2',1,'InsightSheath::Telemetry']]],
+  ['noimagesearch_9',['NoImageSearch',['../class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter.html#ada33c26806a1c52fe6dabbc0eb453c22a038ac76a487109cdbfc31726c17e7359',1,'InsightSheath::Debugging::SymbolEngine::InsightHunter']]],
+  ['noncontinuableexception_10',['NonContinuableException',['../namespace_insight_sheath_1_1_debugging.html#a23216c00cf8ff42a3c0ae9c7fc7a8eeaa6148798b6e90ec93983d433ec1d0396b',1,'InsightSheath::Debugging']]],
+  ['none_11',['None',['../class_insight_sheath_1_1_debugging_1_1_process_1_1_insight_process.html#a7e45a6308a0efc96ae92493e4e556d8da6adf97f83acf6453d4a6a4b1070f3754',1,'InsightSheath::Debugging::Process::InsightProcess']]],
+  ['noprompts_12',['NoPrompts',['../class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter.html#ada33c26806a1c52fe6dabbc0eb453c22aec84bf3aa03c44528fa762ccd245e8f3',1,'InsightSheath::Debugging::SymbolEngine::InsightHunter']]],
+  ['nopublics_13',['NoPublics',['../class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter.html#ada33c26806a1c52fe6dabbc0eb453c22a6136eebd51c299029e433551bcd57171',1,'InsightSheath::Debugging::SymbolEngine::InsightHunter']]],
+  ['normal_14',['Normal',['../namespace_insight_sheath_1_1_win32_struct.html#a019b0f083dbe4f01880797be80c0ab22a960b44c579bc2f6818d2daaf9e4c16f0',1,'InsightSheath::Win32Struct']]],
+  ['noshare_15',['NoShare',['../namespace_insight_sheath_1_1_telemetry.html#a237ff392d0790b17d49ea0c828b3d14da3ab12db4f0d17abdef8148d42847420f',1,'InsightSheath::Telemetry']]],
+  ['nounqualifiedloads_16',['NoUnqualifiedLoads',['../class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_insight_hunter.html#ada33c26806a1c52fe6dabbc0eb453c22a893fd24183c2735cf40c05d35d57f081',1,'InsightSheath::Debugging::SymbolEngine::InsightHunter']]],
+  ['noworkerthread_17',['NoWorkerThread',['../namespace_insight_sheath_1_1_debugging_1_1_process.html#aa787f83d4cbbadefed0b16b27565cd96ac73299acc75a07672862bbdeb5fd66ea',1,'InsightSheath::Debugging::Process']]],
+  ['ntcreationdisposition_18',['NtCreationDisposition',['../namespace_insight_sheath_1_1_telemetry.html#a15b1b686153bd71b56704829fdee0233',1,'InsightSheath::Telemetry']]],
+  ['null_19',['Null',['../namespace_insight_sheath_1_1_debugging_1_1_symbol_engine.html#aa11f6fc86be219002e0d5ef6e4824d05abbb93ef26e3c101ff11cdd21cab08a94',1,'InsightSheath::Debugging::SymbolEngine']]]
+];

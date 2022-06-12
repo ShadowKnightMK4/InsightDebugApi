@@ -1,0 +1,91 @@
+\hypertarget{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string64}{}\doxysection{Insight\+Sheath.\+Win32\+Struct.\+Unicode\+String64 Struct Reference}
+\label{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string64}\index{InsightSheath.Win32Struct.UnicodeString64@{InsightSheath.Win32Struct.UnicodeString64}}
+
+
+For processes that are 64-\/bit, this is our UNICODE\+\_\+\+STRING struct looks like when read from. Suitable for Marshaling from a source. Take care that you handle if your pointer to the native structure \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string32_a1e1ce136f83201c56a69ee03b56e8564}{Unicode\+String32.\+Buffer}} points to a remote/ non local memory buffer or not.  
+
+
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+ushort \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string64_a150637bd2739b8d5c6f3e5ff746b03a5}{Length}}
+\begin{DoxyCompactList}\small\item\em Current Length of the string pointed to in Buffer. \end{DoxyCompactList}\item 
+ushort \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string64_a3594a6eb47befbcc5886a7c6f7ce0b04}{Max\+Length}}
+\begin{DoxyCompactList}\small\item\em How big possibly is if the buffer. \end{DoxyCompactList}\item 
+uint \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string64_a08b57916e0daa89c6e78aaf907711a37}{Padding}}
+\begin{DoxyCompactList}\small\item\em Padding to ensure \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string64_a621d2ebb0d788fcfbef6238cea29e295}{Buffer}} is at the right spot. Otherwise unused. \end{DoxyCompactList}\item 
+ulong \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string64_a621d2ebb0d788fcfbef6238cea29e295}{Buffer}}
+\begin{DoxyCompactList}\small\item\em 8 byte pointer to where the Unicode String is allocated. Insert\+Here will place the string right after the location of the returned Unicode String struct \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+For processes that are 64-\/bit, this is our UNICODE\+\_\+\+STRING struct looks like when read from. Suitable for Marshaling from a source. Take care that you handle if your pointer to the native structure \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string32_a1e1ce136f83201c56a69ee03b56e8564}{Unicode\+String32.\+Buffer}} points to a remote/ non local memory buffer or not. 
+
+To marshal. Using Marshal.\+Ptr\+To\+Structure$<$\+Unicode\+String64$>$(\+Int\+Ptr) and either Marshal.\+Ptr\+To\+String\+Uni(\+Int\+Ptr, int) for a local buffer or Remote.\+Remote\+Structure.\+Remote\+Read\+String(\+Int\+Ptr, Int\+Ptr, uint) for one located in a different process 
+
+Definition at line \mbox{\hyperlink{_windows_unicode_string_8cs_source_l00082}{82}} of file \mbox{\hyperlink{_windows_unicode_string_8cs_source}{Windows\+Unicode\+String.\+cs}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string64_a621d2ebb0d788fcfbef6238cea29e295}\label{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string64_a621d2ebb0d788fcfbef6238cea29e295}} 
+\index{InsightSheath.Win32Struct.UnicodeString64@{InsightSheath.Win32Struct.UnicodeString64}!Buffer@{Buffer}}
+\index{Buffer@{Buffer}!InsightSheath.Win32Struct.UnicodeString64@{InsightSheath.Win32Struct.UnicodeString64}}
+\doxysubsubsection{\texorpdfstring{Buffer}{Buffer}}
+{\footnotesize\ttfamily ulong Insight\+Sheath.\+Win32\+Struct.\+Unicode\+String64.\+Buffer}
+
+
+
+8 byte pointer to where the Unicode String is allocated. Insert\+Here will place the string right after the location of the returned Unicode String struct 
+
+
+
+Definition at line \mbox{\hyperlink{_windows_unicode_string_8cs_source_l00099}{99}} of file \mbox{\hyperlink{_windows_unicode_string_8cs_source}{Windows\+Unicode\+String.\+cs}}.
+
+\mbox{\Hypertarget{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string64_a150637bd2739b8d5c6f3e5ff746b03a5}\label{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string64_a150637bd2739b8d5c6f3e5ff746b03a5}} 
+\index{InsightSheath.Win32Struct.UnicodeString64@{InsightSheath.Win32Struct.UnicodeString64}!Length@{Length}}
+\index{Length@{Length}!InsightSheath.Win32Struct.UnicodeString64@{InsightSheath.Win32Struct.UnicodeString64}}
+\doxysubsubsection{\texorpdfstring{Length}{Length}}
+{\footnotesize\ttfamily ushort Insight\+Sheath.\+Win32\+Struct.\+Unicode\+String64.\+Length}
+
+
+
+Current Length of the string pointed to in Buffer. 
+
+
+
+Definition at line \mbox{\hyperlink{_windows_unicode_string_8cs_source_l00087}{87}} of file \mbox{\hyperlink{_windows_unicode_string_8cs_source}{Windows\+Unicode\+String.\+cs}}.
+
+\mbox{\Hypertarget{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string64_a3594a6eb47befbcc5886a7c6f7ce0b04}\label{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string64_a3594a6eb47befbcc5886a7c6f7ce0b04}} 
+\index{InsightSheath.Win32Struct.UnicodeString64@{InsightSheath.Win32Struct.UnicodeString64}!MaxLength@{MaxLength}}
+\index{MaxLength@{MaxLength}!InsightSheath.Win32Struct.UnicodeString64@{InsightSheath.Win32Struct.UnicodeString64}}
+\doxysubsubsection{\texorpdfstring{MaxLength}{MaxLength}}
+{\footnotesize\ttfamily ushort Insight\+Sheath.\+Win32\+Struct.\+Unicode\+String64.\+Max\+Length}
+
+
+
+How big possibly is if the buffer. 
+
+
+
+Definition at line \mbox{\hyperlink{_windows_unicode_string_8cs_source_l00091}{91}} of file \mbox{\hyperlink{_windows_unicode_string_8cs_source}{Windows\+Unicode\+String.\+cs}}.
+
+\mbox{\Hypertarget{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string64_a08b57916e0daa89c6e78aaf907711a37}\label{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string64_a08b57916e0daa89c6e78aaf907711a37}} 
+\index{InsightSheath.Win32Struct.UnicodeString64@{InsightSheath.Win32Struct.UnicodeString64}!Padding@{Padding}}
+\index{Padding@{Padding}!InsightSheath.Win32Struct.UnicodeString64@{InsightSheath.Win32Struct.UnicodeString64}}
+\doxysubsubsection{\texorpdfstring{Padding}{Padding}}
+{\footnotesize\ttfamily uint Insight\+Sheath.\+Win32\+Struct.\+Unicode\+String64.\+Padding}
+
+
+
+Padding to ensure \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string64_a621d2ebb0d788fcfbef6238cea29e295}{Buffer}} is at the right spot. Otherwise unused. 
+
+
+
+Definition at line \mbox{\hyperlink{_windows_unicode_string_8cs_source_l00095}{95}} of file \mbox{\hyperlink{_windows_unicode_string_8cs_source}{Windows\+Unicode\+String.\+cs}}.
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Win32\+Struct/\mbox{\hyperlink{_windows_unicode_string_8cs}{Windows\+Unicode\+String.\+cs}}\end{DoxyCompactItemize}

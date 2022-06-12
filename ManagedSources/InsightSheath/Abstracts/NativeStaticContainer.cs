@@ -1,4 +1,6 @@
-﻿using System;
+﻿using InsightSheath.Debugging.Process;
+using InsightSheath.Win32Struct;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,11 +14,29 @@ namespace InsightSheath.Abstract
     /// </summary>
     public abstract class NativeStaticContainer : IDisposable
     {
+        /// <summary>
+        /// This is using in <see cref="NativeStaticContainer"/> based classes when their static builder (For example <see cref="InsightProcess.CreateInstance"/>) receive null from the unmanaged constructor routine
+        /// </summary>
+        protected const string UnmanagedConstructorReturnedNull = "The unmanaged routine {0} to build the unmanaged part of {1} returned null.";
+        /// <summary>
+        /// This is used in <see cref="NativeStaticContainer"/> based classes a template to an exception message to indicate it received null when being built
+        /// </summary>
         protected const string ReceivedNullPointerOnConstructor = "{0} Cannot be 0.  Use {1} to make a new instance and use this to point this managed wrapper to a native instance of the class: ({2}}";
-        protected static string ConstructReceivedNullPointerOnConstructor_message(string ArgumentPrefix, string AlternativeInstance, string ArgumentName)
+
+   
+
+        /// <summary>
+        /// Used to make the <see cref="ArgumentNullException"/> message using <see cref="ReceivedNullPointerOnConstructor"/> template
+        /// </summary>
+        /// <param name="ArgumentPrefix"></param>
+        /// <param name="AlternativeInstance"></param>
+        /// <param name="ArgumentName"></param>
+        /// <returns></returns>
+        protected static ArgumentNullException WrapperConstructorReceivedNullPointerErrorException(string ArgumentPrefix, string AlternativeInstance, string ArgumentName)
         {
-            return string.Format(ReceivedNullPointerOnConstructor, ArgumentPrefix, AlternativeInstance, ArgumentName);
+            return new ArgumentNullException(string.Format(ReceivedNullPointerOnConstructor, ArgumentPrefix, AlternativeInstance, ArgumentName));
         }
+
         /// <summary>
         /// NativeStaticContrain compares both <see cref="Native"/> pointers and returns true if equal
         /// </summary>
@@ -113,14 +133,37 @@ namespace InsightSheath.Abstract
         /// </summary>
         public bool IsDisposed { get { return disposedValue; } }
 
+        /// <summary>
+        /// Basic <see cref="NativeStaticContainer"/> disposal.  Checks if not disposed, if FreeOnCleanup is set and Native != 0 null before calling a routine exported in InsightAPI to free the memory. 
+        /// </summary>
+        /// <param name="disposing">set to true if disposing of managed resources in addition to unmanaged.</param>
+        /// <remarks>IMPORTANT! If your child class needs special needs beyond C/C++'s free(),  override this and take care of them before calling base(). 
+        /// Should your custom class allocate multiple things for example <see cref="WindowsUnicodeString"/>'s implementation for reading from remote processes <see cref="Win32Struct.Remote.RemoteStructure.RemoteReadUnicodeString(IntPtr, IntPtr, bool, bool)"/>, you will need to make a routine to properly free.  That routine allocates 2 buffers instead of 1. Calling C/C++'s free() alone is leaking memory.
+        /// Design checks:
+        ///<list type="number">
+        ///<listheader>
+        ///<description > First, override disposal() </description >
+        ///</listheader >
+        ///<item>
+        /// <description> Nest, add a private variable in your class called isDisposed. Set this to true  when your class's native pointer is cleaned up completely </description >
+        ///</item >
+        ///<item>
+        ///<description>if <see cref="ReferenceCounterNativeStaticContainer"/> is NOT in the hierarchy then your routine should dispose of unmanaged resourced when isDisposed is true, FreeOnCleanup is true and the Native pointer is not null. It should set the native pointer to null when FULLY done disposing it.</description>
+        ///</item>
+        ///<item>
+        ///<description>if <see cref="ReferenceCounterNativeStaticContainer"/> IS in the hierarchy then your routine should dispose of unmanaged resourced when isDisposed is true, FreeOnCleanup is AND THE REFERENCE COUNTER being decreased is 0, and the Native pointer is not null.   If the  reference counter is more than 0 when decreased, set native to null instead of disposing.</description>
+        ///</item>
+        /// </list>
+        /// </remarks>
         protected virtual void Dispose(bool disposing)
         {
             if (!disposedValue)
             {
+                /*
                 if (disposing)
                 {
                     // nothing managed to dispose
-                }
+                }*/
 
                 if ( (Native != IntPtr.Zero) && (FreeOnCleanup))
                 {
@@ -135,11 +178,17 @@ namespace InsightSheath.Abstract
             }
         }
 
+        /// <summary>
+        /// clean up only the unmanaged parts of <see cref="NativeStaticContainer"/>
+        /// </summary>
         ~NativeStaticContainer()
         {
             Dispose(disposing: false);
         }
 
+        /// <summary>
+        /// Trigger cleanup of this <see cref="NativeStaticContainer"/> based class
+        /// </summary>
         public void Dispose()
         {
             // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method

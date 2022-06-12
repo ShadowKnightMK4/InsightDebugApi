@@ -23,30 +23,6 @@ namespace InsightSheath.Win32Struct
 		UNICODE_STRING64 CommandLine;
 	};*/
 
-	[StructLayout(LayoutKind.Sequential)]
-    public struct UserProcessParameters32
-    {
-		[MarshalAs(UnmanagedType.ByValArray, ArraySubType = UnmanagedType.U1, SizeConst = 16)]
-		public byte[] Reserved1;
-		[MarshalAs(UnmanagedType.ByValArray, ArraySubType = UnmanagedType.U4, SizeConst = 10)]
-		public uint[] Reserved2;
-		public UnicodeString32 ImagePathName;
-		public UnicodeString32 CommandLine;
-	}
-
-
-
-
-	[StructLayout(LayoutKind.Sequential)]
-	public struct UserProcessParameters64
-	{
-		[MarshalAs(UnmanagedType.ByValArray, ArraySubType = UnmanagedType.U1, SizeConst = 16)]
-		public byte[] Reserved1;
-		[MarshalAs(UnmanagedType.ByValArray, ArraySubType = UnmanagedType.U4, SizeConst = 10)]
-		public ulong[] Reserved2;
-		public UnicodeString64 ImagePathName;
-		public UnicodeString64 CommandLine;
-	}
 
 	public class WindowsUserProcessParameter 
 	{

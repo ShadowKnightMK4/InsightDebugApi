@@ -1,0 +1,263 @@
+\hypertarget{class_insight_sheath_1_1_debugging_1_1_debug_event}{}\doxysection{Insight\+Sheath.\+Debugging.\+Debug\+Event Class Reference}
+\label{class_insight_sheath_1_1_debugging_1_1_debug_event}\index{InsightSheath.Debugging.DebugEvent@{InsightSheath.Debugging.DebugEvent}}
+
+
+This encapsulates the Native \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{Debug\+Event}} structure via calling exported C routines in Insight\+API.\+dll.  
+
+
+Inheritance diagram for Insight\+Sheath.\+Debugging.\+Debug\+Event\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=5.000000cm]{class_insight_sheath_1_1_debugging_1_1_debug_event}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_a87c5378eb7d2e7d89ff54be510996227}{Debug\+Event}} (Int\+Ptr Native\+Ptr)
+\begin{DoxyCompactList}\small\item\em Creation. Does NOT free the underling pointer \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_a18103ca5431487bbd949f4c449596960}{Debug\+Event}} (Int\+Ptr Nat, bool \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{Free\+On\+Cleanup}})
+\item 
+\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_affbfffb19e33710d80dfe85540ca5ce2}{Debug\+Event}} (Int\+Ptr Nat, bool \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{Free\+On\+Cleanup}}, ulong Ref\+Count)
+\item 
+\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_create_process_info}{Debug\+Event\+Create\+Process\+Info}} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_a2c7a8287dfd66faea219fe21b98471c6}{Get\+Debug\+Event\+Create\+Process\+Info}} ()
+\begin{DoxyCompactList}\small\item\em Return an instance of the wrapper to deal with \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8ab5636216d91a5febd3dfab18879d8200}{Debug\+Event\+Type.\+Create\+Process\+Event}} events. The class still points to the native struct and does not need to be freed(). \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_create_thread_info}{Debug\+Event\+Create\+Thread\+Info}} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_aa4931172739f0fa6c31c96889547cf77}{Get\+Debug\+Event\+Create\+Thread\+Info}} ()
+\item 
+\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exception_info}{Debug\+Event\+Exception\+Info}} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_a4d9f1661131e0b682a1f17ed66f07997}{Get\+Debug\+Event\+Exception\+Info}} ()
+\item 
+\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exit_process_info}{Debug\+Event\+Exit\+Process\+Info}} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_a901abab49bfc4021a70f189918c18390}{Get\+Event\+Exit\+Process\+Info}} ()
+\item 
+\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exit_thread_info}{Debug\+Event\+Exit\+Thread\+Info}} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_a2859ffbc2506fb73ad8facde21f77bbe}{Get\+Event\+Exit\+Thread\+Info}} ()
+\item 
+\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info}{Debug\+Event\+Load\+Dll\+Info}} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_ab0ffefec0091efb1c43b997d92b168e6}{Get\+Debug\+Event\+Load\+Dll}} ()
+\item 
+\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_string_info}{Debug\+Event\+String\+Info}} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_adfd6eb75ce8e2dd1f9ecb06fde82968a}{Get\+Debug\+Event\+String\+Info}} ()
+\item 
+\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_rip_info}{Debug\+Event\+Rip\+Info}} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_af46bb829a91b9ed28d3362b11c1f80db}{Get\+Debug\+Event\+Rip\+Info}} ()
+\begin{DoxyCompactList}\small\item\em Get class suitable to reading DEBUG\+\_\+\+EVENT\+\_\+\+RIP\+\_\+\+INFO from this class. Will throw Invalid\+Operation\+Exception if not the correct event \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_unload_dll_info}{Debug\+Event\+Unload\+Dll\+Info}} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_a78d712c3c9367ad1ac51c97c3d49cad5}{Get\+Debug\+Event\+Unload\+Dll\+Info}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{Debug\+Event}} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_a56c9dfc3a6a87940ec5f9483838e2bcf}{Create\+Private\+Struct}} ()
+\begin{DoxyCompactList}\small\item\em You don\textquotesingle{}t need to use this if the let the debugger code use the worker thread. You\textquotesingle{}ll need to allocate a native block to hold the debug struct should you decide to roll your own \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+override void \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_a5f1870d26f95fce0eae803e237e24bbc}{Dispose}} (bool disposing)
+\begin{DoxyCompactList}\small\item\em Basic \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_aab702cfc1a822d3a6f2fc9c8892d0b62}{Native\+Static\+Container}} disposal. Checks if not disposed, if Free\+On\+Cleanup is set and Native != 0 null before calling a routine exported in Insight\+API to free the memory. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+This encapsulates the Native \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{Debug\+Event}} structure via calling exported C routines in Insight\+API.\+dll. 
+
+Definition at line \mbox{\hyperlink{_debug_event_8cs_source_l00936}{936}} of file \mbox{\hyperlink{_debug_event_8cs_source}{Debug\+Event.\+cs}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_debug_event_a87c5378eb7d2e7d89ff54be510996227}\label{class_insight_sheath_1_1_debugging_1_1_debug_event_a87c5378eb7d2e7d89ff54be510996227}} 
+\index{InsightSheath.Debugging.DebugEvent@{InsightSheath.Debugging.DebugEvent}!DebugEvent@{DebugEvent}}
+\index{DebugEvent@{DebugEvent}!InsightSheath.Debugging.DebugEvent@{InsightSheath.Debugging.DebugEvent}}
+\doxysubsubsection{\texorpdfstring{DebugEvent()}{DebugEvent()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily Insight\+Sheath.\+Debugging.\+Debug\+Event.\+Debug\+Event (\begin{DoxyParamCaption}\item[{Int\+Ptr}]{Native\+Ptr }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Creation. Does NOT free the underling pointer 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Native\+Ptr} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{_debug_event_8cs_source_l00945}{945}} of file \mbox{\hyperlink{_debug_event_8cs_source}{Debug\+Event.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_debug_event_a18103ca5431487bbd949f4c449596960}\label{class_insight_sheath_1_1_debugging_1_1_debug_event_a18103ca5431487bbd949f4c449596960}} 
+\index{InsightSheath.Debugging.DebugEvent@{InsightSheath.Debugging.DebugEvent}!DebugEvent@{DebugEvent}}
+\index{DebugEvent@{DebugEvent}!InsightSheath.Debugging.DebugEvent@{InsightSheath.Debugging.DebugEvent}}
+\doxysubsubsection{\texorpdfstring{DebugEvent()}{DebugEvent()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily Insight\+Sheath.\+Debugging.\+Debug\+Event.\+Debug\+Event (\begin{DoxyParamCaption}\item[{Int\+Ptr}]{Nat,  }\item[{bool}]{Free\+On\+Cleanup }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line \mbox{\hyperlink{_debug_event_8cs_source_l00951}{951}} of file \mbox{\hyperlink{_debug_event_8cs_source}{Debug\+Event.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_debug_event_affbfffb19e33710d80dfe85540ca5ce2}\label{class_insight_sheath_1_1_debugging_1_1_debug_event_affbfffb19e33710d80dfe85540ca5ce2}} 
+\index{InsightSheath.Debugging.DebugEvent@{InsightSheath.Debugging.DebugEvent}!DebugEvent@{DebugEvent}}
+\index{DebugEvent@{DebugEvent}!InsightSheath.Debugging.DebugEvent@{InsightSheath.Debugging.DebugEvent}}
+\doxysubsubsection{\texorpdfstring{DebugEvent()}{DebugEvent()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily Insight\+Sheath.\+Debugging.\+Debug\+Event.\+Debug\+Event (\begin{DoxyParamCaption}\item[{Int\+Ptr}]{Nat,  }\item[{bool}]{Free\+On\+Cleanup,  }\item[{ulong}]{Ref\+Count }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line \mbox{\hyperlink{_debug_event_8cs_source_l00956}{956}} of file \mbox{\hyperlink{_debug_event_8cs_source}{Debug\+Event.\+cs}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_debug_event_a56c9dfc3a6a87940ec5f9483838e2bcf}\label{class_insight_sheath_1_1_debugging_1_1_debug_event_a56c9dfc3a6a87940ec5f9483838e2bcf}} 
+\index{InsightSheath.Debugging.DebugEvent@{InsightSheath.Debugging.DebugEvent}!CreatePrivateStruct@{CreatePrivateStruct}}
+\index{CreatePrivateStruct@{CreatePrivateStruct}!InsightSheath.Debugging.DebugEvent@{InsightSheath.Debugging.DebugEvent}}
+\doxysubsubsection{\texorpdfstring{CreatePrivateStruct()}{CreatePrivateStruct()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{Debug\+Event}} Insight\+Sheath.\+Debugging.\+Debug\+Event.\+Create\+Private\+Struct (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+You don\textquotesingle{}t need to use this if the let the debugger code use the worker thread. You\textquotesingle{}ll need to allocate a native block to hold the debug struct should you decide to roll your own 
+
+\begin{DoxyReturn}{Returns}
+a new \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event}{Debug\+Event}} class instance with its own private native structure
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{_debug_event_8cs_source_l00965}{965}} of file \mbox{\hyperlink{_debug_event_8cs_source}{Debug\+Event.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_debug_event_a5f1870d26f95fce0eae803e237e24bbc}\label{class_insight_sheath_1_1_debugging_1_1_debug_event_a5f1870d26f95fce0eae803e237e24bbc}} 
+\index{InsightSheath.Debugging.DebugEvent@{InsightSheath.Debugging.DebugEvent}!Dispose@{Dispose}}
+\index{Dispose@{Dispose}!InsightSheath.Debugging.DebugEvent@{InsightSheath.Debugging.DebugEvent}}
+\doxysubsubsection{\texorpdfstring{Dispose()}{Dispose()}}
+{\footnotesize\ttfamily override void Insight\+Sheath.\+Debugging.\+Debug\+Event.\+Dispose (\begin{DoxyParamCaption}\item[{bool}]{disposing }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+
+
+Basic \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_aab702cfc1a822d3a6f2fc9c8892d0b62}{Native\+Static\+Container}} disposal. Checks if not disposed, if Free\+On\+Cleanup is set and Native != 0 null before calling a routine exported in Insight\+API to free the memory. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em disposing} & set to true if disposing of managed resources in addition to unmanaged.\\
+\hline
+\end{DoxyParams}
+
+
+IMPORTANT! If your child class needs special needs beyond C/\+C++\textquotesingle{}s free(), override this and take care of them before calling base(). Should your custom class allocate multiple things for example Windows\+Unicode\+String\textquotesingle{}s implementation for reading from remote processes Win32\+Struct.\+Remote.\+Remote\+Structure.\+Remote\+Read\+Unicode\+String(\+Int\+Ptr, Int\+Ptr, bool, bool), you will need to make a routine to properly free. That routine allocates 2 buffers instead of 1. Calling C/\+C++\textquotesingle{}s free() alone is leaking memory. Design checks\+: list type=\char`\"{}number\char`\"{}\texorpdfstring{$>$}{>} listheader\texorpdfstring{$>$}{>} description \texorpdfstring{$>$}{>} First, override disposal()  /listheader \texorpdfstring{$>$}{>} item\texorpdfstring{$>$}{>}  Nest, add a private variable in your class called is\+Disposed. Set this to true when your class\textquotesingle{}s native pointer is cleaned up completely  /item \texorpdfstring{$>$}{>} item\texorpdfstring{$>$}{>} description\texorpdfstring{$>$}{>}if \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_a12483e01c95bdb212c65e1857affe0ec}{Reference\+Counter\+Native\+Static\+Container}} is NOT in the hierarchy then your routine should dispose of unmanaged resourced when is\+Disposed is true, Free\+On\+Cleanup is true and the Native pointer is not null. It should set the native pointer to null when FULLY done disposing it. /item\texorpdfstring{$>$}{>} item\texorpdfstring{$>$}{>} description\texorpdfstring{$>$}{>}if \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_a12483e01c95bdb212c65e1857affe0ec}{Reference\+Counter\+Native\+Static\+Container}} IS in the hierarchy then your routine should dispose of unmanaged resourced when is\+Disposed is true, Free\+On\+Cleanup is AND THE REFERENCE COUNTER being decreased is 0, and the Native pointer is not null. If the reference counter is more than 0 when decreased, set native to null instead of disposing. /item\texorpdfstring{$>$}{>} 
+
+Reimplemented from \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_static_container_aa02ca717c563ff5dae806e6c34c5d248}{Insight\+Sheath.\+Debugging.\+Debug\+Event\+Static\+Container}}.
+
+
+
+Definition at line \mbox{\hyperlink{_debug_event_8cs_source_l00973}{973}} of file \mbox{\hyperlink{_debug_event_8cs_source}{Debug\+Event.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_debug_event_a2c7a8287dfd66faea219fe21b98471c6}\label{class_insight_sheath_1_1_debugging_1_1_debug_event_a2c7a8287dfd66faea219fe21b98471c6}} 
+\index{InsightSheath.Debugging.DebugEvent@{InsightSheath.Debugging.DebugEvent}!GetDebugEventCreateProcessInfo@{GetDebugEventCreateProcessInfo}}
+\index{GetDebugEventCreateProcessInfo@{GetDebugEventCreateProcessInfo}!InsightSheath.Debugging.DebugEvent@{InsightSheath.Debugging.DebugEvent}}
+\doxysubsubsection{\texorpdfstring{GetDebugEventCreateProcessInfo()}{GetDebugEventCreateProcessInfo()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_create_process_info}{Debug\+Event\+Create\+Process\+Info}} Insight\+Sheath.\+Debugging.\+Debug\+Event.\+Get\+Debug\+Event\+Create\+Process\+Info (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Return an instance of the wrapper to deal with \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8ab5636216d91a5febd3dfab18879d8200}{Debug\+Event\+Type.\+Create\+Process\+Event}} events. The class still points to the native struct and does not need to be freed(). 
+
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{_debug_event_8cs_source_l00990}{990}} of file \mbox{\hyperlink{_debug_event_8cs_source}{Debug\+Event.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_debug_event_aa4931172739f0fa6c31c96889547cf77}\label{class_insight_sheath_1_1_debugging_1_1_debug_event_aa4931172739f0fa6c31c96889547cf77}} 
+\index{InsightSheath.Debugging.DebugEvent@{InsightSheath.Debugging.DebugEvent}!GetDebugEventCreateThreadInfo@{GetDebugEventCreateThreadInfo}}
+\index{GetDebugEventCreateThreadInfo@{GetDebugEventCreateThreadInfo}!InsightSheath.Debugging.DebugEvent@{InsightSheath.Debugging.DebugEvent}}
+\doxysubsubsection{\texorpdfstring{GetDebugEventCreateThreadInfo()}{GetDebugEventCreateThreadInfo()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_create_thread_info}{Debug\+Event\+Create\+Thread\+Info}} Insight\+Sheath.\+Debugging.\+Debug\+Event.\+Get\+Debug\+Event\+Create\+Thread\+Info (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line \mbox{\hyperlink{_debug_event_8cs_source_l01005}{1005}} of file \mbox{\hyperlink{_debug_event_8cs_source}{Debug\+Event.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_debug_event_a4d9f1661131e0b682a1f17ed66f07997}\label{class_insight_sheath_1_1_debugging_1_1_debug_event_a4d9f1661131e0b682a1f17ed66f07997}} 
+\index{InsightSheath.Debugging.DebugEvent@{InsightSheath.Debugging.DebugEvent}!GetDebugEventExceptionInfo@{GetDebugEventExceptionInfo}}
+\index{GetDebugEventExceptionInfo@{GetDebugEventExceptionInfo}!InsightSheath.Debugging.DebugEvent@{InsightSheath.Debugging.DebugEvent}}
+\doxysubsubsection{\texorpdfstring{GetDebugEventExceptionInfo()}{GetDebugEventExceptionInfo()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exception_info}{Debug\+Event\+Exception\+Info}} Insight\+Sheath.\+Debugging.\+Debug\+Event.\+Get\+Debug\+Event\+Exception\+Info (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line \mbox{\hyperlink{_debug_event_8cs_source_l01021}{1021}} of file \mbox{\hyperlink{_debug_event_8cs_source}{Debug\+Event.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_debug_event_ab0ffefec0091efb1c43b997d92b168e6}\label{class_insight_sheath_1_1_debugging_1_1_debug_event_ab0ffefec0091efb1c43b997d92b168e6}} 
+\index{InsightSheath.Debugging.DebugEvent@{InsightSheath.Debugging.DebugEvent}!GetDebugEventLoadDll@{GetDebugEventLoadDll}}
+\index{GetDebugEventLoadDll@{GetDebugEventLoadDll}!InsightSheath.Debugging.DebugEvent@{InsightSheath.Debugging.DebugEvent}}
+\doxysubsubsection{\texorpdfstring{GetDebugEventLoadDll()}{GetDebugEventLoadDll()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_load_dll_info}{Debug\+Event\+Load\+Dll\+Info}} Insight\+Sheath.\+Debugging.\+Debug\+Event.\+Get\+Debug\+Event\+Load\+Dll (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line \mbox{\hyperlink{_debug_event_8cs_source_l01073}{1073}} of file \mbox{\hyperlink{_debug_event_8cs_source}{Debug\+Event.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_debug_event_af46bb829a91b9ed28d3362b11c1f80db}\label{class_insight_sheath_1_1_debugging_1_1_debug_event_af46bb829a91b9ed28d3362b11c1f80db}} 
+\index{InsightSheath.Debugging.DebugEvent@{InsightSheath.Debugging.DebugEvent}!GetDebugEventRipInfo@{GetDebugEventRipInfo}}
+\index{GetDebugEventRipInfo@{GetDebugEventRipInfo}!InsightSheath.Debugging.DebugEvent@{InsightSheath.Debugging.DebugEvent}}
+\doxysubsubsection{\texorpdfstring{GetDebugEventRipInfo()}{GetDebugEventRipInfo()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_rip_info}{Debug\+Event\+Rip\+Info}} Insight\+Sheath.\+Debugging.\+Debug\+Event.\+Get\+Debug\+Event\+Rip\+Info (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Get class suitable to reading DEBUG\+\_\+\+EVENT\+\_\+\+RIP\+\_\+\+INFO from this class. Will throw Invalid\+Operation\+Exception if not the correct event 
+
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Invalid\+Operation\+Exception} & Is thrown when the contained even is not a \texorpdfstring{$<$}{<}see cref=\mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8a5f9cc9dc2291a80c635daf1981cd2aa1}{Debug\+Event\+Type.\+Rip\+Event}}\char`\"{}/$>$$<$/exception$>$ $<$returns$>$\+If the contained event is $<$see cref=\char`\"{}\mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_a7ca0bf717735083281409a01b7af9fd8a5f9cc9dc2291a80c635daf1981cd2aa1}{Debug\+Event\+Type.\+Rip\+Event}}\char`\"{}/$>$ returns a $<$see cref=\char`\"{}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_rip_info}{Debug\+Event\+Rip\+Info}}"{}/\texorpdfstring{$>$}{>} pointing to this event. \\
+\hline
+\end{DoxyExceptions}
+
+
+Definition at line \mbox{\hyperlink{_debug_event_8cs_source_l01115}{1115}} of file \mbox{\hyperlink{_debug_event_8cs_source}{Debug\+Event.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_debug_event_adfd6eb75ce8e2dd1f9ecb06fde82968a}\label{class_insight_sheath_1_1_debugging_1_1_debug_event_adfd6eb75ce8e2dd1f9ecb06fde82968a}} 
+\index{InsightSheath.Debugging.DebugEvent@{InsightSheath.Debugging.DebugEvent}!GetDebugEventStringInfo@{GetDebugEventStringInfo}}
+\index{GetDebugEventStringInfo@{GetDebugEventStringInfo}!InsightSheath.Debugging.DebugEvent@{InsightSheath.Debugging.DebugEvent}}
+\doxysubsubsection{\texorpdfstring{GetDebugEventStringInfo()}{GetDebugEventStringInfo()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_string_info}{Debug\+Event\+String\+Info}} Insight\+Sheath.\+Debugging.\+Debug\+Event.\+Get\+Debug\+Event\+String\+Info (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+
+
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{_debug_event_8cs_source_l01093}{1093}} of file \mbox{\hyperlink{_debug_event_8cs_source}{Debug\+Event.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_debug_event_a78d712c3c9367ad1ac51c97c3d49cad5}\label{class_insight_sheath_1_1_debugging_1_1_debug_event_a78d712c3c9367ad1ac51c97c3d49cad5}} 
+\index{InsightSheath.Debugging.DebugEvent@{InsightSheath.Debugging.DebugEvent}!GetDebugEventUnloadDllInfo@{GetDebugEventUnloadDllInfo}}
+\index{GetDebugEventUnloadDllInfo@{GetDebugEventUnloadDllInfo}!InsightSheath.Debugging.DebugEvent@{InsightSheath.Debugging.DebugEvent}}
+\doxysubsubsection{\texorpdfstring{GetDebugEventUnloadDllInfo()}{GetDebugEventUnloadDllInfo()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_unload_dll_info}{Debug\+Event\+Unload\+Dll\+Info}} Insight\+Sheath.\+Debugging.\+Debug\+Event.\+Get\+Debug\+Event\+Unload\+Dll\+Info (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line \mbox{\hyperlink{_debug_event_8cs_source_l01130}{1130}} of file \mbox{\hyperlink{_debug_event_8cs_source}{Debug\+Event.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_debug_event_a901abab49bfc4021a70f189918c18390}\label{class_insight_sheath_1_1_debugging_1_1_debug_event_a901abab49bfc4021a70f189918c18390}} 
+\index{InsightSheath.Debugging.DebugEvent@{InsightSheath.Debugging.DebugEvent}!GetEventExitProcessInfo@{GetEventExitProcessInfo}}
+\index{GetEventExitProcessInfo@{GetEventExitProcessInfo}!InsightSheath.Debugging.DebugEvent@{InsightSheath.Debugging.DebugEvent}}
+\doxysubsubsection{\texorpdfstring{GetEventExitProcessInfo()}{GetEventExitProcessInfo()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exit_process_info}{Debug\+Event\+Exit\+Process\+Info}} Insight\+Sheath.\+Debugging.\+Debug\+Event.\+Get\+Event\+Exit\+Process\+Info (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line \mbox{\hyperlink{_debug_event_8cs_source_l01039}{1039}} of file \mbox{\hyperlink{_debug_event_8cs_source}{Debug\+Event.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_debugging_1_1_debug_event_a2859ffbc2506fb73ad8facde21f77bbe}\label{class_insight_sheath_1_1_debugging_1_1_debug_event_a2859ffbc2506fb73ad8facde21f77bbe}} 
+\index{InsightSheath.Debugging.DebugEvent@{InsightSheath.Debugging.DebugEvent}!GetEventExitThreadInfo@{GetEventExitThreadInfo}}
+\index{GetEventExitThreadInfo@{GetEventExitThreadInfo}!InsightSheath.Debugging.DebugEvent@{InsightSheath.Debugging.DebugEvent}}
+\doxysubsubsection{\texorpdfstring{GetEventExitThreadInfo()}{GetEventExitThreadInfo()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_debug_event_exit_thread_info}{Debug\+Event\+Exit\+Thread\+Info}} Insight\+Sheath.\+Debugging.\+Debug\+Event.\+Get\+Event\+Exit\+Thread\+Info (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line \mbox{\hyperlink{_debug_event_8cs_source_l01056}{1056}} of file \mbox{\hyperlink{_debug_event_8cs_source}{Debug\+Event.\+cs}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Debugging/\mbox{\hyperlink{_debug_event_8cs}{Debug\+Event.\+cs}}\end{DoxyCompactItemize}

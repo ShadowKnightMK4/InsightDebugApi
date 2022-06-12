@@ -1,0 +1,59 @@
+\hypertarget{_reference_counter_native_static_container_8cs_source}{}\doxysection{Reference\+Counter\+Native\+Static\+Container.\+cs}
+\label{_reference_counter_native_static_container_8cs_source}\index{Abstracts/ReferenceCounterNativeStaticContainer.cs@{Abstracts/ReferenceCounterNativeStaticContainer.cs}}
+\mbox{\hyperlink{_reference_counter_native_static_container_8cs}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_reference_counter_native_static_container_8cs_source_l00001}00001 \textcolor{keyword}{using }\mbox{\hyperlink{namespace_insight_sheath_1_1_misc}{InsightSheath.Misc}};}
+\DoxyCodeLine{\Hypertarget{_reference_counter_native_static_container_8cs_source_l00002}00002 \textcolor{keyword}{using }\mbox{\hyperlink{namespace_insight_sheath_1_1_wrappers}{InsightSheath.Wrappers}};}
+\DoxyCodeLine{\Hypertarget{_reference_counter_native_static_container_8cs_source_l00003}00003 \textcolor{keyword}{using }System;}
+\DoxyCodeLine{\Hypertarget{_reference_counter_native_static_container_8cs_source_l00004}00004 \textcolor{keyword}{using }System.Collections.Generic;}
+\DoxyCodeLine{\Hypertarget{_reference_counter_native_static_container_8cs_source_l00005}00005 \textcolor{keyword}{using }System.Linq;}
+\DoxyCodeLine{\Hypertarget{_reference_counter_native_static_container_8cs_source_l00006}00006 \textcolor{keyword}{using }System.Text;}
+\DoxyCodeLine{\Hypertarget{_reference_counter_native_static_container_8cs_source_l00007}00007 \textcolor{keyword}{using }System.Threading.Tasks;}
+\DoxyCodeLine{\Hypertarget{_reference_counter_native_static_container_8cs_source_l00008}00008 }
+\DoxyCodeLine{\Hypertarget{_reference_counter_native_static_container_8cs_source_l00009}00009 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespace_insight_sheath_1_1_abstract}{InsightSheath.Abstract}}}
+\DoxyCodeLine{\Hypertarget{_reference_counter_native_static_container_8cs_source_l00010}00010 \{}
+\DoxyCodeLine{\Hypertarget{_reference_counter_native_static_container_8cs_source_l00021}\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container}{00021}}     \textcolor{keyword}{public} \textcolor{keyword}{abstract} \textcolor{keyword}{class }\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container}{ReferenceCounterNativeStaticContainer}} : \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container}{NativeStaticContainer}}}
+\DoxyCodeLine{\Hypertarget{_reference_counter_native_static_container_8cs_source_l00022}00022     \{}
+\DoxyCodeLine{\Hypertarget{_reference_counter_native_static_container_8cs_source_l00027}\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_a12483e01c95bdb212c65e1857affe0ec}{00027}}         \textcolor{keyword}{public} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_a12483e01c95bdb212c65e1857affe0ec}{ReferenceCounterNativeStaticContainer}}(IntPtr \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}) : base(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}})}
+\DoxyCodeLine{\Hypertarget{_reference_counter_native_static_container_8cs_source_l00028}00028         \{}
+\DoxyCodeLine{\Hypertarget{_reference_counter_native_static_container_8cs_source_l00029}00029             ReferenceCount.Ref = 1;}
+\DoxyCodeLine{\Hypertarget{_reference_counter_native_static_container_8cs_source_l00030}00030         \}}
+\DoxyCodeLine{\Hypertarget{_reference_counter_native_static_container_8cs_source_l00031}00031 }
+\DoxyCodeLine{\Hypertarget{_reference_counter_native_static_container_8cs_source_l00038}\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_a891008764a6336206815f87e9e599ae5}{00038}}         \textcolor{keyword}{public} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_a891008764a6336206815f87e9e599ae5}{ReferenceCounterNativeStaticContainer}}(IntPtr \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}, \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}}, ulong ReferenceCount) : base(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}, \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}})}
+\DoxyCodeLine{\Hypertarget{_reference_counter_native_static_container_8cs_source_l00039}00039         \{}
+\DoxyCodeLine{\Hypertarget{_reference_counter_native_static_container_8cs_source_l00040}00040             this.Native = \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}};}
+\DoxyCodeLine{\Hypertarget{_reference_counter_native_static_container_8cs_source_l00041}00041             \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a8c06b4f0d2c1c2162f9ba5e8c13f3914}{FreeOnCleanupContainer}} = \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}};}
+\DoxyCodeLine{\Hypertarget{_reference_counter_native_static_container_8cs_source_l00042}00042             this.ReferenceCount.Ref = ReferenceCount;}
+\DoxyCodeLine{\Hypertarget{_reference_counter_native_static_container_8cs_source_l00043}00043         \}}
+\DoxyCodeLine{\Hypertarget{_reference_counter_native_static_container_8cs_source_l00049}\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_a1318b2e6789f7d273d18b0978ae06e40}{00049}}         \textcolor{keyword}{public} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_a1318b2e6789f7d273d18b0978ae06e40}{ReferenceCounterNativeStaticContainer}}(IntPtr \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}, \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}}) : base(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}, \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}})}
+\DoxyCodeLine{\Hypertarget{_reference_counter_native_static_container_8cs_source_l00050}00050         \{}
+\DoxyCodeLine{\Hypertarget{_reference_counter_native_static_container_8cs_source_l00051}00051             this.Native = \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}};}
+\DoxyCodeLine{\Hypertarget{_reference_counter_native_static_container_8cs_source_l00052}00052             \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a8c06b4f0d2c1c2162f9ba5e8c13f3914}{FreeOnCleanupContainer}} = \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}};}
+\DoxyCodeLine{\Hypertarget{_reference_counter_native_static_container_8cs_source_l00053}00053             ReferenceCount.Ref = 1;}
+\DoxyCodeLine{\Hypertarget{_reference_counter_native_static_container_8cs_source_l00054}00054         \}}
+\DoxyCodeLine{\Hypertarget{_reference_counter_native_static_container_8cs_source_l00055}00055 }
+\DoxyCodeLine{\Hypertarget{_reference_counter_native_static_container_8cs_source_l00059}\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_aad062cdb982cb6aec2fae05278b46627}{00059}}         \textcolor{keyword}{public} ulong \mbox{\hyperlink{class_insight_sheath_1_1_misc_1_1_reference_counter}{ReferenceCounter}}}
+\DoxyCodeLine{\Hypertarget{_reference_counter_native_static_container_8cs_source_l00060}00060         \{}
+\DoxyCodeLine{\Hypertarget{_reference_counter_native_static_container_8cs_source_l00061}00061             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_reference_counter_native_static_container_8cs_source_l00062}00062             \{}
+\DoxyCodeLine{\Hypertarget{_reference_counter_native_static_container_8cs_source_l00063}00063                 \textcolor{keywordflow}{return} ReferenceCount.\mbox{\hyperlink{class_insight_sheath_1_1_misc_1_1_reference_counter_af289415a46a2de93759f104f8f97c85d}{Ref}};}
+\DoxyCodeLine{\Hypertarget{_reference_counter_native_static_container_8cs_source_l00064}00064             \}}
+\DoxyCodeLine{\Hypertarget{_reference_counter_native_static_container_8cs_source_l00065}00065         \}}
+\DoxyCodeLine{\Hypertarget{_reference_counter_native_static_container_8cs_source_l00066}00066 }
+\DoxyCodeLine{\Hypertarget{_reference_counter_native_static_container_8cs_source_l00067}00067 }
+\DoxyCodeLine{\Hypertarget{_reference_counter_native_static_container_8cs_source_l00068}00068 }
+\DoxyCodeLine{\Hypertarget{_reference_counter_native_static_container_8cs_source_l00073}\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_a129a0deb3f221ac2779a5cf00f9e97e3}{00073}}         \textcolor{keyword}{public} ulong \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_a129a0deb3f221ac2779a5cf00f9e97e3}{AddRef}}()}
+\DoxyCodeLine{\Hypertarget{_reference_counter_native_static_container_8cs_source_l00074}00074         \{}
+\DoxyCodeLine{\Hypertarget{_reference_counter_native_static_container_8cs_source_l00075}00075             \textcolor{keywordflow}{return} ReferenceCount.\mbox{\hyperlink{class_insight_sheath_1_1_misc_1_1_reference_counter_af622a95ff4d0fcbf7470227f3613201d}{AddRef}}();}
+\DoxyCodeLine{\Hypertarget{_reference_counter_native_static_container_8cs_source_l00076}00076         \}}
+\DoxyCodeLine{\Hypertarget{_reference_counter_native_static_container_8cs_source_l00077}00077 }
+\DoxyCodeLine{\Hypertarget{_reference_counter_native_static_container_8cs_source_l00082}\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_a72cd0f0d7bf610d0553f5f9024702377}{00082}}         \textcolor{keyword}{public} ulong \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_reference_counter_native_static_container_a72cd0f0d7bf610d0553f5f9024702377}{Release}}()}
+\DoxyCodeLine{\Hypertarget{_reference_counter_native_static_container_8cs_source_l00083}00083         \{}
+\DoxyCodeLine{\Hypertarget{_reference_counter_native_static_container_8cs_source_l00084}00084             \textcolor{keywordflow}{return} ReferenceCount.\mbox{\hyperlink{class_insight_sheath_1_1_misc_1_1_reference_counter_a10924ef0fa8993d1bb13d8e5c0e11705}{DecRef}}();}
+\DoxyCodeLine{\Hypertarget{_reference_counter_native_static_container_8cs_source_l00085}00085         \}}
+\DoxyCodeLine{\Hypertarget{_reference_counter_native_static_container_8cs_source_l00086}00086 }
+\DoxyCodeLine{\Hypertarget{_reference_counter_native_static_container_8cs_source_l00087}00087         readonly \mbox{\hyperlink{class_insight_sheath_1_1_misc_1_1_reference_counter}{ReferenceCounter}} ReferenceCount = \textcolor{keyword}{new}();}
+\DoxyCodeLine{\Hypertarget{_reference_counter_native_static_container_8cs_source_l00088}00088     \}}
+\DoxyCodeLine{\Hypertarget{_reference_counter_native_static_container_8cs_source_l00089}00089 \}}
+
+\end{DoxyCode}

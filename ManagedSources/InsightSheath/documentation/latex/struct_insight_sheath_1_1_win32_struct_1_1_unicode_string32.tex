@@ -1,0 +1,75 @@
+\hypertarget{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string32}{}\doxysection{Insight\+Sheath.\+Win32\+Struct.\+Unicode\+String32 Struct Reference}
+\label{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string32}\index{InsightSheath.Win32Struct.UnicodeString32@{InsightSheath.Win32Struct.UnicodeString32}}
+
+
+For processed that are Wow/32-\/ bit this is what our UNICODE\+\_\+\+STRING struct looks like when read from. Suitable for Marshaling from either a local native pointer or remote/other process. Take care that you handle if your pointer to the native structure \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string32_a1e1ce136f83201c56a69ee03b56e8564}{Unicode\+String32.\+Buffer}} points to a remote/ non local memory buffer or not.  
+
+
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+ushort \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string32_aa9d455c1afa230319dc72c419b9ce64e}{Length}}
+\begin{DoxyCompactList}\small\item\em Current Length of the string pointed to in Buffer. Note if dealing with Insert\+Here, the memory block pointed to by bufffer currently will be set right after the native location of struct plus its size \end{DoxyCompactList}\item 
+ushort \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string32_a88a16f6aa5b638a7f2715cfa92703721}{Max\+Length}}
+\begin{DoxyCompactList}\small\item\em How big possibly is if the buffer. Note Insert\+Here dealing this is here for completeness sake. Your buffer (if remote) was allocated to be big enough to hold that containing string, that\textquotesingle{}s all \end{DoxyCompactList}\item 
+uint \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string32_a1e1ce136f83201c56a69ee03b56e8564}{Buffer}}
+\begin{DoxyCompactList}\small\item\em 4 byte pointer to where the Unicode String is allocated. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+For processed that are Wow/32-\/ bit this is what our UNICODE\+\_\+\+STRING struct looks like when read from. Suitable for Marshaling from either a local native pointer or remote/other process. Take care that you handle if your pointer to the native structure \mbox{\hyperlink{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string32_a1e1ce136f83201c56a69ee03b56e8564}{Unicode\+String32.\+Buffer}} points to a remote/ non local memory buffer or not. 
+
+To marshal. Using Marshal.\+Ptr\+To\+Structure$<$\+Unicode\+String32$>$(\+Int\+Ptr) and either Marshal.\+Ptr\+To\+String\+Uni(\+Int\+Ptr, int) for a local buffer or Remote.\+Remote\+Structure.\+Remote\+Read\+String(\+Int\+Ptr, Int\+Ptr, uint) for one located in a different process 
+
+Definition at line \mbox{\hyperlink{_windows_unicode_string_8cs_source_l00059}{59}} of file \mbox{\hyperlink{_windows_unicode_string_8cs_source}{Windows\+Unicode\+String.\+cs}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string32_a1e1ce136f83201c56a69ee03b56e8564}\label{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string32_a1e1ce136f83201c56a69ee03b56e8564}} 
+\index{InsightSheath.Win32Struct.UnicodeString32@{InsightSheath.Win32Struct.UnicodeString32}!Buffer@{Buffer}}
+\index{Buffer@{Buffer}!InsightSheath.Win32Struct.UnicodeString32@{InsightSheath.Win32Struct.UnicodeString32}}
+\doxysubsubsection{\texorpdfstring{Buffer}{Buffer}}
+{\footnotesize\ttfamily uint Insight\+Sheath.\+Win32\+Struct.\+Unicode\+String32.\+Buffer}
+
+
+
+4 byte pointer to where the Unicode String is allocated. 
+
+
+
+Definition at line \mbox{\hyperlink{_windows_unicode_string_8cs_source_l00072}{72}} of file \mbox{\hyperlink{_windows_unicode_string_8cs_source}{Windows\+Unicode\+String.\+cs}}.
+
+\mbox{\Hypertarget{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string32_aa9d455c1afa230319dc72c419b9ce64e}\label{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string32_aa9d455c1afa230319dc72c419b9ce64e}} 
+\index{InsightSheath.Win32Struct.UnicodeString32@{InsightSheath.Win32Struct.UnicodeString32}!Length@{Length}}
+\index{Length@{Length}!InsightSheath.Win32Struct.UnicodeString32@{InsightSheath.Win32Struct.UnicodeString32}}
+\doxysubsubsection{\texorpdfstring{Length}{Length}}
+{\footnotesize\ttfamily ushort Insight\+Sheath.\+Win32\+Struct.\+Unicode\+String32.\+Length}
+
+
+
+Current Length of the string pointed to in Buffer. Note if dealing with Insert\+Here, the memory block pointed to by bufffer currently will be set right after the native location of struct plus its size 
+
+
+
+Definition at line \mbox{\hyperlink{_windows_unicode_string_8cs_source_l00064}{64}} of file \mbox{\hyperlink{_windows_unicode_string_8cs_source}{Windows\+Unicode\+String.\+cs}}.
+
+\mbox{\Hypertarget{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string32_a88a16f6aa5b638a7f2715cfa92703721}\label{struct_insight_sheath_1_1_win32_struct_1_1_unicode_string32_a88a16f6aa5b638a7f2715cfa92703721}} 
+\index{InsightSheath.Win32Struct.UnicodeString32@{InsightSheath.Win32Struct.UnicodeString32}!MaxLength@{MaxLength}}
+\index{MaxLength@{MaxLength}!InsightSheath.Win32Struct.UnicodeString32@{InsightSheath.Win32Struct.UnicodeString32}}
+\doxysubsubsection{\texorpdfstring{MaxLength}{MaxLength}}
+{\footnotesize\ttfamily ushort Insight\+Sheath.\+Win32\+Struct.\+Unicode\+String32.\+Max\+Length}
+
+
+
+How big possibly is if the buffer. Note Insert\+Here dealing this is here for completeness sake. Your buffer (if remote) was allocated to be big enough to hold that containing string, that\textquotesingle{}s all 
+
+
+
+Definition at line \mbox{\hyperlink{_windows_unicode_string_8cs_source_l00068}{68}} of file \mbox{\hyperlink{_windows_unicode_string_8cs_source}{Windows\+Unicode\+String.\+cs}}.
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Win32\+Struct/\mbox{\hyperlink{_windows_unicode_string_8cs}{Windows\+Unicode\+String.\+cs}}\end{DoxyCompactItemize}

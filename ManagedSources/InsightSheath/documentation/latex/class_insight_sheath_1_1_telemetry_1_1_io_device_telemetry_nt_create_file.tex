@@ -1,0 +1,249 @@
+\hypertarget{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file}{}\doxysection{Insight\+Sheath.\+Telemetry.\+Io\+Device\+Telemetry\+Nt\+Create\+File Class Reference}
+\label{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file}\index{InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile@{InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile}}
+Inheritance diagram for Insight\+Sheath.\+Telemetry.\+Io\+Device\+Telemetry\+Nt\+Create\+File\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_a6029faa8555564938c65863d042218c3}{Io\+Device\+Telemetry\+Nt\+Create\+File}} (uint \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_general_telemtry_helper_struct_a3cf9468658bda6c3b5545fcdec4051e4}{Process\+Id}}, uint Thread\+ID, Int\+Ptr Force\+Handle, Int\+Ptr Last\+Error, \mbox{\hyperlink{namespace_insight_sheath_aa32853670318d8ddc9960b8750584fc7}{Machine\+Type}} \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_general_telemtry_helper_struct_a11006996136e61596f8723cc201fd170}{Type}})
+\item 
+void \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_a5a19fef4df903ab3b4bea060e34e599d}{Set\+Return\+Value}} (uint Return\+Value)
+\begin{DoxyCompactList}\small\item\em Pointer to the handle to overwrite if the debugger wants to replace what the call was attempting to open. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+readonly Int\+Ptr \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_a91a3971d07a28bb54848e7da9e3614b3}{File\+Out\+Handle}}
+\begin{DoxyCompactList}\small\item\em Pointer to the first argument in Nt\+Create\+File. That will indicate the out handle. For x64 bit processes this will be a 64-\/bit pointer. For x32 bit processes, this will be a 32-\/bit pointer. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798bec}{Access\+Masks}} \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_a528667b63dd8edcecff4b495de5dfc57}{Desired\+Access}}
+\begin{DoxyCompactList}\small\item\em Will contain the passed Access Request flags for Nt\+Create\+File. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_object_attributes}{Windows\+Object\+Attributes}} \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_aa1dbae64a0cb03d63e73687c24d4d61f}{Object\+Attributes}}
+\begin{DoxyCompactList}\small\item\em May be null. If not null, this will be the Object Attributes read from that file. \end{DoxyCompactList}\item 
+readonly Int\+Ptr \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_a86716be37645387a7e1279fbdb143756}{Io\+Status\+Block}}
+\item 
+\mbox{\hyperlink{struct_insight_sheath_1_1_telemetry_1_1_l_a_r_g_e___i_n_t_e_g_e_r}{LARGE\+\_\+\+INTEGER}} \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_aaf9302add84ab93f42a966a01b01049c}{Allocation\+Size}}
+\begin{DoxyCompactList}\small\item\em a \mbox{\hyperlink{struct_insight_sheath_1_1_telemetry_1_1_l_a_r_g_e___i_n_t_e_g_e_r}{LARGE\+\_\+\+INTEGER}} struct. \end{DoxyCompactList}\item 
+File\+Attributes \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_a9ae1d97ace82d2cd5918106586840298}{File\+Attributes}}
+\begin{DoxyCompactList}\small\item\em The .NET file attributes for how the IO thing is being opened. \end{DoxyCompactList}\item 
+File\+Share \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_a56b6babcc3621047cba281f1f2b4fd6d}{Share\+Access}}
+\begin{DoxyCompactList}\small\item\em The .NET shared mode. \end{DoxyCompactList}\item 
+uint \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_ad7b9e98d886a5df809f0b310b07eae7f}{Creation\+Options}}
+\begin{DoxyCompactList}\small\item\em https\+://docs.\+microsoft.\+com/en-\/us/windows/win32/api/winternl/nf-\/winternl-\/ntcreatefile for specifics. TODO\+: Include enum containing those values. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a15b1b686153bd71b56704829fdee0233}{Nt\+Creation\+Disposition}} \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_a9a992ba03b0ceead9030efaba7556832}{Create\+Disposition}}
+\begin{DoxyCompactList}\small\item\em Nt\+Create\+File specific flags. \end{DoxyCompactList}\item 
+Int\+Ptr \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_a603e74dd198d06047f65bf8a0bf3dc8c}{Ea\+Buffer}}
+\begin{DoxyCompactList}\small\item\em for x64 debugged processes. This is a 64-\/bit pointer. For x32-\/bit processes, this is a 32-\/bit pointer that may be pretended to be 64-\/bit depending on .NET settings. \end{DoxyCompactList}\item 
+ulong \mbox{\hyperlink{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_a33997082ce1d3474fcb3ffcc41739864}{Ea\+Size}}
+\begin{DoxyCompactList}\small\item\em How many bytes is the Ea\+Bufffer. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line \mbox{\hyperlink{_io_device_telemetry_reader_8cs_source_l00272}{272}} of file \mbox{\hyperlink{_io_device_telemetry_reader_8cs_source}{Io\+Device\+Telemetry\+Reader.\+cs}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_a6029faa8555564938c65863d042218c3}\label{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_a6029faa8555564938c65863d042218c3}} 
+\index{InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile@{InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile}!IoDeviceTelemetryNtCreateFile@{IoDeviceTelemetryNtCreateFile}}
+\index{IoDeviceTelemetryNtCreateFile@{IoDeviceTelemetryNtCreateFile}!InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile@{InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile}}
+\doxysubsubsection{\texorpdfstring{IoDeviceTelemetryNtCreateFile()}{IoDeviceTelemetryNtCreateFile()}}
+{\footnotesize\ttfamily Insight\+Sheath.\+Telemetry.\+Io\+Device\+Telemetry\+Nt\+Create\+File.\+Io\+Device\+Telemetry\+Nt\+Create\+File (\begin{DoxyParamCaption}\item[{uint}]{Process\+Id,  }\item[{uint}]{Thread\+ID,  }\item[{Int\+Ptr}]{Force\+Handle,  }\item[{Int\+Ptr}]{Last\+Error,  }\item[{\mbox{\hyperlink{namespace_insight_sheath_aa32853670318d8ddc9960b8750584fc7}{Machine\+Type}}}]{Type }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line \mbox{\hyperlink{_io_device_telemetry_reader_8cs_source_l00275}{275}} of file \mbox{\hyperlink{_io_device_telemetry_reader_8cs_source}{Io\+Device\+Telemetry\+Reader.\+cs}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_a5a19fef4df903ab3b4bea060e34e599d}\label{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_a5a19fef4df903ab3b4bea060e34e599d}} 
+\index{InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile@{InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile}!SetReturnValue@{SetReturnValue}}
+\index{SetReturnValue@{SetReturnValue}!InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile@{InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile}}
+\doxysubsubsection{\texorpdfstring{SetReturnValue()}{SetReturnValue()}}
+{\footnotesize\ttfamily void Insight\+Sheath.\+Telemetry.\+Io\+Device\+Telemetry\+Nt\+Create\+File.\+Set\+Return\+Value (\begin{DoxyParamCaption}\item[{uint}]{Return\+Value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Pointer to the handle to overwrite if the debugger wants to replace what the call was attempting to open. 
+
+Occupies the same spot as the last error in reading the EXCEPTION\+\_\+\+ARGS struct. Pointer to the RETURN VALUE to return from the Nt\+Create\+File setting. 
+
+Nt\+Create\+File does not appear to set last error based on documentation. Here Last Error is the return value given back to the debugged process. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Return\+Value} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{_io_device_telemetry_reader_8cs_source_l00339}{339}} of file \mbox{\hyperlink{_io_device_telemetry_reader_8cs_source}{Io\+Device\+Telemetry\+Reader.\+cs}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_aaf9302add84ab93f42a966a01b01049c}\label{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_aaf9302add84ab93f42a966a01b01049c}} 
+\index{InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile@{InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile}!AllocationSize@{AllocationSize}}
+\index{AllocationSize@{AllocationSize}!InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile@{InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile}}
+\doxysubsubsection{\texorpdfstring{AllocationSize}{AllocationSize}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_insight_sheath_1_1_telemetry_1_1_l_a_r_g_e___i_n_t_e_g_e_r}{LARGE\+\_\+\+INTEGER}} Insight\+Sheath.\+Telemetry.\+Io\+Device\+Telemetry\+Nt\+Create\+File.\+Allocation\+Size}
+
+
+
+a \mbox{\hyperlink{struct_insight_sheath_1_1_telemetry_1_1_l_a_r_g_e___i_n_t_e_g_e_r}{LARGE\+\_\+\+INTEGER}} struct. 
+
+
+
+Definition at line \mbox{\hyperlink{_io_device_telemetry_reader_8cs_source_l00298}{298}} of file \mbox{\hyperlink{_io_device_telemetry_reader_8cs_source}{Io\+Device\+Telemetry\+Reader.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_a9a992ba03b0ceead9030efaba7556832}\label{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_a9a992ba03b0ceead9030efaba7556832}} 
+\index{InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile@{InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile}!CreateDisposition@{CreateDisposition}}
+\index{CreateDisposition@{CreateDisposition}!InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile@{InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile}}
+\doxysubsubsection{\texorpdfstring{CreateDisposition}{CreateDisposition}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a15b1b686153bd71b56704829fdee0233}{Nt\+Creation\+Disposition}} Insight\+Sheath.\+Telemetry.\+Io\+Device\+Telemetry\+Nt\+Create\+File.\+Create\+Disposition}
+
+
+
+Nt\+Create\+File specific flags. 
+
+
+
+Definition at line \mbox{\hyperlink{_io_device_telemetry_reader_8cs_source_l00314}{314}} of file \mbox{\hyperlink{_io_device_telemetry_reader_8cs_source}{Io\+Device\+Telemetry\+Reader.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_ad7b9e98d886a5df809f0b310b07eae7f}\label{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_ad7b9e98d886a5df809f0b310b07eae7f}} 
+\index{InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile@{InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile}!CreationOptions@{CreationOptions}}
+\index{CreationOptions@{CreationOptions}!InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile@{InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile}}
+\doxysubsubsection{\texorpdfstring{CreationOptions}{CreationOptions}}
+{\footnotesize\ttfamily uint Insight\+Sheath.\+Telemetry.\+Io\+Device\+Telemetry\+Nt\+Create\+File.\+Creation\+Options}
+
+
+
+https\+://docs.\+microsoft.\+com/en-\/us/windows/win32/api/winternl/nf-\/winternl-\/ntcreatefile for specifics. TODO\+: Include enum containing those values. 
+
+
+
+Definition at line \mbox{\hyperlink{_io_device_telemetry_reader_8cs_source_l00310}{310}} of file \mbox{\hyperlink{_io_device_telemetry_reader_8cs_source}{Io\+Device\+Telemetry\+Reader.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_a528667b63dd8edcecff4b495de5dfc57}\label{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_a528667b63dd8edcecff4b495de5dfc57}} 
+\index{InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile@{InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile}!DesiredAccess@{DesiredAccess}}
+\index{DesiredAccess@{DesiredAccess}!InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile@{InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile}}
+\doxysubsubsection{\texorpdfstring{DesiredAccess}{DesiredAccess}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespace_insight_sheath_1_1_telemetry_a69c531e69b53afa28b7e3dfb55798bec}{Access\+Masks}} Insight\+Sheath.\+Telemetry.\+Io\+Device\+Telemetry\+Nt\+Create\+File.\+Desired\+Access}
+
+
+
+Will contain the passed Access Request flags for Nt\+Create\+File. 
+
+
+
+Definition at line \mbox{\hyperlink{_io_device_telemetry_reader_8cs_source_l00286}{286}} of file \mbox{\hyperlink{_io_device_telemetry_reader_8cs_source}{Io\+Device\+Telemetry\+Reader.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_a603e74dd198d06047f65bf8a0bf3dc8c}\label{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_a603e74dd198d06047f65bf8a0bf3dc8c}} 
+\index{InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile@{InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile}!EaBuffer@{EaBuffer}}
+\index{EaBuffer@{EaBuffer}!InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile@{InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile}}
+\doxysubsubsection{\texorpdfstring{EaBuffer}{EaBuffer}}
+{\footnotesize\ttfamily Int\+Ptr Insight\+Sheath.\+Telemetry.\+Io\+Device\+Telemetry\+Nt\+Create\+File.\+Ea\+Buffer}
+
+
+
+for x64 debugged processes. This is a 64-\/bit pointer. For x32-\/bit processes, this is a 32-\/bit pointer that may be pretended to be 64-\/bit depending on .NET settings. 
+
+
+
+Definition at line \mbox{\hyperlink{_io_device_telemetry_reader_8cs_source_l00318}{318}} of file \mbox{\hyperlink{_io_device_telemetry_reader_8cs_source}{Io\+Device\+Telemetry\+Reader.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_a33997082ce1d3474fcb3ffcc41739864}\label{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_a33997082ce1d3474fcb3ffcc41739864}} 
+\index{InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile@{InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile}!EaSize@{EaSize}}
+\index{EaSize@{EaSize}!InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile@{InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile}}
+\doxysubsubsection{\texorpdfstring{EaSize}{EaSize}}
+{\footnotesize\ttfamily ulong Insight\+Sheath.\+Telemetry.\+Io\+Device\+Telemetry\+Nt\+Create\+File.\+Ea\+Size}
+
+
+
+How many bytes is the Ea\+Bufffer. 
+
+
+
+Definition at line \mbox{\hyperlink{_io_device_telemetry_reader_8cs_source_l00322}{322}} of file \mbox{\hyperlink{_io_device_telemetry_reader_8cs_source}{Io\+Device\+Telemetry\+Reader.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_a9ae1d97ace82d2cd5918106586840298}\label{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_a9ae1d97ace82d2cd5918106586840298}} 
+\index{InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile@{InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile}!FileAttributes@{FileAttributes}}
+\index{FileAttributes@{FileAttributes}!InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile@{InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile}}
+\doxysubsubsection{\texorpdfstring{FileAttributes}{FileAttributes}}
+{\footnotesize\ttfamily File\+Attributes Insight\+Sheath.\+Telemetry.\+Io\+Device\+Telemetry\+Nt\+Create\+File.\+File\+Attributes}
+
+
+
+The .NET file attributes for how the IO thing is being opened. 
+
+
+
+Definition at line \mbox{\hyperlink{_io_device_telemetry_reader_8cs_source_l00302}{302}} of file \mbox{\hyperlink{_io_device_telemetry_reader_8cs_source}{Io\+Device\+Telemetry\+Reader.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_a91a3971d07a28bb54848e7da9e3614b3}\label{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_a91a3971d07a28bb54848e7da9e3614b3}} 
+\index{InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile@{InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile}!FileOutHandle@{FileOutHandle}}
+\index{FileOutHandle@{FileOutHandle}!InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile@{InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile}}
+\doxysubsubsection{\texorpdfstring{FileOutHandle}{FileOutHandle}}
+{\footnotesize\ttfamily readonly Int\+Ptr Insight\+Sheath.\+Telemetry.\+Io\+Device\+Telemetry\+Nt\+Create\+File.\+File\+Out\+Handle}
+
+
+
+Pointer to the first argument in Nt\+Create\+File. That will indicate the out handle. For x64 bit processes this will be a 64-\/bit pointer. For x32 bit processes, this will be a 32-\/bit pointer. 
+
+
+
+Definition at line \mbox{\hyperlink{_io_device_telemetry_reader_8cs_source_l00282}{282}} of file \mbox{\hyperlink{_io_device_telemetry_reader_8cs_source}{Io\+Device\+Telemetry\+Reader.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_a86716be37645387a7e1279fbdb143756}\label{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_a86716be37645387a7e1279fbdb143756}} 
+\index{InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile@{InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile}!IoStatusBlock@{IoStatusBlock}}
+\index{IoStatusBlock@{IoStatusBlock}!InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile@{InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile}}
+\doxysubsubsection{\texorpdfstring{IoStatusBlock}{IoStatusBlock}}
+{\footnotesize\ttfamily readonly Int\+Ptr Insight\+Sheath.\+Telemetry.\+Io\+Device\+Telemetry\+Nt\+Create\+File.\+Io\+Status\+Block}
+
+
+
+
+
+for x64 debugged processes. This is a 64-\/bit pointer. For x32-\/bit processes, this is a 32-\/bit pointer that may be pretended to be 64-\/bit depending on .NET 
+
+Definition at line \mbox{\hyperlink{_io_device_telemetry_reader_8cs_source_l00294}{294}} of file \mbox{\hyperlink{_io_device_telemetry_reader_8cs_source}{Io\+Device\+Telemetry\+Reader.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_aa1dbae64a0cb03d63e73687c24d4d61f}\label{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_aa1dbae64a0cb03d63e73687c24d4d61f}} 
+\index{InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile@{InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile}!ObjectAttributes@{ObjectAttributes}}
+\index{ObjectAttributes@{ObjectAttributes}!InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile@{InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile}}
+\doxysubsubsection{\texorpdfstring{ObjectAttributes}{ObjectAttributes}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_insight_sheath_1_1_win32_struct_1_1_windows_object_attributes}{Windows\+Object\+Attributes}} Insight\+Sheath.\+Telemetry.\+Io\+Device\+Telemetry\+Nt\+Create\+File.\+Object\+Attributes}
+
+
+
+May be null. If not null, this will be the Object Attributes read from that file. 
+
+
+
+Definition at line \mbox{\hyperlink{_io_device_telemetry_reader_8cs_source_l00290}{290}} of file \mbox{\hyperlink{_io_device_telemetry_reader_8cs_source}{Io\+Device\+Telemetry\+Reader.\+cs}}.
+
+\mbox{\Hypertarget{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_a56b6babcc3621047cba281f1f2b4fd6d}\label{class_insight_sheath_1_1_telemetry_1_1_io_device_telemetry_nt_create_file_a56b6babcc3621047cba281f1f2b4fd6d}} 
+\index{InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile@{InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile}!ShareAccess@{ShareAccess}}
+\index{ShareAccess@{ShareAccess}!InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile@{InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile}}
+\doxysubsubsection{\texorpdfstring{ShareAccess}{ShareAccess}}
+{\footnotesize\ttfamily File\+Share Insight\+Sheath.\+Telemetry.\+Io\+Device\+Telemetry\+Nt\+Create\+File.\+Share\+Access}
+
+
+
+The .NET shared mode. 
+
+
+
+Definition at line \mbox{\hyperlink{_io_device_telemetry_reader_8cs_source_l00306}{306}} of file \mbox{\hyperlink{_io_device_telemetry_reader_8cs_source}{Io\+Device\+Telemetry\+Reader.\+cs}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Telemetry/\mbox{\hyperlink{_io_device_telemetry_reader_8cs}{Io\+Device\+Telemetry\+Reader.\+cs}}\end{DoxyCompactItemize}

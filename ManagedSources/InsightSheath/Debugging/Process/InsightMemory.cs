@@ -15,11 +15,20 @@ namespace InsightSheath.Debugging.Process
     /// </summary>
     public class InsightMemory : NativeStaticContainer
     {
+        /// <summary>
+        /// Create an instance of <see cref="InsightMemory"/> from the unmanaged DLL and return a pointer encapsulated in the .NET class.
+        /// </summary>
+        /// <returns>Returns an instance of <see cref="InsightMemory"/> already set to point to the unmanaged DLL's code</returns>
         public static InsightMemory CreateInstance()
         {
             return new InsightMemory(InternalInsightMemory.MakeInstance());
         }
 
+        /// <summary>
+        /// Duplicate an instance of <see cref="InsightMemory"/> from the passed pointer.  
+        /// </summary>
+        /// <param name="Handle"></param>
+        /// <returns>Returns an instance of <see cref="InsightMemory"/> already set to point to the same process that the passed pointer. Each instance can separately point to other pointers</returns>
         public static InsightMemory CreateInstance(IntPtr Handle)
         {
             var ret = new InsightMemory(InternalInsightMemory.MakeInstance());
@@ -27,25 +36,48 @@ namespace InsightSheath.Debugging.Process
             return ret;
         }
 
+        /// <summary>
+        /// Create an instance of <see cref="InsightMemory"/> and point it to read about the passed process.
+        /// </summary>
+        /// <param name="Process">process id to read about. It must be able to be opened for PROCESS_QUERY_INFORMATION and PROECSS_VM_READ </param>
+        /// <returns>Returns an instance of <see cref="InsightMemory"/> already set to point to the unmanaged DLL's code. The class is pointed to use the passed process</returns>
         public static InsightMemory CreateInstance(uint Process)
         {
             var ret = new InsightMemory(InternalInsightMemory.MakeInstance());
             ret.SetTargetProcess(Process);
             return ret;
         }
+        /// <summary>
+        /// Duplicate an instance of <see cref="InsightMemory"/> from an existing copy.
+        /// </summary>
+        /// <param name="Other">separate instance of <see cref="InsightMemory"/></param>
+        /// <returns>Returns a separate  instance of <see cref="InsightMemory"/> already set.</returns>
         public static InsightMemory DuplicateInstance(InsightMemory Other)
         {
             return new InsightMemory(InternalInsightMemory.DupInstance(Other.Native));
         }
         
+        /// <summary>
+        /// Create an instance of the wrapper class and point to the native pointer for the native side of the class.
+        /// </summary>
+        /// <param name="that">Non-null pointer</param>
+        /// <exception cref="ArgumentNullException">Raises this if argument is null</exception>
         public InsightMemory(IntPtr that): base(that)
         {
             if (that == IntPtr.Zero)
             {
-                throw new ArgumentNullException(nameof(that));
+                //throw new ArgumentNullException(nameof(that));
+                //throw new ArgumentNullException(WrapperConstructorReceivedNullPointerErrorMsg("Argument", this.GetType().Name + ".CreateInstance", nameof(Native)));
+                throw WrapperConstructorReceivedNullPointerErrorException("Argument", GetType().Name + ".CreateInstance", nameof(Native));
             }
         }
 
+        /// <summary>
+        /// Create an instance of the wrapper class and point to the native pointer for the native side of the class.
+        /// </summary>
+        /// <param name="that">Non-null pointer</param>
+        /// <param name="FreeOnCleanup">Ignored</param>
+        /// <exception cref="ArgumentNullException">Raises this if argument is null</exception>
         public InsightMemory(IntPtr that, bool FreeOnCleanup): base(that, false)
         {
             if (that == IntPtr.Zero)
@@ -54,15 +86,30 @@ namespace InsightSheath.Debugging.Process
             }
         }
 
+        /// <summary>
+        /// Invoke the proper clean up routine for <see cref="InsightMemory"/> for unmanaged resources and also managed if dispose is true
+        /// </summary>
+        /// <param name="disposing">set to true if disposing of managed resources also.</param>
         protected override void Dispose(bool disposing)
         {
+            if (!IsDisposed)
+            {
+                if (FreeOnCleanup)
+                {
+                    if (Native != IntPtr.Zero)
+                    {
+                        InternalInsightMemory.KillInstance(Native);
+                        ClearNative();
+                    }
+                }
+            }
+            
             base.Dispose(disposing);
-            InternalInsightMemory.KillInstance(Native);
-            GC.SuppressFinalize(this);
         }
 
         /// <summary>
-        /// Control if each call to one of these values will result in another call to get an updated value. The default is true; however, that can BE A PERFORMANCE PENALTY if you're getting the value individually for each setting frequently in a loop. Recommend False if you're reading reading them alot
+        /// Control if each call to one of these values will result in another call to get an updated value. The default is true; however, that can BE A PERFORMANCE PENALTY if you're getting the value individually for each setting frequently in a loop.
+        /// Recommend False if you're reading them a lot
         /// </summary>
         public bool AutoUpdateMemory
         {
@@ -77,6 +124,10 @@ namespace InsightSheath.Debugging.Process
         }
 
 
+        /// <summary>
+        /// Return the x86 bit version of the underlying structure containing the memory statistics.
+        /// </summary>
+        /// <remarks>Know if you're asking about an x86 or x64 process. While this shouldn't crash, grabbing the wrong one will produce garbage values</remarks>
         public ProcessMemoryCount32? MemoryStatsBulk32
         {
             get
@@ -90,7 +141,10 @@ namespace InsightSheath.Debugging.Process
             }
         }
 
-
+        /// <summary>
+        /// Return the x64 bit version of the underlying structure containing the memory statistics.
+        /// </summary>
+        /// <remarks>Know if you're asking about an x86 or x64 process. While this shouldn't crash, grabbing the wrong one will produce garbage values</remarks>
         public ProcessMemoryCount64? MemoryStatsBulk64
         {
             get
@@ -192,7 +246,7 @@ namespace InsightSheath.Debugging.Process
             }
         }
         /// <summary>
-        /// Get the peak nonpaged pool usage in bytes.
+        /// Get the peak non paged pool usage in bytes.
         /// </summary>
         /// <remarks>Call <see cref="ManualRefreshStats"/> if <see cref="AutoUpdateMemory"/> is false get up to date values.</remarks>
         public ulong QuotaPeakNonPagedPoolUsage
@@ -205,7 +259,7 @@ namespace InsightSheath.Debugging.Process
         }
 
         /// <summary>
-        /// Get the current nonpaged pool usage in bytes.
+        /// Get the current non paged pool usage in bytes.
         /// </summary>
         /// <remarks>Call <see cref="ManualRefreshStats"/> if <see cref="AutoUpdateMemory"/> is false get up to date values.</remarks>
         public ulong QuotaNonPagedPoolUsage

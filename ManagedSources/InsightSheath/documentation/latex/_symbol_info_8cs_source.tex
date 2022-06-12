@@ -1,0 +1,153 @@
+\hypertarget{_symbol_info_8cs_source}{}\doxysection{Symbol\+Info.\+cs}
+\label{_symbol_info_8cs_source}\index{Debugging/SymbolEngine/SymbolInfo.cs@{Debugging/SymbolEngine/SymbolInfo.cs}}
+\mbox{\hyperlink{_symbol_info_8cs}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00001}00001 \textcolor{keyword}{using }System;}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00002}00002 \textcolor{keyword}{using }System.Collections.Generic;}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00003}00003 \textcolor{keyword}{using }System.Linq;}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00004}00004 \textcolor{keyword}{using }System.Text;}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00005}00005 \textcolor{keyword}{using }System.Threading.Tasks;}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00006}00006 \textcolor{keyword}{using }\mbox{\hyperlink{namespace_insight_sheath_1_1_native_imports}{InsightSheath.NativeImports}};}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00007}00007 \textcolor{keyword}{using }System.Runtime.InteropServices;}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00008}00008 \textcolor{keyword}{using }\mbox{\hyperlink{namespace_insight_sheath_1_1_abstract}{InsightSheath.Abstract}};}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00009}00009 }
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00010}00010 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine}{InsightSheath.Debugging.SymbolEngine}}}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00011}00011 \{}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00015}\mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aa11f6fc86be219002e0d5ef6e4824d05}{00015}}     \textcolor{keyword}{public} \textcolor{keyword}{enum} \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aa11f6fc86be219002e0d5ef6e4824d05}{SymbolTagType}}: uint}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00016}00016     \{}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00017}00017        \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aa11f6fc86be219002e0d5ef6e4824d05abbb93ef26e3c101ff11cdd21cab08a94}{Null}} = 0}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00018}00018     \}}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00019}00019      [Flags]}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00020}\mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874c}{00020}}     \textcolor{keyword}{public} \textcolor{keyword}{enum} \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874c}{SymbolFlags}} : uint }
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00021}00021     \{}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00025}00025         \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874ca699c97397e2f87eefd794266b608bfc7}{ClrToken}} = 0x00040000,}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00029}00029         \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874cacb17869fe51048b5a5c4c6106551a255}{Constant}} = 0x00000100,}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00033}00033         \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874ca0095a9fa74d1713e43e370a7d7846224}{Export}} = 0x00000200,}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00037}00037         \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874ca2d361d5fe6d74b7550e0aa35d94342ec}{Forwarder}} = 0x00000400,}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00041}00041         \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874ca0d70390c0f6763290711a3cef430388d}{FrameRel}} = 0x00000020,}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00045}00045         \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874ca86408593c34af77fdd90df932f8b5261}{Function}} = 0x00000800,}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00049}00049         \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874caddd8ec5841fbebcc90ef0e99d484a440}{IrlRel}} = 0x00010000,}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00053}00053         \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874ca509820290d57f333403f490dde7316f4}{Local}} =0x00000080,}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00057}00057         \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874cace21470ab49d1d1976bc3dc72438c183}{Metadata}} = 0x00020000,}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00061}00061         \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874ca83f499a540b1323009c200d6f8cc9396}{Parameter}} = 0x00000040,}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00065}00065         \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874ca0ba7583639a274c434bbe6ef797115a4}{Register}} = 0x00000008,}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00069}00069         \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874ca17d63c695c39837a07bae1dea6ea8f77}{Regrel}} = 0x00000010,}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00073}00073         \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874ca9234cc57c43f272b55a94b0069fe62d1}{Slot}} = 0x00008000,}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00077}00077         \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874cad23b094e66eef00330206ffe8cd8b6f5}{Thunk}} = 0x00002000,}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00081}00081         \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874cad1a004b6465baf1d922d649bf0c2a063}{TlsRel}} = 0x00004000,}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00085}00085         \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874cacebc543dc7fc7bebca49278e2703eeff}{ValuePresent}} = 0x00000001,}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00089}00089         \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874ca615e6f9baca5553d44683a098d342b70}{Virtual}} = 0x00001000}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00090}00090 }
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00091}00091     \}}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00092}00092 }
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00096}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_symbol_info}{00096}}     \textcolor{keyword}{public} \textcolor{keyword}{class }\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_symbol_info}{SymbolInfo}} : \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container}{NativeStaticContainer}}}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00097}00097     \{}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00098}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_symbol_info_aa44eaf33ec9ca1ec95d7a7076e4c3d79}{00098}}         \textcolor{keyword}{public} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_symbol_info_aa44eaf33ec9ca1ec95d7a7076e4c3d79}{SymbolInfo}}(IntPtr That) : base(That)}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00099}00099         \{}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00100}00100 }
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00101}00101         \}}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00102}00102 }
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00103}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_symbol_info_a47d3d5c164a19bb3eeb9df4a33cc163d}{00103}}         \textcolor{keyword}{public} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_symbol_info_a47d3d5c164a19bb3eeb9df4a33cc163d}{SymbolInfo}}(IntPtr That, \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}}) : base(That, \mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_a58ebaf21a064208b36f0fde915d725e9}{FreeOnCleanup}})}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00104}00104         \{}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00105}00105 }
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00106}00106         \}}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00107}00107 }
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00108}00108 }
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00112}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_symbol_info_a027f1fb71cffb84fe651c4a125492da0}{00112}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_symbol_info_a027f1fb71cffb84fe651c4a125492da0}{TypeDataIndex}}}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00113}00113         \{}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00114}00114             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00115}00115             \{}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00116}00116                 \textcolor{keywordflow}{return} SymbolInfoInternal.SymbolInfo\_GetTypeIndex(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}});}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00117}00117             \}}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00118}00118         \}}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00119}00119 }
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00123}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_symbol_info_a358ad51b9f94d3ad70bea0f14c3cc6a4}{00123}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_symbol_info_a358ad51b9f94d3ad70bea0f14c3cc6a4}{SymbolIndex}}}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00124}00124         \{}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00125}00125             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00126}00126             \{}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00127}00127                 \textcolor{keywordflow}{return} SymbolInfoInternal.SymbolInfo\_GetIndex(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}});}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00128}00128             \}}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00129}00129         \}}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00130}00130 }
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00131}00131 }
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00135}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_symbol_info_aee5cc572bb94c4c08b6600065c53f34b}{00135}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_symbol_info_aee5cc572bb94c4c08b6600065c53f34b}{SymbolSize}}}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00136}00136         \{}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00137}00137             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00138}00138             \{}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00139}00139                 \textcolor{keywordflow}{return} SymbolInfoInternal.SymbolInfo\_GetSymbolSize(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}});}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00140}00140             \}}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00141}00141         \}}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00142}00142 }
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00146}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_symbol_info_a1cc5354241dbed57960d6d994b3e2da5}{00146}}         \textcolor{keyword}{public} ulong \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_symbol_info_a1cc5354241dbed57960d6d994b3e2da5}{BaseModuleAddress}}}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00147}00147         \{}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00148}00148             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00149}00149             \{}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00150}00150                 \textcolor{keywordflow}{return} SymbolInfoInternal.SymbolInfo\_GetModuleBase(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}});}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00151}00151             \}}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00152}00152         \}}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00153}00153 }
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00157}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_symbol_info_ac1c8da69b9cb5bd623f4acbb22200de9}{00157}}         \textcolor{keyword}{public} \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aff7681d1efd2293452f887ffd1d0874c}{SymbolFlags}} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_symbol_info_ac1c8da69b9cb5bd623f4acbb22200de9}{Flags}}}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00158}00158         \{}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00159}00159             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00160}00160             \{}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00161}00161                 \textcolor{keywordflow}{return} SymbolInfoInternal.SymbolInfo\_GetFlags(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}});}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00162}00162             \}}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00163}00163         \}}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00164}00164 }
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00165}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_symbol_info_a2353bf75740fe5380410702c8f12519b}{00165}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_symbol_info_a2353bf75740fe5380410702c8f12519b}{SymbolRegisterOrValue}}}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00166}00166         \{}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00167}00167             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00168}00168             \{}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00169}00169                 \textcolor{keywordflow}{return} SymbolInfoInternal.SymbolInfo\_GetValOrReg(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}});}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00170}00170             \}}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00171}00171         \}}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00172}00172 }
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00173}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_symbol_info_afc9efac35f5dd0b5e2a6f50878a8123c}{00173}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_symbol_info_afc9efac35f5dd0b5e2a6f50878a8123c}{SymbolRegister}}}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00174}00174         \{}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00175}00175             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00176}00176             \{}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00177}00177                 \textcolor{keywordflow}{return} SymbolInfoInternal.SymbolInfo\_GetReg(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}});}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00178}00178             \}}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00179}00179         \}}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00180}00180 }
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00181}00181 }
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00182}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_symbol_info_aa4e5c1fa73900f8098b111317d5c89ce}{00182}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_symbol_info_aa4e5c1fa73900f8098b111317d5c89ce}{SymbolValue}}}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00183}00183         \{}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00184}00184             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00185}00185             \{}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00186}00186                 \textcolor{keywordflow}{return} SymbolInfoInternal.SymbolInfo\_GetVal(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}});}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00187}00187             \}}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00188}00188         \}}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00189}00189 }
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00190}00190 }
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00191}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_symbol_info_a9c26ac533ca771293f39c70af856f88c}{00191}}         \textcolor{keyword}{public} uint \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_symbol_info_a9c26ac533ca771293f39c70af856f88c}{SymbolScope}}}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00192}00192         \{}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00193}00193             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00194}00194             \{}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00195}00195                 \textcolor{keywordflow}{return} SymbolInfoInternal.SymbolInfo\_GetScope(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}});}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00196}00196             \}}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00197}00197         \}}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00198}00198 }
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00199}00199 }
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00200}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_symbol_info_aaf4119f276a66c5894c97568b633f945}{00200}}         \textcolor{keyword}{public} \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aa11f6fc86be219002e0d5ef6e4824d05}{SymbolTagType}} \mbox{\hyperlink{namespace_insight_sheath_1_1_debugging_1_1_symbol_engine_aa11f6fc86be219002e0d5ef6e4824d05}{SymbolTagType}}}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00201}00201         \{}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00202}00202             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00203}00203             \{}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00204}00204                 \textcolor{keywordflow}{return} SymbolInfoInternal.SymbolInfo\_GetTagType(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}});}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00205}00205             \}}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00206}00206         \}}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00207}00207 }
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00208}\mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_symbol_info_a9f852d111771411db3aaa36b04e10860}{00208}}         \textcolor{keyword}{public} \textcolor{keywordtype}{string} \mbox{\hyperlink{class_insight_sheath_1_1_debugging_1_1_symbol_engine_1_1_symbol_info_a9f852d111771411db3aaa36b04e10860}{SymbolName}}}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00209}00209         \{}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00210}00210             \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00211}00211             \{}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00212}00212                 \textcolor{keywordflow}{return} Marshal.PtrToStringUni(SymbolInfoInternal.SymbolInfo\_GetName(\mbox{\hyperlink{class_insight_sheath_1_1_abstract_1_1_native_static_container_af70a5336c0b773b727338954e4636e8b}{Native}}));}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00213}00213             \}}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00214}00214         \}}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00215}00215 }
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00216}00216     \}}
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00217}00217 }
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00218}00218 }
+\DoxyCodeLine{\Hypertarget{_symbol_info_8cs_source_l00219}00219     \}}
+
+\end{DoxyCode}

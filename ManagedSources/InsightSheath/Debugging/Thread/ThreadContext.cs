@@ -1,4 +1,5 @@
 ﻿using InsightSheath.Abstract;
+using InsightSheath.Debugging.Process;
 using InsightSheath.NativeImports;
 using System;
 using System.Collections.Generic;
@@ -39,15 +40,15 @@ namespace InsightSheath.Debugging.Thread
         }
 
         /// <summary>
-        /// This links an instance of the ThreadContext on the native side with your Managed code.  Use <see cref="CreateInstance()"/> to make a new instance. This constructor links your .Net Wrapper to a Native underlying instance of the C++ class.
+        /// This links an instance of the ThreadContext on the native side with your Managed code.  Use <see cref="CreateInstance(IntPtr)"/> or <see cref="CreateInstance(uint)"/>to make a new instance. This constructor links your .Net Wrapper to a Native underlying instance of the C++ class.
         /// </summary>
-        /// <param name="Native">A non null pointer to InsightApi's native class (currently housed in ThreadContext.cpp).</param>
         /// <exception cref="ArgumentNullException">If passing null, this is thrown</exception>
         public ThreadContext(IntPtr Native) : base(Native)
         {
             if (NativePointer == IntPtr.Zero)
             {
-                throw new ArgumentNullException(ConstructReceivedNullPointerOnConstructor_message("Argument", "ThreadContext.CreateInstance", nameof(Native)));
+                //throw new ArgumentNullException(WrapperConstructorReceivedNullPointerErrorMsg("Argument", "ThreadContext.CreateInstance", nameof(Native)));
+                throw WrapperConstructorReceivedNullPointerErrorException("Argument", GetType().Name + ".CreateInstance", nameof(Native));
             }
             
         }
@@ -63,7 +64,8 @@ namespace InsightSheath.Debugging.Thread
         {
             if (NativePointer == IntPtr.Zero)
             {
-                throw new ArgumentNullException(ConstructReceivedNullPointerOnConstructor_message("Argument", "ThreadContext.CreateInstance", nameof(Native)));
+                //throw new ArgumentNullException(WrapperConstructorReceivedNullPointerErrorMsg("Argument", "ThreadContext.CreateInstance", nameof(Native)));
+                throw WrapperConstructorReceivedNullPointerErrorException("Argument", GetType().Name + ".CreateInstance", nameof(Native));
             }
         }
         /// <summary>
@@ -90,7 +92,6 @@ namespace InsightSheath.Debugging.Thread
         /// <summary>
         /// Suspend either a wow64 thread or x64 bit thread. Will trigger LoadLibrary calls the first time used on wow64
         /// </summary>
-        /// <param name="ThreadHandleNative"></param>
         /// <returns>current suspend value. Values > 0 mean thread suspended.</returns>
         public uint SuspendThread()
         {
@@ -101,7 +102,6 @@ namespace InsightSheath.Debugging.Thread
         /// <summary>
         /// Resume either a wow64 thread or x64 bit thread. Will trigger LoadLibrary calls the first time used on wow64
         /// </summary>
-        /// <param name="ThreadHandleNative"></param>
         /// <returns>current suspend value. Values > 0 mean thread suspended.</returns>
         public uint ResumeThread()
         {
@@ -171,6 +171,9 @@ namespace InsightSheath.Debugging.Thread
             }
         }
     
+        /// <summary>
+        /// Get or set the targeted thread's priority.
+        /// </summary>
         public ThreadPriorityLevel ThreadPriority
         {
             get
@@ -204,7 +207,7 @@ namespace InsightSheath.Debugging.Thread
         /// Get or set processor affinity / desired process this thread runs on. Warning. Does not work support more than 64-bit logical processors
         /// </summary>
 
-        public UInt32 ProcessorAffinity
+        public uint ProcessorAffinity
         {
             get
             {
@@ -258,54 +261,57 @@ namespace InsightSheath.Debugging.Thread
             }
         }
         /// <summary>
-        /// When the Thread was created. Note this Refresh ALL items <see cref="ThreadCreationTime"/>, <see cref=ThreadExitTime"/>,  <see cref="UserProcessorTime"/>, <see cref=KernelProcessorTime"/> values and returns the one you want
+        /// When the Thread was created. Note this Refresh ALL items <see cref="ThreadCreationTime"/>, <see cref="ThreadExitTime"/>,  <see cref="UserProcessorTime"/>, <see cref="KernelProcessorTime"/> values and returns the one you want
         /// </summary>
-        /// <remarks>Because of performance reasons in watching in debugger browsing/viewing - this is not browsable. Use <see cref="Th"/></remarks>
+        /// <remarks>Because of performance reasons in watching in debugger browsing/viewing - this is not browsable.</remarks>
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public TimeSpan ThreadCreationTime
         {
             get
             {
-                return  new TimeSpan((long)LocalUnmanagedMemory.Peek8(ThreadContextInternal.ThreadContext_GetThreadTimeCreationTime(Native)));
+                return  new TimeSpan((long)MemoryNative.Peek8(ThreadContextInternal.ThreadContext_GetThreadTimeCreationTime(Native)));
             }
         }
 
         /// <summary>
-        /// If thread active,  (defined as MSDN's getThreadExitCode gets 259 for a exit code), returns 0 instead of ExitTime,  Note this Refershs ALL <see cref="ThreadCreationTime"/>, <see cref=ThreadExitTime"/>,  <see cref="UserProcessorTime"/>, <see cref=KernelProcessorTime"/> values and returns the one you want
+        /// If thread active,  (defined as MSDN's getThreadExitCode gets 259 for a exit code), returns 0 instead of ExitTime,  Note this Refershs ALL <see cref="ThreadCreationTime"/>, <see cref="ThreadExitTime"/>,  <see cref="UserProcessorTime"/>, <see cref="KernelProcessorTime"/> values and returns the one you want
         /// </summary>
         
         public TimeSpan ThreadExitTime
         {
             get
             {
-                return new TimeSpan((long)LocalUnmanagedMemory.Peek8(ThreadContextInternal.ThreadContext_GetThreadTimeExitTime(Native)));
+                return new TimeSpan((long)MemoryNative.Peek8(ThreadContextInternal.ThreadContext_GetThreadTimeExitTime(Native)));
             }
         }
 
         /// <summary>
-        /// Amount of Time that the thread runs user level code,  Note this Refreshes ALL <see cref="ThreadCreationTime"/>, <see cref=ThreadExitTime"/>,  <see cref="UserProcessorTime"/>, <see cref=KernelProcessorTime"/> values and returns the one you want
+        /// Amount of Time that the thread runs user level code,  Note this Refreshes ALL <see cref="ThreadCreationTime"/>, <see cref="ThreadExitTime"/>,  <see cref="UserProcessorTime"/>, <see cref="KernelProcessorTime"/> values and returns the one you want
         /// </summary>
         
         public TimeSpan UserProcessorTime
         {
             get
             {
-                return new TimeSpan((long)LocalUnmanagedMemory.Peek8(ThreadContextInternal.ThreadContext_GetThreadTimeUserTime(Native)));
+                return new TimeSpan((long)MemoryNative.Peek8(ThreadContextInternal.ThreadContext_GetThreadTimeUserTime(Native)));
             }
         }
 
         /// <summary>
-        /// Amount of Time  that the thread runs kernel level code,  Note this Refershs ALL <see cref="ThreadCreationTime"/>, <see cref=ThreadExitTime"/>,  <see cref="UserProcessorTime"/>, <see cref=KernelProcessorTime"/> values and returns the one you want
+        /// Amount of Time  that the thread runs kernel level code,  Note this Refreshes ALL <see cref="ThreadCreationTime"/>, <see cref="ThreadExitTime"/>,  <see cref="UserProcessorTime"/>, <see cref="KernelProcessorTime"/> values and returns the one you want
         /// </summary>
         
         public TimeSpan KernelProcessorTime
         {
             get
             {
-                return new TimeSpan((long)LocalUnmanagedMemory.Peek8(ThreadContextInternal.ThreadContext_GetThreadTimeKernelTime(Native)));
+                return new TimeSpan((long)MemoryNative.Peek8(ThreadContextInternal.ThreadContext_GetThreadTimeKernelTime(Native)));
             }
         }
 
+        /// <summary>
+        /// Return <see cref="KernelProcessorTime"/> and <see cref="UserProcessorTime"/> added together for your convenience. 
+        /// </summary>
         public TimeSpan TotalProcessorTime
         {
             get
@@ -329,6 +335,9 @@ namespace InsightSheath.Debugging.Thread
             }
         }
 
+        /// <summary>
+        /// Get a pointer to a wow64 context stuct for this thread. If it's not a wow64 thread, returns <see cref="IntPtr.Zero"/> instead. You can use <see cref="Wow64ContextLayout"/> to access
+        /// </summary>
         public IntPtr Wow64Context
         {
             get

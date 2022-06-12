@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using InsightSheath;
 
 namespace InsightSheath.Telemetry
 {
@@ -75,12 +76,12 @@ namespace InsightSheath.Telemetry
                     if ((uint)ReplacementHandle.ToInt32() != Int32.MaxValue)
                     {
                         IntPtr duphandle = NativeImports.NativeMethods.DuplicateHandleIntoTarget(ReplacementHandle, 0, true, handle, true);
-                        RemoteStructure.RemotePoke4(handle, (uint)duphandle.ToInt32(), ForceHandlePtr);
+                        MemoryNative.RemotePoke4(handle, (uint)duphandle.ToInt32(), ForceHandlePtr);
                     }
                     else
                     {
                         //RemoteStructure.RemotePoke4(handle, InvalidHandleValue32, ForceHandlePtr);
-                        RemoteStructure.RemotePoke4(handle, Int32.MaxValue, ForceHandlePtr);
+                        MemoryNative.RemotePoke4(handle, Int32.MaxValue, ForceHandlePtr);
                     }
                 }
                 else /* 8 byte pointer / handle size */
@@ -89,12 +90,12 @@ namespace InsightSheath.Telemetry
                     if ((ulong)ReplacementHandle.ToInt64() != Int64.MaxValue)
                     {
                         IntPtr duphandle = NativeImports.NativeMethods.DuplicateHandleIntoTarget(ReplacementHandle, 0, true, handle, true);
-                        RemoteStructure.RemotePoke8(handle, (ulong)duphandle.ToInt64(), ForceHandlePtr);
+                        MemoryNative.RemotePoke8(handle, (ulong)duphandle.ToInt64(), ForceHandlePtr);
                     }
                     else
                     {
                         //RemoteStructure.RemotePoke8(handle, InvalidHandleValue64, ForceHandlePtr);
-                        RemoteStructure.RemotePoke8(handle, int.MaxValue, ForceHandlePtr);
+                        MemoryNative.RemotePoke8(handle, int.MaxValue, ForceHandlePtr);
                     }
                 }
 
@@ -134,12 +135,12 @@ namespace InsightSheath.Telemetry
                 if (HandleValue != ulong.MaxValue)
                 {
                     IntPtr duphandle = NativeImports.NativeMethods.DuplicateHandleIntoTarget(new IntPtr((long)HandleValue), 0, true, handle, true);
-                    RemoteStructure.RemotePoke8(handle, (ulong)duphandle.ToInt64(), ForceHandlePtr);
+                    MemoryNative.RemotePoke8(handle, (ulong)duphandle.ToInt64(), ForceHandlePtr);
                 }
                 else
                 {
                     //RemoteStructure.RemotePoke8(handle, InvalidHandleValue64, ForceHandlePtr);
-                    RemoteStructure.RemotePoke8(handle, ulong.MaxValue, ForceHandlePtr);
+                    MemoryNative.RemotePoke8(handle, ulong.MaxValue, ForceHandlePtr);
                 }
 
 
@@ -164,12 +165,12 @@ namespace InsightSheath.Telemetry
                 if (HandleValue != Int32.MaxValue)
                 {
                     IntPtr duphandle = NativeImports.NativeMethods.DuplicateHandleIntoTarget(new IntPtr(HandleValue), 0, true, handle, true);
-                    RemoteStructure.RemotePoke4(handle, (uint)duphandle.ToInt32(), ForceHandlePtr);
+                    MemoryNative.RemotePoke4(handle, (uint)duphandle.ToInt32(), ForceHandlePtr);
                 }
                 else
                 {
                     //RemoteStructure.RemotePoke4(handle, InvalidHandleValue32, ForceHandlePtr);
-                    RemoteStructure.RemotePoke4(handle, Int32.MaxValue, ForceHandlePtr);
+                    MemoryNative.RemotePoke4(handle, Int32.MaxValue, ForceHandlePtr);
                 }
 
 
@@ -192,7 +193,7 @@ namespace InsightSheath.Telemetry
             IntPtr handle = NativeImports.NativeMethods.OpenProcessForMemoryAccess(ProcessId);
             try
             {
-                RemoteStructure.RemotePoke4(handle, NewValue, LastErrorPtr);
+                MemoryNative.RemotePoke4(handle, NewValue, LastErrorPtr);
             }
             finally
             {

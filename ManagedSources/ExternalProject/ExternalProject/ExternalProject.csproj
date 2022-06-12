@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile></DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="InsightSheath.dll" />
+    <None Remove="InsightSheath.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="InsightSheath">
+      <HintPath>..\..\InsightSheath\bin\Release\net5.0\InsightSheath.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
