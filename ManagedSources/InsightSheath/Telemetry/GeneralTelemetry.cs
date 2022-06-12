@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using InsightSheath;
 
 namespace InsightSheath.Telemetry
 {
@@ -31,9 +30,9 @@ namespace InsightSheath.Telemetry
         public GeneralTelemtryHelperStruct(uint ProcessId, uint ThreadID, IntPtr ForceHandle, IntPtr LastError, MachineType Type)
         {
             this.ProcessId = ProcessId;
-            ThreadId = ThreadID;
-            ForceHandlePtr = ForceHandle;
-            LastErrorPtr = LastError;
+            this.ThreadId = ThreadID;
+            this.ForceHandlePtr = ForceHandle;
+            this.LastErrorPtr = LastError;
             this.Type = Type;
         }
         /// <summary>
@@ -80,7 +79,7 @@ namespace InsightSheath.Telemetry
                     }
                     else
                     {
-                        //RemoteStructure.RemotePoke4(handle, InvalidHandleValue32, ForceHandlePtr);
+                        //MemoryNative.RemotePoke4(handle, InvalidHandleValue32, ForceHandlePtr);
                         MemoryNative.RemotePoke4(handle, Int32.MaxValue, ForceHandlePtr);
                     }
                 }
@@ -94,7 +93,7 @@ namespace InsightSheath.Telemetry
                     }
                     else
                     {
-                        //RemoteStructure.RemotePoke8(handle, InvalidHandleValue64, ForceHandlePtr);
+                        //MemoryNative.RemotePoke8(handle, InvalidHandleValue64, ForceHandlePtr);
                         MemoryNative.RemotePoke8(handle, int.MaxValue, ForceHandlePtr);
                     }
                 }
@@ -139,7 +138,7 @@ namespace InsightSheath.Telemetry
                 }
                 else
                 {
-                    //RemoteStructure.RemotePoke8(handle, InvalidHandleValue64, ForceHandlePtr);
+                    //MemoryNative.RemotePoke8(handle, InvalidHandleValue64, ForceHandlePtr);
                     MemoryNative.RemotePoke8(handle, ulong.MaxValue, ForceHandlePtr);
                 }
 
@@ -169,7 +168,7 @@ namespace InsightSheath.Telemetry
                 }
                 else
                 {
-                    //RemoteStructure.RemotePoke4(handle, InvalidHandleValue32, ForceHandlePtr);
+                    //MemoryNative.RemotePoke4(handle, InvalidHandleValue32, ForceHandlePtr);
                     MemoryNative.RemotePoke4(handle, Int32.MaxValue, ForceHandlePtr);
                 }
 

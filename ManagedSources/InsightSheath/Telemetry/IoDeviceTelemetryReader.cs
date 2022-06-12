@@ -8,8 +8,8 @@ using InsightSheath.Misc;
 using System.Runtime.InteropServices;
 using System.IO;
 using InsightSheath.Debugging;
-using InsightSheath.Win32Struct.Remote;
 using InsightSheath.Win32Struct;
+using InsightSheath.Win32Struct.Remote;
 
 namespace InsightSheath.Telemetry
 {
@@ -313,7 +313,7 @@ namespace InsightSheath.Telemetry
         /// </summary>
         public NtCreationDisposition CreateDisposition;
         /// <summary>
-        /// for x64 debugged processes. This is a 64-bit pointer.  For x32-bit processes, this is a 32-bit pointer that may be pretended to be 64-bit depending on .NET settings.
+        /// for x64 debugged processes. This is a 64-bit pointer.  For x32-bit processes, this is a 32-bit pointer that may be pretended to be 64-bit depending on .NET
         /// </summary>
         public IntPtr EaBuffer;
         /// <summary>
@@ -324,11 +324,11 @@ namespace InsightSheath.Telemetry
         /// <summary>
         /// Pointer to the handle to overwrite if the debugger wants to replace what the call was attempting to open.
         /// </summary>
-        //public readonly IntPtr ForceHandle;   <- now in generic parent class
+        //public readonly IntPtr ForceHandle;
         /// <summary>
         /// Occupies the same spot as the last error in reading the EXCEPTION_ARGS struct.  Pointer to the RETURN VALUE to return from the NtCreateFile setting.
         /// </summary>
-        //public readonly IntPtr ReturnValue <- ow in generic parent class;
+        //public readonly IntPtr ReturnValue;
 
 
         
@@ -362,7 +362,7 @@ namespace InsightSheath.Telemetry
 
 
         /// <summary>
-        /// Name of the file the debugged process is trying to open/access/ect....
+        /// Name of the file the debugged process is trying to open
         /// </summary>
         public string FileName;
         /// <summary>
@@ -374,7 +374,7 @@ namespace InsightSheath.Telemetry
         /// </summary>
         public FileShare SharedMode;
         /// <summary>
-        /// Debugged process's requested security attributes (IMPORTANT! this points to virtual memory in **THAT** process, not yours.)
+        /// Debugged process 's requested security attributes (IMPORTANT! this points to virtual memory in **THAT** process, not yours.)
         /// </summary>
         public IntPtr SecurityAttrib;
         /// <summary>

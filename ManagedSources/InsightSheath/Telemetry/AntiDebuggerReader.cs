@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using InsightSheath.Wrappers;
+using InsightSheath.Win32Struct.Remote;
 using InsightSheath.Debugging;
 
 namespace InsightSheath.Telemetry
