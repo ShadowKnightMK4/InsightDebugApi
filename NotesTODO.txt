@@ -3,10 +3,6 @@ Currently on simpleCAPI github branch.
 Inproess of spellcehcking coments/ variable names as well as implenmenting ThreadContext
 
 
-Rename Project to InsightDebugger instead of FileSandBox
-	why? -> Project is kinda moving from the helperdll focus to Managed debug API in generally with the helper as an afterthought
-
-
 Before publish release,
 	Stablish ThreadContext, process context, and ensure symobl handler enough 
 		so that risk of an exception on the native side is minumal and the managed side has handlers for their problems.

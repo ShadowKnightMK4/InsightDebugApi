@@ -235,7 +235,17 @@ LIBRARY INSIGHTAPI
 		StartupInfo_GethStdError
 		StartupInfo_SethStdError
 		StartupInfo_GetPointer
-		
+		DetourBinaryOpen
+		DetourBinaryEnumeratePayloads
+		DetourBinaryFindPayload
+		DetourBinarySetPayload
+		DetourBinaryDeletePayload
+		DetourBinaryPurgePayloads
+		DetourBinaryEditImports
+		DetourBinaryResetImports
+		DetourBinaryWrite
+		DetourBinaryClose
+
 
 
 

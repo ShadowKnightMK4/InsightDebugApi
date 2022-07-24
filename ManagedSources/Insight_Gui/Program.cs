@@ -13,6 +13,7 @@ using InsightSheath.Debugging.Thread;
 using InsightSheath.Debugging.SymbolEngine;
 using static InsightSheath.Debugging.SymbolEngine.InsightHunter;
 using InsightSheath.Win32Struct;
+using InsightSheath.Detours;
 
 namespace FileSandBox_GUI
 {
@@ -282,6 +283,13 @@ namespace FileSandBox_GUI
             test.ShowDialog();
 
             return;            */
+
+            
+            DetourBinary Test = new DetourBinary("C:\\Windows\\system32\\notepad.exe");
+
+
+            Test.Dispose();
+            return;
              InsightProcess TestRun = InsightProcess.CreateInstance();
             TestRun.ExtraFlags = InsightProcess.SpecialCaseFlags.DebugOnlyThis;
             TestRun.WorkingDirectory = "C:\\Windows\\";

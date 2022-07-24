@@ -5,7 +5,7 @@ For Native, either library is good.
 
 Files to include:
 	InsightAPI.dll			<- this is the library that's written with C/C++
-	FileSandboxSheath.dll		<- this is the c# wrapper
+	FileSandboxSheath.dll	<- this is the c# wrapper
 
 
 On the Manged/Sheath class size
@@ -21,4 +21,6 @@ On the Manged/Sheath class size
 						<- InsightProcess's  native class source is called PsProcessInformation
 
 
-The Design goal of the Sheath is to be as minimal wrapper as feasibly possible while taking a bit of advantage of C#'s GC scheme.
+The original design goal of the Sheath is to be as minimal wrapper as feasibly possible while taking a bit of
+advantage of C#'s GC scheme.  It has grown to also implementing wrapps for unmanaged data structs too.
+

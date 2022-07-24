@@ -243,10 +243,10 @@ namespace InsightSheath.Win32Struct
 			}
 		}
 
-		/// <summary>
-		/// Reads the max length (in bytes) of the string in <see cref="BufferPtr"/> based on the current <see cref="StructType"/> setting
-		/// </summary>
-		public int MaxLength
+        /// <summary>
+        /// Reads the max length (in bytes) of the string in <see cref="BufferPtr"/> based on the current <see cref="PlatformDependantNativeStruct.StructType"/> setting in this class
+        /// </summary>
+        public int MaxLength
         {
 			get
 			{

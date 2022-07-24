@@ -11,7 +11,7 @@ namespace InsightSheath
     /// <summary>
     /// Read and write to native memory via Peek and Poke routines.
     /// </summary>
-    /// <remarks>Important! This is accessing unmanaged memory outside of C#'s GC. The InsightAPI.dll does deal with given  and receiving native pointers ect and there will be times you'll need to do that with a separate process. </remarks>
+    /// <remarks>IMPORTANT! This is accessing unmanaged memory outside of C#'s GC. The InsightAPI.dll does deal with given  and receiving native pointers ect and there will be times you'll need to do that with a separate process. </remarks>
     public static class MemoryNative
     {
         /// <summary>
@@ -82,8 +82,8 @@ namespace InsightSheath
         /// Write an 8 byte value to a process you specify
         /// </summary>
         /// <param name="ProcessHandle">Handle to the target</param>
-        /// <param name="value">value to write</param>
-        /// <param name="remote_location">local in virtual memory of the target to write too</param>
+        /// <param name="val">value to write</param>
+        /// <param name="RemoteLocation">local in virtual memory of the target to write too</param>
         /// <returns>true if it worked and false if it did not</returns>
         public static bool RemotePoke8(IntPtr ProcessHandle, ulong val, IntPtr RemoteLocation)
         {

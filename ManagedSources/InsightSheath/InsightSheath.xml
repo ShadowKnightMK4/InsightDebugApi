@@ -740,11 +740,23 @@
             </summary>
             <returns>a new <see cref="T:InsightSheath.Debugging.DebugEvent"/> class instance with its own private native structure</returns>
         </member>
+        <member name="M:InsightSheath.Debugging.DebugEvent.Dispose(System.Boolean)">
+            <summary>
+            Nothing special needed to dispose off. Defaultis ok.
+            </summary>
+            <param name="disposing"></param>
+        </member>
         <member name="M:InsightSheath.Debugging.DebugEvent.GetDebugEventCreateProcessInfo">
             <summary>
             Return an instance of the wrapper to deal with <see cref="F:InsightSheath.Debugging.DebugEventType.CreateProcessEvent"/> events. The class still points to the native struct and does not need to be freed().
             </summary>
             <returns></returns>
+        </member>
+        <member name="M:InsightSheath.Debugging.DebugEvent.GetDebugEventCreateThreadInfo">
+            <summary>
+            Retrieve an instance of <see cref="T:InsightSheath.Debugging.DebugEventCreateThreadInfo"/> pointing to the same unmanaged memory as this class.
+            </summary>
+            <returns>Returns a new instance of <see cref="T:InsightSheath.Debugging.DebugEventCreateThreadInfo"/> if <see cref="!:"/></returns>
         </member>
         <member name="M:InsightSheath.Debugging.DebugEvent.GetDebugEventStringInfo">
             <summary>
@@ -1061,6 +1073,31 @@
             I've read that the GC will sometimes collect function pointers passed to native routines that will need to call back.
             This gets an assignment with calling <see cref="P:InsightSheath.Debugging.Process.InsightProcess.UserDebugCallRoutine"/> while sending the pointer into native land. This
             should in theory let the GC know that the pointer needs to be kept in memory.
+            </summary>
+        </member>
+        <member name="T:InsightSheath.Debugging.Process.InsightProcess.CreationFlagValues">
+            <summary>
+            Flags to change how the process is spawned. From <see href="https://docs.microsoft.com/en-us/windows/win32/procthread/process-creation-flags"/>
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Debugging.Process.InsightProcess.CreationFlagValues.CreateUnicodeEnviroment">
+            <summary>
+            Functionally unnessary for <see cref="T:InsightSheath.Debugging.Process.InsightProcess"/>. The native code (InsightAPI.DLL) always includes this flag which indicates the passed enviroment block is Unicode characters when spawning the target. 
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Debugging.Process.InsightProcess.CreationFlagValues.DebugOnlyThisProcess">
+            <summary>
+            You'll receive debug messages from windows about only your spawned process. Child processes spawned aren't debugged
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Debugging.Process.InsightProcess.CreationFlagValues.DebugProcess">
+            <summary>
+            You'll receive debug messages from windows for your spawned process and any child processes it spawns
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Debugging.Process.InsightProcess.CreationFlagValues.ExtendedStartupInfoPresent">
+            <summary>
+            Functionally 
             </summary>
         </member>
         <member name="T:InsightSheath.Debugging.Process.InsightProcess.SpecialCaseFlags">
@@ -1504,8 +1541,8 @@
             <summary>
             This is the callback for <see cref="M:InsightSheath.Debugging.SymbolEngine.InsightHunter.EnumerateSymbols(System.String,InsightSheath.Debugging.SymbolEngine.InsightHunter_SymbolSearchCallBackRoutine)"/>. The passed pointer to your routine is a native pointer to a struct <see cref="T:InsightSheath.Debugging.SymbolEngine.SymbolInfo"/>'s that exists for while your routine is active. 
             </summary>
-            <param name="">Your Routine should return TRUE to keep going and FALSE to quit</param>
-            <returns></returns>
+            <param name="SymbolInfo">Your routine will get an <see cref="T:System.IntPtr"/> pointing to a an unmanaged memory block contaiing symbol data that matched. <see cref="T:InsightSheath.Debugging.SymbolEngine.SymbolInfo"/>. This unmanaged memory only contains it for the life of your callback. Duplicate if you need to store or use later.</param>
+            <returns>Your Routine should return TRUE to keep going and FALSE to quit</returns>
             <remarks>The exact routine pointer  that this is based off is  typedef BOOL (WINAPI* SymbolSearchCallback)(SYMBOL_INFOW);  MSDC documentation 
             for the callback being invoked here: <see href="https://docs.microsoft.com/en-us/windows/win32/api/dbghelp/nc-dbghelp-psym_enumsourcefiles_callback"/> and the API being called is <see href="https://docs.microsoft.com/en-us/windows/win32/api/dbghelp/nf-dbghelp-symenumsourcefilesw"/>  </remarks>
         </member>
@@ -1522,24 +1559,193 @@
         </member>
         <member name="T:InsightSheath.Debugging.SymbolEngine.InsightHunter.SymbolOptionsFlags">
             <summary>
-            Specifies combinations of flags to Set for the symbol engine as seein in MSDN's SymSetOptions
+            Specifies combinations of flags to Set for the symbol engine as seein in MSDN's <see href="https://docs.microsoft.com/en-us/windows/win32/api/dbghelp/nf-dbghelp-symsetoptions"/>
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Debugging.SymbolEngine.InsightHunter.SymbolOptionsFlags.AllowAbsoluteSymbols">
+            <summary>
+            Enable use of symboled stored as absolute instead only of Relative Addressing that get converted to absolute addresses.  Requires DbgHelp version 5.2 or later.
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Debugging.SymbolEngine.InsightHunter.SymbolOptionsFlags.AllowZeroAddress">
+            <summary>
+            Enable seeing symbols that have no defined address. Default is that the Symbol Engine filters these out.
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Debugging.SymbolEngine.InsightHunter.SymbolOptionsFlags.AutoPublics">
+            <summary>
+            Disables searching publics symbols when searchin by address/ enumarting or not found in global and current score.  Ignored if <see cref="F:InsightSheath.Debugging.SymbolEngine.InsightHunter.SymbolOptionsFlags.PublicsOnly"/> is set also.
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Debugging.SymbolEngine.InsightHunter.SymbolOptionsFlags.CaseInsensitive">
+            <summary>
+            If set, searches in the symbol engine are case insensitive. 
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Debugging.SymbolEngine.InsightHunter.SymbolOptionsFlags.DebugMode">
+            <summary>
+            Enable additional output to either a callback function (TODO: write that wrapper) or <see href="https://docs.microsoft.com/en-us/windows/win32/api/debugapi/nf-debugapi-outputdebugstringw"/>
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Debugging.SymbolEngine.InsightHunter.SymbolOptionsFlags.DeferredLoad">
+            <summary>
+            Symbols are not loaded until a reference is encountered.  Better for performance.
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Debugging.SymbolEngine.InsightHunter.SymbolOptionsFlags.DisableSymServerAutoDetect">
+            <summary>
+            Disable the autodetecting of symbovl server stores in the server path.  Requires 6.6 or later.
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Debugging.SymbolEngine.InsightHunter.SymbolOptionsFlags.ExactSymbolRequired">
+            <summary>
+            Refuse to load Symbol files that don't have a matching binary. Do not load export symbols.
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Debugging.SymbolEngine.InsightHunter.SymbolOptionsFlags.FailCriticalErrors">
+            <summary>
+            Should a critical issue such as a resource is not avaialble (cd removed for example), fail the request without informing the user.
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Debugging.SymbolEngine.InsightHunter.SymbolOptionsFlags.FavorCompressed">
+            <summary>
+            Tell the Dbghelp routines to favor compressed symbol files over uncompressed should both be accessible.
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Debugging.SymbolEngine.InsightHunter.SymbolOptionsFlags.FlatDirectory">
+            <summary>
+            Symbols are stored in the root directory default downstream store.  Requires Dbhhelp 6.2 or greater.
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Debugging.SymbolEngine.InsightHunter.SymbolOptionsFlags.IgnoreCodeViewRecord">
+            <summary>
+            Tell Dbghlp to ignore any CodeView records it finds when loading symbols.
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Debugging.SymbolEngine.InsightHunter.SymbolOptionsFlags.IgnoreImageDir">
+            <summary>
+            Tell Dbghlp to ignore the image directory.  Requires Dbghelp 6.2 or greater.
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Debugging.SymbolEngine.InsightHunter.SymbolOptionsFlags.IgnoreNtSymPath">
+            <summary>
+            Do not use the _NT_SYMBOL_PATH if setting an invalid path.  Not supported for Debug Help 5.1.
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Debugging.SymbolEngine.InsightHunter.SymbolOptionsFlags.Include32BitModules">
+            <summary>
+            x64 Windows.  Tell the symbol engine to load for 32-bit modules also.
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Debugging.SymbolEngine.InsightHunter.SymbolOptionsFlags.LoadAnything">
+            <summary>
+            Disable checks that ensure loaded files are valid.  Loads the first file found.
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Debugging.SymbolEngine.InsightHunter.SymbolOptionsFlags.LoadLines">
+            <summary>
+            Load Line information for files.
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Debugging.SymbolEngine.InsightHunter.SymbolOptionsFlags.SYMOPT_NO_CPP">
+            <summary>
+            This has the symbol engine replace C++ decorated symbols including '::' with '__'.
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Debugging.SymbolEngine.InsightHunter.SymbolOptionsFlags.NoImageSearch">
+            <summary>
+            Disables searching the image for the current symbol path when loading symbols for a module that cannot be read.  Not supported for DbhHlp 5.1
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Debugging.SymbolEngine.InsightHunter.SymbolOptionsFlags.NoPrompts">
+            <summary>
+            Disabling showing a prompt to validate that the correct symbol server is used.
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Debugging.SymbolEngine.InsightHunter.SymbolOptionsFlags.NoPublics">
+            <summary>
+             Disable searching public tables for symbols.  MSDN documentation says global tables likely will have duplicates of public table data. Not supported for DbgHlp 5.1
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Debugging.SymbolEngine.InsightHunter.SymbolOptionsFlags.NoUnqualifiedLoads">
+            <summary>
+            Prevent symbols from being loaded when caller examines symbols accross multiple module boundries. 
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Debugging.SymbolEngine.InsightHunter.SymbolOptionsFlags.Overwrite">
+            <summary>
+            Overrite download store from the symbol table. Requires Dbghlp 6.2 or greater.
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Debugging.SymbolEngine.InsightHunter.SymbolOptionsFlags.PublicsOnly">
+            <summary>
+            Disables loading private disable.  Requires DbgHlp 5.2 or greater.  Before 5.2, it only loaded public symbols.
             </summary>
         </member>
         <member name="F:InsightSheath.Debugging.SymbolEngine.InsightHunter.SymbolOptionsFlags.SecureMode">
             <summary>
-            WARNING YOU CANNOT CLEAR this flag once set.
+            Refuse to load symbols not in the symbserver and _NT_SYMBOL_PATH DbgHelp 6.0-6.1 Says flag can be cleared and 5.1 says not supported.
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:InsightSheath.Debugging.SymbolEngine.InsightHunter.LoadExeSymbolInfo(InsightSheath.Debugging.DebugEvent)" -->
-        <!-- Badly formed XML comment ignored for member "M:InsightSheath.Debugging.SymbolEngine.InsightHunter.LoadExeSymbolInfo(System.IntPtr)" -->
-        <!-- Badly formed XML comment ignored for member "M:InsightSheath.Debugging.SymbolEngine.InsightHunter.LoadDllSymbolInfo(InsightSheath.Debugging.DebugEvent)" -->
-        <!-- Badly formed XML comment ignored for member "M:InsightSheath.Debugging.SymbolEngine.InsightHunter.UnloadDllSymbolInfo(InsightSheath.Debugging.DebugEvent)" -->
+        <member name="F:InsightSheath.Debugging.SymbolEngine.InsightHunter.SymbolOptionsFlags.UndecorateSymbols">
+            <summary>
+            Undecorate public symbols when encournted.
+            </summary>
+        </member>
+        <member name="M:InsightSheath.Debugging.SymbolEngine.InsightHunter.#ctor(System.IntPtr)">
+            <summary>
+            Initialize an instance of the wrapper for the ummanaged <see cref="T:InsightSheath.Debugging.SymbolEngine.InsightHunter"/> class to use the copy pointed to by that. 
+            </summary>
+            <param name="That">non null pointer to an instance of the unmanaged class.</param>
+        </member>
+        <member name="M:InsightSheath.Debugging.SymbolEngine.InsightHunter.#ctor(System.IntPtr,System.Boolean)">
+            <summary>
+            Initialize an instance of the wrapper for the ummanaged <see cref="T:InsightSheath.Debugging.SymbolEngine.InsightHunter"/> class to use the copy pointed to by that. 
+            </summary>
+            <param name="That">non null pointer to an instance of the unmanaged class.</param>
+            <param name="FreeOnDispose">Indicate if the object is subject to being freed() when GC cleans up. Recommand FALSE providea a dispose handling cleanup</param>
+        </member>
+        <member name="M:InsightSheath.Debugging.SymbolEngine.InsightHunter.LoadExeSymbolInfo(InsightSheath.Debugging.DebugEvent)">
+            <summary>
+                   
+            </summary>
+            <param name="debugEvent"><see cref="T:InsightSheath.Debugging.DebugEvent"/> class instance containing a <see cref="F:InsightSheath.Debugging.DebugEventType.CreateProcessEvent"/> event</param>
+            <returns>true if ok, false on failuree</returns>
+        </member>
+        <member name="M:InsightSheath.Debugging.SymbolEngine.InsightHunter.LoadExeSymbolInfo(System.IntPtr)">
+             <summary>
+            
+             </summary>
+             <param name="DebugEvent"><see cref="T:InsightSheath.Debugging.DebugEvent"/> class instance containing a <see cref="F:InsightSheath.Debugging.DebugEventType.CreateProcessEvent"/> event</param>
+             <returns>true if ok, false on failuree</returns>
+        </member>
+        <member name="M:InsightSheath.Debugging.SymbolEngine.InsightHunter.LoadDllSymbolInfo(InsightSheath.Debugging.DebugEvent)">
+             <summary>
+            
+             </summary>
+             <param name="DebugEvent">class instance containing a <see cref="F:InsightSheath.Debugging.DebugEventType.LoadDllEvent"/> event</param>
+             <returns>true if ok, false on failuree</returns>
+        </member>
+        <member name="M:InsightSheath.Debugging.SymbolEngine.InsightHunter.UnloadDllSymbolInfo(InsightSheath.Debugging.DebugEvent)">
+            <summary>
+                   
+            </summary>
+            <param name="DebugEvent">class instance containing a <see cref="F:InsightSheath.Debugging.DebugEventType.UnloadDllEvent"/> event</param>
+            <returns>true if it worked, false otherwise</returns>
+        </member>
+        <member name="M:InsightSheath.Debugging.SymbolEngine.InsightHunter.UnloadDllSymbolInfo(System.IntPtr)">
+            <summary>
+                   
+            </summary>
+            <param name="DebugEvent">class instance containing a <see cref="F:InsightSheath.Debugging.DebugEventType.UnloadDllEvent"/> event</param>
+            <returns>true if it worked, false otherwise</returns>
+        </member>
         <member name="M:InsightSheath.Debugging.SymbolEngine.InsightHunter.SetParentWindow(System.IntPtr)">
             <summary>
             Set the parent window for the symbol engine/ debug help api
             </summary>
             <param name="HWND">Handle to Win32 Window that the debug help api will assume you're outputting info too</param>
-            <returns></returns>
+            <returns>True if it worked and false if it did not.</returns>
         </member>
         <member name="M:InsightSheath.Debugging.SymbolEngine.InsightHunter.EnumerateSymbols(System.String,InsightSheath.Debugging.SymbolEngine.InsightHunter_SymbolSearchCallBackRoutine)">
             <summary>
@@ -1575,7 +1781,12 @@
         </member>
         <member name="P:InsightSheath.Debugging.SymbolEngine.InsightHunter.DebugHelp_Version">
             <summary>
-            Get Version Data on the Debug Help API the symbol engine actuallly uses.
+            Get or set Version Data on the Debug Help API the symbol engine actually uses.
+            </summary>
+        </member>
+        <member name="P:InsightSheath.Debugging.SymbolEngine.InsightHunter.DebugHelp_Version2">
+            <summary>
+            Get or a copy of the Debug Version or set version compatibility. 
             </summary>
         </member>
         <member name="F:InsightSheath.Debugging.SymbolEngine.SourceFile.ModBase">
@@ -1859,11 +2070,27 @@
             Handler for reading from / writing to a Wow64ContextString
             </summary>
         </member>
+        <member name="T:InsightSheath.Detours.DetourBinary">
+            <summary>
+            Wraps DetourBinary routines from detours and exported in insight to  let one inspect/ alter the EXE/DLL's import table.
+            </summary>
+        </member>
+        <member name="P:InsightSheath.Detours.DetourBinary.CommitOnDispose">
+            <summary>
+            If set and GC triggers or dispose is called, we commit changes to the opened file.
+            </summary>
+        </member>
+        <member name="M:InsightSheath.Detours.DetourBinary.#ctor(System.String)">
+            <summary>
+            Open the passed executable file (DLL likely fine also) for detourbinary handling for reading only
+            </summary>
+            <param name="ExecutableName"></param>
+        </member>
         <member name="T:InsightSheath.MemoryNative">
             <summary>
             Read and write to native memory via Peek and Poke routines.
             </summary>
-            <remarks>Important! This is accessing unmanaged memory outside of C#'s GC. The InsightAPI.dll does deal with given  and receiving native pointers ect and there will be times you'll need to do that with a separate process. </remarks>
+            <remarks>IMPORTANT! This is accessing unmanaged memory outside of C#'s GC. The InsightAPI.dll does deal with given  and receiving native pointers ect and there will be times you'll need to do that with a separate process. </remarks>
         </member>
         <member name="M:InsightSheath.MemoryNative.Peek4(System.IntPtr)">
             <summary>
@@ -1916,8 +2143,8 @@
             Write an 8 byte value to a process you specify
             </summary>
             <param name="ProcessHandle">Handle to the target</param>
-            <param name="value">value to write</param>
-            <param name="remote_location">local in virtual memory of the target to write too</param>
+            <param name="val">value to write</param>
+            <param name="RemoteLocation">local in virtual memory of the target to write too</param>
             <returns>true if it worked and false if it did not</returns>
         </member>
         <member name="T:InsightSheath.Misc.EventDebugAssist">
@@ -2340,12 +2567,12 @@
             Internal Class. This imports the routines used in <see cref="T:InsightSheath.Debugging.SymbolEngine.DebugHelp_ApiVersionStruct"/>
             </summary>
         </member>
-        <member name="T:InsightSheath.NativeImports.InsightHunterInternal">
+        <member name="T:InsightSheath.NativeImports.InternalInsightHunter">
             <summary>
             Internal Class. This imports the routines used in <see cref="T:InsightSheath.Debugging.SymbolEngine.InsightHunter"/> class
             </summary>
         </member>
-        <member name="M:InsightSheath.NativeImports.InsightHunterInternal.Insight_GetImageHelpVersionData(System.IntPtr)">
+        <member name="M:InsightSheath.NativeImports.InternalInsightHunter.Insight_GetImageHelpVersionData(System.IntPtr)">
             <summary>
             IntPtr is an API_VERSION struct that's part of the InsightHunter class itself.
             </summary>
@@ -2486,6 +2713,14 @@
             <param name="Handle"></param>
             <returns></returns>
         </member>
+        <member name="M:InsightSheath.NativeImports.InternalDetourBinary.DetourBinaryWrite(System.IntPtr,System.IntPtr)">
+            <summary>
+            Write the changes made with this DetourBinary resource to the target. See also <see href="https://github.com/Microsoft/Detours/wiki/DetourBinaryWrite"/>
+            </summary>
+            <param name="DetourHandle">From a previously sucessfully call to <see cref="M:InsightSheath.NativeImports.InternalDetourBinary.DetourBinaryOpen(System.IntPtr)"/></param>
+            <param name="FileHandle">Native file handle to write the changes too.</param>
+            <returns></returns>
+        </member>
         <member name="T:InsightSheath.NativeImports.MemoryNativeInternal">
             <summary>
             Internal Class.  Imports the Poke/Peek routines for both remote and local
@@ -2594,7 +2829,7 @@
             <param name="PointerSize">must be 4 or 8 otherwise call will be rejected.</param>
             <returns></returns>
         </member>
-        <member name="T:InsightSheath.NativeImports.StartupInfoExWInternal">
+        <member name="T:InsightSheath.NativeImports.InternalStartupInfoExW">
             <summary>
             Internal Class. This imports the routines used in <see cref="T:InsightSheath.Win32Struct.StartupInfoExW"/> class.
             </summary>
@@ -2783,6 +3018,14 @@
             Open a file and truncate it to zero bytes long
             </summary>
         </member>
+        <member name="T:InsightSheath.Telemetry.AccessMasks">
+            <summary>
+            from <see href="https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-samr/262970b7-cd4a-41f4-8c4d-5a27f0092aaa"/>, 
+            Windows SDK winnt.h and
+            <see href="https://docs.microsoft.com/en-us/windows/win32/api/winternl/nf-winternl-ntcreatefile"/>,
+            these are the accessible flags 
+            </summary>
+        </member>
         <member name="F:InsightSheath.Telemetry.AccessMasks.NoAccess">
             <summary>
             MSDN CreateFileA/W suggests meta data can be queried with opening for no access, hence the pair of these.
@@ -2964,7 +3207,7 @@
         </member>
         <member name="F:InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile.CreationOptions">
             <summary>
-            <see cref="!:https://docs.microsoft.com/en-us/windows/win32/api/winternl/nf-winternl-ntcreatefile"/> for specifics. TODO: Include enum containing those values.
+            <see href="https://docs.microsoft.com/en-us/windows/win32/api/winternl/nf-winternl-ntcreatefile"/> for specifics. TODO: Include enum containing those values.
             </summary>
         </member>
         <member name="F:InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile.CreateDisposition">
@@ -2974,7 +3217,7 @@
         </member>
         <member name="F:InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile.EaBuffer">
             <summary>
-            for x64 debugged processes. This is a 64-bit pointer.  For x32-bit processes, this is a 32-bit pointer that may be pretended to be 64-bit depending on .NET settings.
+            for x64 debugged processes. This is a 64-bit pointer.  For x32-bit processes, this is a 32-bit pointer that may be pretended to be 64-bit depending on .NET
             </summary>
         </member>
         <member name="F:InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile.EaSize">
@@ -2995,7 +3238,7 @@
         </member>
         <member name="F:InsightSheath.Telemetry.IoDeviceTelemetyCreateFile.FileName">
             <summary>
-            Name of the file the debugged process is trying to open/access/ect....
+            Name of the file the debugged process is trying to open
             </summary>
         </member>
         <member name="F:InsightSheath.Telemetry.IoDeviceTelemetyCreateFile.DesiredAccess">
@@ -3010,7 +3253,7 @@
         </member>
         <member name="F:InsightSheath.Telemetry.IoDeviceTelemetyCreateFile.SecurityAttrib">
             <summary>
-            Debugged process's requested security attributes (IMPORTANT! this points to virtual memory in **THAT** process, not yours.)
+            Debugged process 's requested security attributes (IMPORTANT! this points to virtual memory in **THAT** process, not yours.)
             </summary>
         </member>
         <member name="F:InsightSheath.Telemetry.IoDeviceTelemetyCreateFile.CreateDisposition">
@@ -3185,11 +3428,13 @@
         </member>
         <member name="M:InsightSheath.HelperRoutines.CloseHandle(System.IntPtr)">
             <summary>
-            Some of the routines here return Native Handles. This wraps 
-            () from kernel32 for convenience  
+            Some of the routines here return Native Handles. This wraps <see href="https://docs.microsoft.com/en-us/windows/win32/api/handleapi/nf-handleapi-closehandle"/> aka CloseHandle() 
+             from kernel32 for convenience  
             </summary>
-            <param name="Handle"></param>
-            <returns></returns>
+            <param name="Handle">Handle to close.</param>
+            <returns>True if it worked and false if it did not.</returns>
+            <remarks>When running under an attached debugger, an exception can trigger if the debugged process tries closing an invalid handle. <see cref="F:InsightSheath.Debugging.DebugExceptionTypes.InvalidHandleCloseException"/></remarks>
+            <exception cref="F:InsightSheath.Debugging.DebugExceptionTypes.InvalidHandleCloseException"> This may trigger CloseHandle is asked to close an invalid handle in software attached to a debugger</exception>
         </member>
         <member name="T:InsightSheath.Win32Struct.ObjectAttributes64">
             <summary>
@@ -3338,6 +3583,25 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:InsightSheath.Win32Struct.StartupInfoExW.#ctor(System.IntPtr)">
+            <summary>
+            Make an instance of the wrapper class for this unamanged non-null native pointer.
+            </summary>
+            <param name="Native">Non null native poionter</param>
+        </member>
+        <member name="M:InsightSheath.Win32Struct.StartupInfoExW.#ctor(System.IntPtr,System.Boolean)">
+            <summary>
+            Make an instance of the wrapper class for this unamanged non-null native pointer.
+            </summary>
+            <param name="Native">Non null native poionter</param>
+            <param name="FreeonCleanup">Indicate if we're calling the unmanaged routine to delete this or non on GC collection</param>
+        </member>
+        <member name="M:InsightSheath.Win32Struct.StartupInfoExW.Dispose(System.Boolean)">
+            <summary>
+            Call the appropriate unamanged routine to clean up this class.
+            </summary>
+            <param name="disposing">true if disposing of managed resources also.</param>
+        </member>
         <member name="P:InsightSheath.Win32Struct.StartupInfoExW.Desktop">
             <summary>
             Get or set the desktop the process will be started on. Leave null to try inheriting the desktop the spawning process is running on.
@@ -3411,6 +3675,11 @@
         <member name="P:InsightSheath.Win32Struct.StartupInfoExW.FlagSetterHelper">
             <summary>
             Manged side only.  Set to true to enable setting the <see cref="P:InsightSheath.Win32Struct.StartupInfoExW.Flags"/> value on setting the members in this class EXCEPT for <see cref="P:InsightSheath.Win32Struct.StartupInfoExW.StandardInput"/>
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Win32Struct.StartupInfoExW.FlagSetterContainer">
+            <summary>
+            Protected variable that <see cref="P:InsightSheath.Win32Struct.StartupInfoExW.FlagSetterHelper"/> accesses.
             </summary>
         </member>
         <member name="T:InsightSheath.Win32Struct.UserProcessParameters64">
@@ -3638,7 +3907,7 @@
         </member>
         <member name="P:InsightSheath.Win32Struct.WindowsUnicodeString.MaxLength">
             <summary>
-            Reads the max length (in bytes) of the string in <see cref="P:InsightSheath.Win32Struct.WindowsUnicodeString.BufferPtr"/> based on the current <see cref="!:StructType"/> setting
+            Reads the max length (in bytes) of the string in <see cref="P:InsightSheath.Win32Struct.WindowsUnicodeString.BufferPtr"/> based on the current <see cref="P:InsightSheath.Abstract.PlatformDependantNativeStruct.StructType"/> setting in this class
             </summary>
         </member>
         <member name="P:InsightSheath.Win32Struct.WindowsUnicodeString.BufferPtr">
@@ -3650,8 +3919,7 @@
             <summary>
             Retrieve a .NET managed string containing the String that <see cref="P:InsightSheath.Win32Struct.WindowsUnicodeString.BufferPtr"/> points to. 
             </summary>
-            <remarks>IMPORTANT!!!!!  Use <see cref="!:Remote.RemoteStructure.
-            (IntPtr, IntPtr, bool, bool)"/> if dealing with a <see cref="P:InsightSheath.Win32Struct.WindowsUnicodeString.BufferPtr"/> that is valid in the context of another process and not yours. This routine will take case or dealing with that. You'll either get incorrect results or generate an exception if you don't. </remarks>
+            <remarks>IMPORTANT!!!!!  Use <see cref="!:Remote.RemoteStructure.RemoteReadUnicodeString(IntPtr, IntPtr, bool, bool)(IntPtr, IntPtr, bool, bool)"/> if dealing with a <see cref="P:InsightSheath.Win32Struct.WindowsUnicodeString.BufferPtr"/> that is valid in the context of another process and not yours. This routine will take case or dealing with that. You'll either get incorrect results or generate an exception if you don't. </remarks>
         </member>
         <member name="M:InsightSheath.Win32Struct.WindowsUnicodeString.ToString">
             <summary>

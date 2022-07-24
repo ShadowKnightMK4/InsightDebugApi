@@ -1,17 +1,28 @@
 #include "StartupInfoStructHelper.h"
 
 
-StartupInfoWrapper::StartupInfoWrapper()
+StartupInfoWrapper::StartupInfoWrapper() noexcept
 {
-	ZeroMemory(&Struct, sizeof(Struct));
+	ZeroMemory(&Struct, sizeof(STARTUPINFOEXW));
 	
 
 	Struct.StartupInfo.cb = sizeof(STARTUPINFOEXW);
 }
 
-StartupInfoWrapper::StartupInfoWrapper(const StartupInfoWrapper& other)
+StartupInfoWrapper::StartupInfoWrapper(const StartupInfoWrapper& other) noexcept
 {
-	CopyMemory(&this->Struct.StartupInfo, &other.Struct.StartupInfo, sizeof(other.Struct));
+	CopyMemory(&Struct, &other.Struct, sizeof(STARTUPINFOEXW));
+	if (other.Struct.StartupInfo.lpTitle != nullptr)
+	{
+		Struct.StartupInfo.lpTitle = _wcsdup(other.Struct.StartupInfo.lpTitle);
+	}
+	if (other.Struct.StartupInfo.lpDesktop != nullptr)
+	{
+		Struct.StartupInfo.lpDesktop = _wcsdup(other.Struct.StartupInfo.lpDesktop);
+	}
+
+	/*
+	
 	if (other.Struct.StartupInfo.lpDesktop != nullptr)
 	{
 		this->DesktopNameContainer = this->Struct.StartupInfo.lpDesktop;
@@ -23,11 +34,30 @@ StartupInfoWrapper::StartupInfoWrapper(const StartupInfoWrapper& other)
 		this->DesktopNameContainer = this->Struct.StartupInfo.lpTitle;
 		this->Struct.StartupInfo.lpTitle = const_cast<LPWSTR>(this->TileNameContainer.c_str());
 	}
-
+	*/
 }
 
-const wchar_t* StartupInfoWrapper::lpDesktop()
+StartupInfoWrapper::~StartupInfoWrapper()
 {
+	if (Struct.StartupInfo.lpDesktop != nullptr)
+	{
+		delete Struct.StartupInfo.lpDesktop;
+	}
+	if (Struct.StartupInfo.lpTitle != nullptr)
+	{
+		delete Struct.StartupInfo.lpTitle;
+	}
+
+	ZeroMemory(&Struct, sizeof(STARTUPINFOEXW));
+	
+	//this->DesktopNameContainer.clear();
+	//this->TileNameContainer.clear();
+}
+
+const wchar_t* StartupInfoWrapper::lpDesktop() noexcept
+{
+	return Struct.StartupInfo.lpDesktop;
+	/*
 	if (Struct.StartupInfo.lpDesktop != nullptr)
 	{
 		this->DesktopNameContainer = Struct.StartupInfo.lpDesktop;
@@ -37,17 +67,49 @@ const wchar_t* StartupInfoWrapper::lpDesktop()
 	{
 		return nullptr;
 	}
-	
+	*/
 }
 
-void StartupInfoWrapper::lpDesktop(const wchar_t* Name)
+void StartupInfoWrapper::lpDesktop(const wchar_t* Name) noexcept
 {
-	this->DesktopNameContainer = Name;
-	this->Struct.StartupInfo.lpDesktop = const_cast<LPWSTR>(this->DesktopNameContainer.c_str());
+
+	if (Struct.StartupInfo.lpDesktop != nullptr)
+	{
+#pragma warning(once: 26481)
+		delete Struct.StartupInfo.lpDesktop;
+	}
+
+	if (Name != nullptr)
+	{
+		size_t count = wcslen(Name);
+		Struct.StartupInfo.lpDesktop = new(std::nothrow) wchar_t[count+1];
+		if (Struct.StartupInfo.lpDesktop)
+		{
+			CopyMemory(Struct.StartupInfo.lpTitle, Name, count * sizeof(wchar_t));
+			Struct.StartupInfo.lpDesktop[count] = 0;
+		}
+	}
+	else
+	{
+		Struct.StartupInfo.lpDesktop = nullptr;
+	}
+	/*
+	if (Name != nullptr)
+	{
+		this->DesktopNameContainer = Name;
+		this->Struct.StartupInfo.lpDesktop = const_cast<LPWSTR>(this->DesktopNameContainer.c_str());
+	}
+	else
+	{
+		this->DesktopNameContainer.clear();
+		this->Struct.StartupInfo.lpDesktop = nullptr;
+	}*/
 }
 
-const wchar_t* StartupInfoWrapper::lpTitle()
+const wchar_t* StartupInfoWrapper::lpTitle()  noexcept
 {
+	return Struct.StartupInfo.lpTitle;
+	/*
 	if (Struct.StartupInfo.lpTitle != nullptr)
 	{
 		this->TileNameContainer = Struct.StartupInfo.lpTitle;
@@ -56,136 +118,158 @@ const wchar_t* StartupInfoWrapper::lpTitle()
 	else
 	{
 		return nullptr;
+	}*/
+}
+
+void StartupInfoWrapper::lpTitle(const wchar_t* Title) noexcept
+{
+	if (Struct.StartupInfo.lpTitle != nullptr)
+	{
+		free(Struct.StartupInfo.lpTitle);
 	}
+	if (Title != nullptr)
+	{
+		Struct.StartupInfo.lpTitle = _wcsdup(Title);
+	}
+	else
+	{
+		Struct.StartupInfo.lpTitle = nullptr;
+	}
+	/*
+	if (Title != nullptr)
+	{
+		this->TileNameContainer = Title;
+		this->Struct.StartupInfo.lpTitle = const_cast<LPWSTR>(this->TileNameContainer.c_str());
+	}
+	else
+	{
+		this->TileNameContainer.clear();
+		this->Struct.StartupInfo.lpTitle = nullptr;
+	}*/
 }
 
-void StartupInfoWrapper::lpTitle(const wchar_t* Title)
+DWORD StartupInfoWrapper::dwX() noexcept
 {
-	this->TileNameContainer = Title;
-	this->Struct.StartupInfo.lpTitle = const_cast<LPWSTR>(this->TileNameContainer.c_str());
+	return Struct.StartupInfo.dwX;
 }
 
-DWORD StartupInfoWrapper::dwX()
+void StartupInfoWrapper::dwX(DWORD NewValue) noexcept
 {
-	return this->Struct.StartupInfo.dwX;
+	Struct.StartupInfo.dwX = NewValue;
 }
 
-void StartupInfoWrapper::dwX(DWORD NewValue)
+DWORD StartupInfoWrapper::dwY() noexcept
 {
-	this->Struct.StartupInfo.dwX = NewValue;
+	return Struct.StartupInfo.dwY;
 }
 
-DWORD StartupInfoWrapper::dwY()
+void StartupInfoWrapper::dwY(DWORD NewValue) noexcept
 {
-	return this->Struct.StartupInfo.dwY;
+	Struct.StartupInfo.dwY = NewValue;
 }
 
-void StartupInfoWrapper::dwY(DWORD NewValue)
+DWORD StartupInfoWrapper::dwXSize() noexcept
 {
-	this->Struct.StartupInfo.dwY = NewValue;
+	return Struct.StartupInfo.dwXSize;
 }
 
-DWORD StartupInfoWrapper::dwXSize()
+void StartupInfoWrapper::dwXSize(DWORD NewValue) noexcept
 {
-	return this->Struct.StartupInfo.dwXSize;
+	Struct.StartupInfo.dwXSize = NewValue;
 }
 
-void StartupInfoWrapper::dwXSize(DWORD NewValue)
+DWORD StartupInfoWrapper::dwYSize() noexcept
 {
-	this->Struct.StartupInfo.dwXSize = NewValue;
+	return Struct.StartupInfo.dwYSize;
 }
 
-DWORD StartupInfoWrapper::dwYSize()
+void StartupInfoWrapper::dwYSize(DWORD NewValue) noexcept
 {
-	return this->Struct.StartupInfo.dwYSize;
+	Struct.StartupInfo.dwYSize = NewValue;
 }
 
-void StartupInfoWrapper::dwYSize(DWORD NewValue)
+DWORD StartupInfoWrapper::dwXCountChars() noexcept
 {
-	this->Struct.StartupInfo.dwYSize = NewValue;
+	return Struct.StartupInfo.dwXCountChars;
 }
 
-DWORD StartupInfoWrapper::dwXCountChars()
+void StartupInfoWrapper::dwXCountChars(DWORD NewValue) noexcept
 {
-	return this->Struct.StartupInfo.dwXCountChars;
+	Struct.StartupInfo.dwXCountChars = NewValue;
 }
 
-void StartupInfoWrapper::dwXCountChars(DWORD NewValue)
+DWORD StartupInfoWrapper::dwYCountChars() noexcept
 {
-	this->Struct.StartupInfo.dwXCountChars = NewValue;
+	return Struct.StartupInfo.dwYCountChars;
 }
 
-DWORD StartupInfoWrapper::dwYCountChars()
+void StartupInfoWrapper::dwYCountChars(DWORD NewValue) noexcept
 {
-	return this->Struct.StartupInfo.dwYCountChars;
+	Struct.StartupInfo.dwYCountChars = NewValue;
 }
 
-void StartupInfoWrapper::dwYCountChars(DWORD NewValue)
+
+DWORD StartupInfoWrapper::dwFillAttribute() noexcept
 {
-	this->Struct.StartupInfo.dwYCountChars;
+	return Struct.StartupInfo.dwFillAttribute;
 }
 
-DWORD StartupInfoWrapper::dwFillAttribute()
+void StartupInfoWrapper::dwFillAttribute(DWORD NewValue) noexcept
 {
-	return this->Struct.StartupInfo.dwFillAttribute;
+	Struct.StartupInfo.dwFillAttribute = NewValue;
 }
 
-void StartupInfoWrapper::dwFillAttribute(DWORD NewValue)
+DWORD StartupInfoWrapper::dwFlags() noexcept
 {
-	this->Struct.StartupInfo.dwFillAttribute = NewValue;
+	return Struct.StartupInfo.dwFlags;
 }
 
-DWORD StartupInfoWrapper::dwFlags()
+void StartupInfoWrapper::dwFlags(DWORD NewValue) noexcept
 {
-	return this->Struct.StartupInfo.dwFlags;
+	Struct.StartupInfo.dwFlags = NewValue;
 }
 
-void StartupInfoWrapper::dwFlags(DWORD NewValue)
+WORD StartupInfoWrapper::wShowWindow() noexcept
 {
-	this->Struct.StartupInfo.dwFlags = NewValue;
+	return Struct.StartupInfo.wShowWindow;
 }
 
-WORD StartupInfoWrapper::wShowWindow()
+void StartupInfoWrapper::wShowWindow(WORD NewValue) noexcept
 {
-	return this->Struct.StartupInfo.wShowWindow;
+	Struct.StartupInfo.wShowWindow = NewValue;
 }
 
-void StartupInfoWrapper::wShowWindow(WORD NewValue)
+HANDLE StartupInfoWrapper::hStdInput() noexcept
 {
-	this->Struct.StartupInfo.wShowWindow = NewValue;
+	return Struct.StartupInfo.hStdInput;
 }
 
-HANDLE StartupInfoWrapper::hStdInput()
+void StartupInfoWrapper::hStdInput(HANDLE NewValue) noexcept
 {
-	return this->Struct.StartupInfo.hStdInput;
+	Struct.StartupInfo.hStdInput = NewValue;
 }
 
-void StartupInfoWrapper::hStdInput(HANDLE NewValue)
+HANDLE StartupInfoWrapper::hStdOutput() noexcept
 {
-	this->Struct.StartupInfo.hStdInput = NewValue;
+	return Struct.StartupInfo.hStdOutput;
 }
 
-HANDLE StartupInfoWrapper::hStdOutput()
+void StartupInfoWrapper::hStdOutput(HANDLE NewValue) noexcept
 {
-	return this->Struct.StartupInfo.hStdOutput;
+	Struct.StartupInfo.hStdOutput = NewValue;
 }
 
-void StartupInfoWrapper::hStdOutput(HANDLE NewValue)
+HANDLE StartupInfoWrapper::hStdError() noexcept
 {
-	this->Struct.StartupInfo.hStdOutput = NewValue;
+	return Struct.StartupInfo.hStdError;
 }
 
-HANDLE StartupInfoWrapper::hStdError()
+void StartupInfoWrapper::hStdError(HANDLE NewValue) noexcept
 {
-	return this->Struct.StartupInfo.hStdError;
+	Struct.StartupInfo.hStdError = NewValue;
 }
 
-void StartupInfoWrapper::hStdError(HANDLE NewValue)
+const STARTUPINFOEXW* StartupInfoWrapper::GetPtr() noexcept
 {
-	this->Struct.StartupInfo.hStdError = NewValue;
-}
-
-const STARTUPINFOEXW* StartupInfoWrapper::GetPtr()
-{
-	return &this->Struct;
+	return &Struct;
 }

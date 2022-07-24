@@ -74,7 +74,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\program\</OutDir>
-    <IncludePath>$(SolutionDir)\StaticIncludes;$(SolutionDir)NativeSources\Detours-master\src;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)NativeSources\gsl\gsl;$(SolutionDir)\StaticIncludes;$(SolutionDir)NativeSources\Detours-master\src;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Code\$(Configuration)\$(PlatformTarget)\lib;$(LibraryPath)</LibraryPath>
     <IntDir>$(SolutionDir)BuildFolder\$(ProjectName)\$(Configuration)\$(PlatformTarget)\</IntDir>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
@@ -82,14 +82,14 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\program\</OutDir>
-    <IncludePath>$(SolutionDir)\StaticIncludes;$(SolutionDir)NativeSources\Detours-master\src;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)NativeSources\gsl\gsl;$(SolutionDir)\StaticIncludes;$(SolutionDir)NativeSources\Detours-master\src;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Code\$(Configuration)\$(PlatformTarget)\lib;$(LibraryPath)</LibraryPath>
     <IntDir>$(SolutionDir)BuildFolder\$(ProjectName)\$(Configuration)\$(PlatformTarget)\</IntDir>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)\StaticIncludes;$(SolutionDir)NativeSources\Detours-master\src;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)NativeSources\gsl\gsl;$(SolutionDir)\StaticIncludes;$(SolutionDir)NativeSources\Detours-master\src;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Code\$(Configuration)\$(PlatformTarget)\lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\program\</OutDir>
     <IntDir>$(SolutionDir)BuildFolder\$(ProjectName)\$(Configuration)\$(PlatformTarget)\</IntDir>
@@ -97,7 +97,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)\StaticIncludes;$(SolutionDir)NativeSources\Detours-master\src;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)NativeSources\gsl\gsl;$(SolutionDir)\StaticIncludes;$(SolutionDir)NativeSources\Detours-master\src;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Code\$(Configuration)\$(PlatformTarget)\lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\program\</OutDir>
     <IntDir>$(SolutionDir)BuildFolder\$(ProjectName)\$(Configuration)\$(PlatformTarget)\</IntDir>

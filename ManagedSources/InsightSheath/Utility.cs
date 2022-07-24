@@ -4,7 +4,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
-
+using InsightSheath.Debugging;
 using InsightSheath.NativeImports;
 
 namespace InsightSheath
@@ -155,11 +155,13 @@ namespace InsightSheath
 
 
         /// <summary>
-        /// Some of the routines here return Native Handles. This wraps 
-        /// () from kernel32 for convenience  
+        /// Some of the routines here return Native Handles. This wraps <see href="https://docs.microsoft.com/en-us/windows/win32/api/handleapi/nf-handleapi-closehandle"/> aka CloseHandle() 
+        ///  from kernel32 for convenience  
         /// </summary>
-        /// <param name="Handle"></param>
-        /// <returns></returns>
+        /// <param name="Handle">Handle to close.</param>
+        /// <returns>True if it worked and false if it did not.</returns>
+        /// <remarks>When running under an attached debugger, an exception can trigger if the debugged process tries closing an invalid handle. <see cref="DebugExceptionTypes.InvalidHandleCloseException"/></remarks>
+        /// <exception cref="DebugExceptionTypes.InvalidHandleCloseException"> This may trigger CloseHandle is asked to close an invalid handle in software attached to a debugger</exception>
         public static bool CloseHandle(IntPtr Handle)
         {
             return NativeMethods.CloseHandle(Handle);

@@ -167,6 +167,42 @@ namespace InsightSheath.Debugging.Process
         /// should in theory let the GC know that the pointer needs to be kept in memory.
         /// </summary>
         DebugEventCallBackRoutine BackUpCopy;
+
+        /// <summary>
+        /// Flags to change how the process is spawned. From <see href="https://docs.microsoft.com/en-us/windows/win32/procthread/process-creation-flags"/>
+        /// </summary>
+        [Flags]
+        public enum CreationFlagValues: uint
+        {
+            CreateBreakAwayFromJob = 0x01000000,
+            CreateDefaultErrorMode = 0x04000000,
+            CreateNewConsole       = 0x00000010,
+            CreateNewProcessGroup  = 0x00000200,
+            CreateNoWindow         = 0x08000000,
+            CreateProtectedProcess = 0x00040000,
+            CreatePreserveCodeAuthzLevel = 0x02000000,
+            CreateSecureProcess  =         0x00400000,
+            CreateSeperateWowVDM = 0x00000800,
+            CreateSharedWowVDM   = 0x00001000,
+            /// <summary>
+            /// Functionally unnessary for <see cref="InsightProcess"/>. The native code (InsightAPI.DLL) always includes this flag which indicates the passed enviroment block is Unicode characters when spawning the target. 
+            /// </summary>
+            CreateUnicodeEnviroment = 0x00000400,
+            /// <summary>
+            /// You'll receive debug messages from windows about only your spawned process. Child processes spawned aren't debugged
+            /// </summary>
+            DebugOnlyThisProcess = 0x00000002,
+            /// <summary>
+            /// You'll receive debug messages from windows for your spawned process and any child processes it spawns
+            /// </summary>
+            DebugProcess = 0x00000001,
+            /// <summary>
+            /// Functionally 
+            /// </summary>
+            ExtendedStartupInfoPresent = 0x00080000,
+            InheritParentAffinity = 0x00010000
+
+        }
         /// <summary>
         /// Used to make 'typical' flags like ResumeThread, DebugProcess and DebugOnlyThisProcess without needing to look values up. You also can just look the values up.
         /// </summary>
@@ -221,8 +257,8 @@ namespace InsightSheath.Debugging.Process
             {
                 // the code that applies the special case flags as in the get property code for CreationFlags.
 
-                uint flags = CreationFlags;
-                CreationFlags = flags;
+//                uint flags = this.CreationFlags;
+  //              CreationFlags = flags;
             }
             return InsightProcessInternal.InsightProcess_Spawn(Native).ToInt32();
         }
@@ -463,16 +499,16 @@ namespace InsightSheath.Debugging.Process
         /// <summary>
         /// Specify process creation flags (or get them).  Look at the CreateProcessA/W <see href="https://docs.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-createprocessa"/> flags online for more info. 
         /// </summary>
-        public uint CreationFlags
+        public CreationFlagValues CreationFlags 
         {
             get
             {
                 uint Val = InsightProcessInternal.InsightProcess_GetCreationFlags(Native);
-                return Val;
+                return (CreationFlagValues)Val;
             }
             set
             {
-                uint Val = value;
+                uint Val = (uint)value;
                 
                 if (ExtraFlags != SpecialCaseFlags.None)
                 {
@@ -508,13 +544,13 @@ namespace InsightSheath.Debugging.Process
         {
             get
             {
-                uint Flags = CreationFlags;
+                var Flags = CreationFlags;
                 return _ContainerFlag;
             }
             set
             {
                 _ContainerFlag = value;
-                uint Flags = CreationFlags;
+                var Flags = CreationFlags;
             }
         }
         private SpecialCaseFlags _ContainerFlag;

@@ -111,14 +111,15 @@ namespace InsightSheath.Telemetry
         TruncateExisting = 5
     }
 
-    
-    [Flags]
+
+
     /// <summary>
-    /// from <see cref="https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-samr/262970b7-cd4a-41f4-8c4d-5a27f0092aaa"/>, 
+    /// from <see href="https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-samr/262970b7-cd4a-41f4-8c4d-5a27f0092aaa"/>, 
     /// Windows SDK winnt.h and
     /// <see href="https://docs.microsoft.com/en-us/windows/win32/api/winternl/nf-winternl-ntcreatefile"/>,
     /// these are the accessible flags 
     /// </summary>
+    [Flags]
     public enum AccessMasks: uint
     {
         /// <summary>
@@ -305,7 +306,7 @@ namespace InsightSheath.Telemetry
         /// </summary>
         public FileShare ShareAccess;
         /// <summary>
-        /// <see cref="https://docs.microsoft.com/en-us/windows/win32/api/winternl/nf-winternl-ntcreatefile"/> for specifics. TODO: Include enum containing those values.
+        /// <see href="https://docs.microsoft.com/en-us/windows/win32/api/winternl/nf-winternl-ntcreatefile"/> for specifics. TODO: Include enum containing those values.
         /// </summary>
         public uint CreationOptions;
         /// <summary>
