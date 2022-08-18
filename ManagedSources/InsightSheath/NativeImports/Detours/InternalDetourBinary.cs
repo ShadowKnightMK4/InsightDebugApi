@@ -17,6 +17,8 @@ namespace InsightSheath.NativeImports
         [DllImport("InsightApi.Dll", CallingConvention = CallingConvention.Winapi, SetLastError = true, EntryPoint = "DetourBinaryClose")]
         public static extern bool DetourBinaryClose(IntPtr DetourHandle);
         // public bool EditInputs(IntPtr Context, BinaryByWayscallback pfByway, BinaryFileCallback FpfFile, BinarySymbolCallback pfSymbol, BinaryFinalCallback pfFinal)
+        
+        [DllImport("InsightApi.Dll", CallingConvention = CallingConvention.Winapi, SetLastError = true, EntryPoint = "DetourBinaryEditImports")]
         public static extern bool DetourBinaryEditInports(IntPtr DetourHandle,
                                                           IntPtr pContext,
                                                           BinaryByWayscallback pfByWay,
@@ -29,7 +31,7 @@ namespace InsightSheath.NativeImports
         /// <param name="DetourHandle">From a previously sucessfully call to <see cref="DetourBinaryOpen(IntPtr)"/></param>
         /// <param name="FileHandle">Native file handle to write the changes too.</param>
         /// <returns></returns>
-        [DllImport("InsightApi.Dll", CallingConvention = CallingConvention.Winapi, SetLastError = true, EntryPoint = "DetourBinaryClose")]
+        [DllImport("InsightApi.Dll", CallingConvention = CallingConvention.Winapi, SetLastError = true, EntryPoint = "DetourBinaryWrite")]
         public static extern bool DetourBinaryWrite(IntPtr DetourHandle, IntPtr FileHandle);
     }
 }

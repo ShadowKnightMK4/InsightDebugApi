@@ -203,14 +203,18 @@ public:
 
 	const char* IndexDetourList(int index);
 #pragma endregion
-#pragma region Spawning The Target
+#pragma region Spawning The Target and waiting for exist
 	/// <summary>
 	/// Spawn the process and returns its ID.  Returns 0 if the process did not spawn.
 	/// </summary>
 	/// <returns></returns>
 	DWORD SpawnProcess();
 
-
+	/// <summary>
+	/// Once the process is spawned, wait until it's exited or the elapsed time has passed
+	/// </summary>
+	/// <returns></returns>
+	BOOL WaitUntilExit(DWORD TimeWait, BOOL OnlyMain);
 	/// <summary>
 	/// Return a pointer to the class that controls the StartupInfoW struct.
 	/// </summary>

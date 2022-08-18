@@ -12,6 +12,16 @@
 extern "C"
 {
 	
+	bool WINAPI InsightProcess_WaitForMainProcessExit(InsightProcess* that, DWORD WaitTime)
+	{
+		return that->WaitUntilExit(WaitTime, TRUE);
+	}
+
+	bool WINAPI InsightProcess_WaitForAllProcessExit(InsightProcess* that, DWORD WaitTime)
+	{
+		return that->WaitUntilExit(WaitTime, FALSE);
+	}
+
 
 	/// <summary>
 	/// Exports a constructor for the class

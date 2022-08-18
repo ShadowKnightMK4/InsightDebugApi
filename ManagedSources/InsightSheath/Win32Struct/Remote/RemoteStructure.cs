@@ -66,7 +66,7 @@ namespace InsightSheath.Win32Struct.Remote
 
         
         /// <summary>
-        /// Read either a <see cref="UnicodeString32"/> or <see cref="UnicodeString64"/> from the location. Note: This does assume the NativeExport from InsightAPI.DLL will always return a 64-bit version of the struct and quitely remote the 32-bit version when extracting from the target
+        /// Read either a <see cref="UnicodeString32"/> or <see cref="UnicodeString64"/> from the location. Note: This does assume the NativeExport from InsightAPI.DLL will always return a 64-bit version of the struct and quietly promotes the 32-bit version when extracting from the target to an x64 bit version
         /// </summary>
         /// <param name="ProcessHandle">Handle to Read From</param>
         /// <param name="Location">location to read from</param>
@@ -108,7 +108,7 @@ namespace InsightSheath.Win32Struct.Remote
         }
 
         /// <summary>
-        /// Extract a DebugString from an OUTPUT_DEBUG_EVENT <see cref="DebugEvent"/> and <see cref="DebugEventStringInfo"/> for other ways
+        /// Extract a DebugString from an OUTPUT_DEBUG_EVENT <see cref="DebugEvent"/> and <see cref="DebugEventStringInfo"/> for other ways.   
         /// </summary>
         /// <param name="ProcessHandle">Handle to the process</param>
         /// <param name="DebugEventStruct">Pointer to a DebugEvent native structure</param>

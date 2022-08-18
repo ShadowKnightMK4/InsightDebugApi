@@ -268,15 +268,41 @@ namespace FileSandBox_GUI
             return true;
         }
 
-        
+
 
         /// <summary>
         ///  The main entry point for the application.
         /// </summary>
 
 
+        static IntPtr TestPtr;  
+        static bool FileCallaback (IntPtr Context, string original, string current, IntPtr Replacement)
+        {
+
+            if (original.CompareTo("KERNEL32.dll") == 0)
+            {
+                if (TestPtr == IntPtr.Zero)
+                {
+                    TestPtr = Marshal.StringToHGlobalAnsi("KERNEL64.DLL");
+                }
+                
+                {
+                    if (IntPtr.Size == 4)
+                    {
+                        MemoryNative.Poke4(Replacement, (uint)TestPtr);
+                    }
+                    else
+                    {
+                        MemoryNative.Poke8(Replacement, (ulong)TestPtr);
+                    }
+                }
+
+            }
+                return true;
+        }
         static void Main()
         {
+            var testptr = new DetourBinary.BinaryFileCallback(FileCallaback);
             /*            FileSandBox_Forms.InsightDebuggerMainView test;
             test = new FileSandBox_Forms.InsightDebuggerMainView();
 
@@ -288,6 +314,8 @@ namespace FileSandBox_GUI
             DetourBinary Test = new DetourBinary("C:\\Windows\\system32\\notepad.exe");
 
 
+            var ImportList = Test.GetImports(false, false);
+            Test.SaveTo("C:\\Euphoria\\Dummy.exe");
             Test.Dispose();
             return;
              InsightProcess TestRun = InsightProcess.CreateInstance();

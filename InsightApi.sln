@@ -78,7 +78,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ProcessLoader", "NativeSour
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NewFolder1", "NewFolder1", "{78E852B9-BCC3-4A71-BE04-FD8EE53988EF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProcessSpawn", "TestingAndSamples\ProcessSpawn\ProcessSpawn\ProcessSpawn.csproj", "{D48914E0-773F-465B-BACE-0E604387A79C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProcessSpawn", "TestingAndSamples\ProcessSpawn\ProcessSpawn\ProcessSpawn.csproj", "{D48914E0-773F-465B-BACE-0E604387A79C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProcessSpawnWithDebugEvent", "TestingAndSamples\ProcessSpawnWithDebugEvent\ProcessSpawnWithDebugEvent.csproj", "{E2B05440-662A-45F9-8E5A-EDF12C2FE077}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -251,6 +253,18 @@ Global
 		{D48914E0-773F-465B-BACE-0E604387A79C}.Release|x64.Build.0 = Release|Any CPU
 		{D48914E0-773F-465B-BACE-0E604387A79C}.Release|x86.ActiveCfg = Release|Any CPU
 		{D48914E0-773F-465B-BACE-0E604387A79C}.Release|x86.Build.0 = Release|Any CPU
+		{E2B05440-662A-45F9-8E5A-EDF12C2FE077}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2B05440-662A-45F9-8E5A-EDF12C2FE077}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2B05440-662A-45F9-8E5A-EDF12C2FE077}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{E2B05440-662A-45F9-8E5A-EDF12C2FE077}.Debug|x64.Build.0 = Debug|Any CPU
+		{E2B05440-662A-45F9-8E5A-EDF12C2FE077}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E2B05440-662A-45F9-8E5A-EDF12C2FE077}.Debug|x86.Build.0 = Debug|Any CPU
+		{E2B05440-662A-45F9-8E5A-EDF12C2FE077}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2B05440-662A-45F9-8E5A-EDF12C2FE077}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E2B05440-662A-45F9-8E5A-EDF12C2FE077}.Release|x64.ActiveCfg = Release|Any CPU
+		{E2B05440-662A-45F9-8E5A-EDF12C2FE077}.Release|x64.Build.0 = Release|Any CPU
+		{E2B05440-662A-45F9-8E5A-EDF12C2FE077}.Release|x86.ActiveCfg = Release|Any CPU
+		{E2B05440-662A-45F9-8E5A-EDF12C2FE077}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -277,6 +291,7 @@ Global
 		{EE03439A-1DB7-45D8-A3A0-C13A6D988F5C} = {53C03628-5518-4BF1-BA21-1B9E0615A9A4}
 		{78E852B9-BCC3-4A71-BE04-FD8EE53988EF} = {D86C9961-2255-4F8B-8977-A9F256111047}
 		{D48914E0-773F-465B-BACE-0E604387A79C} = {D108851A-A924-4047-AF33-B0746C077440}
+		{E2B05440-662A-45F9-8E5A-EDF12C2FE077} = {D108851A-A924-4047-AF33-B0746C077440}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B6CF70ED-92F3-4E3A-98F2-701A62654ADB}

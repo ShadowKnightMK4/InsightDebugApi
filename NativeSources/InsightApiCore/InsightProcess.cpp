@@ -879,6 +879,21 @@ VOID InsightProcess::CopyPayloads(HANDLE Target)
 	}*/
 }
 
+/// <summary>
+/// Wait for either the entire known process chain to quit or only the main one. 
+/// </summery> 
+BOOL InsightProcess::WaitUntilExit(DWORD TimeWait, BOOL OnlyMain)
+{
+	if (OnlyMain)
+	{
+		return MsgWaitForMultipleObjects(1, &this->PInfo.hProcess, TRUE, TimeWait, QS_ALLEVENTS);
+	}
+	else
+	{
+
+	}
+}
+
 StartupInfoWrapper* InsightProcess::GetStartupInfoHandler()
 {
 	return &this->StartUpInfo;

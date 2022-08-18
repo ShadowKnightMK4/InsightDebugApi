@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace InsightSheath.Misc
 {
     /// <summary>
-    /// USed by the <see cref="ReferenceCounterNativeStaticContainer"/> to track and change a reference.
+    /// Used by the <see cref="ReferenceCounterNativeStaticContainer"/> to track and change a reference.
     /// This is primary used by the <see cref="DebugEvent"/> class collection as we're handing out
-    /// Multiple REferences to the same Native Pointer like candy and need to take steps to prevent users
+    /// Multiple References to the same Native Pointer like candy and need to take steps to prevent users
     /// of the library from prematuring freeing the same sheath.
     /// 
     /// Why?
@@ -19,12 +19,16 @@ namespace InsightSheath.Misc
     ///     
     ///     Got the above? Consider this example
     ///           GC frees DebugEventCreateProcess, memory is invalided on the nativeside
-    ///           GC has not freed DebugEvent but memory thsi class points too is know invalid
+    ///           GC has not freed DebugEvent but memory thsi class points too is now invalid
     ///             DebugEvent breaks.
     ///     
     /// </summary>
     public class ReferenceCounter
     {
+        /// <summary>
+        /// Inclease the reference counter for this class.  Call this when sucessfully creating a class instance that points to the same unmanaged memory block.
+        /// </summary>
+        /// <returns>Returns number of live instances after increasing value</returns>
         public ulong AddRef()
         {
             if (RefContainer != ulong.MaxValue)
@@ -32,6 +36,10 @@ namespace InsightSheath.Misc
             return RefContainer;
         }
 
+        /// <summary>
+        /// Decrease the reference counter for this class.   Call this during your disposal() event and actually free the unmanaged memory only when the return value is 0.  
+        /// </summary>
+        /// <returns>Returns remaining vlaues.</returns>
         public ulong DecRef()
         {
             if (RefContainer != ulong.MinValue)

@@ -2075,16 +2075,71 @@
             Wraps DetourBinary routines from detours and exported in insight to  let one inspect/ alter the EXE/DLL's import table.
             </summary>
         </member>
+        <member name="F:InsightSheath.Detours.DetourBinary.ExeResource">
+            <summary>
+            the file handle that we hold for the life of this class
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Detours.DetourBinary.DetourBinaryNativeHandle">
+            <summary>
+            The DetourBinaryXXX rouitine handle for the life of this class
+            </summary>
+        </member>
         <member name="P:InsightSheath.Detours.DetourBinary.CommitOnDispose">
             <summary>
-            If set and GC triggers or dispose is called, we commit changes to the opened file.
+            If set and GC triggers or dispose is called, we commit changes to the opened file. Will not commit if the file was opened for readonly.
             </summary>
+        </member>
+        <member name="M:InsightSheath.Detours.DetourBinary.SaveTo(System.String)">
+            <summary>
+            Save the modified binary to the location of your choice.
+            </summary>
+            <param name="Output"></param>
+            <returns></returns>
+        </member>
+        <member name="M:InsightSheath.Detours.DetourBinary.CommonClass_IniRoutine(System.String,System.IO.FileAccess)">
+            <summary>
+            this is the common ini routine for the public constructors.
+            </summary>
+            <param name="ExeName">name of exe or dll to open</param>
+            <param name="AccessNeeds">the file access notes we need to acess with</param>
+        </member>
+        <member name="M:InsightSheath.Detours.DetourBinary.#ctor(System.String,System.IO.FileAccess)">
+            <summary>
+            Open the passed executable file (DLL likely fine also) for detourbinary handling
+            </summary>
+            <param name="ExecutableName">exe to open</param>
+            <param name="AccessHandle">open for read/wrte ect..</param>
         </member>
         <member name="M:InsightSheath.Detours.DetourBinary.#ctor(System.String)">
             <summary>
             Open the passed executable file (DLL likely fine also) for detourbinary handling for reading only
             </summary>
-            <param name="ExecutableName"></param>
+            <param name="ExecutableName">exe to open</param>
+        </member>
+        <member name="M:InsightSheath.Detours.DetourBinary.EditInputs(System.IntPtr,InsightSheath.Detours.DetourBinary.BinaryByWayscallback,InsightSheath.Detours.DetourBinary.BinaryFileCallback,InsightSheath.Detours.DetourBinary.BinarySymbolCallback,InsightSheath.Detours.DetourBinary.BinaryFinalCallback)">
+            <summary>
+            Enumerate the import tample and receive callbacks for each option.  
+            </summary>
+            <param name="Context">This is raw value that is passed bytween your code and Insight's Native DLL. It's the size of a pointer..</param>
+            <param name="pfByway">This called once before each import DLL in the target</param>
+            <param name="FpfFile">This is called once for each import DLL's name in the target</param>
+            <param name="pfSymbol">This is called once for each symbol imported from each file in the target</param>
+            <param name="pfFinal">This is called once the enumartion is finished if there were no errors.</param>
+            <returns></returns>
+        </member>
+        <member name="F:InsightSheath.Detours.DetourBinary.GetInputsLock">
+            <summary>
+            used to prevent corruting in the list we are building should multiple threads attempt to call
+            </summary>
+        </member>
+        <member name="M:InsightSheath.Detours.DetourBinary.GetInputs(System.Boolean,System.Boolean)">
+            <summary>
+            Collect the Import table and optionally also load the import table to DLLS you import.
+            </summary>
+            <param name="FollowDependants"></param>
+            <param name="SkipDups">If set then import libraries of name X that export a routine named Y are treated as identicle.</param>
+            <returns></returns>
         </member>
         <member name="T:InsightSheath.MemoryNative">
             <summary>
@@ -2270,9 +2325,9 @@
         </member>
         <member name="T:InsightSheath.Misc.ReferenceCounter">
             <summary>
-            USed by the <see cref="!:ReferenceCounterNativeStaticContainer"/> to track and change a reference.
+            Used by the <see cref="!:ReferenceCounterNativeStaticContainer"/> to track and change a reference.
             This is primary used by the <see cref="!:DebugEvent"/> class collection as we're handing out
-            Multiple REferences to the same Native Pointer like candy and need to take steps to prevent users
+            Multiple References to the same Native Pointer like candy and need to take steps to prevent users
             of the library from prematuring freeing the same sheath.
             
             Why?
@@ -2282,10 +2337,22 @@
                 
                 Got the above? Consider this example
                       GC frees DebugEventCreateProcess, memory is invalided on the nativeside
-                      GC has not freed DebugEvent but memory thsi class points too is know invalid
+                      GC has not freed DebugEvent but memory thsi class points too is now invalid
                         DebugEvent breaks.
                 
             </summary>
+        </member>
+        <member name="M:InsightSheath.Misc.ReferenceCounter.AddRef">
+            <summary>
+            Inclease the reference counter for this class.  Call this when sucessfully creating a class instance that points to the same unmanaged memory block.
+            </summary>
+            <returns>Returns number of live instances after increasing value</returns>
+        </member>
+        <member name="M:InsightSheath.Misc.ReferenceCounter.DecRef">
+            <summary>
+            Decrease the reference counter for this class.   Call this during your disposal() event and actually free the unmanaged memory only when the return value is 0.  
+            </summary>
+            <returns>Returns remaining vlaues.</returns>
         </member>
         <member name="T:InsightSheath.NativeImports.DebugEventNative">
             <summary>
@@ -3532,7 +3599,7 @@
         </member>
         <member name="M:InsightSheath.Win32Struct.Remote.RemoteStructure.RemoteReadUnicodeString(System.IntPtr,System.IntPtr,System.Boolean,System.Boolean)">
             <summary>
-            Read either a <see cref="T:InsightSheath.Win32Struct.UnicodeString32"/> or <see cref="T:InsightSheath.Win32Struct.UnicodeString64"/> from the location. Note: This does assume the NativeExport from InsightAPI.DLL will always return a 64-bit version of the struct and quitely remote the 32-bit version when extracting from the target
+            Read either a <see cref="T:InsightSheath.Win32Struct.UnicodeString32"/> or <see cref="T:InsightSheath.Win32Struct.UnicodeString64"/> from the location. Note: This does assume the NativeExport from InsightAPI.DLL will always return a 64-bit version of the struct and quietly promotes the 32-bit version when extracting from the target to an x64 bit version
             </summary>
             <param name="ProcessHandle">Handle to Read From</param>
             <param name="Location">location to read from</param>
@@ -3551,7 +3618,7 @@
         </member>
         <member name="M:InsightSheath.Win32Struct.Remote.RemoteStructure.RemoteReadDebugString(System.IntPtr,System.IntPtr)">
             <summary>
-            Extract a DebugString from an OUTPUT_DEBUG_EVENT <see cref="T:InsightSheath.Debugging.DebugEvent"/> and <see cref="T:InsightSheath.Debugging.DebugEventStringInfo"/> for other ways
+            Extract a DebugString from an OUTPUT_DEBUG_EVENT <see cref="T:InsightSheath.Debugging.DebugEvent"/> and <see cref="T:InsightSheath.Debugging.DebugEventStringInfo"/> for other ways.   
             </summary>
             <param name="ProcessHandle">Handle to the process</param>
             <param name="DebugEventStruct">Pointer to a DebugEvent native structure</param>
