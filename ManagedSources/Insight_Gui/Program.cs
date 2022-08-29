@@ -311,10 +311,12 @@ namespace FileSandBox_GUI
             return;            */
 
             
-            DetourBinary Test = new DetourBinary("C:\\Windows\\system32\\notepad.exe");
+            StaticBinary Test = new StaticBinary("C:\\Windows\\system32\\notepad.exe");
 
 
-            var ImportList = Test.GetImports(false, false);
+            //var ImportList = Test.GetImports(false, false);
+            var ResourceNames = Test.GetResourceNames();
+
             Test.SaveTo("C:\\Euphoria\\Dummy.exe");
             Test.Dispose();
             return;

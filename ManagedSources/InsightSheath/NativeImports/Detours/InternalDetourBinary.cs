@@ -9,8 +9,14 @@ using static InsightSheath.Detours.DetourBinary;
 
 namespace InsightSheath.NativeImports
 {
+    /// <summary>
+    /// This class imports the various native routines (usualy from InsightAPI.dll) that DetourBinary and StaticBinary require
+    /// </summary>
     internal class InternalDetourBinary
     {
+        [DllImport("InsightApi.Dll", CallingConvention = CallingConvention.Winapi, SetLastError = true, EntryPoint = "DetourBinaryResetImports")]
+        public static extern bool DetourBinaryResetImports(IntPtr Handle);
+
         [DllImport("InsightApi.Dll", CallingConvention = CallingConvention.Winapi, SetLastError = true, EntryPoint = "DetourBinaryOpen")]
         public static extern IntPtr DetourBinaryOpen(IntPtr Handle);
 

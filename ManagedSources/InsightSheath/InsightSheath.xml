@@ -2070,6 +2070,31 @@
             Handler for reading from / writing to a Wow64ContextString
             </summary>
         </member>
+        <member name="T:InsightSheath.Detours.DetourBinary_ImportList">
+            <summary>
+            Used with <see cref="M:InsightSheath.Detours.DetourBinary.GetImports(System.Boolean,System.Boolean)"/>
+            </summary>
+        </member>
+        <member name="P:InsightSheath.Detours.DetourBinary_ImportList.RoutineName">
+            <summary>
+            Name of routine as seen in the data gathering
+            </summary>
+        </member>
+        <member name="P:InsightSheath.Detours.DetourBinary_ImportList.OrdinalNumber">
+            <summary>
+            Ordinal of the routine as seen in the data gathering.
+            </summary>
+        </member>
+        <member name="P:InsightSheath.Detours.DetourBinary_ImportList.ModuleName">
+            <summary>
+            The EXE/DLL/ shared library that this routine is imported from.
+            </summary>
+        </member>
+        <member name="T:InsightSheath.Detours.StaticBinary">
+            <summary>
+            DetourBinary with certificate and resource enumeration also.
+            </summary>
+        </member>
         <member name="T:InsightSheath.Detours.DetourBinary">
             <summary>
             Wraps DetourBinary routines from detours and exported in insight to  let one inspect/ alter the EXE/DLL's import table.
@@ -2082,7 +2107,7 @@
         </member>
         <member name="F:InsightSheath.Detours.DetourBinary.DetourBinaryNativeHandle">
             <summary>
-            The DetourBinaryXXX rouitine handle for the life of this class
+            The DetourBinaryXXX routine handle for the life of this class
             </summary>
         </member>
         <member name="P:InsightSheath.Detours.DetourBinary.CommitOnDispose">
@@ -2117,6 +2142,33 @@
             </summary>
             <param name="ExecutableName">exe to open</param>
         </member>
+        <member name="M:InsightSheath.Detours.DetourBinary.FindPayload(System.Guid,System.UInt32@)">
+            <summary>
+            TODO: Locate the payload indicated by the passed guid.
+            </summary>
+            <param name="RefGuid">guid of the payload to look for.</param>
+            <param name="SizeOfPayload">If the payload exists, receives its size in bytes, otherwise is set to 0</param>
+            <returns>IntPtr.Zero if the payload belonging to the gui is non existant.  Returns pointer to the payload if it does and sets sizeofpayload</returns>
+        </member>
+        <member name="M:InsightSheath.Detours.DetourBinary.EnumeratePayloads">
+            <summary>
+            TODO: Wrap routine https://github.com/microsoft/Detours/wiki/DetourBinaryEnumeratePayloads
+            </summary>
+        </member>
+        <member name="M:InsightSheath.Detours.DetourBinary.PayloadToArray(System.IntPtr,System.UInt32)">
+            <summary>
+            TODO: Conventent way to put the payload found by <see cref="M:InsightSheath.Detours.DetourBinary.FindPayload(System.Guid,System.UInt32@)"/>
+            </summary>
+            <param name="PayloadPtr"></param>
+            <param name="SizeOFPayload"></param>
+            <returns></returns>
+        </member>
+        <member name="M:InsightSheath.Detours.DetourBinary.ResetImports">
+            <summary>
+            Reset changes made via DetourBinaryImports/ect... 
+            </summary>
+            <returns>True if it worked and false if not.</returns>
+        </member>
         <member name="M:InsightSheath.Detours.DetourBinary.EditInputs(System.IntPtr,InsightSheath.Detours.DetourBinary.BinaryByWayscallback,InsightSheath.Detours.DetourBinary.BinaryFileCallback,InsightSheath.Detours.DetourBinary.BinarySymbolCallback,InsightSheath.Detours.DetourBinary.BinaryFinalCallback)">
             <summary>
             Enumerate the import tample and receive callbacks for each option.  
@@ -2128,18 +2180,63 @@
             <param name="pfFinal">This is called once the enumartion is finished if there were no errors.</param>
             <returns></returns>
         </member>
+        <member name="M:InsightSheath.Detours.DetourBinary.GetInputs_filecallback(System.IntPtr,System.String,System.String,System.IntPtr)">
+            <summary>
+            callback that receives the routine name for <see cref="M:InsightSheath.Detours.DetourBinary.GetImports(System.Boolean,System.Boolean)"/>. Just sets <see cref="F:InsightSheath.Detours.DetourBinary.GetImportsCurrentKey"/> to the passed import library name.
+            </summary>
+            <param name="Context"></param>
+            <param name="originalFile"></param>
+            <param name="currentFile"></param>
+            <param name="newfile"></param>
+            <returns></returns>
+        </member>
+        <member name="M:InsightSheath.Detours.DetourBinary.GetInputs_symbolcallback(System.IntPtr,System.UInt64,System.UInt64,System.UIntPtr,System.String,System.String,System.IntPtr)">
+            <summary>
+            callback that receives the routine name for <see cref="M:InsightSheath.Detours.DetourBinary.GetImports(System.Boolean,System.Boolean)"/>.  Checks if the list we're building has a key of <see cref="F:InsightSheath.Detours.DetourBinary.GetImportsCurrentKey"/> , creates it if not and adds the passed the argument CurrentSymbol to the list in that key slot
+            </summary>
+            <param name="Context"></param>
+            <param name="original_ordinal"></param>
+            <param name="current_ordinal"></param>
+            <param name="DesiredOrginal"></param>
+            <param name="OrigSymbol"></param>
+            <param name="CurrentSymbol"></param>
+            <param name="SymbolToUse"></param>
+            <returns></returns>
+        </member>
+        <member name="F:InsightSheath.Detours.DetourBinary.GetImportsCurrentKey">
+            <summary>
+            this gets set to what eventual is a key in the <see cref="F:InsightSheath.Detours.DetourBinary.ImportList"/>
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Detours.DetourBinary.ImportList">
+            <summary>
+            This is used to build the list generated by <see cref="M:InsightSheath.Detours.DetourBinary.GetImports(System.Boolean,System.Boolean)"/>
+            </summary>
+        </member>
         <member name="F:InsightSheath.Detours.DetourBinary.GetInputsLock">
             <summary>
             used to prevent corruting in the list we are building should multiple threads attempt to call
             </summary>
         </member>
-        <member name="M:InsightSheath.Detours.DetourBinary.GetInputs(System.Boolean,System.Boolean)">
+        <member name="M:InsightSheath.Detours.DetourBinary.GetImports(System.Boolean,System.Boolean)">
             <summary>
             Collect the Import table and optionally also load the import table to DLLS you import.
             </summary>
             <param name="FollowDependants"></param>
             <param name="SkipDups">If set then import libraries of name X that export a routine named Y are treated as identicle.</param>
-            <returns></returns>
+            <returns>Returns a dictionary list lists. Key is import library (ex kernel32.dll). List is the list of imports presented by the callback.  They should be in ordinal order.  You're free to sort as you see fit however.</returns>   
+            <remarks>With how the routine works, (i.e. private variable contained in the life of the class), this routine locks a handle to prevent multiple threads from calling this at the same time.</remarks>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:InsightSheath.Detours.DetourBinary.Dispose(System.Boolean)" -->
+        <member name="M:InsightSheath.Detours.DetourBinary.Finalize">
+            <summary>
+            GC cleanup disposing of resources.
+            </summary>
+        </member>
+        <member name="M:InsightSheath.Detours.DetourBinary.Dispose">
+            <summary>
+            dispose of this DetourBinary based object's resources.
+            </summary>
         </member>
         <member name="T:InsightSheath.MemoryNative">
             <summary>

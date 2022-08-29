@@ -220,6 +220,7 @@ del "$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\lib\InsightApi.*"
     <ClCompile Include="InsightProcessClass_CExports.cpp" />
     <ClCompile Include="RemoteStructureRoutines.cpp" />
     <ClCompile Include="InsightProcess.cpp" />
+    <ClCompile Include="ResourceWalker.cpp" />
     <ClCompile Include="StartupInfoExW_struct_cExports.cpp" />
     <ClCompile Include="StartupInfoStructHelper.cpp" />
     <ClCompile Include="SymbolInfoStruct_CExports.cpp" />
@@ -243,6 +244,7 @@ del "$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\lib\InsightApi.*"
     <ClInclude Include="InsightProcess.h" />
     <ClInclude Include="RemoteStructure.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="ResourceWalker.h" />
     <ClInclude Include="StartupInfoStructHelper.h" />
     <ClInclude Include="ThreadContext.h" />
     <ClInclude Include="ThreadSupport.h" />
