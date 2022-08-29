@@ -221,6 +221,7 @@ del "$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\lib\InsightApi.*"
     <ClCompile Include="RemoteStructureRoutines.cpp" />
     <ClCompile Include="InsightProcess.cpp" />
     <ClCompile Include="ResourceWalker.cpp" />
+    <ClCompile Include="ResourceWalkerClass_CExports.cpp" />
     <ClCompile Include="StartupInfoExW_struct_cExports.cpp" />
     <ClCompile Include="StartupInfoStructHelper.cpp" />
     <ClCompile Include="SymbolInfoStruct_CExports.cpp" />

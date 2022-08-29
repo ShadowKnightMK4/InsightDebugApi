@@ -82,6 +82,12 @@
     <ClCompile Include="ObjectAttributesHelper.cpp">
       <Filter>Source Files\Classes</Filter>
     </ClCompile>
+    <ClCompile Include="ResourceWalker.cpp">
+      <Filter>Source Files\Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceWalkerClass_CExports.cpp">
+      <Filter>Source Files\C Level Struct Wrappers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="InsightHunter.h">
@@ -134,13 +140,13 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="InsightMemory_CWrappers.h" />
+    <ClInclude Include="ResourceWalker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="DllExportStuff">
       <UniqueIdentifier>{67f6e74f-9ff1-472c-b9a2-ffa91314488f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes">
-      <UniqueIdentifier>{686b3158-02a3-495b-b403-0237bb1fa2d5}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files">
       <UniqueIdentifier>{3c8de725-68ba-4424-a8ea-db8ead7513d7}</UniqueIdentifier>
