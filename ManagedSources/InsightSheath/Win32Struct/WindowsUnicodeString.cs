@@ -73,9 +73,9 @@ namespace InsightSheath.Win32Struct
     }
 
 	/// <summary>
-	/// For processes that are 64-bit, this is our UNICODE_STRING struct looks like when read from. Suitable for Marshaling from a source. Take care that you handle if your pointer to the native structure <see cref="UnicodeString32.Buffer"/> points to a remote/ non local memory buffer or not. 
+	/// For processes that are 64-bit, this is what our UNICODE_STRING struct looks like when read from. Suitable for Marshaling from a source. Take care with the string pointer to know if it's local memory or extern/remote/not your process's memory. .if your pointer to the native structure <see cref="UnicodeString32.Buffer"/> points to a remote/ non local memory buffer or not. 
 	/// </summary>
-	/// <remarks>To marshal.  Using <see cref="Marshal.PtrToStructure{UnicodeString64}(IntPtr)"/> and either <see cref="Marshal.PtrToStringUni(IntPtr, int)"/> for a local buffer or <see cref="Remote.RemoteStructure.RemoteReadString(IntPtr, IntPtr, uint)"/> for one located in a different process </remarks>
+	/// <remarks>To Marshall.  Using <see cref="Marshal.PtrToStructure{UnicodeString64}(IntPtr)"/> and either use <see cref="Marshal.PtrToStringUni(IntPtr, int)"/> for a local buffer or <see cref="Remote.RemoteStructure.RemoteReadString(IntPtr, IntPtr, uint)"/> for one located in a different process </remarks>
 	/// <summary>
 	/// </summary>
 	[StructLayout(LayoutKind.Sequential)]
@@ -94,7 +94,7 @@ namespace InsightSheath.Win32Struct
 		/// </summary>
 		public uint Padding;
 		/// <summary>
-		/// 8 byte pointer to where the Unicode String is allocated. <see cref="InsertHere"/> will place the string right after the location of the returned Unicode String struct
+		/// 8 byte pointer to where the Unicode String is allocated. 
 		/// </summary>
 		public ulong Buffer;
 	}

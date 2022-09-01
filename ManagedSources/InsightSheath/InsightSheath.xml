@@ -2877,6 +2877,11 @@
             <param name="Handle"></param>
             <returns></returns>
         </member>
+        <member name="T:InsightSheath.NativeImports.InternalDetourBinary">
+            <summary>
+            This class imports the various native routines (usualy from InsightAPI.dll) that DetourBinary and StaticBinary require
+            </summary>
+        </member>
         <member name="M:InsightSheath.NativeImports.InternalDetourBinary.DetourBinaryWrite(System.IntPtr,System.IntPtr)">
             <summary>
             Write the changes made with this DetourBinary resource to the target. See also <see href="https://github.com/Microsoft/Detours/wiki/DetourBinaryWrite"/>

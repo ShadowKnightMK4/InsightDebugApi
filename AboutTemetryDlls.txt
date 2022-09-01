@@ -1,35 +1,35 @@
 
-Telemetry DLLs for purposes are specially written dlls that are forcably loaded into a spawned app's address space via Detours in order to gain additional data
-and functionality. For Example, IoDeviceTracking detours CreateFileA (and W).  This detoured routine raises an exception containing information about the arguments
-passed to the routine with the option for the debugger to simply paste a handle and lasterror value into a chunk of memory to modify. 
-
-
-CRITICALLY IMPORTANT!!!!
-The included detours static lib does not seem to support injecting from a parent x64 bit based process into
-an x86 WOW process.   This means your DLLS loaded won't trigger!
+Telemetry DLLs for purposes are specially written DLLs that are forcibly loaded into a spawned app's address space via Detours in order to gain additional data and functionality. For Example, IoDeviceTracking detours CreateFileA (and W) which are usually used by Native software to interact with files/pipes. This detoured routine raises an exception containing information about the arguments that were passed to it. With out Windows freezes a debugged app during exception handling, your code will be able to inspect the arguments to log and potentially change what the routine returns to to the call.
 
 
 For those who have no idea what detours is see https://github.com/microsoft/Detours/wiki for a starting point. If you've never set foot into Native C++ windows code,
-Detours is a library that lets someone insert a small jump to an arbitrary function while preserving a pointer to the original function. Consider this example:
+Detours is a library that lets someone insert a small jump to an arbitrary native function while preserving a pointer to the original function. Consider this example:
 
 
-A high level example and not actually code for the library.
+// A high level example and not actually code for the library.
 
-Detour(&a, b)			<- tell the library to change calls into the routine importable at a's position to call b.
-						<- Preserves A's original location for B's use.
-						<- b's function prototype should be identical to a.
-
-Now code that calls a will actually call b() first when then is free to do what it wants up to and including calling a().
+Detour(&A, B)	<- tell the library to change calls into the routine import table at A's position to call B.
 
 
-
-With how Insight launches the Dlls (https://github.com/microsoft/Detours/wiki/Reference#apis-for-inserting-dlls-and-payloads-into-new-processes), your new telemetry dll
-should export at least one function - for examle the DllMain() that one can write that Windows Calls when loading a Dll into a process. Ensure you return true 
-if the routine DetoursIsHelperProcess() returns true at the start of DllMain().  Consider Pinning your library unless you plan for it to be unloaded at a point in time
-and finally, detour the routines you want.
+After applying the redirect, future calls to A in the process will initially call B. B is free to do what it wants with the arguments and code up to calling the saved pointer to the original A.
 
 
 
+Insight follows the procedure layed out here (https://github.com/microsoft/Detours/wiki/Reference#apis-for-inserting-dlls-and-payloads-into-new-processes) for its telemetry DLLs. First, include Detours as static library in your DLL code. Next, add a module definition file and have it export the Detours API routine ‘DetourFinishHelperProcss’  as ordinal #1.  You should also have a DllMain() routine also. A starting point can be ripping one of the existing telemetry DLLs or the generic MSDN one.
+
+Your DllMain needs to check if it was loaded by the helper process by calling “DetourIsHelperProcess” and doing nothing else except return TRUE if “DetourIsHelperProcess” returns TRUE. If DetourIsHelperProcess returns FALSE, call DetourRestoreAfterWith() to fix what Detours did to the import table to get the process to spawn correctly. 
 
 
+Routines your Telemetry Dll will need likely need to use:
+DetourFinishHelperProcss (https://github.com/Microsoft/Detours/wiki/DetourFinishHelperProcess)
+DetourIsHelperProcess (https://github.com/Microsoft/Detours/wiki/DetourIsHelperProcess)
 
+DetourRestoreAfterWith (https://github.com/Microsoft/Detours/wiki/DetourRestoreAfterWith)
+
+DllMain (https://docs.microsoft.com/en-us/windows/win32/dlls/dllmain)
+
+DetourTransactionBegin(), DetourUpdateThread(), DetourAttach(), DetourDetach(), DetourTransactionCommit() at https://github.com/microsoft/Detours/wiki/Reference#apis-for-detouring-target-functions
+
+Questions:
+Help! My 64-bit program is does not actual include my telemetry DLL in an x86 spawned program.
+Answer: Check if  “DetourFinishHelperProcess” from the Detours library is exported as Ordinal #1.  
