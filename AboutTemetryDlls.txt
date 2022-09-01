@@ -11,13 +11,20 @@ Detours is a library that lets someone insert a small jump to an arbitrary nativ
 Detour(&A, B)	<- tell the library to change calls into the routine import table at A's position to call B.
 
 
-After applying the redirect, future calls to A in the process will initially call B. B is free to do what it wants with the arguments and code up to calling the saved pointer to the original A.
+After applying the redirect, future calls to A in the process will initially call B. B is free to do what 
+it wants with the arguments and code up to calling the saved pointer to the original A.
 
 
 
-Insight follows the procedure layed out here (https://github.com/microsoft/Detours/wiki/Reference#apis-for-inserting-dlls-and-payloads-into-new-processes) for its telemetry DLLs. First, include Detours as static library in your DLL code. Next, add a module definition file and have it export the Detours API routine ‘DetourFinishHelperProcss’  as ordinal #1.  You should also have a DllMain() routine also. A starting point can be ripping one of the existing telemetry DLLs or the generic MSDN one.
-
-Your DllMain needs to check if it was loaded by the helper process by calling “DetourIsHelperProcess” and doing nothing else except return TRUE if “DetourIsHelperProcess” returns TRUE. If DetourIsHelperProcess returns FALSE, call DetourRestoreAfterWith() to fix what Detours did to the import table to get the process to spawn correctly. 
+Insight follows the procedure layed out here 
+(https://github.com/microsoft/Detours/wiki/Reference#apis-for-inserting-dlls-and-payloads-into-new-processes)
+for its telemetry DLLs. First, include Detours as static library in your DLL code. Next, add a module definition 
+file and have it export the Detours API routine ‘DetourFinishHelperProcss’  as ordinal #1.  You should also have 
+a DllMain() routine too. A starting point can be ripping one of the existing telemetry DLLs or the generic
+MSDN one. Your DllMain needs to check if it was loaded by the helper process by calling “DetourIsHelperProcess” 
+and doing nothing else except return TRUE if “DetourIsHelperProcess” returns TRUE. 
+If DetourIsHelperProcess returns FALSE, call DetourRestoreAfterWith() to fix what Detours did to the import table
+to get the process to spawn correctly. 
 
 
 Routines your Telemetry Dll will need likely need to use:
