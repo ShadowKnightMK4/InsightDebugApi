@@ -1,5 +1,0 @@
-LIBRARY IODEVICETRACKING64
-	EXPORTS
-		DetourFinishHelperProcess
-		DllMain
-

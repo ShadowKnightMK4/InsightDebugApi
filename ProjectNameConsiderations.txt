@@ -1,24 +1,22 @@
-These are names considered for the front facing (not source code) for the project.
+Project Name and Scope:
 
-Running name: Filesandbox.
-Inprog Name Change: Insight 
-
-
-
-// named after the symbol class on the native side which is named after the Bloodborne insight name.
-Considered name:  Insight Debugger 
-Project Goals:  Symbol Engine + Windows Debug API wrapped in a DotNet Friendly Way.
+Project “Insight”/ “InsightDebugAPI” is named after the concept in the Bloodborne 
+video game called Insight where the more insight one has the more ‘mad’ the character 
+was. Scope of project primarily is spawning processes to debug / load telemetry DLLs
+into them and extract info from them. The Debugger code is also there to let the user 
+debug unmanaged code from .NET side. There’s no current plan to add support for 
+attaching to already running processes.  
 
 
-Documebntation Goals:
-Minimum:
-	Public C# routines have a comment block
+Documentation Goals:
+Minimum
+	The public facing C# Routines in the Sheath have documentation and are from the 
+	perspective of a user that does not deal with Unmanaged Code. The C Level Wrappers
+	have documentation.
+
 Stretch
-	Internal Routines on the C# side have a blurb describing how the routine links and what it does.
+	Internal Routines on the C# Side also have documentation.
+	The C/C++ Code in InsightAPI have full documentation for every routine.
 
 
-Native Size:
-Minium
-	The class routiens and public (NON C Level) wrappers have documentation
-Stretch
-	The C Level wrappers include doucmentation.
+	f

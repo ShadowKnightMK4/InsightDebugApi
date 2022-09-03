@@ -4,12 +4,13 @@ extern "C" {
 
 	ResourceWalker* WINAPI ResourceWalker_MakeInstance()
 	{
-		return new ResourceWalker();
+		//return new ResourceWalker();
+		return nullptr;
 	}
 
-	ResourceWalker* WINAPI ResourceWalker_MakeInstanceTarget(HANDLE )
+	ResourceWalker* WINAPI ResourceWalker_MakeInstanceTarget(LPCWSTR ExeName,  DWORD Access, DWORD SharePermissions)
 	{
-		return new ResourceWalker();
+		return new ResourceWalker(ExeName, Access, SharePermissions);
 	}
 
 
@@ -25,7 +26,8 @@ extern "C" {
 
 	ResourceWalker* WINAPI ResourceWalker_DupInstance(const ResourceWalker* original)
 	{
-		return new ResourceWalker(original);
+		//return new ResourceWalker(original);
+		return nullptr;
 	}
 
 	BOOL WINAPI ResourceWalker_GetThreadLock(ResourceWalker* that)
@@ -46,10 +48,11 @@ extern "C" {
 		return FALSE;
 	}
 
-	BOOL WINAPI ResourceWalker_EnumResourceNameW(ResourceWalker* that, LPCWSTR lpType, ENUMRESNAMEPROCW Callback, LONG_PTR CustomArg, DWORD dwFlags, LANGID LangId)
+	BOOL WINAPI ResourceWalker_EnumResourceNamesW(ResourceWalker* that, LPCWSTR lpType, ENUMRESNAMEPROCW Callback, LONG_PTR CustomArg, DWORD dwFlags, LANGID LangId)
 	{
 		if (that)
 		{
+			IS_INTRESOURCE()
 			return that->EnumerateResourceNamesEx(lpType, Callback, CustomArg, dwFlags, LangId);
 		}
 		return FALSE;

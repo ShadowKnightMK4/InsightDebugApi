@@ -71,7 +71,7 @@ namespace InsightSheath
         /// </summary>
         /// <param name="ProcessHandle">  Native Handle to a process with at least  PROCESS_VM_WRITE and maybe PROCESS_VM_OPERATION </param>
         /// <param name="val">value to write</param>
-        /// <param name="RemoteLocation">Virtual Memory in the remote process to write too. This is not a pointer to memory in your location</param>
+        /// <param name="RemoteLocation">Virtual Memory in the remote process to write too. This is not a pointer to memory in your process.</param>
         /// <returns>returns true it if worked and false if it did not</returns>
         public static bool RemotePoke4(IntPtr ProcessHandle, uint val, IntPtr RemoteLocation)
         {

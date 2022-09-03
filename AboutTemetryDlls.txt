@@ -1,9 +1,15 @@
 
-Telemetry DLLs for purposes are specially written DLLs that are forcibly loaded into a spawned app's address space via Detours in order to gain additional data and functionality. For Example, IoDeviceTracking detours CreateFileA (and W) which are usually used by Native software to interact with files/pipes. This detoured routine raises an exception containing information about the arguments that were passed to it. With out Windows freezes a debugged app during exception handling, your code will be able to inspect the arguments to log and potentially change what the routine returns to to the call.
+Telemetry DLLs for purposes are specially written DLLs that are forcibly loaded into a spawned app's address 
+space via Detours in order to gain additional data and functionality. For Example, IoDeviceTracking detours
+CreateFileA (and W) which are usually used by Native software to interact with files/pipes. This detoured 
+routine raises an exception containing information about the arguments that were passed to it. With 
+Windows freezes a debugged app during exception handling, your code will be able to inspect the arguments to log and
+potentially change what the routine returns to to the call.
 
 
-For those who have no idea what detours is see https://github.com/microsoft/Detours/wiki for a starting point. If you've never set foot into Native C++ windows code,
-Detours is a library that lets someone insert a small jump to an arbitrary native function while preserving a pointer to the original function. Consider this example:
+For those who have no idea what Detours is see https://github.com/microsoft/Detours/wiki for a starting point. 
+If you've never set foot into Native C++ windows code, Detours is a library that lets someone insert a small jump 
+to an arbitrary native function while preserving a pointer to the original function. Consider this example:
 
 
 // A high level example and not actually code for the library.

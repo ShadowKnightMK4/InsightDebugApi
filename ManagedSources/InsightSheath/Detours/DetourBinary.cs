@@ -34,44 +34,7 @@ namespace InsightSheath.Detours
         public string ModuleName { get; set; }
     }
 
-    /// <summary>
-    /// DetourBinary with certificate and resource enumeration also.
-    /// </summary>
-    public class StaticBinary: DetourBinary
-    {
-        protected ResourceReader ResourceReader;
-
-
-
-        public StaticBinary(string ExecutableName) : base(ExecutableName)
-        {
-
-        
-        }
-
-        public StaticBinary(string ExecutableName, FileAccess AccessHandle) : base(ExecutableName, AccessHandle)
-        {
-
-        }
-
-        
-        public List<string> GetResourceNames()
-        {
-            if (ResourceReader == null)
-            {
-                ResourceReader = new ResourceReader(this.ExeResource);
-            }
-            List<string> ret = new List<string>();
-
-            var WalkThru = ResourceReader.GetEnumerator();
-
-            while (WalkThru.MoveNext() == true)
-            {
-                ret.Add(WalkThru.Key.ToString());
-            }
-            return ret;
-        }
-    }
+   
     /// <summary>
     /// Wraps DetourBinary routines from detours and exported in insight to  let one inspect/ alter the EXE/DLL's import table.
     /// </summary>

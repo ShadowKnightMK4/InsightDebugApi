@@ -5,14 +5,14 @@ For Native, either library is good.
 
 Files to include:
 	InsightAPI.dll			<- this is the library that's written with C/C++
-	FileSandboxSheath.dll	<- this is the c# wrapper
+	InsightSheath.dll	<- this is the c# wrapper
 
 
 On the Manged/Sheath class size
-->	ThreadContext		<- read and write information on threads.   Not directly tied to the lib as you can suppply your own handle and thread if
+->	ThreadContext		<- read and write information on threads.   Not directly tied to the lib's workflow as you can suppply your own handle and thread if needed.
 						<- has a native side queivelent.
 ->  InsightHunter		<-  Class for dealing with and processing symbols with the debug help symbol engine
-						<-  Tired closely with PsProcessInformation
+						<-  Tied closely with PsProcessInformation
 						<- has a natie side equivelent
 -> InsightProcess		<- Spawn processes and modify how they are setup.
 						<- Optionally get debug event data from them.

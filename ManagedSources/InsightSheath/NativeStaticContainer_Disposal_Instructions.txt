@@ -1,15 +1,17 @@
 ﻿
 
-	The goal of the NativeStaticContainer is hold one unmanaged pointer and be subclassed as needed. It's widely used throughout this project. This does follow 
-a small difference from normal disposal() guidlines.
+	The goal of the NativeStaticContainer is hold one unmanaged pointer and be subclassed as needed. It's widely 
+    used throughout this project. This does follow  a small difference from normal disposal() guidlines.
 
 
-GUIDELINES for non NativeStaticContainer.
+GUIDELINES for using NativeStaticContainer.
 
 You're going to need to be able these questions:
 
 #1 Can the unmanaged memory block can safely be cleaned up via C/C++'s free()?
-	-> If it needs something more than a single call to free it (for example native pointer is a c++ class or COM object)
+	-> If it needs something more than a single call to free it (for example native pointer is a c++ class or COM object) then
+       you're going to need to override the protected disposal as it looks to a call to C/C++'s free() if the nativce pointer
+       if not zero.
 #2 Is my subclassed class going to be futher subclassed?
 	-> We will need to be defensive in not calling our unmanaged cleanup routine if already done.
 #3 Is my subclass handing out new instances of classes pointing to the same unmanaged memory as my main subclass.
@@ -23,7 +25,7 @@ private bool disposedValue;
         {
             if (!disposedValue)
             {
-                if (FreeOnCleanup)
+                if (FreeOnCleanup)  <- if your native pointer is part of a larger class, f
                 {
                     if (Native != IntPtr.Zero)
                     {

@@ -52,9 +52,9 @@ namespace InsightSheath.Win32Struct
 	};*/
 
 	/// <summary>
-	/// For processed that are Wow/32- bit this is what our UNICODE_STRING struct looks like when read from. Suitable for Marshaling from either a local native pointer or remote/other process. Take care that you handle if your pointer to the native structure <see cref="UnicodeString32.Buffer"/> points to a remote/ non local memory buffer or not. 
+	/// For processes that are 32-bit / Wow64. This is what the UNICODE_STRING Windows struct looks like. Once your grab a dot net version of what ever you're reading from, you'll need to know if the <see cref="UnicodeString32.Buffer"/> is in your process memory space or an external process.
 	/// </summary>
-	/// <remarks>To marshal.  Using <see cref="Marshal.PtrToStructure{UnicodeString32}(IntPtr)"/> and either <see cref="Marshal.PtrToStringUni(IntPtr, int)"/> for a local buffer or <see cref="Remote.RemoteStructure.RemoteReadString(IntPtr, IntPtr, uint)"/> for one located in a different process </remarks>
+	/// <remarks> Use <see cref="Marshal.PtrToStructure{UnicodeString32}(IntPtr)"/>  and pass <see cref="Buffer"/> for a local memory pointer and <see cref="Remote.RemoteStructure.RemoteReadString(IntPtr, IntPtr, ulong)"/> for a pointer relevent to a different process </remarks>
 	[StructLayout(LayoutKind.Sequential)]
     public struct UnicodeString32
     {
@@ -73,9 +73,9 @@ namespace InsightSheath.Win32Struct
     }
 
 	/// <summary>
-	/// For processes that are 64-bit, this is what our UNICODE_STRING struct looks like when read from. Suitable for Marshaling from a source. Take care with the string pointer to know if it's local memory or extern/remote/not your process's memory. .if your pointer to the native structure <see cref="UnicodeString32.Buffer"/> points to a remote/ non local memory buffer or not. 
+	/// For processes that are 64-bit, this is what the UNICODE_STRING Windows struct looks like when read from. Suitable for Marshaling from a source. Take care with the string pointer to know if it's local memory or extern/remote/not your process's memory. .if your pointer to the native structure <see cref="UnicodeString32.Buffer"/> points to a remote/ non local memory buffer or not. 
 	/// </summary>
-	/// <remarks>To Marshall.  Using <see cref="Marshal.PtrToStructure{UnicodeString64}(IntPtr)"/> and either use <see cref="Marshal.PtrToStringUni(IntPtr, int)"/> for a local buffer or <see cref="Remote.RemoteStructure.RemoteReadString(IntPtr, IntPtr, uint)"/> for one located in a different process </remarks>
+	/// <remarks> Use <see cref="Marshal.PtrToStructure{UnicodeString64}(IntPtr)"/>  and pass <see cref="Buffer"/> for a local memory pointer and <see cref="Remote.RemoteStructure.RemoteReadString(IntPtr, IntPtr, ulong)"/> for a pointer relevent to a different process </remarks>
 	/// <summary>
 	/// </summary>
 	[StructLayout(LayoutKind.Sequential)]

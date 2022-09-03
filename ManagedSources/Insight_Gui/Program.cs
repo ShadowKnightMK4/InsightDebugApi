@@ -300,9 +300,11 @@ namespace FileSandBox_GUI
             }
                 return true;
         }
+
         static void Main()
         {
             var testptr = new DetourBinary.BinaryFileCallback(FileCallaback);
+            var te
             /*            FileSandBox_Forms.InsightDebuggerMainView test;
             test = new FileSandBox_Forms.InsightDebuggerMainView();
 
@@ -311,13 +313,13 @@ namespace FileSandBox_GUI
             return;            */
 
             
-            StaticBinary Test = new StaticBinary("C:\\Windows\\system32\\notepad.exe");
+            ResourceWalker Test = ResourceWalker.MakeInstance("C:\\Windows\\system32\\notepad.exe", System.IO.FileAccess.Read, System.IO.FileShare.Read);
 
 
             //var ImportList = Test.GetImports(false, false);
-            var ResourceNames = Test.GetResourceNames();
-
-            Test.SaveTo("C:\\Euphoria\\Dummy.exe");
+            
+            
+            
             Test.Dispose();
             return;
              InsightProcess TestRun = InsightProcess.CreateInstance();
