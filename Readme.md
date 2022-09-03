@@ -16,7 +16,7 @@ support to attaching to an already spawned process.
 Telemetry DLLs
 ------------------------------------------
 	The Telemetry DLLs are specially written Detours based DLLs that follow the layout indicated 
- with the Detours API DetourCreateProcessWithDlls · microsoft/Detours Wiki (github.com). 
+ with the Detours API (https://github.com/Microsoft/Detours/wiki/DetourCreateProcessWithDll) . 
  The DLLs in question override specific imported routines – for example the IODeviceTracking
  one detours CreateFileA/W.   The detoured routine then packs the arguments, some flags indicating
  what type of routine was called and a few pointers to writable blocks of memory to let the 
@@ -49,7 +49,7 @@ conflict with an existing exception and the right bit is set to indicate that it
 generated exception. With this system, the debugger can be a metaphorical man in the middle. 
 
 
-	If you don’t need any logging and have fixed needs, you may just be fine with telemetry DLL 
+If you don’t need any logging and have fixed needs, you may just be fine with telemetry DLL 
 that does not need something written in the sheath to interpret exceptions generated from it. 
 Consider a hypothetical example.  One needs all calls to CreateFileW to first check 
 “C:\MyCustomRepository” before other locations. A solution would be detouring CreateFileW 
