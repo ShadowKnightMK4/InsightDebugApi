@@ -48,8 +48,7 @@ means that the exception is from said telemetry DLL. The value matters not as lo
 conflict with an existing exception and the right bit is set to indicate that it is a user code 
 generated exception. With this system, the debugger can be a metaphorical man in the middle. 
 
-
-If you don’t need any logging and have fixed needs, you may just be fine with telemetry DLL 
+	If you don’t need any logging and have fixed needs, you may just be fine with telemetry DLL 
 that does not need something written in the sheath to interpret exceptions generated from it. 
 Consider a hypothetical example.  One needs all calls to CreateFileW to first check 
 “C:\MyCustomRepository” before other locations. A solution would be detouring CreateFileW 
