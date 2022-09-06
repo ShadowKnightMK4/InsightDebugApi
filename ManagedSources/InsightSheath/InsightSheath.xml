@@ -2090,11 +2090,6 @@
             The EXE/DLL/ shared library that this routine is imported from.
             </summary>
         </member>
-        <member name="T:InsightSheath.Detours.StaticBinary">
-            <summary>
-            DetourBinary with certificate and resource enumeration also.
-            </summary>
-        </member>
         <member name="T:InsightSheath.Detours.DetourBinary">
             <summary>
             Wraps DetourBinary routines from detours and exported in insight to  let one inspect/ alter the EXE/DLL's import table.
@@ -2287,7 +2282,7 @@
             </summary>
             <param name="ProcessHandle">  Native Handle to a process with at least  PROCESS_VM_WRITE and maybe PROCESS_VM_OPERATION </param>
             <param name="val">value to write</param>
-            <param name="RemoteLocation">Virtual Memory in the remote process to write too. This is not a pointer to memory in your location</param>
+            <param name="RemoteLocation">Virtual Memory in the remote process to write too. This is not a pointer to memory in your process.</param>
             <returns>returns true it if worked and false if it did not</returns>
         </member>
         <member name="M:InsightSheath.MemoryNative.RemotePoke8(System.IntPtr,System.UInt64,System.IntPtr)">
@@ -2890,6 +2885,11 @@
             <param name="FileHandle">Native file handle to write the changes too.</param>
             <returns></returns>
         </member>
+        <member name="T:InsightSheath.NativeImports.InternalReasourceWalker">
+            <summary>
+            Imports the 
+            </summary>
+        </member>
         <member name="T:InsightSheath.NativeImports.MemoryNativeInternal">
             <summary>
             Internal Class.  Imports the Poke/Peek routines for both remote and local
@@ -3002,6 +3002,136 @@
             <summary>
             Internal Class. This imports the routines used in <see cref="T:InsightSheath.Win32Struct.StartupInfoExW"/> class.
             </summary>
+        </member>
+        <member name="T:InsightSheath.Resource.ResourceTypes">
+            <summary>
+            Gotton from <see href="https://docs.microsoft.com/en-us/windows/win32/menurc/resource-types"/>
+            </summary>
+        </member>
+        <member name="T:InsightSheath.Resource.ResourceWalker">
+            <summary>
+            Enumerate, examine Unmanged Resources in an app.
+            </summary>
+        </member>
+        <member name="M:InsightSheath.Resource.ResourceWalker.IsIntResource(System.IntPtr)">
+            <summary>
+            Sourced from IS_INTRESOURCE macro
+            </summary>
+            <param name="CheckMe"></param>
+            <returns></returns>
+        </member>
+        <member name="M:InsightSheath.Resource.ResourceWalker.MakeIntResource(System.IntPtr)">
+            <summary>
+            The MAKE_INTRESOURCE macro
+            </summary>
+            <param name="Resource"></param>
+            <returns></returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "T:InsightSheath.Resource.ResourceWalker.EnumResourceNameProcw" -->
+        <member name="T:InsightSheath.Resource.ResourceWalker.EnumResTypeProcW">
+            <summary>
+            Callback for Resource Type enumeration
+            </summary>
+            <param name="hModule">Win32 Native HMODULE where the resource is.</param>
+            <param name="lpType">May be string or an int resource. You can use <see cref="M:InsightSheath.Resource.ResourceWalker.IsIntResource(System.IntPtr)"/> to check.  If true, then should be safe to covert to <see cref="T:InsightSheath.Resource.ResourceTypes"/>.  If false then <see cref="M:System.Runtime.InteropServices.Marshal.PtrToStringUTF8(System.IntPtr)"/></param>
+            <param name="CustomArg">custom arg passed to begin enumeration</param>
+            <returns>Your routine should return true to keep going and false once done</returns>
+        </member>
+        <member name="M:InsightSheath.Resource.ResourceWalker.MakeInstance(System.String,InsightSheath.Telemetry.AccessMasks,InsightSheath.Telemetry.ShareMasks)">
+            <summary>
+            Make an instance of this unmanaged class and return the .NET wrapper to it,
+            </summary>
+            <param name="ExeName"></param>
+            <param name="Access"></param>
+            <param name="Share"></param>
+            <returns></returns>
+        </member>
+        <member name="M:InsightSheath.Resource.ResourceWalker.EnumResourceTypes(InsightSheath.Resource.ResourceWalker.EnumResTypeProcW,System.IntPtr,InsightSheath.Resource.ResourceWalker_flags,System.Int32)">
+            <summary>
+            Enumerate resources for the DLL/EXE that this software points too.
+            </summary>
+            <param name="Callback"></param>
+            <param name="CustomArg"></param>
+            <param name="flags"></param>
+            <param name="LangId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:InsightSheath.Resource.ResourceWalker.EnumResourceNames(InsightSheath.Resource.ResourceTypes,InsightSheath.Resource.ResourceWalker.EnumResourceNameProcw,System.IntPtr,InsightSheath.Resource.ResourceWalker_flags,System.Int16)">
+            <summary>
+            Enumerate the passed routine type names. 
+            </summary>
+            <param name="ResourceType">One of the Constants for the resource to enumerate</param>
+            <param name="Callback">Your callback</param>
+            <param name="CustomArg">Your customarg</param>
+            <param name="dwFlags">choose how to enumerate</param>
+            <param name="LangId">language id of the resources to enumerate</param>
+            <returns>trues if ok and false if not.</returns>
+        </member>
+        <member name="M:InsightSheath.Resource.ResourceWalker.EnumResourceNames(System.String,InsightSheath.Resource.ResourceWalker.EnumResourceNameProcw,System.IntPtr,InsightSheath.Resource.ResourceWalker_flags,System.Int16)">
+            <summary>
+            Enumerate the passed routine type names. 
+            </summary>
+            <param name="ResourceType">null terminated string indicating the type of resource to enumerate </param>
+            <param name="Callback">Your callback</param>
+            <param name="CustomArg">Your customarg</param>
+            <param name="dwFlags">choose how to enumerate</param>
+            <param name="LangId">language id of the resources to enumerate</param>
+            <returns>trues if ok and false if not.</returns>
+        </member>
+        <member name="P:InsightSheath.Resource.ResourceWalker.ThreadLock">
+            <summary>
+            Cetrain routines will attempt to lock a resource they use.
+            </summary>
+        </member>
+        <member name="M:InsightSheath.Resource.ResourceWalker.GetResourceType">
+            <summary>
+            Get list of resource types.  Contents are either string and/or <see cref="T:InsightSheath.Resource.ResourceTypes"/>. To safely enum with foreach statement, use  foreach(object s in list) and test for ResourceType enum by (s is ResourceType) before handling.
+            </summary>
+            <returns>returns a list objects. Some may be strings and some may be <see cref="T:InsightSheath.Resource.ResourceTypes"/>. It's dependent on the module you're enuming.</returns>
+        </member>
+        <member name="M:InsightSheath.Resource.ResourceWalker.GetResourceInformation">
+            <summary>
+            Return a list of all resources (names, types, ect...) in a neat array that you can use/change
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:InsightSheath.Resource.ResourceWalker.GetResourceNames">
+            <summary>
+            Return a list of Resource names.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:InsightSheath.Resource.ResourceWalker.EnumResourceNames(System.IntPtr,InsightSheath.Resource.ResourceWalker.EnumResourceNameProcw,System.IntPtr,InsightSheath.Resource.ResourceWalker_flags,System.Int16)">
+            <summary>
+            Last stop before calling the routien in <see cref="T:InsightSheath.NativeImports.InternalReasourceWalker"/> that does this
+            </summary>
+            <param name="lpType"></param>
+            <param name="Callback"></param>
+            <param name="CustomArg"></param>
+            <param name="dwFlags"></param>
+            <param name="LangId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:InsightSheath.Resource.ResourceWalker.EnumResourceTypesW(InsightSheath.Resource.ResourceWalker.EnumResTypeProcW,System.IntPtr,InsightSheath.Resource.ResourceWalker_flags,System.Int32)">
+            <summary>
+            Last stop before calling the routine in <see cref="T:InsightSheath.NativeImports.InternalReasourceWalker"/> that does this
+            </summary>
+            <param name="Callback"></param>
+            <param name="CustomArg"></param>
+            <param name="dwFlags"></param>
+            <param name="LangId"></param>
+            <returns></returns>
+        </member>
+        <member name="T:InsightSheath.Resource.UnmanagedResource">
+            <summary>
+            Primarily intended to be what <see cref="T:InsightSheath.Resource.ResourceWalker"/> gives to let the user load a specific resource into NativeLand.
+            </summary>
+        </member>
+        <member name="M:InsightSheath.Resource.UnmanagedResource.GetResourceData">
+            <summary>
+            Grab the raw data of the resource 
+            </summary>
+            <returns></returns>
         </member>
         <member name="F:InsightSheath.Telemetry.CheckRemoteDebuggerPresentSettings.ReturnValue">
             <summary>
@@ -3462,7 +3592,7 @@
         </member>
         <member name="F:InsightSheath.Telemetry.IoDeviceTelemetryReaderExtensions.NotificationType.CloseHandle">
             <summary>
-            Exception from a CloseHandle call. 
+            Exception from a CloseHandle call. (Other than the one generated by the routine itself when debugging and closing invalid handle)
             </summary>
         </member>
         <member name="F:InsightSheath.Telemetry.IoDeviceTelemetryReaderExtensions.NotificationType.NtCreateFile">
@@ -3972,9 +4102,9 @@
         </member>
         <member name="T:InsightSheath.Win32Struct.UnicodeString32">
             <summary>
-            For processed that are Wow/32- bit this is what our UNICODE_STRING struct looks like when read from. Suitable for Marshaling from either a local native pointer or remote/other process. Take care that you handle if your pointer to the native structure <see cref="F:InsightSheath.Win32Struct.UnicodeString32.Buffer"/> points to a remote/ non local memory buffer or not. 
+            For processes that are 32-bit / Wow64. This is what the UNICODE_STRING Windows struct looks like. Once your grab a dot net version of what ever you're reading from, you'll need to know if the <see cref="F:InsightSheath.Win32Struct.UnicodeString32.Buffer"/> is in your process memory space or an external process.
             </summary>
-            <remarks>To marshal.  Using <see cref="M:System.Runtime.InteropServices.Marshal.PtrToStructure``1(System.IntPtr)"/> and either <see cref="M:System.Runtime.InteropServices.Marshal.PtrToStringUni(System.IntPtr,System.Int32)"/> for a local buffer or <see cref="!:Remote.RemoteStructure.RemoteReadString(IntPtr, IntPtr, uint)"/> for one located in a different process </remarks>
+            <remarks> Use <see cref="M:System.Runtime.InteropServices.Marshal.PtrToStructure``1(System.IntPtr)"/>  and pass <see cref="F:InsightSheath.Win32Struct.UnicodeString32.Buffer"/> for a local memory pointer and <see cref="M:InsightSheath.Win32Struct.Remote.RemoteStructure.RemoteReadString(System.IntPtr,System.IntPtr,System.UInt64)"/> for a pointer relevent to a different process </remarks>
         </member>
         <member name="F:InsightSheath.Win32Struct.UnicodeString32.Length">
             <summary>
@@ -3993,9 +4123,9 @@
         </member>
         <member name="T:InsightSheath.Win32Struct.UnicodeString64">
             <summary>
-            For processes that are 64-bit, this is our UNICODE_STRING struct looks like when read from. Suitable for Marshaling from a source. Take care that you handle if your pointer to the native structure <see cref="F:InsightSheath.Win32Struct.UnicodeString32.Buffer"/> points to a remote/ non local memory buffer or not. 
+            For processes that are 64-bit, this is what the UNICODE_STRING Windows struct looks like when read from. Suitable for Marshaling from a source. Take care with the string pointer to know if it's local memory or extern/remote/not your process's memory. .if your pointer to the native structure <see cref="F:InsightSheath.Win32Struct.UnicodeString32.Buffer"/> points to a remote/ non local memory buffer or not. 
             </summary>
-            <remarks>To marshal.  Using <see cref="M:System.Runtime.InteropServices.Marshal.PtrToStructure``1(System.IntPtr)"/> and either <see cref="M:System.Runtime.InteropServices.Marshal.PtrToStringUni(System.IntPtr,System.Int32)"/> for a local buffer or <see cref="!:Remote.RemoteStructure.RemoteReadString(IntPtr, IntPtr, uint)"/> for one located in a different process </remarks>
+            <remarks> Use <see cref="M:System.Runtime.InteropServices.Marshal.PtrToStructure``1(System.IntPtr)"/>  and pass <see cref="F:InsightSheath.Win32Struct.UnicodeString64.Buffer"/> for a local memory pointer and <see cref="M:InsightSheath.Win32Struct.Remote.RemoteStructure.RemoteReadString(System.IntPtr,System.IntPtr,System.UInt64)"/> for a pointer relevent to a different process </remarks>
             <summary>
             </summary>
         </member>
@@ -4016,7 +4146,7 @@
         </member>
         <member name="F:InsightSheath.Win32Struct.UnicodeString64.Buffer">
             <summary>
-            8 byte pointer to where the Unicode String is allocated. <see cref="!:InsertHere"/> will place the string right after the location of the returned Unicode String struct
+            8 byte pointer to where the Unicode String is allocated. 
             </summary>
         </member>
         <member name="T:InsightSheath.Win32Struct.WindowsUnicodeString">

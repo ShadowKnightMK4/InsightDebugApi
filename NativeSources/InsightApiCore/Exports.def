@@ -245,8 +245,17 @@ LIBRARY INSIGHTAPI
 		DetourBinaryResetImports
 		DetourBinaryWrite
 		DetourBinaryClose
+		ResourceWalker_MakeInstance
+		ResourceWalker_MakeInstanceTarget
+		ResourceWalker_KillInstance
+		ResourceWalker_DupInstance
+		ResourceWalker_GetThreadLock
+		ResourceWalker_SetThreadLock
+		ResourceWalker_EnumResourceNamesW
+		ResourceWalker_EnumResourceTypesW
 
 
+	
 
 
 

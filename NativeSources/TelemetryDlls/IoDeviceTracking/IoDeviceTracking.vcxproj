@@ -189,6 +189,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Generic\exports.def" />
+    <None Include="Generic\exports32.def" />
+    <None Include="Generic\exports64.def" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Headers\DetouredReplacementRoutines.h" />

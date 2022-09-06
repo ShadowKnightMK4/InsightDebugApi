@@ -48,11 +48,19 @@ extern "C" {
 		return FALSE;
 	}
 
+	BOOL WINAPI ResourceWalker_EnumResourceTypesW(ResourceWalker* that, ENUMRESTYPEPROCW callback, LONG_PTR CustomArg, DWORD flags, LANGID LangId)
+	{
+		if (that)
+		{
+			return that->EnumerateResourceTypesExW(callback, CustomArg, flags, LangId);
+		}
+		return FALSE;
+	}
 	BOOL WINAPI ResourceWalker_EnumResourceNamesW(ResourceWalker* that, LPCWSTR lpType, ENUMRESNAMEPROCW Callback, LONG_PTR CustomArg, DWORD dwFlags, LANGID LangId)
 	{
 		if (that)
 		{
-			IS_INTRESOURCE()
+	//		IS_INTRESOURCE()
 			return that->EnumerateResourceNamesEx(lpType, Callback, CustomArg, dwFlags, LangId);
 		}
 		return FALSE;

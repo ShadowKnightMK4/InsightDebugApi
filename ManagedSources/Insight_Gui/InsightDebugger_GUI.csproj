@@ -84,6 +84,10 @@
     <Folder Include="Wrappers\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
+  </ItemGroup>
+
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="copy $(SolutionDir)code\$(ConfigurationName)\x64\program\InsightApi.* $(ProjectDir)$(OutDir)&#xD;&#xA;" />
   </Target>

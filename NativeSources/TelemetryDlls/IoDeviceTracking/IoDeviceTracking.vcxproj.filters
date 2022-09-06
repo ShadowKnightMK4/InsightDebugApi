@@ -43,6 +43,12 @@
     <None Include="Generic\exports.def">
       <Filter>Source Files</Filter>
     </None>
+    <None Include="Generic\exports64.def">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="Generic\exports32.def">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Headers\DetouredReplacementRoutines.h">

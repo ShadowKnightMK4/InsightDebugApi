@@ -23,7 +23,7 @@ BOOL Enumresnameprocw_helper(HMODULE  hModule, LPCWSTR lpType, LPWSTR lpName, LO
 	BOOL Result = (*Trigger)(hModule,IS_INTRESOURCE(lpType), lpType, IS_INTRESOURCE(lpName), lpName, helpme->CustomArg);
 
 
-	helpme->Results.insert( helpme->Results.end(),  )
+	//helpme->Results.insert( helpme->Results.end(),  )
 	return Result;
 }
 
@@ -41,39 +41,44 @@ BOOL Enumresnameprocw_helper(HMODULE  hModule, LPCWSTR lpType, LPWSTR lpName, LO
 
 ResourceWalker::ResourceWalker(HANDLE Target)
 {
-	this->TargetExe = Target;
+	this->TargetExeFileHandle = Target;
 	DllList = 0;
 	Exclusive = false;
-	ModuleCount = 0;
+	DllListSize = 0;
 
 	
 }
 
 ResourceWalker::ResourceWalker(HANDLE Target, BOOL ExclusiveControl)
 {
-	this->TargetExe = Target;
+	this->TargetExeFileHandle = Target;
 	DllList = 0;
 	Exclusive = ExclusiveControl;
-	ModuleCount = 0;
+	DllListSize = 0;
 }
 
 
 
 ResourceWalker::ResourceWalker(LPCWSTR Target, DWORD Access, DWORD SharePermssions)
 {
-	this->TargetExe = CreateFile(Target, Access, SharePermssions, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
-	if (TargetExe != 0)
+
+	this->TargetExeFileHandle = CreateFile(Target, Access, SharePermssions, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+	if (TargetExeFileHandle != 0)
 	{
-		this->MainExe = LoadLibraryExW(Target, 0, LOAD_LIBRARY_AS_DATAFILE);
-		LoadModules();
+		this->TargetExeMainHmodule = LoadLibraryExW(Target, 0, 0);
+		this->ProcessName = Target;
+		if (MakeSuspendedInstance())
+		{
+			PopulateModuleList(SuspendMe.hProcess);
+		}
 	}
 }
 
 ResourceWalker::~ResourceWalker()
 {
-	if (this->MainExe != 0)
+	if (this->TargetExeMainHmodule != 0)
 	{
-		FreeLibrary(MainExe);
+		FreeLibrary(TargetExeMainHmodule);
 	}
 
 
@@ -84,16 +89,17 @@ ResourceWalker::~ResourceWalker()
 
 	if (Exclusive)
 	{
-		CloseHandle(TargetExe);
+		CloseHandle(TargetExeFileHandle);
 	}
 	
 }
 
 BOOL ResourceWalker::EnumerateResourceNamesEx(LPCWSTR lpType, ENUMRESNAMEPROCW Callback, LONG_PTR CustomArg, DWORD dwFlags, LANGID LangId)
 {
-	LoadModules();
+	//LoadModules();
 	BOOL AtLeaseOneFail = FALSE;
-	for (DWORD step = 0; step < this->ModuleCount; step++)
+	return EnumResourceNamesExW(this->TargetExeMainHmodule, lpType, Callback, CustomArg, dwFlags, LangId);
+	for (DWORD step = 0; step < this->DllListSize; step++)
 	{
 		if (!EnumResourceNamesExW(this->DllList[step], lpType, Callback, CustomArg, dwFlags, LangId))
 		{
@@ -105,9 +111,11 @@ BOOL ResourceWalker::EnumerateResourceNamesEx(LPCWSTR lpType, ENUMRESNAMEPROCW C
 
 BOOL ResourceWalker::EnumerateResourceTypesExW(ENUMRESTYPEPROCW Callback, LONG_PTR lParam, DWORD dwFlags, LANGID LangId)
 {
-	LoadModules();
+	//LoadModules();
 	BOOL AtLeaseOneFail = FALSE;
-	for (DWORD step = 0; step < this->ModuleCount; step++)
+	return EnumResourceTypesExW(this->TargetExeMainHmodule, Callback, lParam, dwFlags, LangId);
+
+	for (DWORD step = 0; step < this->DllListSize; step++)
 	{
 		if (!EnumResourceTypesExW(this->DllList[step], Callback, lParam, dwFlags, LangId))
 		{
@@ -121,7 +129,7 @@ BOOL ResourceWalker::EnumerateResourceLanguagesExW(LPCWSTR lpType, LPCWSTR lpNam
 {
 	LoadModules();
 	BOOL AtLeaseOneFail = FALSE;
-	for (DWORD step = 0; step < this->ModuleCount; step++)
+	for (DWORD step = 0; step < this->DllListSize; step++)
 	{
 		if (!EnumResourceLanguagesExW(this->DllList[step], lpType, lpName, lpEnumFunc, lParam, dwFlags, LangId))
 		{
@@ -143,26 +151,70 @@ BOOL ResourceWalker::SetThreadLock(BOOL Status)
 	return ret;
 }
 
-/// @brief lead 
-void ResourceWalker::LoadModules()
+BOOL ResourceWalker::MakeSuspendedInstance()
 {
-	if (LockStatus)
+	bool result;
+	STARTUPINFOW Nothing = { 0 };
+	Nothing.cb = sizeof(STARTUPINFOW);
+	if (SuspendMe.dwProcessId == 0)
 	{
-		EnterCriticalSection(&Crit);
+		result = CreateProcessW(ProcessName.c_str(), 0, 0, 0, FALSE, CREATE_SUSPENDED, 0, 0, &Nothing, &this->SuspendMe);
+		if (result)
+		{
+			PopulateModuleList(SuspendMe.hProcess);
+		}
+		else
+		{
+			PopulateModuleList(NULL);
+		}
 	}
-	HMODULE* Group = DllList;
-	DWORD Needed = 0;
+	else
+	{
+		TerminateProcess(SuspendMe.hProcess, 0);
+		CloseHandle(SuspendMe.hProcess);
+		CloseHandle(SuspendMe.hThread);
+		ZeroMemory(&SuspendMe, sizeof(SuspendMe));
+		return MakeSuspendedInstance();
+	}
 
+	return result;
+	
 
+}
+
+bool ResourceWalker::PopulateModuleList(HANDLE ProcessHandle)
+{
+	DWORD err = 0;
+	BOOL result = false;
+	HMODULE* List = this->DllList;
+	DWORD needed = 0;
+	if (List == nullptr)
+	{
+		List = (HMODULE*)malloc(sizeof(HMODULE) * 10);
+		if (List)
+		{
+			ZeroMemory(List, sizeof(HMODULE) * 10);
+		}
+		DllListSize = 10;
+	}
+	else
+	{
+		List = DllList;
+	}
 	while (1)
 	{
-		if (EnumProcessModulesEx(this->MainExe, Group, sizeof(HMODULE) * this->ModuleCount, &Needed, LIST_MODULES_ALL) == FALSE)
+		result = EnumProcessModulesEx(ProcessHandle, List, sizeof(HMODULE) * DllListSize, &needed, 3);
+		if (result) 
 		{
-			if (Needed > sizeof(HMODULE))
+			if (needed < DllListSize)
 			{
-				free(Group);
-				Group = (HMODULE*)malloc(Needed);
-				ModuleCount = Needed / sizeof(HMODULE);
+				free(List);
+				DllListSize *= 2;
+				List = (HMODULE*)malloc(sizeof(HMODULE) * DllListSize);
+				if (List)
+				{
+					ZeroMemory(List, sizeof(HMODULE) * DllListSize);
+				}
 			}
 			else
 			{
@@ -171,8 +223,54 @@ void ResourceWalker::LoadModules()
 		}
 		else
 		{
+			err = GetLastError();
 			break;
 		}
+	}
+	return result;
+}
+
+/// @brief lead 
+void ResourceWalker::LoadModules()
+{
+	return;
+	if (LockStatus)
+	{
+		EnterCriticalSection(&Crit);
+	}
+	HMODULE* Group = DllList;
+	DWORD Needed = 0;
+
+	
+	while (1)
+	{
+		if (Group == 0)
+		{
+			Group = (HMODULE*)malloc(sizeof(HMODULE) * 10);
+			DllListSize = 10;
+		}
+		if (EnumProcessModulesEx(this->TargetExeMainHmodule,
+			Group, 
+			sizeof(HMODULE) * this->DllListSize,
+			&Needed,
+			LIST_MODULES_ALL))
+		{
+			if (Needed > (sizeof(HMODULE) * DllListSize))
+			{
+				free(Group);
+				Group = (HMODULE*)malloc(Needed);
+				DllListSize = Needed / sizeof(HMODULE);
+			}
+			else
+			{
+				break;
+			}
+		}
+		else
+		{
+			
+		}
+		DWORD err = GetLastError();
 	}
 
 	this->DllList = Group;

@@ -13,7 +13,10 @@ using InsightSheath.Debugging.Thread;
 using InsightSheath.Debugging.SymbolEngine;
 using static InsightSheath.Debugging.SymbolEngine.InsightHunter;
 using InsightSheath.Win32Struct;
+using InsightSheath.Resource;
 using InsightSheath.Detours;
+using System.IO;
+using System.Drawing;
 
 namespace FileSandBox_GUI
 {
@@ -304,7 +307,9 @@ namespace FileSandBox_GUI
         static void Main()
         {
             var testptr = new DetourBinary.BinaryFileCallback(FileCallaback);
-            var te
+
+            // This is here because I got tired of manually copying the file.
+            Environment.SetEnvironmentVariable("PATH", "C:\\Users\\Thoma\\source\\repos\\InsightAPI\\code\\Debug\\x86\\program\\;" +Environment.GetEnvironmentVariable("PATH") + "", EnvironmentVariableTarget.Process);
             /*            FileSandBox_Forms.InsightDebuggerMainView test;
             test = new FileSandBox_Forms.InsightDebuggerMainView();
 
@@ -312,14 +317,22 @@ namespace FileSandBox_GUI
 
             return;            */
 
-            
-            ResourceWalker Test = ResourceWalker.MakeInstance("C:\\Windows\\system32\\notepad.exe", System.IO.FileAccess.Read, System.IO.FileShare.Read);
+
+            ResourceWalker Test = ResourceWalker.MakeInstance("C:\\Windows\\system32\\notepad.exe", AccessMasks.GenericRead, ShareMasks.ShareRead);
 
 
             //var ImportList = Test.GetImports(false, false);
-            
-            
-            
+
+            //var ResourceList = Test.EnumResourceTypes(new ResourceWalker.EnumResTypeProcW(typeme), IntPtr.Zero, ResourceWalker_flags.ResourceEnumDefault, 0);
+
+
+            List<UnmanagedResource> Resources = Test.GetResourceInformation();
+
+            var ico = Resources[3].GetResourceDataAsStream();
+
+            var RealIcon = new Bitmap(ico);
+
+
             Test.Dispose();
             return;
              InsightProcess TestRun = InsightProcess.CreateInstance();
@@ -409,6 +422,75 @@ namespace FileSandBox_GUI
 
             //Application.Run(new MainWindow());
             //Application.Exit();
+        }
+
+        private static bool typeme(IntPtr hModule, IntPtr LpType, IntPtr CustomArg)
+        {
+            string type = null;
+            ResourceTypes ttyupe = 0;
+
+            if (ResourceWalker.IsIntResource(LpType))
+            {
+                ttyupe = (ResourceTypes)LpType;
+                Console.WriteLine(Enum.GetName(typeof(ResourceTypes), ttyupe));
+            }
+            else
+            {
+                type = Marshal.PtrToStringUni(LpType);
+                Console.WriteLine(type);
+            }
+            
+
+            return true;
+        }
+
+        private static bool GetResource(IntPtr hModule, IntPtr lpType, IntPtr Name, IntPtr CustomArg)
+        {
+            ResourceTypes ttype, tname;
+            string type=null, name=null;
+            if (ResourceWalker.IsIntResource(lpType))
+            {
+                ttype = (ResourceTypes)lpType;
+            }
+            else
+            {
+                type = Marshal.PtrToStringUni(lpType);
+                ttype = 0;
+
+            }
+
+            if (ResourceWalker.IsIntResource(Name))
+            {
+                tname = (ResourceTypes)Name;
+            }
+            else
+            {
+                name= Marshal.PtrToStringUni(Name);
+                tname = 0;
+            }
+
+            Console.Write(" Resource of type: (");
+            if (type == null)
+            {
+                Console.Write(Enum.GetName(typeof(ResourceTypes), ttype));
+            }
+            else
+            {
+                Console.Write(type);
+            }
+
+            Console.Write(") and its name is (");
+            if (type == null)
+            {
+                Console.Write(Enum.GetName(typeof(ResourceTypes), tname));
+            }
+            else
+            {
+                Console.Write(name);
+            }
+
+            Console.WriteLine();
+            return true;
         }
     }
 }

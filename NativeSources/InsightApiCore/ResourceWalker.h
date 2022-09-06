@@ -1,6 +1,7 @@
 #pragma once
 #include <Windows.h>
 #include <vector>
+#include <string>
 
 
 /// this means the struct and array buffer do not need to be clearned up.
@@ -83,18 +84,26 @@ public:
 	BOOL SetThreadLock(BOOL Status);
 private:
 
+	/// @brief IF an exe, create a suspended instance and plant modle list
+	BOOL MakeSuspendedInstance();
+
+	bool PopulateModuleList(HANDLE ProcessHandle);
+
 	/// @brief  Called before enumerating and locks a critical section if LockStatus is true.  This makes a list of loaded modules in the target./
 	void LoadModules();
 	
 	/// @brief 
 	/// Enumerate resources based on the critatia.  Implementaiton of the public EnumXXXXResources for this.
 	/// @return 
-	HANDLE TargetExe;
-	HMODULE MainExe;
+	HANDLE TargetExeFileHandle;
+	HMODULE TargetExeMainHmodule;
 
 	HMODULE* DllList;
-	DWORD ModuleCount;
+	DWORD DllListSize;
 	BOOL Exclusive;
 	BOOL LockStatus;
 	CRITICAL_SECTION Crit;
+	std::wstring ProcessName;
+
+	PROCESS_INFORMATION SuspendMe;
 };
