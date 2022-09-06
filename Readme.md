@@ -1,8 +1,8 @@
 ------------------------------------------
 About this project
 ------------------------------------------
-	Insight API is a tool to learn more about a process.  It should also be suitable for unique 
-debugging needs. It leverages a few APIs – specifically, the Windows Debugging API, 
+Insight API is a tool to learn more about a process.  It should also be suitable for unique 
+debugging needs. It leverages a few APIs â€“ specifically, the Windows Debugging API, 
 the Windows ImageHlp/Symbol API and the Detours API to inject DLLs in the target to gather 
 information about the target and potentially modify how it executes. 
 One does not strictly need source code access to target inspect/modify execution with the 
@@ -17,7 +17,7 @@ Telemetry DLLs
 ------------------------------------------
 	The Telemetry DLLs are specially written Detours based DLLs that follow the layout indicated 
  with the Detours API (https://github.com/Microsoft/Detours/wiki/DetourCreateProcessWithDll) . 
- The DLLs in question override specific imported routines – for example the IODeviceTracking
+ The DLLs in question override specific imported routines â€“ for example the IODeviceTracking
  one detours CreateFileA/W.   The detoured routine then packs the arguments, some flags indicating
  what type of routine was called and a few pointers to writable blocks of memory to let the 
  debugger modify the Last Error value and the returned handle.  It then raises a software
@@ -26,7 +26,7 @@ Telemetry DLLs
  call/ swap out the returned handle. When the debugged app resumes execution it can then just 
  use the handle provided by the debugger and set the last error to the current value.  
  Telemetry DLLS require the target and the DLL to match bit-ness (x86/x64). The target much also
- be able to be spawned.  Additionally, a call to ntdll’s NtSetThreadInfo or NtCreateThread must
+ be able to be spawned.  Additionally, a call to ntdllâ€™s NtSetThreadInfo or NtCreateThread must
  not have succeeded with the SeHideFromDebugger flag.  Once it does, your debugger will no 
  longer get messages from the telemetry app and debugging events in general in the thread that
  the call was made from.
@@ -34,7 +34,7 @@ Telemetry DLLs
  ------------------------------------------
 Writing your Own Telemetry DLLs
 ------------------------------------------
-	You’ll need to consider the scope of the DLL.  One concept you’re going to specifically want 
+	Youâ€™ll need to consider the scope of the DLL.  One concept youâ€™re going to specifically want 
 to consider is what the target routine sets on output.  For example, CreateFileW returns a 
 HANDLE sized value and sets a DWORD sized last error.  The IoDeviceTracking telemetry packs pointers
 to writable blocks of memory in the exception it generates when these are called. These give the
@@ -48,12 +48,12 @@ means that the exception is from said telemetry DLL. The value matters not as lo
 conflict with an existing exception and the right bit is set to indicate that it is a user code 
 generated exception. With this system, the debugger can be a metaphorical man in the middle. 
 
-	If you don’t need any logging and have fixed needs, you may just be fine with telemetry DLL 
+	If you donâ€™t need any logging and have fixed needs, you may just be fine with telemetry DLL 
 that does not need something written in the sheath to interpret exceptions generated from it. 
 Consider a hypothetical example.  One needs all calls to CreateFileW to first check 
-“C:\MyCustomRepository” before other locations. A solution would be detouring CreateFileW 
+â€œC:\MyCustomRepositoryâ€ before other locations. A solution would be detouring CreateFileW 
 to code that does the check before calling the original CreateFileW. You may want to include 
-logging info BUT you don’t have too.
+logging info BUT you donâ€™t have too.
 
 
 
@@ -62,11 +62,11 @@ IMPORTANT
 ------------------------------------------
 	There is a bit of cross over code between x64 and x86 in terms of pointer handling.   
 With how ReadProcessMemory() from deals with x64 pointers from x86, it is recommended that you 
-use the x64 bit settings if you’re working with an OS that has both.  You may also need to
-enable ‘Debug Native Code’ under its project setting if using Insight from C# as well as the 
+use the x64 bit settings if youâ€™re working with an OS that has both.  You may also need to
+enable â€˜Debug Native Codeâ€™ under its project setting if using Insight from C# as well as the 
 Debug Child Processes Tool for Visual Studio (https://marketplace.visualstudio.com/items?itemName=vsdbgplat.MicrosoftChildProcessDebuggingPowerTool&msclkid=a4376279aef511ec8a5c3023ac5217e9). 
 The Debug Child Process Tool will help when debugging telemetry.  The project is built/ tested 
-with Visual Studio 2019 and C#’s .NET 5.0.  There’s a good chance you will need to do some 
+with Visual Studio 2019 and C#â€™s .NET 5.0.  Thereâ€™s a good chance you will need to do some 
 project adjustments if you decide to target a different version.  The 2 main projects are
 InsightSheath and InsightAPI. 
 
@@ -76,8 +76,8 @@ InsightSheath and InsightAPI.
 Native Build Folders
 ------------------------------------------
 
-	To Simply building I’ve attempted to set paths via visual studio macros.  Also, if you consider 
-%cd% to be the location where you’ve stashed the project then…
+	To Simply building Iâ€™ve attempted to set paths via visual studio macros.  Also, if you consider 
+%cd% to be the location where youâ€™ve stashed the project thenâ€¦
 
 
 %cd%\code\debug	-> Contains binaries made with the debug
