@@ -50,18 +50,15 @@ Source Citing
 ------------------------------------------
 Detours from
 	https://github.com/Microsoft/Detours
-
 The Idea to use a CreateEvent object to sync so a GUI is from here
 	https://www.codeproject.com/articles/132742/writing-windows-debugger-part-2#Halt_at_SA
-
 Idea to use events and a worker thread form there.
 	https://www.codeproject.com/Articles/132742/Writing-Windows-Debugger-Part-2    
-
 Learned about some of Windows thread
 	https://www.codeproject.com/Articles/662735/Internals-of-Windows-Thread 
-
 The SeHideFromDebuger flag here.
 	https://www.codeproject.com/articles/1090943/anti-debug-protection-techniques-implementation-an#HowToNeutralizeNtCreateThreadEx		
-
+The way Windows deals with Exceptions while debugging is here also.
+	https://docs.microsoft.com/en-us/windows/win32/api/errhandlingapi/nf-errhandlingapi-raiseexception
 The Windows API database
 	https://docs.microsoft.com/en-us/windows/win32/api/ <- the rather large MSDN documentation helped with the Windows API.
