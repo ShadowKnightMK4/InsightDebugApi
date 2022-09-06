@@ -1,6 +1,8 @@
 ------------------------------------------
 About this project
 ------------------------------------------
+
+
 Insight API is a tool to learn more about a process.  It should also be suitable for unique 
 debugging needs. It leverages a few APIs – specifically, the Windows Debugging API, 
 the Windows ImageHlp/Symbol API and the Detours API to inject DLLs in the target to gather 
