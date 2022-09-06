@@ -25,17 +25,18 @@ There is a bit of cross over code between x64 and x86 in terms of pointer handli
 
 Native Build Folders
 ------------------------------------------
-To Simply building I’ve attempted to set paths via visual studio macros.  Also, if you consider %cd% to be the location where you’ve stashed the project then solution setup is below
+To Simply building I’ve attempted to set paths via visual studio macros.  Also, if you consider %cd% to be the location where you’ve stashed the project then solution setup is below.  The end plan for the solution is thru a combination of macros, include folders/ect in the project folders to let a person download the entire thing and hit build.
 
-
-- %cd%\code\debug	-> Contains binaries made with the debug
-- %cd%\code\debug\lib	-> contains built Native static libraries made 
-- %cd%\code\debug\program	-> contains Native EXE and DLLs made
-- %cd%\code\debug\program\Telemetry	-> contains Native Dlls and PDBs of said dlls build for telemetry.
-- %cd%\code\release -> Contains Native binaries made with the release config
-- %cd%\code\release\lib	-> contains Native static libraries made 
-- %cd%\code\release\program -> contains Native EXE and DLLs made
-- %cd%\code\release\program\Telemetry -> contains Native Dlls and PDBs of said dlls build for telemetry.
+| Folder Location |  What does it hold |
+------------------|--------------------
+| '%cd%\code\debug' |  Contains binaries made with the debug build |
+| '%xd%\code\debug\lib'	| contains built Native static libraries made |
+| '%cd%\code\debug\program' |contains Native EXE and DLLs made |
+| %cd%\code\debug\program\Telemetry |contains Native Dlls and PDBs of said dlls build for telemetry. |
+| %cd%\code\release | Contains Native binaries made with the release config |
+| %cd%\code\release\lib	| contains Native static libraries made |
+| %cd%\code\release\program | contains Native EXE and DLLs made |
+| %cd%\code\release\program\Telemetry | contains Native Dlls and PDBs of said dlls build for telemetry. |
 
 
 Branch Navigation
@@ -45,20 +46,12 @@ This is the general dev branch.  It may or may not be able to be built and featu
 Branch Specific Notes go here.
 
 
-------------------------------------------
 Source Citing
 ------------------------------------------
-Detours from
-	https://github.com/Microsoft/Detours
-The Idea to use a CreateEvent object to sync so a GUI is from here
-	https://www.codeproject.com/articles/132742/writing-windows-debugger-part-2#Halt_at_SA
-Idea to use events and a worker thread form there.
-	https://www.codeproject.com/Articles/132742/Writing-Windows-Debugger-Part-2    
-Learned about some of Windows thread
-	https://www.codeproject.com/Articles/662735/Internals-of-Windows-Thread 
-The SeHideFromDebuger flag here.
-	https://www.codeproject.com/articles/1090943/anti-debug-protection-techniques-implementation-an#HowToNeutralizeNtCreateThreadEx		
-The way Windows deals with Exceptions while debugging is here also.
-	https://docs.microsoft.com/en-us/windows/win32/api/errhandlingapi/nf-errhandlingapi-raiseexception
-The Windows API database
-	https://docs.microsoft.com/en-us/windows/win32/api/ <- the rather large MSDN documentation helped with the Windows API.
+- [Detours](https://github.com/Microsoft/Detours)
+- [The Idea to use a CreateEvent object to sync so a GUI is from here](https://www.codeproject.com/articles/132742/writing-windows-debugger-part-2#Halt_at_SA)
+- [Idea to use events and a worker thread form there.](https://www.codeproject.com/Articles/132742/Writing-Windows-Debugger-Part-2)
+- [Learned about some of Windows thread here](https://www.codeproject.com/Articles/662735/Internals-of-Windows-Thread)
+- [One can learn about the the SeHideFromDebuger flag here](https://www.codeproject.com/articles/1090943/anti-debug-protection-techniques-implementation-an#HowToNeutralizeNtCreateThreadEx)
+- [The way Windows deals with Exceptions while debugging is here.](https://docs.microsoft.com/en-us/windows/win32/api/errhandlingapi/nf-errhandlingapi-raiseexception)
+- [MSDN database for Win32 Programming](https://docs.microsoft.com/en-us/windows/win32/api/)
