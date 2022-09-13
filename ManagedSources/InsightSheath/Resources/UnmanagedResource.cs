@@ -25,7 +25,7 @@ namespace InsightSheath.Resource
         /// Grab the raw data of the resource 
         /// </summary>
         /// <returns></returns>
-        public byte[] GetResourceData()
+        public byte[] GetResourceDataAsByte()
         {
             
             uint ResSize = 0;
@@ -45,18 +45,20 @@ namespace InsightSheath.Resource
 
             byte[] ret = new byte[ResSize];
 
-            for (int step =0; step < ret.Length; step++)
-            {
-                ret[step] = Marshal.ReadByte(resptr, step);
-            }
+            Marshal.Copy(resptr, ret, 0, (int)ResSize);
 
             return ret;
         }
 
+      
         public MemoryStream GetResourceDataAsStream()
         {
-            return new MemoryStream(GetResourceData());
+            var ret = new MemoryStream(GetResourceDataAsByte());
+            ret.Position = 0;
+            return ret;
         }
+
+
         public UnmanagedResource(IntPtr hModule, IntPtr lpType, IntPtr Name)
         {
             this.lpType = lpType;

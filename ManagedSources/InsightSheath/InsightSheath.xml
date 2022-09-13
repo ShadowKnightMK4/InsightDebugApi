@@ -3127,7 +3127,7 @@
             Primarily intended to be what <see cref="T:InsightSheath.Resource.ResourceWalker"/> gives to let the user load a specific resource into NativeLand.
             </summary>
         </member>
-        <member name="M:InsightSheath.Resource.UnmanagedResource.GetResourceData">
+        <member name="M:InsightSheath.Resource.UnmanagedResource.GetResourceDataAsByte">
             <summary>
             Grab the raw data of the resource 
             </summary>

@@ -14,6 +14,8 @@ f716644cad2e4afd9d5525d937df0c00
 628dd6dd5aaf45909f849fabbf4d8baa
 */
 
+#include <gsl>
+
 
 /// <summary>
 /// A default handler that does nothing except sign off on the event and continues it. Used when the UserCallback is not set (ie null).
@@ -23,8 +25,9 @@ f716644cad2e4afd9d5525d937df0c00
 /// <param name="WaitTimer"></param>
 /// <param name="CustomArg"></param>
 /// <returns></returns>
-int WINAPI DefaultHandler(LPDEBUG_EVENT lpCurEvent, DWORD* ContinueStatus, DWORD* WaitTimer, DWORD CustomArg)
+int WINAPI DefaultHandler(LPDEBUG_EVENT lpCurEvent, gsl::not_null<DWORD*> ContinueStatus, gsl::not_null<DWORD*> WaitTimer, DWORD CustomArg) noexcept
 {
+	
 	if (lpCurEvent->dwDebugEventCode == EXCEPTION_DEBUG_EVENT)
 	{
 		*ContinueStatus = DBG_EXCEPTION_NOT_HANDLED;
@@ -107,71 +110,80 @@ void _cdecl PsPocessInformation_DebugWorkerthread(void* argument)
 		
 	}
 	// Now process the events 
+
 	while (true)
 	{
 		ZeroMemory(&lpEvent, sizeof(DEBUG_EVENT));
-		if (WaitForDebugEventEx(&lpEvent, Args->WaitTImer))
+		if (WaitForDebugEventEx(&lpEvent, Args->WaitTimer))
 		{
-			if (Args->that->EnableSymbols)
+
+			switch (lpEvent.dwDebugEventCode)
 			{
-				switch (lpEvent.dwDebugEventCode)
+			case EXIT_PROCESS_DEBUG_EVENT:
+			{
+				if ((Args->that->Insight != nullptr) && (Args->that->EnableSymbols))
 				{
-				case EXIT_PROCESS_DEBUG_EVENT:
-				{
-					if (Args->that->Insight != nullptr)
-					{
-						Args->that->Insight->UnloadExeSymbolInfo(&lpEvent);
-					}
+					Args->that->Insight->UnloadExeSymbolInfo(&lpEvent);
 				}
-				case UNLOAD_DLL_DEBUG_EVENT:
-					if (Args->that->Insight != nullptr)
-					{
-						Args->that->Insight->UnLoadDllSymbolInfo(&lpEvent);
-					}
-					break;
-				case LOAD_DLL_DEBUG_EVENT:
-					if (Args->that->Insight != nullptr)
-					{
-						Args->that->Insight->LoadDllSymbolInfo(&lpEvent);
-					}
-					break;
-				case CREATE_PROCESS_DEBUG_EVENT:
-					if (Args->that->Insight != nullptr)
-					{
-						Args->that->Insight->LoadExeSymbolInfo(&lpEvent);
-					}
-					break;
+				Args->that->ProcessThreads->ProcessExitProcessDebugEvent(&lpEvent);
+				break;
+			}
+			case UNLOAD_DLL_DEBUG_EVENT:
+			{
+				if ((Args->that->Insight != nullptr) && (Args->that->EnableSymbols))
+				{
+					Args->that->Insight->UnLoadDllSymbolInfo(&lpEvent);
+				}
+				break;
+			}
+			case LOAD_DLL_DEBUG_EVENT:
+			{
+				if ((Args->that->Insight != nullptr) && (Args->that->EnableSymbols))
+				{
+					Args->that->Insight->LoadDllSymbolInfo(&lpEvent);
+				}
+				break;
+			}
+			case CREATE_PROCESS_DEBUG_EVENT:
+			{
+				if ((Args->that->Insight != nullptr) && (Args->that->EnableSymbols))
+				{
+					Args->that->Insight->LoadExeSymbolInfo(&lpEvent);
+				}
+				break;
+			}
+			case CREATE_THREAD_DEBUG_EVENT:
+			{
+				Args->that->ProcessThreads->ProcessCreateThreadDebugEvent(&lpEvent);
+				break;
+			}
+			case EXIT_THREAD_DEBUG_EVENT:
+			{
+				Args->that->ProcessThreads->ProcessExitThreadDebugEvent(&lpEvent);
+				break;
+			}
+
+			/* AT this level in the worker thread we do not need to handle the rest of the things*/
+				case EXCEPTION_DEBUG_EVENT:
+				case OUTPUT_DEBUG_STRING_EVENT:
+				case RIP_EVENT:
+				default:
+				{
 				}
 			}
 
-			/* Care about updating thread view here*/
-			switch (lpEvent.dwDebugEventCode)
-			{
-				case CREATE_THREAD_DEBUG_EVENT:
-				{
-					Args->that->ProcessThreads.ProcessCreateThreadDebugEvent(&lpEvent);
-					break;
-				}
-				case EXIT_PROCESS_DEBUG_EVENT:
-				{
-					Args->that->ProcessThreads.ProcessExitProcessDebugEvent(&lpEvent);
-				}
-				case EXIT_THREAD_DEBUG_EVENT:
-				{
-					Args->that->ProcessThreads.ProcessExitThreadDebugEvent(&lpEvent);
-					break;
-				}
-			}
+
+
 		}
 		WaitForSingleObject(Args->EventHandle, INFINITE);
 		ResetEvent(Args->EventHandle);
 		if (Args->UserCallback == nullptr)
 		{
-			Code = DefaultHandler(&lpEvent, &Args->ContinueState, &Args->WaitTImer, 0);
+			Code = DefaultHandler(&lpEvent, &Args->ContinueState, &Args->WaitTimer, 0);
 		}
 		else
 		{
-			Code = Args->UserCallback(&lpEvent, &Args->ContinueState, &Args->WaitTImer, 0);
+			Code = Args->UserCallback(&lpEvent, &Args->ContinueState, &Args->WaitTimer, 0);
 		}
 		if (Code != 0)
 		{
@@ -203,7 +215,7 @@ void BuildEnviromentBlock(std::map<std::wstring, std::wstring>& Overwritten, BOO
 	if (IncludeBase)
 	{
 		LPWCH Buff = GetEnvironmentStringsW();
-		wchar_t Char;
+		wchar_t Char = 0;
 		std::wstring Name;
 		std::wstring Value;
 
@@ -290,156 +302,51 @@ void BuildEnviromentBlock(std::map<std::wstring, std::wstring>& Overwritten, BOO
 
 InsightProcess::~InsightProcess()
 {
-	this->ProcessArgumentsContainer = L"";
-	this->ProcessArgumentsContainer = L"";
-	this->dwCreationFlags = 0;
-	this->lpProcessAttributes = this->lpThreadAttributes = nullptr;
+	zeroout(this, true, true);
 
-	if ((this->PInfo.hProcess != INVALID_HANDLE_VALUE) && (this->PInfo.hProcess != 0))
-	{
-		CloseHandle(this->PInfo.hProcess);
-	}
-
-	if ((this->PInfo.hThread != INVALID_HANDLE_VALUE) && (this->PInfo.hThread != 0))
-	{
-		CloseHandle(this->PInfo.hThread);
-	}
-	if (Insight != nullptr)
-	{
-		delete Insight;
-	}
 }
 
 
 InsightProcess::InsightProcess(const InsightProcess& Original)
 {
-	ProcessNameContainer = Original.ProcessArgumentsContainer;
-	ProcessArgumentsContainer = Original.ProcessArgumentsContainer;
-	WorkingDirectory = Original.WorkingDirectory;
+	dupto(&Original, this, true, false);
 
-	StartUpInfo = Original.StartUpInfo;
+}
 
-	if (Original.lpProcessAttributes != NULL)
+
+InsightProcess::InsightProcess(InsightProcess&& Original)
+{
+	if (this != &Original)
 	{
-		lpProcessAttributes = Original.lpProcessAttributes;
+		
+		dupto(&Original, this, false, false);
+		zeroout(&Original, false, false);
 	}
-	else
+}
+
+InsightProcess& InsightProcess::operator=(const InsightProcess& other)
+{
+	if (this != &other)
 	{
-		lpProcessAttributes = nullptr;
+		dupto(&other, this, true, false);
 	}
+	
+	return *this;
+}
 
-
-	if (Original.lpThreadAttributes != NULL)
+InsightProcess& InsightProcess::operator=(InsightProcess&& other)
+{
+	if (this != &other)
 	{
-		lpThreadAttributes = Original.lpThreadAttributes;
+		dupto(&other, this, false, false);
+		zeroout(&other, false, false);
 	}
-	else
-	{
-		lpThreadAttributes = nullptr;
-	}
-
-	dwCreationFlags = Original.dwCreationFlags;
-
-	if (Original.PInfo.dwProcessId != 0)
-	{
-		PInfo.dwProcessId = Original.PInfo.dwProcessId;
-	}
-	else
-	{
-		PInfo.dwProcessId = 0;
-	}
-
-
-	if (Original.PInfo.dwThreadId != 0)
-	{
-		PInfo.dwThreadId = Original.PInfo.dwThreadId;
-	}
-
-
-	if (Original.PInfo.hProcess != 0)
-	{
-		DuplicateHandle(GetCurrentProcess(), Original.PInfo.hProcess, GetCurrentProcess(), &PInfo.hProcess, 0, FALSE, DUPLICATE_SAME_ACCESS);
-	}
-	else
-	{
-		PInfo.hProcess = 0;
-	}
-
-	if (Original.PInfo.hThread != 0)
-	{
-		DuplicateHandle(GetCurrentProcess(), Original.PInfo.hThread, GetCurrentProcess(), &PInfo.hThread, 0, FALSE, DUPLICATE_SAME_ACCESS);
-	}
-	else
-	{
-		PInfo.hProcess = 0;
-	}
-
-	bInhertEnviroment = Original.bInhertEnviroment;
-	DebugModeHandle = Original.DebugModeHandle;
-
-	for (auto stepper = Original.CommandmentArray.begin(); stepper != Original.CommandmentArray.end(); stepper++)
-	{
-		CommandmentArray[stepper._Ptr->_Myval.first] = stepper._Ptr->_Myval.second;
-	}
-	for (auto stepper = Original.Enviroment.begin(); stepper != Original.Enviroment.end(); stepper++)
-	{
-		Enviroment[stepper._Ptr->_Myval.first] = stepper._Ptr->_Myval.second;
-	}
-
-
-	for (auto stepper = Original.DetoursDll.begin(); stepper != Original.DetoursDll.end(); stepper++)
-	{
-		DetoursDll.push_back( stepper._Ptr->c_str());
-	}
-
-
-
-	for (auto stepper = Original.LoadLibraryPriorityFolders.begin(); stepper != Original.LoadLibraryPriorityFolders.end(); stepper++)
-	{
-		LoadLibraryPriorityFolders.push_back(stepper._Ptr->c_str());
-	}
-
-
-
-	for (auto stepper = Original.ForcedOverwrites.begin(); stepper != Original.ForcedOverwrites.end(); stepper++)
-	{
-		ForcedOverwrites[stepper._Ptr->_Myval.first] = stepper._Ptr->_Myval.second;
-	}
-
-
-
-
-	EnableSymbols = Original.EnableSymbols;
-
-	ProcessThreads = Original.ProcessThreads;
-	Insight = new InsightHunter(Original.Insight);
-
-	RequestDebugPriv = Original.RequestDebugPriv;
-
+	return *this;
 }
 
 InsightProcess::InsightProcess()
 {
-	PInfo.hProcess = PInfo.hThread = INVALID_HANDLE_VALUE;
-	PInfo.dwProcessId = PInfo.dwThreadId = 0;
-
-	/* ZeroMemory(&StartUpInfo, sizeof(StartUpInfo));
-	* Unneeded sync StartUpInfo's become a lass
-	*/
-
-	ZeroMemory(&this->SyncData, sizeof(SyncData));
-
-	dwCreationFlags = 0;
-	lpProcessAttributes = lpThreadAttributes = nullptr;
-	this->bInhertEnviroment = false;
-	this->DebugModeHandle = PSINFO_DEBUGMODE_NOWORKERTHREAD;
-	this->DetoursDll.clear();
-	this->Enviroment.clear();
-	this->ProcessNameContainer = L"";
-	this->WorkingDirectory = L"";
-	
-	Insight = new InsightHunter();
-
+	init(this);
 }
 
 const wchar_t* InsightProcess::ProcessName()
@@ -473,7 +380,7 @@ void InsightProcess::ProcessArguments(const wchar_t* NewArgs)
 	this->ProcessArgumentsContainer = NewArgs;
 }
 
-DWORD InsightProcess::CreationFlags()
+DWORD InsightProcess::CreationFlags() 
 {
 	return this->dwCreationFlags;
 }
@@ -516,19 +423,19 @@ void InsightProcess::ClearEnviroment()
 
 const wchar_t* InsightProcess::Environment(const wchar_t* name)
 {
-	if (Enviroment.find(name) == Enviroment.end())
+	if (Enviroment->find(name) == Enviroment->end())
 	{
 		return nullptr;
 	}
 	else
 	{
-		return Enviroment[name].c_str();
+		return (*Enviroment)[name].c_str();
 	}
 }
 
 void InsightProcess::Environment(const wchar_t* name, const wchar_t* value)
 {
-	this->Enviroment[name] = value;
+	(*Enviroment)[name] = value;
 }
 
 void InsightProcess::AddDetoursDll(std::wstring Name)
@@ -539,7 +446,7 @@ void InsightProcess::AddDetoursDll(std::wstring Name)
 		ansi = ConvertUnicodeString(Name.c_str());
 		if (ansi)
 		{
-			this->DetoursDll.insert(this->DetoursDll.end(), ansi);
+			DetoursDll->insert(DetoursDll->end(), ansi);
 			free(ansi);
 		}
 	}
@@ -551,7 +458,7 @@ void InsightProcess::AddDetoursDll(const char* Name)
 	{
 		if (Name[0] != 0)
 		{
-			this->DetoursDll.insert(this->DetoursDll.end(), Name);
+			DetoursDll->insert(DetoursDll->end(), Name);
 		}
 
 	}
@@ -559,30 +466,418 @@ void InsightProcess::AddDetoursDll(const char* Name)
 
 void InsightProcess::ClearDetoursDll()
 {
-	this->DetoursDll.clear();
+	DetoursDll->clear();
 }
 
 const std::vector<std::string> InsightProcess::GetDetourList()
 {
-	return DetoursDll;
+	return *DetoursDll;
 }
 
 const char* InsightProcess::IndexDetourList(int index)
 {
-	if ((index < 0) || (index >= this->DetoursDll.size()))
+	if ((index < 0) || (index >= DetoursDll->size()))
 	{
 		return nullptr;
 	}
-	return this->DetoursDll[index].c_str();
+	return (*DetoursDll)[index].c_str();
 }
 
 unsigned long long InsightProcess::GetDetourListSize() noexcept
 {
-	return DetoursDll.size();
+	return DetoursDll->size();
 }
 DWORD InsightProcess::SpawnProcess()
 {
 	return SpawnProcessCommon(FALSE);
+}
+
+
+
+void InsightProcess::init(InsightProcess* target)
+{
+	if (target != nullptr)
+	{
+		target->PInfo.hProcess = target->PInfo.hThread = INVALID_HANDLE_VALUE;
+		target->PInfo.dwProcessId = target->PInfo.dwThreadId = 0;
+		ZeroMemory(&target->SyncData, sizeof(SyncData));
+
+		target->dwCreationFlags = 0;
+		target->lpProcessAttributes = lpThreadAttributes = nullptr;
+		target->bInhertEnviroment = false;
+		target->DebugModeHandle = PSINFO_DEBUGMODE_NOWORKERTHREAD;
+		
+		target->ProcessNameContainer = L"";
+		target->WorkingDirectory = L"";
+
+		target->Insight = new InsightHunter();
+		target->StartUpInfo = new StartupInfoWrapper();
+		target->CommandmentArray = new std::map<DWORD, BOOL>();
+		target->Enviroment = new std::map<std::wstring, std::wstring>();
+		target->DetoursDll = new std::vector<std::string>();
+
+	}
+}
+
+void InsightProcess::zeroout(InsightProcess* target, bool closehandles, bool killpointers)
+{
+	if (target != nullptr)
+	{
+		if (closehandles)
+		{
+			if (target->PInfo.hProcess != INVALID_HANDLE_VALUE)
+			{
+				CloseHandle(target->PInfo.hProcess);
+			}
+			if (target->PInfo.hThread != INVALID_HANDLE_VALUE)
+			{
+				CloseHandle(target->PInfo.hThread);
+			}
+		}
+		target->PInfo.hProcess = target->PInfo.hThread = INVALID_HANDLE_VALUE;
+		target->PInfo.dwProcessId = target->PInfo.dwThreadId = 0;
+		ZeroMemory(&target->SyncData, sizeof(SyncData));
+
+		target->dwCreationFlags = 0;
+		target->lpProcessAttributes = lpThreadAttributes = nullptr;
+		target->bInhertEnviroment = false;
+		target->DebugModeHandle = PSINFO_DEBUGMODE_NOWORKERTHREAD;
+		target->DetoursDll->clear();
+		target->Enviroment->clear();
+		target->ProcessNameContainer = L"";
+		target->WorkingDirectory = L"";
+
+		if (killpointers)
+		{
+			if (target->Insight != nullptr)
+			{
+				delete target->Insight;
+			}
+			if (target->StartUpInfo != nullptr)
+			{
+				delete target->StartUpInfo;
+			}
+
+			if (target->CommandmentArray != nullptr)
+			{
+				delete target->CommandmentArray;
+			}
+
+			if (target->DetoursDll != nullptr)
+			{
+				delete target->DetoursDll;
+			}
+
+			if (target->Enviroment != nullptr)
+			{
+				delete target->Enviroment;
+			}
+		}
+		target->StartUpInfo = nullptr;
+		target->Insight = nullptr;
+		target->CommandmentArray = nullptr;
+		target->DetoursDll = nullptr;
+		target->Enviroment = nullptr;
+	}
+}
+
+void InsightProcess::dupto(const InsightProcess* source, InsightProcess* target, bool DeepCopy, bool initialized)
+{
+	if (source == target)
+		return;
+
+	if ((source == nullptr) || (target == nullptr))
+	{
+		return;
+	}
+
+#pragma region RequestDebugPriv
+	// copy the non pointer value
+	target->RequestDebugPriv = source->RequestDebugPriv;
+#pragma endregion
+#pragma region Insight
+	// free the target's pointer value if valid for InsightHunter
+	if (initialized)
+	{
+		if (target->Insight != nullptr)
+		{
+			delete target->Insight;
+			target->Insight = nullptr;
+		}
+	}
+
+	if ( (DeepCopy) && (source->Insight != nullptr))
+	{
+		target->Insight = new InsightHunter(source->Insight);
+	}
+	else
+	{
+		target->Insight = source->Insight;
+	}
+#pragma endregion
+#pragma region ProcessThreads
+	// free the target's pointer value if valid for ThreadContainer
+	if (initialized)
+	{
+		if (target->ProcessThreads != nullptr)
+		{
+			delete target->ProcessThreads;
+			target->ProcessThreads = nullptr;
+		}
+	}
+
+
+
+	if ((DeepCopy) && (source->ProcessThreads != nullptr))
+	{
+		target->ProcessThreads = new ThreadContainer(*source->ProcessThreads);
+	}
+	else
+	{
+		target->ProcessThreads =source->ProcessThreads;
+	}
+#pragma endregion
+#pragma region EnableSymbols
+	// non pointer value,  assigment is enough
+	target->EnableSymbols = source->EnableSymbols;
+#pragma endregion
+
+#pragma region ProcessMemoryStats
+	// struct backed into the class.  assigment is ok as long as they don't add pointers
+	target->ProcessMemoryStats = source->ProcessMemoryStats;
+#pragma endregion
+
+#pragma region CommandmentArrray
+	if (initialized)
+	{
+		if (target->CommandmentArray != nullptr)
+		{
+			delete target->CommandmentArray;
+			target->CommandmentArray = nullptr;
+		}
+	}
+
+	if ((DeepCopy) && (source->CommandmentArray != nullptr))
+	{
+		target->CommandmentArray = new std::map<DWORD, BOOL>(*source->CommandmentArray);
+	}
+	else
+	{
+		target->CommandmentArray = source->CommandmentArray;
+	}
+#pragma endregion
+
+#pragma region SyncData
+	// TODO: figure a way to copy SyncData
+#pragma endregion
+
+#pragma region DebugModeHandle
+	// non pointer value assigment is ok
+	target->DebugModeHandle = source->DebugModeHandle;
+#pragma endregion
+
+#pragma region bInhertEnviroment
+
+	// non pointer value assigment is ok
+	target->bInhertEnviroment = source->bInhertEnviroment;
+#pragma endregion
+
+
+#pragma region PInfo
+
+	// take care of any PInfo process / thread handles before clobbering the targets value
+	if (initialized)
+	{
+		if (target->PInfo.hProcess != INVALID_HANDLE_VALUE)
+		{
+			CloseHandle(target->PInfo.hProcess);
+		}
+		if (target->PInfo.hThread != INVALID_HANDLE_VALUE)
+		{
+			CloseHandle(target->PInfo.hThread);
+		}
+	}
+
+	if (DeepCopy)
+	{
+		if ((source->PInfo.hProcess != 0) && (source->PInfo.hProcess != INVALID_HANDLE_VALUE))
+		{
+			target->PInfo.hProcess = LocalHandleDup(source->PInfo.hProcess, 0, TRUE);
+		}
+		else
+		{
+			target->PInfo.hProcess = source->PInfo.hProcess;
+		}
+	}
+	else
+	{
+		target->PInfo.hProcess = source->PInfo.hProcess;
+	}
+
+	if (DeepCopy)
+	{
+		if ((source->PInfo.hThread != 0) && (source->PInfo.hThread != INVALID_HANDLE_VALUE))
+		{
+			target->PInfo.hThread = LocalHandleDup(source->PInfo.hThread, 0, TRUE);
+		}
+		else
+		{
+			target->PInfo.hThread = source->PInfo.hThread;
+		}
+	}
+	else
+	{
+		target->PInfo.hThread = source->PInfo.hThread;
+	}
+
+
+	target->PInfo.dwProcessId = source->PInfo.dwThreadId;
+	target->PInfo.dwProcessId = source->PInfo.dwThreadId;
+#pragma endregion
+
+
+#pragma region StartupInfo
+	// take care of the target's startupinfo before overriding it.
+	if (initialized)
+	{
+		if (target->StartUpInfo != 0)
+		{
+			delete target->StartUpInfo;
+			target->StartUpInfo = 0;
+		}
+	}
+
+	if ((DeepCopy) && (source->StartUpInfo != nullptr))
+	{
+		target->StartUpInfo = new StartupInfoWrapper(*source->StartUpInfo);
+	}
+	else
+	{
+		target->StartUpInfo = 0;
+	}
+#pragma endregion
+
+#pragma region dwCreationFlags
+
+	// non pointer value assigment is ok
+	target->dwCreationFlags = source->dwCreationFlags;
+#pragma endregion
+
+#pragma region ForcedOverrites
+
+	// take care of the target's pointer 
+	if (initialized)
+	{
+		if (target->ForcedOverwrites != nullptr)
+		{
+			delete target->ForcedOverwrites;
+			target->ForcedOverwrites = 0;
+		}
+	}
+
+	if ((DeepCopy) && (source->ForcedOverwrites != nullptr))
+	{
+		target->ForcedOverwrites = new std::map < std::wstring, std::wstring>(*source->ForcedOverwrites);
+	}
+	else
+	{
+		target->ForcedOverwrites = 0;
+	}
+#pragma endregion
+
+#pragma region LoadLibraryPriorityFolders
+	// take care of the target's pointer 
+	if (initialized)
+	{
+		if (target->LoadLibraryPriorityFolders != nullptr)
+		{
+			delete target->LoadLibraryPriorityFolders;
+			target->LoadLibraryPriorityFolders = 0;
+		}
+	}
+
+	if ((DeepCopy) && (source->LoadLibraryPriorityFolders != nullptr))
+	{
+		target->LoadLibraryPriorityFolders = new std::vector < std::wstring>(*source->LoadLibraryPriorityFolders);
+	}
+	else
+	{
+		target->LoadLibraryPriorityFolders = 0;
+	}
+#pragma endregion
+
+#pragma region DetoursDll
+	// take care of the target's pointer 
+	if (initialized)
+	{
+		if (target->DetoursDll != nullptr)
+		{
+			delete target->DetoursDll;
+			target->DetoursDll = 0;
+		}
+	}
+
+	if ((DeepCopy) && (source->DetoursDll != nullptr))
+	{
+		target->DetoursDll = new std::vector < std::string>(*source->DetoursDll);
+	}
+	else
+	{
+		target->DetoursDll = 0;
+	}
+#pragma endregion
+
+
+#pragma region Enviroment
+	// take care of the target's pointer 
+	if (initialized)
+	{
+		if (target->Enviroment != nullptr)
+		{
+			delete target->Enviroment;
+			target->Enviroment = 0;
+		}
+	}
+
+	if ((DeepCopy) && (source->Enviroment != nullptr))
+	{
+		target->Enviroment = new std::map < std::wstring, std::wstring>(*source->Enviroment);
+	}
+	else
+	{
+		target->Enviroment = 0;
+	}
+#pragma endregion
+
+
+#pragma region Process and thread Attribute pointer stubs
+	// TODO: when we actually add support for copying security attributes. UPDATE this.
+#pragma message("Notice: The routine dupto() will need to be updated when Process and Thread Security Attributes support is added otherwise it won't be copied currently.")
+	target->lpProcessAttributes = source->lpProcessAttributes;
+	target->lpThreadAttributes = source->lpThreadAttributes;
+#pragma endregion
+
+
+
+#pragma region WorkingDirectory ProcessArguments and ProcessName
+	// STL takes care of this value
+
+	target->WorkingDirectory = source->WorkingDirectory;
+
+	// STL takes care of this value
+	target->ProcessArgumentsContainer = source->ProcessArgumentsContainer;
+
+
+	// STL takes care of this value
+	target->ProcessNameContainer = source->ProcessNameContainer;
+#pragma endregion
+
+
+
+}
+
+void InsightProcess::PrivateDefault(InsightProcess* target)
+{
 }
 
 
@@ -619,212 +914,211 @@ DWORD InsightProcess::SpawnProcessCommon(bool NoNotSpawnThread)
 	bool DebugAskFailure = false;
 	wchar_t* Arguments = 0;
 	LPCSTR* DetourListPtr = 0;
-	const wchar_t* EnvBlocArg;
+	const wchar_t* EnvBlocArg = nullptr;
 	std::wstring EnvBlockContainer;
-	const wchar_t* CurrDir;
-	
+	const wchar_t* CurrDir;	
 	std::vector<const char*> DetourList;
 
-	if (DetoursDll.size() == 0)
-	{
-		DetourList.clear();
-		DetourListPtr = nullptr;
-	}
-	else
-	{
-		for (unsigned int step = 0; step < this->DetoursDll.size(); step++)
+		if (DetoursDll->size() == 0)
 		{
-			DetourList.insert(DetourList.end(), this->DetoursDll[step].c_str());
+			DetourList.clear();
+			DetourListPtr = nullptr;
 		}
-		DetourListPtr = (LPCSTR*)&DetourList[0];
-	}
-
-	if (WorkingDirectory.size() == 0)
-	{
-		CurrDir = nullptr;
-	}
-	else
-	{
-		CurrDir = WorkingDirectory.c_str();
-	}
-
-
-	/// <summary>
-	/// This copying and catching NULl for arguments is because MSDN documentation says CreateProcessW may modify the arguments sometimes.
-	/// If CreateProcessW does this and source read only memory, an exception may occur.  
-	/// </summary>
-	if ( (this->ProcessArgumentsContainer.length() == 0) || (this->ProcessArgumentsContainer[0] == 0))
-	{
-		Arguments = nullptr;
-	}
-	else
-	{
-		Arguments = _wcsdup(this->ProcessArgumentsContainer.c_str());
-	}
-
-
-	
-
-	/*this->StartUpInfo.cb = sizeof(STARTUPINFOW);
-	if (this->StartUpInfo.wShowWindow == 0)
-	{
-		this->StartUpInfo.wShowWindow = SW_SHOWNORMAL;
-	}*/
-	if (this->StartUpInfo.wShowWindow() == 0)
-	{
-		this->StartUpInfo.wShowWindow(SW_NORMAL);
-	}
-
-
-
-	BuildEnviromentBlock(this->Enviroment, this->bInhertEnviroment, EnvBlockContainer);
-
-
-	if (EnvBlockContainer.size() == 0)
-	{
-		EnvBlocArg = nullptr;
-	}
-	else
-	{
-		EnvBlocArg = EnvBlockContainer.c_str();
-
-	}
-
-	
-	if (!NoNotSpawnThread)
-	{
-
-		if (((dwCreationFlags & DEBUG_PROCESS) == DEBUG_PROCESS) || ((dwCreationFlags & DEBUG_ONLY_THIS_PROCESS) == DEBUG_ONLY_THIS_PROCESS))
+		else
 		{
-			/// <summary>
-			/// This code asks if we are to ask for debug priv and sets a flag if the priv was not granted.
-			/// </summary>
-			if (RequestDebugPriv)
+			DetourListPtr = (LPCSTR*)DetoursDll;
+		}
+
+		if (WorkingDirectory.size() == 0)
+		{
+			CurrDir = nullptr;
+		}
+		else
+		{
+			CurrDir = WorkingDirectory.c_str();
+		}
+
+
+		/// <summary>
+		/// This copying and catching NULl for arguments is because MSDN documentation says CreateProcessW may modify the arguments sometimes.
+		/// If CreateProcessW does this and source read only memory, an exception may occur.  
+		/// </summary>
+		if ((this->ProcessArgumentsContainer.length() == 0) || (this->ProcessArgumentsContainer[0] == 0))
+		{
+			Arguments = nullptr;
+		}
+		else
+		{
+			Arguments = _wcsdup(this->ProcessArgumentsContainer.c_str());
+		}
+
+
+
+
+		/*this->StartUpInfo.cb = sizeof(STARTUPINFOW);
+		if (this->StartUpInfo.wShowWindow == 0)
+		{
+			this->StartUpInfo.wShowWindow = SW_SHOWNORMAL;
+		}*/
+		if (StartUpInfo->wShowWindow() == 0)
+		{
+			StartUpInfo->wShowWindow(SW_NORMAL);
+		}
+
+
+
+		BuildEnviromentBlock(*this->Enviroment, this->bInhertEnviroment, EnvBlockContainer);
+
+
+		/* CreateProcessW says if enviroment block is null, child process inheirts ours.  reason for this is to use null instead of pointer to emptry string*/
+		if (EnvBlockContainer.size() != 0)
+		{
+			EnvBlocArg = EnvBlockContainer.c_str();
+		}
+		else
+		{
+			
+		}
+
+
+		if (!NoNotSpawnThread)
+		{
+
+			if (((dwCreationFlags & DEBUG_PROCESS) == DEBUG_PROCESS) || ((dwCreationFlags & DEBUG_ONLY_THIS_PROCESS) == DEBUG_ONLY_THIS_PROCESS))
 			{
-				if (!AskForDebugPriv())
+				/// <summary>
+				/// This code asks if we are to ask for debug priv and sets a flag if the priv was not granted.
+				/// </summary>
+				if (RequestDebugPriv)
 				{
-					PInfo.hProcess = PInfo.hThread = INVALID_HANDLE_VALUE;
-					PInfo.dwProcessId = PInfo.dwThreadId = 0;
-					DebugAskFailure = TRUE;
+					if (!AskForDebugPriv())
+					{
+						PInfo.hProcess = PInfo.hThread = INVALID_HANDLE_VALUE;
+						PInfo.dwProcessId = PInfo.dwThreadId = 0;
+						DebugAskFailure = TRUE;
+					}
+					else
+					{
+						DebugAskFailure = FALSE;
+					}
 				}
 				else
 				{
+					// it didn't fail BUT we didn't ask for it. so we're still OK
 					DebugAskFailure = FALSE;
 				}
-			}
-			else
-			{
-				// it didn't fail BUT we didn't ask for it. so we're still OK
-				DebugAskFailure = FALSE;
-			}
 
-			if ((this->DebugModeHandle == PSINFO_DEBUGMODE_WORKERTHREADED) && (DebugAskFailure == FALSE))
-			{
-				this->SyncData.ContinueState = this->SyncData.threadID = 0;
-				this->SyncData.EventHandle = CreateEvent(nullptr, FALSE, FALSE, nullptr);
-				if (this->SyncData.EventHandle != 0)
+				if ((this->DebugModeHandle == PSINFO_DEBUGMODE_WORKERTHREADED) && (DebugAskFailure == FALSE))
 				{
+					this->SyncData.ContinueState = this->SyncData.threadID = 0;
+					this->SyncData.EventHandle = CreateEvent(nullptr, FALSE, FALSE, nullptr);
+					if (this->SyncData.EventHandle != 0)
+					{
 
-					this->SyncData.that = this;
+						this->SyncData.that = this;
 
-					this->SyncData.ThreadHandle = (HANDLE)_beginthread(PsPocessInformation_DebugWorkerthread, 0, &SyncData);
-					this->SyncData.threadID = GetThreadId(SyncData.ThreadHandle);
+						this->SyncData.ThreadHandle = (HANDLE)_beginthread(PsPocessInformation_DebugWorkerthread, 0, &SyncData);
+						this->SyncData.threadID = GetThreadId(SyncData.ThreadHandle);
 
 
-					
 
-					/// <summary>
-					/// First wait is always until process creation.
-					/// </summary>
-					/// <returns></returns>
-					WaitForSingleObject(SyncData.EventHandle, INFINITE);
+
+						/// <summary>
+						/// First wait is always until process creation.
+						/// </summary>
+						/// <returns></returns>
+						WaitForSingleObject(SyncData.EventHandle, INFINITE);
+					}
+					else
+					{
+
+					}
 				}
 				else
 				{
-
+					//if (!DetourCreateProcessWithDllsW(ProcessName(),
+					//if (!DetourCreateProcessWithDllExW(ProcessName(),
+					if (!DetourCreateProcessWithDllsW(ProcessName(),
+						Arguments,
+						lpProcessAttributes,
+						lpThreadAttributes,
+						FALSE,
+						dwCreationFlags | CREATE_UNICODE_ENVIRONMENT,
+						(LPVOID)EnvBlocArg,
+						CurrDir,
+						(LPSTARTUPINFOW) & ((StartUpInfo->GetPtr())->StartupInfo),
+						&PInfo,
+						DetoursDll->size(),
+						//&DetourList[0],
+						DetourListPtr,
+						nullptr))
+					{
+						PInfo.hProcess = PInfo.hThread = INVALID_HANDLE_VALUE;
+						PInfo.dwProcessId = PInfo.dwThreadId = 0;
+					}
 				}
 			}
 			else
 			{
-				//if (!DetourCreateProcessWithDllsW(ProcessName(),
-				//if (!DetourCreateProcessWithDllExW(ProcessName(),
 				if (!DetourCreateProcessWithDllsW(ProcessName(),
 					Arguments,
 					lpProcessAttributes,
 					lpThreadAttributes,
 					FALSE,
-					dwCreationFlags | CREATE_UNICODE_ENVIRONMENT,
+					dwCreationFlags | CREATE_UNICODE_ENVIRONMENT | CREATE_SUSPENDED,
 					(LPVOID)EnvBlocArg,
 					CurrDir,
-					 (LPSTARTUPINFOW) &((StartUpInfo.GetPtr())->StartupInfo),
-					& PInfo,
-					DetoursDll.size(),
+					(LPSTARTUPINFOW) & ((StartUpInfo->GetPtr())->StartupInfo),
+					&PInfo,
+					DetoursDll->size(),
 					//&DetourList[0],
 					DetourListPtr,
 					nullptr))
 				{
-				PInfo.hProcess = PInfo.hThread = INVALID_HANDLE_VALUE;
-				PInfo.dwProcessId = PInfo.dwThreadId = 0;
+					PInfo.hProcess = PInfo.hThread = INVALID_HANDLE_VALUE;
+					PInfo.dwProcessId = PInfo.dwThreadId = 0;
 				}
+				else
+				{
+					//CopyPayloads(PInfo.hProcess);
+					ResumeThread(PInfo.hThread);
+				}
+
 			}
 		}
 		else
 		{
-		if (!DetourCreateProcessWithDllsW(ProcessName(),
-			Arguments,
-			lpProcessAttributes,
-			lpThreadAttributes,
-			FALSE,
-			dwCreationFlags | CREATE_UNICODE_ENVIRONMENT | CREATE_SUSPENDED,
-			(LPVOID)EnvBlocArg,
-			CurrDir,
-			(LPSTARTUPINFOW) & ((StartUpInfo.GetPtr())->StartupInfo),
-			&PInfo,
-			DetoursDll.size(),
-			//&DetourList[0],
-			DetourListPtr,
-			nullptr))
-		{
-			PInfo.hProcess = PInfo.hThread = INVALID_HANDLE_VALUE;
-			PInfo.dwProcessId = PInfo.dwThreadId = 0;
-		}
-		else
-		{
-			//CopyPayloads(PInfo.hProcess);
-			ResumeThread(PInfo.hThread);
+			if (!DetourCreateProcessWithDllsW(ProcessName(),
+				Arguments,
+				lpProcessAttributes,
+				lpThreadAttributes,
+				FALSE,
+				dwCreationFlags | CREATE_UNICODE_ENVIRONMENT | CREATE_SUSPENDED,
+				(LPVOID)EnvBlocArg,
+				CurrDir,
+				(LPSTARTUPINFOW) & (this->StartUpInfo->GetPtr()->StartupInfo),
+				&PInfo,
+				DetoursDll->size(),
+				//&DetourList[0],
+				DetourListPtr,
+				nullptr))
+			{
+				PInfo.hProcess = PInfo.hThread = INVALID_HANDLE_VALUE;
+				PInfo.dwProcessId = PInfo.dwThreadId = 0;
+			}
+			else
+			{
+				CopyPayloads(PInfo.hProcess);
+				ResumeThread(PInfo.hThread);
+			}
 		}
 
+
+	{
+		if (Arguments != nullptr)
+		{
+			free(Arguments);
 		}
-	}
-	else
-	{
-	if (!DetourCreateProcessWithDllsW(ProcessName(),
-		Arguments,
-		lpProcessAttributes,
-		lpThreadAttributes,
-		FALSE,
-		dwCreationFlags | CREATE_UNICODE_ENVIRONMENT | CREATE_SUSPENDED,
-		(LPVOID)EnvBlocArg,
-		CurrDir,
-		(LPSTARTUPINFOW) & ((StartUpInfo.GetPtr())->StartupInfo),
-		&PInfo,
-		DetoursDll.size(),
-		//&DetourList[0],
-		DetourListPtr,
-		nullptr))
-	{
-		PInfo.hProcess = PInfo.hThread = INVALID_HANDLE_VALUE;
-		PInfo.dwProcessId = PInfo.dwThreadId = 0;
-	}
-	else
-	{
-		CopyPayloads(PInfo.hProcess);
-		ResumeThread(PInfo.hThread);
-	}
-	}
-	if (Arguments != 0)
-	{
-		free(Arguments);
 	}
 	return PInfo.dwProcessId;
 }
@@ -896,7 +1190,7 @@ BOOL InsightProcess::WaitUntilExit(DWORD TimeWait, BOOL OnlyMain)
 
 StartupInfoWrapper* InsightProcess::GetStartupInfoHandler()
 {
-	return &this->StartUpInfo;
+	return this->StartUpInfo;
 }
 
 VOID  InsightProcess::SetDebugEventCallback(DebugEventCallBackRoutine Callback)
@@ -963,10 +1257,8 @@ BOOL InsightProcess::SetCommandment(DWORD CommandMent, BOOL Status)
 {
 	if ((CommandMent >= 0) && (CommandMent < COMMANDMENT_MAX_VALUE))
 	{
-		//auto location = CommandmentArray.find(CommandMent);
-		
 		{
-			CommandmentArray[CommandMent] = Status;
+			CommandmentArray->insert_or_assign(CommandMent, Status);
 		}
 	}
 	return TRUE;
@@ -974,9 +1266,11 @@ BOOL InsightProcess::SetCommandment(DWORD CommandMent, BOOL Status)
 
 BOOL InsightProcess::GetCommandment(DWORD Commandment)
 {
-	if (CommandmentArray.find(Commandment) != CommandmentArray.end())
+	auto locate = CommandmentArray->find(Commandment);
+
+	if (locate != CommandmentArray->end())
 	{
-		return CommandmentArray[Commandment];
+		return locate->second;
 	}
 	return FALSE;
 }
@@ -987,7 +1281,7 @@ BOOL InsightProcess::AddPriorityLoadLibraryPathW(LPCWSTR Path)
 	if (Path != 0)
 	{
 		buffer = Path;
-		this->LoadLibraryPriorityFolders.insert(this->LoadLibraryPriorityFolders.end(), buffer);
+		LoadLibraryPriorityFolders->insert(LoadLibraryPriorityFolders->end(), buffer);
 		return TRUE;
 	}
 	return FALSE;
@@ -1010,26 +1304,26 @@ BOOL InsightProcess::AddPriorityLoadLibraryPathA(LPCSTR Path)
 
 DWORD InsightProcess::GetPriorityLoadLibaryPath_NumberOf()
 {
-	return this->LoadLibraryPriorityFolders.size();
+	return LoadLibraryPriorityFolders->size();
 }
 
 LPCWSTR InsightProcess::GetPriorityLoadLibraryPath_Index(size_t Index)
 {
-	if (Index < LoadLibraryPriorityFolders.size())
+	if (Index < LoadLibraryPriorityFolders->size())
 	{
-		return LoadLibraryPriorityFolders[Index].c_str();
+		return (*(LoadLibraryPriorityFolders))[Index].c_str();
 	}
 	return nullptr;
 }
 
 VOID InsightProcess::EmptyPriorityLoadLibaryPath()
 {
-	LoadLibraryPriorityFolders.clear();
+	LoadLibraryPriorityFolders->clear();
 }
 
 DWORD InsightProcess::GetProcessIDCount()
 {
-	return this->ProcessThreads.ProcessCount();
+	return ProcessThreads->ProcessCount();
 }
 
 DWORD InsightProcess::GetProcessIDs(DWORD* Output, DWORD LargestOutputSize)
@@ -1039,12 +1333,12 @@ DWORD InsightProcess::GetProcessIDs(DWORD* Output, DWORD LargestOutputSize)
 
 DWORD InsightProcess::GetThreadListCount(DWORD ProcessID)
 {
-	return this->ProcessThreads.ThreadCount(ProcessID);
+	return ProcessThreads->ThreadCount(ProcessID);
 }
 
 DWORD InsightProcess::GetThreadListCount()
 {
-	return this->ProcessThreads.ThreadCount(PInfo.dwProcessId);
+	return ProcessThreads->ThreadCount(PInfo.dwProcessId);
 }
 
 
@@ -1066,17 +1360,17 @@ DWORD InsightProcess::GetThreadIDs(DWORD ProcessID, DWORD* ThreadID, DWORD Large
 
 ThreadInsight* InsightProcess::GetThreadInsightPtr(DWORD ProcessID, DWORD ThreadID)
 {
-	return this->ProcessThreads.GetThreadInsightPtr(ProcessID, ThreadID);
+	return ProcessThreads->GetThreadInsightPtr(ProcessID, ThreadID);
 }
 
-DWORD InsightProcess::SetSymbolStatus(DWORD NewStatus)
+DWORD InsightProcess::SetSymbolStatus(DWORD NewStatus) noexcept
 {
-	DWORD old = this->EnableSymbols;
+	const DWORD old = this->EnableSymbols;
 	EnableSymbols = NewStatus;
 	return old;
 }
 
-DWORD InsightProcess::GetSymbolStatus()
+DWORD InsightProcess::GetSymbolStatus() noexcept
 {
 	return EnableSymbols;
 }

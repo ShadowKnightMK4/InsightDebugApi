@@ -8,7 +8,7 @@
 #include "ThreadContext.h"
 #include "ThreadSupport.h"
 #include "StartupInfoStructHelper.h"
-
+//#include <gsl>
 
 class InsightProcess;
 
@@ -80,7 +80,7 @@ struct WorkerThreadData
 	/// <summary>
 	/// see MSDN's ContinueDebugEvet
 	/// </summary>
-	DWORD WaitTImer;
+	DWORD WaitTimer;
 	/// <summary>
 	/// 
 	/// </summary>
@@ -108,9 +108,24 @@ struct WorkerThreadData
 class InsightProcess
 {
 public:
-	~InsightProcess();
+
+	/// <summary>
+	/// Copy constructor
+	/// </summary>
 	InsightProcess(const InsightProcess& Original);
+	/// <summary>
+	/// Move constructor
+	/// </summary>
+	InsightProcess(InsightProcess&& Original);
+	InsightProcess& operator=(InsightProcess& other);
+	InsightProcess& operator=(const InsightProcess& other);
+	InsightProcess& operator=(InsightProcess&& other);
 	InsightProcess();
+
+	/// <summary>
+	/// destructor/cleanup
+	/// </summary>
+	~InsightProcess();
 #pragma region Handling the Private Variables with public rotuines
 
 	/// <summary>
@@ -375,12 +390,12 @@ public:
 	/// </summary>
 	/// <param name="NewStatus"></param>
 	/// <returns></returns>
-	DWORD SetSymbolStatus(DWORD NewStatus);
+	DWORD SetSymbolStatus(DWORD NewStatus) noexcept;
 	/// <summary>
 	/// Return if the symbol engine will automatically update in the worker thread
 	/// </summary>
 	/// <returns></returns>
-	DWORD GetSymbolStatus();
+	DWORD GetSymbolStatus() noexcept;
 	/// <summary>
 	/// receive a pointer to an instance of the symbol class contained within. 
 	/// </summary>
@@ -403,6 +418,7 @@ public:
 	PROCESS_MEMORY_COUNTERS_EX* GetMemoryStatsBulkPtr();
 #pragma endregion
 
+
 private:
 	/// <summary>
 	/// Worker thread routine friend declaration. This actual routine is actual what spawns and pumps the debug message loop if opted into.
@@ -411,6 +427,29 @@ private:
 	/// </summary>
 	friend void _cdecl PsPocessInformation_DebugWorkerthread(void* argument);
 	
+	/// <summary>
+	/// Common constructor to setup an initialized instance of class
+	/// </summary>
+	void init(InsightProcess* target);
+
+	/// <summary>
+	/// zero out to default values and free any pointer classes for the target.
+	/// </summary>
+	void zeroout(InsightProcess* target, bool closehandles, bool killpointers);
+	
+	/// <summary>
+	/// Copy source to target.  DeepCopy means if the source is deleted, target will be ok still.
+	/// <summary>
+	void dupto(const InsightProcess* source, InsightProcess* target, bool DeepCopy, bool initialized);
+	/// <summary>
+	///  assign default non allocated pointer values (bools, dwords, ect...) to default and null for pointer based values. Used mainly for move consturctors
+	/// </summary>
+	void PrivateDefault(InsightProcess *target);
+
+	/// <summary>
+	/// for the C++ copy, copy assignment, ect... operators this is the common put my class contents there. 
+	/// </summary>
+	bool InsightProceeeCPPDuplicate(const InsightProcess* source, InsightProcess* Target, bool closeoriginal);
 	/// <summary>
 	/// if one of the GetXXXX() routines that fetch memory info is called,  this ends up being called to refresh the private struct
 	/// </summary>
@@ -455,21 +494,21 @@ private:
 	/// <summary>
 	/// Map for the environment.  MAP Key is environment name,  map value is the string to use>
 	/// </summary>
-	std::map<std::wstring, std::wstring> Enviroment;
+	std::map<std::wstring, std::wstring>* Enviroment;
 	/// <summary>
 	/// Holds the list of Dlls that will be loaded via detours. 
 	/// </summary>
-	std::vector<std::string> DetoursDll;
+	std::vector<std::string>* DetoursDll;
 
 	/// <summary>
 	/// Folders that will be searched before other locations.   requres helper dll
 	/// </summary>
-	std::vector<std::wstring> LoadLibraryPriorityFolders;
+	std::vector<std::wstring>* LoadLibraryPriorityFolders;
 
 	/// <summary>
 	/// When load library rotuine gets part 1, sub with part 2 before proceeding.
 	/// </summary>
-	std::map<std::wstring, std::wstring>  ForcedOverwrites;
+	std::map<std::wstring, std::wstring>*  ForcedOverwrites;
 	/// <summary>
 	/// CreateProcessW Creation Flags
 	/// </summary>
@@ -477,8 +516,7 @@ private:
 	/// <summary>
 	/// Startup info for the process
 	/// </summary>
-	//STARTUPINFO StartUpInfo;
-	StartupInfoWrapper StartUpInfo;
+	StartupInfoWrapper* StartUpInfo;
 	/// <summary>
 	/// After process is spawned, holds handles and ids of the main thread + the process itself
 	/// </summary>
@@ -496,7 +534,7 @@ private:
 	WorkerThreadData SyncData;
 
 
-	std::map<DWORD, BOOL> CommandmentArray;
+	std::map<DWORD, BOOL> *CommandmentArray;
 
 	/// <summary>
 	/// Updated after requiested information in thsi structure.
@@ -510,13 +548,13 @@ private:
 	/// <summary>
 	/// Our database we care about for the lifetime of the process.
 	/// </summary>
-	ThreadContainer ProcessThreads;
+	ThreadContainer* ProcessThreads;
 	/// <summary>
 	/// Class for the symbol engine. Will Need to spawn a process WITH_DEBUG to get much use.
 	/// </summary>
 	InsightHunter* Insight;
 	/// <summary>
-	/// Default false.  If true and Proess creation flags include DEBUG_PROCESS | DEBUG_THIS_PROCESS, we will ask for debug priv
+	/// Default false.  If true and Proess creation flags include DEBUG_PROCESS | DEBUG_THIS_PROCESS, we will ask for debug priv via AdjustTokenPriv
 	/// </summary>
 	bool RequestDebugPriv;
 };

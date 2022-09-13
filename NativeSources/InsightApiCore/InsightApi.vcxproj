@@ -142,6 +142,7 @@ del "$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\lib\InsightApi.*"
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32; DETOURS_X86; FILESANDBOX_AP_DLL_EXPORT;DBGHELP_TRANSLATE_TCHAR;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <PreprocessToFile>true</PreprocessToFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -188,6 +189,7 @@ del "$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\lib\InsightApi.*"
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <PreprocessToFile>false</PreprocessToFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

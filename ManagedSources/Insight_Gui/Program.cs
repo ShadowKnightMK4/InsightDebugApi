@@ -310,31 +310,8 @@ namespace FileSandBox_GUI
 
             // This is here because I got tired of manually copying the file.
             Environment.SetEnvironmentVariable("PATH", "C:\\Users\\Thoma\\source\\repos\\InsightAPI\\code\\Debug\\x86\\program\\;" +Environment.GetEnvironmentVariable("PATH") + "", EnvironmentVariableTarget.Process);
-            /*            FileSandBox_Forms.InsightDebuggerMainView test;
-            test = new FileSandBox_Forms.InsightDebuggerMainView();
+    
 
-            test.ShowDialog();
-
-            return;            */
-
-
-            ResourceWalker Test = ResourceWalker.MakeInstance("C:\\Windows\\system32\\notepad.exe", AccessMasks.GenericRead, ShareMasks.ShareRead);
-
-
-            //var ImportList = Test.GetImports(false, false);
-
-            //var ResourceList = Test.EnumResourceTypes(new ResourceWalker.EnumResTypeProcW(typeme), IntPtr.Zero, ResourceWalker_flags.ResourceEnumDefault, 0);
-
-
-            List<UnmanagedResource> Resources = Test.GetResourceInformation();
-
-            var ico = Resources[3].GetResourceDataAsStream();
-
-            var RealIcon = new Bitmap(ico);
-
-
-            Test.Dispose();
-            return;
              InsightProcess TestRun = InsightProcess.CreateInstance();
             TestRun.ExtraFlags = InsightProcess.SpecialCaseFlags.DebugOnlyThis;
             TestRun.WorkingDirectory = "C:\\Windows\\";
@@ -362,8 +339,11 @@ namespace FileSandBox_GUI
        
             
             TestRun.UserDebugCallRoutine = new InsightProcess.DebugEventCallBackRoutine(StubCallback);
+            TestRun.UserDebugCallRoutine = StubCallback;
             TestRun.EnableSymbolEngine = true;
             TestRun.DebugMode = DebugModeType.WorkerThread;
+            
+            TestRun.CreationFlags = InsightProcess.CreationFlagValues.DebugProcess;
             TestRun.GetStartupInfoClass().FlagSetterHelper = true;
             TestRun.GetStartupInfoClass().Flags = StartupInfoExW_Flags.Startf_UseShowWindow;
             TestRun.GetStartupInfoClass().ShowWindow = StartupInfoExW_ShowWindow.Maximize;
@@ -372,7 +352,7 @@ namespace FileSandBox_GUI
             TestRun.RequestDebugPriv = true;
             Insight = TestRun.GetSymbolHandler();
 
-            //TestRun.ExtraFlags = InsightProcess.SpecialCaseFlags.DebugOnlyThis;
+        
 
             
             var ProcessId = TestRun.SpawnProcess();
