@@ -107,7 +107,7 @@ namespace InsightSheath.Win32Struct
     public class WindowsUnicodeString: PlatformDependantNativeStruct
     {
 		/// <summary>
-		/// After creating an instance, call <see cref="SetStructType(ModeType)"/> and specify which version of an Unicode string, this class contrains
+		/// After creating an instance, call <see cref="PlatformDependantNativeStruct.SetStructType(ModeType)"/> and specify which version of an Unicode string, this class contrains
 		/// </summary>
 		/// <param name="Native"></param>
         public WindowsUnicodeString(IntPtr Native): base(Native)

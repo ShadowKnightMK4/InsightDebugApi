@@ -16,7 +16,8 @@ public:
 	StartupInfoWrapper() noexcept;
 	StartupInfoWrapper(const StartupInfoWrapper& other) noexcept;
 	~StartupInfoWrapper();
-
+	StartupInfoWrapper& operator=(const StartupInfoWrapper& CopyAssign );
+	StartupInfoWrapper& operator=(StartupInfoWrapper&& MoveAssign);
 	const wchar_t* lpDesktop() noexcept;
 	void lpDesktop(const wchar_t* Name) noexcept;
 

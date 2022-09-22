@@ -41,17 +41,41 @@ StartupInfoWrapper::~StartupInfoWrapper()
 {
 	if (Struct.StartupInfo.lpDesktop != nullptr)
 	{
-		delete Struct.StartupInfo.lpDesktop;
+		free(Struct.StartupInfo.lpDesktop);
 	}
 	if (Struct.StartupInfo.lpTitle != nullptr)
 	{
-		delete Struct.StartupInfo.lpTitle;
+		free(Struct.StartupInfo.lpTitle);
 	}
 
 	ZeroMemory(&Struct, sizeof(STARTUPINFOEXW));
+
+}
+
+StartupInfoWrapper& StartupInfoWrapper::operator=(const StartupInfoWrapper& CopyAssign)
+{
+	// TODO: insert return statement here
+	CopyMemory(&this->Struct, &CopyAssign.Struct, sizeof(CopyAssign.Struct));
 	
-	//this->DesktopNameContainer.clear();
-	//this->TileNameContainer.clear();
+	if (this->Struct.StartupInfo.lpDesktop != 0)
+	{
+		this->Struct.StartupInfo.lpDesktop = _wcsdup(this->Struct.StartupInfo.lpDesktop);
+	}
+	if (this->Struct.StartupInfo.lpTitle)
+	{
+		this->Struct.StartupInfo.lpTitle = _wcsdup(this->Struct.StartupInfo.lpTitle);
+	}
+	*this;
+}
+
+StartupInfoWrapper& StartupInfoWrapper::operator=(StartupInfoWrapper&& MoveAssign)
+{
+	if (this != &MoveAssign)
+	{
+		CopyMemory(&this->Struct, &MoveAssign.Struct, sizeof(MoveAssign.Struct));
+		ZeroMemory(&MoveAssign.Struct, sizeof(MoveAssign.Struct));;
+	}
+	return *this;
 }
 
 const wchar_t* StartupInfoWrapper::lpDesktop() noexcept

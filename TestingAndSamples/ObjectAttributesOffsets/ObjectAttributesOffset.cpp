@@ -2,6 +2,21 @@
 #include <iostream>
 #include <winternl.h>
 
+
+/*
+* ObjectAttributesOffset.cpp
+* 
+* What this does: It outputs to stdout the relative offsets in  a struct and the specific ones.
+* How to use:  Pick either x86 or x64 for your target and see if the offsets specificed by the general structure (example UNICODE_STRING) matches
+* the same as the specific struct (UNICODE_STRING32 for x86 and UNICODE_STRING64 for x64).
+* 
+* What does it mean:  If the specific struct version matches the generic struct that you compiled for then when debugging that target, that's the struct
+* to assme said target is using.
+* 
+* Scope:	Change struct and output strings as neeed.
+* 
+* Stuff used:  cout,  offsetof(),  sizeof()
+*/
 /*
 sizeof(PTR) = 8
 sizeof(UNICODE_STRING) =16

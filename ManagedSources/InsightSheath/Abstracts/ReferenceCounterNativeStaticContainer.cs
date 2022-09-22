@@ -16,7 +16,7 @@ namespace InsightSheath.Abstract
     /// Sheath, DebugEvent classes have this in the change, because they
     /// give out multiple references to a native class like candy.  Each multiple class
     /// in the sheath points to a single native class.  when the sheath class
-    /// is freed(), 
+    /// is freed() we need to ensure we don't prematurly free the unamanged component of the class, 
     /// </summary>
     public abstract class ReferenceCounterNativeStaticContainer : NativeStaticContainer
     {
@@ -76,7 +76,7 @@ namespace InsightSheath.Abstract
         }
 
         /// <summary>
-        /// Decrease the Reference count to the native pointer and return the value. If zero is returned, your native pointer should be ok to safely cleanup/free
+        /// Decrease the Reference count to the native pointer and return the value. If zero is returned, your unmanaged native pointer should be ok to safely cleanup/free
         /// </summary>
         /// <returns></returns>
         public ulong Release()

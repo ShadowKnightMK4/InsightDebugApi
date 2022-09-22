@@ -222,7 +222,7 @@
             Sheath, DebugEvent classes have this in the change, because they
             give out multiple references to a native class like candy.  Each multiple class
             in the sheath points to a single native class.  when the sheath class
-            is freed(), 
+            is freed() we need to ensure we don't prematurly free the unamanged component of the class, 
             </summary>
         </member>
         <member name="M:InsightSheath.Abstract.ReferenceCounterNativeStaticContainer.#ctor(System.IntPtr)">
@@ -259,7 +259,7 @@
         </member>
         <member name="M:InsightSheath.Abstract.ReferenceCounterNativeStaticContainer.Release">
             <summary>
-            Decrease the Reference count to the native pointer and return the value. If zero is returned, your native pointer should be ok to safely cleanup/free
+            Decrease the Reference count to the native pointer and return the value. If zero is returned, your unmanaged native pointer should be ok to safely cleanup/free
             </summary>
             <returns></returns>
         </member>
@@ -504,7 +504,17 @@
              my personal disposed value
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:InsightSheath.Debugging.DebugEventStaticContainer.Finalize" -->
+        <member name="M:InsightSheath.Debugging.DebugEventStaticContainer.Dispose(System.Boolean)">
+            <summary>
+            Generic <see cref="T:InsightSheath.Debugging.DebugEventStaticContainer"/> dispose action. 
+            </summary>
+            <param name="disposing">Dispose of managed also?</param>
+        </member>
+        <member name="M:InsightSheath.Debugging.DebugEventStaticContainer.Finalize">
+            <summary>
+            Finalizer for the base <see cref="T:InsightSheath.Debugging.DebugEvent"/> class
+            </summary>
+        </member>
         <member name="P:InsightSheath.Debugging.DebugEventStaticContainer.ProcessID">
             <summary>
             Get the process id that this event happed too
@@ -530,6 +540,29 @@
             <summary>
             Provides access to a <see cref="F:InsightSheath.Debugging.DebugEventType.LoadDllEvent"/> in a <see cref="T:InsightSheath.Debugging.DebugEvent"/> struct
             </summary>
+        </member>
+        <member name="M:InsightSheath.Debugging.DebugEventLoadDllInfo.#ctor(System.IntPtr)">
+            <summary>
+            Construct a wrapper class for a <see cref="T:InsightSheath.Debugging.DebugEvent"/> containing a <see cref="T:InsightSheath.Debugging.DebugEventType"/> of <see cref="F:InsightSheath.Debugging.DebugEventType.LoadDllEvent"/>
+            </summary>
+            <param name="Nat">pointer to a unmanaged DEBUG_EVENT structor one a valid pointer from <see cref="M:InsightSheath.Debugging.DebugEvent.GetDebugEventLoadDll"/></param>
+            <remarks>The reference counter for this class is also set to 1</remarks>
+        </member>
+        <member name="M:InsightSheath.Debugging.DebugEventLoadDllInfo.#ctor(System.IntPtr,System.Boolean)">
+            <summary>
+            Construct a wrapper class for a <see cref="T:InsightSheath.Debugging.DebugEvent"/> containing a <see cref="T:InsightSheath.Debugging.DebugEventType"/> of <see cref="F:InsightSheath.Debugging.DebugEventType.LoadDllEvent"/>
+            </summary>
+            <param name="Nat">pointer to a unmanaged DEBUG_EVENT structor one a valid pointer from <see cref="M:InsightSheath.Debugging.DebugEvent.GetDebugEventLoadDll"/></param>
+            <param name="FreeOnCleanup">Set if you want the unmanaged poiner released. </param>
+            <remarks>The reference counter for this class is also set to 1</remarks>
+        </member>
+        <member name="M:InsightSheath.Debugging.DebugEventLoadDllInfo.#ctor(System.IntPtr,System.Boolean,System.UInt64)">
+            <summary>
+            Construct a wrapper class for a <see cref="T:InsightSheath.Debugging.DebugEvent"/> containing a <see cref="T:InsightSheath.Debugging.DebugEventType"/> of <see cref="F:InsightSheath.Debugging.DebugEventType.LoadDllEvent"/>
+            </summary>
+            <param name="Nat">pointer to a unmanaged DEBUG_EVENT structor one a valid pointer from <see cref="M:InsightSheath.Debugging.DebugEvent.GetDebugEventLoadDll"/></param>
+            <param name="FreeOnCleanup">Set if you want the unmanaged poiner released. </param>
+            <param name="RefCount">Specific the current reference counter. When it reaches 0 during cleanup, the unmanaged pointer is freed. </param>
         </member>
         <member name="P:InsightSheath.Debugging.DebugEventLoadDllInfo.FileHandle">
             <summary>
@@ -573,11 +606,39 @@
             Class Wrapper dealing with extracting Exception information from a <see cref="T:InsightSheath.Debugging.DebugEvent"/>.
             </summary>
         </member>
+        <member name="M:InsightSheath.Debugging.DebugEventExceptionInfo.#ctor(System.IntPtr)">
+            <summary>
+            Construct a wrapper class for a <see cref="T:InsightSheath.Debugging.DebugEvent"/> containing a <see cref="T:InsightSheath.Debugging.DebugEventType"/> of <see cref="F:InsightSheath.Debugging.DebugEventType.ExceptionEvent"/>
+            </summary>
+            <param name="Nat">pointer to a unmanaged DEBUG_EVENT structor one a valid pointer from <see cref="M:InsightSheath.Debugging.DebugEvent.GetDebugEventExceptionInfo"/></param>
+            <remarks>The reference counter for this class is also set to 1</remarks>
+        </member>
+        <member name="M:InsightSheath.Debugging.DebugEventExceptionInfo.#ctor(System.IntPtr,System.Boolean)">
+            <summary>
+            Construct a wrapper class for a <see cref="T:InsightSheath.Debugging.DebugEvent"/> containing a <see cref="T:InsightSheath.Debugging.DebugEventType"/> of <see cref="F:InsightSheath.Debugging.DebugEventType.ExceptionEvent"/>
+            </summary>
+            <param name="Nat">pointer to a unmanaged DEBUG_EVENT structor one a valid pointer from <see cref="M:InsightSheath.Debugging.DebugEvent.GetDebugEventExceptionInfo"/></param>
+            <param name="FreeOnCleanup">Set if you want the unmanaged poiner released. </param>
+            <remarks>The reference counter for this class is also set to 1</remarks>
+        </member>
+        <member name="M:InsightSheath.Debugging.DebugEventExceptionInfo.#ctor(System.IntPtr,System.Boolean,System.UInt64)">
+            <summary>
+            Construct a wrapper class for a <see cref="T:InsightSheath.Debugging.DebugEvent"/> containing a <see cref="T:InsightSheath.Debugging.DebugEventType"/> of <see cref="F:InsightSheath.Debugging.DebugEventType.ExceptionEvent"/>
+            </summary>
+            <param name="Nat">pointer to a unmanaged DEBUG_EVENT structor one a valid pointer from <see cref="M:InsightSheath.Debugging.DebugEvent.GetDebugEventExceptionInfo"/></param>
+            <param name="FreeOnCleanup">Set if you want the unmanaged poiner released. </param>
+            <param name="RefCount">Specific the current reference counter. When it reaches 0 during cleanup, the unamanged pointer is freed. </param>
+        </member>
+        <member name="P:InsightSheath.Debugging.DebugEventExceptionInfo.ExceptionParameterCount">
+            <summary>
+            Return the length of the parameter array for the exception. Range is 0 to 15 or (in C/C++ land EXCEPTION_MAXIMUM_PARAMETERS #define)
+            </summary>
+        </member>
         <member name="P:InsightSheath.Debugging.DebugEventExceptionInfo.ExceptionParameter32">
             <summary>
             Retrieve the contents of the exception parameter list for a 32-bit debugged process. If retreving form a 64-bit process, your values are likely truncated and worthless
             </summary>
-            <remarks> The Native implementation promotes the DWORD array into a (C# ulong)/(C++ dword64) array and returns a block of memory with values of 4 bytes long. We free the block returned</remarks>
+            <remarks> The Native implementation promotes the DWORD array into a (C# ulong)/(C++ dword64) array and returns a block of memory with values of 8 bytes long. We free the block returned</remarks>
         </member>
         <member name="P:InsightSheath.Debugging.DebugEventExceptionInfo.ExceptionParameter64">
             <summary>
@@ -586,7 +647,7 @@
         </member>
         <member name="P:InsightSheath.Debugging.DebugEventExceptionInfo.ExceptionAddress64">
             <summary>
-            return the address where the exception happened in the 64 bit process.
+            return the address where the exception happened in the 64 bit process.  Reading from the upper part for an x86 process should be all 0s.
             </summary>
         </member>
         <member name="P:InsightSheath.Debugging.DebugEventExceptionInfo.ExceptionAddress32">
@@ -594,15 +655,53 @@
             return address where the exception happens in the 32-bit process. Truncates the address if the process is 64-bit.
             </summary>
         </member>
+        <member name="P:InsightSheath.Debugging.DebugEventExceptionInfo.ExceptionFlags">
+            <summary>
+            Return the flags specific for this exception
+            </summary>
+        </member>
         <member name="P:InsightSheath.Debugging.DebugEventExceptionInfo.ExceptionCode_as_int">
             <summary>
-            Return the Exception for the exception that trigged.
+            Return the Exception value for the exception that trigged as an uint.  Sourced from the same part of the unmanaged struct as <see cref="P:InsightSheath.Debugging.DebugEventExceptionInfo.ExceptionCode"/>
+            </summary>
+        </member>
+        <member name="P:InsightSheath.Debugging.DebugEventExceptionInfo.ExceptionCode">
+            <summary>
+            Return the exception value for the exception that this contains as a convienent enumeration. Sourced from the same part of the unamanged struct as <see cref="P:InsightSheath.Debugging.DebugEventExceptionInfo.ExceptionCode_as_int"/>
             </summary>
         </member>
         <member name="P:InsightSheath.Debugging.DebugEventExceptionInfo.IsFirstChanceException">
             <summary>
             return if the debugger (that's you) has seen this first chance exception before.
             </summary>
+        </member>
+        <member name="T:InsightSheath.Debugging.DebugEventCreateThreadInfo">
+            <summary>
+            Holds a reference to a <see cref="T:InsightSheath.Debugging.DebugEvent"/> containing an event of the type of <see cref="F:InsightSheath.Debugging.DebugEventType.CreateTheadEvent"/>. You'll typicalled get this when calling <see cref="M:InsightSheath.Debugging.DebugEvent.GetDebugEventCreateThreadInfo"/>
+            </summary>
+        </member>
+        <member name="M:InsightSheath.Debugging.DebugEventCreateThreadInfo.#ctor(System.IntPtr)">
+            <summary>
+            Construct a wrapper class for a <see cref="T:InsightSheath.Debugging.DebugEvent"/> containing a <see cref="T:InsightSheath.Debugging.DebugEventType"/> of <see cref="F:InsightSheath.Debugging.DebugEventType.CreateTheadEvent"/>
+            </summary>
+            <param name="Nat">pointer to a unmanaged DEBUG_EVENT structor one a valid pointer from <see cref="T:InsightSheath.Debugging.DebugEvent"/></param>
+            <remarks>The reference counter for this class is also set to 1</remarks>
+        </member>
+        <member name="M:InsightSheath.Debugging.DebugEventCreateThreadInfo.#ctor(System.IntPtr,System.Boolean)">
+            <summary>
+            Construct a wrapper class for a <see cref="T:InsightSheath.Debugging.DebugEvent"/> containing a <see cref="T:InsightSheath.Debugging.DebugEventType"/> of <see cref="F:InsightSheath.Debugging.DebugEventType.CreateTheadEvent"/>
+            </summary>
+            <param name="Nat">pointer to an unmanaged DEBUG_EVENT structor one a valid pointer from <see cref="T:InsightSheath.Debugging.DebugEvent"/></param>
+            <param name="FreeOnCleanup">Set if you want the unamanged poiner released. </param>
+            <remarks>The reference counter for this class is also set to 1</remarks>
+        </member>
+        <member name="M:InsightSheath.Debugging.DebugEventCreateThreadInfo.#ctor(System.IntPtr,System.Boolean,System.UInt64)">
+            <summary>
+            Construct a wrapper class for a <see cref="T:InsightSheath.Debugging.DebugEvent"/> containing a <see cref="T:InsightSheath.Debugging.DebugEventType"/> of <see cref="F:InsightSheath.Debugging.DebugEventType.CreateTheadEvent"/>
+            </summary>
+            <param name="Nat">pointer to an unmanaged DEBUG_EVENT structor one a valid pointer from <see cref="T:InsightSheath.Debugging.DebugEvent"/></param>
+            <param name="FreeOnCleanup">Set if you want the unmanaged poiner released. </param>
+            <param name="RefCount">Specific the current reference counter. When it reaches 0 during cleanup, the unamanged pointer is freed. </param>
         </member>
         <member name="P:InsightSheath.Debugging.DebugEventCreateThreadInfo.ThreadHandle">
             <summary>
@@ -624,15 +723,99 @@
             ThreadLocalBase + 0x2C
             </summary>
         </member>
+        <member name="T:InsightSheath.Debugging.DebugEventExitThreadInfo">
+            <summary>
+            Holds a reference to a <see cref="T:InsightSheath.Debugging.DebugEvent"/> containing an event of the type of <see cref="F:InsightSheath.Debugging.DebugEventType.ExitThreadEvent"/>. You'll typicalled get this when calling <see cref="M:InsightSheath.Debugging.DebugEvent.GetEventExitThreadInfo"/>
+            </summary>
+        </member>
+        <member name="M:InsightSheath.Debugging.DebugEventExitThreadInfo.#ctor(System.IntPtr)">
+            <summary>
+            Construct a wrapper class for a <see cref="T:InsightSheath.Debugging.DebugEvent"/> containing a <see cref="T:InsightSheath.Debugging.DebugEventType"/> of <see cref="F:InsightSheath.Debugging.DebugEventType.ExitThreadEvent"/>
+            </summary>
+            <param name="Nat">pointer to a unmanaged DEBUG_EVENT structor one a valid pointer from <see cref="T:InsightSheath.Debugging.DebugEvent"/></param>
+            <remarks>The reference counter for this class is also set to 1</remarks>
+        </member>
+        <member name="M:InsightSheath.Debugging.DebugEventExitThreadInfo.#ctor(System.IntPtr,System.Boolean)">
+            <summary>
+            Construct a wrapper class for a <see cref="T:InsightSheath.Debugging.DebugEvent"/> containing a <see cref="T:InsightSheath.Debugging.DebugEventType"/> of <see cref="F:InsightSheath.Debugging.DebugEventType.ExitThreadEvent"/>
+            </summary>
+            <param name="Nat">pointer to a unmanaged DEBUG_EVENT structor one a valid pointer from <see cref="T:InsightSheath.Debugging.DebugEvent"/></param>
+            <param name="FreeOnCleanup">Set if you want the unmanaged poiner released. </param>
+            <remarks>The reference counter for this class is also set to 1</remarks>
+        </member>
+        <member name="M:InsightSheath.Debugging.DebugEventExitThreadInfo.#ctor(System.IntPtr,System.Boolean,System.UInt64)">
+            <summary>
+            Construct a wrapper class for a <see cref="T:InsightSheath.Debugging.DebugEvent"/> containing a <see cref="T:InsightSheath.Debugging.DebugEventType"/> of <see cref="F:InsightSheath.Debugging.DebugEventType.ExitThreadEvent"/>
+            </summary>
+            <param name="Nat">pointer to a unmanaged DEBUG_EVENT structor one a valid pointer from <see cref="T:InsightSheath.Debugging.DebugEvent"/></param>
+            <param name="FreeOnCleanup">Set if you want the unmanaged poiner released. </param>
+            <param name="RefCount">Specific the current reference counter. When it reaches 0 during cleanup, the unamanged pointer is freed. </param>
+        </member>
         <member name="P:InsightSheath.Debugging.DebugEventExitThreadInfo.ExitCode">
             <summary>
             Get the code that the thread returned when finishing
             </summary>
         </member>
+        <member name="T:InsightSheath.Debugging.DebugEventExitProcessInfo">
+            <summary>
+            Holds a reference to a <see cref="T:InsightSheath.Debugging.DebugEvent"/> containing an event of the type of <see cref="F:InsightSheath.Debugging.DebugEventType.ExitProcessEvent"/>. You'll typicalled get this when calling <see cref="M:InsightSheath.Debugging.DebugEvent.GetEventExitProcessInfo"/>
+            </summary>
+        </member>
+        <member name="M:InsightSheath.Debugging.DebugEventExitProcessInfo.#ctor(System.IntPtr)">
+            <summary>
+            Construct a wrapper class for a <see cref="T:InsightSheath.Debugging.DebugEvent"/> containing a <see cref="T:InsightSheath.Debugging.DebugEventType"/> of <see cref="F:InsightSheath.Debugging.DebugEventType.ExitProcessEvent"/>
+            </summary>
+            <param name="Nat">pointer to a unmanaged DEBUG_EVENT structor one a valid pointer from <see cref="T:InsightSheath.Debugging.DebugEvent"/></param>
+            <remarks>The reference counter for this class is also set to 1</remarks>
+        </member>
+        <member name="M:InsightSheath.Debugging.DebugEventExitProcessInfo.#ctor(System.IntPtr,System.Boolean)">
+            <summary>
+            Construct a wrapper class for a <see cref="T:InsightSheath.Debugging.DebugEvent"/> containing a <see cref="T:InsightSheath.Debugging.DebugEventType"/> of <see cref="F:InsightSheath.Debugging.DebugEventType.ExitProcessEvent"/>
+            </summary>
+            <param name="Nat">pointer to a unmanaged DEBUG_EVENT structor one a valid pointer from <see cref="T:InsightSheath.Debugging.DebugEvent"/></param>
+            <param name="FreeOnCleanup">Set if you want the unmanaged poiner released. </param>
+            <remarks>The reference counter for this class is also set to 1</remarks>
+        </member>
+        <member name="M:InsightSheath.Debugging.DebugEventExitProcessInfo.#ctor(System.IntPtr,System.Boolean,System.UInt64)">
+            <summary>
+            Construct a wrapper class for a <see cref="T:InsightSheath.Debugging.DebugEvent"/> containing a <see cref="T:InsightSheath.Debugging.DebugEventType"/> of <see cref="F:InsightSheath.Debugging.DebugEventType.ExitProcessEvent"/>
+            </summary>
+            <param name="Nat">pointer to a unmanaged DEBUG_EVENT structor one a valid pointer from <see cref="T:InsightSheath.Debugging.DebugEvent"/></param>
+            <param name="FreeOnCleanup">Set if you want the unmanaged poiner released. </param>
+            <param name="RefCount">Specific the current reference counter. When it reaches 0 during cleanup, the unmanaged pointer is freed. </param>
+        </member>
         <member name="P:InsightSheath.Debugging.DebugEventExitProcessInfo.ExitCode">
             <summary>
             Get the code that the Process returned when finishing
             </summary>
+        </member>
+        <member name="T:InsightSheath.Debugging.DebugEventCreateProcessInfo">
+            <summary>
+            Holds a reference to a <see cref="T:InsightSheath.Debugging.DebugEvent"/> containing an event of the type of <see cref="F:InsightSheath.Debugging.DebugEventType.CreateProcessEvent"/>. You'll typicalled get this when calling <see cref="M:InsightSheath.Debugging.DebugEvent.GetDebugEventCreateProcessInfo"/>
+            </summary>
+        </member>
+        <member name="M:InsightSheath.Debugging.DebugEventCreateProcessInfo.#ctor(System.IntPtr)">
+            <summary>
+            Construct a wrapper class for a <see cref="T:InsightSheath.Debugging.DebugEvent"/> containing a <see cref="T:InsightSheath.Debugging.DebugEventType"/> of <see cref="F:InsightSheath.Debugging.DebugEventType.CreateProcessEvent"/>
+            </summary>
+            <param name="Nat">pointer to a unmanaged DEBUG_EVENT structor one a valid pointer from <see cref="M:InsightSheath.Debugging.DebugEvent.GetDebugEventCreateProcessInfo"/></param> 
+            <remarks>The reference counter for this class is also set to 1</remarks>
+        </member>
+        <member name="M:InsightSheath.Debugging.DebugEventCreateProcessInfo.#ctor(System.IntPtr,System.Boolean)">
+            <summary>
+            Construct a wrapper class for a <see cref="T:InsightSheath.Debugging.DebugEvent"/> containing a <see cref="T:InsightSheath.Debugging.DebugEventType"/> of <see cref="F:InsightSheath.Debugging.DebugEventType.CreateProcessEvent"/>
+            </summary>
+            <param name="Nat">pointer to a unmanaged DEBUG_EVENT structor one a valid pointer from <see cref="M:InsightSheath.Debugging.DebugEvent.GetDebugEventCreateProcessInfo"/></param> 
+            <param name="FreeOnCleanup">Set if you want the unmanaged poiner released. </param>      
+            <remarks>The reference counter for this class is also set to 1</remarks>
+        </member>
+        <member name="M:InsightSheath.Debugging.DebugEventCreateProcessInfo.#ctor(System.IntPtr,System.Boolean,System.UInt64)">
+            <summary>
+            Construct a wrapper class for a <see cref="T:InsightSheath.Debugging.DebugEvent"/> containing a <see cref="T:InsightSheath.Debugging.DebugEventType"/> of <see cref="F:InsightSheath.Debugging.DebugEventType.CreateProcessEvent"/>
+            </summary>
+            <param name="Nat">pointer to a unmanaged DEBUG_EVENT structor one a valid pointer from <see cref="M:InsightSheath.Debugging.DebugEvent.GetDebugEventCreateProcessInfo"/></param> 
+            <param name="FreeOnCleanup">Set if you want the unmanaged poiner released. </param>
+            <param name="RefCount">Specific the current reference counter. When it reaches 0 during cleanup, the unmanaged pointer is freed. </param>
         </member>
         <member name="P:InsightSheath.Debugging.DebugEventCreateProcessInfo.NativeFileHandle">
             <summary>
@@ -655,6 +838,35 @@
             Providers a wrapper to process specific <see cref="F:InsightSheath.Debugging.DebugEventType.OutputDebugString"/> components.
             </summary>
         </member>
+        <member name="M:InsightSheath.Debugging.DebugEventStringInfo.#ctor(System.IntPtr)">
+            <summary>
+            Construct a wrapper class for a <see cref="T:InsightSheath.Debugging.DebugEvent"/> containing a <see cref="T:InsightSheath.Debugging.DebugEventType"/> of <see cref="F:InsightSheath.Debugging.DebugEventType.OutputDebugString"/>
+            </summary>
+            <param name="Nat">pointer to a unmanaged DEBUG_EVENT structor one a valid pointer from <see cref="M:InsightSheath.Debugging.DebugEvent.GetDebugEventStringInfo"/></param> 
+            <remarks>The reference counter for this class is also set to 1</remarks>
+        </member>
+        <member name="M:InsightSheath.Debugging.DebugEventStringInfo.#ctor(System.IntPtr,System.Boolean)">
+            <summary>
+            Construct a wrapper class for a <see cref="T:InsightSheath.Debugging.DebugEvent"/> containing a <see cref="T:InsightSheath.Debugging.DebugEventType"/> of <see cref="F:InsightSheath.Debugging.DebugEventType.OutputDebugString"/>
+            </summary>
+            <param name="Nat">pointer to a unmanaged DEBUG_EVENT structor one a valid pointer from <see cref="M:InsightSheath.Debugging.DebugEvent.GetDebugEventStringInfo"/></param> 
+            <param name="FreeOnCleanup">Set if you want the unmanaged poiner released. </param>
+            <remarks>The reference counter for this class is also set to 1</remarks>
+        </member>
+        <member name="M:InsightSheath.Debugging.DebugEventStringInfo.#ctor(System.IntPtr,System.Boolean,System.UInt64)">
+            <summary>
+            Construct a wrapper class for a <see cref="T:InsightSheath.Debugging.DebugEvent"/> containing a <see cref="T:InsightSheath.Debugging.DebugEventType"/> of <see cref="F:InsightSheath.Debugging.DebugEventType.OutputDebugString"/>
+            </summary>
+            <param name="Nat">pointer to a unmanaged DEBUG_EVENT structor one a valid pointer from <see cref="M:InsightSheath.Debugging.DebugEvent.GetDebugEventStringInfo"/></param> 
+            <param name="FreeOnCleanup">Set if you want the unmanaged poiner released. </param>
+            <param name="RefCount">Specific the current reference counter. When it reaches 0 during cleanup, the unmanaged pointer is freed. </param>
+        </member>
+        <member name="M:InsightSheath.Debugging.DebugEventStringInfo.ToString">
+            <summary>
+            For the user's convienence, returns <see cref="P:InsightSheath.Debugging.DebugEventStringInfo.OutputString"/>
+            </summary>
+            <returns></returns>
+        </member>
         <member name="P:InsightSheath.Debugging.DebugEventStringInfo.OutputString">
             <summary>
             Return the string messaged contained within the debug event. ANSI output strings are converted to Unicode on the Native side before being sent to the Managed side.
@@ -664,6 +876,29 @@
             <summary>
             Providers a wrapper to access the underlying structure. Assumes memory management is done elsewhere.
             </summary>
+        </member>
+        <member name="M:InsightSheath.Debugging.DebugEventRipInfo.#ctor(System.IntPtr)">
+            <summary>
+            Construct a wrapper class for a <see cref="T:InsightSheath.Debugging.DebugEvent"/> containing a <see cref="T:InsightSheath.Debugging.DebugEventType"/> of <see cref="F:InsightSheath.Debugging.DebugEventType.RipEvent"/>
+            </summary>
+            <param name="Nat">pointer to a unmanaged DEBUG_EVENT structor one a valid pointer from <see cref="M:InsightSheath.Debugging.DebugEvent.GetDebugEventRipInfo"/></param> 
+            <remarks>The reference counter for this class is also set to 1</remarks>
+        </member>
+        <member name="M:InsightSheath.Debugging.DebugEventRipInfo.#ctor(System.IntPtr,System.Boolean)">
+            <summary>
+            Construct a wrapper class for a <see cref="T:InsightSheath.Debugging.DebugEvent"/> containing a <see cref="T:InsightSheath.Debugging.DebugEventType"/> of <see cref="F:InsightSheath.Debugging.DebugEventType.RipEvent"/>
+            </summary>
+            <param name="Nat">pointer to a unmanaged DEBUG_EVENT structor one a valid pointer from <see cref="M:InsightSheath.Debugging.DebugEvent.GetDebugEventRipInfo"/></param> 
+            <param name="FreeOnCleanup">Set if you want the unmanaged poiner released. </param>
+            <remarks>The reference counter for this class is also set to 1</remarks>
+        </member>
+        <member name="M:InsightSheath.Debugging.DebugEventRipInfo.#ctor(System.IntPtr,System.Boolean,System.UInt64)">
+            <summary>
+            Construct a wrapper class for a <see cref="T:InsightSheath.Debugging.DebugEvent"/> containing a <see cref="T:InsightSheath.Debugging.DebugEventType"/> of <see cref="F:InsightSheath.Debugging.DebugEventType.RipEvent"/>
+            </summary>
+            <param name="Nat">pointer to a unmanaged DEBUG_EVENT structor one a valid pointer from <see cref="M:InsightSheath.Debugging.DebugEvent.GetDebugEventRipInfo"/></param> 
+            <param name="FreeOnCleanup">Set if you want the unmanaged poiner released. </param>
+            <param name="RefCount">Specific the current reference counter. When it reaches 0 during cleanup, the unmanaged pointer is freed. </param>
         </member>
         <member name="P:InsightSheath.Debugging.DebugEventRipInfo.Error">
             <summary>
@@ -756,15 +991,62 @@
             <summary>
             Retrieve an instance of <see cref="T:InsightSheath.Debugging.DebugEventCreateThreadInfo"/> pointing to the same unmanaged memory as this class.
             </summary>
-            <returns>Returns a new instance of <see cref="T:InsightSheath.Debugging.DebugEventCreateThreadInfo"/> if <see cref="!:"/></returns>
+            <returns>Returns a new instance of <see cref="T:InsightSheath.Debugging.DebugEventCreateThreadInfo"/> if the contained event is <see cref="F:InsightSheath.Debugging.DebugEventType.CreateTheadEvent"/>. If it does not contain the specific event, it throws <see cref="T:System.InvalidOperationException"/> and pointentially returns null if something else happens</returns>
+        </member>
+        <member name="M:InsightSheath.Debugging.DebugEvent.GetDebugEventExceptionInfo">
+            <summary>
+            If this is an event of <see cref="F:InsightSheath.Debugging.DebugEventType.ExceptionEvent"/>, return an instance of <see cref="T:InsightSheath.Debugging.DebugEventExceptionInfo"/>
+            </summary>
+            <returns>returns instance of <see cref="T:InsightSheath.Debugging.DebugEventExceptionInfo"/> if the contained event matches. Throws <see cref="T:System.InvalidOperationException"/> if not correct type</returns>
+            <exception cref="T:System.InvalidOperationException">This is thrown if the event is not the correct type</exception>
+        </member>
+        <member name="M:InsightSheath.Debugging.DebugEvent.GetEventExitProcessInfo">
+            <summary>
+            If this is an event of <see cref="F:InsightSheath.Debugging.DebugEventType.ExitProcessEvent"/>, return an instance of <see cref="T:InsightSheath.Debugging.DebugEventExitProcessInfo"/>
+            </summary>
+            <returns>returns instance of <see cref="T:InsightSheath.Debugging.DebugEventExitProcessInfo"/> if the contained event matches. Throws <see cref="T:System.InvalidOperationException"/> if not correct type</returns>
+            <exception cref="T:System.InvalidOperationException">This is thrown if the event is not the correct type</exception>
+        </member>
+        <member name="M:InsightSheath.Debugging.DebugEvent.GetEventExitThreadInfo">
+            <summary>
+            If this is an event of <see cref="F:InsightSheath.Debugging.DebugEventType.ExitThreadEvent"/>, return an instance of <see cref="T:InsightSheath.Debugging.DebugEventExitThreadInfo"/>
+            </summary>
+            <returns>returns instance of <see cref="T:InsightSheath.Debugging.DebugEventExitThreadInfo"/> if the contained event matches. Throws <see cref="T:System.InvalidOperationException"/> if not correct type</returns>
+            <exception cref="T:System.InvalidOperationException">This is thrown if the event is not the correct type</exception>
+        </member>
+        <member name="M:InsightSheath.Debugging.DebugEvent.GetDebugEventLoadDll">
+            <summary>
+            If this is an event of <see cref="F:InsightSheath.Debugging.DebugEventType.LoadDllEvent"/>, return an instance of <see cref="T:InsightSheath.Debugging.DebugEventLoadDllInfo"/>
+            </summary>
+            <returns>returns instance of <see cref="T:InsightSheath.Debugging.DebugEventLoadDllInfo"/> if the contained event matches. Throws <see cref="T:System.InvalidOperationException"/> if not correct type</returns>
+            <exception cref="T:System.InvalidOperationException">This is thrown if the event is not the correct type</exception>
         </member>
         <member name="M:InsightSheath.Debugging.DebugEvent.GetDebugEventStringInfo">
             <summary>
-            
+            If this is an event of <see cref="F:InsightSheath.Debugging.DebugEventType.OutputDebugString"/>, return an instance of <see cref="T:InsightSheath.Debugging.DebugEventStringInfo"/>
             </summary>
-            <returns></returns>
+            <returns>returns instance of <see cref="T:InsightSheath.Debugging.DebugEventStringInfo"/> if the contained event matches. Throws <see cref="T:System.InvalidOperationException"/> if not correct type</returns>
+            <exception cref="T:System.InvalidOperationException">This is thrown if the event is not the correct type</exception>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:InsightSheath.Debugging.DebugEvent.GetDebugEventRipInfo" -->
+        <member name="M:InsightSheath.Debugging.DebugEvent.GetDebugEventRipInfo">
+            <summary>
+            Get class suitable to reading DEBUG_EVENT_RIP_INFO from this class.  Will throw <see cref="T:System.InvalidOperationException"/> if not the correct event
+            </summary>
+            <exception cref="T:System.InvalidOperationException"> Is thrown when the contained even is not a <see cref="F:InsightSheath.Debugging.DebugEventType.RipEvent"/></exception>
+            <returns>If the contained event is <see cref="F:InsightSheath.Debugging.DebugEventType.RipEvent"/> returns a <see cref="T:InsightSheath.Debugging.DebugEventRipInfo"/> pointing to this event. </returns>
+        </member>
+        <member name="M:InsightSheath.Debugging.DebugEvent.GetDebugEventUnloadDllInfo">
+            <summary>
+            If this is an event of <see cref="F:InsightSheath.Debugging.DebugEventType.UnloadDllEvent"/>, return an instance of <see cref="T:InsightSheath.Debugging.DebugEventUnloadDllInfo"/>
+            </summary>
+            <returns>returns instance of <see cref="T:InsightSheath.Debugging.DebugEventUnloadDllInfo"/> if the contained event matches. Throws <see cref="T:System.InvalidOperationException"/> if not correct type</returns>
+            <exception cref="T:System.InvalidOperationException">This is thrown if the event is not the correct type</exception>
+        </member>
+        <member name="M:InsightSheath.Debugging.DebugEvent.Finalize">
+            <summary>
+            The destructor that calls the dispose routine
+            </summary>
+        </member>
         <member name="T:InsightSheath.Debugging.DebugEventWorkerThreadSupport">
             <summary>
             If you are wanting to control your debug message pump on the .NET side rather than native (why?), then these routines will help you 

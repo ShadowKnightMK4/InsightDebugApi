@@ -310,7 +310,17 @@ namespace FileSandBox_GUI
 
             // This is here because I got tired of manually copying the file.
             Environment.SetEnvironmentVariable("PATH", "C:\\Users\\Thoma\\source\\repos\\InsightAPI\\code\\Debug\\x86\\program\\;" +Environment.GetEnvironmentVariable("PATH") + "", EnvironmentVariableTarget.Process);
-    
+
+
+            var BinaryCheck = ResourceWalker.MakeInstance("C:\\Euphoria\\bin\\exw.exe", AccessMasks.GenericRead, ShareMasks.ShareRead);
+
+
+            var ResourceTypes = BinaryCheck.GetResourceType();
+
+            var ResourceNames = BinaryCheck.GetResourceNames();
+
+            BinaryCheck.Dispose();
+            return;
 
              InsightProcess TestRun = InsightProcess.CreateInstance();
             TestRun.ExtraFlags = InsightProcess.SpecialCaseFlags.DebugOnlyThis;

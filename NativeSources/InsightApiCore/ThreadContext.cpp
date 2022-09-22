@@ -7,6 +7,7 @@ typedef HRESULT(WINAPI* GetThreadDescriptionPtr)(HANDLE, LPWSTR*);
 typedef DWORD(WINAPI* Wow64SuspendThreadPtr)(HANDLE);
 typedef BOOL(WINAPI* Wow64GetThreadContextPtr)(HANDLE, PWOW64_CONTEXT);
 typedef BOOL(WINAPI* Wow64SetThreadContextPtr)(HANDLE, const PWOW64_CONTEXT);
+typedef DWORD(WINAPI* GetThreadErrorModePtr)();
 
 SetThreadDescriptionPtr InternalBase_SetThreadDescriptionPointer = nullptr;
 GetThreadDescriptionPtr InternalBase_GetThreadDescriptionPointer = nullptr;
