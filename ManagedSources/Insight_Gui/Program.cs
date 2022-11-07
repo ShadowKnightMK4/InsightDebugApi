@@ -136,19 +136,14 @@ namespace FileSandBox_GUI
                             {
                                 case IoDeviceTelemetryReaderExtensions.NotificationType.CreateFile:
                                     {
-                                        var Info = test.GetCreateFileSettings();
-                                        if (Info.DesiredAccess.HasFlag(AccessMasks.FileReadData))
-                                        {
-                                            Info.SetForceHandle(Telemetry.InvalidHandleValue64);
-                                            Info.SetLastErrorValue(5);
-                                        }
                                         InsightProcess.SetDebugEventCallbackResponse(ContStat, DebugContState.DebugContinueState);
-                                        break;
+                                        
                                     }
+                                    break;
                                 case IoDeviceTelemetryReaderExtensions.NotificationType.NtCreateFile:
                                     {
                                         var Info2 = test.GetNtCreateFileSettings();
-
+                                        InsightProcess.SetDebugEventCallbackResponse(ContStat, DebugContState.DebugContinueState);
                                         break;
                                     }
                                 default:
