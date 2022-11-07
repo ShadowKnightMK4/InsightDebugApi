@@ -92,10 +92,27 @@ struct WorkerThreadData
 	InsightProcess* that;
 };
 
+/*
+* DWORD DebugModeHandle is a bit field
+* 
+* 
+*/
+
+#define PSINFO_DEBUGMODE_LOWER (0)
+#define PSINFO_DEBUGMODE_UPPER (3)
+
+#define PSINFO_DEBUGMODE_NOWORKERTHREAD PSINFO_DEBUGMODE_LOWER
+
+// set this value to enable the worker thread.   Default is false. Your going to want the worker thread as non workerthread stuff is lagging behind.
+#define PSINFO_DEBUGMODE_WORKERTHREAD_ENABLE_MASK (1)
+
+// applies only if worker thread is action.. Default is false.    When true and if no event is recevied (this is debuged by a DebugEvent.lpEvent == 0 after WaitForDebugEvnet(), your custom routine is NOT CALLED.
+#define PSINFO_DEBUGMODE_WORKERTHREAD_ENABLE_DROPEVENT_MASK (2)
+
 /// Do not spawn the process with a separate thread.  
-#define PSINFO_DEBUGMODE_NOWORKERTHREAD (0)
+//#define PSINFO_DEBUGMODE_NOWORKERTHREAD (0)
 // SpawnProcess() creates a thread that spawns your target. 
-#define PSINFO_DEBUGMODE_WORKERTHREADED (1)
+//#define PSINFO_DEBUGMODE_WORKERTHREADED (1)
 
 
 
@@ -206,6 +223,7 @@ public:
 	/// <param name="Name"></param>
 	void AddDetoursDll(const char* Name);
 
+
 	/// <summary>
 	/// Clear our list of dlls to force the app to load.
 	/// </summary>
@@ -214,7 +232,7 @@ public:
 	/// RISKY. Gets pointer to the private detours list and trusts caller won't abose it.
 	/// </summary>
 	/// <returns></returns>
-	const std::vector<std::string> GetDetourList();
+	const std::vector<LPCSTR> GetDetourList();
 
 	const char* IndexDetourList(int index);
 #pragma endregion
@@ -253,9 +271,10 @@ public:
 	/// <summary>
 	/// Specify if the worker thread is spawned or not. Non Worker thread code is somewhat lagging and I recommend using the worker thread unless you have a reason not too.
 	/// </summary>
-	/// <param name="dmMode"></param>
+	/// <param name="dmMode">See the  PSINFO_DEBUG_MODE constants</param>
 	void SetDebugMode(DWORD dmMode);
 
+	
 	
 	/// <summary>
 	/// Get the current debug mode stat for the worker thread
@@ -498,7 +517,7 @@ private:
 	/// <summary>
 	/// Holds the list of Dlls that will be loaded via detours. 
 	/// </summary>
-	std::vector<std::string>* DetoursDll;
+	std::vector<LPCSTR>* DetoursDll;
 
 	/// <summary>
 	/// Folders that will be searched before other locations.   requres helper dll

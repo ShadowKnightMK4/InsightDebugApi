@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace InsightSheath.Telemetry
 {
-    public abstract class GenericTelemetryExceptionHandler
+    /// <summary>
+    /// Handle an Exception 
+    /// </summary>
+    public class SpecializedExceptionHandler
     {
+
     }
 }

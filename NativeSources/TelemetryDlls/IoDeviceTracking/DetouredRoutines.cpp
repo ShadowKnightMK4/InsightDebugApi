@@ -16,11 +16,11 @@ you happen to change this to another value (for example another Telemetry Projec
 * ULONG_PTR
 */
 
-
-//#define EXCEPTION_VALUE (0x68ACB7A9)
+						   
+#define EXCEPTION_VALUE (0x60ACB7A9)
 
 // DEBUGGING reading exceptions from WOW into x64
-#define EXCEPTION_VALUE (2)
+//#define EXCEPTION_VALUE (2)
 
 
 

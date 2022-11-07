@@ -436,6 +436,7 @@ extern "C"
 	DWORD64* WINAPI DebugEvent_ExceptionInfo_GetExceptionInformation(LPDEBUG_EVENT Ptr) noexcept
 	{
 		DWORD64* ret = { 0 };
+		bool Pref32 = false;
 		union GroupUpWithMe
 		{
 			EXCEPTION_RECORD Ignore;
@@ -443,37 +444,37 @@ extern "C"
 			EXCEPTION_RECORD64 Except64;
 		} ExceptionData{ 0 };
 		
-		bool Pref32 = false;
-
-		
-		if (Ptr)
+	
+		if (__DebugEventExceptionFrontEndHelper(Ptr, &ExceptionData, &Pref32))
 		{
-			if (Ptr->dwDebugEventCode == EXCEPTION_DEBUG_EVENT)
+			
+			if (Pref32)
 			{
-				ret = (DWORD64*)malloc(sizeof(DWORD64) * EXCEPTION_MAXIMUM_PARAMETERS);
+				ret = (DWORD64*)malloc(sizeof(DWORD64) * ExceptionData.Except32.NumberParameters);
 				if (ret)
 				{
-					ZeroMemory(ret, sizeof(DWORD64)* EXCEPTION_MAXIMUM_PARAMETERS);
-					ZeroMemory(&ExceptionData.Except64, sizeof(EXCEPTION_RECORD64));
-					Pref32 = DebugEvent_IsEventFrom32Bit(Ptr);
-					if (Pref32)
+					ZeroMemory(ret, sizeof(DWORD64)* ExceptionData.Except32.NumberParameters);
+					for (int step = 0; step < ExceptionData.Except32.NumberParameters; step++)
 					{
-						for (int step = 0; step < EXCEPTION_MAXIMUM_PARAMETERS; step++)
-						{
-							ret[step] = ((DWORD64)ExceptionData.Except32.ExceptionInformation[step]);
-						}
+						ret[step] = (DWORD64)ExceptionData.Except32.ExceptionInformation[step];
 					}
-					else
-					{
-						for (int step = 0; step < EXCEPTION_MAXIMUM_PARAMETERS; step++)
-						{
-							ret[step] = ((DWORD64)ExceptionData.Except64.ExceptionInformation[step]);
-						}
-					}
-					return ret;
 				}
-
 			}
+			else
+			{
+				ret = (DWORD64*)malloc(sizeof(DWORD64) * ExceptionData.Except64.NumberParameters);
+				if (ret)
+				{
+					ZeroMemory(ret, sizeof(DWORD64) * ExceptionData.Except64.NumberParameters);
+					for (int step = 0; step < ExceptionData.Except64.NumberParameters; step++)
+					{
+						ret[step] = (DWORD64)ExceptionData.Except64.ExceptionInformation[step];
+					}
+				}
+			}
+
+			return ret;
+		}
 			return nullptr;
 
 			/*
@@ -510,7 +511,7 @@ extern "C"
 				}
 			}*/
 
-		}
+		
 		return nullptr;
 	}
 

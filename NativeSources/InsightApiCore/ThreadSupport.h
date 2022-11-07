@@ -8,6 +8,9 @@
 class ThreadContainer
 {
 public:
+
+	ThreadContainer();
+
 	/// <summary>
 	/// Pass a Create thread debug event to this class and start tracking said thread.
 	/// </summary>
@@ -75,9 +78,9 @@ private:
 	/// DWORD = Process ID.
 	/// vector of threadinsights = known threads received viea CREATE_THREAD_DEBUG_EVENT (may not be all threads> - see NtSetInformation HideFromDebugger
 	/// </summary>
-	std::map<DWORD, std::vector<ThreadInsight*>> View;
+	std::map<DWORD, std::vector<ThreadInsight*>*> View;
 	/// <summary>
-	/// If set, clear threads from our list.
+	/// TODO: If set, clear threads from our list.
 	/// </summary>
 	BOOL PurgePreference;
 };

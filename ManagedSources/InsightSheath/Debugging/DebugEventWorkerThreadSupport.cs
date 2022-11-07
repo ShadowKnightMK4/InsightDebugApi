@@ -41,9 +41,7 @@ namespace InsightSheath.Debugging
         /// <param name="ThreadId">thread id of the debug event that was generated</param>
         /// <param name="ContinueState">how to return control back to Windows</param>
         /// <returns></returns>
-#pragma warning disable IDE0060 // Remove unused parameter
         public static bool ContinueDebugEvent(this DebugEvent that,uint ProcessId, uint ThreadId, DebugContState ContinueState)
-#pragma warning restore IDE0060 // Remove unused parameter
         {
             return ContinueDebugEventInternal(ProcessId, ThreadId, (uint)ContinueState);
         }

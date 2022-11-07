@@ -13,7 +13,7 @@ namespace InsightSheath.NativeImports
         /// Retrieve a potentially null pointer containing a Unicode string containing the name of the hmodule that belongs to process handle. You will need to free it by using <see cref="FreeModuleNameViaHandleInternal(IntPtr)"/>
         /// </summary>
         /// <param name="ProcessHandle">Win32 Process Handle to use. It must have at least PROCESS_QUERY_INFROMATION or PROCESS_QUERY_LIMITED_INFORMATION access right.</param>
-        /// <param name="ModuleHandle">HMODULe in question<param>
+        /// <param name="ModuleHandle">HMODULe in question</param>
         /// <returns>returns an Unicode string containing the name of the module if the call worked and IntPtr.Zero if it failed</returns>
         [DllImport("InsightApi.Dll", CallingConvention=CallingConvention.Winapi, EntryPoint ="UtilGetModuleNameViaHandle")]
         public static extern IntPtr GetModuleNameViaHandleInternal(IntPtr ProcessHandle, IntPtr ModuleHandle);
@@ -37,7 +37,7 @@ namespace InsightSheath.NativeImports
 
 
         /// <summary>
-        /// Free a memory pointer returned by <see cref="GetFileNameViaHandle(IntPtr)(IntPtr, IntPtr)"/>
+        /// Free a memory pointer returned by <see cref="GetFileNameViaHandle(IntPtr)"/>
         /// </summary>
         /// <param name="NativeStringPtr">pointer in question. null is ignored.</param>
         /// <returns>Returns true if the call worked and false if it failed.</returns>

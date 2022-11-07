@@ -24,6 +24,9 @@ namespace InsightSheath.Win32Struct
 	};*/
 
 
+	/// <summary>
+	/// TODO:
+	/// </summary>
 	public class WindowsUserProcessParameter 
 	{
 

@@ -65,7 +65,7 @@ StartupInfoWrapper& StartupInfoWrapper::operator=(const StartupInfoWrapper& Copy
 	{
 		this->Struct.StartupInfo.lpTitle = _wcsdup(this->Struct.StartupInfo.lpTitle);
 	}
-	*this;
+	return *this;
 }
 
 StartupInfoWrapper& StartupInfoWrapper::operator=(StartupInfoWrapper&& MoveAssign)

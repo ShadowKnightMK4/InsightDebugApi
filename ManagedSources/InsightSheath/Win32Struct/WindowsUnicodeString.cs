@@ -287,7 +287,7 @@ namespace InsightSheath.Win32Struct
 		/// <summary>
 		/// Retrieve a .NET managed string containing the String that <see cref="BufferPtr"/> points to. 
 		/// </summary>
-		/// <remarks>IMPORTANT!!!!!  Use <see cref="Remote.RemoteStructure.RemoteReadUnicodeString(IntPtr, IntPtr, bool, bool)(IntPtr, IntPtr, bool, bool)"/> if dealing with a <see cref="BufferPtr"/> that is valid in the context of another process and not yours. This routine will take case or dealing with that. You'll either get incorrect results or generate an exception if you don't. </remarks>
+		/// <remarks>IMPORTANT!!!!!  Use <see cref="Remote.RemoteStructure.RemoteReadUnicodeString(IntPtr, IntPtr, bool, bool)"/> if dealing with a <see cref="BufferPtr"/> that is valid in the context of another process and not yours. This routine will take case or dealing with that. You'll either get incorrect results or generate an exception if you don't. </remarks>
 		public string Buffer
         {
             get

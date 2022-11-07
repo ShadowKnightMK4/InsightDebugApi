@@ -32,20 +32,24 @@ namespace InsightSheath.Debugging.Process
     }
 
     /// <summary>
-    /// Flags to indicate to <see cref="InsightProcess"/> if you want the worker thread or not.
+    /// Flags to indicate to <see cref="InsightProcess"/> how to spawn  the target and connect with the debugging code.
     /// </summary>
     [Flags]
     public enum DebugModeType
     {
         /// <summary>
-        /// Tells Insight's native DLL to Not Spawn any worker threads for debug handling.  If you don't implement a debug loop, you will never see your process show up. Irrelevant if the process is not being debugged.
-        /// You're going to want the WorkerThread as development features in this thread are not exported yet for use without the worker thread.
+        /// Do not spawn teh worker thread and do not drop calling your call in said worker thread (i.e do nother and your code must deal with communicating with the Windows Debugger API)
         /// </summary>
-        NoWorkerThread = 0,
+        Default = 0,
+ 
         /// <summary>
         /// When Spawning a process for debugger, InsightApi.DLL implements a debug loop and offloads the loop to a worker thread.  Put a call to <see cref="InsightProcess.PulseDebugEventThead"/> to continue after handling your debug event on a regular basis.  Skipping that means, your debugged process won't continue after the first event.
         /// </summary>
-        WorkerThread = 1
+        EnableWorkerThread = 1,
+        /// <summary>
+        /// Only if EnableWorkerThread is active too.  This tells the worker thread to DROP calling your event callback if there's no event after the time ror awaiting for debug event expires
+        /// </summary>
+        WorkerDropCallbackForNoEvents = 2
 
     }
 
@@ -57,12 +61,7 @@ namespace InsightSheath.Debugging.Process
     /// </summary>
     public class InsightProcess : NativeStaticContainer
     {
-        #region Forewords
-        /*
-         * This area contains routines that are probably duplicated else were; however, they exist to make getting starting easier
-         */
-
-        #endregion
+        
         /// <summary>
         /// return an instance of <see cref="InsightProcess"/> with it's native pointer set to the unmanaged part of InsightAPI's InsightProcess
         /// </summary>
@@ -104,7 +103,7 @@ namespace InsightSheath.Debugging.Process
         /// <param name="DebugEvent">Pointer to a DEBUG_EVENT struct. <see cref="DebugEvent"/> to make a wrapper for it. IMPORTANT: Your stub is receiving a pointer off the unmanaged heap and should make your wrapper with FreeOnCleanUp=false aka <see cref="DebugEvent(IntPtr)"/></param>
         /// <param name="ContinueState">Pointer to a 4 byte value where to write how your debugger callback responded to the routine. <see cref="SetDebugEventCallbackResponse(IntPtr, DebugContState)"/> or <see cref="LocalUnmanagedMemory.SetDebugEventCallbackResponse(IntPtr, DebugContState)"/> or <see cref="MemoryNative.Poke4(IntPtr, uint)"></see></param>
         /// <param name="WaitTimer">Pointer to a 4 byte value where to write how long to wait until receiving the next debug event. Note: If this timer expires, the worker thread is NOT going to call your callback. <see cref="LocalUnmanagedMemory.Poke4(IntPtr, uint)"/></param>
-        /// <param name="CustomArg">Reserved. Always 0. </param>
+        /// <param name="CustomArg">Reserved. Always 0. TODO: Add way to pass values too it </param>
         /// <returns>Your delegate should return 0 to keep going and non zero to quit. Value does not matter currently.</returns>
         /// <remarks> current C/C++ callback define for this is "typedef int(WINAPI* DebugEventCallBackRoutine)(LPDEBUG_EVENT lpCurEvent, DWORD* ContinueStatus, DWORD* WaitTimer, DWORD CustomArg);" </remarks>
         public delegate int DebugEventCallBackRoutine(IntPtr DebugEvent, IntPtr ContinueState, IntPtr WaitTimer, IntPtr CustomArg);

@@ -19,7 +19,7 @@ namespace InsightSheath.Resource
         Accelerator = 9,
         AnimatedCursor = 21,
         AnimatedIcon = 22,
-        Bitmap = 23,
+        Bitmap = 2,
         Cursor = 1,
         Dialog = 5,
         DlgInclude = 17,
@@ -78,7 +78,7 @@ namespace InsightSheath.Resource
         /// </summary>
         /// <param name="hModule">Win32 Native HMODULE where the resource is.</param>
         /// <param name="lpType">May be string or an int resource. You can use <see cref="IsIntResource(IntPtr)"/> to check.  If true, then should be safe to covert to <see cref="ResourceTypes"/>.  If false then <see cref="Marshal.PtrToStringUTF8(IntPtr)"/></param>
-        /// <param name="Name">May be string or an int resource. You can use <see cref="IsIntResource(IntPtr)"/> to check.  If true, then should be safe to covert to <see cref="ResourceTypes"/>.  If false then <see cref="Marshal.PtrToStringUTF8(IntPtr)</param>
+        /// <param name="Name">May be string or an int resource. You can use <see cref="IsIntResource(IntPtr)"/> to check.  If true, then should be safe to covert to <see cref="ResourceTypes"/>.  If false then <see cref="Marshal.PtrToStringUTF8(IntPtr)"</param>
         /// <param name="CustomArg">custom arg passed to begin enumeration</param>
         /// <returns>Your routine should return true to keep going and false once done</returns>
         public delegate bool EnumResourceNameProcw(IntPtr hModule, IntPtr lpType, IntPtr Name, IntPtr CustomArg);

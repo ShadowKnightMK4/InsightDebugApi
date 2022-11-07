@@ -57,7 +57,7 @@ namespace ProcessSpawnWithDebugEvent
                  * You don't have to use the worker thread if you don't want; however, most of the development works under the assumation
                  * that the worker thread is active.
                  * */
-                LaunchCmd.DebugMode = DebugModeType.WorkerThread;
+                LaunchCmd.DebugMode = DebugModeType.EnableWorkerThread | DebugModeType.WorkerDropCallbackForNoEvents;
               LaunchCmd.UserDebugCallRoutine = new InsightProcess.DebugEventCallBackRoutine(debug_event_callback);
                 
 

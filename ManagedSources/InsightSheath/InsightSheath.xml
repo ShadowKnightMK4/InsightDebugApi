@@ -6,7 +6,7 @@
     <members>
         <member name="T:InsightSheath.Abstract.NativeStaticContainer">
             <summary>
-            Encapsulates a native pointer to an unmanaged structure that can potentially be freed with a single call to C/C++'s free(). If said Native class needs special free requirements, overwrite <see cref="M:InsightSheath.Abstract.NativeStaticContainer.Dispose(System.Boolean)"/> with a a call to a routine to properly free it. If your wrapper is handing out multiple natiove pointers to the same object, you'll need something like <see cref="T:InsightSheath.Abstract.ReferenceCounterNativeStaticContainer"/>
+            Encapsulates a native pointer to an unmanaged structure that can potentially be freed with a single call to C/C++'s free(). If said Native class needs special free requirements, overwrite <see cref="M:InsightSheath.Abstract.NativeStaticContainer.Dispose(System.Boolean)"/> with a a call to a routine to properly dispose of  it. If your wrapper is handing out multiple natiove pointers to the same object, you'll need something like <see cref="T:InsightSheath.Abstract.ReferenceCounterNativeStaticContainer"/>
             </summary>
         </member>
         <member name="F:InsightSheath.Abstract.NativeStaticContainer.UnmanagedConstructorReturnedNull">
@@ -634,12 +634,6 @@
             Return the length of the parameter array for the exception. Range is 0 to 15 or (in C/C++ land EXCEPTION_MAXIMUM_PARAMETERS #define)
             </summary>
         </member>
-        <member name="P:InsightSheath.Debugging.DebugEventExceptionInfo.ExceptionParameter32">
-            <summary>
-            Retrieve the contents of the exception parameter list for a 32-bit debugged process. If retreving form a 64-bit process, your values are likely truncated and worthless
-            </summary>
-            <remarks> The Native implementation promotes the DWORD array into a (C# ulong)/(C++ dword64) array and returns a block of memory with values of 8 bytes long. We free the block returned</remarks>
-        </member>
         <member name="P:InsightSheath.Debugging.DebugEventExceptionInfo.ExceptionParameter64">
             <summary>
              Retrieve the contents of the exception parameter list for a 64-bit debugged process. 
@@ -1247,18 +1241,22 @@
         </member>
         <member name="T:InsightSheath.Debugging.Process.DebugModeType">
             <summary>
-            Flags to indicate to <see cref="T:InsightSheath.Debugging.Process.InsightProcess"/> if you want the worker thread or not.
+            Flags to indicate to <see cref="T:InsightSheath.Debugging.Process.InsightProcess"/> how to spawn  the target and connect with the debugging code.
             </summary>
         </member>
-        <member name="F:InsightSheath.Debugging.Process.DebugModeType.NoWorkerThread">
+        <member name="F:InsightSheath.Debugging.Process.DebugModeType.Default">
             <summary>
-            Tells Insight's native DLL to Not Spawn any worker threads for debug handling.  If you don't implement a debug loop, you will never see your process show up. Irrelevant if the process is not being debugged.
-            You're going to want the WorkerThread as development features in this thread are not exported yet for use without the worker thread.
+            Do not spawn teh worker thread and do not drop calling your call in said worker thread (i.e do nother and your code must deal with communicating with the Windows Debugger API)
             </summary>
         </member>
-        <member name="F:InsightSheath.Debugging.Process.DebugModeType.WorkerThread">
+        <member name="F:InsightSheath.Debugging.Process.DebugModeType.EnableWorkerThread">
             <summary>
             When Spawning a process for debugger, InsightApi.DLL implements a debug loop and offloads the loop to a worker thread.  Put a call to <see cref="M:InsightSheath.Debugging.Process.InsightProcess.PulseDebugEventThead"/> to continue after handling your debug event on a regular basis.  Skipping that means, your debugged process won't continue after the first event.
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Debugging.Process.DebugModeType.WorkerDropCallbackForNoEvents">
+            <summary>
+            Only if EnableWorkerThread is active too.  This tells the worker thread to DROP calling your event callback if there's no event after the time ror awaiting for debug event expires
             </summary>
         </member>
         <member name="T:InsightSheath.Debugging.Process.InsightProcess">
@@ -1296,7 +1294,7 @@
             <param name="DebugEvent">Pointer to a DEBUG_EVENT struct. <see cref="T:InsightSheath.Debugging.DebugEvent"/> to make a wrapper for it. IMPORTANT: Your stub is receiving a pointer off the unmanaged heap and should make your wrapper with FreeOnCleanUp=false aka <see cref="M:InsightSheath.Debugging.DebugEvent.#ctor(System.IntPtr)"/></param>
             <param name="ContinueState">Pointer to a 4 byte value where to write how your debugger callback responded to the routine. <see cref="M:InsightSheath.Debugging.Process.InsightProcess.SetDebugEventCallbackResponse(System.IntPtr,InsightSheath.Debugging.Process.DebugContState)"/> or <see cref="!:LocalUnmanagedMemory.SetDebugEventCallbackResponse(IntPtr, DebugContState)"/> or <see cref="M:InsightSheath.MemoryNative.Poke4(System.IntPtr,System.UInt32)"></see></param>
             <param name="WaitTimer">Pointer to a 4 byte value where to write how long to wait until receiving the next debug event. Note: If this timer expires, the worker thread is NOT going to call your callback. <see cref="!:LocalUnmanagedMemory.Poke4(IntPtr, uint)"/></param>
-            <param name="CustomArg">Reserved. Always 0. </param>
+            <param name="CustomArg">Reserved. Always 0. TODO: Add way to pass values too it </param>
             <returns>Your delegate should return 0 to keep going and non zero to quit. Value does not matter currently.</returns>
             <remarks> current C/C++ callback define for this is "typedef int(WINAPI* DebugEventCallBackRoutine)(LPDEBUG_EVENT lpCurEvent, DWORD* ContinueStatus, DWORD* WaitTimer, DWORD CustomArg);" </remarks>
         </member>
@@ -1422,7 +1420,7 @@
         </member>
         <member name="M:InsightSheath.Debugging.Process.InsightProcess.PulseDebugEventThead">
             <summary>
-            When  Spawning a process with a DEBUG option and  <see cref="P:InsightSheath.Debugging.Process.InsightProcess.DebugMode"/> is set to <see cref="F:InsightSheath.Debugging.Process.DebugModeType.WorkerThread"/>, the native DLL spawns a thread to handle consuming events.
+            When  Spawning a process with a DEBUG option and  <see cref="P:InsightSheath.Debugging.Process.InsightProcess.DebugMode"/> is set to <see cref="!:DebugModeType.WorkerThread"/>, the native DLL spawns a thread to handle consuming events.
             The thread also using an native Event object to sync giving the events back to the caller so that the caller's GUI is not interrupted. Does not actually pulse event.
             </summary>
         </member>
@@ -1487,7 +1485,7 @@
         </member>
         <member name="P:InsightSheath.Debugging.Process.InsightProcess.EnableSymbolEngine">
             <summary>
-            Enable or Disable the symbol engine. Symbol engine is active once first process starts.  Disabling the engine means it will no longer get updates until enabled again.  <see cref="P:InsightSheath.Debugging.Process.InsightProcess.DebugMode"/>  should be set to <see cref="F:InsightSheath.Debugging.Process.DebugModeType.WorkerThread"/>
+            Enable or Disable the symbol engine. Symbol engine is active once first process starts.  Disabling the engine means it will no longer get updates until enabled again.  <see cref="P:InsightSheath.Debugging.Process.InsightProcess.DebugMode"/>  should be set to <see cref="!:DebugModeType.WorkerThread"/>
             </summary>
         </member>
         <member name="P:InsightSheath.Debugging.Process.InsightProcess.CreationFlags">
@@ -2504,7 +2502,12 @@
             <returns>Returns a dictionary list lists. Key is import library (ex kernel32.dll). List is the list of imports presented by the callback.  They should be in ordinal order.  You're free to sort as you see fit however.</returns>   
             <remarks>With how the routine works, (i.e. private variable contained in the life of the class), this routine locks a handle to prevent multiple threads from calling this at the same time.</remarks>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:InsightSheath.Detours.DetourBinary.Dispose(System.Boolean)" -->
+        <member name="M:InsightSheath.Detours.DetourBinary.Dispose(System.Boolean)">
+            <summary>
+            Release the handle and DetourBinary handle for this file.
+            </summary>
+            <param name="disposing"></param>
+        </member>
         <member name="M:InsightSheath.Detours.DetourBinary.Finalize">
             <summary>
             GC cleanup disposing of resources.
@@ -3083,7 +3086,14 @@
             <param name="That"></param>
             <returns></returns>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:InsightSheath.NativeImports.NativeMethods.GetModuleNameViaHandleInternal(System.IntPtr,System.IntPtr)" -->
+        <member name="M:InsightSheath.NativeImports.NativeMethods.GetModuleNameViaHandleInternal(System.IntPtr,System.IntPtr)">
+            <summary>
+            Retrieve a potentially null pointer containing a Unicode string containing the name of the hmodule that belongs to process handle. You will need to free it by using <see cref="M:InsightSheath.NativeImports.NativeMethods.FreeModuleNameViaHandleInternal(System.IntPtr)"/>
+            </summary>
+            <param name="ProcessHandle">Win32 Process Handle to use. It must have at least PROCESS_QUERY_INFROMATION or PROCESS_QUERY_LIMITED_INFORMATION access right.</param>
+            <param name="ModuleHandle">HMODULe in question</param>
+            <returns>returns an Unicode string containing the name of the module if the call worked and IntPtr.Zero if it failed</returns>
+        </member>
         <member name="M:InsightSheath.NativeImports.NativeMethods.FreeModuleNameViaHandleInternal(System.IntPtr)">
             <summary>
             Free a memory pointer returned by <see cref="M:InsightSheath.NativeImports.NativeMethods.GetModuleNameViaHandleInternal(System.IntPtr,System.IntPtr)"/>
@@ -3101,7 +3111,7 @@
         </member>
         <member name="M:InsightSheath.NativeImports.NativeMethods.FreeFileNameViaHandleInternal(System.IntPtr)">
             <summary>
-            Free a memory pointer returned by <see cref="!:GetFileNameViaHandle(IntPtr)(IntPtr, IntPtr)"/>
+            Free a memory pointer returned by <see cref="M:InsightSheath.NativeImports.NativeMethods.GetFileNameViaHandle(System.IntPtr)"/>
             </summary>
             <param name="NativeStringPtr">pointer in question. null is ignored.</param>
             <returns>Returns true if the call worked and false if it failed.</returns>
@@ -3908,6 +3918,260 @@
             <param name="that"></param>
             <returns></returns>
         </member>
+        <member name="F:InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile2.FileOutHandle">
+            <summary>
+            Pointer to the first argument in NtCreateFile. That will indicate the out handle. For x64 bit processes this will be a 64-bit pointer. For x32 bit processes, this will be a 32-bit pointer.
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile2.DesiredAccess">
+            <summary>
+            Will contain the passed Access Request flags for NtCreateFile.
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile2.ObjectAttributes">
+            <summary>
+            May be null. If not null, this will be the Object Attributes read from that file.
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile2.IoStatusBlock">
+            <summary>
+            for x64 debugged processes. This is a 64-bit pointer.  For x32-bit processes, this is a 32-bit pointer that may be pretended to be 64-bit depending on .NET
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile2.AllocationSize">
+            <summary>
+            a LARGE_INTEGER struct.
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile2.FileAttributes">
+            <summary>
+            The .NET file attributes for how the IO thing is being opened.
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile2.ShareAccess">
+            <summary>
+            The .NET shared mode.
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile2.CreationOptions">
+            <summary>
+            <see href="https://docs.microsoft.com/en-us/windows/win32/api/winternl/nf-winternl-ntcreatefile"/> for specifics. TODO: Include enum containing those values.
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile2.CreateDisposition">
+            <summary>
+            NtCreateFile specific flags.
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile2.EaBuffer">
+            <summary>
+            for x64 debugged processes. This is a 64-bit pointer.  For x32-bit processes, this is a 32-bit pointer that may be pretended to be 64-bit depending on .NET
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile2.EaSize">
+            <summary>
+            How many bytes is the EaBufffer.
+            </summary>
+        </member>
+        <member name="M:InsightSheath.Telemetry.IoDeviceTelemetryNtCreateFile2.SetReturnValue(System.UInt32)">
+            <summary>
+            NtCreateFile does not appear to set last error based on documentation. Here Last Error is the return value given back to the debugged process.
+            </summary>
+            <param name="ReturnValue"></param>
+        </member>
+        <member name="T:InsightSheath.Telemetry.IoDeviceTelemetyCreateFile2">
+            <summary>
+            This structure contains data from an exception generated via CreateFileA/W.
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Telemetry.IoDeviceTelemetyCreateFile2.FileName">
+            <summary>
+            Name of the file the debugged process is trying to open
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Telemetry.IoDeviceTelemetyCreateFile2.DesiredAccess">
+            <summary>
+            Desired access for the target file
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Telemetry.IoDeviceTelemetyCreateFile2.SharedMode">
+            <summary>
+            Will the debugged process try to open for sharing?
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Telemetry.IoDeviceTelemetyCreateFile2.SecurityAttrib">
+            <summary>
+            Debugged process 's requested security attributes (IMPORTANT! this points to virtual memory in **THAT** process, not yours.)
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Telemetry.IoDeviceTelemetyCreateFile2.CreateDisposition">
+            <summary>
+            Creation disposition
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Telemetry.IoDeviceTelemetyCreateFile2.FlagsAndAttributes">
+            <summary>
+            Flags and attributes
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Telemetry.IoDeviceTelemetyCreateFile2.TemplateFile">
+            <summary>
+            Template file that's usually (but NOT always) null.
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Telemetry.TelemetryIoDeviceTracking.ExceptionCode">
+            <summary>
+            This static class registeres with <see cref="T:InsightSheath.Telemetry.Telemetry"/> to handle exceptions of this value.
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Telemetry.TelemetryIoDeviceTracking.SupportedNotificationType.CreateFile">
+            <summary>
+            Exception is from either a CreateFileA or CreateFileW call. Use the <see cref="!:GetCreateFileSettings"/> routine to retrieve formatted specifics
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Telemetry.TelemetryIoDeviceTracking.SupportedNotificationType.CreateFileTransacted">
+            <summary>
+            Exception is either from a CreateFIleTransactedA or CreateFIleTransactedW call.
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Telemetry.TelemetryIoDeviceTracking.SupportedNotificationType.CloseHandle">
+            <summary>
+            Exception from a CloseHandle call. (Other than the one generated by the routine itself when debugging and closing invalid handle)
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Telemetry.TelemetryIoDeviceTracking.SupportedNotificationType.NtCreateFile">
+            <summary>
+            NTCreateFile sits below CreateFileA/W.  You'll likely see exceptions generated for both on the same target if debugged target is not calling the routine directly.
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Telemetry.TelemetryIoDeviceTracking.SupportedNotificationType.NtOpenFile">
+            <summary>
+            TODO:: A Lower Level NtOpen file call.
+            </summary>
+        </member>
+        <member name="M:InsightSheath.Telemetry.TelemetryIoDeviceTracking.Touch">
+            <summary>
+            Trigger the static constructor
+            </summary>
+        </member>
+        <member name="M:InsightSheath.Telemetry.TelemetryIoDeviceTracking.Builder(InsightSheath.Debugging.DebugEventExceptionInfo)">
+            <summary>
+            examine the exception code, its arguments and return an instance of an approproate handler we support it. 
+            </summary>
+            <param name="Info"></param>
+            <returns></returns>
+        </member>
+        <member name="T:InsightSheath.Telemetry.SpecializedExceptionHandler">
+            <summary>
+            Handle an Exception 
+            </summary>
+        </member>
+        <member name="T:InsightSheath.Telemetry.Telemetry">
+            <summary>
+            The built in Telemetry Dlls register routines here.
+            </summary>
+        </member>
+        <member name="T:InsightSheath.Telemetry.Telemetry.TelemetryEntery">
+            <summary>
+            this class is used to pair a handler factory with an exception code.
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Telemetry.Telemetry.InvalidHandleValue32">
+            <summary>
+            For Wow64/x86,  this is the INVALID_HANDLE_VALUE.
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Telemetry.Telemetry.InvalidHandleValue64">
+            <summary>
+            For x64 Windows, this is the invalid handle value. 
+            </summary>
+        </member>
+        <member name="T:InsightSheath.Telemetry.Telemetry.HandlerFactoryCallback">
+            <summary>
+            if your delegate understands the exception, return a handler to handle it. Return null othersize
+            </summary>
+            <param name="Info"></param>
+            <returns>Your routine should return null if it does not regonize the code. Otherwise it should return an instance to handler the code</returns>
+        </member>
+        <member name="M:InsightSheath.Telemetry.Telemetry.ClearHandler">
+            <summary>
+            Clear the *entire* container
+            </summary>
+        </member>
+        <member name="M:InsightSheath.Telemetry.Telemetry.ClearHandler(System.UInt32)">
+            <summary>
+            Remove the handler for this code 
+            </summary>
+            <param name="ExceptionCode"></param>
+        </member>
+        <member name="M:InsightSheath.Telemetry.Telemetry.GetHandlerFactory(System.UInt32)">
+            <summary>
+            return the delegate that makes an object to handle this code
+            </summary>
+            <param name="ExceptionCode"></param>
+            <returns>null if there's no handler, otherwise a delegate </returns>
+        </member>
+        <member name="M:InsightSheath.Telemetry.Telemetry.ExceptionHasHandler(System.UInt32)">
+            <summary>
+            you might as well as just test for null on <see cref="M:InsightSheath.Telemetry.Telemetry.GetHandlerFactory(System.UInt32)"/>
+            </summary>
+            <param name="ExceptionCode"></param>
+            <returns></returns>
+        </member>
+        <member name="M:InsightSheath.Telemetry.Telemetry.MakeInstance(InsightSheath.Debugging.DebugEventExceptionInfo)">
+            <summary>
+            If a value exception event and there's a handler for it, call the handler that makes the object to handle it.
+            </summary>
+            <param name="Info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:InsightSheath.Telemetry.Telemetry.AddHandler(System.UInt32,InsightSheath.Telemetry.Telemetry.HandlerFactoryCallback)">
+            <summary>
+            Register a new handler. The built in telemetries both do their own code.  If the ExceptionCode has a factory already, it's replace with this one.
+            </summary>
+            <param name="ExceptionCode"></param>
+            <param name=""></param>
+            <returns></returns>
+        </member>
+        <member name="T:InsightSheath.Telemetry.General.BuiltInTelemetryType">
+            <summary>
+            Enums for the various default telemetries
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Telemetry.General.BuiltInTelemetryType.IoDeviceTracking">
+            <summary>
+            This one defaults with CreateFileA/W, NtCreateFileA/W
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Telemetry.General.BuiltInTelemetryType.AntiDebugCounter">
+            <summary>
+            Deals with attempting to hide the debugger from the target
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Telemetry.General.BuiltInTelemetryType.ProcessLoader">
+            <summary>
+            Defauls with process and module loading done by the target.
+            </summary>
+        </member>
+        <member name="T:InsightSheath.Telemetry.General.TelemetryLibraryUnmanagedRoutineHandler">
+            <summary>
+            Handle a single specific exception from a telemetry dll 
+            </summary>
+        </member>
+        <member name="M:InsightSheath.Telemetry.General.TelemetryLibraryDispatchBase.IsSupported(InsightSheath.Debugging.DebugEventExceptionInfo)">
+            <summary>
+            Return true if your routine supports this exception or not/.
+            </summary>
+            <param name="Info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:InsightSheath.Telemetry.General.TelemetryLibraryDispatchBase.GetHandler(InsightSheath.Debugging.DebugEventExceptionInfo)">
+            <summary>
+            If your class supports the exception, return an instance that handles it.
+            </summary>
+            <param name="Info"></param>
+            <returns></returns>
+        </member>
         <member name="T:InsightSheath.MachineType">
             <summary>
             Machine Type values extractable 
@@ -4438,7 +4702,7 @@
         </member>
         <member name="M:InsightSheath.Win32Struct.WindowsUnicodeString.#ctor(System.IntPtr)">
             <summary>
-            After creating an instance, call <see cref="!:SetStructType(ModeType)"/> and specify which version of an Unicode string, this class contrains
+            After creating an instance, call <see cref="!:PlatformDependantNativeStruct.SetStructType(ModeType)"/> and specify which version of an Unicode string, this class contrains
             </summary>
             <param name="Native"></param>
         </member>
@@ -4500,7 +4764,7 @@
             <summary>
             Retrieve a .NET managed string containing the String that <see cref="P:InsightSheath.Win32Struct.WindowsUnicodeString.BufferPtr"/> points to. 
             </summary>
-            <remarks>IMPORTANT!!!!!  Use <see cref="!:Remote.RemoteStructure.RemoteReadUnicodeString(IntPtr, IntPtr, bool, bool)(IntPtr, IntPtr, bool, bool)"/> if dealing with a <see cref="P:InsightSheath.Win32Struct.WindowsUnicodeString.BufferPtr"/> that is valid in the context of another process and not yours. This routine will take case or dealing with that. You'll either get incorrect results or generate an exception if you don't. </remarks>
+            <remarks>IMPORTANT!!!!!  Use <see cref="M:InsightSheath.Win32Struct.Remote.RemoteStructure.RemoteReadUnicodeString(System.IntPtr,System.IntPtr,System.Boolean,System.Boolean)"/> if dealing with a <see cref="P:InsightSheath.Win32Struct.WindowsUnicodeString.BufferPtr"/> that is valid in the context of another process and not yours. This routine will take case or dealing with that. You'll either get incorrect results or generate an exception if you don't. </remarks>
         </member>
         <member name="M:InsightSheath.Win32Struct.WindowsUnicodeString.ToString">
             <summary>
@@ -4522,6 +4786,11 @@
         <member name="F:InsightSheath.Win32Struct.WindowsUnicodeString.Machine32">
             <summary>
             If <see cref="!:StructType"/> is set to <see cref="F:InsightSheath.Win32Struct.StructModeType.Machinex86"/>, this is the structure that is used.
+            </summary>
+        </member>
+        <member name="T:InsightSheath.Win32Struct.WindowsUserProcessParameter">
+            <summary>
+            TODO:
             </summary>
         </member>
         <member name="T:InsightSheath.Wrappers.Detours">

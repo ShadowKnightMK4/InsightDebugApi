@@ -1,4 +1,5 @@
 #include "ThreadSupport.h"
+#include <algorithm>
 
 
 /*
@@ -6,6 +7,11 @@
 * 
 * This is the class that process context uses to track threads received via CreateThread debug event and sueperate via process id.
 */
+
+ThreadContainer::ThreadContainer()
+{
+	this->View;
+}
 
 bool ThreadContainer::ProcessCreateThreadDebugEvent(LPDEBUG_EVENT Event)
 {
@@ -24,13 +30,25 @@ bool ThreadContainer::ProcessCreateThreadDebugEvent(LPDEBUG_EVENT Event)
 			}
 
 			if (NewThread != nullptr)
-			{
-				//auto ExistingProcess = this->View.find(Event->dwProcessId);
-				
+			{					
+
+				/*
+				* Test for precess of process ID for the key.  If existant, we insert our new thread into *that* vector.
+				* If the PID is not there, we add a new entry+ key and insert into the new vector created for that key
+				*/
+				auto PID = View.find(Event->dwProcessId);
+				std::vector<ThreadInsight*>* ThreadInsertLocation;
+				if (PID == View.end())
 				{
-					this->View[Event->dwProcessId].insert(this->View[Event->dwProcessId].end(), NewThread);
-					return TRUE;
+					ThreadInsertLocation = new std::vector<ThreadInsight*>();
+					View.insert(std::pair<DWORD, std::vector<ThreadInsight*>*>(Event->dwProcessId, ThreadInsertLocation));
 				}
+				else
+				{
+					ThreadInsertLocation = (*PID).second;
+				}
+				ThreadInsertLocation->insert(ThreadInsertLocation->end(), NewThread);
+					return true;
 			}
 		}
 	}
@@ -40,19 +58,32 @@ bool ThreadContainer::ProcessCreateThreadDebugEvent(LPDEBUG_EVENT Event)
 
 bool ThreadContainer::ProcessExitThreadDebugEvent(LPDEBUG_EVENT Event)
 {
+	/*
+	* play defensive and GC the thread object if we have one
+	*/
 
 	if (Event != nullptr)
 	{
 		if (Event->dwDebugEventCode == EXIT_THREAD_DEBUG_EVENT)
 		{
-			auto homeprocess = View.find(Event->dwProcessId);
-			if (homeprocess != View.end())
+			auto PID = View.find(Event->dwProcessId);
+			if (PID != View.end())
 			{
-				if (this->PurgePreference == TRUE)
+				if (View[Event->dwProcessId]->size() > 0)
 				{
-					RemoveSingleThread(Event->dwProcessId, Event->dwThreadId);
+					// remove the thread objecte sinse its ending
+					auto MatchThisThreadId = [Event](ThreadInsight* i) {return (i->GetTargetThreadId() == Event->dwThreadId); };
+					auto HitMe = std::find_if(View[Event->dwProcessId]->begin(), View[Event->dwProcessId]->end(), MatchThisThreadId);
+
+					if (HitMe != View[Event->dwProcessId]->end())
+					{
+						delete (*HitMe);
+						View[Event->dwProcessId]->erase(HitMe);
+					}
 				}
+
 			}
+
 		}
 	}
 	return false;
@@ -64,11 +95,15 @@ bool ThreadContainer::ProcessExitProcessDebugEvent(LPDEBUG_EVENT Event)
 	{
 		if (Event->dwDebugEventCode == EXIT_PROCESS_DEBUG_EVENT)
 		{
-			auto homeprocess = View.find(Event->dwProcessId);
-			if (homeprocess != View.end())
+			auto PID = View.find(Event->dwProcessId);
+			if (PID != View.end())
 			{
-				this->RemoveSingleProcess(Event->dwProcessId);
+				
+				delete View[Event->dwProcessId];
+				
+				return true;
 			}
+
 		}
 	}
 	return false;
@@ -95,83 +130,31 @@ bool is_zero(ThreadInsight* i)
 }
 void ThreadContainer::ManualPurge(DWORD dwProcessID)
 {
-	auto exist = View.find(dwProcessID);
-	std::vector<ThreadInsight*> GCCollect;
-	if (exist != View.end())
-	{
-		for (int step = 0; step < (*exist._Ptr)._Myval.second.size(); step++)
-		{
-			if ((*exist).second[step]->GetTargetThreadExitCode() != STILL_ACTIVE)
-			{
-				GCCollect.push_back((*exist).second[step]);
-				(*exist).second[step] = 0;
-			}
-		}
-		std::remove_if((*exist._Ptr)._Myval.second.begin(), (*exist._Ptr)._Myval.second.end(), is_zero);
-		// finally we delete the collected pointers
-		for (int step = 0; step < GCCollect.size(); step++)
-		{
-			delete GCCollect[step];
-		}
-	}
 
 }
 
 void ThreadContainer::RemoveSingleProcess(DWORD dwProcessID)
 {
-	auto exists = View.find(dwProcessID);
-	if (exists != View.end())
-	{
-		for (auto stepper = 0; stepper != exists._Ptr->_Myval.second.size();stepper++)
-		{
-			if (exists._Ptr->_Myval.second[stepper] != 0)
-			{
-				delete exists._Ptr->_Myval.second[stepper];
-				exists._Ptr->_Myval.second[stepper] = 0;
-			}
-		}
-		exists._Ptr->_Myval.second.clear();
-		View.erase(dwProcessID);
-	}
 
 }
 
 void ThreadContainer::RemoveSingleThread(DWORD dwProcessID, DWORD dwThreadID)
 {
 
-	auto exists = View.find(dwProcessID);
-	ThreadInsight* gchold = 0;
-	if (exists != View.end())
-	{
-		for (auto stepper = exists._Ptr->_Myval.second.begin(); stepper != exists._Ptr->_Myval.second.end(); stepper++)
-		{
-			if ((*stepper._Ptr)->GetTargetThreadId() == dwThreadID)
-			{
-				gchold = *stepper._Ptr;
-				exists._Ptr->_Myval.second.erase((stepper));
-				break;
-			}
-		}
-		if (gchold != 0)
-		{
-			delete gchold;
-		}
-	}
 }
 
 ThreadInsight* ThreadContainer::GetThreadInsightPtr(DWORD dwProcessID, DWORD dwThreadID)
 {
-	auto exists = View.find(dwProcessID);
 	
-	if (exists != View.end())
+	auto PID = View.find(dwProcessID);
+	if (PID != View.end())
 	{
-		for (auto step = 0; step < (*exists).second.size(); step++)
+		auto MatchThisThreadId = [dwThreadID](ThreadInsight* i) {return (i->GetTargetThreadId() == dwThreadID); };
+		auto TID = std::find_if(View[dwProcessID]->begin(), View[dwProcessID]->end(), MatchThisThreadId);
+
+		if (TID != View[dwProcessID]->end())
 		{
-			auto poss = (*exists).second[step];
-			if (poss->GetTargetThreadId() == dwThreadID)
-			{
-				return poss;
-			}
+			return *TID;
 		}
 	}
 	return nullptr;
@@ -184,10 +167,7 @@ DWORD ThreadContainer::ProcessCount()
 
 DWORD ThreadContainer::ThreadCount(DWORD ProcessId)
 {
-	auto exists = View.find(ProcessId);
-	if (exists != View.end())
-	{
-		return (*exists).second.size();
-	}
+	
+
 	return 0;
 }

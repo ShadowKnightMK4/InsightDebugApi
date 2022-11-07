@@ -266,7 +266,7 @@ namespace InsightSheath.Detours
         /// <summary>
         /// Release the handle and DetourBinary handle for this file.
         /// </summary>
-        /// <param name="disposing"</param>
+        /// <param name="disposing"></param>
         protected virtual void Dispose(bool disposing)
         {
             if (!disposedValue)

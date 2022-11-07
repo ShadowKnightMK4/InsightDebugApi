@@ -9,6 +9,7 @@ using InsightSheath;
 using System.Runtime.InteropServices;
 using InsightSheath.Abstract;
 using InsightSheath.Win32Struct.Remote;
+using System.Diagnostics;
 
 namespace InsightSheath.Debugging
 {
@@ -521,6 +522,8 @@ namespace InsightSheath.Debugging
 
         
 
+        // temp fix
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         /// <summary>
         /// Retrieve the contents of the exception parameter list for a 32-bit debugged process. If retreving form a 64-bit process, your values are likely truncated and worthless
         /// </summary>
@@ -1142,6 +1145,7 @@ namespace InsightSheath.Debugging
         {
 
         }
+
 
         /// <summary>
         /// You don't need to use this if the let the debugger code use the worker thread. You'll need to allocate a native block to hold the debug struct should you decide to roll your own

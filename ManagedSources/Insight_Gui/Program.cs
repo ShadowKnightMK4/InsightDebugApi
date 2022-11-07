@@ -50,7 +50,7 @@ namespace FileSandBox_GUI
 
             //InsightProcess.Poke4(ContStat, unchecked ((int)DebugContState.DebugExceptionNotHandled));
             InsightProcess.SetDebugEventCallbackResponse(ContStat, DebugContState.DebugExceptionNotHandled);
-            
+            MemoryNative.Poke4(WaitTime, 0xffffffff);
             switch (Debug.EventType)
             {
                 case DebugEventType.CreateProcessEvent:
@@ -125,17 +125,49 @@ namespace FileSandBox_GUI
                     }
                 case DebugEventType.ExceptionEvent:
                     {
-                        var test = Debug.GetDebugEventExceptionInfo();
                         
-                        
-                        Console.WriteLine(test.ExceptionCode + " exception");
+                        DebugEventExceptionInfo test = Debug.GetDebugEventExceptionInfo();
 
-                        MemoryNative.SetDebugEventCallbackResponse(ContStat, DebugContState.DebugExceptionNotHandled);
-       
+                       
+                        if (test.IsIoDeviceTelemetryException())
+                        {
+                            var data = test.GetIoDeviceExceptionType();
+                            switch (data)
+                            {
+                                case IoDeviceTelemetryReaderExtensions.NotificationType.CreateFile:
+                                    {
+                                        var Info = test.GetCreateFileSettings();
+                                        if (Info.DesiredAccess.HasFlag(AccessMasks.FileReadData))
+                                        {
+                                            Info.SetForceHandle(Telemetry.InvalidHandleValue64);
+                                            Info.SetLastErrorValue(5);
+                                        }
+                                        InsightProcess.SetDebugEventCallbackResponse(ContStat, DebugContState.DebugContinueState);
+                                        break;
+                                    }
+                                case IoDeviceTelemetryReaderExtensions.NotificationType.NtCreateFile:
+                                    {
+                                        var Info2 = test.GetNtCreateFileSettings();
+
+                                        break;
+                                    }
+                                default:
+                                    InsightProcess.SetDebugEventCallbackResponse(ContStat, DebugContState.DebugExceptionNotHandled);
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            MemoryNative.SetDebugEventCallbackResponse(ContStat, DebugContState.DebugExceptionNotHandled);
+                        }
+                        
+    
                         
                         break;
                     }
+
             }
+            
             /*
             if (Debug.EventType == InsightSheath.Wrappers.DebugEventType.OutputDebugString)
             {
@@ -306,22 +338,7 @@ namespace FileSandBox_GUI
 
         static void Main()
         {
-            var testptr = new DetourBinary.BinaryFileCallback(FileCallaback);
-
-            // This is here because I got tired of manually copying the file.
-            Environment.SetEnvironmentVariable("PATH", "C:\\Users\\Thoma\\source\\repos\\InsightAPI\\code\\Debug\\x86\\program\\;" +Environment.GetEnvironmentVariable("PATH") + "", EnvironmentVariableTarget.Process);
-
-
-            var BinaryCheck = ResourceWalker.MakeInstance("C:\\Euphoria\\bin\\exw.exe", AccessMasks.GenericRead, ShareMasks.ShareRead);
-
-
-            var ResourceTypes = BinaryCheck.GetResourceType();
-
-            var ResourceNames = BinaryCheck.GetResourceNames();
-
-            BinaryCheck.Dispose();
-            return;
-
+           
              InsightProcess TestRun = InsightProcess.CreateInstance();
             TestRun.ExtraFlags = InsightProcess.SpecialCaseFlags.DebugOnlyThis;
             TestRun.WorkingDirectory = "C:\\Windows\\";
@@ -337,12 +354,12 @@ namespace FileSandBox_GUI
             if (typ ==  MachineType.MachineI386)
             {
                 Console.WriteLine("Picking the x86 version of the detours");
-              //  TestRun.AddDetoursDll("C:\\Users\\Thoma\\source\\repos\\InsightAPI\\code\\Debug\\x86\\program\\Telemetry\\IoDeviceTracking32.dll");
+                TestRun.AddDetoursDll("C:\\Users\\Thoma\\source\\repos\\InsightAPI\\code\\Debug\\x86\\program\\Telemetry\\IoDeviceTracking32.dll");
             }
             else
             {
                 Console.WriteLine("Picking the x64 version of the detours");
-                //TestRun.AddDetoursDll("C:\\Users\\Thoma\\source\\repos\\InsightAPI\\code\\Debug\\x64\\program\\Telemetry\\IoDeviceTracking.dll");
+                TestRun.AddDetoursDll("C:\\Users\\Thoma\\source\\repos\\InsightAPI\\code\\Debug\\x64\\program\\Telemetry\\IoDeviceTracking64.dll");
             }
             Tmp = new InsightHunter_SymbolSearchCallBackRoutine(Callback);
 
@@ -351,7 +368,7 @@ namespace FileSandBox_GUI
             TestRun.UserDebugCallRoutine = new InsightProcess.DebugEventCallBackRoutine(StubCallback);
             TestRun.UserDebugCallRoutine = StubCallback;
             TestRun.EnableSymbolEngine = true;
-            TestRun.DebugMode = DebugModeType.WorkerThread;
+            TestRun.DebugMode = DebugModeType.EnableWorkerThread | DebugModeType.WorkerDropCallbackForNoEvents;
             
             TestRun.CreationFlags = InsightProcess.CreationFlagValues.DebugProcess;
             TestRun.GetStartupInfoClass().FlagSetterHelper = true;

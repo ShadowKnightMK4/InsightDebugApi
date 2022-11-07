@@ -10,6 +10,7 @@ using System.IO;
 using InsightSheath.Debugging;
 using InsightSheath.Win32Struct;
 using InsightSheath.Win32Struct.Remote;
+using InsightSheath.Telemetry.General;
 
 namespace InsightSheath.Telemetry
 {
@@ -403,7 +404,8 @@ namespace InsightSheath.Telemetry
         
 
     }
-
+    
+    
 
     /// <summary>
     /// An Exception from the debug event struct that was generated via the IoException Telemetry DLL. This class should contain code to read exceptions generated from telemetry dll IoDeviceTelemetry
@@ -467,7 +469,7 @@ namespace InsightSheath.Telemetry
         /// </summary>
         //public static readonly uint FixedExceptionCode = 0x68ACB7A9;
         // DEBUG ONLY x86 and x64 exception tracking down
-        public static readonly uint FixedExceptionCode = 2;
+        public static readonly uint FixedExceptionCode = 0x60ACB7A9;
         public enum NotificationType
         {
             /// <summary>

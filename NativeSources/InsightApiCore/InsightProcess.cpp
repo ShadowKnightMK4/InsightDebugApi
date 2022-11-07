@@ -82,12 +82,12 @@ int WINAPI DefaultHandler(LPDEBUG_EVENT lpCurEvent, gsl::not_null<DWORD*> Contin
 /// <returns></returns>
 void _cdecl PsPocessInformation_DebugWorkerthread(void* argument)
 {
-	WorkerThreadData* Args = (WorkerThreadData*)argument;
+	WorkerThreadData* Args = static_cast<WorkerThreadData*>(argument);
 	DEBUG_EVENT lpEvent{};
 	int Code = 0;
 	// First we spawn the process.
 
-	DWORD dwId = Args->that->SpawnProcessCommon(true);
+	const DWORD dwId = Args->that->SpawnProcessCommon(true);
 	SetEvent(Args->EventHandle);
 	if (dwId == 0)
 	{
@@ -113,10 +113,12 @@ void _cdecl PsPocessInformation_DebugWorkerthread(void* argument)
 
 	while (true)
 	{
+		BOOL EventOK = FALSE;
 		ZeroMemory(&lpEvent, sizeof(DEBUG_EVENT));
-		if (WaitForDebugEventEx(&lpEvent, Args->WaitTimer))
+		SetLastError(0);
+		EventOK = WaitForDebugEventEx(&lpEvent, Args->WaitTimer);
+		if ( (EventOK) && (GetLastError() == 0))
 		{
-
 			switch (lpEvent.dwDebugEventCode)
 			{
 			case EXIT_PROCESS_DEBUG_EVENT:
@@ -175,15 +177,40 @@ void _cdecl PsPocessInformation_DebugWorkerthread(void* argument)
 
 
 		}
+
 		WaitForSingleObject(Args->EventHandle, INFINITE);
 		ResetEvent(Args->EventHandle);
-		if (Args->UserCallback == nullptr)
+
+		if ((Args->that->DebugModeHandle && PSINFO_DEBUGMODE_WORKERTHREAD_ENABLE_DROPEVENT_MASK) == PSINFO_DEBUGMODE_WORKERTHREAD_ENABLE_DROPEVENT_MASK)
 		{
-			Code = DefaultHandler(&lpEvent, &Args->ContinueState, &Args->WaitTimer, 0);
+			if ((EventOK) && (GetLastError() == 0))
+			{
+				if (lpEvent.dwDebugEventCode != 0)
+				{
+					if (Args->UserCallback == nullptr)
+					{
+						Code = DefaultHandler(&lpEvent, &Args->ContinueState, &Args->WaitTimer, 0);
+					}
+					else
+					{
+						Code = Args->UserCallback(&lpEvent, &Args->ContinueState, &Args->WaitTimer, 0);
+					}
+				}
+			}
 		}
 		else
 		{
-			Code = Args->UserCallback(&lpEvent, &Args->ContinueState, &Args->WaitTimer, 0);
+			if ((EventOK) && (GetLastError() == 0))
+			{
+				if (Args->UserCallback == nullptr)
+				{
+					Code = DefaultHandler(&lpEvent, &Args->ContinueState, &Args->WaitTimer, 0);
+				}
+				else
+				{
+					Code = Args->UserCallback(&lpEvent, &Args->ContinueState, &Args->WaitTimer, 0);
+				}
+			}
 		}
 		if (Code != 0)
 		{
@@ -447,7 +474,6 @@ void InsightProcess::AddDetoursDll(std::wstring Name)
 		if (ansi)
 		{
 			DetoursDll->insert(DetoursDll->end(), ansi);
-			free(ansi);
 		}
 	}
 }
@@ -458,7 +484,7 @@ void InsightProcess::AddDetoursDll(const char* Name)
 	{
 		if (Name[0] != 0)
 		{
-			DetoursDll->insert(DetoursDll->end(), Name);
+			DetoursDll->insert(DetoursDll->end(), _strdup(Name));
 		}
 
 	}
@@ -466,10 +492,13 @@ void InsightProcess::AddDetoursDll(const char* Name)
 
 void InsightProcess::ClearDetoursDll()
 {
-	DetoursDll->clear();
+	for (auto step = DetoursDll->begin(); step != DetoursDll->end(); step++)
+	{
+		free(step._Ptr);
+	}
 }
 
-const std::vector<std::string> InsightProcess::GetDetourList()
+const std::vector<LPCSTR> InsightProcess::GetDetourList()
 {
 	return *DetoursDll;
 }
@@ -480,7 +509,7 @@ const char* InsightProcess::IndexDetourList(int index)
 	{
 		return nullptr;
 	}
-	return (*DetoursDll)[index].c_str();
+	return (DetoursDll[index])[0];
 }
 
 unsigned long long InsightProcess::GetDetourListSize() noexcept
@@ -514,7 +543,8 @@ void InsightProcess::init(InsightProcess* target)
 		target->StartUpInfo = new StartupInfoWrapper();
 		target->CommandmentArray = new std::map<DWORD, BOOL>();
 		target->Enviroment = new std::map<std::wstring, std::wstring>();
-		target->DetoursDll = new std::vector<std::string>();
+		target->DetoursDll = new std::vector<LPCSTR>();
+		target->ProcessThreads = new ThreadContainer();
 
 	}
 }
@@ -572,12 +602,17 @@ void InsightProcess::zeroout(InsightProcess* target, bool closehandles, bool kil
 			{
 				delete target->Enviroment;
 			}
+			if (target->ProcessThreads != nullptr)
+			{
+				delete target->ProcessThreads;
+			}
 		}
 		target->StartUpInfo = nullptr;
 		target->Insight = nullptr;
 		target->CommandmentArray = nullptr;
 		target->DetoursDll = nullptr;
 		target->Enviroment = nullptr;
+		target->ProcessThreads = nullptr;
 	}
 }
 
@@ -819,7 +854,7 @@ void InsightProcess::dupto(const InsightProcess* source, InsightProcess* target,
 
 	if ((DeepCopy) && (source->DetoursDll != nullptr))
 	{
-		target->DetoursDll = new std::vector < std::string>(*source->DetoursDll);
+		target->DetoursDll = new std::vector < LPCSTR>(*source->DetoursDll);
 	}
 	else
 	{
@@ -892,7 +927,7 @@ void InsightProcess::RefreshMemoryStatistics()
 		ProcessHandle = OpenProcesForQueryInformation(this->PInfo.dwProcessId);
 		if (ProcessHandle != INVALID_HANDLE_VALUE)
 		{
-			GetProcessMemoryInfo(ProcessHandle, (PPROCESS_MEMORY_COUNTERS)&this->ProcessMemoryStats, this->ProcessMemoryStats.cb);
+			GetProcessMemoryInfo(ProcessHandle, reinterpret_cast<PPROCESS_MEMORY_COUNTERS>(&this->ProcessMemoryStats), this->ProcessMemoryStats.cb);
 		}
 	}
 	__finally
@@ -917,16 +952,15 @@ DWORD InsightProcess::SpawnProcessCommon(bool NoNotSpawnThread)
 	const wchar_t* EnvBlocArg = nullptr;
 	std::wstring EnvBlockContainer;
 	const wchar_t* CurrDir;	
-	std::vector<const char*> DetourList;
+	
 
 		if (DetoursDll->size() == 0)
 		{
-			DetourList.clear();
 			DetourListPtr = nullptr;
 		}
 		else
 		{
-			DetourListPtr = (LPCSTR*)DetoursDll;
+			DetourListPtr = (LPCSTR*)&this->DetoursDll->at(0);
 		}
 
 		if (WorkingDirectory.size() == 0)
@@ -1008,7 +1042,7 @@ DWORD InsightProcess::SpawnProcessCommon(bool NoNotSpawnThread)
 					DebugAskFailure = FALSE;
 				}
 
-				if ((this->DebugModeHandle == PSINFO_DEBUGMODE_WORKERTHREADED) && (DebugAskFailure == FALSE))
+				if ( ((this->DebugModeHandle && PSINFO_DEBUGMODE_WORKERTHREAD_ENABLE_MASK) == PSINFO_DEBUGMODE_WORKERTHREAD_ENABLE_MASK) && (DebugAskFailure == FALSE))
 				{
 					this->SyncData.ContinueState = this->SyncData.threadID = 0;
 					this->SyncData.EventHandle = CreateEvent(nullptr, FALSE, FALSE, nullptr);
@@ -1117,7 +1151,7 @@ DWORD InsightProcess::SpawnProcessCommon(bool NoNotSpawnThread)
 	{
 		if (Arguments != nullptr)
 		{
-			free(Arguments);
+free(Arguments);
 		}
 	}
 	return PInfo.dwProcessId;
@@ -1164,7 +1198,7 @@ VOID InsightProcess::CopyPayloads(HANDLE Target)
 		}
 		LoadLibraryForceOverwrides << L";";
 
-		
+
 	}
 
 	if (LoadLibraryForceOverwrides.str().length() != 0)
@@ -1210,7 +1244,28 @@ void InsightProcess::PulseDebugEventThread()
 
 void InsightProcess::SetDebugMode(DWORD dmMode)
 {
-	if (dmMode == PSINFO_DEBUGMODE_NOWORKERTHREAD)
+
+	if ((dmMode >= PSINFO_DEBUGMODE_LOWER) && (dmMode <= PSINFO_DEBUGMODE_UPPER))
+	{
+		/*
+		* we check for campativility.
+		* 
+		* Is the worker thread wanted?
+		*		is the drop no event flag set?
+		*/
+		if ((dmMode && PSINFO_DEBUGMODE_WORKERTHREAD_ENABLE_MASK) == PSINFO_DEBUGMODE_WORKERTHREAD_ENABLE_MASK)
+		{
+			this->DebugModeHandle = dmMode;
+		}
+		else
+		{
+			if ((dmMode && PSINFO_DEBUGMODE_WORKERTHREAD_ENABLE_DROPEVENT_MASK) != (PSINFO_DEBUGMODE_WORKERTHREAD_ENABLE_DROPEVENT_MASK))
+			{
+				this->DebugModeHandle = dmMode;
+			}
+		}
+	}
+	/*if (dmMode == PSINFO_DEBUGMODE_NOWORKERTHREAD)
 	{
 		this->DebugModeHandle = dmMode;
 	}
@@ -1220,7 +1275,7 @@ void InsightProcess::SetDebugMode(DWORD dmMode)
 		{
 			this->DebugModeHandle = dmMode;
 		}
-	}
+	}*/
 }
 
 DWORD InsightProcess::GetDebugMode()

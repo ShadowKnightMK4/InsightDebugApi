@@ -10,7 +10,7 @@ namespace InsightSheath.Abstract
 {
 
     /// <summary>
-    /// Encapsulates a native pointer to an unmanaged structure that can potentially be freed with a single call to C/C++'s free(). If said Native class needs special free requirements, overwrite <see cref="Dispose(bool)"/> with a a call to a routine to properly free it. If your wrapper is handing out multiple natiove pointers to the same object, you'll need something like <see cref="ReferenceCounterNativeStaticContainer"/>
+    /// Encapsulates a native pointer to an unmanaged structure that can potentially be freed with a single call to C/C++'s free(). If said Native class needs special free requirements, overwrite <see cref="Dispose(bool)"/> with a a call to a routine to properly dispose of  it. If your wrapper is handing out multiple natiove pointers to the same object, you'll need something like <see cref="ReferenceCounterNativeStaticContainer"/>
     /// </summary>
     public abstract class NativeStaticContainer : IDisposable
     {
