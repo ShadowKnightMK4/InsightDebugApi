@@ -11,7 +11,7 @@ namespace InsightSheath
     /// <summary>
     /// Read and write to native memory via Peek and Poke routines.
     /// </summary>
-    /// <remarks>IMPORTANT! This is accessing unmanaged memory outside of C#'s GC. The InsightAPI.dll does deal with given  and receiving native pointers ect and there will be times you'll need to do that with a separate process. </remarks>
+    /// <remarks>IMPORTANT! This is accessing unmanaged memory outside of C#'s GC. The InsightAPI.dll does deal with given  and receiving native pointers etc and there will be times you'll need to do that with a separate process. </remarks>
     public static class MemoryNative
     {
         /// <summary>

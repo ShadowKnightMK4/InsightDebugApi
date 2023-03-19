@@ -12,7 +12,7 @@ namespace InsightSheath.Win32Struct
 {
 
 	/// <summary>
-	/// Enum used by certain classes that encapsulate Native Structs that contain pointers whose size may not match *our* pointer size.  One will need to set the <see cref="PlatformDependantNativeStruct.StructType"/> in a child class to flag which version to use
+	/// Enum used by certain classes that encapsulate Native structs that contain pointers whose size may not match *our* pointer size.  One will need to set the <see cref="PlatformDependantNativeStruct.StructType"/> in a child class to flag which version to use
 	/// </summary>
 	public enum StructModeType
 	{
@@ -54,12 +54,12 @@ namespace InsightSheath.Win32Struct
 	/// <summary>
 	/// For processes that are 32-bit / Wow64. This is what the UNICODE_STRING Windows struct looks like. Once your grab a dot net version of what ever you're reading from, you'll need to know if the <see cref="UnicodeString32.Buffer"/> is in your process memory space or an external process.
 	/// </summary>
-	/// <remarks> Use <see cref="Marshal.PtrToStructure{UnicodeString32}(IntPtr)"/>  and pass <see cref="Buffer"/> for a local memory pointer and <see cref="Remote.RemoteStructure.RemoteReadString(IntPtr, IntPtr, ulong)"/> for a pointer relevent to a different process </remarks>
+	/// <remarks> Use <see cref="Marshal.PtrToStructure{UnicodeString32}(IntPtr)"/>  and pass <see cref="Buffer"/> for a local memory pointer and <see cref="Remote.RemoteStructure.RemoteReadString(IntPtr, IntPtr, ulong)"/> for a pointer relevant to a different process </remarks>
 	[StructLayout(LayoutKind.Sequential)]
     public struct UnicodeString32
     {
 		/// <summary>
-		/// Current Length of the string pointed to in Buffer. Note if dealing with <see cref="InsertHere"/>, the memory block pointed to by bufffer currently will be set right after the native location of struct plus its size
+		/// Current Length of the string pointed to in Buffer. Note if dealing with <see cref="InsertHere"/>, the memory block pointed to by buffer currently will be set right after the native location of struct plus its size
 		/// </summary>
 		public ushort Length;
 		/// <summary>
@@ -75,7 +75,7 @@ namespace InsightSheath.Win32Struct
 	/// <summary>
 	/// For processes that are 64-bit, this is what the UNICODE_STRING Windows struct looks like when read from. Suitable for Marshaling from a source. Take care with the string pointer to know if it's local memory or extern/remote/not your process's memory. .if your pointer to the native structure <see cref="UnicodeString32.Buffer"/> points to a remote/ non local memory buffer or not. 
 	/// </summary>
-	/// <remarks> Use <see cref="Marshal.PtrToStructure{UnicodeString64}(IntPtr)"/>  and pass <see cref="Buffer"/> for a local memory pointer and <see cref="Remote.RemoteStructure.RemoteReadString(IntPtr, IntPtr, ulong)"/> for a pointer relevent to a different process </remarks>
+	/// <remarks> Use <see cref="Marshal.PtrToStructure{UnicodeString64}(IntPtr)"/>  and pass <see cref="Buffer"/> for a local memory pointer and <see cref="Remote.RemoteStructure.RemoteReadString(IntPtr, IntPtr, ulong)"/> for a pointer relevant to a different process </remarks>
 	/// <summary>
 	/// </summary>
 	[StructLayout(LayoutKind.Sequential)]
@@ -107,7 +107,7 @@ namespace InsightSheath.Win32Struct
     public class WindowsUnicodeString: PlatformDependantNativeStruct
     {
 		/// <summary>
-		/// After creating an instance, call <see cref="PlatformDependantNativeStruct.SetStructType(ModeType)"/> and specify which version of an Unicode string, this class contrains
+		/// After creating an instance, call <see cref="PlatformDependantNativeStruct.SetStructType(ModeType)"/> and specify which version of an Unicode string, this class contains
 		/// </summary>
 		/// <param name="Native"></param>
         public WindowsUnicodeString(IntPtr Native): base(Native)
@@ -116,7 +116,7 @@ namespace InsightSheath.Win32Struct
         }
 
 		/// <summary>
-		/// After creating an instance, call <see cref="SetStructType(ModeType)"/> and specify which version of an Unicode string, this class contrains
+		/// After creating an instance, call <see cref="SetStructType(ModeType)"/> and specify which version of an Unicode string, this class contains
 		/// </summary>
 		/// <param name="Native">Native pointer to either a <see cref="UnicodeString32"/> or <see cref="UnicodeString64"/> to the structure this class will reference</param>
 		public WindowsUnicodeString(IntPtr Native, bool FreeOnCleanup): base(Native, FreeOnCleanup)
@@ -154,7 +154,7 @@ namespace InsightSheath.Win32Struct
         }
 
 		/// <summary>
-		/// Marshals into a private <see cref="UnicodeString32"/> or <see cref="UnicodeString64"/> struct depending on the value of <see cref="PlatformDependantNativeStruct.WasBlit"/> being false.  Sets to true afterwords. Will throw an <see cref="InvalidOperationException"/> if <see cref="PlatformDependantNativeStruct.StructType"/>  is something other than <see cref="StructModeType.Machinex64"/> or <see cref="StructModeType.Machinex86"/>
+		/// Marshals into a private <see cref="UnicodeString32"/> or <see cref="UnicodeString64"/> struct depending on the value of <see cref="PlatformDependantNativeStruct.WasBlit"/> being false.  Sets to true afterwards. Will throw an <see cref="InvalidOperationException"/> if <see cref="PlatformDependantNativeStruct.StructType"/>  is something other than <see cref="StructModeType.Machinex64"/> or <see cref="StructModeType.Machinex86"/>
 		/// </summary>
         protected override void Blit()
         {

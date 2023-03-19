@@ -2372,7 +2372,7 @@
         </member>
         <member name="T:InsightSheath.Detours.DetourBinary">
             <summary>
-            Wraps DetourBinary routines from detours and exported in insight to  let one inspect/ alter the EXE/DLL's import table.
+            Wraps DetourBinary routines from detours and exported in insight to  let one inspect/ alter the EXE/DLL's import table. There's also come code to just fetch the imports.
             </summary>
         </member>
         <member name="F:InsightSheath.Detours.DetourBinary.ExeResource">
@@ -2385,6 +2385,7 @@
             The DetourBinaryXXX routine handle for the life of this class
             </summary>
         </member>
+        <!-- Badly formed XML comment ignored for member "T:InsightSheath.Detours.DetourBinary.BinaryByWayscallback" -->
         <member name="P:InsightSheath.Detours.DetourBinary.CommitOnDispose">
             <summary>
             If set and GC triggers or dispose is called, we commit changes to the opened file. Will not commit if the file was opened for readonly.
@@ -2444,7 +2445,7 @@
             </summary>
             <returns>True if it worked and false if not.</returns>
         </member>
-        <member name="M:InsightSheath.Detours.DetourBinary.EditInputs(System.IntPtr,InsightSheath.Detours.DetourBinary.BinaryByWayscallback,InsightSheath.Detours.DetourBinary.BinaryFileCallback,InsightSheath.Detours.DetourBinary.BinarySymbolCallback,InsightSheath.Detours.DetourBinary.BinaryFinalCallback)">
+        <member name="M:InsightSheath.Detours.DetourBinary.EditImports(System.IntPtr,InsightSheath.Detours.DetourBinary.BinaryByWayscallback,InsightSheath.Detours.DetourBinary.BinaryFileCallback,InsightSheath.Detours.DetourBinary.BinarySymbolCallback,InsightSheath.Detours.DetourBinary.BinaryFinalCallback)">
             <summary>
             Enumerate the import tample and receive callbacks for each option.  
             </summary>
@@ -3295,135 +3296,10 @@
             Internal Class. This imports the routines used in <see cref="T:InsightSheath.Win32Struct.StartupInfoExW"/> class.
             </summary>
         </member>
-        <member name="T:InsightSheath.Resource.ResourceTypes">
-            <summary>
-            Gotton from <see href="https://docs.microsoft.com/en-us/windows/win32/menurc/resource-types"/>
-            </summary>
-        </member>
         <member name="T:InsightSheath.Resource.ResourceWalker">
-            <summary>
-            Enumerate, examine Unmanged Resources in an app.
-            </summary>
-        </member>
-        <member name="M:InsightSheath.Resource.ResourceWalker.IsIntResource(System.IntPtr)">
-            <summary>
-            Sourced from IS_INTRESOURCE macro
-            </summary>
-            <param name="CheckMe"></param>
-            <returns></returns>
-        </member>
-        <member name="M:InsightSheath.Resource.ResourceWalker.MakeIntResource(System.IntPtr)">
-            <summary>
-            The MAKE_INTRESOURCE macro
-            </summary>
-            <param name="Resource"></param>
-            <returns></returns>
-        </member>
-        <!-- Badly formed XML comment ignored for member "T:InsightSheath.Resource.ResourceWalker.EnumResourceNameProcw" -->
-        <member name="T:InsightSheath.Resource.ResourceWalker.EnumResTypeProcW">
-            <summary>
-            Callback for Resource Type enumeration
-            </summary>
-            <param name="hModule">Win32 Native HMODULE where the resource is.</param>
-            <param name="lpType">May be string or an int resource. You can use <see cref="M:InsightSheath.Resource.ResourceWalker.IsIntResource(System.IntPtr)"/> to check.  If true, then should be safe to covert to <see cref="T:InsightSheath.Resource.ResourceTypes"/>.  If false then <see cref="M:System.Runtime.InteropServices.Marshal.PtrToStringUTF8(System.IntPtr)"/></param>
-            <param name="CustomArg">custom arg passed to begin enumeration</param>
-            <returns>Your routine should return true to keep going and false once done</returns>
-        </member>
-        <member name="M:InsightSheath.Resource.ResourceWalker.MakeInstance(System.String,InsightSheath.Telemetry.AccessMasks,InsightSheath.Telemetry.ShareMasks)">
-            <summary>
-            Make an instance of this unmanaged class and return the .NET wrapper to it,
-            </summary>
-            <param name="ExeName"></param>
-            <param name="Access"></param>
-            <param name="Share"></param>
-            <returns></returns>
-        </member>
-        <member name="M:InsightSheath.Resource.ResourceWalker.EnumResourceTypes(InsightSheath.Resource.ResourceWalker.EnumResTypeProcW,System.IntPtr,InsightSheath.Resource.ResourceWalker_flags,System.Int32)">
-            <summary>
-            Enumerate resources for the DLL/EXE that this software points too.
-            </summary>
-            <param name="Callback"></param>
-            <param name="CustomArg"></param>
-            <param name="flags"></param>
-            <param name="LangId"></param>
-            <returns></returns>
-        </member>
-        <member name="M:InsightSheath.Resource.ResourceWalker.EnumResourceNames(InsightSheath.Resource.ResourceTypes,InsightSheath.Resource.ResourceWalker.EnumResourceNameProcw,System.IntPtr,InsightSheath.Resource.ResourceWalker_flags,System.Int16)">
-            <summary>
-            Enumerate the passed routine type names. 
-            </summary>
-            <param name="ResourceType">One of the Constants for the resource to enumerate</param>
-            <param name="Callback">Your callback</param>
-            <param name="CustomArg">Your customarg</param>
-            <param name="dwFlags">choose how to enumerate</param>
-            <param name="LangId">language id of the resources to enumerate</param>
-            <returns>trues if ok and false if not.</returns>
-        </member>
-        <member name="M:InsightSheath.Resource.ResourceWalker.EnumResourceNames(System.String,InsightSheath.Resource.ResourceWalker.EnumResourceNameProcw,System.IntPtr,InsightSheath.Resource.ResourceWalker_flags,System.Int16)">
-            <summary>
-            Enumerate the passed routine type names. 
-            </summary>
-            <param name="ResourceType">null terminated string indicating the type of resource to enumerate </param>
-            <param name="Callback">Your callback</param>
-            <param name="CustomArg">Your customarg</param>
-            <param name="dwFlags">choose how to enumerate</param>
-            <param name="LangId">language id of the resources to enumerate</param>
-            <returns>trues if ok and false if not.</returns>
-        </member>
-        <member name="P:InsightSheath.Resource.ResourceWalker.ThreadLock">
-            <summary>
-            Cetrain routines will attempt to lock a resource they use.
-            </summary>
-        </member>
-        <member name="M:InsightSheath.Resource.ResourceWalker.GetResourceType">
-            <summary>
-            Get list of resource types.  Contents are either string and/or <see cref="T:InsightSheath.Resource.ResourceTypes"/>. To safely enum with foreach statement, use  foreach(object s in list) and test for ResourceType enum by (s is ResourceType) before handling.
-            </summary>
-            <returns>returns a list objects. Some may be strings and some may be <see cref="T:InsightSheath.Resource.ResourceTypes"/>. It's dependent on the module you're enuming.</returns>
-        </member>
-        <member name="M:InsightSheath.Resource.ResourceWalker.GetResourceInformation">
-            <summary>
-            Return a list of all resources (names, types, ect...) in a neat array that you can use/change
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:InsightSheath.Resource.ResourceWalker.GetResourceNames">
-            <summary>
-            Return a list of Resource names.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:InsightSheath.Resource.ResourceWalker.EnumResourceNames(System.IntPtr,InsightSheath.Resource.ResourceWalker.EnumResourceNameProcw,System.IntPtr,InsightSheath.Resource.ResourceWalker_flags,System.Int16)">
-            <summary>
-            Last stop before calling the routien in <see cref="T:InsightSheath.NativeImports.InternalReasourceWalker"/> that does this
-            </summary>
-            <param name="lpType"></param>
-            <param name="Callback"></param>
-            <param name="CustomArg"></param>
-            <param name="dwFlags"></param>
-            <param name="LangId"></param>
-            <returns></returns>
-        </member>
-        <member name="M:InsightSheath.Resource.ResourceWalker.EnumResourceTypesW(InsightSheath.Resource.ResourceWalker.EnumResTypeProcW,System.IntPtr,InsightSheath.Resource.ResourceWalker_flags,System.Int32)">
-            <summary>
-            Last stop before calling the routine in <see cref="T:InsightSheath.NativeImports.InternalReasourceWalker"/> that does this
-            </summary>
-            <param name="Callback"></param>
-            <param name="CustomArg"></param>
-            <param name="dwFlags"></param>
-            <param name="LangId"></param>
-            <returns></returns>
-        </member>
-        <member name="T:InsightSheath.Resource.UnmanagedResource">
             <summary>
             Primarily intended to be what <see cref="T:InsightSheath.Resource.ResourceWalker"/> gives to let the user load a specific resource into NativeLand.
             </summary>
-        </member>
-        <member name="M:InsightSheath.Resource.UnmanagedResource.GetResourceDataAsByte">
-            <summary>
-            Grab the raw data of the resource 
-            </summary>
-            <returns></returns>
         </member>
         <member name="F:InsightSheath.Telemetry.CheckRemoteDebuggerPresentSettings.ReturnValue">
             <summary>

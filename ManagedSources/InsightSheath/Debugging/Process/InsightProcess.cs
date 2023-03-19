@@ -13,7 +13,7 @@ using InsightSheath.Debugging.SymbolEngine;
 namespace InsightSheath.Debugging.Process
 {
     /// <summary>
-    /// Enum to control how to return control of a debugged process your debugger is respending too back to Windows. Used in several spots. <see cref="InsightProcess"/>, <see cref="DebugEventWorkerThreadSupport"/>
+    /// Enum to control how to return control of a debugged process from your debugger back to Windows. Used in several spots. <see cref="InsightProcess"/>, <see cref="DebugEventWorkerThreadSupport"/>
     /// </summary>
     public enum DebugContState : uint
     {
@@ -38,7 +38,7 @@ namespace InsightSheath.Debugging.Process
     public enum DebugModeType
     {
         /// <summary>
-        /// Do not spawn teh worker thread and do not drop calling your call in said worker thread (i.e do nother and your code must deal with communicating with the Windows Debugger API)
+        /// Do not spawn the worker thread and do not drop calling your call in said worker thread (i.e do nothing and your code must deal with communicating with the Windows Debugger API)
         /// </summary>
         Default = 0,
  
@@ -47,7 +47,7 @@ namespace InsightSheath.Debugging.Process
         /// </summary>
         EnableWorkerThread = 1,
         /// <summary>
-        /// Only if EnableWorkerThread is active too.  This tells the worker thread to DROP calling your event callback if there's no event after the time ror awaiting for debug event expires
+        /// Only if EnableWorkerThread is active too.  This tells the worker thread to DROP calling your event callback if there's no event after the time for awaiting for debug event expires
         /// </summary>
         WorkerDropCallbackForNoEvents = 2
 
@@ -79,7 +79,7 @@ namespace InsightSheath.Debugging.Process
         /// return an instance of <see cref="InsightProcess"/> with it's native pointer set to the unmanaged part of InsightAPI's InsightProcess
         /// </summary>
         /// <param name="That">non null instance of the unmanaged part of <see cref="InsightProcess"/></param>
-        /// <param name="FreeOnCleanup">Indicate if during GC cleanup, we'll get calling an unmanaged routine to delete this. You usually will want this to bve true unless your playing with multiple wraooe classes pointing to the same unmanaged pointer</param>
+        /// <param name="FreeOnCleanup">Indicate if during GC cleanup, we'll get calling an unmanaged routine to delete this. You usually will want this to be true unless your playing with multiple wrapper classes pointing to the same unmanaged pointer</param>
         /// <exception cref="ArgumentNullException">Thrown if argument is equal to null."/></exception>
         public InsightProcess(IntPtr That, bool FreeOnCleanup): base(That, FreeOnCleanup)
         {
@@ -109,7 +109,7 @@ namespace InsightSheath.Debugging.Process
         public delegate int DebugEventCallBackRoutine(IntPtr DebugEvent, IntPtr ContinueState, IntPtr WaitTimer, IntPtr CustomArg);
 
         /// <summary>
-        /// TODO: something with this. (These are constants defined is PS_ProcessInformation.h and should be kept synced) That's the only reason i've not deleted this as I'm figuring I'll forgot to add it again
+        /// TODO: something with this. (These are constants defined is PS_ProcessInformation.h and should be kept synced) That's the only reason I've not deleted this as I'm figuring I'll forgot to add it again
         /// </summary>
         [Obsolete("Not supported anymore")]
         public enum ProcessRestriction : uint
@@ -184,7 +184,7 @@ namespace InsightSheath.Debugging.Process
             CreateSeperateWowVDM = 0x00000800,
             CreateSharedWowVDM   = 0x00001000,
             /// <summary>
-            /// Functionally unnessary for <see cref="InsightProcess"/>. The native code (InsightAPI.DLL) always includes this flag which indicates the passed enviroment block is Unicode characters when spawning the target. 
+            /// Functionally unnecessary for <see cref="InsightProcess"/>. The native code (InsightAPI.DLL) always includes this flag which indicates the passed environment block is Unicode characters when spawning the target. 
             /// </summary>
             CreateUnicodeEnviroment = 0x00000400,
             /// <summary>
@@ -230,7 +230,7 @@ namespace InsightSheath.Debugging.Process
         /// Create an instance of <see cref="InsightProcess"/> on  the native side and return an instance of the wrapper class <see cref="InsightProcess"/> set to use this native pointer
         /// </summary>
         /// <returns>returns instance of <see cref="InsightProcess"/> already set to us the unmanaged pointer of the class</returns>
-        /// <exception cref="InvalidOperationException">Should the unmanaged constructor routine fail to make an intance (return 0), this is thrown</exception>
+        /// <exception cref="InvalidOperationException">Should the unmanaged constructor routine fail to make an instance (return 0), this is thrown</exception>
         public static InsightProcess CreateInstance()
         {
             IntPtr ret = InsightProcessInternal.CreateInsightProcessNativeClass();
@@ -308,7 +308,7 @@ namespace InsightSheath.Debugging.Process
         /// <returns></returns>
    
         /// <summary>
-        /// Get a list of thread ids the class has received info about (CREATE_THREAD_DEBUG_EVENT) and return it. If there are know threads, you'll get nullinstead
+        /// Get a list of thread ids the class has received info about (CREATE_THREAD_DEBUG_EVENT) and return it. If there are know threads, you'll get null instead
         /// </summary>
         /// <param name="ProcessID"></param>
       
@@ -578,7 +578,7 @@ namespace InsightSheath.Debugging.Process
         /// <summary>
         /// Retrieve instance of the class that handles the startup info management. 
         /// </summary>
-        /// <remarks>Should the Native size for this instance of StartupInfo change to be allocated, this routine will need to be updated to prevent a memeory leak.</remarks>
+        /// <remarks>Should the Native size for this instance of StartupInfo change to be allocated, this routine will need to be updated to prevent a memory leak.</remarks>
         /// <returns>This routines an instance to a <see cref="StartupInfoExW"/> class that you can use to customize startup settings. This instance is part of the underlying instance of <see cref="InsightProcess"/> and should not be freed/deleted on clean up if duplicated</returns>
         public StartupInfoExW GetStartupInfoClass()
         {
@@ -594,7 +594,7 @@ namespace InsightSheath.Debugging.Process
         /// DOES NOT WORK if process is running 
         /// </summary>
         /// <param name="NewDllToForceLoad"></param>
-        /// <remarks>Currently detouring from parent to child with matching bitness works; however, x64 bit code is limited currently to detouring x64 processes. x86 can do both.</remarks>
+        /// <remarks>Should be able to work regardless of x86 or x64 bitness now due to  a bug fix earlier.</remarks>
         public void AddDetoursDll(string NewDllToForceLoad)
         {
             InsightProcessInternal.PsProcessInformation_AddDetourDllToLoad(Native, NewDllToForceLoad);
@@ -627,7 +627,7 @@ namespace InsightSheath.Debugging.Process
         }
 
         /// <summary>
-        /// return how many entries are in the helperdll's priority LoadLibrary search path
+        /// return how many entries are in the helper DLL's priority LoadLibrary search path
         /// 
         /// </summary>
         /// <returns></returns>
@@ -734,7 +734,7 @@ namespace InsightSheath.Debugging.Process
         }
 
         /// <summary>
-        /// peaked nonpaged pool usage, in bytes
+        /// peaked non paged pool usage, in bytes
         /// </summary>
         /// <remarks>Why is this hidden in Visual Studio's debug class Visualizer? Performance reasons while viewing in visual studio's debugger visualizer and the data can be gotten with <see cref="GetMemoryStatsBulk"/></remarks>
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]

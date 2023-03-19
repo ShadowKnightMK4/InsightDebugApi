@@ -36,7 +36,7 @@ namespace InsightSheath.Detours
 
    
     /// <summary>
-    /// Wraps DetourBinary routines from detours and exported in insight to  let one inspect/ alter the EXE/DLL's import table.
+    /// Wraps DetourBinary routines from detours and exported in insight to  let one inspect/ alter the EXE/DLL's import table. There's also come code to just fetch the imports.
     /// </summary>
     public  class DetourBinary : IDisposable
     {
@@ -50,6 +50,13 @@ namespace InsightSheath.Detours
         /// </summary>
         protected IntPtr DetourBinaryNativeHandle;
 
+        /// <summary>
+        /// <see cref="EditImports(IntPtr, BinaryByWayscallback, BinaryFileCallback, BinarySymbolCallback, BinaryFinalCallback)"
+        /// </summary>
+        /// <param name="ContextPtr"></param>
+        /// <param name="pszFile"></param>
+        /// <param name="Output"></param>
+        /// <returns></returns>
         public delegate bool BinaryByWayscallback(IntPtr ContextPtr,  string pszFile, IntPtr Output);
         public delegate bool BinaryFileCallback(IntPtr ContextPtr, string OriginalFile, string CurrentFile, IntPtr UnmanagedReplacement);
         public delegate bool BinarySymbolCallback(IntPtr pContext, ulong nOrigOrdinal, ulong nOrginal, UIntPtr OutOrdinal, string pszOrigSymbol, string pszSymbol,  IntPtr OutSymbol );
@@ -169,7 +176,7 @@ namespace InsightSheath.Detours
         /// <param name="pfSymbol">This is called once for each symbol imported from each file in the target</param>
         /// <param name="pfFinal">This is called once the enumartion is finished if there were no errors.</param>
         /// <returns></returns>
-        public bool EditInputs(IntPtr Context, BinaryByWayscallback pfByway, BinaryFileCallback FpfFile, BinarySymbolCallback pfSymbol, BinaryFinalCallback pfFinal)
+        public bool EditImports(IntPtr Context, BinaryByWayscallback pfByway, BinaryFileCallback FpfFile, BinarySymbolCallback pfSymbol, BinaryFinalCallback pfFinal)
         {
             return InternalDetourBinary.DetourBinaryEditInports(DetourBinaryNativeHandle, Context, pfByway, FpfFile, pfSymbol, pfFinal);
         }
@@ -248,7 +255,7 @@ namespace InsightSheath.Detours
                     ImportList = new Dictionary<string, List<string>>();
                     try
                     {
-                        if (!EditInputs(IntPtr.Zero, null, GetInputs_filecallback, GetInputs_symbolcallback, null))
+                        if (!EditImports(IntPtr.Zero, null, GetInputs_filecallback, GetInputs_symbolcallback, null))
                         {
                             return null;
                         }

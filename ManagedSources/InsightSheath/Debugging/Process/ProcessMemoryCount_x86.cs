@@ -54,7 +54,7 @@ namespace InsightSheath.Debugging.Process
         /// </summary>
         public uint PeakPageFileUsaged;
         /// <summary>
-        /// same as <see cref="PageFileUsage"/>,  Current Commit Charge value in butes for this process.  This is the amount that the memory manage as allocated for this process.
+        /// same as <see cref="PageFileUsage"/>,  Current Commit Charge value in bytes for this process.  This is the amount that the memory manage as allocated for this process.
         /// </summary>
         public uint PrivateUsage;
     }

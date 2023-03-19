@@ -35,12 +35,12 @@ namespace InsightSheath.Debugging.SymbolEngine
     }
 
     /// <summary>
-    /// Wrappers for Api Version struture. Note: Impementation in Insight has the struct as part of it, you DON'T want to free any pointer to it you get from insite.
+    /// Wrappers for API Version structures. Note: Implementation in Insight has the struct as part of it, you DON'T want to free any pointer to it you get from it. 
     /// </summary>
     public class DebugHelp_ApiVersionStruct : NativeStaticContainer
     {
         /// <summary>
-        /// Initialize this wrapper class to point to an unmanaged memory structure containing one API_VERISON structy
+        /// Initialize this wrapper class to point to an unmanaged memory structure containing one API_VERISON struct
         /// </summary>
         /// <param name="Native">non null native pointer</param>
         public DebugHelp_ApiVersionStruct(IntPtr Native) : base(Native)
@@ -49,17 +49,17 @@ namespace InsightSheath.Debugging.SymbolEngine
         }
 
         /// <summary>
-        /// Initialize this wrapper class to point to an unmanaged memory structure containing one API_VERISON structy.
+        /// Initialize this wrapper class to point to an unmanaged memory structure containing one API_VERISON struct.
         /// </summary>
         /// <param name="Native">non null native pointer</param>
-        /// <param name="FreeOnClean">Ignored. Always false when calling the base <see cref="NativeStaticContainer"/> contructor</param>
+        /// <param name="FreeOnClean">Ignored. Always false when calling the base <see cref="NativeStaticContainer"/> constructor</param>
         public DebugHelp_ApiVersionStruct(IntPtr Native, bool FreeOnClean) : base(Native, false)
         {
 
         }
 
         /// <summary>
-        /// Get the Revison member of the API_VERSION data struct the Native pointer points too
+        /// Get the Revision member of the API_VERSION data struct the Native pointer points too
         /// </summary>
         public ushort Revision
         {

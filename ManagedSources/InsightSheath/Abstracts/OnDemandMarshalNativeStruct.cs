@@ -31,16 +31,16 @@ namespace InsightSheath.Abstract
         /// <summary>
         /// This code should convert the relevant struct in .NET land and place it in the <see cref="Native"/> if the protected value <see cref="StaleManagedStruct"/> was set to true Unmanaged land. It should throw 
         /// a <see cref="InvalidOperationException"/> if it's not a valid thing (native pointer is known to be read only memory/ exist for a callback function for example) 
-        /// <see cref="NotImplementedException"/> exception if not done yet ecct...
+        /// <see cref="NotImplementedException"/> exception if not done yet etc
         /// </summary>
-        /// <exception cref="InvalidOperationException">Throw this when writing back to the unmanaged struct is not valid (for example read only memory or a local variable in a callback routine allocated on Unamanged heap)</exception>
-        /// <exception cref="NotSupportedException">Throw this when writing back to the unmanaged struct is not valid (for example read only memory or a local variable in a callback routine allocated on Unamanged heap)</exception>
+        /// <exception cref="InvalidOperationException">Throw this when writing back to the unmanaged struct is not valid (for example read only memory or a local variable in a callback routine allocated on Unmanaged heap)</exception>
+        /// <exception cref="NotSupportedException">Throw this when writing back to the unmanaged struct is not valid (for example read only memory or a local variable in a callback routine allocated on Unmanaged heap)</exception>
         /// <exception cref="NotImplementedException">The routine was added but not implemented yet.</exception>
         protected abstract void Apply();
 
 
         /// <summary>
-        /// public access to protects routine to send changes to the managed struct copy back to native land. If the class does not implement or that's not a valid option for the class, an exception may occure
+        /// public access to protects routine to send changes to the managed struct copy back to native land. If the class does not implement or that's not a valid option for the class, an exception may occur
         /// </summary>
         /// <exception cref="InvalidOperationException"></exception>
         /// <exception cref="NotSupportedException"></exception>

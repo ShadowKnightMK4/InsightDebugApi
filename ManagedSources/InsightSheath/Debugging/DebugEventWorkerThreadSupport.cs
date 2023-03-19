@@ -23,7 +23,7 @@ namespace InsightSheath.Debugging
         internal static extern bool ContinueDebugEventInternal(uint ProcessId, uint ThreadID, uint ContinueState);
 
         /// <summary>
-        /// Wait for Debug Event to occur and get information regarding it. This Wraps MSDN's WaitForDebugEventEx() (which optpts you into UNICODE) Call it and pass <see cref="DebugEvent"/>'s Native Pointer.
+        /// Wait for Debug Event to occur and get information regarding it. This Wraps MSDN's WaitForDebugEventEx() (which opts you into UNICODE) Call it and pass <see cref="DebugEvent"/>'s Native Pointer.
         /// </summary>
         /// <param name="Output">Allocate a native block correctly sized for debug event or just make an instance with existing routines</param>
         /// <param name="WaitTime">How long to wait between times. (uint)-1 aka <see cref="uint.MaxValue"/></param> means wait until event triggers

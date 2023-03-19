@@ -10,13 +10,13 @@ namespace InsightSheath.Abstract
 {
     /// <summary>
     /// This class contains an AddRef()/ Release() component for child classes.
-    /// Destructors(), Call Release() and if that returns 0, free as appropriate.
-    /// Not needed if the class itself is a 1 to 1 ie
-    /// Sheath class pointer that contains one pointer, this can skip.
-    /// Sheath, DebugEvent classes have this in the change, because they
+    /// Destructor(), Call Release() and if that returns 0, free as appropriate.
+    /// Not needed if the class itself is a i.e. 1 to 1 
+    /// Sheath class pointer that contains one pointer and do not give it out, this can skip.
+    /// Sheath, DebugEvent classes have this in the class hierarchy because they
     /// give out multiple references to a native class like candy.  Each multiple class
     /// in the sheath points to a single native class.  when the sheath class
-    /// is freed() we need to ensure we don't prematurly free the unamanged component of the class, 
+    /// is freed() we need to ensure we don't prematurely free the unmanaged component of the class, 
     /// </summary>
     public abstract class ReferenceCounterNativeStaticContainer : NativeStaticContainer
     {
@@ -67,7 +67,7 @@ namespace InsightSheath.Abstract
 
 
         /// <summary>
-        /// Increase the Reference count to the native pointer and return the value. Call this when returning a seperate sheath class that may outlive the primary sheath class
+        /// Increase the Reference count to the native pointer and return the value. Call this when returning a separate sheath class that may outlive the primary sheath class
         /// </summary>
         /// <returns></returns>
         public ulong AddRef()
@@ -76,7 +76,7 @@ namespace InsightSheath.Abstract
         }
 
         /// <summary>
-        /// Decrease the Reference count to the native pointer and return the value. If zero is returned, your unmanaged native pointer should be ok to safely cleanup/free
+        /// Decrease the Reference count to the native pointer and return the value. If zero is returned, your unmanaged native pointer should be OK to safely cleanup/free
         /// </summary>
         /// <returns></returns>
         public ulong Release()

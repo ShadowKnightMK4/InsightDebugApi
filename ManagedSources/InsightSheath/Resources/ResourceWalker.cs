@@ -11,4 +11,5 @@ using InsightSheath.Telemetry;
 
 namespace InsightSheath.Resource
 {
+    // ONCE ResourceWalkter  Branch is actually done. Merge those changes back to dev then main.
 }

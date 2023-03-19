@@ -274,7 +274,7 @@ namespace InsightSheath.Debugging.Thread
         }
 
         /// <summary>
-        /// If thread active,  (defined as MSDN's getThreadExitCode gets 259 for a exit code), returns 0 instead of ExitTime,  Note this Refershs ALL <see cref="ThreadCreationTime"/>, <see cref="ThreadExitTime"/>,  <see cref="UserProcessorTime"/>, <see cref="KernelProcessorTime"/> values and returns the one you want
+        /// If thread active,  (defined as MSDN's getThreadExitCode gets 259 for a exit code), returns 0 instead of ExitTime,  Note this Refreshes ALL <see cref="ThreadCreationTime"/>, <see cref="ThreadExitTime"/>,  <see cref="UserProcessorTime"/>, <see cref="KernelProcessorTime"/> values and returns the one you want
         /// </summary>
         
         public TimeSpan ThreadExitTime
@@ -321,7 +321,7 @@ namespace InsightSheath.Debugging.Thread
         }
 
         /// <summary>
-        /// Retreieve a pointer to either a wow64_context or a Context struct depending on the thread's type. 
+        /// Retrieve a pointer to either a wow64_context or a Context struct depending on the thread's type. 
         /// </summary>
         public IntPtr Context
         {
@@ -336,7 +336,7 @@ namespace InsightSheath.Debugging.Thread
         }
 
         /// <summary>
-        /// Get a pointer to a wow64 context stuct for this thread. If it's not a wow64 thread, returns <see cref="IntPtr.Zero"/> instead. You can use <see cref="Wow64ContextLayout"/> to access
+        /// Get a pointer to a wow64 context struct for this thread. If it's not a wow64 thread, returns <see cref="IntPtr.Zero"/> instead. You can use <see cref="Wow64ContextLayout"/> to access
         /// </summary>
         public IntPtr Wow64Context
         {

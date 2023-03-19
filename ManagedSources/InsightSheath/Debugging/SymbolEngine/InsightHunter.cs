@@ -11,7 +11,7 @@ namespace InsightSheath.Debugging.SymbolEngine
     /// <summary>
     /// This is the callback for <see cref="InsightHunter.EnumerateSymbols(string, InsightHunter_SymbolSearchCallBackRoutine)"/>. The passed pointer to your routine is a native pointer to a struct <see cref="SymbolInfo"/>'s that exists for while your routine is active. 
     /// </summary>
-    /// <param name="SymbolInfo">Your routine will get an <see cref="IntPtr"/> pointing to a an unmanaged memory block contaiing symbol data that matched. <see cref="SymbolInfo"/>. This unmanaged memory only contains it for the life of your callback. Duplicate if you need to store or use later.</param>
+    /// <param name="SymbolInfo">Your routine will get an <see cref="IntPtr"/> pointing to a an unmanaged memory block containing symbol data that matched. <see cref="SymbolInfo"/>. This unmanaged memory only contains it for the life of your callback. Duplicate if you need to store or use later.</param>
     /// <returns>Your Routine should return TRUE to keep going and FALSE to quit</returns>
     /// <remarks>The exact routine pointer  that this is based off is  typedef BOOL (WINAPI* SymbolSearchCallback)(SYMBOL_INFOW);  MSDC documentation 
     /// for the callback being invoked here: <see href="https://docs.microsoft.com/en-us/windows/win32/api/dbghelp/nc-dbghelp-psym_enumsourcefiles_callback"/> and the API being called is <see href="https://docs.microsoft.com/en-us/windows/win32/api/dbghelp/nf-dbghelp-symenumsourcefilesw"/>  </remarks>
@@ -24,14 +24,14 @@ namespace InsightSheath.Debugging.SymbolEngine
 
     /// <summary>
     /// A part of the symbol engine exported in InsightAPI in the Native DLL. 
-    /// This class is VERY VERY VERY tightly coupled with the <see cref="InsightProcess"/> class but distinct enough to warrent its own class/wrapper wrappers. 
+    /// This class is VERY VERY VERY tightly coupled with the <see cref="InsightProcess"/> class but distinct enough to warrant its own class/wrapper wrappers. 
     /// If you need not have symbol processing, disabling <see cref="InsightProcess.EnableSymbolEngine"/> is set to false if fine. That turns off the code that updates the native <see cref="InsightHunter"/> class when the worker thread receives a debug event
     /// NOTE: You'll need to spawn at least one process with <see cref="InsightProcess"/> to get much use out of this.
     /// </summary>
     public class InsightHunter : NativeStaticContainer
     {
         /// <summary>
-        /// Specifies combinations of flags to Set for the symbol engine as seein in MSDN's <see href="https://docs.microsoft.com/en-us/windows/win32/api/dbghelp/nf-dbghelp-symsetoptions"/>
+        /// Specifies combinations of flags to Set for the symbol engine as seen in MSDN's <see href="https://docs.microsoft.com/en-us/windows/win32/api/dbghelp/nf-dbghelp-symsetoptions"/>
         /// </summary>
         [Flags]
         public enum SymbolOptionsFlags : uint
@@ -45,7 +45,7 @@ namespace InsightSheath.Debugging.SymbolEngine
             /// </summary>
             AllowZeroAddress = 0x01000000,
             /// <summary>
-            /// Disables searching publics symbols when searchin by address/ enumarting or not found in global and current score.  Ignored if <see cref="PublicsOnly"/> is set also.
+            /// Disables searching publics symbols when searching by address/ enumerating or not found in global and current score.  Ignored if <see cref="PublicsOnly"/> is set also.
             /// </summary>
             AutoPublics = 0x00010000,
             /// <summary>
@@ -61,7 +61,7 @@ namespace InsightSheath.Debugging.SymbolEngine
             /// </summary>
             DeferredLoad = 0x00000004,
             /// <summary>
-            /// Disable the autodetecting of symbovl server stores in the server path.  Requires 6.6 or later.
+            /// Disable the auto detecting of symbol server stores in the server path.  Requires 6.6 or later.
             /// </summary>
             DisableSymServerAutoDetect = 0x02000000,
             /// <summary>
@@ -69,15 +69,15 @@ namespace InsightSheath.Debugging.SymbolEngine
             /// </summary>
             ExactSymbolRequired = 0x02000000,
             /// <summary>
-            /// Should a critical issue such as a resource is not avaialble (cd removed for example), fail the request without informing the user.
+            /// Should a critical issue such as a resource is not available (CD removed from drive for example), fail the request without informing the user.
             /// </summary>
             FailCriticalErrors = 0x00000200,
             /// <summary>
-            /// Tell the Dbghelp routines to favor compressed symbol files over uncompressed should both be accessible.
+            /// Tell the Dbghlp routines to favor compressed symbol files over uncompressed should both be accessible.
             /// </summary>
             FavorCompressed = 0x00800000,
             /// <summary>
-            /// Symbols are stored in the root directory default downstream store.  Requires Dbhhelp 6.2 or greater.
+            /// Symbols are stored in the root directory default downstream store.  Requires Dbghlp 6.2 or greater.
             /// </summary>
             FlatDirectory = 0x00400000,
             /// <summary>
@@ -85,7 +85,7 @@ namespace InsightSheath.Debugging.SymbolEngine
             /// </summary>
             IgnoreCodeViewRecord = 0x00000080,
             /// <summary>
-            /// Tell Dbghlp to ignore the image directory.  Requires Dbghelp 6.2 or greater.
+            /// Tell Dbghlp to ignore the image directory.  Requires Dbghlp 6.2 or greater.
             /// </summary>
             IgnoreImageDir = 0x00200000,
             /// <summary>
@@ -121,11 +121,11 @@ namespace InsightSheath.Debugging.SymbolEngine
             /// </summary>
             NoPublics = 0x00008000,
             /// <summary>
-            /// Prevent symbols from being loaded when caller examines symbols accross multiple module boundries. 
+            /// Prevent symbols from being loaded when caller examines symbols across multiple module boundaries. 
             /// </summary>
             NoUnqualifiedLoads = 0x00000100,
             /// <summary>
-            /// Overrite download store from the symbol table. Requires Dbghlp 6.2 or greater.
+            /// Overwrite download store from the symbol table. Requires Dbghlp 6.2 or greater.
             /// </summary>
             Overwrite = 0x00100000,
             /// <summary>
@@ -133,17 +133,17 @@ namespace InsightSheath.Debugging.SymbolEngine
             /// </summary>
             PublicsOnly = 0x00004000,
             /// <summary>
-            /// Refuse to load symbols not in the symbserver and _NT_SYMBOL_PATH DbgHelp 6.0-6.1 Says flag can be cleared and 5.1 says not supported.
+            /// Refuse to load symbols not in the symbol server and _NT_SYMBOL_PATH DbgHelp 6.0-6.1 Says flag can be cleared and 5.1 says not supported.
             /// </summary>
             SecureMode = 0x00040000,
             /// <summary>
-            /// Undecorate public symbols when encournted.
+            /// Undecorated public symbols when encountered.
             /// </summary>
             UndecorateSymbols = 0x00000002
         }
 
         /// <summary>
-        /// Initialize an instance of the wrapper for the ummanaged <see cref="InsightHunter"/> class to use the copy pointed to by that. 
+        /// Initialize an instance of the wrapper for the unmanaged <see cref="InsightHunter"/> class to use the copy pointed to by that. 
         /// </summary>
         /// <param name="That">non null pointer to an instance of the unmanaged class.</param>
         public InsightHunter(IntPtr That) : base(That)
@@ -155,10 +155,10 @@ namespace InsightSheath.Debugging.SymbolEngine
             SyncAccess = true;
         }
         /// <summary>
-        /// Initialize an instance of the wrapper for the ummanaged <see cref="InsightHunter"/> class to use the copy pointed to by that. 
+        /// Initialize an instance of the wrapper for the unmanaged <see cref="InsightHunter"/> class to use the copy pointed to by that. 
         /// </summary>
         /// <param name="That">non null pointer to an instance of the unmanaged class.</param>
-        /// <param name="FreeOnDispose">Indicate if the object is subject to being freed() when GC cleans up. Recommand FALSE providea a dispose handling cleanup</param>
+        /// <param name="FreeOnDispose">Indicate if the object is subject to being freed() when GC cleans up. Recommend FALSE if needing a duplication wrapper to the unmanaged class</param>
         public InsightHunter(IntPtr That, bool FreeOnDispose) : base(That, FreeOnDispose)
         {
             if (That == IntPtr.Zero)
@@ -168,12 +168,12 @@ namespace InsightSheath.Debugging.SymbolEngine
             SyncAccess = true;
         }
 
-        #region public exported api
+        #region public exported API
         /// <summary>
         ///        
         /// </summary>
         /// <param name="debugEvent"><see cref="DebugEvent"/> class instance containing a <see cref="DebugEventType.CreateProcessEvent"/> event</param>
-        /// <returns>true if ok, false on failuree</returns>
+        /// <returns>true if OK, false on failure</returns>
         public bool LoadExeSymbolInfo(DebugEvent debugEvent)
         {
             return NativeImports.InternalInsightHunter.Insight_LoadExeSymbolInfo(Native, debugEvent.NativePointer);
@@ -183,7 +183,7 @@ namespace InsightSheath.Debugging.SymbolEngine
         ///
         /// </summary>
         /// <param name="DebugEvent"><see cref="DebugEvent"/> class instance containing a <see cref="DebugEventType.CreateProcessEvent"/> event</param>
-        /// <returns>true if ok, false on failuree</returns>
+        /// <returns>true if OK, false on failure</returns>
         public bool LoadExeSymbolInfo(IntPtr DebugEvent)
         {
 
@@ -195,7 +195,7 @@ namespace InsightSheath.Debugging.SymbolEngine
         ///
         /// </summary>
         /// <param name="DebugEvent">class instance containing a <see cref="DebugEventType.LoadDllEvent"/> event</param>
-        /// <returns>true if ok, false on failuree</returns>
+        /// <returns>true if OK, false on failure</returns>
         public bool LoadDllSymbolInfo(DebugEvent DebugEvent)
         {
             return InternalInsightHunter.Insight_LoadDllSymbolInfo(Native, DebugEvent.NativePointer);
@@ -225,9 +225,9 @@ namespace InsightSheath.Debugging.SymbolEngine
 
 
         /// <summary>
-        /// Set the parent window for the symbol engine/ debug help api
+        /// Set the parent window for the symbol engine/ debug help API
         /// </summary>
-        /// <param name="HWND">Handle to Win32 Window that the debug help api will assume you're outputting info too</param>
+        /// <param name="HWND">Handle to Win32 Window that the debug help API  will assume you're outputting info too</param>
         /// <returns>True if it worked and false if it did not.</returns>
         public bool SetParentWindow(IntPtr HWND)
         {
@@ -236,7 +236,7 @@ namespace InsightSheath.Debugging.SymbolEngine
 
 
         /// <summary>
-        /// Enumerate loaded symbols for the debugged exe
+        /// Enumerate loaded symbols for the debugged process
         /// </summary>
         /// <param name="SearchString"></param>
         /// <param name="DotNetCallback"></param>

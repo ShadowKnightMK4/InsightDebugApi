@@ -12,7 +12,7 @@ namespace InsightSheath.Win32Struct
     /// This is the Object Attributes struct for a 64-bit process  Specs from <see href="https://docs.microsoft.com/en-us/windows/win32/api/ntdef/ns-ntdef-_object_attributes"/> 
     /// </summary>
     /// <remarks> <summary>
-    /// IMPORTANT! Pointer values and handle are 8 bytes long for x64 bit processes instead of 4 bytes. This is why we need to define two structs. Other struct is <see cref="ObjectAttributes32"/>
+    /// IMPORTANT! Pointer values and handle are 8 bytes long for x64 bit processes instead of 4 bytes. This is why we need to define two structures. Other struct is <see cref="ObjectAttributes32"/>
     /// </summary></remarks>
     [StructLayout(LayoutKind.Sequential)]
     public struct ObjectAttributes64

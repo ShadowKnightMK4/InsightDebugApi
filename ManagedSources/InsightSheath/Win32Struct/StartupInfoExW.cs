@@ -51,7 +51,7 @@ namespace InsightSheath.Win32Struct
         ShowNa = 8,
         ShowRestore = 9,
         /// <summary>
-        /// Not supported for startup info. For ShowWindow MSDN it means use the startupinfo to specify how to display the Window
+        /// Not supported for startup info. For ShowWindow MSDN it means use the StartupInfoExW to specify how to display the Window
         /// </summary>
         ShowDefault = 10,
         ForceMinimize = 11
@@ -73,9 +73,9 @@ namespace InsightSheath.Win32Struct
         }
 
         /// <summary>
-        /// Make an instance of the wrapper class for this unamanged non-null native pointer.
+        /// Make an instance of the wrapper class for this unmanaged non-null native pointer.
         /// </summary>
-        /// <param name="Native">Non null native poionter</param>
+        /// <param name="Native">Non null native pointer</param>
         public StartupInfoExW(IntPtr Native): base(Native)
         {
             if (Native == IntPtr.Zero)
@@ -84,9 +84,9 @@ namespace InsightSheath.Win32Struct
             }
         }
         /// <summary>
-        /// Make an instance of the wrapper class for this unamanged non-null native pointer.
+        /// Make an instance of the wrapper class for this unmanaged non-null native pointer.
         /// </summary>
-        /// <param name="Native">Non null native poionter</param>
+        /// <param name="Native">Non null native pointer</param>
         /// <param name="FreeonCleanup">Indicate if we're calling the unmanaged routine to delete this or non on GC collection</param>
         public StartupInfoExW(IntPtr Native, bool FreeonCleanup): base(Native, FreeonCleanup)
         {
@@ -98,7 +98,7 @@ namespace InsightSheath.Win32Struct
 
         private bool disposedValue;
         /// <summary>
-        /// Call the appropriate unamanged routine to clean up this class.
+        /// Call the appropriate unmanaged routine to clean up this class.
         /// </summary>
         /// <param name="disposing">true if disposing of managed resources also.</param>
         protected override void Dispose(bool disposing)
