@@ -360,7 +360,7 @@ namespace InsightSheath.Debugging
         /// <summary>
         /// Construct a wrapper class for a <see cref="DebugEvent"/> containing a <see cref="DebugEventType"/> of <see cref="DebugEventType.LoadDllEvent"/>
         /// </summary>
-        /// <param name="Nat">pointer to a unmanaged DEBUG_EVENT struct one a valid pointer from <see cref="DebugEvent.GetDebugEventLoadDll"/></param>
+        /// <param name="Nat">pointer to an unmanaged DEBUG_EVENT struct one a valid pointer from <see cref="DebugEvent.GetDebugEventLoadDll"/></param>
         /// <param name="FreeOnCleanup">Set if you want the unmanaged pointer released. </param>
         /// <param name="RefCount">Specific the current reference counter. When it reaches 0 during cleanup, the unmanaged pointer is freed. </param>
         public DebugEventLoadDllInfo(IntPtr Nat, bool FreeOnCleanup, ulong RefCount) : base(Nat, FreeOnCleanup, RefCount)

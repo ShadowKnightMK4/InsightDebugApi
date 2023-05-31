@@ -13,7 +13,7 @@ namespace InsightSheath.Abstract
     /// Destructor(), Call Release() and if that returns 0, free as appropriate.
     /// Not needed if the class itself is a i.e. 1 to 1 
     /// Sheath class pointer that contains one pointer and do not give it out, this can skip.
-    /// Sheath, DebugEvent classes have this in the class hierarchy because they
+    /// Sheath DebugEvent classes have this in the class hierarchy because they
     /// give out multiple references to a native class like candy.  Each multiple class
     /// in the sheath points to a single native class.  when the sheath class
     /// is freed() we need to ensure we don't prematurely free the unmanaged component of the class, 
