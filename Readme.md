@@ -22,21 +22,12 @@ IMPORTANT
 There is a bit of cross over code between x64 and x86 in terms of pointer handling.  With how ReadProcessMemory() from deals with x64 pointers from x86, it is recommended that you use the x64 bit settings if you’re working with an OS that has both.  You may also need to enable ‘Debug Native Code’ under its project setting if using Insight from C# as well as the Debug Child Processes Tool for Visual Studio (https://marketplace.visualstudio.com/items?itemName=vsdbgplat.MicrosoftChildProcessDebuggingPowerTool&msclkid=a4376279aef511ec8a5c3023ac5217e9). The Debug Child Process Tool will help when debugging telemetry.  The project is built/ tested with Visual Studio 2019 and C#’s .NET 5.0.  There’s a good chance you will need to do some project adjustments if you decide to target a different version.  The 2 main projects are InsightSheath and InsightAPI.  The current remotely stable Telemetry DLL is the IoDeviceTracking, but that's stretch.  It works the most out of the various ones. 
 
 
-
-Native Build Folders
-------------------------------------------
-To Simply building I’ve attempted to set paths via visual studio macros.  Also, if you consider %cd% to be the location where you’ve stashed the project then solution setup is below.  The end plan for the solution is thru a combination of macros, include folders/ect in the project folders to let a person download the entire thing and hit build.
-
-| Folder Location |  What does it hold |
-------------------|--------------------
-| '%cd%\code\debug' |  Contains binaries made with the debug build |
-| '%xd%\code\debug\lib'	| contains built Native static libraries made |
-| '%cd%\code\debug\program' |contains Native EXE and DLLs made |
-| %cd%\code\debug\program\Telemetry |contains Native Dlls and PDBs of said dlls build for telemetry. |
-| %cd%\code\release | Contains Native binaries made with the release config |
-| %cd%\code\release\lib	| contains Native static libraries made |
-| %cd%\code\release\program | contains Native EXE and DLLs made |
-| %cd%\code\release\program\Telemetry | contains Native Dlls and PDBs of said dlls build for telemetry. |
+WHATS NEW
+----------------------------------------
+The changes are these.
+- First change is retarting Visual Studio 2022 and .NET 7.0.
+- Default built is x64. To get the x86 (And the Telemetry DLLs, change the build target to x86)
+- On the backend of building, there are some copies of the built version of InsightSheath, InsightAPI being copied  as projects are built. This should let you be able to step thru and not have the annoying issue of rebuilding and your app taking the old version.
 
 
 Branch Navigation

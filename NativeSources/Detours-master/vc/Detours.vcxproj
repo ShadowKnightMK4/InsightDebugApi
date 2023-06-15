@@ -57,7 +57,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'" Label="Configuration">
@@ -75,7 +75,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'" Label="Configuration">
@@ -130,8 +130,9 @@ nmake</NMakeReBuildCommandLine>
     <NMakeCleanCommandLine>SET DETOURS_TARGET_PROCESSOR=$(PlatformTarget)
 cd ..
 nmake clean</NMakeCleanCommandLine>
-    <OutDir>$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\lib\</OutDir>
+    <OutDir>$(SolutionDir)code\Native\$(ProjectName)\$(Configuration)\$(Platform)</OutDir>
     <PreBuildEventUseInBuild>false</PreBuildEventUseInBuild>
+    <IntDir>$(SolutionDir)BuildFolder\Native\$(ProjectName)\$(Configuration)\$(Platform)</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <NMakeBuildCommandLine>SET DETOURS_TARGET_PROCESSOR=$(PlatformTarget)
@@ -170,8 +171,9 @@ nmake</NMakeReBuildCommandLine>
     <NMakeCleanCommandLine>SET DETOURS_TARGET_PROCESSOR=$(PlatformTarget)
 cd ..
 nmake clean</NMakeCleanCommandLine>
-    <OutDir>$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\lib\</OutDir>
+    <OutDir>$(SolutionDir)code\Native\$(ProjectName)\$(Configuration)\$(Platform)</OutDir>
     <PreBuildEventUseInBuild>false</PreBuildEventUseInBuild>
+    <IntDir>$(SolutionDir)BuildFolder\Native\$(ProjectName)\$(Configuration)\$(Platform)</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
     <NMakeBuildCommandLine>SET DETOURS_TARGET_PROCESSOR=$(PlatformTarget)
@@ -248,6 +250,12 @@ nmake clean</NMakeCleanCommandLine>
 cd ..
 nmake</Command>
     </PreBuildEvent>
+    <PostBuildEvent>
+      <Message>Copying $(Configuration) Detours to lib directory at "$(SolutionDir)code\Native\libs\$(Configuration)\$(Platform)</Message>
+      <Command>mkdir "$(SolutionDir)code\Libs\$(Configuration)"
+mkdir "$(SolutionDir)code\Libs\$(Configuration)\$(Platform)"
+copy /Y "$(TargetPath)" "$(SolutionDir)code\Libs\$(Configuration)\$(Platform)\$(TargetFileName)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <ClCompile>
@@ -349,6 +357,12 @@ nmake</Command>
 cd ..
 nmake</Command>
     </PreBuildEvent>
+    <PostBuildEvent>
+      <Message>Copying $(Configuration) Detours to lib directory at "$(SolutionDir)code\Native\libs\$(Configuration)\$(Platform)</Message>
+      <Command>mkdir "$(SolutionDir)code\Libs\$(Configuration)"
+mkdir "$(SolutionDir)code\Libs\$(Configuration)\$(Platform)"
+copy /Y "$(TargetPath)" "$(SolutionDir)code\Libs\$(Configuration)\$(Platform)\$(TargetFileName)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
     <ClCompile>

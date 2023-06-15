@@ -1,9 +1,9 @@
 #include "ThreadSupport.h"
-#include <algorithm>
+//#include <algorithm>
 
 
 /*
-* Thread COllection.cpp
+* Thread oOllection.cpp
 * 
 * This is the class that process context uses to track threads received via CreateThread debug event and sueperate via process id.
 */

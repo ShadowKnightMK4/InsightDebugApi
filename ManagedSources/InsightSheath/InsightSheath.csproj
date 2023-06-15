@@ -1,33 +1,54 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net7.0-windows10.0.17763.0</TargetFramework>
     <Configurations>Debug;Release</Configurations>
+    <Title>InsightDebugAPI Sheath </Title>
+    <BaseIntermediateOutputPath>$(SolutionDir)BuildFolder\Managed\$(ProjectName)$(Configuration)\$(Platform_Actual)</BaseIntermediateOutputPath>
+    <BaseOutputPath>$(SolutionDir)code\Managed\$(Configuration)\$(ProjectName)$(Platform_Actual)</BaseOutputPath>
+    <PackageOutputPath>$(SolutionDir)code\Managed\$(Configuration)\$(Platform_Actual)</PackageOutputPath>
+    <PlatformTarget>x64</PlatformTarget>
+    <AnalysisLevel>latest</AnalysisLevel>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DocumentationFile>InsightSheath.xml</DocumentationFile>
-    <OutputPath>bin\Release\net5.0\</OutputPath>
+    <OutputPath>$(SolutionDir)code\Managed\$(Configuration)\$(Platform_Actual)</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile>InsightSheath.xml</DocumentationFile>
-    <OutputPath>bin\Debug\net5.0\</OutputPath>
+    <OutputPath>$(SolutionDir)code\Managed\$(Configuration)\$(Platform_Actual)</OutputPath>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="bin\**" />
     <Compile Remove="HelperDll\**" />
+    <Compile Remove="obj\**" />
+    <EmbeddedResource Remove="bin\**" />
     <EmbeddedResource Remove="HelperDll\**" />
+    <EmbeddedResource Remove="obj\**" />
+    <None Remove="bin\**" />
     <None Remove="HelperDll\**" />
+    <None Remove="obj\**" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="InsightApi.dll" />
     <None Remove="InsightSheath.xml" />
   </ItemGroup>
 
   <ItemGroup>
     <Page Include="InsightSheath.xml" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="copy /Y  &quot;$(SolutionDir)code\Native\InsightApi\$(Configuration)\$(PlatformTarget)\InsightAPI.*&quot;  $(OutDir)" />
+  </Target>
 
 </Project>

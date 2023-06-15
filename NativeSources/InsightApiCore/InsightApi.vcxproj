@@ -43,13 +43,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -90,17 +90,17 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(SolutionDir)NativeSources\gsl\gsl;$(SolutionDir)\StaticIncludes;$(SolutionDir)NativeSources\Detours-master\src;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)Code\$(Configuration)\$(PlatformTarget)\lib;$(LibraryPath)</LibraryPath>
-    <OutDir>$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\program\</OutDir>
-    <IntDir>$(SolutionDir)BuildFolder\$(ProjectName)\$(Configuration)\$(PlatformTarget)\</IntDir>
+    <LibraryPath>$(SolutionDir)code\Libs\$(Configuration)\$(Platform);$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)code\Native\$(ProjectName)\$(Configuration)\$(Platform)</OutDir>
+    <IntDir>$(SolutionDir)BuildFolder\Native\$(ProjectName)\$(Configuration)\$(Platform)</IntDir>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>$(SolutionDir)NativeSources\gsl\gsl;$(SolutionDir)\StaticIncludes;$(SolutionDir)NativeSources\Detours-master\src;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)Code\$(Configuration)\$(PlatformTarget)\lib;$(LibraryPath)</LibraryPath>
-    <OutDir>$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\program\</OutDir>
-    <IntDir>$(SolutionDir)BuildFolder\$(ProjectName)\$(Configuration)\$(PlatformTarget)\</IntDir>
+    <LibraryPath>$(SolutionDir)code\Libs\$(Configuration)\$(Platform);$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)code\Native\$(ProjectName)\$(Configuration)\$(Platform)</OutDir>
+    <IntDir>$(SolutionDir)BuildFolder\Native\$(ProjectName)\$(Configuration)\$(Platform)</IntDir>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -180,6 +180,12 @@ del "$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\lib\InsightApi.*"
       <ModuleDefinitionFile>Exports.def</ModuleDefinitionFile>
       <AdditionalDependencies>Dbghelp.lib;detours.lib;shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>copy /Y "$(TargetDir)$(TargetName).lib" "$(SolutionDir)code\Libs\$(Configuration)\$(Platform)\$(TargetName).lib"</Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>Running copy /Y $(TargetPath) $(SolutionDir)code\Libs\$(Configuration)\$(Platform)\$(TargetFileName) to place the static lib in the correct folder</Message>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -200,6 +206,12 @@ del "$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\lib\InsightApi.*"
       <AdditionalDependencies>Dbghelp.lib;detours.lib;shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SetChecksum>true</SetChecksum>
     </Link>
+    <PostBuildEvent>
+      <Command>copy /Y "$(TargetDir)$(TargetName).lib" "$(SolutionDir)code\Libs\$(Configuration)\$(Platform)\$(TargetName).lib"</Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>Running copy /Y $(TargetPath) $(SolutionDir)code\Libs\$(Configuration)\$(Platform)\$(TargetFileName) to place the static lib in the correct folder</Message>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ApiVersionStruct_CExports.cpp" />

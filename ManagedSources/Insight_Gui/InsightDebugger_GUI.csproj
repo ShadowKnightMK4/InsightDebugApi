@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net5.0-windows7.0</TargetFramework>
+    <TargetFramework>net7.0-windows10.0.17763.0</TargetFramework>
     <UseWindowsForms>false</UseWindowsForms>
     <ApplicationIcon></ApplicationIcon>
     <StartupObject>FileSandBox_GUI.Program</StartupObject>
@@ -13,14 +13,26 @@
     <PackageReleaseNotes>Private Build Version</PackageReleaseNotes>
     <Win32Resource />
     <RunPostBuildEvent>Always</RunPostBuildEvent>
+    <PlatformTarget>x64</PlatformTarget>
+    <BaseOutputPath>$(SolutionDir)code\Managed\$(Configuration)\$(ProjectName)$(Platform_Actual)</BaseOutputPath>
+    <BaseIntermediateOutputPath>$(SolutionDir)BuildFolder\Managed\$(ProjectName)$(Configuration)\$(Platform_Actual)\</BaseIntermediateOutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <PlatformTarget>x64</PlatformTarget>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
-    <OutputPath></OutputPath>
+    <OutputPath>$(SolutionDir)code\Managed\$(Configuration)\$(ProjectName)$(Platform_Actual)</OutputPath>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="bin\**" />
+    <Compile Remove="obj\**" />
+    <EmbeddedResource Remove="bin\**" />
+    <EmbeddedResource Remove="obj\**" />
+    <None Remove="bin\**" />
+    <None Remove="obj\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <Compile Remove="DebugProcessGuiLauncher.cs" />
@@ -61,12 +73,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="FileSandBoxApi.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -96,7 +102,7 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="copy $(SolutionDir)code\$(ConfigurationName)\x64\program\InsightApi.* $(ProjectDir)$(OutDir)&#xD;&#xA;" />
+    <Exec Command="copy /Y &quot;$(SolutionDir)code\Native\InsightApi\$(Configuration)\$(PlatformTarget)\InsightAPI.*&quot;  $(OutDir)&#xD;&#xA;" />
   </Target>
 
 </Project>

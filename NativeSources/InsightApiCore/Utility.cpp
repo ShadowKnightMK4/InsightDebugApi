@@ -6,7 +6,7 @@
 #include "Utility.h"
 #include <Psapi.h>
 #include <ImageHlp.h>
-#include <span>
+//#include <span>
 
 /// <summary>
 /// Enable a chosen Privilege on self.  NOT INTENDED TO BE EXPORTED.  We really use this to just enable debug priv when requested to.

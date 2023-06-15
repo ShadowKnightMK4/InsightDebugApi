@@ -12,7 +12,7 @@ the Native dll - for example WindowsUnicodeString in the C# wrapper
 
 
 ALL Native routines exported in the InsightAPI DLL are WINAPI/ _stdcall export.
-The native dll.  FileSandBoxApi. exports a "C" level linking for public facing classes.
+The native dll.  InsightAPI. exports a "C" level linking for public facing classes.
 Each class has a MakeInstance, CopyInstance and KillInstance exported routine to handle memory management.
 
 There are a lot of classes and structs to work with InsightAPI; however, in general you're going to be dealing

@@ -42,13 +42,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -89,7 +89,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(SolutionDir)NativeSources\Detours-master\src;$(ProjectDir);$(ProjectDir)Headers;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)Code\$(Configuration)\$(PlatformTarget)\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)code\Libs\$(Configuration)\$(Platform);$(LibraryPath)</LibraryPath>
     <IntDir>$(SolutionDir)\BuildFolder\$(ProjectName)\$(Configuration)\$(PlatformTarget)</IntDir>
     <OutDir>$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\program\Samples\</OutDir>
     <TargetName>$(TargetName)$(PlatformArchitecture)</TargetName>
@@ -97,7 +97,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>$(SolutionDir)NativeSources\Detours-master\src;$(ProjectDir);$(ProjectDir)Headers;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)Code\$(Configuration)\$(PlatformTarget)\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)code\Libs\$(Configuration)\$(Platform);$(LibraryPath)</LibraryPath>
     <IntDir>$(SolutionDir)\BuildFolder\$(ProjectName)\$(Configuration)\$(PlatformTarget)</IntDir>
     <OutDir>$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\program\Samples\</OutDir>
     <TargetName>$(TargetName)$(PlatformArchitecture)</TargetName>

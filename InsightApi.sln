@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31112.23
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{96470886-31E8-4FBB-87EE-1912416A5358}"
 	ProjectSection(SolutionItems) = preProject
@@ -49,14 +49,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InsightDebugger_GUI", "ManagedSources\Insight_Gui\InsightDebugger_GUI.csproj", "{9D0F7C29-39DA-4162-B975-8F91BD4AEBE7}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HelloWorld", "TestingAndSamples\HelloWorld\HelloWorld.vcxproj", "{1D2085DE-27BD-4578-AEF1-AA5C52DF0C76}"
-	ProjectSection(ProjectDependencies) = postProject
-		{37489709-8054-4903-9C49-A79846049FC9} = {37489709-8054-4903-9C49-A79846049FC9}
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DetoursChainingRoutines", "TestingAndSamples\Samples\DetoursChainingRoutines\DetoursChainingRoutines.vcxproj", "{1FEBBD0F-4754-4E3E-B80A-32C514D58B2F}"
-	ProjectSection(ProjectDependencies) = postProject
-		{37489709-8054-4903-9C49-A79846049FC9} = {37489709-8054-4903-9C49-A79846049FC9}
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NonGitHub", "NonGitHub", "{AB41BB9B-23F3-478A-B17A-1F2CE974C35E}"
 EndProject
