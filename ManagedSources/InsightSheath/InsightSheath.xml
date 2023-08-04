@@ -1360,6 +1360,11 @@
             Flags to change how the process is spawned. From <see href="https://docs.microsoft.com/en-us/windows/win32/procthread/process-creation-flags"/>
             </summary>
         </member>
+        <member name="F:InsightSheath.Debugging.Process.InsightProcess.CreationFlagValues.CreateSuspended">
+            <summary>
+            Create the process suspended, use <see cref="M:InsightSheath.Debugging.Process.InsightProcess.GetMainThreadId"/> or <see cref="M:InsightSheath.Debugging.Process.InsightProcess.GetMainThreadHandle"/> and pass to <see cref="T:InsightSheath.Debugging.Thread.ThreadContext"/> as a way to resume it
+            </summary>
+        </member>
         <member name="F:InsightSheath.Debugging.Process.InsightProcess.CreationFlagValues.CreateUnicodeEnviroment">
             <summary>
             Functionally unnecessary for <see cref="T:InsightSheath.Debugging.Process.InsightProcess"/>. The native code (InsightAPI.DLL) always includes this flag which indicates the passed environment block is Unicode characters when spawning the target. 
@@ -1512,6 +1517,17 @@
             </summary>
             <param name="Name">This is the name of the environment value to define. For example "PATH"</param>
             <returns>Returns a string if the value exists or null if it does NOT</returns>
+        </member>
+        <member name="M:InsightSheath.Debugging.Process.InsightProcess.RemoveExplicitEnvironmentValue(System.String)">
+            <summary>
+            Remove this explicit environmental value made from a previous call to <see cref="M:InsightSheath.Debugging.Process.InsightProcess.SetExplicitEnviromentValue(System.String,System.String)"/>. 
+            </summary>
+            <param name="Name">name to remove</param>
+        </member>
+        <member name="M:InsightSheath.Debugging.Process.InsightProcess.WipeExplicitEnviroment">
+            <summary>
+            Remove all enviroment values set by previous calls to SetExplicitEnviroment
+            </summary>
         </member>
         <member name="M:InsightSheath.Debugging.Process.InsightProcess.GetStartupInfoClass">
             <summary>
@@ -3004,8 +3020,15 @@
             <summary>
             Specific if processes spawned with the context class want to inherit the parent's environment or not.
             </summary>
+            InsightProcess_GetEnvInherit
             <param name="That"></param>
             <param name="WantDefaultAlso"></param>
+        </member>
+        <member name="M:InsightSheath.NativeImports.InsightProcessInternal.InsightProcess_GetInheritDefaultEnvironment(System.IntPtr)">
+            <summary>
+            Get the current status if that any processes we start inherit the parent process enivornment 
+            </summary>
+            <param name="that"></param>
         </member>
         <member name="T:InsightSheath.NativeImports.DebugHelpApiVersionStructInternal">
             <summary>

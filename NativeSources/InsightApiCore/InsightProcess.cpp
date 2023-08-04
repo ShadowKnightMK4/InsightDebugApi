@@ -432,7 +432,7 @@ void InsightProcess::CurrentDirectory(const wchar_t* NewCD)
 	WorkingDirectory = NewCD;
 }
 
-void InsightProcess::ImportSpawnerEnviroment(BOOL Yes)
+void InsightProcess::InheritSpawnEnvironment(BOOL Yes)
 {
 	if (Yes)
 	{
@@ -444,8 +444,14 @@ void InsightProcess::ImportSpawnerEnviroment(BOOL Yes)
 	}
 }
 
+BOOL InsightProcess::InheritSpawnEnvironment()
+{
+	return this->bInhertEnviroment;
+}
+
 void InsightProcess::ClearEnviroment()
 {
+	Enviroment->clear();
 }
 
 const wchar_t* InsightProcess::Environment(const wchar_t* name)
@@ -462,7 +468,14 @@ const wchar_t* InsightProcess::Environment(const wchar_t* name)
 
 void InsightProcess::Environment(const wchar_t* name, const wchar_t* value)
 {
-	(*Enviroment)[name] = value;
+	if (value != nullptr)
+	{
+		(*Enviroment)[name] = value;
+	}
+	else
+	{
+		(*Enviroment).erase(name);
+	}
 }
 
 void InsightProcess::AddDetoursDll(std::wstring Name)
@@ -480,25 +493,24 @@ void InsightProcess::AddDetoursDll(std::wstring Name)
 
 void InsightProcess::AddDetoursDll(const char* Name)
 {
-	if (Name != nullptr)
+	if ( (Name != nullptr) && (Name[0] != 0))
 	{
-		if (Name[0] != 0)
-		{
-			DetoursDll->insert(DetoursDll->end(), _strdup(Name));
-		}
-
+		DetoursDll->emplace_back(Name);
 	}
 }
 
 void InsightProcess::ClearDetoursDll()
 {
-	for (auto step = DetoursDll->begin(); step != DetoursDll->end(); step++)
+	DetoursDll->clear();
+	DetoursDll->shrink_to_fit();
+	/*for (auto step = DetoursDll->begin(); step != DetoursDll->end(); step++)
 	{
-		free(step._Ptr);
-	}
+		
+	}*/
 }
 
-const std::vector<LPCSTR> InsightProcess::GetDetourList()
+//const std::vector<LPCSTR> InsightProcess::GetDetourList()
+const std::vector<std::string> InsightProcess::GetDetourList()
 {
 	return *DetoursDll;
 }
@@ -509,7 +521,9 @@ const char* InsightProcess::IndexDetourList(int index)
 	{
 		return nullptr;
 	}
-	return (DetoursDll[index])[0];
+	//return (DetoursDll[index])[0];
+	throw;
+	return DetoursDll[index][0].c_str();
 }
 
 unsigned long long InsightProcess::GetDetourListSize() noexcept
@@ -543,7 +557,8 @@ void InsightProcess::init(InsightProcess* target)
 		target->StartUpInfo = new StartupInfoWrapper();
 		target->CommandmentArray = new std::map<DWORD, BOOL>();
 		target->Enviroment = new std::map<std::wstring, std::wstring>();
-		target->DetoursDll = new std::vector<LPCSTR>();
+		//target->DetoursDll = new std::vector<LPCSTR>();
+		target->DetoursDll = new std::vector<std::string>();
 		target->ProcessThreads = new ThreadContainer();
 
 	}
@@ -854,7 +869,8 @@ void InsightProcess::dupto(const InsightProcess* source, InsightProcess* target,
 
 	if ((DeepCopy) && (source->DetoursDll != nullptr))
 	{
-		target->DetoursDll = new std::vector < LPCSTR>(*source->DetoursDll);
+		//target->DetoursDll = new std::vector < LPCSTR>(*source->DetoursDll);
+		target->DetoursDll = new std::vector < std::string>(*source->DetoursDll);
 	}
 	else
 	{
@@ -1115,7 +1131,8 @@ DWORD InsightProcess::SpawnProcessCommon(bool NoNotSpawnThread)
 				else
 				{
 					//CopyPayloads(PInfo.hProcess);
-					ResumeThread(PInfo.hThread);
+					if (!(dwCreationFlags & CREATE_SUSPENDED) == (CREATE_SUSPENDED) )
+						ResumeThread(PInfo.hThread);
 				}
 
 			}

@@ -250,8 +250,17 @@ extern "C"
 	{
 		if (that)
 		{
-			that->ImportSpawnerEnviroment(WantInherit);
+			that->InheritSpawnEnvironment(WantInherit);
 		}
+	}
+
+	BOOL WINAPI InsightProcess_GetEnvInherit(InsightProcess* that)
+	{
+		if (that)
+		{
+			return that->InheritSpawnEnvironment();
+		}
+		return FALSE;
 	}
 
 	/// <summary>
@@ -283,6 +292,17 @@ extern "C"
 				that->Environment(EnvVarName, EnvVarValue);
 			}
 			
+		}
+	}
+
+	void WINAPI InsightProcess_ClearEnvValue(InsightProcess* that, const wchar_t* EnvVarName)
+	{
+		if (that)
+		{
+			if (EnvVarName != nullptr)
+			{
+				that->Environment(EnvVarName, nullptr);
+			}
 		}
 	}
 

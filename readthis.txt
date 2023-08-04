@@ -1,0 +1,7 @@
+IoDeviceTracking32 shares source with IoDeviceTrackingCommon
+IoDeviceTracking64 shares source with IoDeviceTrackingCommon.
+
+32 builds for the x86 version.
+64 builds for the x64 version.
+There are no seperate source files for the versions. Both are build from 
+IoDeviceTrackingCommon and stored there. 

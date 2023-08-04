@@ -16,7 +16,9 @@ LIBRARY INSIGHTAPI
 		InsightProcess_SetWorkingDirectory
 		InsightProcess_GetWorkingDirectory
 		InsightProcess_SetEnvInherit
+		InsightProcess_GetEnvInherit
 		InsightProcess_ClearEnvBlock
+		InsightProcess_ClearEnvValue
 		InsightProcess_AssignEnvValue
 		InsightProcess_GetEnvValue
 		InsightProcess_AddDetoursDllA

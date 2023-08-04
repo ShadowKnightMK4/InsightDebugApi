@@ -1,7 +1,9 @@
 @ECHO OFF
-echo Easy Clean is delete the contents of the BuildFolder and Code folder without deleting said folders. This deletes the directory contents
+echo Deleting contents of BuildFolder  that acts at the temp storage for obj files/ect...
 rd /q /s "BuildFolder\"
+echo Deleting contents of Code folder that receives the exe/dll/lib files on build
 rd /q /s "Code\"
+echo recreating the folders
 md Code
-md 
+md BuildFolder
 

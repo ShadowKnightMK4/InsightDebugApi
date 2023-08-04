@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Generic">
+      <UniqueIdentifier>{9b4ffcb5-e6a0-4bba-8081-012afc6bc388}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\IoDeviceTrackingSource\Generic\Dllmain.cpp">
+      <Filter>Generic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\IoDeviceTrackingSource\Generic\TelemetrySupports.cpp">
+      <Filter>Generic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\IoDeviceTrackingSource\DetouredRoutines.cpp" />
+    <ClCompile Include="..\IoDeviceTrackingSource\DetouringRoutines.cpp" />
+    <ClCompile Include="..\IoDeviceTrackingSource\OriginalRoutinePtrs.cpp" />
+    <ClCompile Include="..\IoDeviceTrackingSource\StringConstants.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\IoDeviceTrackingSource\Generic\exports64.def">
+      <Filter>Generic</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\IoDeviceTrackingSource\Headers\DetouredReplacementRoutines.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\IoDeviceTrackingSource\Headers\DetouringRoutine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\IoDeviceTrackingSource\Headers\OriginalRoutinePts.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\IoDeviceTrackingSource\Headers\StringConstants.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\IoDeviceTrackingSource\Headers\TelemetrySupport.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

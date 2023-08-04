@@ -184,10 +184,17 @@ public:
 	void CurrentDirectory(const wchar_t* NewCD);
 
 	/// <summary>
-	/// If true, we import the spawner environment on type of whatever's already defined.
+	/// Set if the spawned process will inherit the debugger's environment valeues. Note that environemnt values you explicitly define with the Enviroment() routine in this class override that
 	/// </summary>
-	/// <param name="Yes"></param>
-	void ImportSpawnerEnviroment(BOOL Yes);
+	/// <param name="Yes">If true, spawned processes get a copy of the debugger's environement values, BUT any ones you explicitly define via the Environment() routine in this class replace the debugger one. </param>
+	void InheritSpawnEnvironment(BOOL Yes);
+
+	/// <summary>
+	/// Get the current status of if the spawned process inherits the debugger's environement values
+	/// </summary>
+	/// <returns></returns>
+	BOOL InheritSpawnEnvironment();
+	
 
 	/// <summary>
 	/// Reset the Defined environment to blank.
@@ -200,12 +207,13 @@ public:
 	/// <returns></returns>
 	const wchar_t* Environment(const wchar_t* name);
 	/// <summary>
-	/// Assign a value to a name.
+	/// Assign a value to a name. If value is null, returns it from the list of enviroment varibles process will spawn with
 	/// </summary>
-	/// <param name="name"></param>
-	/// <param name="value"></param>
+	/// <param name="name">a non null string pt</param>
+	/// <param name="value">assign name to mean this value. If value is null, removes it from our list</param>
 	void Environment(const wchar_t* name, const wchar_t* value);
 
+	
 	/// <summary>
 	/// Return the number of DLL Entries in the detours list that the target process will be forced to load.
 	/// </summary>
@@ -232,7 +240,8 @@ public:
 	/// RISKY. Gets pointer to the private detours list and trusts caller won't abose it.
 	/// </summary>
 	/// <returns></returns>
-	const std::vector<LPCSTR> GetDetourList();
+	//const std::vector<LPCSTR> GetDetourList();
+	const std::vector<std::string> GetDetourList();
 
 	const char* IndexDetourList(int index);
 #pragma endregion
@@ -517,7 +526,8 @@ private:
 	/// <summary>
 	/// Holds the list of Dlls that will be loaded via detours. 
 	/// </summary>
-	std::vector<LPCSTR>* DetoursDll;
+	//std::vector<LPCSTR>* DetoursDll;
+	std::vector<std::string>* DetoursDll;
 
 	/// <summary>
 	/// Folders that will be searched before other locations.   requres helper dll

@@ -340,7 +340,8 @@ namespace FileSandBox_GUI
         {
            
              InsightProcess TestRun = InsightProcess.CreateInstance();
-            TestRun.ExtraFlags = InsightProcess.SpecialCaseFlags.DebugOnlyThis;
+            //TestRun.ExtraFlags = InsightProcess.SpecialCaseFlags.DebugOnlyThis;
+
             TestRun.WorkingDirectory = "C:\\Windows\\";
             TestRun.ProcessName = "C:\\Windows\\system32\\notepad.exe";
             //TestRun.ProcessName = "C:\\Windows\\system32\\cmd.exe";
@@ -368,9 +369,12 @@ namespace FileSandBox_GUI
             TestRun.UserDebugCallRoutine = new InsightProcess.DebugEventCallBackRoutine(StubCallback);
             TestRun.UserDebugCallRoutine = StubCallback;
             TestRun.EnableSymbolEngine = true;
-            TestRun.DebugMode = DebugModeType.EnableWorkerThread | DebugModeType.WorkerDropCallbackForNoEvents;
-            
-            TestRun.CreationFlags = InsightProcess.CreationFlagValues.DebugProcess;
+            //TestRun.DebugMode = DebugModeType.EnableWorkerThread | DebugModeType.WorkerDropCallbackForNoEvents;
+
+            //TestRun.CreationFlags = InsightProcess.CreationFlagValues.DebugProcess;
+            TestRun.CreationFlags |= InsightProcess.CreationFlagValues.CreateSuspended;
+
+
             TestRun.GetStartupInfoClass().FlagSetterHelper = true;
             TestRun.GetStartupInfoClass().Flags = StartupInfoExW_Flags.Startf_UseShowWindow;
             TestRun.GetStartupInfoClass().ShowWindow = StartupInfoExW_ShowWindow.Maximize;
@@ -384,7 +388,9 @@ namespace FileSandBox_GUI
             
             var ProcessId = TestRun.SpawnProcess();
 
+            var Thread = ThreadContext.CreateInstance(TestRun.GetMainThreadHandle());
 
+            Thread.ResumeThread();
             try
             {
                 using (System.Diagnostics.Process Target = Process.GetProcessById(ProcessId))

@@ -1,0 +1,2 @@
+This project Takes the telmetryDlls and places them in $OutDir\telemetry.
+This project takes the InsightSheath and InsightApi and places in the $OutDir.

@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using InsightSheath.Abstract;
 using InsightSheath.Debugging.SymbolEngine;
+using InsightSheath.Debugging.Thread;
 
 namespace InsightSheath.Debugging.Process
 {
@@ -183,6 +184,10 @@ namespace InsightSheath.Debugging.Process
             CreateSecureProcess  =         0x00400000,
             CreateSeperateWowVDM = 0x00000800,
             CreateSharedWowVDM   = 0x00001000,
+            /// <summary>
+            /// Create the process suspended, use <see cref="GetMainThreadId"/> or <see cref="GetMainThreadHandle"/> and pass to <see cref="ThreadContext"/> as a way to resume it
+            /// </summary>
+            CreateSuspended = 0x00000004,
             /// <summary>
             /// Functionally unnecessary for <see cref="InsightProcess"/>. The native code (InsightAPI.DLL) always includes this flag which indicates the passed environment block is Unicode characters when spawning the target. 
             /// </summary>
@@ -366,7 +371,10 @@ namespace InsightSheath.Debugging.Process
         {
             get
             {
-                return (DebugEventCallBackRoutine)InsightProcessInternal.InsightProcess_GetDebugCallbackRoutine(Native);
+                //var test = InsightProcessInternal.InsightProcess_GetDebugCallbackRoutine(Native);
+                //return test;
+                BackUpCopy = InsightProcessInternal.InsightProcess_GetDebugCallbackRoutine(Native);
+                return BackUpCopy;
             }
             set
             {
@@ -476,6 +484,10 @@ namespace InsightSheath.Debugging.Process
             {
                 InsightProcessInternal.InsightProcess_SetInheritDefaultEnviroment(Native, value);
             }
+            get
+            {
+                return InsightProcessInternal.InsightProcess_GetInheritDefaultEnvironment(Native);
+            }
         }
 
         /// <summary>
@@ -575,6 +587,23 @@ namespace InsightSheath.Debugging.Process
             return Marshal.PtrToStringUni(InsightProcessInternal.InsightProcess_GetExplicitEnviromentValue(Native, Name));
         }
 
+
+        /// <summary>
+        /// Remove this explicit environmental value made from a previous call to <see cref="SetExplicitEnviromentValue(string, string)"/>. 
+        /// </summary>
+        /// <param name="Name">name to remove</param>
+        public void RemoveExplicitEnvironmentValue(string Name)
+        {
+            InsightProcessInternal.InsightProcess_RemoveExplicitEnvironmentValue(Native, Name);
+        }
+        /// <summary>
+        /// Remove all enviroment values set by previous calls to SetExplicitEnviroment
+        /// </summary>
+        public void WipeExplicitEnviroment()
+        {
+            InsightProcessInternal.InsightProcess_ClearExplicitEnviromentBlock(Native);
+        }
+
         /// <summary>
         /// Retrieve instance of the class that handles the startup info management. 
         /// </summary>
@@ -606,6 +635,7 @@ namespace InsightSheath.Debugging.Process
         public void ResetDetoursDllList()
         {
             InsightProcessInternal.InsightProcess_ClearDetourList(Native);
+
         }
 
 
@@ -653,6 +683,28 @@ namespace InsightSheath.Debugging.Process
         }
 
 
+
+        #endregion
+        #region Getting ID and Handles to your main running process
+        public nint GetMainThreadHandle()
+        {
+            return InsightProcessInternal.InsightProcess_GetMainThreadHandle(Native);
+        }
+
+        public uint GetMainThreadId()
+        {
+            return InsightProcessInternal.InsightProcess_GetMainThreadId(Native);
+        }
+
+        public nint GetMainProcessHandle()
+        {
+            return InsightProcessInternal.InsightProcess_GetMainProcessHandle(Native);
+        }
+
+        public uint GetMainProcessId()
+        {
+            return InsightProcessInternal.InsightProcess_GetMainProcessId(Native);
+        }
 
         #endregion
         #region Getting Memory information about your main running process

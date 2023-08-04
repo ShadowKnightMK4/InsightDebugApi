@@ -24,11 +24,13 @@ There is a bit of cross over code between x64 and x86 in terms of pointer handli
 
 WHATS NEW
 ----------------------------------------
-The changes are these.
+The changes are these. There's not really any code change.
 - First change is retarting Visual Studio 2022 and .NET 7.0.
-- Default built is x64. To get the x86 (And the Telemetry DLLs, change the build target to x86)
+- Default build is x64. To get the x86 (And the x86 Telemetry DLLs, change the build target to x86)
 - On the backend of building, there are some copies of the built version of InsightSheath, InsightAPI being copied  as projects are built. This should let you be able to step thru and not have the annoying issue of rebuilding and your app taking the old version.
+- A BAT File is included called 'clean.bat' It's ment to be ran as a quick way to delete the contents of the BuildFolder and Code folder.
 
+------------------------------------------
 
 Branch Navigation
 ------------------------------------------

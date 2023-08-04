@@ -235,12 +235,21 @@ namespace InsightSheath.NativeImports
         /// <summary>
         /// Specific if processes spawned with the context class want to inherit the parent's environment or not.
         /// </summary>
+        /// InsightProcess_GetEnvInherit
         /// <param name="That"></param>
         /// <param name="WantDefaultAlso"></param>
 
         [DllImport("InsightApi.Dll", BestFitMapping = false, CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, EntryPoint = "InsightProcess_SetEnvInherit")]
         public static extern void InsightProcess_SetInheritDefaultEnviroment(IntPtr That, bool WantDefaultAlso);
 
+        /// <summary>
+        /// Get the current status if that any processes we start inherit the parent process enivornment 
+        /// </summary>
+        /// <param name="that"></param>
+        [DllImport("InsightApi.Dll", BestFitMapping = false, CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, EntryPoint = "InsightProcess_GetEnvInherit")] 
+        public static extern bool InsightProcess_GetInheritDefaultEnvironment(IntPtr that);
+        [DllImport("InsightApi.Dll", BestFitMapping = false, CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, EntryPoint = "InsightProcess_ClearEnvValue")]
+        public static extern void InsightProcess_RemoveExplicitEnvironmentValue(IntPtr that, string name);
 
         [DllImport("InsightApi.Dll", BestFitMapping = false, CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, EntryPoint = "InsightProcess_ClearEnvBlock")]
         public static extern void InsightProcess_ClearExplicitEnviromentBlock(IntPtr That);
@@ -251,11 +260,14 @@ namespace InsightSheath.NativeImports
         public static extern IntPtr InsightProcess_GetExplicitEnviromentValue(IntPtr That, string Name);
 
 
+        // "InsightProcess_AddDetoursDllW" is not imported as the implementation just converts to ANSI before calling InsightProcess_AddDetoursDllA()
+        // the marshaling stuff will take care of that already.
+
         [DllImport("InsightApi.Dll", BestFitMapping = false, CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Ansi, EntryPoint = "InsightProcess_AddDetoursDllA")]
         public static extern bool PsProcessInformation_AddDetourDllToLoad(IntPtr That, string Name);
 
-        // "InsightProcess_AddDetoursDllW" is not imported as the implementation just converts to ANSI before calling InsightProcess_AddDetoursDllA()
-        // the marshaling stuff will take care of that already.
+
+
         [DllImport("InsightApi.Dll", BestFitMapping = false, CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, EntryPoint = "InsightProcess_ClearDetoursList")]
         public static extern void InsightProcess_ClearDetourList(IntPtr That);
 
@@ -267,7 +279,7 @@ namespace InsightSheath.NativeImports
         public static extern DebugModeType InsightProcess_GetDebugMode(IntPtr That);
 
         [DllImport("InsightApi.Dll", BestFitMapping = false, CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, EntryPoint = "InsightProcess_GetDebugEventCallback")]
-        public static extern Delegate InsightProcess_GetDebugCallbackRoutine(IntPtr that);
+        public static extern InsightProcess.DebugEventCallBackRoutine InsightProcess_GetDebugCallbackRoutine(IntPtr that);
 
         [DllImport("InsightApi.Dll", BestFitMapping = false, CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, EntryPoint = "InsightProcess_SetDebugEventCallback")]
         public static extern IntPtr InsightProcess_SetDebugCallbackRoutine(IntPtr that, [MarshalAs(UnmanagedType.FunctionPtr)] Delegate CallBack);
@@ -298,7 +310,7 @@ namespace InsightSheath.NativeImports
         public static extern uint InsightProcess_GetMainProcessId(IntPtr That);
 
         [DllImport("InsightApi.Dll", BestFitMapping = false, CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, EntryPoint = "InsightProcess_GetMainThreadId")]
-        public static extern DebugModeType InsightProcess_GetMainThreadId(IntPtr That);
+        public static extern uint InsightProcess_GetMainThreadId(IntPtr That);
 
 
         [DllImport("InsightApi.Dll", BestFitMapping = false, CallingConvention = CallingConvention.Winapi, EntryPoint = "InsightProcess_SetSymbolHandling", ExactSpelling = false)]
