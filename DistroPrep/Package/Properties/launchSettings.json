@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Package": {
+      "commandName": "Project",
+      "commandLineArgs": "\"C:\\Users\\Thoma\\source\\repos\\InsightAPI\\Code\" \"C:\\\\Dummy\\\\Output\" /tele64 /tele86"
+    }
+  }
+}

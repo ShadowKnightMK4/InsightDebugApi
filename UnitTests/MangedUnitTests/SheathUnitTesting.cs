@@ -374,7 +374,7 @@ namespace MangedUnitTests
     }
 
     
-    public class UnitTest1
+    public class SheathUnitTesting
     {
         [TestMethod]
         public void TestMethod1()

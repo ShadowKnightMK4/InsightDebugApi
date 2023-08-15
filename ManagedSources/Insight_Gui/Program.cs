@@ -17,6 +17,7 @@ using InsightSheath.Resource;
 using InsightSheath.Detours;
 using System.IO;
 using System.Drawing;
+using Windows.System;
 
 namespace FileSandBox_GUI
 {
@@ -137,10 +138,14 @@ namespace FileSandBox_GUI
                                 case IoDeviceTelemetryReaderExtensions.NotificationType.CreateFile:
                                     {
                                         var Info = test.GetCreateFileSettings();
-                                        if (Info.DesiredAccess.HasFlag(AccessMasks.FileReadData))
+                                        if (Info.DesiredAccess.HasFlag(AccessMasks.GenericRead))
                                         {
-                                            Info.SetForceHandle(Telemetry.InvalidHandleValue64);
-                                            Info.SetLastErrorValue(5);
+                                            if (Info.FileName.ToLower().EndsWith(".txt"))
+                                            {
+                                                Info.SetForceHandle(Telemetry.InvalidHandleValue64); // INVALID_HANDLE_VALUE
+                                                Info.SetLastErrorValue(5); // 5 = ERROR_ACCESS_DENIED 
+                                                                           // this should block opening text files only.
+                                            }
                                         }
                                         InsightProcess.SetDebugEventCallbackResponse(ContStat, DebugContState.DebugContinueState);
                                         break;
@@ -338,10 +343,8 @@ namespace FileSandBox_GUI
 
         static void Main()
         {
-           
-             InsightProcess TestRun = InsightProcess.CreateInstance();
-            //TestRun.ExtraFlags = InsightProcess.SpecialCaseFlags.DebugOnlyThis;
-
+            InsightProcess TestRun = InsightProcess.CreateInstance();
+            TestRun.ExtraFlags = InsightProcess.SpecialCaseFlags.DebugOnlyThis;
             TestRun.WorkingDirectory = "C:\\Windows\\";
             TestRun.ProcessName = "C:\\Windows\\system32\\notepad.exe";
             //TestRun.ProcessName = "C:\\Windows\\system32\\cmd.exe";
@@ -351,50 +354,52 @@ namespace FileSandBox_GUI
 
 
             Console.WriteLine("Target is a " + Enum.GetName(typeof(MachineType), HelperRoutines.GetPEMachineType(TestRun.ProcessName)));
-            var typ = HelperRoutines.GetPEMachineType(TestRun.ProcessName) ;
-            if (typ ==  MachineType.MachineI386)
+            var typ = HelperRoutines.GetPEMachineType(TestRun.ProcessName);
+            if (typ == MachineType.MachineI386)
             {
                 Console.WriteLine("Picking the x86 version of the detours");
-                TestRun.AddDetoursDll("C:\\Users\\Thoma\\source\\repos\\InsightAPI\\code\\Debug\\x86\\program\\Telemetry\\IoDeviceTracking32.dll");
+                //TestRun.AddDetoursDll("C:\\Users\\Thoma\\source\\repos\\InsightAPI\\code\\Debug\\x86\\program\\Telemetry\\IoDeviceTracking32.dll");
+                TestRun.AddDetoursDll(@"C:\Users\Thoma\source\repos\InsightAPI\Code\Native\TelemetryDlls\Debug\x86\IoDeviceTracking64.dll");
             }
             else
             {
                 Console.WriteLine("Picking the x64 version of the detours");
-                TestRun.AddDetoursDll("C:\\Users\\Thoma\\source\\repos\\InsightAPI\\code\\Debug\\x64\\program\\Telemetry\\IoDeviceTracking64.dll");
+                //TestRun.AddDetoursDll("C:\\Users\\Thoma\\source\\repos\\InsightAPI\\code\\Debug\\x64\\program\\Telemetry\\IoDeviceTracking64.dll");
+                TestRun.AddDetoursDll(@"C:\Users\Thoma\source\repos\InsightAPI\Code\Native\TelemetryDlls\Debug\x64\IoDeviceTracking64.dll");
             }
             Tmp = new InsightHunter_SymbolSearchCallBackRoutine(Callback);
 
-       
-            
+
+
             TestRun.UserDebugCallRoutine = new InsightProcess.DebugEventCallBackRoutine(StubCallback);
             TestRun.UserDebugCallRoutine = StubCallback;
             TestRun.EnableSymbolEngine = true;
-            //TestRun.DebugMode = DebugModeType.EnableWorkerThread | DebugModeType.WorkerDropCallbackForNoEvents;
+            TestRun.DebugMode = DebugModeType.EnableWorkerThread | DebugModeType.WorkerDropCallbackForNoEvents;
 
-            //TestRun.CreationFlags = InsightProcess.CreationFlagValues.DebugProcess;
-            TestRun.CreationFlags |= InsightProcess.CreationFlagValues.CreateSuspended;
-
-
+            TestRun.CreationFlags = InsightProcess.CreationFlagValues.DebugProcess;
             TestRun.GetStartupInfoClass().FlagSetterHelper = true;
             TestRun.GetStartupInfoClass().Flags = StartupInfoExW_Flags.Startf_UseShowWindow;
             TestRun.GetStartupInfoClass().ShowWindow = StartupInfoExW_ShowWindow.Maximize;
-            //TestRun.ExtraFlags = InsightProcess.SpecialCaseFlags.DebugOnlyThis;
+            TestRun.ExtraFlags = InsightProcess.SpecialCaseFlags.DebugOnlyThis;
             
             TestRun.RequestDebugPriv = true;
             Insight = TestRun.GetSymbolHandler();
 
-        
 
-            
+
+
             var ProcessId = TestRun.SpawnProcess();
+
 
             var Thread = ThreadContext.CreateInstance(TestRun.GetMainThreadHandle());
 
+            
             Thread.ResumeThread();
             try
             {
                 using (System.Diagnostics.Process Target = Process.GetProcessById(ProcessId))
                 {
+                    
                     while (true)
                     {
 

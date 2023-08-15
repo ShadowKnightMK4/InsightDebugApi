@@ -29,7 +29,7 @@ const wchar_t* SpecialSearchPath = L"A:\\;C:\\Users;F:\\SpecialDLLs";
  unsigned char buffer_size[512];
 int main()
 {
-    
+    LoadLibraryA("C:\\Users\\Thoma\\source\\repos\\InsightAPI\\Code\\Native\\TelemetryDlls\\Debug\\x64\\IoDeviceTracking64.dll");
     return 0;
 }
 

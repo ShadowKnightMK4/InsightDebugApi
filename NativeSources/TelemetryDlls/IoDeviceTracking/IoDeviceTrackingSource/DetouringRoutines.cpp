@@ -12,7 +12,7 @@ HMODULE Kernel32;
 HMODULE Ntdll;
 
 
-
+#define _DEBUG 1
 bool DetourTargetRoutines()
 {
 	LONG detour = 0;

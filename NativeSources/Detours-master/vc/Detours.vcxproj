@@ -226,6 +226,12 @@ nmake clean</NMakeCleanCommandLine>
       <Command>
       </Command>
     </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>mkdir "$(SolutionDir)code\Libs\$(Configuration)"
+mkdir "$(SolutionDir)code\Libs\$(Configuration)\$(PlatformTarget)"
+copy /Y "$(TargetDir)$(TargetName).lib" "$(SolutionDir)code\Libs\$(Configuration)\$(PlatformTarget)\$(TargetName).lib"</Command>
+      <Message>Copying $(Configuration) $(ProjectName) static lib to lib directory at "$(SolutionDir)code\Native\libs\$(Configuration)\$(Platform)</Message>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -251,10 +257,10 @@ cd ..
 nmake</Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Message>Copying $(Configuration) Detours to lib directory at "$(SolutionDir)code\Native\libs\$(Configuration)\$(Platform)</Message>
+      <Message>Copying $(Configuration) $(ProjectName) static lib to lib directory at "$(SolutionDir)code\Native\libs\$(Configuration)\$(Platform)</Message>
       <Command>mkdir "$(SolutionDir)code\Libs\$(Configuration)"
 mkdir "$(SolutionDir)code\Libs\$(Configuration)\$(Platform)"
-copy /Y "$(TargetPath)" "$(SolutionDir)code\Libs\$(Configuration)\$(Platform)\$(TargetFileName)"</Command>
+copy /Y "$(TargetDir)$(TargetName).lib" "$(SolutionDir)code\Libs\$(Configuration)\$(Platform)\$(TargetName).lib"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
@@ -282,6 +288,12 @@ copy /Y "$(TargetPath)" "$(SolutionDir)code\Libs\$(Configuration)\$(Platform)\$(
 cd ..
 nmake</Command>
     </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>mkdir "$(SolutionDir)code\Libs\$(Configuration)"
+mkdir "$(SolutionDir)code\Libs\$(Configuration)\$(Platform)"
+copy /Y "$(TargetDir)$(TargetName).lib" "$(SolutionDir)code\Libs\$(Configuration)\$(Platform)\$(TargetName).lib"</Command>
+      <Message>Copying $(Configuration) $(ProjectName) static lib to lib directory at "$(SolutionDir)code\Native\libs\$(Configuration)\$(Platform)</Message>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
     <ClCompile>
@@ -308,6 +320,12 @@ nmake</Command>
 cd ..
 nmake</Command>
     </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>mkdir "$(SolutionDir)code\Libs\$(Configuration)"
+mkdir "$(SolutionDir)code\Libs\$(Configuration)\$(Platform)"
+copy /Y "$(TargetDir)$(TargetName).lib" "$(SolutionDir)code\Libs\$(Configuration)\$(Platform)\$(TargetName).lib"</Command>
+      <Message>Copying $(Configuration) $(ProjectName) static lib to lib directory at "$(SolutionDir)code\Native\libs\$(Configuration)\$(Platform)</Message>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -331,6 +349,12 @@ nmake</Command>
       <Command>
       </Command>
     </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>mkdir "$(SolutionDir)code\Libs\$(Configuration)"
+mkdir "$(SolutionDir)code\Libs\$(Configuration)\$(PlatformTarget)"
+copy /Y "$(TargetDir)$(TargetName).lib" "$(SolutionDir)code\Libs\$(Configuration)\$(PlatformTarget)\$(TargetName).lib"</Command>
+      <Message>Copying $(Configuration) $(ProjectName) static lib to lib directory at "$(SolutionDir)code\Native\libs\$(Configuration)\$(Platform)</Message>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -358,10 +382,10 @@ cd ..
 nmake</Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Message>Copying $(Configuration) Detours to lib directory at "$(SolutionDir)code\Native\libs\$(Configuration)\$(Platform)</Message>
+      <Message>Copying $(Configuration) $(ProjectName) static lib to lib directory at "$(SolutionDir)code\Native\libs\$(Configuration)\$(Platform)</Message>
       <Command>mkdir "$(SolutionDir)code\Libs\$(Configuration)"
 mkdir "$(SolutionDir)code\Libs\$(Configuration)\$(Platform)"
-copy /Y "$(TargetPath)" "$(SolutionDir)code\Libs\$(Configuration)\$(Platform)\$(TargetFileName)"</Command>
+copy /Y "$(TargetDir)$(TargetName).lib" "$(SolutionDir)code\Libs\$(Configuration)\$(Platform)\$(TargetName).lib"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
@@ -391,6 +415,12 @@ copy /Y "$(TargetPath)" "$(SolutionDir)code\Libs\$(Configuration)\$(Platform)\$(
 cd ..
 nmake</Command>
     </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>mkdir "$(SolutionDir)code\Libs\$(Configuration)"
+mkdir "$(SolutionDir)code\Libs\$(Configuration)\$(Platform)"
+copy /Y "$(TargetDir)$(TargetName).lib" "$(SolutionDir)code\Libs\$(Configuration)\$(Platform)\$(TargetName).lib"</Command>
+      <Message>Copying $(Configuration) $(ProjectName) static lib to lib directory at "$(SolutionDir)code\Native\libs\$(Configuration)\$(Platform)</Message>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
     <ClCompile>
@@ -419,6 +449,12 @@ nmake</Command>
 cd ..
 nmake</Command>
     </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>mkdir "$(SolutionDir)code\Libs\$(Configuration)"
+mkdir "$(SolutionDir)code\Libs\$(Configuration)\$(Platform)"
+copy /Y "$(TargetDir)$(TargetName).lib" "$(SolutionDir)code\Libs\$(Configuration)\$(Platform)\$(TargetName).lib"</Command>
+      <Message>Copying $(Configuration) $(ProjectName) static lib to lib directory at "$(SolutionDir)code\Native\libs\$(Configuration)\$(Platform)</Message>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\src\creatwth.cpp" />

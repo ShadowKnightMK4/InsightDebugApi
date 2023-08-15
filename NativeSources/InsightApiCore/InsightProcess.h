@@ -240,8 +240,8 @@ public:
 	/// RISKY. Gets pointer to the private detours list and trusts caller won't abose it.
 	/// </summary>
 	/// <returns></returns>
-	//const std::vector<LPCSTR> GetDetourList();
-	const std::vector<std::string> GetDetourList();
+	const std::vector<LPCSTR> GetDetourList();
+	//const std::vector<std::string> GetDetourList();
 
 	const char* IndexDetourList(int index);
 #pragma endregion
@@ -526,8 +526,8 @@ private:
 	/// <summary>
 	/// Holds the list of Dlls that will be loaded via detours. 
 	/// </summary>
-	//std::vector<LPCSTR>* DetoursDll;
-	std::vector<std::string>* DetoursDll;
+	std::vector<LPCSTR>* DetoursDll;
+	//std::vector<std::string>* DetoursDll;
 
 	/// <summary>
 	/// Folders that will be searched before other locations.   requres helper dll

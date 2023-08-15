@@ -238,6 +238,7 @@ namespace InsightSheath.Debugging.Process
         /// <exception cref="InvalidOperationException">Should the unmanaged constructor routine fail to make an instance (return 0), this is thrown</exception>
         public static InsightProcess CreateInstance()
         {
+            
             IntPtr ret = InsightProcessInternal.CreateInsightProcessNativeClass();
             if (ret == IntPtr.Zero)
             {

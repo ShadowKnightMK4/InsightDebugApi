@@ -495,13 +495,16 @@ void InsightProcess::AddDetoursDll(const char* Name)
 {
 	if ( (Name != nullptr) && (Name[0] != 0))
 	{
-		DetoursDll->emplace_back(Name);
+		DetoursDll->insert(DetoursDll->end(), _strdup(Name));
 	}
 }
 
 void InsightProcess::ClearDetoursDll()
 {
-	DetoursDll->clear();
+	for (auto stepper = DetoursDll->begin(); stepper != DetoursDll->end(); stepper++)
+	{
+		free((void*) (*(stepper)));
+	}
 	DetoursDll->shrink_to_fit();
 	/*for (auto step = DetoursDll->begin(); step != DetoursDll->end(); step++)
 	{
@@ -509,8 +512,8 @@ void InsightProcess::ClearDetoursDll()
 	}*/
 }
 
-//const std::vector<LPCSTR> InsightProcess::GetDetourList()
-const std::vector<std::string> InsightProcess::GetDetourList()
+const std::vector<LPCSTR> InsightProcess::GetDetourList()
+//const std::vector<std::string> InsightProcess::GetDetourList()
 {
 	return *DetoursDll;
 }
@@ -521,9 +524,9 @@ const char* InsightProcess::IndexDetourList(int index)
 	{
 		return nullptr;
 	}
-	//return (DetoursDll[index])[0];
-	throw;
-	return DetoursDll[index][0].c_str();
+	return (DetoursDll[index])[0];
+	//throw;
+	//return DetoursDll[index][0].c_str();
 }
 
 unsigned long long InsightProcess::GetDetourListSize() noexcept
@@ -557,8 +560,8 @@ void InsightProcess::init(InsightProcess* target)
 		target->StartUpInfo = new StartupInfoWrapper();
 		target->CommandmentArray = new std::map<DWORD, BOOL>();
 		target->Enviroment = new std::map<std::wstring, std::wstring>();
-		//target->DetoursDll = new std::vector<LPCSTR>();
-		target->DetoursDll = new std::vector<std::string>();
+		target->DetoursDll = new std::vector<LPCSTR>();
+		//target->DetoursDll = new std::vector<std::string>();
 		target->ProcessThreads = new ThreadContainer();
 
 	}
@@ -869,8 +872,8 @@ void InsightProcess::dupto(const InsightProcess* source, InsightProcess* target,
 
 	if ((DeepCopy) && (source->DetoursDll != nullptr))
 	{
-		//target->DetoursDll = new std::vector < LPCSTR>(*source->DetoursDll);
-		target->DetoursDll = new std::vector < std::string>(*source->DetoursDll);
+		target->DetoursDll = new std::vector < LPCSTR>(*source->DetoursDll);
+		//target->DetoursDll = new std::vector < std::string>(*source->DetoursDll);
 	}
 	else
 	{
@@ -976,7 +979,10 @@ DWORD InsightProcess::SpawnProcessCommon(bool NoNotSpawnThread)
 		}
 		else
 		{
+			// quick and dirty
 			DetourListPtr = (LPCSTR*)&this->DetoursDll->at(0);
+			//DetourListPtr = (LPCSTR*)malloc(sizeof(LPCSTR) * DetoursDll->size());
+
 		}
 
 		if (WorkingDirectory.size() == 0)

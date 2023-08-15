@@ -10,16 +10,12 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\IoDeviceTrackingSource\Generic\Dllmain.cpp">
-      <Filter>Generic</Filter>
-    </ClCompile>
-    <ClCompile Include="..\IoDeviceTrackingSource\Generic\TelemetrySupports.cpp">
-      <Filter>Generic</Filter>
-    </ClCompile>
     <ClCompile Include="..\IoDeviceTrackingSource\DetouredRoutines.cpp" />
     <ClCompile Include="..\IoDeviceTrackingSource\DetouringRoutines.cpp" />
     <ClCompile Include="..\IoDeviceTrackingSource\OriginalRoutinePtrs.cpp" />
     <ClCompile Include="..\IoDeviceTrackingSource\StringConstants.cpp" />
+    <ClCompile Include="..\..\CommonToolStatic\Dllmain.cpp" />
+    <ClCompile Include="..\..\CommonToolStatic\TelemetrySupports.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\IoDeviceTrackingSource\Generic\exports64.def">

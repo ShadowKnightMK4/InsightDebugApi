@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{ccd5292c-5fea-4d54-a832-ca235c15b9d4}</ProjectGuid>
-    <RootNamespace>IoDeviceTracking64</RootNamespace>
+    <ProjectGuid>{e1308ae1-4fa7-43f9-9f98-dac6283b4623}</ProjectGuid>
+    <RootNamespace>HeapTracking64</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -70,16 +70,26 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)Code\Native\TelemetryDlls\$(Configuration)\$(PlatformTarget)</OutDir>
+    <IntDir>$(SolutionDir)BuildFolder\Telemetry\$(ProjectName)\$(Configuration)\$(PlatformTarget)\</IntDir>
+    <IncludePath>$(SolutionDir)NativeSources\Detours-master\src;$(SolutionDir)\NativeSources\TelemetryDlls\HeapTracking\HeapTrackingCommon\;$(SolutionDir)\NativeSources\TelemetryDlls\HeapTracking\HeapTrackingCommon\Headers;$(IncludePath);$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)Code\Native\TelemetryDlls\$(Configuration)\$(PlatformTarget)</OutDir>
+    <IntDir>$(SolutionDir)BuildFolder\Telemetry\$(ProjectName)\$(Configuration)\$(PlatformTarget)\</IntDir>
+    <IncludePath>$(SolutionDir)NativeSources\Detours-master\src;$(SolutionDir)\NativeSources\TelemetryDlls\HeapTracking\HeapTrackingCommon\;$(SolutionDir)\NativeSources\TelemetryDlls\HeapTracking\HeapTrackingCommon\Headers;$(IncludePath);$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)Code\Native\TelemetryDlls\$(Configuration)\$(PlatformTarget)</OutDir>
     <IntDir>$(SolutionDir)BuildFolder\Telemetry\$(ProjectName)\$(Configuration)\$(PlatformTarget)\</IntDir>
-    <IncludePath>$(SolutionDir)NativeSources\Detours-master\src;$(SolutionDir)\NativeSources\TelemetryDlls\IoDeviceTracking\IoDeviceTrackingSource\Headers;$(SolutionDir)\NativeSources\TelemetryDlls\IoDeviceTracking\IoDeviceTrackingSource;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)NativeSources\Detours-master\src;$(SolutionDir)\NativeSources\TelemetryDlls\HeapTracking\HeapTrackingCommon\;$(SolutionDir)\NativeSources\TelemetryDlls\HeapTracking\HeapTrackingCommon\Headers;$(IncludePath);$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
     <LibraryPath>$(SolutionDir)code\Libs\$(Configuration)\$(PlatformTarget);$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)Code\Native\TelemetryDlls\$(Configuration)\$(PlatformTarget)</OutDir>
     <IntDir>$(SolutionDir)BuildFolder\Telemetry\$(ProjectName)\$(Configuration)\$(PlatformTarget)\</IntDir>
-    <IncludePath>$(SolutionDir)NativeSources\Detours-master\src;$(SolutionDir)\NativeSources\TelemetryDlls\IoDeviceTracking\IoDeviceTrackingSource\Headers;$(SolutionDir)\NativeSources\TelemetryDlls\IoDeviceTracking\IoDeviceTrackingSource;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)NativeSources\Detours-master\src;$(SolutionDir)\NativeSources\TelemetryDlls\HeapTracking\HeapTrackingCommon\;$(SolutionDir)\NativeSources\TelemetryDlls\HeapTracking\HeapTrackingCommon\Headers;$(IncludePath);$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
     <LibraryPath>$(SolutionDir)code\Libs\$(Configuration)\$(PlatformTarget);$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -92,6 +102,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>detours.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -108,6 +119,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>detours.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -120,8 +132,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies> detours.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
-      <ModuleDefinitionFile>..\IoDeviceTrackingSource\Generic\exports64.def</ModuleDefinitionFile>
+      <AdditionalDependencies>CommonTelemetryToolStatic.lib; detours.lib; $(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -138,27 +149,17 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>CommonTelemetryToolStatic.lib; detours.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
-      <ModuleDefinitionFile>..\IoDeviceTrackingSource\Generic\exports64.def</ModuleDefinitionFile>
+      <AdditionalDependencies>CommonTelemetryToolStatic.lib; detours.lib; $(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\CommonToolStatic\Dllmain.cpp" />
-    <ClCompile Include="..\..\CommonToolStatic\TelemetrySupports.cpp" />
-    <ClCompile Include="..\IoDeviceTrackingSource\DetouredRoutines.cpp" />
-    <ClCompile Include="..\IoDeviceTrackingSource\DetouringRoutines.cpp" />
-    <ClCompile Include="..\IoDeviceTrackingSource\OriginalRoutinePtrs.cpp" />
-    <ClCompile Include="..\IoDeviceTrackingSource\StringConstants.cpp" />
+    <None Include="..\HeapTrackingCommon\Generic\exports64.def" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\IoDeviceTrackingSource\Generic\exports64.def" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\IoDeviceTrackingSource\Headers\DetouredReplacementRoutines.h" />
-    <ClInclude Include="..\IoDeviceTrackingSource\Headers\DetouringRoutine.h" />
-    <ClInclude Include="..\IoDeviceTrackingSource\Headers\OriginalRoutinePts.h" />
-    <ClInclude Include="..\IoDeviceTrackingSource\Headers\StringConstants.h" />
-    <ClInclude Include="..\IoDeviceTrackingSource\Headers\TelemetrySupport.h" />
+    <ClCompile Include="..\HeapTrackingCommon\DetouredRoutines.cpp" />
+    <ClCompile Include="..\HeapTrackingCommon\DetouringRoutines.cpp" />
+    <ClCompile Include="..\HeapTrackingCommon\OriginalRoutinePtrs.cpp" />
+    <ClCompile Include="..\HeapTrackingCommon\StringConstants.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
