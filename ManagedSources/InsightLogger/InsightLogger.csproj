@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net7.0-windows10.0.17763.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <BaseOutputPath>$(SolutionDir)code\Managed\$(Configuration)\$(ProjectName)$(Platform_Actual)</BaseOutputPath>
+    <BaseIntermediateOutputPath>$(SolutionDir)BuildFolder\Managed\$(ProjectName)$(Configuration)\$(Platform_Actual)</BaseIntermediateOutputPath>
+    <StartupObject>InsightLogger.Program</StartupObject>
+  </PropertyGroup>
+  
+  
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <PlatformTarget>x64</PlatformTarget>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <OutputPath>$(SolutionDir)code\Managed\$(Configuration)\$(ProjectName)$(Platform_Actual)\InsightLogger</OutputPath>
+  </PropertyGroup>
+  
+
+  <ItemGroup>
+    <Compile Remove="obj\**" />
+    <EmbeddedResource Remove="obj\**" />
+    <None Remove="obj\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\InsightSheath\InsightSheath.csproj" />
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="copy /Y &quot;$(SolutionDir)code\Native\InsightApi\$(Configuration)\$(PlatformTarget)\InsightAPI.*&quot;  $(OutDir)&#xD;&#xA;" />
+  </Target>
+
+</Project>

@@ -1,4 +1,5 @@
-﻿using InsightSheath.Win32Struct.Remote;
+﻿using InsightSheath.Debugging;
+using InsightSheath.Win32Struct.Remote;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,7 +37,7 @@ namespace InsightSheath.Telemetry
             this.Type = Type;
         }
         /// <summary>
-        /// Depends on what <see cref="DebugEvent.IsProcess32Bit"/> returns. Intended for determining pointer size only. If that's true, Value is <see cref="MachineType.MachineI386"/> otherwise value is <see cref="MachineType.MachineAmd64"/>  i386 pointer sizes are 4 bytes long and Amd64 pointer sizes are 8 bytes.    This may not actually be the exact machine type as stored in the debugged process's physical PE/EXE file.
+        /// Depends on what <see cref="DebugEvent.IsEventFrom32BitProcess"/> returns. Intended for determining pointer size only. If that's true, Value is <see cref="MachineType.MachineI386"/> otherwise value is <see cref="MachineType.MachineAmd64"/>  i386 pointer sizes are 4 bytes long and Amd64 pointer sizes are 8 bytes.    This may not actually be the exact machine type as stored in the debugged process's physical PE/EXE file.
         /// </summary>
         public readonly MachineType Type;
 
@@ -108,7 +109,7 @@ namespace InsightSheath.Telemetry
 
 
         /// <summary>
-        /// Set the handle to the appropriate invalid handle value based on the <see cref="Type"/> value in this struct.
+        /// Set the handle to the appropriate InvalidHandleValue based on the <see cref="Type"/> value in this struct.
         /// </summary>
         public void SetForceHandle()
         {
@@ -122,9 +123,10 @@ namespace InsightSheath.Telemetry
             }
         }
         /// <summary>
-        /// Set the 64-bit handle value to something other than an <see cref="IntPtr"/> - for example <see cref="InvalidHandleValue64"/>
+        /// Set the 64-bit handle value to something other than an <see cref="IntPtr"/> - for example <see cref="Telemetry.InvalidHandleValue32"/>
         /// </summary>
-        /// <param name="HandleValue"></param>
+        /// <param name="HandleValue">Set what HANDLE value will be passed back to the debugged app via the telemetry dll</param>
+        /// <remarks>Note HANDLE Values in windows are 4 bytes for x86 software and 8 bytes for x64 bit software</remarks>
         public void SetForceHandle(ulong HandleValue)
         {
             IntPtr handle = HelperRoutines.OpenProcessForHandleDuplicating(ProcessId);
@@ -152,9 +154,10 @@ namespace InsightSheath.Telemetry
 
 
         /// <summary>
-        /// Set the 32-bit handle value to something other than an <see cref="IntPtr"/> - for example <see cref="InvalidHandleValue32"/>
+        /// Set the 32-bit handle value to something other than an <see cref="IntPtr"/> - for example <see cref="Telemetry.InvalidHandleValue32"/>
         /// </summary>
-        /// <param name="HandleValue"></param>
+        /// <param name="HandleValue">Set what HANDLE value will be passed back to the debugged app via the telemetry dll</param>
+        /// <remarks>Note HANDLE Values in windows are 4 bytes for x86 software and 8 bytes for x64 bit software</remarks>
         public void SetForceHandle(uint HandleValue)
         {
             IntPtr handle = HelperRoutines.OpenProcessForHandleDuplicating(ProcessId);
@@ -186,7 +189,7 @@ namespace InsightSheath.Telemetry
         /// <summary>
         /// Set the last error value that will be set by the detouring routine when returning control to the debugged process.
         /// </summary>
-        /// <param name="NewValue"></param>
+        /// <param name="NewValue">Set what value the telemetry dll will pass to <see href="https://learn.microsoft.com/en-us/windows/win32/api/errhandlingapi/nf-errhandlingapi-setlasterror"/> </param>
         public void SetLastErrorValue(uint NewValue)
         {
             IntPtr handle = NativeImports.NativeMethods.OpenProcessForMemoryAccess(ProcessId);

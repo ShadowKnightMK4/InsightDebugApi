@@ -46,7 +46,6 @@ namespace FileSandBox_GUI
         static int StubCallback(IntPtr DebugEvent, IntPtr ContStat, IntPtr WaitTime, IntPtr Custom)
         {
             DebugEvent Debug = new DebugEvent(DebugEvent);
-            
             //MemoryNative.SetDebugEventCallbackResponse(ContStat, DebugContState.DebugExceptionNotHandled);
 
             //InsightProcess.Poke4(ContStat, unchecked ((int)DebugContState.DebugExceptionNotHandled));
