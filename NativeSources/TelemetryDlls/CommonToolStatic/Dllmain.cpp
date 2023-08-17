@@ -58,7 +58,7 @@ int WINAPI DllMain(HINSTANCE hInstDll, DWORD fdwReason, LPVOID Reserved)
 
     if (DetourIsHelperProcess())
     {
-        OutputDebugStringW(L"Loaded as Helper Process\r\n");
+        
         return TRUE;
     }
     else
@@ -71,6 +71,7 @@ int WINAPI DllMain(HINSTANCE hInstDll, DWORD fdwReason, LPVOID Reserved)
         switch (fdwReason)
         {
         case DLL_PROCESS_ATTACH:
+
             // Initialize once for each new process.
             // Return FALSE to fail DLL load.
 #ifdef PIN_TELEMETRY_DLL
@@ -81,9 +82,21 @@ int WINAPI DllMain(HINSTANCE hInstDll, DWORD fdwReason, LPVOID Reserved)
 #endif
 #ifdef _DEBUG
             //test_exception();
+            //OutputDebugString("IoDeviceTracking Attached")
 #endif // _DEBUG
 
-            return DetourTargetRoutines();
+            if (!DetourTargetRoutines())
+            {
+#ifdef _DEBUG
+                OutputDebugString(L"IoDeviceTracking Failed to Attach");
+#endif
+            }
+            else
+            {
+#ifdef _DEBUG
+                OutputDebugString(L"IoDeviceTracking Attached OK to Attach");
+#endif
+            }
             break;
 
         case DLL_THREAD_ATTACH:

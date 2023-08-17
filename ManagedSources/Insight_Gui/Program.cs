@@ -137,14 +137,58 @@ namespace FileSandBox_GUI
                             {
                                 case IoDeviceTelemetryReaderExtensions.NotificationType.CreateFile:
                                     {
+                                        /*
+                                         * CreateFileW Win32 api routine is how notepad and a few other 
+                                         * things notepad uses gets to files.
+                                         * 
+                                         * 
+                                         * What this code does:
+                                         * Tests for requesting read access
+                                         *      if the .txt extension is not there,   
+                                         *          set the returned handle to the Invalid Handle Value (0xffffffff / all bits set for a ulong value) and 
+                                         *          set the last error code to 5 (ACCESS_DENIED)
+                                         *          -
+                                         *          back in notepad
+                                         *              our telemetry dll returns this value and sets the last error code for its thread.
+                                         *              Notepad treats as access denied.
+                                         *          
+                                         *          
+                                         *      else
+                                         *          Opens the replacement file - ReplacementFile below.
+                                         *          Gets a handle to the file to set that as the returned handle 
+                                         *              * this is done by duplicated the handle into a memory pointer the telemetry dll provides
+                                         *          Set last error code to 0 (it worked!)
+                                         *          - 
+                                         *          back in notepad
+                                         *              our telemetry dll sets the last error code to 0 and returns the handle the debugged set.
+                                         *              
+                                         *          Notepad sees it and opens our chosen file instead.
+                                         *          It's also going to set the file name as it usual does to the originally requred file in the 
+                                         *          notepad window.
+                                         *          
+                                         *          
+                                         */
                                         var Info = test.GetCreateFileSettings();
                                         if (Info.DesiredAccess.HasFlag(AccessMasks.GenericRead))
                                         {
-                                            if (Info.FileName.ToLower().EndsWith(".txt"))
+                                            if (!Info.FileName.ToLower().EndsWith(".txt"))
                                             {
-                                                Info.SetForceHandle(Telemetry.InvalidHandleValue64); // INVALID_HANDLE_VALUE
-                                                Info.SetLastErrorValue(5); // 5 = ERROR_ACCESS_DENIED 
-                                                                           // this should block opening text files only.
+                                                if (Info.FileName.ToLower().EndsWith(".log"))
+                                                {
+                                                    Info.SetForceHandle(Telemetry.InvalidHandleValue64); // INVALID_HANDLE_VALUE
+                                                    Info.SetLastErrorValue(5); // 5 = ERROR_ACCESS_DENIED 
+                                                    // this should block opening log files.
+                                                }
+                                            }
+                                            else
+                                            {
+                                                // notepad will open this instead.
+                                                string ReplacementFile = @"C:\Dummy\InsightApiDemo\ReDirectTextFileToThis.txt";
+                                                using (var HandleToInsert = File.Open(ReplacementFile, FileMode.Open, FileAccess.ReadWrite))
+                                                {
+                                                    Info.SetForceHandle(HandleToInsert.SafeFileHandle.DangerousGetHandle());
+                                                    Info.SetLastErrorValue(0);
+                                                }
                                             }
                                         }
                                         InsightProcess.SetDebugEventCallbackResponse(ContStat, DebugContState.DebugContinueState);

@@ -564,9 +564,9 @@ HANDLE WINAPI DetouredCreateFileW(
 	BOOL Overwritten = FALSE;
 	DWORD lastErrorRep = 0;
 #ifdef _DEBUG
-	OutputDebugString(L"CreatedCreateFIleW for \"");
-	OutputDebugString(lpFileName);
-	OutputDebugString(L"\"\r\n");
+	//OutputDebugString(L"CreatedCreateFIleW for \"");
+	//OutputDebugString(lpFileName);
+	//OutputDebugString(L"\"\r\n");
 #endif
 	DWORD common_branch = __CreateFileAW_CommmonAlert(lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile, &hReplacement,&lastErrorRep);
 	
