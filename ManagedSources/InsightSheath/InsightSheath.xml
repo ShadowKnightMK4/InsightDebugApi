@@ -1147,11 +1147,27 @@
         </member>
         <member name="M:InsightSheath.Debugging.Process.InsightMemory.SetTargetProcess(System.IntPtr)">
             <summary>
+            x64/x86 C# would pick this wrong.  Throws NotImplementedException.  Routine seperated between <see cref="M:InsightSheath.Debugging.Process.InsightMemory.SetTargetProcessViaHandle(System.IntPtr)"/> and <see cref="M:InsightSheath.Debugging.Process.InsightMemory.SetTargetProcessViaProcessId(System.Int32)"/> instead
+            </summary>
+            <param name="Handle">NotImplementedException</param>
+            <returns>NotImplementedException</returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="M:InsightSheath.Debugging.Process.InsightMemory.SetTargetProcessViaHandle(System.IntPtr)">
+            <summary>
             Choose which process this instance of the class is going to ask about via a Win32 Handle.
             </summary>
             <param name="Handle">Win32 Native Handle that should at least have PROCESS_QUERY_INFORMATION and likely PROCESS_VM_READ. Handle is duplicated to a private variable in the native side. You don't need to keep this handle open afterwards</param>
             <returns>true if we successfully switched to this handle and false otherwise.</returns>
             <remarks>The Native routine duplicates the handle for PROCESS_QUERY_INFORMATION and PROCES_VM_READ. You do not need the keep the handle open afterwards</remarks>
+        </member>
+        <member name="M:InsightSheath.Debugging.Process.InsightMemory.SetTargetProcessViaProcessId(System.Int32)">
+            <summary>
+            Choose which process this instance of the class is going to ask about via a Win32 Process ID.
+            </summary>
+            <param name="PID">Process ID to Use.  The PID must be able to have a HANDLE opened to it for PROCESS_QUERY_INFORMATION +PROCESS_VM_READ </param>
+            <returns>true if we successfully switched to this handle and false otherwise.</returns>
+            <remarks>The Native routine duplicates the handle for PROCESS_QUERY_INFORMATION and PROCESS_VM_READ. You do not need the keep the handle open afterwards</remarks>
         </member>
         <member name="M:InsightSheath.Debugging.Process.InsightMemory.SetTargetProcess(System.UInt32)">
             <summary>
@@ -1434,7 +1450,7 @@
         <member name="M:InsightSheath.Debugging.Process.InsightProcess.PulseDebugEventThead">
             <summary>
             When  Spawning a process with a DEBUG option and  <see cref="P:InsightSheath.Debugging.Process.InsightProcess.DebugMode"/> is set to <see cref="!:DebugModeType.WorkerThread"/>, the native DLL spawns a thread to handle consuming events.
-            The thread also using an native Event object to sync giving the events back to the caller so that the caller's GUI is not interrupted. Does not actually pulse event.
+            The thread also using an native Event object to sync giving the events back to the caller so that the caller's GUI is not interrupted. Does not actually pulse event. It instead Resets Event
             </summary>
         </member>
         <member name="M:InsightSheath.Debugging.Process.InsightProcess.GetSymbolHandler">
@@ -1580,6 +1596,12 @@
             return a string index pointed to the helper DLL's search path (or null) if index out of bounds
             </summary>
             <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:InsightSheath.Debugging.Process.InsightProcess.GetMainThreadHandle">
+            <summary>
+            Once you all <see cref="M:InsightSheath.Debugging.Process.InsightProcess.SpawnProcess"/>, returns a handle to your spawned proces's main thread.  It should be closed automatilly <see cref="T:InsightSheath.Debugging.Process.InsightProcess"/> is collected by the GC
+            </summary>
             <returns></returns>
         </member>
         <member name="P:InsightSheath.Debugging.Process.InsightProcess.GetMemoryStatsBulk">

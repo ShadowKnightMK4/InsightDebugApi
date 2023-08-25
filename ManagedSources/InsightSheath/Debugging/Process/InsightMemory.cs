@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using InsightSheath.NativeImports;
 using InsightSheath.Win32Struct;
 using InsightSheath.Abstract;
+using System.Diagnostics;
 
 namespace InsightSheath.Debugging.Process
 {
@@ -32,7 +33,7 @@ namespace InsightSheath.Debugging.Process
         public static InsightMemory CreateInstance(IntPtr Handle)
         {
             var ret = new InsightMemory(InternalInsightMemory.MakeInstance());
-            ret.SetTargetProcess(Handle);
+            ret.SetTargetProcessViaHandle(Handle);
             return ret;
         }
 
@@ -157,15 +158,42 @@ namespace InsightSheath.Debugging.Process
                 return null;
             }
         }
+
+
+
+        /// <summary>
+        /// x64/x86 C# would pick this wrong.  Throws NotImplementedException.  Routine seperated between <see cref="SetTargetProcessViaHandle"/> and <see cref="SetTargetProcessViaProcessId"/> instead
+        /// </summary>
+        /// <param name="Handle">NotImplementedException</param>
+        /// <returns>NotImplementedException</returns>
+        /// <exception cref="NotImplementedException"></exception>
+        [Obsolete("C# was going here for PID in x64 bit instead of the PID Verison. Use SetTargetProcessViaHandle or SetTargetProcessViaProcessId instead. This one will throw NotImplementedException")]
+        public bool SetTargetProcess(nint Handle)
+        {
+            throw new NotImplementedException("x86 and x64 code considerations had C# going here for process ID instead of HANDLE");
+        }
+
+
         /// <summary>
         /// Choose which process this instance of the class is going to ask about via a Win32 Handle.
         /// </summary>
         /// <param name="Handle">Win32 Native Handle that should at least have PROCESS_QUERY_INFORMATION and likely PROCESS_VM_READ. Handle is duplicated to a private variable in the native side. You don't need to keep this handle open afterwards</param>
         /// <returns>true if we successfully switched to this handle and false otherwise.</returns>
         /// <remarks>The Native routine duplicates the handle for PROCESS_QUERY_INFORMATION and PROCES_VM_READ. You do not need the keep the handle open afterwards</remarks>
-        public bool SetTargetProcess(IntPtr Handle)
+        public bool SetTargetProcessViaHandle(IntPtr Handle)
         {
             return InternalInsightMemory.SetTargetProcess(Native, (ulong)Handle, true);
+        }
+
+        /// <summary>
+        /// Choose which process this instance of the class is going to ask about via a Win32 Process ID.
+        /// </summary>
+        /// <param name="PID">Process ID to Use.  The PID must be able to have a HANDLE opened to it for PROCESS_QUERY_INFORMATION +PROCESS_VM_READ </param>
+        /// <returns>true if we successfully switched to this handle and false otherwise.</returns>
+        /// <remarks>The Native routine duplicates the handle for PROCESS_QUERY_INFORMATION and PROCESS_VM_READ. You do not need the keep the handle open afterwards</remarks>
+        public bool SetTargetProcessViaProcessId(int PID)
+        {
+            return InternalInsightMemory.SetTargetProcess(Native, (ulong) PID, false);
         }
 
         /// <summary>
@@ -178,6 +206,7 @@ namespace InsightSheath.Debugging.Process
         {
             return InternalInsightMemory.SetTargetProcess(Native, ProcessId, false);
         }
+
 
         /// <summary>
         /// Trigger a manual refresh of the Memory information. Note if <see cref="AutoUpdateMemory"/> is true, this routine does NOT need to be called.

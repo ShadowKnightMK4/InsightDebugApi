@@ -14,6 +14,11 @@ namespace MangedUnitTests
 {
     static class NativeAndNETPairing_ClassExtForTests
     {
+        /// <summary>
+        /// Unit Test version of <see cref="DebugEvent.GetDebugEventCreateProcessInfo"/>. Does not include the check for if it's the correct exception.
+        /// </summary>
+        /// <param name="ptr">ptr</param>
+        /// <returns>returns a new instance of DebugEventCreateProcessInfo pointing to the same unmanaged pointer as DebugEvent</returns>
         public static DebugEventCreateProcessInfo GetUnitTestVersionCreateProcessInfo(this DebugEvent ptr)
         {
             ptr.AddRef();
@@ -25,6 +30,11 @@ namespace MangedUnitTests
             return ret;
         }
 
+        /// <summary>
+        /// Unit Test version of <see cref="DebugEvent.GetDebugEventCreateThreadInfo"/>. Does not include the check for if it's the correct exception.
+        /// </summary>
+        /// <param name="ptr">ptr</param>
+        /// <returns>returns a new instance of DebugEventCreateThreadInfo pointing to the same unmanaged pointer as DebugEvent</returns>
         public static DebugEventCreateThreadInfo GetUnitTestVersionCreateThreadInfo(this DebugEvent ptr)
         {
             ptr.AddRef();
@@ -36,6 +46,11 @@ namespace MangedUnitTests
             return ret;
         }
 
+        /// <summary>
+        /// Unit Test version of <see cref="DebugEvent.GetDebugEventExceptionInfo"/>. Does not include the check for if it's the correct exception.
+        /// </summary>
+        /// <param name="ptr">ptr</param>
+        /// <returns>returns a new instance of DebugEventExceptionInfo pointing to the same unmanaged pointer as DebugEvent</returns>
         public static DebugEventExceptionInfo GetUnitTestVersionExceptionInfo(this DebugEvent ptr)
         {
             ptr.AddRef();
@@ -47,6 +62,11 @@ namespace MangedUnitTests
             return ret;
         }
 
+        /// <summary>
+        /// Unit Test version of <see cref="DebugEvent.GetEventExitProcessInfo"/>. Does not include the check for if it's the correct exception.
+        /// </summary>
+        /// <param name="ptr">ptr</param>
+        /// <returns>returns a new instance of DebugEventExitProcessInfo pointing to the same unmanaged pointer as DebugEvent</returns>
         public static DebugEventExitProcessInfo GetUnitTestVersionExitProcessInfo(this DebugEvent ptr)
         {
             ptr.AddRef();
@@ -58,6 +78,11 @@ namespace MangedUnitTests
             return ret;
         }
 
+        /// <summary>
+        /// Unit Test version of <see cref="DebugEvent.GetEventExitThreadInfo"/>. Does not include the check for if it's the correct exception.
+        /// </summary>
+        /// <param name="ptr">ptr</param>
+        /// <returns>returns a new instance of DebugEventExitThreadInfo pointing to the same unmanaged pointer as DebugEvent</returns>
         public static DebugEventExitThreadInfo GetUnitTestVersionExitThreadInfo(this DebugEvent ptr)
         {
             ptr.AddRef();
@@ -69,6 +94,11 @@ namespace MangedUnitTests
             return ret;
         }
 
+        /// <summary>
+        /// Unit Test version of <see cref="DebugEvent.GetDebugEventLoadDll"/>. Does not include the check for if it's the correct exception.
+        /// </summary>
+        /// <param name="ptr">ptr</param>
+        /// <returns>returns a new instance of DebugEventLoadDllInfo pointing to the same unmanaged pointer as DebugEvent</returns>
         public static DebugEventLoadDllInfo GetUnitTestVersionLoadDllInfo(this DebugEvent ptr)
         {
             ptr.AddRef();
@@ -80,6 +110,11 @@ namespace MangedUnitTests
             return ret;
         }
 
+        /// <summary>
+        /// Unit Test version of <see cref="DebugEvent.GetDebugEventUnloadDllInfo"/>. Does not include the check for if it's the correct exception.
+        /// </summary>
+        /// <param name="ptr">ptr</param>
+        /// <returns>returns a new instance of DebugEventUnloadDllInfo pointing to the same unmanaged pointer as DebugEvent</returns>
         public static DebugEventUnloadDllInfo GetUnitTestVersionUnLoadDllInfo(this DebugEvent ptr)
         {
             ptr.AddRef();
@@ -91,6 +126,11 @@ namespace MangedUnitTests
             return ret;
         }
 
+        /// <summary>
+        /// Unit Test version of <see cref="DebugEvent.GetDebugEventStringInfo"/>. Does not include the check for if it's the correct exception.
+        /// </summary>
+        /// <param name="ptr">ptr</param>
+        /// <returns>returns a new instance of DebugEventStringInfo pointing to the same unmanaged pointer as DebugEvent</returns>
         public static DebugEventStringInfo GetUnitTestVersionStringInfo(this DebugEvent ptr)
         {
             ptr.AddRef();
@@ -102,6 +142,11 @@ namespace MangedUnitTests
             return ret;
         }
 
+        /// <summary>
+        /// Unit Test version of <see cref="DebugEvent.GetDebugEventRipInfo"/>. Does not include the check for if it's the correct exception.
+        /// </summary>
+        /// <param name="ptr">ptr</param>
+        /// <returns>returns a new instance of DebugEventRipInfo pointing to the same unmanaged pointer as DebugEvent</returns>
         public static DebugEventRipInfo GetUnitTestVersionRipInfo(this DebugEvent ptr)
         {
             ptr.AddRef();
@@ -124,7 +169,115 @@ namespace MangedUnitTests
         static string CodeVarient = "x64";
         static string BasePath = "C:\\Users\\Thoma\\source\\repos\\InsightAPI\\UnitTests\\MangedUnitTests";
 
-        
+        [TestCategory("InsightMemory")]
+        [TestMethod]
+        public void InsightMemory_Create_FetchEveryThing_Destroy()
+        {
+            InsightMemory test = null;
+            try
+            {
+                test = InsightMemory.CreateInstance();
+                test.SetTargetProcessViaProcessId(Process.GetCurrentProcess().Id);
+                
+                Console.WriteLine(test.PageFaultCount.ToString());
+                Console.WriteLine(test.QuotaNonPagedPoolUsage.ToString());
+                Console.WriteLine(test.QuotaPagedPoolUsage.ToString());
+                Console.WriteLine(test.PageFaultCount.ToString());
+                Console.WriteLine(test.PageFaultCount.ToString());
+                Console.WriteLine(test.PageFileUsage.ToString());
+                Console.WriteLine(test.PeakPageFileUsage.ToString());
+                Console.WriteLine(test.PeakWorkingSetSize.ToString());
+                Console.WriteLine(test.QuotaNonPagedPoolUsage.ToString());
+                Console.WriteLine(test.QuotaPagedPoolUsage.ToString());
+                Console.WriteLine(test.QuotaPeakNonPagedPoolUsage.ToString());
+                Console.WriteLine(test.QuotaPeakPagedPoolUsage.ToString());
+
+                Console.WriteLine(test.AutoUpdateMemory);
+                test.AutoUpdateMemory = false;
+                Console.WriteLine(test.AutoUpdateMemory);
+                test.AutoUpdateMemory = true;
+
+                test.ManualRefreshStats();
+
+                if (nint.Size == 8)
+                {
+                    var readbulk = test.MemoryStatsBulk64;
+                    Console.WriteLine(readbulk.ToString());
+                }
+                else
+                {
+                    var readbulk = test.MemoryStatsBulk32;
+                    Console.WriteLine(readbulk.ToString());
+                }
+            }
+            finally
+            {
+                test?.Dispose();
+            }
+        }
+        [TestCategory("InsightProcess")]
+        [TestMethod]
+        public void InsightProcess_SetAndGetProcessName()
+        {
+            string Target = Directory.GetCurrentDirectory();
+            InsightProcess test = null;
+            try
+            {
+                test = InsightProcess.CreateInstance();
+                Assert.IsTrue(test != null);
+                test.ProcessName = Target;
+
+                Assert.IsTrue(test.ProcessName == Target);
+            }
+            finally
+            {
+                test?.Dispose();
+            }
+        }
+
+
+
+        [TestCategory("InsightProcess")]
+        [TestMethod]
+        public void InsightProcess_SetAndGetProcessArguments()
+        {
+            string Target = Directory.GetCurrentDirectory();
+            InsightProcess test = null;
+            try
+            {
+                test = InsightProcess.CreateInstance();
+                Assert.IsTrue(test != null);
+                test.ProcessArguments = Target;
+
+                Assert.IsTrue(test.ProcessArguments == Target);
+            }
+            finally
+            {
+                test?.Dispose();
+            }
+        }
+
+
+
+        [TestCategory("InsightProcess")]
+        [TestMethod]
+        public void InsightProcess_SetAndGetWorkingDir()
+        {
+            string Target = Directory.GetCurrentDirectory();
+            InsightProcess test = null;
+            try
+            {
+                test = InsightProcess.CreateInstance();
+                Assert.IsTrue(test != null);
+                test.WorkingDirectory = Target;
+
+                Assert.IsTrue(test.WorkingDirectory == Target);
+            }
+            finally
+            {
+                test?.Dispose();
+            }
+        }
 
         [TestCategory("DebugEvent Structure")]
         [TestMethod]
@@ -143,14 +296,14 @@ namespace MangedUnitTests
                 
 
                 DebugEventCreateProcessInfo a = Test.GetUnitTestVersionCreateProcessInfo();
-                   DebugEventCreateThreadInfo b = Test.GetUnitTestVersionCreateThreadInfo();
-                  DebugEventExceptionInfo c = Test.GetUnitTestVersionExceptionInfo();
-                   DebugEventExitProcessInfo e = Test.GetUnitTestVersionExitProcessInfo();
-                                 DebugEventExitThreadInfo f = Test.GetUnitTestVersionExitThreadInfo();
-                               DebugEventLoadDllInfo g = Test.GetUnitTestVersionLoadDllInfo();
-                             DebugEventUnloadDllInfo h = Test.GetUnitTestVersionUnLoadDllInfo();
-                           DebugEventRipInfo i = Test.GetUnitTestVersionRipInfo();
-                         DebugEventStringInfo j = Test.GetUnitTestVersionStringInfo();
+                DebugEventCreateThreadInfo b = Test.GetUnitTestVersionCreateThreadInfo();
+                DebugEventExceptionInfo c = Test.GetUnitTestVersionExceptionInfo();
+                DebugEventExitProcessInfo e = Test.GetUnitTestVersionExitProcessInfo();
+                DebugEventExitThreadInfo f = Test.GetUnitTestVersionExitThreadInfo();
+                DebugEventLoadDllInfo g = Test.GetUnitTestVersionLoadDllInfo();
+                DebugEventUnloadDllInfo h = Test.GetUnitTestVersionUnLoadDllInfo();
+                DebugEventRipInfo i = Test.GetUnitTestVersionRipInfo();
+                DebugEventStringInfo j = Test.GetUnitTestVersionStringInfo();
                 
                        Assert.IsTrue(Test.ReferenceCounter == 10); // one for each event strut we got
                                                                    // they all point to the same native pointer
@@ -176,6 +329,7 @@ namespace MangedUnitTests
             }
             finally
             {
+                // won't actually be needed if executio is nmormally followed. 
                 Test?.Dispose();
             }
         }

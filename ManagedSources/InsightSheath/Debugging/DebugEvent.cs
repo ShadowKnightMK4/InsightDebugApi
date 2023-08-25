@@ -1236,7 +1236,7 @@ namespace InsightSheath.Debugging
                 throw new InvalidOperationException(string.Format(error_msg_bad_event_fetch, new object[] { "Create Process Information", " Create Process Event" }));
             }
             AddRef();
-            var ret = new DebugEventCreateProcessInfo(Native, FreeOnCleanup, ReferenceCounter);
+            var ret = new DebugEventCreateProcessInfo(Native, FreeOnCleanup, ReferenceCount);
             if (ret == null)
             {
                 Release();
@@ -1255,7 +1255,7 @@ namespace InsightSheath.Debugging
                 throw new InvalidOperationException(string.Format(error_msg_bad_event_fetch, new object[] { "Create Thread Information", " Create Thread Event" }));
             }
             AddRef();
-            var ret = new DebugEventCreateThreadInfo(Native, FreeOnCleanup, ReferenceCounter);
+            var ret = new DebugEventCreateThreadInfo(Native, FreeOnCleanup, ReferenceCount);
             if (ret == null)
             {
                 Release();
@@ -1276,7 +1276,7 @@ namespace InsightSheath.Debugging
             }
 
             AddRef();
-            var ret = new DebugEventExceptionInfo(Native, FreeOnCleanup, ReferenceCounter);
+            var ret = new DebugEventExceptionInfo(Native, FreeOnCleanup, ReferenceCount);
             if (ret == null)
             {
                 Release();
@@ -1298,7 +1298,7 @@ namespace InsightSheath.Debugging
             }
 
             AddRef();
-            var ret = new DebugEventExitProcessInfo(Native, FreeOnCleanup, ReferenceCounter);
+            var ret = new DebugEventExitProcessInfo(Native, FreeOnCleanup, ReferenceCount);
             if (ret == null)
             {
                 Release();
@@ -1319,7 +1319,7 @@ namespace InsightSheath.Debugging
             }
 
             AddRef();
-            var ret = new DebugEventExitThreadInfo(Native, FreeOnCleanup, ReferenceCounter);
+            var ret = new DebugEventExitThreadInfo(Native, FreeOnCleanup, ReferenceCount);
             if (ret == null)
             {
                 Release();
@@ -1340,7 +1340,7 @@ namespace InsightSheath.Debugging
             }
 
             AddRef();
-            var ret = new DebugEventLoadDllInfo(Native, FreeOnCleanup, ReferenceCounter);
+            var ret = new DebugEventLoadDllInfo(Native, FreeOnCleanup, ReferenceCount);
             if (ret == null)
             {
                 Release();
@@ -1361,7 +1361,7 @@ namespace InsightSheath.Debugging
             }
 
             AddRef();
-            var ret = new DebugEventStringInfo(Native, FreeOnCleanup, ReferenceCounter);
+            var ret = new DebugEventStringInfo(Native, FreeOnCleanup, ReferenceCount);
             if (ret == null)
             {
                 Release();
@@ -1382,7 +1382,7 @@ namespace InsightSheath.Debugging
                 throw new InvalidOperationException(string.Format(error_msg_bad_event_fetch, new object[] { "Rip Information", "Rip Struct" }));
             }
             AddRef();
-            var ret = new DebugEventRipInfo(Native, FreeOnCleanup, ReferenceCounter);
+            var ret = new DebugEventRipInfo(Native, FreeOnCleanup, ReferenceCount);
             if (ret == null)
             {
                 Release();
@@ -1402,7 +1402,7 @@ namespace InsightSheath.Debugging
                 throw new InvalidOperationException(string.Format(error_msg_bad_event_fetch, new object[] { "DLL free/unload Information", " Unload DLL Event" }));
             }
             AddRef();
-            var ret = new DebugEventUnloadDllInfo(Native, FreeOnCleanup, ReferenceCounter);
+            var ret = new DebugEventUnloadDllInfo(Native, FreeOnCleanup, ReferenceCount);
             if (ret == null)
             {
                 Release();

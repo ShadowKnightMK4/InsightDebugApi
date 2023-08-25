@@ -270,7 +270,7 @@ namespace InsightSheath.Debugging.Process
 
         /// <summary>
         /// When  Spawning a process with a DEBUG option and  <see cref="DebugMode"/> is set to <see cref="DebugModeType.WorkerThread"/>, the native DLL spawns a thread to handle consuming events.
-        /// The thread also using an native Event object to sync giving the events back to the caller so that the caller's GUI is not interrupted. Does not actually pulse event.
+        /// The thread also using an native Event object to sync giving the events back to the caller so that the caller's GUI is not interrupted. Does not actually pulse event. It instead Resets Event
         /// </summary>
         public void PulseDebugEventThead()
         {
@@ -687,6 +687,10 @@ namespace InsightSheath.Debugging.Process
 
         #endregion
         #region Getting ID and Handles to your main running process
+        /// <summary>
+        /// Once you all <see cref="SpawnProcess"/>, returns a handle to your spawned proces's main thread.  It should be closed automatilly <see cref="InsightProcess"/> is collected by the GC
+        /// </summary>
+        /// <returns></returns>
         public nint GetMainThreadHandle()
         {
             return InsightProcessInternal.InsightProcess_GetMainThreadHandle(Native);
