@@ -13,7 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Readme.md = Readme.md
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ExamplesSamples", "ExamplesSamples", "{D108851A-A924-4047-AF33-B0746C077440}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestSetup", "TestSetup", "{D108851A-A924-4047-AF33-B0746C077440}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DllHelpers", "DllHelpers", "{ACF7442C-24A1-4D99-9115-A0F8018098CB}"
 EndProject
@@ -47,6 +47,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HelloWorld", "TestingAndSamples\HelloWorld\HelloWorld.vcxproj", "{1D2085DE-27BD-4578-AEF1-AA5C52DF0C76}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DetoursChainingRoutines", "TestingAndSamples\Samples\DetoursChainingRoutines\DetoursChainingRoutines.vcxproj", "{1FEBBD0F-4754-4E3E-B80A-32C514D58B2F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{37489709-8054-4903-9C49-A79846049FC9} = {37489709-8054-4903-9C49-A79846049FC9}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NonGitHub", "NonGitHub", "{AB41BB9B-23F3-478A-B17A-1F2CE974C35E}"
 EndProject
@@ -122,6 +125,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CommonTelemetryToolStatic", "CommonTelemetryToolStatic", "{452D96EE-7912-408B-9411-6787A19DA53E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InsightLogger", "ManagedSources\InsightLogger\InsightLogger.csproj", "{23EE9B63-F67B-4ED6-899D-B52351E22A33}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{C47F31C6-1B72-47E6-B323-F5E13FEBC423}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -442,6 +447,7 @@ Global
 		{F6B14F58-A10E-4904-B907-6184BD75A0E9} = {452D96EE-7912-408B-9411-6787A19DA53E}
 		{452D96EE-7912-408B-9411-6787A19DA53E} = {53C03628-5518-4BF1-BA21-1B9E0615A9A4}
 		{23EE9B63-F67B-4ED6-899D-B52351E22A33} = {08598AE4-A53E-4FE0-BC88-356B318F3BB0}
+		{C47F31C6-1B72-47E6-B323-F5E13FEBC423} = {D86C9961-2255-4F8B-8977-A9F256111047}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B6CF70ED-92F3-4E3A-98F2-701A62654ADB}

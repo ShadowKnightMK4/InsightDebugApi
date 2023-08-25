@@ -30,6 +30,21 @@ namespace InsightSheath.Abstract
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Native"></param>
+        /// <param name="FreeOnCleanup"></param>
+        /// <param name="rf"></param>
+        public ReferenceCounterNativeStaticContainer(IntPtr Native, bool FreeOnCleanup, ReferenceCounter rf): base(Native, FreeOnCleanup)
+        {
+            if (rf == null)
+                this.ReferenceCount = new ReferenceCounter();
+            else
+            {
+                this.ReferenceCount = rf;
+            }
+        }
+        /// <summary>
         /// Create instance of this with the passed Native Pointer. Subclasses of this should include routines to call the native class's functions. Reference counter is set to RefereneCount.
         /// </summary>
         /// <param name="Native">The Native pointer to keep track of.</param>
@@ -84,6 +99,8 @@ namespace InsightSheath.Abstract
             return ReferenceCount.DecRef();
         }
 
-        readonly ReferenceCounter ReferenceCount = new();
+        
+
+        public ReferenceCounter ReferenceCount = new();
     }
 }

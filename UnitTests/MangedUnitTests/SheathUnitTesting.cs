@@ -4,12 +4,116 @@ using InsightSheath.Debugging.Thread;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Windows.Networking.NetworkOperators;
 using Windows.System;
 using Windows.UI.WindowManagement;
 
 namespace MangedUnitTests
 {
+    static class NativeAndNETPairing_ClassExtForTests
+    {
+        public static DebugEventCreateProcessInfo GetUnitTestVersionCreateProcessInfo(this DebugEvent ptr)
+        {
+            ptr.AddRef();
+            var ret = new DebugEventCreateProcessInfo(ptr.NativePointer, true, ptr.ReferenceCount);
+            if (ret == null)
+            {
+                ptr.Release();
+            }
+            return ret;
+        }
+
+        public static DebugEventCreateThreadInfo GetUnitTestVersionCreateThreadInfo(this DebugEvent ptr)
+        {
+            ptr.AddRef();
+            var ret = new DebugEventCreateThreadInfo(ptr.NativePointer, true, ptr.ReferenceCount);
+            if (ret == null)
+            {
+                ptr.Release();
+            }
+            return ret;
+        }
+
+        public static DebugEventExceptionInfo GetUnitTestVersionExceptionInfo(this DebugEvent ptr)
+        {
+            ptr.AddRef();
+            var ret = new DebugEventExceptionInfo(ptr.NativePointer, true, ptr.ReferenceCount);
+            if (ret == null)
+            {
+                ptr.Release();
+            }
+            return ret;
+        }
+
+        public static DebugEventExitProcessInfo GetUnitTestVersionExitProcessInfo(this DebugEvent ptr)
+        {
+            ptr.AddRef();
+            var ret = new DebugEventExitProcessInfo(ptr.NativePointer, true, ptr.ReferenceCount);
+            if (ret == null)
+            {
+                ptr.Release();
+            }
+            return ret;
+        }
+
+        public static DebugEventExitThreadInfo GetUnitTestVersionExitThreadInfo(this DebugEvent ptr)
+        {
+            ptr.AddRef();
+            var ret = new DebugEventExitThreadInfo(ptr.NativePointer, true, ptr.ReferenceCount);
+            if (ret == null)
+            {
+                ptr.Release();
+            }
+            return ret;
+        }
+
+        public static DebugEventLoadDllInfo GetUnitTestVersionLoadDllInfo(this DebugEvent ptr)
+        {
+            ptr.AddRef();
+            var ret = new DebugEventLoadDllInfo(ptr.NativePointer, true, ptr.ReferenceCount);
+            if (ret == null)
+            {
+                ptr.Release();
+            }
+            return ret;
+        }
+
+        public static DebugEventUnloadDllInfo GetUnitTestVersionUnLoadDllInfo(this DebugEvent ptr)
+        {
+            ptr.AddRef();
+            var ret = new DebugEventUnloadDllInfo(ptr.NativePointer, true, ptr.ReferenceCount);
+            if (ret == null)
+            {
+                ptr.Release();
+            }
+            return ret;
+        }
+
+        public static DebugEventStringInfo GetUnitTestVersionStringInfo(this DebugEvent ptr)
+        {
+            ptr.AddRef();
+            var ret = new DebugEventStringInfo(ptr.NativePointer, true, ptr.ReferenceCount);
+            if (ret == null)
+            {
+                ptr.Release();
+            }
+            return ret;
+        }
+
+        public static DebugEventRipInfo GetUnitTestVersionRipInfo(this DebugEvent ptr)
+        {
+            ptr.AddRef();
+            var ret = new DebugEventRipInfo(ptr.NativePointer, true, ptr.ReferenceCount);
+            if (ret == null)
+            {
+                ptr.Release();
+            }
+            return ret;
+        }
+
+    }
     [TestClass]
     [TestCategory("Sheath Unit Tests")]
     public class NativeAndNETPairing
@@ -20,6 +124,78 @@ namespace MangedUnitTests
         static string CodeVarient = "x64";
         static string BasePath = "C:\\Users\\Thoma\\source\\repos\\InsightAPI\\UnitTests\\MangedUnitTests";
 
+        
+
+        [TestCategory("DebugEvent Structure")]
+        [TestMethod]
+        public void DebugEvent_Reference_Increase_And_Release()
+        {
+
+
+            
+               
+            DebugEvent Test = null;
+            try
+            {
+                Test = DebugEvent.CreatePrivateStruct();
+                Assert.IsNotNull(Test);
+
+                
+
+                DebugEventCreateProcessInfo a = Test.GetUnitTestVersionCreateProcessInfo();
+                   DebugEventCreateThreadInfo b = Test.GetUnitTestVersionCreateThreadInfo();
+                  DebugEventExceptionInfo c = Test.GetUnitTestVersionExceptionInfo();
+                   DebugEventExitProcessInfo e = Test.GetUnitTestVersionExitProcessInfo();
+                                 DebugEventExitThreadInfo f = Test.GetUnitTestVersionExitThreadInfo();
+                               DebugEventLoadDllInfo g = Test.GetUnitTestVersionLoadDllInfo();
+                             DebugEventUnloadDllInfo h = Test.GetUnitTestVersionUnLoadDllInfo();
+                           DebugEventRipInfo i = Test.GetUnitTestVersionRipInfo();
+                         DebugEventStringInfo j = Test.GetUnitTestVersionStringInfo();
+                
+                       Assert.IsTrue(Test.ReferenceCounter == 10); // one for each event strut we got
+                                                                   // they all point to the same native pointer
+                                                                   // and can be released by the parent class
+                                                                   // when this reference counter is 0 safely.
+
+
+
+
+
+                a.Dispose();
+                b.Dispose();
+                c.Dispose();
+                e.Dispose();
+                f.Dispose();
+                g.Dispose();
+                h.Dispose();
+                i.Dispose();
+                j.Dispose();
+                Test.Dispose();
+
+                Assert.IsTrue(Test.ReferenceCounter == 0);
+            }
+            finally
+            {
+                Test?.Dispose();
+            }
+        }
+        [TestCategory("DebugEvent Structure")]
+        [TestMethod]
+        public void DebugEvent_StructCreation()
+        {
+            DebugEvent Test = null;
+            try
+            {
+                Test = DebugEvent.CreatePrivateStruct();
+                Assert.IsNotNull(Test);
+
+                
+            }
+            finally
+            {
+                Test?.Dispose();
+            }
+        }
         [TestCategory("Process Spawn")]
         [TestMethod]
         public void CanSpawnProcess()

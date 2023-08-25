@@ -231,6 +231,14 @@
             </summary>
             <param name="Native">The Native pointer to keep track of.</param>
         </member>
+        <member name="M:InsightSheath.Abstract.ReferenceCounterNativeStaticContainer.#ctor(System.IntPtr,System.Boolean,InsightSheath.Misc.ReferenceCounter)">
+            <summary>
+            
+            </summary>
+            <param name="Native"></param>
+            <param name="FreeOnCleanup"></param>
+            <param name="rf"></param>
+        </member>
         <member name="M:InsightSheath.Abstract.ReferenceCounterNativeStaticContainer.#ctor(System.IntPtr,System.Boolean,System.UInt64)">
             <summary>
             Create instance of this with the passed Native Pointer. Subclasses of this should include routines to call the native class's functions. Reference counter is set to RefereneCount.

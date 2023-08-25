@@ -29,7 +29,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -72,25 +72,29 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\program\Samples</OutDir>
+    <OutDir>$(SolutionDir)Code\MiscTesting\DetoursChainingRoutines\$(Platform)\$(Configuration)\</OutDir>
     <LibraryPath>$(SolutionDir)Code\$(Configuration)\$(PlatformTarget)\lib;$(LibraryPath)</LibraryPath>
     <IncludePath>$(SolutionDir)NativeSources\Detours-master\src;$(IncludePath)</IncludePath>
+    <IntDir>$(SolutionDir)BuildFolder\MiscTesting\DetoursChainingRoutines\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\program\Samples</OutDir>
+    <OutDir>$(SolutionDir)Code\MiscTesting\DetoursChainingRoutines\$(Platform)\$(Configuration)\</OutDir>
     <LibraryPath>$(SolutionDir)Code\$(Configuration)\$(PlatformTarget)\lib;$(LibraryPath)</LibraryPath>
     <IncludePath>$(SolutionDir)NativeSources\Detours-master\src;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(SolutionDir)NativeSources\Detours-master\src;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)code\Libs\$(Configuration)\$(Platform);$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)Code\Libs\$(Configuration)\$(PlatformTarget);$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)Code\MiscTesting\DetoursChainingRoutines\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)BuildFolder\MiscTesting\DetoursChainingRoutines\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>$(SolutionDir)NativeSources\Detours-master\src;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)code\Libs\$(Configuration)\$(Platform);$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)Code\MiscTesting\DetoursChainingRoutines\$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

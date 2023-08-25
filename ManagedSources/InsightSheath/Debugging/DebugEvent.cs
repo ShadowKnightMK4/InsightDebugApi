@@ -10,6 +10,7 @@ using System.Runtime.InteropServices;
 using InsightSheath.Abstract;
 using InsightSheath.Win32Struct.Remote;
 using System.Diagnostics;
+using InsightSheath.Misc;
 
 namespace InsightSheath.Debugging
 {
@@ -220,6 +221,11 @@ namespace InsightSheath.Debugging
         {
             
         }
+
+        public DebugEventStaticContainer(IntPtr Native, bool FreeOnCleanup, ReferenceCounter rf) : base(Native, FreeOnCleanup, rf)
+        {
+
+        }
         /// <summary>
         /// Constructor for the base <see cref="DebugEvent"/> abstract class
         /// </summary>
@@ -280,6 +286,7 @@ namespace InsightSheath.Debugging
         ~DebugEventStaticContainer()
          {
                   Dispose(disposing: false);
+            
          }
 
 
@@ -367,6 +374,13 @@ namespace InsightSheath.Debugging
         {
 
         }
+
+        public DebugEventLoadDllInfo(IntPtr Nat, bool FreeOnCleanup, ReferenceCounter RefCount) : base(Nat, FreeOnCleanup, RefCount)
+        {
+
+        }
+
+
 
         /// <summary>
         /// Get the Raw handle to the file. You should probably close this if the handle is valid once you no longer need it. If it's valid, MSDN  says you'll have read and write access
@@ -505,6 +519,11 @@ namespace InsightSheath.Debugging
         /// <param name="FreeOnCleanup">Set if you want the unmanaged pointer released. </param>
         /// <param name="RefCount">Specific the current reference counter. When it reaches 0 during cleanup, the unmanaged pointer is freed. </param>
         public DebugEventExceptionInfo(IntPtr Nat, bool FreeOnCleanup, ulong RefCount) : base(Nat, FreeOnCleanup, RefCount)
+        {
+
+        }
+
+        public DebugEventExceptionInfo(IntPtr Nat, bool FreeOnCleanup, ReferenceCounter RefCount) : base(Nat, FreeOnCleanup, RefCount)
         {
 
         }
@@ -684,6 +703,12 @@ namespace InsightSheath.Debugging
 
         }
 
+        public DebugEventCreateThreadInfo(IntPtr Nat, bool FreeOnCleanup, ReferenceCounter RefCount) : base(Nat, FreeOnCleanup, RefCount)
+        {
+
+        }
+
+
         /// <summary>
         /// if NOT Null (IntPtr.zero),  handle should have THREAD_GET_CONTEXT/ THREAD_SET_CONTEXT and THREAD_SUSPEND_RESUME access to the thread per MSDN documentation.
         /// </summary>
@@ -768,6 +793,10 @@ namespace InsightSheath.Debugging
 
         }
 
+        public DebugEventExitThreadInfo(IntPtr Nat, bool FreeOnCleanup, ReferenceCounter RefCount) : base(Nat, FreeOnCleanup, RefCount)
+        {
+
+        }
 
         /// <summary>
         /// Get the code that the thread returned when finishing
@@ -812,6 +841,11 @@ namespace InsightSheath.Debugging
         /// <param name="FreeOnCleanup">Set if you want the unmanaged pointer released. </param>
         /// <param name="RefCount">Specific the current reference counter. When it reaches 0 during cleanup, the unmanaged pointer is freed. </param>
         public DebugEventExitProcessInfo(IntPtr Nat, bool FreeOnCleanup, ulong RefCount) : base(Nat, FreeOnCleanup, RefCount)
+        {
+
+        }
+
+        public DebugEventExitProcessInfo(IntPtr Nat, bool FreeOnCleanup, ReferenceCounter RefCount) : base(Nat, FreeOnCleanup, RefCount)
         {
 
         }
@@ -861,6 +895,11 @@ namespace InsightSheath.Debugging
         /// <param name="FreeOnCleanup">Set if you want the unmanaged pointer released. </param>
         /// <param name="RefCount">Specific the current reference counter. When it reaches 0 during cleanup, the unmanaged pointer is freed. </param>
         public DebugEventCreateProcessInfo(IntPtr Nat, bool FreeOnCleanup, ulong RefCount) : base(Nat, FreeOnCleanup, RefCount)
+        {
+
+        }
+
+        public DebugEventCreateProcessInfo(IntPtr Nat, bool FreeOnCleanup, ReferenceCounter RefCount) : base(Nat, FreeOnCleanup, RefCount)
         {
 
         }
@@ -951,6 +990,11 @@ namespace InsightSheath.Debugging
 
         }
 
+        public DebugEventStringInfo(IntPtr Nat, bool FreeOnCleanup, ReferenceCounter RefCount) : base(Nat, FreeOnCleanup, RefCount)
+        {
+
+        }
+
         /// <summary>
         /// For the user's continence, returns <see cref="OutputString"/>
         /// </summary>
@@ -1025,6 +1069,11 @@ namespace InsightSheath.Debugging
 
         }
 
+        public DebugEventRipInfo(IntPtr Nat, bool FreeOnCleanup, ReferenceCounter RefCount) : base(Nat, FreeOnCleanup, RefCount)
+        {
+
+        }
+
 
 
         /// <summary>
@@ -1087,6 +1136,11 @@ namespace InsightSheath.Debugging
         /// <param name="FreeOnCleanup">Indicate if we're clinging free() when GC clean this instance up.</param>
         /// <param name="RefCount">Indicate the current reference counter for the unmanaged memory block.  Block is freed only if reference counter decreases to zero during GC collection.</param>
         public DebugEventUnloadDllInfo(IntPtr NativePtr, bool FreeOnCleanup, ulong RefCount) : base(NativePtr, FreeOnCleanup, RefCount)
+        {
+
+        }
+
+        public DebugEventUnloadDllInfo(IntPtr NativePtr, bool FreeOnCleanup, ReferenceCounter RefCount) : base(NativePtr, FreeOnCleanup, RefCount)
         {
 
         }
