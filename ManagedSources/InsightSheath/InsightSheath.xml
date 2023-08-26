@@ -1680,6 +1680,21 @@
             Once the dispose()/ finalize() is ran, this is set to true
             </summary>
         </member>
+        <member name="T:InsightSheath.Debugging.Process.ProcessMemoryCountConstants">
+            <summary>
+            COntains the expected cb sizes for x86 <see cref="T:InsightSheath.Debugging.Process.ProcessMemoryCount32"/> and <see cref="T:InsightSheath.Debugging.Process.ProcessMemoryCount64"/>
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Debugging.Process.ProcessMemoryCountConstants.Expected64BitSize">
+            <summary>
+            The expected unmanaged size returned for x64 bit. Not a part of the structure in unamanged land.
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Debugging.Process.ProcessMemoryCountConstants.Expected86BitSize">
+            <summary>
+            The expected unmanaged size returned for x86 bit. Not a part of the structure in unamanged land.
+            </summary>
+        </member>
         <member name="T:InsightSheath.Debugging.Process.ProcessMemoryCount64">
             <summary>
             Process Memory count for 64-bit process
@@ -1687,7 +1702,7 @@
         </member>
         <member name="F:InsightSheath.Debugging.Process.ProcessMemoryCount64.cb">
             <summary>
-            Size of this structure in unmanaged land.
+            Size of this structure in unmanaged land. Should equal <see cref="F:InsightSheath.Debugging.Process.ProcessMemoryCountConstants.Expected64BitSize"/>
             </summary>
         </member>
         <member name="F:InsightSheath.Debugging.Process.ProcessMemoryCount64.PageFaultCount">
@@ -1747,7 +1762,7 @@
         </member>
         <member name="F:InsightSheath.Debugging.Process.ProcessMemoryCount32.cb">
             <summary>
-            Size of this structure in unmanaged land.
+            Size of this structure in unmanaged land. Should Should equal <see cref="F:InsightSheath.Debugging.Process.ProcessMemoryCountConstants.Expected86BitSize"/>
             </summary>
         </member>
         <member name="F:InsightSheath.Debugging.Process.ProcessMemoryCount32.PageFaultCount">

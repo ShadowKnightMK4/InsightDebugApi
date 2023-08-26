@@ -8,15 +8,31 @@ using System.Threading.Tasks;
 namespace InsightSheath.Debugging.Process
 {
     /// <summary>
+    /// COntains the expected cb sizes for x86 <see cref="ProcessMemoryCount32"/> and <see cref="ProcessMemoryCount64"/>
+    /// </summary>
+    public static class ProcessMemoryCountConstants
+    {
+        /// <summary>
+        /// The expected unmanaged size returned for x64 bit. Not a part of the structure in unamanged land.
+        /// </summary>
+        public const uint Expected64BitSize = 80;
+        /// <summary>
+        /// The expected unmanaged size returned for x86 bit. Not a part of the structure in unamanged land.
+        /// </summary>
+        public const uint Expected86BitSize = 44;
+
+    }
+
+    /// <summary>
     /// Process Memory count for 64-bit process
     /// </summary>
-    [StructLayout(LayoutKind.Sequential, Pack = 4)]
+    [StructLayout(LayoutKind.Sequential, Pack = 8)]
     public struct ProcessMemoryCount64
     {
         /// <summary>
-        /// Size of this structure in unmanaged land.
+        /// Size of this structure in unmanaged land. Should equal <see cref="ProcessMemoryCountConstants.Expected64BitSize"/>
         /// </summary>
-        public ulong cb;
+        public uint cb;
         /// <summary>
         /// Number of Page Faults for a given process.
         /// </summary>

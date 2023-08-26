@@ -1,6 +1,7 @@
 #include <Windows.h>
 #include <iostream>
 #include <winternl.h>
+#include <Psapi.h>
 
 
 /*
@@ -58,6 +59,38 @@ UNICODE_STRING64.Buffer offset = 8
 */
 using namespace std;
 
+
+typedef struct _PROCESS_MEMORY_COUNTERS_EX32 {
+	DWORD cb;
+	DWORD PageFaultCount;
+	DWORD PeakWorkingSetSize;
+	DWORD WorkingSetSize;
+	DWORD QuotaPeakPagedPoolUsage;
+	DWORD QuotaPagedPoolUsage;
+	DWORD QuotaPeakNonPagedPoolUsage;
+	DWORD QuotaNonPagedPoolUsage;
+	DWORD PagefileUsage;
+	DWORD PeakPagefileUsage;
+	DWORD PrivateUsage;
+} PROCESS_MEMORY_COUNTERS_EX32;
+
+
+typedef struct _PROCESS_MEMORY_COUNTERS_EX64 {
+	DWORD cb;
+	DWORD PageFaultCount;
+	__int64 PeakWorkingSetSize;
+	__int64 WorkingSetSize;
+	__int64 QuotaPeakPagedPoolUsage;
+	__int64 QuotaPagedPoolUsage;
+	__int64 QuotaPeakNonPagedPoolUsage;
+	__int64 QuotaNonPagedPoolUsage;
+	__int64 PagefileUsage;
+	__int64 PeakPagefileUsage;
+	__int64 PrivateUsage;
+} PROCESS_MEMORY_COUNTERS_EX64;
+
+
+
 struct UNICODE_STRING32
 {
 	USHORT Length;
@@ -90,12 +123,66 @@ struct RTL_USER64
 int main()
 {
 	UNICODE_STRING Buffer;
-	
-	
+	PROCESS_MEMORY_COUNTERS_EX Buffer2;
 	
 
+
+	
+	
+	cout << "Usage:  Know if you're compiling for x64 or x86.  Compare the given offsets for the general struct for example UNICODE_STRING and see if your custom struct - for example UNICODE_STRING32 matches the generic struct. If so then it should work when reading from a debugged process. If not, try again." << endl;
 	
 	cout << "sizeof(PTR) = " << sizeof(VOID*) << endl;
+	cout << "sizeof(SIZE_T) " << sizeof(SIZE_T) << endl;
+
+	
+
+
+	
+
+	cout << "BEGIN GENERIC STRUCT: PROCESS_MEMORY_COUNTERS_EX  (cb == " << sizeof(PROCESS_MEMORY_COUNTERS_EX) << ")" << endl;
+	cout << "offsetof(PROCESS_MEMORY_COUNTERS_EX, cb)" << offsetof(PROCESS_MEMORY_COUNTERS_EX, cb) << endl;
+	cout << "offsetof(PROCESS_MEMORY_COUNTERS_EX, PageFaultCount) " << offsetof(PROCESS_MEMORY_COUNTERS_EX, PageFaultCount) << endl;
+	cout << "offsetof(PROCESS_MEMORY_COUNTERS_EX, PeakWorkingSetSize) " << offsetof(PROCESS_MEMORY_COUNTERS_EX, PeakWorkingSetSize) << endl;
+	cout << "offsetof(PROCESS_MEMORY_COUNTERS_EX, WorkingSetSize) " << offsetof(PROCESS_MEMORY_COUNTERS_EX, WorkingSetSize) << endl;
+	cout << "offsetof(PROCESS_MEMORY_COUNTERS_EX, QuotaPeakPagedPoolUsage) " << offsetof(PROCESS_MEMORY_COUNTERS_EX, QuotaPeakPagedPoolUsage) << endl;
+	cout << "offsetof(PROCESS_MEMORY_COUNTERS_EX, QuotaPagedPoolUsage) " << offsetof(PROCESS_MEMORY_COUNTERS_EX, QuotaPagedPoolUsage) << endl;
+	cout << "offsetof(PROCESS_MEMORY_COUNTERS_EX, QuotaPeakNonPagedPoolUsage) " << offsetof(PROCESS_MEMORY_COUNTERS_EX, QuotaPeakNonPagedPoolUsage) << endl;
+	cout << "offsetof(PROCESS_MEMORY_COUNTERS_EX, QuotaNonPagedPoolUsage) " << offsetof(PROCESS_MEMORY_COUNTERS_EX, QuotaNonPagedPoolUsage) << endl;
+	cout << "offsetof(PROCESS_MEMORY_COUNTERS_EX, PagefileUsage) " << offsetof(PROCESS_MEMORY_COUNTERS_EX, PagefileUsage) << endl;
+	cout << "offsetof(PROCESS_MEMORY_COUNTERS_EX, PeakPagefileUsage) " << offsetof(PROCESS_MEMORY_COUNTERS_EX, PeakPagefileUsage) << endl;
+	cout << "offsetof(PROCESS_MEMORY_COUNTERS_EX, PrivateUsage) " << offsetof(PROCESS_MEMORY_COUNTERS_EX, PrivateUsage) << endl;
+	cout << endl << endl;
+
+	cout << "BEGIN 64-bit _PROCESS_MEMORY_COUNTERS_EX64 (cb == " << sizeof(PROCESS_MEMORY_COUNTERS_EX64) << ")" << endl;
+	cout << "offsetof(_PROCESS_MEMORY_COUNTERS_EX64, cb)" << offsetof(PROCESS_MEMORY_COUNTERS_EX64, cb) << endl;
+	cout << "offsetof(_PROCESS_MEMORY_COUNTERS_EX64, PageFaultCount)" << offsetof(_PROCESS_MEMORY_COUNTERS_EX64, PageFaultCount) << endl;
+	cout << "offsetof(_PROCESS_MEMORY_COUNTERS_EX64, PeakWorkingSetSize)" << offsetof(_PROCESS_MEMORY_COUNTERS_EX64, PeakWorkingSetSize) << endl;
+	cout << "offsetof(_PROCESS_MEMORY_COUNTERS_EX64, WorkingSetSize)" << offsetof(_PROCESS_MEMORY_COUNTERS_EX64, WorkingSetSize) << endl;
+	cout << "offsetof(_PROCESS_MEMORY_COUNTERS_EX64, QuotaPeakPagedPoolUsage)" << offsetof(_PROCESS_MEMORY_COUNTERS_EX64, QuotaPeakPagedPoolUsage) << endl;
+	cout << "offsetof(_PROCESS_MEMORY_COUNTERS_EX64, QuotaPagedPoolUsage)" << offsetof(_PROCESS_MEMORY_COUNTERS_EX64, QuotaPagedPoolUsage) << endl;
+	cout << "offsetof(_PROCESS_MEMORY_COUNTERS_EX64, QuotaPeakNonPagedPoolUsage)" << offsetof(_PROCESS_MEMORY_COUNTERS_EX64, QuotaPeakNonPagedPoolUsage) << endl;
+	cout << "offsetof(_PROCESS_MEMORY_COUNTERS_EX64, QuotaNonPagedPoolUsage)" << offsetof(_PROCESS_MEMORY_COUNTERS_EX64, QuotaNonPagedPoolUsage) << endl;
+	cout << "offsetof(_PROCESS_MEMORY_COUNTERS_EX64, PagefileUsage)" << offsetof(_PROCESS_MEMORY_COUNTERS_EX64, PagefileUsage) << endl;
+	cout << "offsetof(_PROCESS_MEMORY_COUNTERS_EX64, PeakPagefileUsage)" << offsetof(_PROCESS_MEMORY_COUNTERS_EX64, PeakPagefileUsage) << endl;
+	cout << "offsetof(_PROCESS_MEMORY_COUNTERS_EX64, PrivateUsage)" << offsetof(_PROCESS_MEMORY_COUNTERS_EX64, PrivateUsage) << endl;
+	cout << endl << endl;
+
+	cout << "BEGIN 32-bit _PROCESS_MEMORY_COUNTERS_EX32 (cb == " << sizeof(_PROCESS_MEMORY_COUNTERS_EX32) << ")" << endl;
+	cout << "offsetof(_PROCESS_MEMORY_COUNTERS_EX32, cb)" << offsetof(PROCESS_MEMORY_COUNTERS_EX32, cb) << endl;
+	cout << "offsetof(_PROCESS_MEMORY_COUNTERS_EX32, PageFaultCount)" << offsetof(_PROCESS_MEMORY_COUNTERS_EX32, PageFaultCount) << endl;
+	cout << "offsetof(_PROCESS_MEMORY_COUNTERS_EX32, PeakWorkingSetSize)" << offsetof(_PROCESS_MEMORY_COUNTERS_EX32, PeakWorkingSetSize) << endl;
+	cout << "offsetof(_PROCESS_MEMORY_COUNTERS_EX32, WorkingSetSize)" << offsetof(_PROCESS_MEMORY_COUNTERS_EX32, WorkingSetSize) << endl;
+	cout << "offsetof(_PROCESS_MEMORY_COUNTERS_EX32, QuotaPeakPagedPoolUsage)" << offsetof(_PROCESS_MEMORY_COUNTERS_EX32, QuotaPeakPagedPoolUsage) << endl;
+	cout << "offsetof(_PROCESS_MEMORY_COUNTERS_EX32, QuotaPagedPoolUsage)" << offsetof(_PROCESS_MEMORY_COUNTERS_EX32, QuotaPagedPoolUsage) << endl;
+	cout << "offsetof(_PROCESS_MEMORY_COUNTERS_EX32, QuotaPeakNonPagedPoolUsage)" << offsetof(_PROCESS_MEMORY_COUNTERS_EX32, QuotaPeakNonPagedPoolUsage) << endl;
+	cout << "offsetof(_PROCESS_MEMORY_COUNTERS_EX32, QuotaNonPagedPoolUsage)" << offsetof(_PROCESS_MEMORY_COUNTERS_EX32, QuotaNonPagedPoolUsage) << endl;
+	cout << "offsetof(_PROCESS_MEMORY_COUNTERS_EX32, PagefileUsage)" << offsetof(_PROCESS_MEMORY_COUNTERS_EX32, PagefileUsage) << endl;
+	cout << "offsetof(_PROCESS_MEMORY_COUNTERS_EX32, PeakPagefileUsage)" << offsetof(_PROCESS_MEMORY_COUNTERS_EX32, PeakPagefileUsage) << endl;
+	cout << "offsetof(_PROCESS_MEMORY_COUNTERS_EX32, PrivateUsage)" << offsetof(_PROCESS_MEMORY_COUNTERS_EX32, PrivateUsage) << endl;
+	cout << endl << endl;
+
+
+
 
 	cout << "Offsets for RTL_USER64, RTL_USER32, RTL_USER_PROCESS_PARAMETERS based on <wintintern>" << endl;
 

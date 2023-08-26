@@ -13,8 +13,9 @@ namespace InsightSheath.Debugging.Process
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
     public struct ProcessMemoryCount32
     {
+
         /// <summary>
-        /// Size of this structure in unmanaged land.
+        /// Size of this structure in unmanaged land. Should Should equal <see cref="ProcessMemoryCountConstants.Expected86BitSize"/>
         /// </summary>
         public uint cb;
         /// <summary>

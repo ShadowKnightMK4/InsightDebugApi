@@ -12,6 +12,45 @@ using Windows.UI.WindowManagement;
 
 namespace MangedUnitTests
 {
+    public static class SetDllDirectoryStuff
+    {
+        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+        static extern bool SetDllDirectoryW(string Path);
+        static string BuildVarient = "Debug";
+        static string CodeVarient = "x64";
+        static string BasePath = "C:\\Users\\Thoma\\source\\repos\\InsightAPI\\UnitTests\\MangedUnitTests";
+
+        /// <summary>
+        /// Set the approproate insightapi.dll for x86 or x64 bit code.
+        /// </summary>
+        /// <exception cref="InternalTestFailureException"></exception>
+        public static void DoIt()
+        {
+            if (nint.Size == 4)
+            {
+                CodeVarient = "x86";
+            }
+            else
+            {
+                CodeVarient = "x64";
+            }
+            string relpath = BasePath;
+            relpath = Path.GetDirectoryName(relpath);
+            relpath = Path.GetDirectoryName(relpath);
+            relpath += "\\Code\\Native\\InsightApi\\";
+            relpath += BuildVarient + "\\" + CodeVarient + "";
+            //if (!SetDllDirectoryW(relpath))
+            //if (!SetDllDirectoryW(@"C:\Users\Thoma\source\repos\InsightAPI\Code\Native\InsightApi\Debug\x64"))
+            if (!SetDllDirectoryW(relpath))
+            {
+                throw new InternalTestFailureException("SetDllDirectoW did not work. You can manually copy the required InsightAPI.dll to the direct the unit test compiles too or adjust the basepath variable in the unit tests for the sheath");
+            }
+            else
+            {
+                Console.WriteLine("SetDll Worked. " + "for ( "+CodeVarient +")"  + " InsightApi.DLL should be loaded by the Sheath Dll when needed.");
+            }
+        }
+    }
     static class NativeAndNETPairing_ClassExtForTests
     {
         /// <summary>
@@ -163,12 +202,7 @@ namespace MangedUnitTests
     [TestCategory("Sheath Unit Tests")]
     public class NativeAndNETPairing
     {
-        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-        static extern bool SetDllDirectoryW(string Path);
-        static string BuildVarient = "Debug";
-        static string CodeVarient = "x64";
-        static string BasePath = "C:\\Users\\Thoma\\source\\repos\\InsightAPI\\UnitTests\\MangedUnitTests";
-
+        
         [TestCategory("InsightMemory")]
         [TestMethod]
         public void InsightMemory_Create_FetchEveryThing_Destroy()
@@ -202,12 +236,17 @@ namespace MangedUnitTests
                 if (nint.Size == 8)
                 {
                     var readbulk = test.MemoryStatsBulk64;
+                    
                     Console.WriteLine(readbulk.ToString());
+                    Assert.IsNotNull(readbulk);
+                    Assert.IsTrue(readbulk.Value.cb == ProcessMemoryCountConstants.Expected64BitSize);
                 }
                 else
                 {
                     var readbulk = test.MemoryStatsBulk32;
                     Console.WriteLine(readbulk.ToString());
+                    Assert.IsNotNull(readbulk);
+                    Assert.IsTrue(readbulk.Value.cb == ProcessMemoryCountConstants.Expected86BitSize);
                 }
             }
             finally
@@ -383,20 +422,7 @@ namespace MangedUnitTests
         [TestInitialize]
         public void Initialize()
         {
-            string relpath = BasePath;
-            relpath = Path.GetDirectoryName(relpath);
-            relpath = Path.GetDirectoryName(relpath);
-            relpath += "\\Code\\Native\\InsightApi\\";
-            relpath += BuildVarient + "\\" + CodeVarient + "";
-            //if (!SetDllDirectoryW(relpath))
-            if (!SetDllDirectoryW(@"C:\Users\Thoma\source\repos\InsightAPI\Code\Native\InsightApi\Debug\x64"))
-            {
-                throw new InternalTestFailureException("SetDllDirectoW did not work. You can manually copy the required InsightAPI.dll to the direct the unit test compiles too or adjust the basepath variable in the unit tests for the sheath");
-            }
-            else
-            {
-                Console.WriteLine("SetDll Worked. InsightApi.DLL should be loaded by the Sheath Dll when needed.");
-            }
+            SetDllDirectoryStuff.DoIt();
         }
         [TestCategory("Detour Setting Check")]
         [TestCategory("Memory Leak Check")]
