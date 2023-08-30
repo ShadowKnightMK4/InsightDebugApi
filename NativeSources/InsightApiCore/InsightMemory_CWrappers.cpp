@@ -21,6 +21,15 @@ extern "C" {
 		}
 		return FALSE;
 	}
+
+	DWORD InsightMemory_GetTargetProcessID(InsightMemory* that)
+	{
+		if (that != nullptr)
+		{
+			return that->GetTargetProcessID();
+		}
+		return 0;
+	}
 	BOOL InsightMemory_SetTargetProcess(InsightMemory* that, DWORD ProcessOrHandle, BOOL HandleInstead)
 	{
 		if (that != nullptr)
@@ -101,7 +110,7 @@ extern "C" {
 		}
 		return 0;
 	}
-	
+
 	SIZE_T InsightMemory_GetQuotaPeakPagePoolUsage(InsightMemory* that)
 	{
 		if (that != nullptr)
@@ -155,6 +164,32 @@ extern "C" {
 		return nullptr;
 	}
 
+	PSAPI_WORKING_SET_EX_INFORMATION* InsightMemory_GetWorkingSetContainerInfo(InsightMemory* that)
+	{
+		if (that != nullptr)
+		{
+			return that->GetWorkingSetInfo();
+		}
+		return nullptr;
+	}
+
+	PERFORMACE_INFORMATION* InsightMemory_GetPerformanceInfo(InsightMemory* that)
+	{
+		if (that != nullptr)
+		{
+			return that->GetMemoryPerformanceStatsBulk();
+		}
+		return nullptr;
+
+	}
+	BOOL InsightMemory_FreeWorkingSetContainerInfo(InsightMemory* that, PSAPI_WORKING_SET_EX_INFORMATION* t)
+	{
+		if (that != nullptr)
+		{
+			return that->FreeWorkingSetInfo(t);
+		}
+		return FALSE;
+	}
 	BOOL InsightMemory_SetAutoRefreshMemoryStats(InsightMemory* that, BOOL Enable)
 	{
 		if (that != nullptr)

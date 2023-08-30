@@ -88,6 +88,9 @@
     <ClCompile Include="ResourceWalkerClass_CExports.cpp">
       <Filter>Source Files\C Level Struct Wrappers</Filter>
     </ClCompile>
+    <ClCompile Include="DebugHelpSync.cpp">
+      <Filter>Source Files\Utility</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="InsightHunter.h">

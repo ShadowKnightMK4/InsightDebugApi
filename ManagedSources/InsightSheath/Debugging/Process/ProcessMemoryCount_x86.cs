@@ -13,7 +13,26 @@ namespace InsightSheath.Debugging.Process
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
     public struct ProcessMemoryCount32
     {
-
+        /// <summary>
+        /// For when you want an equivelent version of this as <see cref="ProcessMemoryCount64"/>. Note cb is set to the siz eof the 64-bit verison
+        /// </summary>
+        /// <returns></returns>
+        public ProcessMemoryCount64 Promotion()
+        {
+            ProcessMemoryCount64 ret = new ProcessMemoryCount64();
+            ret.cb = ProcessMemoryCountConstants.Expected64BitSize;
+            ret.PageFaultCount = this.PageFaultCount;
+            ret.PeakWorkingSetSize = this.PeakWorkingSetSize;
+            ret.WorkingSetSize = this.WorkingSetSize;
+            ret.QuotaPeakedPagedPoolUsage = this.QuotaPeakedPagedPoolUsage;
+            ret.QuotaPagedPoolUsage = this.QuotaPagedPoolUsage;
+            ret.QuotaPeakedNonPagePoolUsage = this.QuotaPeakedNonPagePoolUsage;
+            ret.QuotaNonPagePoolUsage = this.QuotaNonPagePoolUsage;
+            ret.PageFileUsage = this.PageFileUsage;
+            ret.PeakPageFileUsaged= this.PeakPageFileUsaged;
+            ret.PrivateUsage = this.PrivateUsage;
+            return ret;
+        }
         /// <summary>
         /// Size of this structure in unmanaged land. Should Should equal <see cref="ProcessMemoryCountConstants.Expected86BitSize"/>
         /// </summary>

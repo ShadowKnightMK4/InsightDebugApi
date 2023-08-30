@@ -217,6 +217,7 @@ del "$(SolutionDir)code\$(Configuration)\$(PlatformTarget)\lib\InsightApi.*"
     <ClCompile Include="ApiVersionStruct_CExports.cpp" />
     <ClCompile Include="CommandmentSettings.cpp" />
     <ClCompile Include="ContextStruct_CExports.cpp" />
+    <ClCompile Include="DebugHelpSync.cpp" />
     <ClCompile Include="DebugStruct_CExports.cpp" />
     <ClCompile Include="DebugLogTarget.cpp" />
     <ClCompile Include="DebugNotifyHelperStructWrappers.cpp" />

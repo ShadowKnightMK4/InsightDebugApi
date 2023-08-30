@@ -1,6 +1,45 @@
 #pragma once
 #include <Windows.h>
 #include <Psapi.h>
+
+
+/// <summary>
+/// For debugger x86 code, this is the struct
+/// </summary>
+typedef struct _PROCESS_MEMORY_COUNTERS_EX32 {
+	DWORD cb;
+	DWORD PageFaultCount;
+	DWORD PeakWorkingSetSize;
+	DWORD WorkingSetSize;
+	DWORD QuotaPeakPagedPoolUsage;
+	DWORD QuotaPagedPoolUsage;
+	DWORD QuotaPeakNonPagedPoolUsage;
+	DWORD QuotaNonPagedPoolUsage;
+	DWORD PagefileUsage;
+	DWORD PeakPagefileUsage;
+	DWORD PrivateUsage;
+} PROCESS_MEMORY_COUNTERS_EX32;
+
+
+/// <summary>
+/// For debugger x64 code, this is the struct
+/// </summary>
+typedef struct _PROCESS_MEMORY_COUNTERS_EX64 {
+	DWORD cb;
+	DWORD PageFaultCount;
+	__int64 PeakWorkingSetSize;
+	__int64 WorkingSetSize;
+	__int64 QuotaPeakPagedPoolUsage;
+	__int64 QuotaPagedPoolUsage;
+	__int64 QuotaPeakNonPagedPoolUsage;
+	__int64 QuotaNonPagedPoolUsage;
+	__int64 PagefileUsage;
+	__int64 PeakPagefileUsage;
+	__int64 PrivateUsage;
+} PROCESS_MEMORY_COUNTERS_EX64;
+
+
+
 /// <summary>
 /// Get Memory Stats about a specific process and its current working set. Target must be openable for PROCESS_VM_READ and PROCESS_QUERY_INFORMATION
 /// </summary>
@@ -12,7 +51,12 @@ public:
 	InsightMemory(HANDLE ProcessHandle);
 	InsightMemory(const InsightMemory& Other);
 	~InsightMemory();
-	
+
+	/// <summary>
+	/// Get the PID of the process we are reading memory info from.
+	/// </summary>
+	/// <returns>PID of the process this class points too.  May be invalid if Process has exited.</returns>
+	DWORD GetTargetProcessID();
 	/// <summary>
 	/// Choose which process we ask about via processId
 	/// </summary>
@@ -82,7 +126,7 @@ public:
 	/// </summary>
 	/// <returns></returns>
 	SIZE_T GetPrivateUsage();
-	
+
 	/// <summary>
 	/// Get the quota non paged pool usage
 	/// </summary>
@@ -99,6 +143,8 @@ public:
 	/// </summary>
 	/// <returns>Returns pointer containing the memory stats. Returns null if it can't get them. Don't free returned pointer.</returns>
 	PROCESS_MEMORY_COUNTERS_EX* GetMemoryStatsBulk();
+
+	PERFORMACE_INFORMATION* GetMemoryPerformanceStatsBulk();
 	/// <summary>
 	/// Indicate if you want the Get Routines to refresh PROCESS_MEMORY_COUNTERS_EX routines with each call or only via a call via UpdateMemoryStats().
 	/// </summary>
@@ -111,20 +157,34 @@ public:
 	/// <returns>returns if iit workedor oto</returns>
 	BOOL GetAutoRefreshMemoryStats();
 
-	
+	PSAPI_WORKING_SET_EX_INFORMATION* GetWorkingSetInfo();
+	BOOL FreeWorkingSetInfo(PSAPI_WORKING_SET_EX_INFORMATION* t);
+
 private:
 	DWORD dwProcessID;
 	HANDLE ProcessHandle;
-	PROCESS_MEMORY_COUNTERS_EX MemoryStats;
+
+	union
+	{
+		PROCESS_MEMORY_COUNTERS_EX MemoryCounter;
+		PROCESS_MEMORY_COUNTERS_EX32 MemoryCounter32;
+		PROCESS_MEMORY_COUNTERS_EX64 MemoryCounter64;
+	} u;
+
+
+	union
+	{
+		PERFORMANCE_INFORMATION  PerfInformation;
+	} u2;
 	bool AutoRefreshMemoryStats;
 
 	void RefreshWorkingSet();
-
+	void UpdatePerfInformation();
 	/// <summary>
 	/// In line helper to refresh memory stats if AutoRefshEnabled
 	/// </summary>
 	inline void InlineRefreshMemoryStats();
-
+	inline void InlineUpdatePerfInformation();
 	PSAPI_WORKING_SET_EX_INFORMATION* WorkingSetContainer;
 	DWORD WorkingSetContainerSize;
 	

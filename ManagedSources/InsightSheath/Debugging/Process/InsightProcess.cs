@@ -414,10 +414,12 @@ namespace InsightSheath.Debugging.Process
         }
 
 
+        
 
         /// <summary>
-        /// Contains the process that was / will be launched.
+        /// Specify the full starting location of the main process to launch. 
         /// </summary>
+        /// <remarks>If comparing to <see cref="System.Diagnostics.Process"/>, the equivalent is <see cref="System.Diagnostics.Process.MainModule"/>. Additionally, with how long it's been "ProcessName" instead of the closer named "ProcessLocation", there's currently no plans to change that</remarks>
         public string ProcessName
         {
             get
@@ -462,7 +464,7 @@ namespace InsightSheath.Debugging.Process
 
 
         /// <summary>
-        /// Default is TRUE.  Should the code be unable to detour, process is killed and failure is returned.
+        /// Default is FALSE.  Should the code be unable to detour, process is killed and failure is returned.
         /// </summary>
         public bool DetourMustSucceed
         {
@@ -470,10 +472,7 @@ namespace InsightSheath.Debugging.Process
             {
                 return false;
             }
-            set
-            {
-
-            }
+            
         }
 
         /// <summary>

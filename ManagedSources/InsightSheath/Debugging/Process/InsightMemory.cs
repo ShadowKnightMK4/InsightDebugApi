@@ -8,6 +8,7 @@ using InsightSheath.NativeImports;
 using InsightSheath.Win32Struct;
 using InsightSheath.Abstract;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 
 namespace InsightSheath.Debugging.Process
 {
@@ -52,10 +53,19 @@ namespace InsightSheath.Debugging.Process
         /// Duplicate an instance of <see cref="InsightMemory"/> from an existing copy.
         /// </summary>
         /// <param name="Other">separate instance of <see cref="InsightMemory"/></param>
-        /// <returns>Returns a separate  instance of <see cref="InsightMemory"/> already set.</returns>
+        /// <returns>Returns a separate  instance of <see cref="InsightMemory"/> already set to the same process as the original one</returns>
         public static InsightMemory DuplicateInstance(InsightMemory Other)
         {
             return new InsightMemory(InternalInsightMemory.DupInstance(Other.Native));
+        }
+
+        /// <summary>
+        /// Get the process that we're reading memory stats from. 
+        /// </summary>
+        /// <returns>PID of the process that was pointed to via <see cref="SetTargetProcess(nint)"/> and the others</returns>
+        public  uint GetTargetProcessID()
+        {
+            return InternalInsightMemory.GetTargetProcessID(Native);
         }
         
         /// <summary>
@@ -126,13 +136,43 @@ namespace InsightSheath.Debugging.Process
 
 
         /// <summary>
-        /// Return the x86 bit version of the underlying structure containing the memory statistics.
+        /// This one checks the C# pointer size. If x64 bit, then this is equal to <see cref="MemoryStatsBulk64"/>. If 32-bit, calls <see cref="MemoryStatsBulk32"/> and then <see cref="ProcessMemoryCount32.Promotion"/> to make it 64-bit
         /// </summary>
-        /// <remarks>Know if you're asking about an x86 or x64 process. While this shouldn't crash, grabbing the wrong one will produce garbage values</remarks>
+        public ProcessMemoryCount64? MemoryStatsBulkGen
+        {
+            get
+            {
+                IntPtr ret = InternalInsightMemory.InsightMemory_GetMemoryStatsBulk(Native);
+                if (ret != IntPtr.Zero)
+                {
+                    if (nint.Size == 8) // 64 code needs no special
+                    {
+                        return Marshal.PtrToStructure<ProcessMemoryCount64>(ret);
+                    }
+                    else
+                    {
+                        
+                        ProcessMemoryCount32 ret32 = Marshal.PtrToStructure<ProcessMemoryCount32>(ret);
+
+                        return ret32.Promotion();
+                    }
+                }
+                return null;
+            }
+        }
+        /// <summary>
+        /// Return the x86 bit version of the underlying unmanaged structure containing the memory statistics. 
+        /// </summary>
+        /// <remarks>Know the size of pointers in your C# code. Use <see cref="MemoryStatsBulk64"/> for times if <see cref="nint.Size"/> is 8 and <see cref="MemoryStatsBulk32"/> for times if <see cref="nint.Size"/> is 4. Alternativly use <see cref="MemoryStatsBulkGen"/> to have that handled for you.</remarks>
+        /// <exception cref="NotSupportedException">This triggers is your trying to read this with pointer size (<see cref="nint.Size"/>) is 8</exception>
         public ProcessMemoryCount32? MemoryStatsBulk32
         {
             get
             {
+                if (nint.Size == 8)
+                {
+                    throw new NotSupportedException("InsightMemory Error: Attempt to Read underlying memory struct as x86 while in x64 code.  Use MemoryStatsBulk64 or MemoryStatsBulkGen instead");
+                }
                 IntPtr ret =  InternalInsightMemory.InsightMemory_GetMemoryStatsBulk(Native);
                 if (ret != IntPtr.Zero)
                 {
@@ -145,11 +185,15 @@ namespace InsightSheath.Debugging.Process
         /// <summary>
         /// Return the x64 bit version of the underlying structure containing the memory statistics.
         /// </summary>
-        /// <remarks>Know if you're asking about an x86 or x64 process. While this shouldn't crash, grabbing the wrong one will produce garbage values</remarks>
+        /// <remarks>Know the size of pointers in your C# code. Use <see cref="MemoryStatsBulk64"/> for times if <see cref="nint.Size"/> is 8 and <see cref="MemoryStatsBulk32"/> for times if <see cref="nint.Size"/> is 4. Alternativly use <see cref="MemoryStatsBulkGen"/> to have that handled for you.</remarks>
         public ProcessMemoryCount64? MemoryStatsBulk64
         {
             get
             {
+                if (nint.Size == 4)
+                {
+                    throw new NotSupportedException("InsightMemory Error: Attempt to Read underlying memory struct as x64 while in x86 code.  Use MemoryStatsBulk32 or MemoryStatsBulkGen instead");
+                }
                 IntPtr ret = InternalInsightMemory.InsightMemory_GetMemoryStatsBulk(Native);
                 if (ret != IntPtr.Zero)
                 {
@@ -249,6 +293,20 @@ namespace InsightSheath.Debugging.Process
             get
             {
                 return InternalInsightMemory.GetWorkingSetSize(Native);
+            }
+        }
+
+        public IntPtr WorkingSetInfo
+        {
+            get
+            {
+                throw new NotImplementedException();
+                IntPtr Ptr = InternalInsightMemory.GetWorkingSet(Native);
+                if (Ptr != IntPtr.Zero)
+                {
+
+                }
+                return IntPtr.Zero;
             }
         }
 

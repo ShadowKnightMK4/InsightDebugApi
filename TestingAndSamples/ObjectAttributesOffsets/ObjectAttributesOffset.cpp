@@ -59,6 +59,15 @@ UNICODE_STRING64.Buffer offset = 8
 */
 using namespace std;
 
+typedef struct _PSAPI_WORKING_SET_INFORMATION32 {
+	DWORD               NumberOfEntries;
+	PSAPI_WORKING_SET_BLOCK WorkingSetInfo[1];
+} PSAPI_WORKING_SET_INFORMATION32, * PPSAPI_WORKING_SET_INFORMATION32;
+
+typedef struct _PSAPI_WORKING_SET_INFORMATION64 {
+	__int64               NumberOfEntries;
+	PSAPI_WORKING_SET_BLOCK WorkingSetInfo[1];
+} PSAPI_WORKING_SET_INFORMATION64, * PPSAPI_WORKING_SET_INFORMATION64;
 
 typedef struct _PROCESS_MEMORY_COUNTERS_EX32 {
 	DWORD cb;
@@ -136,8 +145,26 @@ int main()
 
 	
 
+	cout << "BEGIN GENERIC PSAPI_WORKING_SET_INFORMATION" << endl;
+	cout << "sizeof(PSAPI_WORKING_SET_INFORMATION)" << sizeof(PSAPI_WORKING_SET_INFORMATION) << endl;
+	cout << "offsetof(PSAPI_WORKING_SET_INFORMATION, NumberOfEntries)" << offsetof(PSAPI_WORKING_SET_INFORMATION, NumberOfEntries) << endl;
+	cout << "offsetof(PSAPI_WORKING_SET_INFORMATION, WorkingSetInfo)" << offsetof(PSAPI_WORKING_SET_INFORMATION, WorkingSetInfo) << endl;
+	cout << endl << endl;
 
-	
+	cout << "BEGIN GENERIC PSAPI_WORKING_SET_INFORMATION32" << endl;
+	cout << "sizeof(PSAPI_WORKING_SET_INFORMATION32)" << sizeof(PSAPI_WORKING_SET_INFORMATION32) << endl;
+	cout << "offsetof(PSAPI_WORKING_SET_INFORMATION32, NumberOfEntries)" << offsetof(PSAPI_WORKING_SET_INFORMATION32, NumberOfEntries) << endl;
+	cout << "offsetof(PSAPI_WORKING_SET_INFORMATION32, WorkingSetInfo)" << offsetof(PSAPI_WORKING_SET_INFORMATION32, WorkingSetInfo) << endl;
+	cout << endl << endl;
+
+
+	cout << "BEGIN GENERIC PSAPI_WORKING_SET_INFORMATION64" << endl;
+	cout << "sizeof(PSAPI_WORKING_SET_INFORMATIO64)" << sizeof(PSAPI_WORKING_SET_INFORMATION64) << endl;
+	cout << "offsetof(PSAPI_WORKING_SET_INFORMATION64, NumberOfEntries)" << offsetof(PSAPI_WORKING_SET_INFORMATION64, NumberOfEntries) << endl;
+	cout << "offsetof(PSAPI_WORKING_SET_INFORMATION64, WorkingSetInfo)" << offsetof(PSAPI_WORKING_SET_INFORMATION64, WorkingSetInfo) << endl;
+	cout << endl << endl;
+
+
 
 	cout << "BEGIN GENERIC STRUCT: PROCESS_MEMORY_COUNTERS_EX  (cb == " << sizeof(PROCESS_MEMORY_COUNTERS_EX) << ")" << endl;
 	cout << "offsetof(PROCESS_MEMORY_COUNTERS_EX, cb)" << offsetof(PROCESS_MEMORY_COUNTERS_EX, cb) << endl;
@@ -189,41 +216,41 @@ int main()
 	cout << "sizeof(RTL_USER_PROCESS_PARAMETERS) == " << sizeof(RTL_USER_PROCESS_PARAMETERS) << endl;
 	cout << "sizeof(RTL_USER_PROCESS_PARAMETERS32) == " << sizeof(RTL_USER32) << endl;
 	cout << "sizeof(RTL_USER_PROCESS_PARAMETERS64) == " << sizeof(RTL_USER64) << endl;
-
+	cout << endl << endl;
 
 	cout << "offsetof(RTL_USER_PROCESS_PARAMETERS, Reserved1) " << offsetof(RTL_USER_PROCESS_PARAMETERS, Reserved1) << endl;
 	cout << "offsetof(RTL_USER_PROCESS_PARAMETERS, Reserved2) " << offsetof(RTL_USER_PROCESS_PARAMETERS, Reserved2) << endl;
 	cout << "offsetof(RTL_USER_PROCESS_PARAMETERS, ImagePathName) " << offsetof(RTL_USER_PROCESS_PARAMETERS, ImagePathName) << endl;
 	cout << "offsetof(RTL_USER_PROCESS_PARAMETERS, CommandLine) " << offsetof(RTL_USER_PROCESS_PARAMETERS, CommandLine) << endl;
-
+	cout << endl << endl;
 
 	cout << "offsetof(RTL_USER32, Reserved1) " << offsetof(RTL_USER32, Reserved1) << endl;
 	cout << "offsetof(RTL_USER32, Reserved2) " << offsetof(RTL_USER32, Reserved2) << endl;
 	cout << "offsetof(RTL_USER32, ImagePathName) " << offsetof(RTL_USER32, ImagePathName) << endl;
 	cout << "offsetof(RTL_USER32, CommandLine) " << offsetof(RTL_USER32, CommandLine) << endl;
-
+	cout << endl << endl;
 	cout << "offsetof(RTL_USER64, Reserved1) " << offsetof(RTL_USER64, Reserved1) << endl;
 	cout << "offsetof(RTL_USER64, Reserved2) " << offsetof(RTL_USER64, Reserved2) << endl;
 	cout << "offsetof(RTL_USER64, ImagePathName) " << offsetof(RTL_USER64, ImagePathName) << endl;
 	cout << "offsetof(RTL_USER64, CommandLine) " << offsetof(RTL_USER64, CommandLine) << endl;
-
+	cout << endl << endl;
 
 	cout << "Offsets for UNICODE_STRING, UNICODE_STRING32, UNICODE_STRING64" << endl;
 	cout << "sizeof(UNICODE_STRING) =" << sizeof(UNICODE_STRING) << endl;
 	cout << "sizeof(UNICODE_STRING32) =" << sizeof(UNICODE_STRING32) << endl;
 	cout << "sizeof(UNICODE_STRING64) =" << sizeof(UNICODE_STRING64) << endl;
-
+	cout << endl << endl;
 
 	cout << "UNICODE_STRING.Length offset = " << offsetof(UNICODE_STRING, Length) << endl;
 	cout << "UNICODE_STRING.Max offset = " << offsetof(UNICODE_STRING, MaximumLength) << endl;
 	cout << "UNICODE_STRING.Buffer offset = " << offsetof(UNICODE_STRING, Buffer) << endl;
 
-	
+	cout << endl << endl;
 	cout << "UNICODE_STRING32.Length offset = " << offsetof(UNICODE_STRING32, Length) << endl;
 	cout << "UNICODE_STRING32.Max offset = " << offsetof(UNICODE_STRING32, MaximumLength) << endl;
 	cout << "UNICODE_STRING32.Buffer offset = " << offsetof(UNICODE_STRING32, Buffer) << endl;
 
-
+	cout << endl << endl;
 	
 	cout << "UNICODE_STRING64.Length offset = " << offsetof(UNICODE_STRING64, Length) << endl;
 	cout << "UNICODE_STRING64.Max offset = " << offsetof(UNICODE_STRING64, MaximumLength) << endl;

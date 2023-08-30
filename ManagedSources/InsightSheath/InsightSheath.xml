@@ -1104,7 +1104,13 @@
             Duplicate an instance of <see cref="T:InsightSheath.Debugging.Process.InsightMemory"/> from an existing copy.
             </summary>
             <param name="Other">separate instance of <see cref="T:InsightSheath.Debugging.Process.InsightMemory"/></param>
-            <returns>Returns a separate  instance of <see cref="T:InsightSheath.Debugging.Process.InsightMemory"/> already set.</returns>
+            <returns>Returns a separate  instance of <see cref="T:InsightSheath.Debugging.Process.InsightMemory"/> already set to the same process as the original one</returns>
+        </member>
+        <member name="M:InsightSheath.Debugging.Process.InsightMemory.GetTargetProcessID">
+            <summary>
+            Get the process that we're reading memory stats from. 
+            </summary>
+            <returns>PID of the process that was pointed to via <see cref="M:InsightSheath.Debugging.Process.InsightMemory.SetTargetProcess(System.IntPtr)"/> and the others</returns>
         </member>
         <member name="M:InsightSheath.Debugging.Process.InsightMemory.#ctor(System.IntPtr)">
             <summary>
@@ -1133,17 +1139,23 @@
             Recommend False if you're reading them a lot
             </summary>
         </member>
+        <member name="P:InsightSheath.Debugging.Process.InsightMemory.MemoryStatsBulkGen">
+            <summary>
+            This one checks the C# pointer size. If x64 bit, then this is equal to <see cref="P:InsightSheath.Debugging.Process.InsightMemory.MemoryStatsBulk64"/>. If 32-bit, calls <see cref="P:InsightSheath.Debugging.Process.InsightMemory.MemoryStatsBulk32"/> and then <see cref="M:InsightSheath.Debugging.Process.ProcessMemoryCount32.Promotion"/> to make it 64-bit
+            </summary>
+        </member>
         <member name="P:InsightSheath.Debugging.Process.InsightMemory.MemoryStatsBulk32">
             <summary>
-            Return the x86 bit version of the underlying structure containing the memory statistics.
+            Return the x86 bit version of the underlying unmanaged structure containing the memory statistics. 
             </summary>
-            <remarks>Know if you're asking about an x86 or x64 process. While this shouldn't crash, grabbing the wrong one will produce garbage values</remarks>
+            <remarks>Know the size of pointers in your C# code. Use <see cref="P:InsightSheath.Debugging.Process.InsightMemory.MemoryStatsBulk64"/> for times if <see cref="P:System.IntPtr.Size"/> is 8 and <see cref="P:InsightSheath.Debugging.Process.InsightMemory.MemoryStatsBulk32"/> for times if <see cref="P:System.IntPtr.Size"/> is 4. Alternativly use <see cref="P:InsightSheath.Debugging.Process.InsightMemory.MemoryStatsBulkGen"/> to have that handled for you.</remarks>
+            <exception cref="T:System.NotSupportedException">This triggers is your trying to read this with pointer size (<see cref="P:System.IntPtr.Size"/>) is 8</exception>
         </member>
         <member name="P:InsightSheath.Debugging.Process.InsightMemory.MemoryStatsBulk64">
             <summary>
             Return the x64 bit version of the underlying structure containing the memory statistics.
             </summary>
-            <remarks>Know if you're asking about an x86 or x64 process. While this shouldn't crash, grabbing the wrong one will produce garbage values</remarks>
+            <remarks>Know the size of pointers in your C# code. Use <see cref="P:InsightSheath.Debugging.Process.InsightMemory.MemoryStatsBulk64"/> for times if <see cref="P:System.IntPtr.Size"/> is 8 and <see cref="P:InsightSheath.Debugging.Process.InsightMemory.MemoryStatsBulk32"/> for times if <see cref="P:System.IntPtr.Size"/> is 4. Alternativly use <see cref="P:InsightSheath.Debugging.Process.InsightMemory.MemoryStatsBulkGen"/> to have that handled for you.</remarks>
         </member>
         <member name="M:InsightSheath.Debugging.Process.InsightMemory.SetTargetProcess(System.IntPtr)">
             <summary>
@@ -1489,8 +1501,9 @@
         </member>
         <member name="P:InsightSheath.Debugging.Process.InsightProcess.ProcessName">
             <summary>
-            Contains the process that was / will be launched.
+            Specify the full starting location of the main process to launch. 
             </summary>
+            <remarks>If comparing to <see cref="T:System.Diagnostics.Process"/>, the equivalent is <see cref="P:System.Diagnostics.Process.MainModule"/>. Additionally, with how long it's been "ProcessName" instead of the closer named "ProcessLocation", there's currently no plans to change that</remarks>
         </member>
         <member name="P:InsightSheath.Debugging.Process.InsightProcess.ProcessArguments">
             <summary>
@@ -1504,7 +1517,7 @@
         </member>
         <member name="P:InsightSheath.Debugging.Process.InsightProcess.DetourMustSucceed">
             <summary>
-            Default is TRUE.  Should the code be unable to detour, process is killed and failure is returned.
+            Default is FALSE.  Should the code be unable to detour, process is killed and failure is returned.
             </summary>
         </member>
         <member name="P:InsightSheath.Debugging.Process.InsightProcess.InheritDefaultEnviroment">
@@ -1759,6 +1772,12 @@
             <summary>
             Process Memory count for 32-bit process
             </summary>
+        </member>
+        <member name="M:InsightSheath.Debugging.Process.ProcessMemoryCount32.Promotion">
+            <summary>
+            For when you want an equivelent version of this as <see cref="T:InsightSheath.Debugging.Process.ProcessMemoryCount64"/>. Note cb is set to the siz eof the 64-bit verison
+            </summary>
+            <returns></returns>
         </member>
         <member name="F:InsightSheath.Debugging.Process.ProcessMemoryCount32.cb">
             <summary>
@@ -2853,6 +2872,13 @@
             <param name="That">Unmanaged pointer to an instance of an <see cref="T:InsightSheath.Debugging.Process.InsightMemory"/> wrapped class</param>
             <returns>true if the call worked and false if it did not</returns>
             <remarks>C++ usages, this is calling delete against the pointer you indicate.  Ideally it should a pointer returned via <see cref="M:InsightSheath.NativeImports.InternalInsightMemory.MakeInstance"/> or <see cref="M:InsightSheath.NativeImports.InternalInsightMemory.DupInstance(System.IntPtr)"/> </remarks>
+        </member>
+        <member name="M:InsightSheath.NativeImports.InternalInsightMemory.GetTargetProcessID(System.IntPtr)">
+            <summary>
+            Get the ID of the process that was targetted via a call to <see cref="M:InsightSheath.NativeImports.InternalInsightMemory.SetTargetProcess(System.IntPtr,System.UInt64,System.Boolean)"/>
+            </summary>
+            <param name="That"></param>
+            <returns></returns>
         </member>
         <member name="M:InsightSheath.NativeImports.InternalInsightMemory.UpdateMemoryStats(System.IntPtr)">
             <summary>

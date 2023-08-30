@@ -513,7 +513,7 @@ private:
 	/// </summary>
 	LPSECURITY_ATTRIBUTES lpProcessAttributes;
 	/// <summary>
-	/// Future feature containrer. Will contrain threas security attributes
+	/// Future feature container. Will contrain threads security attributes
 	/// </summary>
 	LPSECURITY_ATTRIBUTES lpThreadAttributes;
 
@@ -586,6 +586,8 @@ private:
 	/// Default false.  If true and Proess creation flags include DEBUG_PROCESS | DEBUG_THIS_PROCESS, we will ask for debug priv via AdjustTokenPriv
 	/// </summary>
 	bool RequestDebugPriv;
+
+	
 };
 
 

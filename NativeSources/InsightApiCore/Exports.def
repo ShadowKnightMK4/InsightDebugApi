@@ -189,6 +189,9 @@ LIBRARY INSIGHTAPI
 		InsightMemory_MakeInstance
 		InsightMemory_DupInstance
 		InsightMemory_KillInstance
+		InsightMemory_GetWorkingSetContainerInfo
+		InsightMemory_FreeWorkingSetContainerInfo
+		InsightMemory_GetTargetProcessID
 		InsightMemory_SetTargetProcess
 		InsightMemory_UpdateMemoryStats
 		InsightMemory_GetPageFaultCount

@@ -44,6 +44,13 @@ namespace InsightSheath.NativeImports
         [DllImport("InsightApi.Dll", BestFitMapping = false, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi, EntryPoint = "InsightMemory_SetTargetProcess", ExactSpelling = false)]
         public static extern bool SetTargetProcess(IntPtr That, ulong ProcessHandle, bool HandleInstance);
 
+        /// <summary>
+        /// Get the ID of the process that was targetted via a call to <see cref="SetTargetProcess(nint, ulong, bool)"/>
+        /// </summary>
+        /// <param name="That"></param>
+        /// <returns></returns>
+        [DllImport("InsightApi.DLL", BestFitMapping =false, CharSet = CharSet.Unicode, CallingConvention=CallingConvention.Winapi, EntryPoint = "InsightMemory_GetTargetProcessID")]
+        public static extern uint GetTargetProcessID(IntPtr That);
 
         /// <summary>
         /// Imports "InsightMemory_UpdateMemoryStats" from InsightAPI.dll which manually refreshes the native side of this class's info
@@ -165,9 +172,12 @@ namespace InsightSheath.NativeImports
         [DllImport("InsightApi.Dll", BestFitMapping = false, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi, EntryPoint = "InsightMemory_GetAutoRefreshMemoryStats", ExactSpelling = false)]
         public static extern bool GetAutoRefreshMemoryStats(IntPtr That);
 
+        [DllImport("InsightApi.Dll", BestFitMapping = false, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi, EntryPoint = "InsightMemory_GetWorkingSetContainerInfo", ExactSpelling = false)]
+        public static extern IntPtr GetWorkingSet(IntPtr that);
 
 
-
+        [DllImport("InsightApi.Dll", BestFitMapping = false, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi, EntryPoint = "InsightMemory_FreeWorkingSetContainerInfo", ExactSpelling = false)]
+        public static extern IntPtr FreeWorkingSetPtr(IntPtr that);
 
 
 

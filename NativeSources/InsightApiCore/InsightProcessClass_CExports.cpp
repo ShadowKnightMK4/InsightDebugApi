@@ -371,6 +371,14 @@ extern "C"
 		}
 	}
 	
+	BOOL InsightProcess_GetDetourMustSucceedFlag(InsightProcess* that)
+	{
+		if (that == nullptr)
+		{
+			return FALSE;
+		}
+		
+	}
 	/// <summary>
 	/// C Level wrapper that calls PS_ProcessInformation::GetDetourListSize()
 	/// </summary>
