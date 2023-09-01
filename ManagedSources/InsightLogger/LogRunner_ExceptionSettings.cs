@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace InsightLogger
 {
-    public partial class LoggingForm : Form
+    public partial class LogRunner_ExceptionSettings : Form
     {
-        public LoggingForm()
+        public LogRunner_ExceptionSettings()
         {
             InitializeComponent();
         }

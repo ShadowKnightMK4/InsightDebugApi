@@ -2599,6 +2599,18 @@
             dispose of this DetourBinary based object's resources.
             </summary>
         </member>
+        <member name="T:InsightSheath.InsightApiNativeDllSettings">
+            <summary>
+            Set a search location to search for your Dll
+            </summary>
+        </member>
+        <member name="M:InsightSheath.InsightApiNativeDllSettings.SetDllDirectory(System.String)">
+            <summary>
+            Imports https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-setdlldirectoryw to let user specify where to search for Dlls
+            </summary>
+            <param name="Path"></param>
+            <returns></returns>
+        </member>
         <member name="T:InsightSheath.MemoryNative">
             <summary>
             Read and write to native memory via Peek and Poke routines.
