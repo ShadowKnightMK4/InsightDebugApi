@@ -40,8 +40,8 @@
             ToolStripMenuItemLogAdjustShow = new System.Windows.Forms.ToolStripMenuItem();
             ToolStripMenuItemEnvEdit = new System.Windows.Forms.ToolStripMenuItem();
             ToolStripMenuItemDetourDllSetting = new System.Windows.Forms.ToolStripMenuItem();
-            OpenFileDialogSelectExe = new System.Windows.Forms.OpenFileDialog();
             exceptionSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            OpenFileDialogSelectExe = new System.Windows.Forms.OpenFileDialog();
             ContextMenuStripSpecialSettings.SuspendLayout();
             SuspendLayout();
             // 
@@ -70,6 +70,7 @@
             ButtonOK.TabIndex = 2;
             ButtonOK.Text = "OK";
             ButtonOK.UseVisualStyleBackColor = true;
+            ButtonOK.Click += ButtonOK_Click;
             // 
             // ButtonCancel
             // 
@@ -115,7 +116,7 @@
             ContextMenuStripSpecialSettings.ImageScalingSize = new System.Drawing.Size(24, 24);
             ContextMenuStripSpecialSettings.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { ToolStripMenuItemLogAdjustShow, ToolStripMenuItemEnvEdit, ToolStripMenuItemDetourDllSetting, exceptionSettingsToolStripMenuItem });
             ContextMenuStripSpecialSettings.Name = "ContextMenuStripSpecialSettings";
-            ContextMenuStripSpecialSettings.Size = new System.Drawing.Size(319, 165);
+            ContextMenuStripSpecialSettings.Size = new System.Drawing.Size(319, 132);
             ContextMenuStripSpecialSettings.Opening += ContextMenuStripSpecialSettings_Opening;
             // 
             // ToolStripMenuItemLogAdjustShow
@@ -136,6 +137,14 @@
             ToolStripMenuItemDetourDllSetting.Name = "ToolStripMenuItemDetourDllSetting";
             ToolStripMenuItemDetourDllSetting.Size = new System.Drawing.Size(318, 32);
             ToolStripMenuItemDetourDllSetting.Text = "Detour Dll Injection Settings...";
+            ToolStripMenuItemDetourDllSetting.Click += ToolStripMenuItemDetourDllSetting_Click;
+            // 
+            // exceptionSettingsToolStripMenuItem
+            // 
+            exceptionSettingsToolStripMenuItem.Name = "exceptionSettingsToolStripMenuItem";
+            exceptionSettingsToolStripMenuItem.Size = new System.Drawing.Size(318, 32);
+            exceptionSettingsToolStripMenuItem.Text = "Exception Settings";
+            exceptionSettingsToolStripMenuItem.Click += exceptionSettingsToolStripMenuItem_Click;
             // 
             // OpenFileDialogSelectExe
             // 
@@ -145,14 +154,7 @@
             OpenFileDialogSelectExe.ShowHiddenFiles = true;
             OpenFileDialogSelectExe.FileOk += OpenFileDialogSelectExe_FileOk;
             // 
-            // exceptionSettingsToolStripMenuItem
-            // 
-            exceptionSettingsToolStripMenuItem.Name = "exceptionSettingsToolStripMenuItem";
-            exceptionSettingsToolStripMenuItem.Size = new System.Drawing.Size(318, 32);
-            exceptionSettingsToolStripMenuItem.Text = "Exception Settings";
-            exceptionSettingsToolStripMenuItem.Click += exceptionSettingsToolStripMenuItem_Click;
-            // 
-            // LoggerRunDialogcs
+            // LoggerRunDialog
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -164,7 +166,7 @@
             Controls.Add(ButtonOK);
             Controls.Add(LabelOpen);
             Controls.Add(ComboBoxTarget);
-            Name = "LoggerRunDialogcs";
+            Name = "LoggerRunDialog";
             Text = "Insight Logger - Process Launcher";
             ContextMenuStripSpecialSettings.ResumeLayout(false);
             ResumeLayout(false);

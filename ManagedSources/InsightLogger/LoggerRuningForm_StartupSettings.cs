@@ -84,5 +84,10 @@ namespace InsightLogger
 
             }
         }
+
+        private void RadioButtonInheritEnv_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

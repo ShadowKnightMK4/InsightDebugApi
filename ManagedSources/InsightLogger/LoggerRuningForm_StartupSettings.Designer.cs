@@ -44,11 +44,11 @@
             FolderBrowserDialogSelectProcessStartDir = new System.Windows.Forms.FolderBrowserDialog();
             ButtonOK = new System.Windows.Forms.Button();
             ButtonCancel = new System.Windows.Forms.Button();
-            textBox1 = new System.Windows.Forms.TextBox();
+            TextBoxRawProcessCreationValue = new System.Windows.Forms.TextBox();
             label4 = new System.Windows.Forms.Label();
             groupBox2 = new System.Windows.Forms.GroupBox();
-            checkBox1 = new System.Windows.Forms.CheckBox();
-            checkBox2 = new System.Windows.Forms.CheckBox();
+            CheckBoxWantDebugPriv = new System.Windows.Forms.CheckBox();
+            CheckBoxWantDebugMode = new System.Windows.Forms.CheckBox();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             SuspendLayout();
@@ -104,6 +104,7 @@
             RadioButtonInheritEnv.TabStop = true;
             RadioButtonInheritEnv.Text = "Inherit Logger Enviroment Variables";
             RadioButtonInheritEnv.UseVisualStyleBackColor = true;
+            RadioButtonInheritEnv.CheckedChanged += RadioButtonInheritEnv_CheckedChanged;
             // 
             // RadioButtonExplicitEnv
             // 
@@ -188,12 +189,12 @@
             ButtonCancel.UseVisualStyleBackColor = true;
             ButtonCancel.Click += ButtonCancel_Click;
             // 
-            // textBox1
+            // TextBoxRawProcessCreationValue
             // 
-            textBox1.Location = new System.Drawing.Point(19, 70);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new System.Drawing.Size(264, 31);
-            textBox1.TabIndex = 8;
+            TextBoxRawProcessCreationValue.Location = new System.Drawing.Point(19, 70);
+            TextBoxRawProcessCreationValue.Name = "TextBoxRawProcessCreationValue";
+            TextBoxRawProcessCreationValue.Size = new System.Drawing.Size(264, 31);
+            TextBoxRawProcessCreationValue.TabIndex = 8;
             // 
             // label4
             // 
@@ -206,10 +207,10 @@
             // 
             // groupBox2
             // 
-            groupBox2.Controls.Add(checkBox2);
-            groupBox2.Controls.Add(checkBox1);
+            groupBox2.Controls.Add(CheckBoxWantDebugPriv);
+            groupBox2.Controls.Add(CheckBoxWantDebugMode);
             groupBox2.Controls.Add(label4);
-            groupBox2.Controls.Add(textBox1);
+            groupBox2.Controls.Add(TextBoxRawProcessCreationValue);
             groupBox2.Location = new System.Drawing.Point(525, 190);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new System.Drawing.Size(511, 114);
@@ -217,25 +218,25 @@
             groupBox2.TabStop = false;
             groupBox2.Text = "Programmer/Dev";
             // 
-            // checkBox1
+            // CheckBoxWantDebugPriv
             // 
-            checkBox1.AutoSize = true;
-            checkBox1.Location = new System.Drawing.Point(309, 29);
-            checkBox1.Name = "checkBox1";
-            checkBox1.Size = new System.Drawing.Size(144, 29);
-            checkBox1.TabIndex = 10;
-            checkBox1.Text = "Debug Mode";
-            checkBox1.UseVisualStyleBackColor = true;
+            CheckBoxWantDebugPriv.AutoSize = true;
+            CheckBoxWantDebugPriv.Location = new System.Drawing.Point(309, 55);
+            CheckBoxWantDebugPriv.Name = "CheckBoxWantDebugPriv";
+            CheckBoxWantDebugPriv.Size = new System.Drawing.Size(126, 29);
+            CheckBoxWantDebugPriv.TabIndex = 11;
+            CheckBoxWantDebugPriv.Text = "Debug Priv";
+            CheckBoxWantDebugPriv.UseVisualStyleBackColor = true;
             // 
-            // checkBox2
+            // CheckBoxWantDebugMode
             // 
-            checkBox2.AutoSize = true;
-            checkBox2.Location = new System.Drawing.Point(309, 55);
-            checkBox2.Name = "checkBox2";
-            checkBox2.Size = new System.Drawing.Size(126, 29);
-            checkBox2.TabIndex = 11;
-            checkBox2.Text = "Debug Priv";
-            checkBox2.UseVisualStyleBackColor = true;
+            CheckBoxWantDebugMode.AutoSize = true;
+            CheckBoxWantDebugMode.Location = new System.Drawing.Point(309, 29);
+            CheckBoxWantDebugMode.Name = "CheckBoxWantDebugMode";
+            CheckBoxWantDebugMode.Size = new System.Drawing.Size(144, 29);
+            CheckBoxWantDebugMode.TabIndex = 10;
+            CheckBoxWantDebugMode.Text = "Debug Mode";
+            CheckBoxWantDebugMode.UseVisualStyleBackColor = true;
             // 
             // LoggerRunForm_StartupSettings
             // 
@@ -264,24 +265,24 @@
         #endregion
 
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.RadioButton RadioButtonInheritEnv;
-        private System.Windows.Forms.RadioButton RadioButtonExplicitEnv;
         private System.Windows.Forms.Button ButtonSelectEnvTextFile;
-        private System.Windows.Forms.TextBox TextBoxEnvTextFile;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.OpenFileDialog OpenFileDialogSelectEnvFile;
-        private System.Windows.Forms.TextBox TextBoxProcessArguments;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox TextBoxProcessStartingDir;
         private System.Windows.Forms.Button ButtonSelectStartingDir;
         private System.Windows.Forms.FolderBrowserDialog FolderBrowserDialogSelectProcessStartDir;
         private System.Windows.Forms.Button ButtonOK;
         private System.Windows.Forms.Button ButtonCancel;
-        private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.CheckBox checkBox2;
-        private System.Windows.Forms.CheckBox checkBox1;
+        public System.Windows.Forms.TextBox TextBoxEnvTextFile;
+        public System.Windows.Forms.TextBox TextBoxProcessArguments;
+        public System.Windows.Forms.TextBox TextBoxProcessStartingDir;
+        public System.Windows.Forms.TextBox TextBoxRawProcessCreationValue;
+        public System.Windows.Forms.CheckBox CheckBoxWantDebugPriv;
+        public System.Windows.Forms.CheckBox CheckBoxWantDebugMode;
+        public System.Windows.Forms.RadioButton RadioButtonInheritEnv;
+        public System.Windows.Forms.RadioButton RadioButtonExplicitEnv;
     }
 }
