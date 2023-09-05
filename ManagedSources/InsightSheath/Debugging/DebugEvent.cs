@@ -213,6 +213,7 @@ namespace InsightSheath.Debugging
     /// </summary>
     public abstract class DebugEventStaticContainer : ReferenceCounterNativeStaticContainer
     {
+        
         /// <summary>
         /// Constructor for the base <see cref="DebugEvent"/> abstract class
         /// </summary>
@@ -671,6 +672,7 @@ namespace InsightSheath.Debugging
     /// </summary>
     public class DebugEventCreateThreadInfo : DebugEventStaticContainer
     {
+
         /// <summary>
         /// Construct a wrapper class for a <see cref="DebugEvent"/> containing a <see cref="DebugEventType"/> of <see cref="DebugEventType.CreateTheadEvent"/>
         /// </summary>
@@ -749,7 +751,7 @@ namespace InsightSheath.Debugging
         {
             get
             {
-                return new IntPtr(ThreadLocalBase.ToInt32() + 0x2C);
+                return new IntPtr(ThreadLocalBase.ToInt64() + 0x2C);
             }
         }
     }
@@ -868,6 +870,27 @@ namespace InsightSheath.Debugging
     /// </summary>
     public class DebugEventCreateProcessInfo :DebugEventStaticContainer
     {
+        public override string ToString()
+        {
+            bool IsBit = IsEventFrom32BitProcess;
+            string bitstr;
+            string name = ImageName;
+
+            if (IsBit)
+                bitstr = "32-bit";
+            else
+                bitstr = "64-bit";
+            if (name != null)
+            {
+                return string.Format("CreateProcessEvent: {3} PID: {0}, TID {1}  SourceModule: \"{2}\"", ProcessID, ThreadID, name, bitstr);
+            }
+            else
+            {
+                return string.Format("CreateProcessEvent: {3} PID: {0}, TID {1}  SourceModule: \"Unknown or Denied Access\"", ProcessID, ThreadID, name, bitstr);
+            }
+             
+        }
+
         /// <summary>
         /// Construct a wrapper class for a <see cref="DebugEvent"/> containing a <see cref="DebugEventType"/> of <see cref="DebugEventType.CreateProcessEvent"/>
         /// </summary>

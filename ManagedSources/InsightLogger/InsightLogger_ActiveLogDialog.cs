@@ -10,10 +10,49 @@ using System.Windows.Forms;
 using System.IO;
 using InsightSheath.Debugging.Process;
 using InsightSheath;
+using System.Runtime.CompilerServices;
+
 namespace InsightLogger
 {
     public partial class InsightLogger_ActiveLogDialog : Form
     {
+        /// <summary>
+        /// Deleage to extend export format. Used by routines such as <see cref="SaveAllLogAsTextFile(string)"/>
+        /// </summary>
+        /// <param name="Line"></param>
+        /// <param name="Output"></param>
+        public delegate void LogWriteHandler(string Line, FileStream Output);
+        /// <summary>
+        /// Save all entries as unicode text to here
+        /// </summary>
+        /// <param name="Location"></param>
+        public void SaveAllLogAsTextFile(string Location)
+        {
+            void WriteUnicodeText(string Line, FileStream Target)
+            {
+                byte[] B = Encoding.UTF8.GetBytes(Line);
+                Target.Write(B, 0, B.Length);
+            }
+            SaveAllLog(Location, WriteUnicodeText);
+        }
+
+        /// <summary>
+        /// Save all entries by calling HowToWrite to the location
+        /// </summary>
+        /// <param name="Location"></param>
+        /// <param name="HowToWrite">This is called to write. You can write in any format you want.</param>
+        public void SaveAllLog(string Location, LogWriteHandler HowToWrite)
+        {
+            using (var Fn = File.OpenWrite(Location))
+            {
+                StringBuilder DumpThis = new();
+                foreach (var l in ListBoxLogEvent.Items)
+                {
+                    DumpThis.AppendLine(l.ToString());
+                }
+                HowToWrite(DumpThis.ToString(), Fn);
+            }
+        }
         public InsightLogger_ActiveLogDialog()
         {
             InitializeComponent();
@@ -132,6 +171,16 @@ namespace InsightLogger
         private void TextBoxEventLogTimerMilli_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void ButtonSaveAll_Click(object sender, EventArgs e)
+        {
+            SaveFileDialogAllEntriesExport.ShowDialog(this);
+        }
+
+        private void SaveFileDialogAllEntriesExport_FileOk(object sender, CancelEventArgs e)
+        {
+            SaveAllLogAsTextFile(SaveFileDialogAllEntriesExport.FileName);
         }
     }
 }
