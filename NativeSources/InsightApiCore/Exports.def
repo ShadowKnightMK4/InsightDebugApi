@@ -83,6 +83,7 @@ LIBRARY INSIGHTAPI
 		UtilDuplicateHandleIntoTarget=RemoteHandleDup
 		UtilIsTargetProcessID32Bit=IsTargetProcessID32Bit
 		DebugEvent_AllocateStructure
+		DebugEvent_CopyToStructure
 		DebugEvent_FreeStructure=RemoteRead_SimpleFree
 		DebugEvent_GetProcessId
 		DebugEvent_GetThreadId

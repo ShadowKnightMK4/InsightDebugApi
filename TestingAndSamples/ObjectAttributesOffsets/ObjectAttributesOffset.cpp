@@ -136,7 +136,7 @@ int main()
 	
 
 
-	
+	EXCEPTION_NONCONTINUABLE
 	
 	cout << "Usage:  Know if you're compiling for x64 or x86.  Compare the given offsets for the general struct for example UNICODE_STRING and see if your custom struct - for example UNICODE_STRING32 matches the generic struct. If so then it should work when reading from a debugged process. If not, try again." << endl;
 	

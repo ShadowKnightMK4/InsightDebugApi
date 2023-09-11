@@ -11,11 +11,14 @@ using System.IO;
 using InsightSheath.Debugging.Process;
 using InsightSheath;
 using System.Runtime.CompilerServices;
+using InsightSheath.Debugging;
 
 namespace InsightLogger
 {
     public partial class InsightLogger_ActiveLogDialog : Form
     {
+        ChooseLogFormat ChooseLogFormat = new ChooseLogFormat();
+        public readonly LogCollector LogHandler = new LogCollector();
         /// <summary>
         /// Deleage to extend export format. Used by routines such as <see cref="SaveAllLogAsTextFile(string)"/>
         /// </summary>
@@ -65,8 +68,75 @@ namespace InsightLogger
 
         private void PostLogThing(string msg)
         {
-            ListBoxLogEvent.Items.Add(msg);
+            PostLogThingMsg(msg);
         }
+
+        private void PostLogThing(DebugEvent Ev)
+        {
+            PostLogThingDebugEvent(Ev);
+        }
+
+        /// <summary>
+        /// Add this message to the log with the datetime stamp of now in ticks.
+        /// </summary>
+        /// <param name="msg">string to add</param>
+        private void PostLogThingMsg(string msg)
+        {
+            PostLogThingMsgTimeStamp(DateTime.Now.Ticks.ToString(), msg);
+        }
+
+
+        /// <summary>
+        /// Add this message to the log with the index string of Timestamp
+        /// </summary>
+        /// <param name="Timestamp">string to index the entry. </param>
+        /// <param name="msg">msg to add</param>
+        private void PostLogThingMsgTimeStamp(string Timestamp, string msg)
+        {
+            ListBoxLogEvent.Items.Add(new LogEntry(msg));
+            this.LogHandler.AddLog(Timestamp, msg);
+        }
+
+        /// <summary>
+        /// Add a copy of this debug event to the log with the datetime stamp of now
+        /// </summary>
+        /// <param name="Instance">debug event to add. </param>
+        /// <remarks>Note that this routine makes its own copy of the struct</remarks>
+        private void PostLogThingDebugEvent(DebugEvent Instance)
+        {
+            PostLogThingDebugEventMsg(DateTime.Now.Ticks.ToString(), Instance);
+        }
+
+        /// <summary>
+        /// Add a copy of this debug event to the log with  the index string of Timestamp
+        /// </summary>
+        /// <param name="Timestamp">string to index the entry. </param>
+        /// <param name="Instance">debug event to add. </param>
+        /// <remarks>Note that this routine makes its own copy of the struct</remarks>
+        public void PostLogThingDebugEventMsg(string Timestamp, DebugEvent Instance)
+        {
+            ListBoxLogEvent.Items.Add(new LogEntry(Instance));
+            this.LogHandler.AddLog(Timestamp, Instance);
+        }
+
+
+        /// <summary>
+        /// Add an event to the log. Write it the ongoing file if existant.
+        /// </summary>
+        /// <param name="msg"></param>
+        public void PostLogEvent(DebugEvent Instance)
+        {
+            if (!ListBoxLogEvent.InvokeRequired)
+            {
+                PostLogThingDebugEvent(Instance);
+            }
+            else
+            {
+                ListBoxLogEvent.Invoke(PostLogThingDebugEvent, Instance);
+            }
+        }
+
+
         /// <summary>
         /// Add an event to the log. Write it the ongoing file if existant.
         /// </summary>
@@ -75,11 +145,11 @@ namespace InsightLogger
         {
             if (!ListBoxLogEvent.InvokeRequired)
             {
-                PostLogThing(msg);
+                PostLogThingMsg(msg);
             }
             else
             {
-                ListBoxLogEvent.Invoke(PostLogThing, msg);
+                ListBoxLogEvent.Invoke(PostLogThingMsg, msg);
             }
             {
                 try
@@ -104,8 +174,8 @@ namespace InsightLogger
 
         private void TimerPulseDebugEventKick_Tick(object sender, EventArgs e)
         {
-
-            LaunchThis.PulseDebugEventThead();
+            if (!this.CheckBoxStopNextEvent.Checked)
+                LaunchThis.PulseDebugEventThead();
         }
 
 
@@ -180,7 +250,31 @@ namespace InsightLogger
 
         private void SaveFileDialogAllEntriesExport_FileOk(object sender, CancelEventArgs e)
         {
-            SaveAllLogAsTextFile(SaveFileDialogAllEntriesExport.FileName);
+            //SaveAllLogAsTextFile(SaveFileDialogAllEntriesExport.FileName);
+            using (Stream s = File.OpenWrite(SaveFileDialogAllEntriesExport.FileName))
+            {
+                this.LogHandler.ExportLog(s);
+            }
+        }
+
+        private void ButtonContinueDebugEvent_Click(object sender, EventArgs e)
+        {
+            if (TextBoxEventLogTimerMilli.Enabled == false)
+            {
+                TextBoxEventLogTimerMilli.Enabled = true;
+                LaunchThis.PulseDebugEventThead();
+                CheckBoxStopNextEvent.Checked = false;
+            }
+
+        }
+
+        private void ButtonReinterpretLog_Click(object sender, EventArgs e)
+        {
+            ChooseLogFormat.ShowDialog(this);
+            if (ChooseLogFormat.DialogResult == DialogResult.OK)
+            {
+
+            }
         }
     }
 }

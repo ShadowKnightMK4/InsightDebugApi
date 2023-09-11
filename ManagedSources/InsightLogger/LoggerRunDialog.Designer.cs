@@ -48,6 +48,7 @@
             // ComboBoxTarget
             // 
             ComboBoxTarget.FormattingEnabled = true;
+            ComboBoxTarget.Items.AddRange(new object[] { "C:\\Windows\\System32\\cmd.exe" });
             ComboBoxTarget.Location = new System.Drawing.Point(77, 136);
             ComboBoxTarget.Name = "ComboBoxTarget";
             ComboBoxTarget.Size = new System.Drawing.Size(407, 33);
@@ -168,6 +169,7 @@
             Controls.Add(ComboBoxTarget);
             Name = "LoggerRunDialog";
             Text = "Insight Logger - Process Launcher";
+            Load += LoggerRunDialog_Load;
             ContextMenuStripSpecialSettings.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();

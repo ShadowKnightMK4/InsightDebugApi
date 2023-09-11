@@ -20,6 +20,7 @@ namespace InsightLogger
             InitializeComponent();
         }
 
+
         InsightLogger_ActiveLogDialog LogLoop = new InsightLogger_ActiveLogDialog();
         LogRunner_DetoursForm Detours = new LogRunner_DetoursForm();
         LoggerRunForm_StartupSettings setting = new LoggerRunForm_StartupSettings();
@@ -71,7 +72,7 @@ namespace InsightLogger
             Detours.ShowDialog(this);
         }
 
-        
+
         private void ProcessEnv(string SourceFile, InsightProcess target)
         {
             if (string.IsNullOrEmpty(SourceFile))
@@ -84,9 +85,9 @@ namespace InsightLogger
                     int Equal = Line.IndexOf("=");
                     if (Equal > 0)
                     {
-                        string Name = Line.Substring(0, Equal-1);
+                        string Name = Line.Substring(0, Equal - 1);
                         string Val = Line.Substring(Equal + 1);
-                        target.SetExplicitEnviromentValue(Name, Val);   
+                        target.SetExplicitEnviromentValue(Name, Val);
                     }
                 }
             }
@@ -101,71 +102,90 @@ namespace InsightLogger
         {
             // code on unmaanged side keeps its own copy of a debug event struct in its worker thread.
             DebugEvent Ev = new DebugEvent(DebugEventPtr);
-            
+
             switch (Ev.EventType)
             {
                 case DebugEventType.CreateProcessEvent:
                     {
                         //LogLoop.PostLogEvent("Welcome Process #" + Ev.ProcessID + " created from a file at " + Ev.GetDebugEventCreateProcessInfo().ImageName + "\r\n");
-                        LogLoop.PostLogEvent("Welcome Process #" + Ev.ProcessID +  "  " + Ev.GetDebugEventCreateProcessInfo().ToString());
+                        //  LogLoop.PostLogEvent("Welcome Process #" + Ev.ProcessID + "  " + Ev.GetDebugEventCreateProcessInfo().ToString());
+                        LogLoop.PostLogEvent(Ev);
+                        //LogLoop.LogHandler.AddLog(DateTime.Now.Ticks.ToString(), Ev);
+
                         Ev.ContinueDebugEvent(Ev.ProcessID, Ev.ThreadID, DebugContState.DebugContinueState);
                         break;
                     }
                 case DebugEventType.CreateTheadEvent:
                     {
-                        LogLoop.PostLogEvent("Process #" + Ev.ProcessID + " has created a thread " + Ev.GetDebugEventCreateThreadInfo());
+                        //LogLoop.PostLogEvent("Process #" + Ev.ProcessID + " has created a thread " + Ev.GetDebugEventCreateThreadInfo());
+                        //LogLoop.PostLogEvent(Ev.GetDebugEventCreateThreadInfo().ToString() + ",");
+                        LogLoop.PostLogEvent(Ev);
                         Ev.ContinueDebugEvent(Ev.ProcessID, Ev.ThreadID, DebugContState.DebugContinueState);
                         break;
                     }
                 case DebugEventType.ExceptionEvent:
                     {
-                        LogLoop.PostLogEvent("Exception Occured in Process #" + Ev.ProcessID + " Value is " + Ev.GetDebugEventExceptionInfo().ExceptionCode.ToString());
+                        //LogLoop.PostLogEvent("Exception Occured in Process #" + Ev.ProcessID + " Value is " + Ev.GetDebugEventExceptionInfo().ExceptionCode.ToString());
+                        LogLoop.PostLogEvent(Ev);
                         Ev.ContinueDebugEvent(Ev.ProcessID, Ev.ThreadID, DebugContState.DebugExceptionNotHandled);
                         break;
                     }
 
                 case DebugEventType.ExitProcessEvent:
                     {
-                        LogLoop.PostLogEvent("Process # " + Ev.ProcessID + "Exited with a return code of " + Ev.GetEventExitProcessInfo().ExitCode + "\r\n");
+                        //LogLoop.PostLogEvent("Process # " + Ev.ProcessID + "Exited with a return code of " + Ev.GetEventExitProcessInfo().ExitCode + "\r\n");
+                        LogLoop.PostLogEvent(Ev.GetEventExitProcessInfo().ToString() + ",");
+                        LogLoop.PostLogEvent(Ev);
                         Ev.ContinueDebugEvent(Ev.ProcessID, Ev.ThreadID, DebugContState.DebugContinueState);
                         break;
                     }
 
                 case DebugEventType.ExitThreadEvent:
                     {
-                        LogLoop.PostLogEvent("Process # " + Ev.ProcessID + "Had a thread id of " + Ev.ThreadID.ToString() + " exit  " + Ev.GetEventExitThreadInfo().ExitCode + "\r\n");
+                        //LogLoop.PostLogEvent("Process # " + Ev.ProcessID + "Had a thread id of " + Ev.ThreadID.ToString() + " exit  " + Ev.GetEventExitThreadInfo().ExitCode + "\r\n");
+                        //LogLoop.PostLogEvent(Ev.GetEventExitThreadInfo().ToString() + ",");
+                        LogLoop.PostLogEvent(Ev);
                         Ev.ContinueDebugEvent(Ev.ProcessID, Ev.ThreadID, DebugContState.DebugContinueState);
                         break;
                     }
 
                 case DebugEventType.LoadDllEvent:
                     {
-                        LogLoop.PostLogEvent("Process # " + Ev.ProcessID + "Loaded a Dll from " + Ev.GetDebugEventLoadDll().ImageName + "\r\n");
+                        //LogLoop.PostLogEvent("Process # " + Ev.ProcessID + "Loaded a Dll from " + Ev.GetDebugEventLoadDll().ImageName + "\r\n");
+                        //LogLoop.PostLogEvent(Ev.GetDebugEventLoadDll().ToString() + ",");
+                        LogLoop.PostLogEvent(Ev);
                         Ev.ContinueDebugEvent(Ev.ProcessID, Ev.ThreadID, DebugContState.DebugContinueState);
                         break;
                     }
                 case DebugEventType.OutputDebugString:
                     {
-                        LogLoop.PostLogEvent("Process # " + Ev.ProcessID + "sent a debug string  \"" +Ev.GetDebugEventStringInfo().OutputString  +"\"");
+                        //   LogLoop.PostLogEvent("Process # " + Ev.ProcessID + "sent a debug string  \"" +Ev.GetDebugEventStringInfo().OutputString  +"\"");
+                        //LogLoop.PostLogEvent(Ev.GetDebugEventStringInfo().ToString() + ",");
+                        LogLoop.PostLogEvent(Ev);
                         Ev.ContinueDebugEvent(Ev.ProcessID, Ev.ThreadID, DebugContState.DebugContinueState);
                         break;
                     }
                 case DebugEventType.UnloadDllEvent:
                     {
-                        LogLoop.PostLogEvent("Process # " + Ev.ProcessID + "Unloaded a Dll from this virtual memory location " + Ev.GetDebugEventUnloadDllInfo().BaseOfDll + "\r\n");
+                        //LogLoop.PostLogEvent("Process # " + Ev.ProcessID + "Unloaded a Dll from this virtual memory location " + Ev.GetDebugEventUnloadDllInfo().BaseOfDll + "\r\n");
+                        //LogLoop.PostLogEvent(Ev.GetDebugEventUnloadDllInfo().ToString() + ",");
+                        LogLoop.PostLogEvent(Ev);
                         Ev.ContinueDebugEvent(Ev.ProcessID, Ev.ThreadID, DebugContState.DebugContinueState);
                         break;
                     }
                 case DebugEventType.RipEvent:
                     {
-                        LogLoop.PostLogEvent("Process # " + Ev.ProcessID + "Had a RIP event trigger" + Ev.GetDebugEventRipInfo().Error + "\r\n");
+                        //LogLoop.PostLogEvent("Process # " + Ev.ProcessID + "Had a RIP event trigger" + Ev.GetDebugEventRipInfo().Error + "\r\n");
+                        //LogLoop.PostLogEvent(Ev.GetDebugEventRipInfo().ToString() + ",");
+                        LogLoop.PostLogEvent(Ev);
                         Ev.ContinueDebugEvent(Ev.ProcessID, Ev.ThreadID, DebugContState.DebugContinueState);
                         break;
                     }
 
-                    
+
                 default:
                     {
+                        throw new Exception("You forgot something"); ;
                         LogLoop.PostLogEvent("Unknown Event in " + Ev.ProcessID.ToString() + "happebnd\r\n");
                         Ev.ContinueDebugEvent(Ev.ProcessID, Ev.ThreadID, DebugContState.DebugExceptionNotHandled);
                         break;
@@ -179,13 +199,13 @@ namespace InsightLogger
             try
             {
                 int test = int.Parse(setting.TextBoxRawProcessCreationValue.Text);
-                LogLoop.LaunchThis.CreationFlags =  (InsightProcess.CreationFlagValues) test;
+                LogLoop.LaunchThis.CreationFlags = (InsightProcess.CreationFlagValues)test;
             }
             catch (FormatException)
             {
                 LogLoop.LaunchThis.CreationFlags = 0;
             }
-            
+
 
             if (setting.CheckBoxWantDebugMode.Checked)
             {
@@ -228,12 +248,17 @@ namespace InsightLogger
 
 
             LogLoop.PostLogEvent("Attempt to Start Process " + LogLoop.LaunchThis.ProcessName + " Returend PID of " + LogLoop.LaunchThis.SpawnProcess().ToString());
-            if (LogLoop.LaunchThis.CreationFlags.HasFlag( InsightProcess.CreationFlagValues.DebugProcess))
+            if (LogLoop.LaunchThis.CreationFlags.HasFlag(InsightProcess.CreationFlagValues.DebugProcess))
             {
                 LogLoop.PostLogEvent("Debug Mode \r\n");
             }
             LogLoop.ShowDialog(this);
-           
+
+        }
+
+        private void LoggerRunDialog_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

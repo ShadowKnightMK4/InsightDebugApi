@@ -271,13 +271,23 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="T:InsightSheath.Debugging.DebugEventStringBuilderJSON">
+            <summary>
+            For when you want to output as JSON value
+            </summary>
+        </member>
+        <member name="T:InsightSheath.Debugging.DebugEventStringBuilderJSON.EntryContainer">
+            <summary>
+            Contains an array.
+            </summary>
+        </member>
         <member name="T:InsightSheath.Debugging.DebugExceptionInPage_Type">
             
              This file provides a wrapper between c# and the InsightApi.Dll that deals with the debug event structure.
              The base class <see cref="T:InsightSheath.Debugging.DebugEventStaticContainer"/> is the root for the other classes in this file. It
              handles holding an <see cref="T:System.IntPtr"/> that represents the unmanaged DEBUG_EVENT structure.  This pointer gets
              passes to various routines in the InsightApi.Dll DLL which then return data bases on that pointer - usually about 
-             the DEBUG_EVENT struct.  Each DEBUG_EVENT in the MSDN documentation has its own C# class <see cref="T:InsightSheath.Debugging.DebugEventType"/>
+             the DEBUG_EVENT struct.  Each DEBUG_EVENT listed in the MSDN documentation has its own C# class <see cref="T:InsightSheath.Debugging.DebugEventType"/>
              About Exceptions
                  The MSDN documentation has certain exceptions listed. Those have been added to the <see cref="T:InsightSheath.Debugging.DebugExceptionTypes"/> enum.
                  That's not actually exhaustive.  winbase.h lists MANY MANY MANY more.
@@ -298,6 +308,52 @@
         <member name="F:InsightSheath.Debugging.DebugExceptionInPage_Type.DepException">
             <summary>
             Target process thread had a user mode DEP violation.
+            </summary>
+        </member>
+        <member name="T:InsightSheath.Debugging.DebugExceptionFlags">
+            <summary>
+            sourced from winnt.h with the exception of NoSpecialFlags. MSDN Documentation states that 
+            Exceptions not named <see cref="F:InsightSheath.Debugging.DebugExceptionFlags.NonContinuableException"/> or or <see cref="F:InsightSheath.Debugging.DebugExceptionFlags.SoftwareOriginate"/> should be treated as reserved for system use.
+            </summary> 
+        </member>
+        <member name="F:InsightSheath.Debugging.DebugExceptionFlags.Nothing">
+            <summary>
+            OK.  Nothing set,
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Debugging.DebugExceptionFlags.NonContinuableException">
+            <summary>
+            OK to use: Noncontinuable exception
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Debugging.DebugExceptionFlags.Unwinding">
+            <summary>
+            MSDN Unwind is in progress
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Debugging.DebugExceptionFlags.ExitUnwind">
+            <summary>
+            Exit unwind is in progress
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Debugging.DebugExceptionFlags.StackInvalid">
+            <summary>
+            Stack out of limits or unaligned
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Debugging.DebugExceptionFlags.NestedCall">
+            <summary>
+             Nested exception handler call
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Debugging.DebugExceptionFlags.TargetUnwind">
+            <summary>
+            Target unwind in progress
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Debugging.DebugExceptionFlags.SoftwareOriginate">
+            <summary>
+            Exception originated in software
             </summary>
         </member>
         <member name="T:InsightSheath.Debugging.DebugExceptionTypes">
@@ -657,9 +713,14 @@
             return address where the exception happens in the 32-bit process. Truncates the address if the process is 64-bit.
             </summary>
         </member>
+        <member name="P:InsightSheath.Debugging.DebugEventExceptionInfo.ExceptionFlags_as_int">
+            <summary>
+            Return the flags specific for this exception as an uint. Sourced from the same unmanaged memory area as <see cref="P:InsightSheath.Debugging.DebugEventExceptionInfo.ExceptionFlags"/>
+            </summary>
+        </member>
         <member name="P:InsightSheath.Debugging.DebugEventExceptionInfo.ExceptionFlags">
             <summary>
-            Return the flags specific for this exception
+            Return the flags specific for this exception. Sourced from the same unmanaged memory area as <see cref="P:InsightSheath.Debugging.DebugEventExceptionInfo.ExceptionFlags"/>
             </summary>
         </member>
         <member name="P:InsightSheath.Debugging.DebugEventExceptionInfo.ExceptionCode_as_int">
@@ -840,6 +901,19 @@
             Providers a wrapper to process specific <see cref="F:InsightSheath.Debugging.DebugEventType.OutputDebugString"/> components.
             </summary>
         </member>
+        <member name="M:InsightSheath.Debugging.DebugEventStringInfo.ToString(System.Boolean)">
+            <summary>
+            Want Json or just the <see cref="P:InsightSheath.Debugging.DebugEventStringInfo.OutputString"/> ?
+            </summary>
+            <param name="WantJson"></param>
+            <returns></returns>
+        </member>
+        <member name="M:InsightSheath.Debugging.DebugEventStringInfo.ToString">
+            <summary>
+            For the user's continence, returns <see cref="P:InsightSheath.Debugging.DebugEventStringInfo.OutputString"/>
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:InsightSheath.Debugging.DebugEventStringInfo.#ctor(System.IntPtr)">
             <summary>
             Construct a wrapper class for a <see cref="T:InsightSheath.Debugging.DebugEvent"/> containing a <see cref="T:InsightSheath.Debugging.DebugEventType"/> of <see cref="F:InsightSheath.Debugging.DebugEventType.OutputDebugString"/>
@@ -862,12 +936,6 @@
             <param name="Nat">pointer to a unmanaged DEBUG_EVENT struct one a valid pointer from <see cref="M:InsightSheath.Debugging.DebugEvent.GetDebugEventStringInfo"/></param> 
             <param name="FreeOnCleanup">Set if you want the unmanaged pointer released. </param>
             <param name="RefCount">Specific the current reference counter. When it reaches 0 during cleanup, the unmanaged pointer is freed. </param>
-        </member>
-        <member name="M:InsightSheath.Debugging.DebugEventStringInfo.ToString">
-            <summary>
-            For the user's continence, returns <see cref="P:InsightSheath.Debugging.DebugEventStringInfo.OutputString"/>
-            </summary>
-            <returns></returns>
         </member>
         <member name="P:InsightSheath.Debugging.DebugEventStringInfo.OutputString">
             <summary>
@@ -947,6 +1015,19 @@
             <summary>
             This encapsulates the Native DebugEvent structure via calling exported C routines in InsightAPI.dll.
             </summary>
+        </member>
+        <member name="M:InsightSheath.Debugging.DebugEvent.MakeCopy">
+            <summary>
+            Return a duplicate copy of this event.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:InsightSheath.Debugging.DebugEvent.MakeCopy(InsightSheath.Debugging.DebugEvent)">
+            <summary>
+            Allocates memory on the unmanaged size and makes a copy of this event.
+            </summary>
+            <param name="Original">Event to copy from</param>
+            <returns></returns>
         </member>
         <member name="M:InsightSheath.Debugging.DebugEvent.#ctor(System.IntPtr)">
             <summary>

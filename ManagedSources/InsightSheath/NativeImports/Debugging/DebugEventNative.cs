@@ -131,8 +131,8 @@ namespace InsightSheath.NativeImports
 
         [DllImport("InsightApi.Dll", BestFitMapping = false, CallingConvention = CallingConvention.Winapi, EntryPoint = "DebugEvent_AllocateStructure", ExactSpelling = false)]
         public static extern IntPtr DebugEvent_AllocateStructure();
-
-
+        [DllImport("InsightApi.Dll", BestFitMapping = false, CallingConvention = CallingConvention.Winapi, EntryPoint = "DebugEvent_CopyToStructure", ExactSpelling = false)]
+        public static extern bool DebugEvent_CopyToStructure(IntPtr ExistingStruct, IntPtr Target);
 
 
 

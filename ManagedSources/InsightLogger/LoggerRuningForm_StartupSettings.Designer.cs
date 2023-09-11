@@ -221,6 +221,9 @@
             // CheckBoxWantDebugPriv
             // 
             CheckBoxWantDebugPriv.AutoSize = true;
+            CheckBoxWantDebugPriv.Checked = true;
+            CheckBoxWantDebugPriv.CheckState = System.Windows.Forms.CheckState.Checked;
+            CheckBoxWantDebugPriv.Enabled = false;
             CheckBoxWantDebugPriv.Location = new System.Drawing.Point(309, 55);
             CheckBoxWantDebugPriv.Name = "CheckBoxWantDebugPriv";
             CheckBoxWantDebugPriv.Size = new System.Drawing.Size(126, 29);
@@ -231,6 +234,9 @@
             // CheckBoxWantDebugMode
             // 
             CheckBoxWantDebugMode.AutoSize = true;
+            CheckBoxWantDebugMode.Checked = true;
+            CheckBoxWantDebugMode.CheckState = System.Windows.Forms.CheckState.Checked;
+            CheckBoxWantDebugMode.Enabled = false;
             CheckBoxWantDebugMode.Location = new System.Drawing.Point(309, 29);
             CheckBoxWantDebugMode.Name = "CheckBoxWantDebugMode";
             CheckBoxWantDebugMode.Size = new System.Drawing.Size(144, 29);

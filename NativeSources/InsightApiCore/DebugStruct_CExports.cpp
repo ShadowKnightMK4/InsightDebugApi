@@ -36,6 +36,18 @@ extern "C"
 		return ret;
 	}
 
+	BOOL WINAPI DebugEvent_CopyToStructure(LPDEBUG_EVENT Source, LPDEBUG_EVENT Target)
+	{
+		if ((Source != nullptr) && (Target != nullptr))
+		{
+			if ((Source != Target))
+			{
+				memcpy(Target, Source, sizeof(DEBUG_EVENT));
+				return TRUE;
+			}
+		}
+		return FALSE;
+	}
 	BOOL WINAPI DebugEvent_IsEventFrom32Bit( const LPDEBUG_EVENT Ptr) noexcept
 	{
 		if (Ptr)

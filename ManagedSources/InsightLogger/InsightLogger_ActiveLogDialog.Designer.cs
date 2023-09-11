@@ -41,13 +41,15 @@
             label1 = new System.Windows.Forms.Label();
             button1 = new System.Windows.Forms.Button();
             SaveFileDialogAllEntriesExport = new System.Windows.Forms.SaveFileDialog();
+            CheckBoxStopNextEvent = new System.Windows.Forms.CheckBox();
+            ButtonReinterpretLog = new System.Windows.Forms.Button();
             SuspendLayout();
             // 
             // ListBoxLogEvent
             // 
             ListBoxLogEvent.FormattingEnabled = true;
             ListBoxLogEvent.ItemHeight = 25;
-            ListBoxLogEvent.Location = new System.Drawing.Point(-3, 23);
+            ListBoxLogEvent.Location = new System.Drawing.Point(-3, 48);
             ListBoxLogEvent.Name = "ListBoxLogEvent";
             ListBoxLogEvent.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             ListBoxLogEvent.Size = new System.Drawing.Size(1210, 554);
@@ -75,7 +77,7 @@
             // CheckBoxCloseKillsSpawnedApp
             // 
             CheckBoxCloseKillsSpawnedApp.AutoSize = true;
-            CheckBoxCloseKillsSpawnedApp.Location = new System.Drawing.Point(1213, 165);
+            CheckBoxCloseKillsSpawnedApp.Location = new System.Drawing.Point(1213, 182);
             CheckBoxCloseKillsSpawnedApp.Name = "CheckBoxCloseKillsSpawnedApp";
             CheckBoxCloseKillsSpawnedApp.Size = new System.Drawing.Size(341, 54);
             CheckBoxCloseKillsSpawnedApp.TabIndex = 3;
@@ -89,7 +91,7 @@
             // 
             // vScrollBar1
             // 
-            vScrollBar1.Location = new System.Drawing.Point(1414, 270);
+            vScrollBar1.Location = new System.Drawing.Point(1414, 291);
             vScrollBar1.Name = "vScrollBar1";
             vScrollBar1.Size = new System.Drawing.Size(34, 31);
             vScrollBar1.TabIndex = 4;
@@ -97,7 +99,7 @@
             // 
             // TextBoxEventLogTimerMilli
             // 
-            TextBoxEventLogTimerMilli.Location = new System.Drawing.Point(1261, 270);
+            TextBoxEventLogTimerMilli.Location = new System.Drawing.Point(1261, 291);
             TextBoxEventLogTimerMilli.Name = "TextBoxEventLogTimerMilli";
             TextBoxEventLogTimerMilli.Size = new System.Drawing.Size(150, 31);
             TextBoxEventLogTimerMilli.TabIndex = 5;
@@ -107,7 +109,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new System.Drawing.Point(1213, 222);
+            label1.Location = new System.Drawing.Point(1213, 250);
             label1.Name = "label1";
             label1.Size = new System.Drawing.Size(315, 25);
             label1.TabIndex = 6;
@@ -126,11 +128,33 @@
             // 
             SaveFileDialogAllEntriesExport.FileOk += SaveFileDialogAllEntriesExport_FileOk;
             // 
+            // CheckBoxStopNextEvent
+            // 
+            CheckBoxStopNextEvent.AutoSize = true;
+            CheckBoxStopNextEvent.Location = new System.Drawing.Point(1227, 344);
+            CheckBoxStopNextEvent.Name = "CheckBoxStopNextEvent";
+            CheckBoxStopNextEvent.Size = new System.Drawing.Size(221, 29);
+            CheckBoxStopNextEvent.TabIndex = 8;
+            CheckBoxStopNextEvent.Text = "Pause Event Processing";
+            CheckBoxStopNextEvent.UseVisualStyleBackColor = true;
+            // 
+            // ButtonReinterpretLog
+            // 
+            ButtonReinterpretLog.Location = new System.Drawing.Point(2, 12);
+            ButtonReinterpretLog.Name = "ButtonReinterpretLog";
+            ButtonReinterpretLog.Size = new System.Drawing.Size(245, 34);
+            ButtonReinterpretLog.TabIndex = 9;
+            ButtonReinterpretLog.Text = "Change Display Format";
+            ButtonReinterpretLog.UseVisualStyleBackColor = true;
+            ButtonReinterpretLog.Click += ButtonReinterpretLog_Click;
+            // 
             // InsightLogger_ActiveLogDialog
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(1606, 613);
+            Controls.Add(ButtonReinterpretLog);
+            Controls.Add(CheckBoxStopNextEvent);
             Controls.Add(button1);
             Controls.Add(label1);
             Controls.Add(TextBoxEventLogTimerMilli);
@@ -161,5 +185,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.SaveFileDialog SaveFileDialogAllEntriesExport;
+        private System.Windows.Forms.CheckBox CheckBoxStopNextEvent;
+        private System.Windows.Forms.Button ButtonReinterpretLog;
     }
 }

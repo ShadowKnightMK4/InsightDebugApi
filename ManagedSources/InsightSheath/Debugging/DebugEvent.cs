@@ -11,17 +11,140 @@ using InsightSheath.Abstract;
 using InsightSheath.Win32Struct.Remote;
 using System.Diagnostics;
 using InsightSheath.Misc;
+using Windows.UI.WebUI;
+using System.Runtime.CompilerServices;
+using Windows.System;
+using InsightSheath.Telemetry;
 
 namespace InsightSheath.Debugging
 {
+    /// <summary>
+    /// For when you want to output as JSON value
+    /// </summary>
+    public class DebugEventStringBuilderJSON: DebugEventStringBuilderBase
+    {
+        /// <summary>
+        /// Contains an array.
+        /// </summary>
+        class EntryContainer
+        {
+            public EntryContainer(string val)
+            {
+                Contents.Add(val);
+            }
 
+            public EntryContainer(string[] vals)
+            {
+                Contents.AddRange(vals);
+            }
+
+            public EntryContainer(ulong[] vals)
+            {
+                foreach (ulong v in vals)
+                {
+                    Contents.Add(v.ToString());
+                }
+            }
+            public List<string> Contents = new();
+        }
+        Dictionary<string, EntryContainer> Pairs = new();
+
+
+        public override void AddAsHex(string Name, nint val)
+        {
+            AddItem(Name, string.Format("{0:X}",val));
+        }
+        public override void AddAsHex(string Name, ulong val)
+        {
+            AddItem(Name, string.Format("{0:X}", val));
+        }
+        public override void AddTID(string e)
+        {
+            AddItem("TID", e);
+        }
+        public override void AddPID(string e)
+        {
+            AddItem("PID", e);
+        }
+        public override void AddItemEnum(Type Name, object val)
+        {
+            AddItem(Name.Name, Enum.GetName(Name, val));
+        }
+        public override void AddItem(string VarName, string VarValueAsString)
+        {
+            Pairs.Add(VarName, new EntryContainer(VarValueAsString));
+        }
+
+        public override void AddArray(string Name, ulong[] Vals)
+        {
+            EntryContainer tmp = new EntryContainer(Vals);
+            Pairs.Add(Name, tmp);
+        }
+
+
+        public override string ToString()
+        {
+            StringBuilder ret = new StringBuilder();
+            ret.Append('{');
+            for (int step=0; step < Pairs.Keys.Count;step++)
+            {
+                string EntryContents;
+                string EntryName = Pairs.Keys.ElementAt(step).ToString();
+                if (Pairs[Pairs.Keys.ElementAt(step)].Contents.Count == 1)
+                {
+                    // grab the first element of the array of 1 [0] and add to the contents
+                  EntryContents= Pairs[Pairs.Keys.ElementAt(step)].Contents[0];
+                }
+                else
+                {
+                    StringBuilder ar = new StringBuilder();
+                    ar.Append("[\r\n");
+                    for (int array_step = 0; array_step < Pairs[Pairs.Keys.ElementAt(step)].Contents.Count; array_step++)
+                    {
+                        ar.AppendFormat("\t\t \"{0}\"\r\n",  Pairs[Pairs.Keys.ElementAt(step)].Contents[array_step]);
+                    }
+                    ar.Append("]\r\n");
+                    EntryContents = ar.ToString();
+                }
+                    ret.AppendFormat("\t \"{0}\": \"{1}\"", EntryName,EntryContents );
+                if (!(step == (Pairs.Keys.Count - 1)))
+                {
+                    ret.Append(",\r\n");
+                }
+                else
+                {
+                    ret.Append("\r\n}\r\n");
+                }
+            }
+            
+            return ret.ToString();
+        }
+    }
+    public abstract class DebugEventStringBuilderBase
+    {
+        
+
+        public abstract void AddTID(string e);
+        public abstract void AddPID(string e);
+
+        public abstract void AddAsHex(string Name, nint val);
+        public abstract void AddAsHex(string Name, ulong val);
+        public abstract void AddItemEnum(Type Name, object val);
+        public abstract void AddItem(string VarName, string VarValueAsString);
+
+        public abstract void AddArray(string Name, ulong[] Vals);
+        public override string ToString()
+        {
+            return base.ToString();
+        }
+    }
 
     ///
     /// This file provides a wrapper between c# and the InsightApi.Dll that deals with the debug event structure.
     /// The base class <see cref="DebugEventStaticContainer"/> is the root for the other classes in this file. It
     /// handles holding an <see cref="IntPtr"/> that represents the unmanaged DEBUG_EVENT structure.  This pointer gets
     /// passes to various routines in the InsightApi.Dll DLL which then return data bases on that pointer - usually about 
-    /// the DEBUG_EVENT struct.  Each DEBUG_EVENT in the MSDN documentation has its own C# class <see cref="DebugEventType"/>
+    /// the DEBUG_EVENT struct.  Each DEBUG_EVENT listed in the MSDN documentation has its own C# class <see cref="DebugEventType"/>
     /// About Exceptions
     ///     The MSDN documentation has certain exceptions listed. Those have been added to the <see cref="DebugExceptionTypes"/> enum.
     ///     That's not actually exhaustive.  winbase.h lists MANY MANY MANY more.
@@ -44,6 +167,58 @@ namespace InsightSheath.Debugging
         /// Target process thread had a user mode DEP violation.
         /// </summary>
         DepException = 8,
+    }
+
+
+    /*
+     * 
+#define EXCEPTION_NONCONTINUABLE 0x1        // Noncontinuable exception
+#define EXCEPTION_UNWINDING 0x2             // Unwind is in progress
+#define EXCEPTION_EXIT_UNWIND 0x4           // Exit unwind is in progress
+#define EXCEPTION_STACK_INVALID 0x8         // Stack out of limits or unaligned
+#define EXCEPTION_NESTED_CALL 0x10          // Nested exception handler call
+#define EXCEPTION_TARGET_UNWIND 0x20        // Target unwind in progress
+#define EXCEPTION_COLLIDED_UNWIND 0x40      // Collided exception handler call
+#define EXCEPTION_SOFTWARE_ORIGINATE 0x80   // Exception originated in software
+     */
+    /// <summary>
+    /// sourced from winnt.h with the exception of NoSpecialFlags. MSDN Documentation states that 
+    /// Exceptions not named <see cref="NonContinuableException"/> or or <see cref="SoftwareOriginate"/> should be treated as reserved for system use.
+    /// </summary> 
+    public enum DebugExceptionFlags : uint
+    {
+        /// <summary>
+        /// OK.  Nothing set,
+        /// </summary>
+        Nothing = 0,
+        /// <summary>
+        /// OK to use: Noncontinuable exception
+        /// </summary>
+        NonContinuableException = 0x1,
+        /// <summary>
+        /// MSDN Unwind is in progress
+        /// </summary>
+        Unwinding = 0x2,
+        /// <summary>
+        /// Exit unwind is in progress
+        /// </summary>
+        ExitUnwind = 0x4,
+        /// <summary>
+        /// Stack out of limits or unaligned
+        /// </summary>
+        StackInvalid = 0x8,
+        /// <summary>
+        ///  Nested exception handler call
+        /// </summary>
+        NestedCall = 0x10,
+        /// <summary>
+        /// Target unwind in progress
+        /// </summary>
+        TargetUnwind = 0x20,
+        /// <summary>
+        /// Exception originated in software
+        /// </summary>
+        SoftwareOriginate = 0x80
     }
 
     ///<summary>
@@ -213,7 +388,7 @@ namespace InsightSheath.Debugging
     /// </summary>
     public abstract class DebugEventStaticContainer : ReferenceCounterNativeStaticContainer
     {
-        
+   
         /// <summary>
         /// Constructor for the base <see cref="DebugEvent"/> abstract class
         /// </summary>
@@ -345,6 +520,19 @@ namespace InsightSheath.Debugging
     /// </summary>
     public class DebugEventLoadDllInfo : DebugEventStaticContainer
     {
+        public override string ToString()
+        {
+            DebugEventStringBuilderJSON sb = new DebugEventStringBuilderJSON();
+            sb.AddItemEnum(typeof(DebugEventType), EventType);
+            sb.AddPID(ProcessID.ToString());
+            sb.AddTID(ThreadID.ToString());
+            sb.AddItem(nameof(IsEventFrom32BitProcess), IsEventFrom32BitProcess.ToString());
+            sb.AddItem(nameof(ImageName), this.ImageName);
+            sb.AddAsHex(nameof(DllBaseAddress), this.DllBaseAddress);
+            return sb.ToString();
+        }
+
+
         /// <summary>
         /// Construct a wrapper class for a <see cref="DebugEvent"/> containing a <see cref="DebugEventType"/> of <see cref="DebugEventType.LoadDllEvent"/>
         /// </summary>
@@ -491,6 +679,43 @@ namespace InsightSheath.Debugging
     /// </summary>
     public class DebugEventExceptionInfo : DebugEventStaticContainer
     {
+        private bool IsSpecialHandleException()
+        {
+            switch (this.ExceptionCode)
+            {
+                case DebugExceptionTypes.AccessViolation:
+                case DebugExceptionTypes.InPageError:
+                    return true;
+
+                default:
+                    /*
+                     * Check the known telemetry dlls. - Just IoDeviceTelemetryReaderExtensions for now. 
+                     * Plan is these special exceptons return 
+                     */
+                    if ((uint)IoDeviceTelemetryReaderExtensions.FixedExceptionCode == (uint)ExceptionCode)
+                    {
+                        return true;
+                    }
+                    return false;
+            }
+        }
+        public override string ToString()
+        {
+            DebugEventExceptionInfo E = this;
+            DebugEventStringBuilderJSON sb = new DebugEventStringBuilderJSON();
+            sb.AddItemEnum(typeof(DebugEventType), E.EventType);
+            sb.AddPID(E.ProcessID.ToString());
+            sb.AddTID(E.ThreadID.ToString());
+            sb.AddItem(nameof(E.IsEventFrom32BitProcess), E.IsEventFrom32BitProcess.ToString());
+            sb.AddItem(nameof(E.IsFirstChanceException), E.IsFirstChanceException.ToString());
+
+            sb.AddItemEnum(typeof(DebugExceptionTypes), E.ExceptionCode);
+            sb.AddItemEnum(typeof(DebugExceptionFlags), E.ExceptionFlags);
+            sb.AddAsHex(nameof(E.ExceptionAddress64), E.ExceptionAddress64);
+            sb.AddArray(nameof(E.ExceptionParameter64), E.ExceptionParameter64);
+
+            return sb.ToString();
+        }
         /// <summary>
         /// Construct a wrapper class for a <see cref="DebugEvent"/> containing a <see cref="DebugEventType"/> of <see cref="DebugEventType.ExceptionEvent"/>
         /// </summary>
@@ -617,15 +842,26 @@ namespace InsightSheath.Debugging
 
 
         /// <summary>
-        /// Return the flags specific for this exception
+        /// Return the flags specific for this exception as an uint. Sourced from the same unmanaged memory area as <see cref="ExceptionFlags"/>
         /// </summary>
-        public uint ExceptionFlags
+        public uint ExceptionFlags_as_int
         {
             get
             {
                 return DebugEventNative.DebugEvent_ExceptionInfo_GetExceptionFlags(Native);
             }
-        }    
+        }
+
+        /// <summary>
+        /// Return the flags specific for this exception. Sourced from the same unmanaged memory area as <see cref="ExceptionFlags"/>
+        /// </summary>
+        public DebugExceptionFlags ExceptionFlags
+        {
+            get
+            {
+                return (DebugExceptionFlags) DebugEventNative.DebugEvent_ExceptionInfo_GetExceptionFlags(Native);
+            }
+        }
 
 
         /// <summary>
@@ -672,6 +908,19 @@ namespace InsightSheath.Debugging
     /// </summary>
     public class DebugEventCreateThreadInfo : DebugEventStaticContainer
     {
+        public override string ToString()
+        {
+            DebugEventStringBuilderJSON sb = new DebugEventStringBuilderJSON();
+            sb.AddItemEnum(typeof(DebugEventType), EventType);
+            sb.AddPID(ProcessID.ToString());
+            sb.AddTID(ThreadID.ToString());
+            sb.AddItem(nameof(IsEventFrom32BitProcess), IsEventFrom32BitProcess.ToString());
+            sb.AddAsHex(nameof(ThreadLocalBase), ThreadLocalBase);
+            sb.AddAsHex(nameof(ThreadLocalStoragePointer), ThreadLocalStoragePointer);
+            sb.AddAsHex(nameof(ThreadStartAddress), ThreadStartAddress);
+            sb.AddAsHex(nameof(ThreadHandle), ThreadHandle);
+            return sb.ToString();
+        }
 
         /// <summary>
         /// Construct a wrapper class for a <see cref="DebugEvent"/> containing a <see cref="DebugEventType"/> of <see cref="DebugEventType.CreateTheadEvent"/>
@@ -764,6 +1013,18 @@ namespace InsightSheath.Debugging
     /// </summary>
     public class DebugEventExitThreadInfo : DebugEventStaticContainer
     {
+        public override string ToString()
+        {
+            DebugEventStringBuilderJSON sb = new DebugEventStringBuilderJSON();
+            sb.AddItemEnum(typeof(DebugEventType), EventType);
+            sb.AddPID(ProcessID.ToString());
+            sb.AddTID(ThreadID.ToString());
+            sb.AddItem(nameof(IsEventFrom32BitProcess), IsEventFrom32BitProcess.ToString());
+            sb.AddItem(nameof(ExitCode), ExitCode.ToString());
+
+            return sb.ToString();
+        }
+
         /// <summary>
         /// Construct a wrapper class for a <see cref="DebugEvent"/> containing a <see cref="DebugEventType"/> of <see cref="DebugEventType.ExitThreadEvent"/>
         /// </summary>
@@ -817,6 +1078,17 @@ namespace InsightSheath.Debugging
     /// </summary>
     public class DebugEventExitProcessInfo : DebugEventStaticContainer
     {
+        public override string ToString()
+        {
+            DebugEventStringBuilderJSON sb = new DebugEventStringBuilderJSON();
+            sb.AddItemEnum(typeof(DebugEventType), EventType);
+            sb.AddPID(ProcessID.ToString());
+            sb.AddTID(ThreadID.ToString());
+            sb.AddItem(nameof(IsEventFrom32BitProcess), IsEventFrom32BitProcess.ToString());
+            sb.AddItem(nameof(ExitCode), ExitCode.ToString());
+            
+            return sb.ToString();
+        }
         /// <summary>
         /// Construct a wrapper class for a <see cref="DebugEvent"/> containing a <see cref="DebugEventType"/> of <see cref="DebugEventType.ExitProcessEvent"/>
         /// </summary>
@@ -870,27 +1142,17 @@ namespace InsightSheath.Debugging
     /// </summary>
     public class DebugEventCreateProcessInfo :DebugEventStaticContainer
     {
+
         public override string ToString()
         {
-            bool IsBit = IsEventFrom32BitProcess;
-            string bitstr;
-            string name = ImageName;
-
-            if (IsBit)
-                bitstr = "32-bit";
-            else
-                bitstr = "64-bit";
-            if (name != null)
-            {
-                return string.Format("CreateProcessEvent: {3} PID: {0}, TID {1}  SourceModule: \"{2}\"", ProcessID, ThreadID, name, bitstr);
-            }
-            else
-            {
-                return string.Format("CreateProcessEvent: {3} PID: {0}, TID {1}  SourceModule: \"Unknown or Denied Access\"", ProcessID, ThreadID, name, bitstr);
-            }
-             
+            DebugEventStringBuilderJSON ret = new();
+            ret.AddItemEnum(typeof(DebugEventType), EventType);
+            ret.AddPID(ProcessID.ToString());
+            ret.AddTID(ThreadID.ToString());
+            ret.AddItem(nameof(IsEventFrom32BitProcess), IsEventFrom32BitProcess.ToString());
+            ret.AddItem(nameof(this.ImageName), ImageName.ToString());
+            return ret.ToString();
         }
-
         /// <summary>
         /// Construct a wrapper class for a <see cref="DebugEvent"/> containing a <see cref="DebugEventType"/> of <see cref="DebugEventType.CreateProcessEvent"/>
         /// </summary>
@@ -982,6 +1244,36 @@ namespace InsightSheath.Debugging
     public class DebugEventStringInfo: DebugEventStaticContainer
     {
         /// <summary>
+        /// Want Json or just the <see cref="OutputString"/> ?
+        /// </summary>
+        /// <param name="WantJson"></param>
+        /// <returns></returns>
+        public string ToString(bool WantJson)
+        {
+            if (WantJson)
+            {
+
+                DebugEventStringBuilderJSON debugEventStringBuilder = new DebugEventStringBuilderJSON();
+
+                debugEventStringBuilder.AddPID(ProcessID.ToString());
+                debugEventStringBuilder.AddTID(ThreadID.ToString());
+                debugEventStringBuilder.AddItem(nameof(IsEventFrom32BitProcess), IsEventFrom32BitProcess.ToString());
+                debugEventStringBuilder.AddItem(nameof(OutputString), OutputString);
+                return debugEventStringBuilder.ToString();
+            }
+            return OutputString;
+        }
+        /// <summary>
+        /// For the user's continence, returns <see cref="OutputString"/>
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return OutputString;
+        }
+
+
+        /// <summary>
         /// Construct a wrapper class for a <see cref="DebugEvent"/> containing a <see cref="DebugEventType"/> of <see cref="DebugEventType.OutputDebugString"/>
         /// </summary>
         /// <param name="Nat">pointer to a unmanaged DEBUG_EVENT struct one a valid pointer from <see cref="DebugEvent.GetDebugEventStringInfo"/></param> 
@@ -1018,14 +1310,8 @@ namespace InsightSheath.Debugging
 
         }
 
-        /// <summary>
-        /// For the user's continence, returns <see cref="OutputString"/>
-        /// </summary>
-        /// <returns></returns>
-        public override string ToString()
-        {
-            return OutputString;
-        }
+   
+        
         /// <summary>
         /// Return the string messaged contained within the debug event. ANSI output strings are converted to Unicode on the Native side before being sent to the Managed side. Native side opts into wanting Unicode Strings too.
         /// </summary>
@@ -1061,6 +1347,21 @@ namespace InsightSheath.Debugging
     /// </summary>
     public class DebugEventRipInfo: DebugEventStaticContainer
     {
+        public override string ToString()
+        {
+            DebugEventStringBuilderJSON sb = new DebugEventStringBuilderJSON();
+            sb.AddItemEnum(typeof(DebugEventType), EventType);
+            sb.AddPID(ProcessID.ToString());
+            sb.AddTID(ThreadID.ToString());
+            sb.AddItem(nameof(IsEventFrom32BitProcess), IsEventFrom32BitProcess.ToString());
+            sb.AddItemEnum(ErrorType.GetType(), ErrorType);
+            sb.AddAsHex(nameof(Error), (nint)ErrorType );
+
+            return sb.ToString();
+        }
+
+
+
         /// <summary>
         /// Construct a wrapper class for a <see cref="DebugEvent"/> containing a <see cref="DebugEventType"/> of <see cref="DebugEventType.RipEvent"/>
         /// </summary>
@@ -1099,6 +1400,7 @@ namespace InsightSheath.Debugging
 
 
 
+       
         /// <summary>
         /// Get the Error number that caused the debugging RIP event.
         /// </summary>
@@ -1131,6 +1433,19 @@ namespace InsightSheath.Debugging
     /// </summary>
     public class DebugEventUnloadDllInfo : DebugEventStaticContainer
     {
+
+        public override string ToString()
+        {
+            DebugEventStringBuilderJSON sb = new DebugEventStringBuilderJSON();
+            sb.AddItemEnum(typeof(DebugEventType), EventType);
+            sb.AddPID(ProcessID.ToString());
+            sb.AddTID(ThreadID.ToString());
+            sb.AddItem(nameof(IsEventFrom32BitProcess), IsEventFrom32BitProcess.ToString());
+            sb.AddAsHex(nameof(this.BaseOfDll), (ulong)BaseOfDll);
+            
+            return sb.ToString();
+        }
+
 
         /// <summary>
         /// Creation.  Does NOT free the underling pointer. Reference counter set to 1.
@@ -1188,8 +1503,62 @@ namespace InsightSheath.Debugging
     public class DebugEvent : DebugEventStaticContainer
     {
        
+
         private static readonly string error_msg_bad_event_fetch = "Attempt to fetch {0} from an event that does not contain the event {1}";
 
+
+        public override string ToString()
+        {
+            switch (this.EventType)
+            {
+                case DebugEventType.ExceptionEvent:
+                    return GetDebugEventExceptionInfo().ToString();
+                case DebugEventType.CreateTheadEvent:
+                    return GetDebugEventCreateThreadInfo().ToString();
+                case DebugEventType.CreateProcessEvent:
+                    return GetDebugEventCreateProcessInfo().ToString();
+                case DebugEventType.ExitThreadEvent:
+                    return GetEventExitThreadInfo().ToString();
+                case DebugEventType.ExitProcessEvent:
+                    return GetEventExitProcessInfo().ToString();
+                case DebugEventType.LoadDllEvent:
+                    return GetDebugEventLoadDll().ToString();
+                case DebugEventType.UnloadDllEvent:
+                    return GetDebugEventUnloadDllInfo().ToString();
+                case DebugEventType.OutputDebugString:
+                    return GetDebugEventStringInfo().ToString(true);
+            }
+            throw new NotImplementedException(Enum.GetName(typeof(DebugEvent), EventType));
+        }
+
+        /// <summary>
+        /// Return a duplicate copy of this event.
+        /// </summary>
+        /// <returns></returns>
+        public DebugEvent MakeCopy()
+        {
+            return DebugEvent.MakeCopy(this);
+        }
+
+        /// <summary>
+        /// Allocates memory on the unmanaged size and makes a copy of this event.
+        /// </summary>
+        /// <param name="Original">Event to copy from</param>
+        /// <returns></returns>
+        public static DebugEvent MakeCopy(DebugEvent Original)
+        {
+            DebugEvent ret = DebugEvent.CreatePrivateStruct();
+            if (ret != null)
+            {
+                if (ret.Native != IntPtr.Zero)
+                {
+                    DebugEventNative.DebugEvent_CopyToStructure(Original.Native, ret.Native);
+                    return ret;
+                }
+            }
+            return null;
+        }
+        
         /// <summary>
         /// Creation.  Does NOT free the underling pointer.
         /// </summary>
