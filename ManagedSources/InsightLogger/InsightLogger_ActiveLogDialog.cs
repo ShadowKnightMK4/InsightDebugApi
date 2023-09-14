@@ -276,5 +276,17 @@ namespace InsightLogger
 
             }
         }
+
+        private void ButtonSelectedLogSave_Click(object sender, EventArgs e)
+        {
+            using (Stream s = File.OpenWrite(SaveFileDialogAllEntriesExport.FileName))
+            {
+                var SelectedStuff = ListBoxLogEvent.SelectedItems;
+                
+                this.LogHandler.ExportSelectedLog(s)
+                //this.LogHandler.ExportLog(s);
+            }
+            
+        }
     }
 }

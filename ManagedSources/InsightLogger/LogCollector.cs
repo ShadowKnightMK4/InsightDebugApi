@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using InsightSheath.Debugging;
@@ -42,7 +45,7 @@ namespace InsightLogger
 
 
     /// <summary>
-    /// Implements code to export a <see cref="DebugEvent"/> struct as a JSON item.
+    /// This class implements code to export LogEntries as a series of items in a JSON array
     /// </summary>
     public class LogFormatJson: LogFormat
     {
@@ -51,8 +54,30 @@ namespace InsightLogger
             return LogEntry.StringAsJsonItem(message);
         }
 
+        private string EscapeProtectionJSON(string s)
+        {
+
+            return System.Text.Json.JsonEncodedText.Encode(s).ToString();
+            
+        }
+        public override string PreLog()
+        {
+            return "{\r\n\t\"LOGDATA\": [";
+        }
+
+        public override string PostLog()
+        {
+            return "]\r\n}\r\n";
+        }
+
+        /// <summary>
+        /// make JSON from the exception
+        /// </summary>
+        /// <param name="E"></param>
+        /// <returns></returns>
         private string ExceptionInfoDllEnvtToString(DebugEventExceptionInfo E)
         {
+            
             DebugEventStringBuilderJSON sb = new DebugEventStringBuilderJSON();
             sb.AddItemEnum(typeof(DebugEventType), E.EventType);
             sb.AddPID(E.ProcessID.ToString());
@@ -64,11 +89,16 @@ namespace InsightLogger
             sb.AddItemEnum(typeof(DebugExceptionFlags), E.ExceptionFlags);
             sb.AddAsHex(nameof(E.ExceptionAddress64), E.ExceptionAddress64);
             sb.AddArray(nameof(E.ExceptionParameter64), E.ExceptionParameter64);
-
+            
             return sb.ToString();
         }
 
 
+        /// <summary>
+        /// Make DLL LOad info
+        /// </summary>
+        /// <param name="E"></param>
+        /// <returns></returns>
         private string LoadDllInfoEventToString(DebugEventLoadDllInfo E)
         {
             DebugEventStringBuilderJSON sb = new DebugEventStringBuilderJSON();
@@ -76,12 +106,18 @@ namespace InsightLogger
             sb.AddPID(E.ProcessID.ToString());
             sb.AddTID(E.ThreadID.ToString());
             sb.AddItem(nameof(E.IsEventFrom32BitProcess), E.IsEventFrom32BitProcess.ToString());
-            sb.AddItem(nameof(E.ImageName), E.ImageName);
+            //sb.AddItem(nameof(E.ImageName), E.ImageName);
+            sb.AddItem(nameof(E.ImageName), EscapeProtectionJSON(E.ImageName));
             sb.AddAsHex(nameof(E.DllBaseAddress), E.DllBaseAddress);
             return sb.ToString();
         }
 
 
+        /// <summary>
+        /// Make Exit process
+        /// </summary>
+        /// <param name="E"></param>
+        /// <returns></returns>
         private string ExitProcessEventToString(DebugEventExitProcessInfo E)
         {
             DebugEventStringBuilderJSON sb = new DebugEventStringBuilderJSON();
@@ -94,6 +130,11 @@ namespace InsightLogger
             return sb.ToString();
         }
 
+        /// <summary>
+        /// Create process
+        /// </summary>
+        /// <param name="E"></param>
+        /// <returns></returns>
 
         private string CreateProcessEventToString(DebugEventCreateProcessInfo E)
         {
@@ -103,10 +144,15 @@ namespace InsightLogger
             ret.AddPID(E.ProcessID.ToString());
             ret.AddTID(E.ThreadID.ToString());
             ret.AddItem(nameof(E.IsEventFrom32BitProcess), E.IsEventFrom32BitProcess.ToString());
-            ret.AddItem(nameof(E.ImageName), E.ImageName.ToString());
+            ret.AddItem(nameof(E.ImageName), EscapeProtectionJSON(E.ImageName));
             return ret.ToString();
         }
 
+        /// <summary>
+        /// create thread
+        /// </summary>
+        /// <param name="E"></param>
+        /// <returns></returns>
         private string CreateThreadEventToString(DebugEventCreateThreadInfo E)
         {
             DebugEventStringBuilderJSON sb = new DebugEventStringBuilderJSON();
@@ -122,6 +168,12 @@ namespace InsightLogger
         }
 
 
+
+        /// <summary>
+        /// /Rip Event
+        /// </summary>
+        /// <param name="E"></param>
+        /// <returns></returns>
         private string RipEventToString(DebugEventRipInfo E)
         {
             DebugEventStringBuilderJSON sb = new DebugEventStringBuilderJSON();
@@ -135,6 +187,11 @@ namespace InsightLogger
             return sb.ToString();
         }
 
+        /// <summary>
+        /// Unload dll
+        /// </summary>
+        /// <param name="E"></param>
+        /// <returns></returns>
         private string UnloadDllEventToString(DebugEventUnloadDllInfo E)
         {
             DebugEventStringBuilderJSON sb = new DebugEventStringBuilderJSON();
@@ -146,6 +203,13 @@ namespace InsightLogger
 
             return sb.ToString();
         }
+
+
+        /// <summary>
+        /// Exit thread info
+        /// </summary>
+        /// <param name="E"></param>
+        /// <returns></returns>
         private  string ExitThreadEventToString(DebugEventExitThreadInfo E)
         {
             DebugEventStringBuilderJSON sb = new DebugEventStringBuilderJSON();
@@ -157,14 +221,21 @@ namespace InsightLogger
 
             return sb.ToString();
         }
+        /// <summary>
+        /// Debug string
+        /// </summary>
+        /// <param name="E"></param>
+        /// <returns></returns>
         private string DebugStringEventToString(DebugEventStringInfo E)
         {
             DebugEventStringBuilderJSON debugEventStringBuilder = new DebugEventStringBuilderJSON();
-
-                debugEventStringBuilder.AddPID(E.ProcessID.ToString());
+            debugEventStringBuilder.AddItemEnum(typeof(DebugEventType), E.EventType);
+            debugEventStringBuilder.AddPID(E.ProcessID.ToString());
                 debugEventStringBuilder.AddTID(E.ThreadID.ToString());
                 debugEventStringBuilder.AddItem(nameof(E.IsEventFrom32BitProcess), E.IsEventFrom32BitProcess.ToString());
-                debugEventStringBuilder.AddItem(nameof(E.OutputString), E.OutputString);
+
+                    
+            debugEventStringBuilder.AddItem(nameof(E.OutputString),  EscapeProtectionJSON(E.OutputString));
                 return debugEventStringBuilder.ToString();
         }
         public override string ConvertTostring(DebugEvent E)
@@ -195,6 +266,10 @@ namespace InsightLogger
             throw new NotImplementedException(E.EventType.ToString());
         }
     }
+
+    /// <summary>
+    /// This class just passes thru the various ToString() calls. 
+    /// </summary>
     public class LogFormatPassThru: LogFormat
     {
         public override string ConvertTostring(DebugEvent E)
@@ -206,6 +281,9 @@ namespace InsightLogger
             return message;
         }
     }
+    /// <summary>
+    /// How to use
+    /// </summary>
     public abstract class LogFormat
     {
         public virtual string PreLog()
@@ -234,8 +312,10 @@ namespace InsightLogger
         /// <returns></returns>
         public static string StringAsJsonItem(string BaseMessage)
         {
-            BaseMessage = BaseMessage.Replace("\"", "\\\"");
-            return string.Format("{{\"Message\": \"{0}\" }}",BaseMessage);
+            BaseMessage = JsonEncodedText.Encode(BaseMessage).ToString();
+            string ret = string.Format("{{\"Message\": \"{0}\" }}", BaseMessage);
+//            BaseMessage = BaseMessage.Replace("\"", "\\\"");
+            return ret;
         }
         public enum StringOutFormat
         {
@@ -338,7 +418,7 @@ namespace InsightLogger
 
 
         /// <summary>
-        /// Enable logging for all
+        /// Enable logging for all the possibe <see cref="DebugEventType"/>
         /// </summary>
         public void SetLogAllEvents()
         {
@@ -356,18 +436,35 @@ namespace InsightLogger
         {
             if (this.CurrentFormat == null)
             {
-                ExportLog(Target, LogFormatPassThru);
+                ExportLog(Target, LogFormatPassThru, Entries.Keys);
             }
             else
             {
-                ExportLog(Target, CurrentFormat);
+                ExportLog(Target, CurrentFormat, Entries.Keys);
             }
         }
 
-        public void ExportLog(Stream Target, LogFormat Format)
+        public void ExportSelectedLog(Stream Target, List<LogEntry> Items)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ExportedSelectedLog(Stream Target, LogFormat Format, List<LogEntry> Items )
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Export the passed log entries
+        /// </summary>
+        /// <param name="Target"></param>
+        /// <param name="Format"></param>
+
+        public void ExportLog(Stream Target, LogFormat Format, Dictionary<string, LogEntry>.KeyCollection Keys)
         {
             WriteString(Target,Format.PreLog());
-            for (int step =0; step <Entries.Keys.Count;step++)
+            //for (int step =0; step <Entries.Keys.Count;step++)
+            for (int step = 0; step < Keys.Count; step++)
             {
                 var Entry = Entries.ElementAt(step);
 
@@ -396,6 +493,8 @@ namespace InsightLogger
             }
             WriteString(Target, Format.PostLog());
         }
+
+        
         
        
 
