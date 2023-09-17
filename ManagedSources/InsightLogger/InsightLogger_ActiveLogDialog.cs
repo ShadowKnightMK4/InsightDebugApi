@@ -279,14 +279,20 @@ namespace InsightLogger
 
         private void ButtonSelectedLogSave_Click(object sender, EventArgs e)
         {
-            using (Stream s = File.OpenWrite(SaveFileDialogAllEntriesExport.FileName))
-            {
-                var SelectedStuff = ListBoxLogEvent.SelectedItems;
-                
-                this.LogHandler.ExportSelectedLog(s)
-                //this.LogHandler.ExportLog(s);
-            }
+
+            SaveFileDialogSelectedEvents.ShowDialog(this);
             
+
+        }
+
+        private void SaveFileDialogSelectedEvents_FileOk(object sender, CancelEventArgs e)
+        {
+            using (Stream s = File.OpenWrite(SaveFileDialogSelectedEvents.FileName))
+            {
+                var SelectedStuff = ListBoxLogEvent.SelectedItems.GetEnumerator();
+
+                LogHandler.TestExportedSelectedLog(s,  SelectedStuff);
+            }
         }
     }
 }

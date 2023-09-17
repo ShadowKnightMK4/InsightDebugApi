@@ -55,6 +55,10 @@
             ListBoxLogEvent.Size = new System.Drawing.Size(1441, 554);
             ListBoxLogEvent.TabIndex = 0;
             // 
+            // SaveFileDialogSelectedEvents
+            // 
+            SaveFileDialogSelectedEvents.FileOk += SaveFileDialogSelectedEvents_FileOk;
+            // 
             // ButtonSelectedLogSave
             // 
             ButtonSelectedLogSave.Location = new System.Drawing.Point(1611, 23);

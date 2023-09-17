@@ -112,7 +112,8 @@ namespace InsightSheath.Win32Struct.Remote
         /// </summary>
         /// <param name="ProcessHandle">Handle to the process</param>
         /// <param name="DebugEventStruct">Pointer to a DebugEvent native structure</param>
-        /// <returns></returns>
+        /// <returns>returns the string information extracted from the debug event.</returns>
+        /// <remarks>This class internallly frees the string on the unmanaged size of the event, BUT leaves the mananged version alone.</remarks>
         public static string RemoteReadDebugString(IntPtr ProcessHandle, IntPtr DebugEventStruct)
         {
             IntPtr RetPtr = RemoteStructureInternal.RemoteReadDebugStringInternal(ProcessHandle, DebugEventStruct);

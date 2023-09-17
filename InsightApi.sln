@@ -132,6 +132,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "JustWaitx64", "UnitTests\Ma
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "JustWaitx86", "UnitTests\MangedUnitTests\TestApps\JustWait86\JustWait86.vcxproj", "{8C192547-0542-4931-8FE4-5AC4C229A2A3}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LoaderTracking", "LoaderTracking", "{B32590B6-E741-4A87-914E-EBAA1334B7CF}"
+	ProjectSection(SolutionItems) = preProject
+		scopedesign.txt = scopedesign.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -478,6 +483,7 @@ Global
 		{C47F31C6-1B72-47E6-B323-F5E13FEBC423} = {D86C9961-2255-4F8B-8977-A9F256111047}
 		{9ABDA820-C93A-4CA7-9ABC-3C4739EE11F5} = {2D64D740-1E54-4E53-8187-467C498D9DB5}
 		{8C192547-0542-4931-8FE4-5AC4C229A2A3} = {2D64D740-1E54-4E53-8187-467C498D9DB5}
+		{B32590B6-E741-4A87-914E-EBAA1334B7CF} = {53C03628-5518-4BF1-BA21-1B9E0615A9A4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B6CF70ED-92F3-4E3A-98F2-701A62654ADB}

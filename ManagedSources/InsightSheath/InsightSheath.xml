@@ -273,12 +273,72 @@
         </member>
         <member name="T:InsightSheath.Debugging.DebugEventStringBuilderJSON">
             <summary>
-            For when you want to output as JSON value
+            Used for converting the stuff to JSON.
             </summary>
+            <remarks>Internally this class keeps track with a combination of a dictionary and a private class it tracks arrays with</remarks>
         </member>
         <member name="T:InsightSheath.Debugging.DebugEventStringBuilderJSON.EntryContainer">
             <summary>
-            Contains an array.
+            Contains an array of varying size.  each item added 
+            </summary>
+        </member>
+        <member name="M:InsightSheath.Debugging.DebugEventStringBuilderJSON.AddAsHex(System.String,System.IntPtr)">
+            <summary>
+            add this value as a hexdec number
+            </summary>
+            <param name="Name">name of the thing</param>
+            <param name="val">value of the thing</param>
+        </member>
+        <member name="M:InsightSheath.Debugging.DebugEventStringBuilderJSON.AddAsHex(System.String,System.UInt64)">
+            <summary>
+            add this value as a hexdec number
+            </summary>
+            <param name="Name">name of the thing</param>
+            <param name="val">value of the thing</param>
+        </member>
+        <member name="M:InsightSheath.Debugging.DebugEventStringBuilderJSON.AddTID(System.String)">
+            <summary>
+            Add the int value to the thing with the name prefilled to TID (Thread ID)
+            </summary>
+            <param name="e">value to add as string</param>
+        </member>
+        <member name="M:InsightSheath.Debugging.DebugEventStringBuilderJSON.AddPID(System.String)">
+            <summary>
+            Add the int value to the thing with the name prefilled to PID (Process ID)
+            </summary>
+            <param name="e">value to add as string</param>
+        </member>
+        <member name="M:InsightSheath.Debugging.DebugEventStringBuilderJSON.AddItemEnum(System.Type,System.Object)">
+            <summary>
+            Add  an enum based type whose value you're specifiying. 
+            </summary>
+            <param name="Name">Type of the value - for example <see cref="T:InsightSheath.Debugging.DebugEventType"/></param>
+            <param name="val">value to use</param>
+        </member>
+        <member name="M:InsightSheath.Debugging.DebugEventStringBuilderJSON.AddItem(System.String,System.String)">
+            <summary>
+            Add the item to the list
+            </summary>
+            <param name="VarName">name of the item</param>
+            <param name="VarValueAsString">value of the list</param>
+        </member>
+        <member name="M:InsightSheath.Debugging.DebugEventStringBuilderJSON.AddArray(System.String,System.UInt64[])">
+            <summary>
+            Add this collection of Vals under a name Entry in the list
+            </summary>
+            <param name="Name">name to add under</param>
+            <param name="Vals">values to add</param>
+            <remarks>Mainly for <see cref="P:InsightSheath.Debugging.DebugEventExceptionInfo.ExceptionParameter64"/></remarks>
+        </member>
+        <member name="M:InsightSheath.Debugging.DebugEventStringBuilderJSON.ToString">
+            <summary>
+            Go thru the values in the class and return as a JSON item containing the values
+            </summary>
+            <returns>Returns a string containing the items expressed as an JSON item</returns>
+        </member>
+        <member name="T:InsightSheath.Debugging.DebugEventStringBuilderBase">
+            <summary>
+            Base class for <see cref="T:InsightSheath.Debugging.DebugEventStringBuilderJSON"/>
             </summary>
         </member>
         <member name="T:InsightSheath.Debugging.DebugExceptionInPage_Type">
@@ -3429,7 +3489,7 @@
         </member>
         <member name="M:InsightSheath.NativeImports.RemoteStructureInternal.RemoteReadUnicodeString(System.IntPtr,System.IntPtr,System.Boolean)">
             <summary>
-            Take case as the back end will promote x86 Unicode string to x64 bit to make sure we don't accidentally cut off a pointer.
+            Take care as the back end will promote x86 Unicode string pointers to x64 bit to make sure we don't accidentally cut off a pointer.
             </summary>
             <param name="ProcessHandle">Process to read from</param>
             <param name="RemoteLocation">Location in the target to read from/</param>
@@ -4465,7 +4525,8 @@
             </summary>
             <param name="ProcessHandle">Handle to the process</param>
             <param name="DebugEventStruct">Pointer to a DebugEvent native structure</param>
-            <returns></returns>
+            <returns>returns the string information extracted from the debug event.</returns>
+            <remarks>This class internallly frees the string on the unmanaged size of the event, BUT leaves the mananged version alone.</remarks>
         </member>
         <member name="T:InsightSheath.Win32Struct.StartupInfoExW_Flags">
             <summary>

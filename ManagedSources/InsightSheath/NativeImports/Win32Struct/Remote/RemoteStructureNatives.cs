@@ -14,7 +14,7 @@ namespace InsightSheath.NativeImports
     static class RemoteStructureInternal
     {
         /// <summary>
-        /// Take case as the back end will promote x86 Unicode string to x64 bit to make sure we don't accidentally cut off a pointer.
+        /// Take care as the back end will promote x86 Unicode string pointers to x64 bit to make sure we don't accidentally cut off a pointer.
         /// </summary>
         /// <param name="ProcessHandle">Process to read from</param>
         /// <param name="RemoteLocation">Location in the target to read from/</param>

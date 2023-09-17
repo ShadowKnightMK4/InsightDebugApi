@@ -19,12 +19,13 @@ using InsightSheath.Telemetry;
 namespace InsightSheath.Debugging
 {
     /// <summary>
-    /// For when you want to output as JSON value
+    /// Used for converting the stuff to JSON.
     /// </summary>
+    /// <remarks>Internally this class keeps track with a combination of a dictionary and a private class it tracks arrays with</remarks>
     public class DebugEventStringBuilderJSON: DebugEventStringBuilderBase
     {
         /// <summary>
-        /// Contains an array.
+        /// Contains an array of varying size.  each item added 
         /// </summary>
         class EntryContainer
         {
@@ -50,31 +51,70 @@ namespace InsightSheath.Debugging
         Dictionary<string, EntryContainer> Pairs = new();
 
 
+        /// <summary>
+        /// add this value as a hexdec number
+        /// </summary>
+        /// <param name="Name">name of the thing</param>
+        /// <param name="val">value of the thing</param>
         public override void AddAsHex(string Name, nint val)
         {
             AddItem(Name, string.Format("{0:X}",val));
         }
+
+        /// <summary>
+        /// add this value as a hexdec number
+        /// </summary>
+        /// <param name="Name">name of the thing</param>
+        /// <param name="val">value of the thing</param>
         public override void AddAsHex(string Name, ulong val)
         {
             AddItem(Name, string.Format("{0:X}", val));
         }
+        /// <summary>
+        /// Add the int value to the thing with the name prefilled to TID (Thread ID)
+        /// </summary>
+        /// <param name="e">value to add as string</param>
         public override void AddTID(string e)
         {
             AddItem("TID", e);
         }
+
+        /// <summary>
+        /// Add the int value to the thing with the name prefilled to PID (Process ID)
+        /// </summary>
+        /// <param name="e">value to add as string</param>
         public override void AddPID(string e)
         {
             AddItem("PID", e);
         }
+
+        /// <summary>
+        /// Add  an enum based type whose value you're specifiying. 
+        /// </summary>
+        /// <param name="Name">Type of the value - for example <see cref="DebugEventType"/></param>
+        /// <param name="val">value to use</param>
         public override void AddItemEnum(Type Name, object val)
         {
             AddItem(Name.Name, Enum.GetName(Name, val));
         }
+
+        /// <summary>
+        /// Add the item to the list
+        /// </summary>
+        /// <param name="VarName">name of the item</param>
+        /// <param name="VarValueAsString">value of the list</param>
         public override void AddItem(string VarName, string VarValueAsString)
         {
             Pairs.Add(VarName, new EntryContainer(VarValueAsString));
         }
 
+
+        /// <summary>
+        /// Add this collection of Vals under a name Entry in the list
+        /// </summary>
+        /// <param name="Name">name to add under</param>
+        /// <param name="Vals">values to add</param>
+        /// <remarks>Mainly for <see cref="DebugEventExceptionInfo.ExceptionParameter64"/></remarks>
         public override void AddArray(string Name, ulong[] Vals)
         {
             EntryContainer tmp = new EntryContainer(Vals);
@@ -82,6 +122,10 @@ namespace InsightSheath.Debugging
         }
 
 
+        /// <summary>
+        /// Go thru the values in the class and return as a JSON item containing the values
+        /// </summary>
+        /// <returns>Returns a string containing the items expressed as an JSON item</returns>
         public override string ToString()
         {
             StringBuilder ret = new StringBuilder();
@@ -120,6 +164,9 @@ namespace InsightSheath.Debugging
             return ret.ToString();
         }
     }
+    /// <summary>
+    /// Base class for <see cref="DebugEventStringBuilderJSON"/>
+    /// </summary>
     public abstract class DebugEventStringBuilderBase
     {
         
@@ -645,7 +692,7 @@ namespace InsightSheath.Debugging
             {
                 if (DebugInfoSize != 0)
                 {
-                    var ret = new byte[this.DebugInfoSize];
+                    var ret = new byte[DebugInfoSize];
                     using (var fn = new FileStream(new Microsoft.Win32.SafeHandles.SafeFileHandle(FileHandle,false), FileAccess.ReadWrite))
                     {
                         fn.Seek(DebugInfoOffset, SeekOrigin.Begin);

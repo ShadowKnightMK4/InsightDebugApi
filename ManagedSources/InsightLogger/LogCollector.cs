@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -9,10 +10,12 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using InsightSheath.Debugging;
 using Microsoft.VisualBasic;
 using Windows.Devices.Haptics;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using static System.Windows.Forms.DataFormats;
 
 namespace InsightLogger
 {
@@ -47,6 +50,7 @@ namespace InsightLogger
     /// <summary>
     /// This class implements code to export LogEntries as a series of items in a JSON array
     /// </summary>
+    /// <remarks>Implementation </remarks>
     public class LogFormatJson: LogFormat
     {
         public override string ConvertToString(string message)
@@ -444,15 +448,112 @@ namespace InsightLogger
             }
         }
 
-        public void ExportSelectedLog(Stream Target, List<LogEntry> Items)
+
+        public void TestExportedSelectedLog(Stream Target, IEnumerator Entries)
         {
-            throw new NotImplementedException();
+            if (this.CurrentFormat == null)
+            {
+                TestExportedSelectedLog(Target, LogFormatPassThru, Entries);
+            }
+            else
+            {
+                TestExportedSelectedLog(Target, CurrentFormat, Entries);
+            }
+        }
+        public void TestExportedSelectedLog(Stream Target, LogFormat Format, IEnumerator Entries)
+        {
+            if (CurrentFormat == null)
+            {
+
+            }
+            WriteString(Target, Format.PreLog());
+            //for (int step =0; step <Entries.Keys.Count;step++)
+            for (LogEntry Entry = (LogEntry)Entries.Current; ;)
+            {
+                //var Entry = Entries.ElementAt(step);
+
+                switch (Entry.Contents)
+                {
+                    case LogEntry.ContentsType.SimpleString:
+                        {
+                            WriteString(Target, Format.ConvertToString(Entry.Thing.ToString()));
+                            break;
+                        }
+                    case LogEntry.ContentsType.DebugEvent:
+                        {
+                            WriteString(Target, Format.ConvertTostring((DebugEvent)Entry.Thing));
+                            break;
+                        }
+                    default:
+                    case LogEntry.ContentsType.None:
+                        break;
+                }
+
+                if (Entries.MoveNext() == true)
+                //if (step != Entries.Count - 1)
+                {
+                    WriteString(Target, ",\r\n");
+                }
+                else
+                {
+                    break;
+                }
+
+            }
+            WriteString(Target, Format.PostLog());
         }
 
-        public void ExportedSelectedLog(Stream Target, LogFormat Format, List<LogEntry> Items )
+
+        
+
+
+
+        public void ExportedSelectedLog(Stream Target, LogFormat Format, List<LogEntry> Items)
         {
-            throw new NotImplementedException();
+            WriteString(Target, Format.PreLog());
+            //for (int step =0; step <Entries.Keys.Count;step++)
+            for (int step = 0; step < Items.Count; step++)
+            {
+                var Entry = Entries.ElementAt(step);
+
+                switch (Entry.Value.Contents)
+                {
+                    case LogEntry.ContentsType.SimpleString:
+                        {
+                            WriteString(Target, Format.ConvertToString(Entry.Value.Thing.ToString()));
+                            break;
+                        }
+                    case LogEntry.ContentsType.DebugEvent:
+                        {
+                            WriteString(Target, Format.ConvertTostring((DebugEvent)Entry.Value.Thing));
+                            break;
+                        }
+                    default:
+                    case LogEntry.ContentsType.None:
+                        break;
+                }
+
+                if (step != Entries.Count - 1)
+                {
+                    WriteString(Target, ",\r\n");
+                }
+
+            }
+            WriteString(Target, Format.PostLog());
         }
+
+        public void ExportSelectedLog(Stream Target, List<LogEntry> Items)
+        {
+            if (CurrentFormat == null)
+            {
+                ExportedSelectedLog(Target, LogFormatPassThru, Items);
+            }
+            else
+            {
+                ExportedSelectedLog(Target, CurrentFormat, Items);
+            }
+        }
+
 
         /// <summary>
         /// Export the passed log entries
@@ -529,5 +630,7 @@ namespace InsightLogger
             }
             
         }
+
+        
     }
 }

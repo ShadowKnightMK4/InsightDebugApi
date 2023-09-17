@@ -1,0 +1,27 @@
+LoadLibraryA,
+
+LoadLibraryW,
+LoadLibraryExA,
+LoadLibraryExW
+GetProcAddress
+
+SetDllDirectoryW
+SetDllDirectoryA
+AddDllDirectoryW
+AddDllDirectoryA
+GetDllDirectoryA
+GetDllDirectoryW
+
+NT level
+LdlGetProcAddess
+LdlLoadDll
+
+
+LoadLibraryExA/whatever
+	get the final library to be loaded as a string to the debugger to sign off on.
+	If ok,   proceeed
+	IF fail,  load file
+
+
+Debugger Side
+	Let SHA512 and Signing info be getable
