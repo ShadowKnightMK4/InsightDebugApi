@@ -467,6 +467,7 @@ namespace InsightLogger
 
             }
             WriteString(Target, Format.PreLog());
+            Entries.MoveNext();
             //for (int step =0; step <Entries.Keys.Count;step++)
             for (LogEntry Entry = (LogEntry)Entries.Current; ;)
             {
