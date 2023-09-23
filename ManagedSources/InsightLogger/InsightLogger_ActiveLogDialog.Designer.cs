@@ -453,28 +453,34 @@
             // 
             SaveFileDialog_JSON_SelectedEntryExport.DefaultExt = "JSON";
             SaveFileDialog_JSON_SelectedEntryExport.Filter = "Text Files|*.txt|JSON Files|*.JSON|All Files|*.*";
+            SaveFileDialog_JSON_SelectedEntryExport.Title = "Select where to export Selected Entries to in the JSON Format";
             SaveFileDialog_JSON_SelectedEntryExport.FileOk += SaveFileDialogJSON_SelectExport_FileOk;
             // 
             // SaveFileDialog_SimpleEnglish_SelectedExport
             // 
             SaveFileDialog_SimpleEnglish_SelectedExport.DefaultExt = "LOG";
+            SaveFileDialog_SimpleEnglish_SelectedExport.Title = "Select where to export Selected Entries to in simple English";
             SaveFileDialog_SimpleEnglish_SelectedExport.FileOk += SaveFileDialog_ExportSelectedSimpleEnglish_FileOk;
             // 
             // SaveFileDialog_PassThru_SelectedExport
             // 
-            SaveFileDialog_PassThru_SelectedExport.Title = "Select Location to Save Selected Items in Pass Thru";
+            SaveFileDialog_PassThru_SelectedExport.DefaultExt = "TXT";
+            SaveFileDialog_PassThru_SelectedExport.Title = "Select Location to Save Selected Entries in Pass Thru - Raw String Representation";
             SaveFileDialog_PassThru_SelectedExport.FileOk += SaveFileDialog_PassThru_SelectedExport_FileOk;
             // 
             // SaveFileDialog_PassThru_ExportAll
             // 
+            SaveFileDialog_PassThru_ExportAll.Title = "Select Location to Save All Entries in Pass Thru - Raw String Representation";
             SaveFileDialog_PassThru_ExportAll.FileOk += SaveFileDialog_PassThru_ExportAll_FileOk;
             // 
             // SaveFileDialog_SimpleEnglish_ExportAll
             // 
+            SaveFileDialog_SimpleEnglish_ExportAll.Title = "Select where to export All Entries to in simple English";
             SaveFileDialog_SimpleEnglish_ExportAll.FileOk += SaveFileDialog_SimpleEnglish_ExportAll_FileOk;
             // 
             // SaveFileDialog_JSON_ExportAll
             // 
+            SaveFileDialog_JSON_ExportAll.Title = "Select where to export All Entries to in the JSON Format";
             SaveFileDialog_JSON_ExportAll.FileOk += SaveFileDialog_JSON_ExportAll_FileOk;
             // 
             // InsightLogger_ActiveLogDialog
