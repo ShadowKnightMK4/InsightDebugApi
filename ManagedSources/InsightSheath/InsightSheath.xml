@@ -532,7 +532,7 @@
             Event is an exception. <see cref="T:InsightSheath.Debugging.DebugEventExceptionInfo"/>
             </summary>
         </member>
-        <member name="F:InsightSheath.Debugging.DebugEventType.CreateTheadEvent">
+        <member name="F:InsightSheath.Debugging.DebugEventType.CreateThreadEvent">
             <summary>
             Event is a create thread.  <see cref="T:InsightSheath.Debugging.DebugEventCreateThreadInfo"/>
             </summary>
@@ -800,19 +800,19 @@
         </member>
         <member name="T:InsightSheath.Debugging.DebugEventCreateThreadInfo">
             <summary>
-            Holds a reference to a <see cref="T:InsightSheath.Debugging.DebugEvent"/> containing an event of the type of <see cref="F:InsightSheath.Debugging.DebugEventType.CreateTheadEvent"/>. You'll typically get this when calling <see cref="M:InsightSheath.Debugging.DebugEvent.GetDebugEventCreateThreadInfo"/>
+            Holds a reference to a <see cref="T:InsightSheath.Debugging.DebugEvent"/> containing an event of the type of <see cref="F:InsightSheath.Debugging.DebugEventType.CreateThreadEvent"/>. You'll typically get this when calling <see cref="M:InsightSheath.Debugging.DebugEvent.GetDebugEventCreateThreadInfo"/>
             </summary>
         </member>
         <member name="M:InsightSheath.Debugging.DebugEventCreateThreadInfo.#ctor(System.IntPtr)">
             <summary>
-            Construct a wrapper class for a <see cref="T:InsightSheath.Debugging.DebugEvent"/> containing a <see cref="T:InsightSheath.Debugging.DebugEventType"/> of <see cref="F:InsightSheath.Debugging.DebugEventType.CreateTheadEvent"/>
+            Construct a wrapper class for a <see cref="T:InsightSheath.Debugging.DebugEvent"/> containing a <see cref="T:InsightSheath.Debugging.DebugEventType"/> of <see cref="F:InsightSheath.Debugging.DebugEventType.CreateThreadEvent"/>
             </summary>
             <param name="Nat">pointer to a unmanaged DEBUG_EVENT struct one a valid pointer from <see cref="T:InsightSheath.Debugging.DebugEvent"/></param>
             <remarks>The reference counter for this class is also set to 1</remarks>
         </member>
         <member name="M:InsightSheath.Debugging.DebugEventCreateThreadInfo.#ctor(System.IntPtr,System.Boolean)">
             <summary>
-            Construct a wrapper class for a <see cref="T:InsightSheath.Debugging.DebugEvent"/> containing a <see cref="T:InsightSheath.Debugging.DebugEventType"/> of <see cref="F:InsightSheath.Debugging.DebugEventType.CreateTheadEvent"/>
+            Construct a wrapper class for a <see cref="T:InsightSheath.Debugging.DebugEvent"/> containing a <see cref="T:InsightSheath.Debugging.DebugEventType"/> of <see cref="F:InsightSheath.Debugging.DebugEventType.CreateThreadEvent"/>
             </summary>
             <param name="Nat">pointer to an unmanaged DEBUG_EVENT struct one a valid pointer from <see cref="T:InsightSheath.Debugging.DebugEvent"/></param>
             <param name="FreeOnCleanup">Set if you want the unmanaged pointer released. </param>
@@ -820,7 +820,7 @@
         </member>
         <member name="M:InsightSheath.Debugging.DebugEventCreateThreadInfo.#ctor(System.IntPtr,System.Boolean,System.UInt64)">
             <summary>
-            Construct a wrapper class for a <see cref="T:InsightSheath.Debugging.DebugEvent"/> containing a <see cref="T:InsightSheath.Debugging.DebugEventType"/> of <see cref="F:InsightSheath.Debugging.DebugEventType.CreateTheadEvent"/>
+            Construct a wrapper class for a <see cref="T:InsightSheath.Debugging.DebugEvent"/> containing a <see cref="T:InsightSheath.Debugging.DebugEventType"/> of <see cref="F:InsightSheath.Debugging.DebugEventType.CreateThreadEvent"/>
             </summary>
             <param name="Nat">pointer to an unmanaged DEBUG_EVENT struct one a valid pointer from <see cref="T:InsightSheath.Debugging.DebugEvent"/></param>
             <param name="FreeOnCleanup">Set if you want the unmanaged pointer released. </param>
@@ -1134,7 +1134,7 @@
             <summary>
             Retrieve an instance of <see cref="T:InsightSheath.Debugging.DebugEventCreateThreadInfo"/> pointing to the same unmanaged memory as this class.
             </summary>
-            <returns>Returns a new instance of <see cref="T:InsightSheath.Debugging.DebugEventCreateThreadInfo"/> if the contained event is <see cref="F:InsightSheath.Debugging.DebugEventType.CreateTheadEvent"/>. If it does not contain the specific event, it throws <see cref="T:System.InvalidOperationException"/> and potentially returns null if something else happens</returns>
+            <returns>Returns a new instance of <see cref="T:InsightSheath.Debugging.DebugEventCreateThreadInfo"/> if the contained event is <see cref="F:InsightSheath.Debugging.DebugEventType.CreateThreadEvent"/>. If it does not contain the specific event, it throws <see cref="T:System.InvalidOperationException"/> and potentially returns null if something else happens</returns>
         </member>
         <member name="M:InsightSheath.Debugging.DebugEvent.GetDebugEventExceptionInfo">
             <summary>

@@ -371,7 +371,7 @@ namespace InsightSheath.Debugging
         /// <summary>
         /// Event is a create thread.  <see cref="DebugEventCreateThreadInfo"/>
         /// </summary>
-        CreateTheadEvent = 2,
+        CreateThreadEvent = 2,
         /// <summary>
         /// Event is a create process event. <see cref="DebugEventCreateProcessInfo"/>
         /// </summary>
@@ -951,7 +951,7 @@ namespace InsightSheath.Debugging
 
 
     /// <summary>
-    /// Holds a reference to a <see cref="DebugEvent"/> containing an event of the type of <see cref="DebugEventType.CreateTheadEvent"/>. You'll typically get this when calling <see cref="DebugEvent.GetDebugEventCreateThreadInfo"/>
+    /// Holds a reference to a <see cref="DebugEvent"/> containing an event of the type of <see cref="DebugEventType.CreateThreadEvent"/>. You'll typically get this when calling <see cref="DebugEvent.GetDebugEventCreateThreadInfo"/>
     /// </summary>
     public class DebugEventCreateThreadInfo : DebugEventStaticContainer
     {
@@ -970,7 +970,7 @@ namespace InsightSheath.Debugging
         }
 
         /// <summary>
-        /// Construct a wrapper class for a <see cref="DebugEvent"/> containing a <see cref="DebugEventType"/> of <see cref="DebugEventType.CreateTheadEvent"/>
+        /// Construct a wrapper class for a <see cref="DebugEvent"/> containing a <see cref="DebugEventType"/> of <see cref="DebugEventType.CreateThreadEvent"/>
         /// </summary>
         /// <param name="Nat">pointer to a unmanaged DEBUG_EVENT struct one a valid pointer from <see cref="DebugEvent"/></param>
         /// <remarks>The reference counter for this class is also set to 1</remarks>
@@ -980,7 +980,7 @@ namespace InsightSheath.Debugging
         }
 
         /// <summary>
-        /// Construct a wrapper class for a <see cref="DebugEvent"/> containing a <see cref="DebugEventType"/> of <see cref="DebugEventType.CreateTheadEvent"/>
+        /// Construct a wrapper class for a <see cref="DebugEvent"/> containing a <see cref="DebugEventType"/> of <see cref="DebugEventType.CreateThreadEvent"/>
         /// </summary>
         /// <param name="Nat">pointer to an unmanaged DEBUG_EVENT struct one a valid pointer from <see cref="DebugEvent"/></param>
         /// <param name="FreeOnCleanup">Set if you want the unmanaged pointer released. </param>
@@ -991,7 +991,7 @@ namespace InsightSheath.Debugging
         }
 
         /// <summary>
-        /// Construct a wrapper class for a <see cref="DebugEvent"/> containing a <see cref="DebugEventType"/> of <see cref="DebugEventType.CreateTheadEvent"/>
+        /// Construct a wrapper class for a <see cref="DebugEvent"/> containing a <see cref="DebugEventType"/> of <see cref="DebugEventType.CreateThreadEvent"/>
         /// </summary>
         /// <param name="Nat">pointer to an unmanaged DEBUG_EVENT struct one a valid pointer from <see cref="DebugEvent"/></param>
         /// <param name="FreeOnCleanup">Set if you want the unmanaged pointer released. </param>
@@ -1560,7 +1560,7 @@ namespace InsightSheath.Debugging
             {
                 case DebugEventType.ExceptionEvent:
                     return GetDebugEventExceptionInfo().ToString();
-                case DebugEventType.CreateTheadEvent:
+                case DebugEventType.CreateThreadEvent:
                     return GetDebugEventCreateThreadInfo().ToString();
                 case DebugEventType.CreateProcessEvent:
                     return GetDebugEventCreateProcessInfo().ToString();
@@ -1686,10 +1686,10 @@ namespace InsightSheath.Debugging
         /// <summary>
         /// Retrieve an instance of <see cref="DebugEventCreateThreadInfo"/> pointing to the same unmanaged memory as this class.
         /// </summary>
-        /// <returns>Returns a new instance of <see cref="DebugEventCreateThreadInfo"/> if the contained event is <see cref="DebugEventType.CreateTheadEvent"/>. If it does not contain the specific event, it throws <see cref="InvalidOperationException"/> and potentially returns null if something else happens</returns>
+        /// <returns>Returns a new instance of <see cref="DebugEventCreateThreadInfo"/> if the contained event is <see cref="DebugEventType.CreateThreadEvent"/>. If it does not contain the specific event, it throws <see cref="InvalidOperationException"/> and potentially returns null if something else happens</returns>
         public DebugEventCreateThreadInfo GetDebugEventCreateThreadInfo()
         {
-            if (DebugEventNative.DebugEvent_GetEventType(Native) != DebugEventType.CreateTheadEvent)
+            if (DebugEventNative.DebugEvent_GetEventType(Native) != DebugEventType.CreateThreadEvent)
             {
                 throw new InvalidOperationException(string.Format(error_msg_bad_event_fetch, new object[] { "Create Thread Information", " Create Thread Event" }));
             }

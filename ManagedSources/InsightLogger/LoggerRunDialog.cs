@@ -115,7 +115,7 @@ namespace InsightLogger
                         Ev.ContinueDebugEvent(Ev.ProcessID, Ev.ThreadID, DebugContState.DebugContinueState);
                         break;
                     }
-                case DebugEventType.CreateTheadEvent:
+                case DebugEventType.CreateThreadEvent:
                     {
                         //LogLoop.PostLogEvent("Process #" + Ev.ProcessID + " has created a thread " + Ev.GetDebugEventCreateThreadInfo());
                         //LogLoop.PostLogEvent(Ev.GetDebugEventCreateThreadInfo().ToString() + ",");

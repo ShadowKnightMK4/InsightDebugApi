@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            label1 = new System.Windows.Forms.Label();
+            LabelDirections = new System.Windows.Forms.Label();
             comboBox1 = new System.Windows.Forms.ComboBox();
             LabelFormatExampleDirection = new System.Windows.Forms.Label();
             LabelExampleFormat = new System.Windows.Forms.Label();
@@ -36,24 +36,25 @@
             ButtonCancel = new System.Windows.Forms.Button();
             SuspendLayout();
             // 
-            // label1
+            // LabelDirections
             // 
-            label1.AutoSize = true;
-            label1.Location = new System.Drawing.Point(12, 32);
-            label1.Name = "label1";
-            label1.Size = new System.Drawing.Size(182, 25);
-            label1.TabIndex = 0;
-            label1.Text = "Choose A log Format";
-            label1.Click += label1_Click;
+            LabelDirections.AutoSize = true;
+            LabelDirections.Location = new System.Drawing.Point(12, 32);
+            LabelDirections.Name = "LabelDirections";
+            LabelDirections.Size = new System.Drawing.Size(182, 25);
+            LabelDirections.TabIndex = 0;
+            LabelDirections.Text = "Choose A log Format";
+            LabelDirections.Click += label1_Click;
             // 
             // comboBox1
             // 
             comboBox1.FormattingEnabled = true;
-            comboBox1.Items.AddRange(new object[] { "Easy Reading", "JSON", "SIEM" });
+            comboBox1.Items.AddRange(new object[] { "Pass Thru", "JSON", "Friendly" });
             comboBox1.Location = new System.Drawing.Point(12, 74);
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new System.Drawing.Size(305, 33);
             comboBox1.TabIndex = 1;
+            comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             // 
             // LabelFormatExampleDirection
             // 
@@ -72,6 +73,7 @@
             LabelExampleFormat.Size = new System.Drawing.Size(199, 25);
             LabelExampleFormat.TabIndex = 3;
             LabelExampleFormat.Text = "<Example Format Text>";
+            LabelExampleFormat.Click += LabelExampleFormat_Click;
             // 
             // ButtonOK
             // 
@@ -81,6 +83,7 @@
             ButtonOK.TabIndex = 4;
             ButtonOK.Text = "OK";
             ButtonOK.UseVisualStyleBackColor = true;
+            ButtonOK.Click += ButtonOK_Click;
             // 
             // ButtonCancel
             // 
@@ -90,27 +93,29 @@
             ButtonCancel.TabIndex = 5;
             ButtonCancel.Text = "Cancel";
             ButtonCancel.UseVisualStyleBackColor = true;
+            ButtonCancel.Click += ButtonCancel_Click;
             // 
             // ChooseLogFormat
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(545, 279);
+            ClientSize = new System.Drawing.Size(545, 455);
             Controls.Add(ButtonCancel);
             Controls.Add(ButtonOK);
             Controls.Add(LabelExampleFormat);
             Controls.Add(LabelFormatExampleDirection);
             Controls.Add(comboBox1);
-            Controls.Add(label1);
+            Controls.Add(LabelDirections);
             Name = "ChooseLogFormat";
             Text = "Choose a Log Format";
+            Load += ChooseLogFormat_Load;
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label LabelDirections;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Label LabelFormatExampleDirection;
         private System.Windows.Forms.Label LabelExampleFormat;

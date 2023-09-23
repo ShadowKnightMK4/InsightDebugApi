@@ -59,7 +59,7 @@ namespace FileSandBox_GUI
                         Console.WriteLine(test.ImageName);
                         break;
                     }
-                case DebugEventType.CreateTheadEvent:
+                case DebugEventType.CreateThreadEvent:
                     {
                         var test = Debug.GetDebugEventCreateThreadInfo();
 

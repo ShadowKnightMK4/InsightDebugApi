@@ -122,7 +122,7 @@ namespace InsightSheath.Misc
                             CreateProcessEvent?.Invoke(Ptr);
                             break;
                         }
-                    case DebugEventType.CreateTheadEvent:
+                    case DebugEventType.CreateThreadEvent:
                         {
                             CreateThreadEvent?.Invoke(Ptr);
                             break;

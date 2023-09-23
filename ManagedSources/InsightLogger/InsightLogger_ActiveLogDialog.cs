@@ -15,9 +15,104 @@ using InsightSheath.Debugging;
 
 namespace InsightLogger
 {
+    /*
+     * The control ListBoxLogEvent's item collection contains generated log entries that are also stored in LogCollector
+     * 
+     * When change the display format, we go thru and update variable that controls the output of the ToString() routine.
+     * Afterwords we reassign the item to its slot to retrigger a call to get the new text to display.
+     * 
+     * IMPORTANT! Code assumes that ONLY LogEntries are going to be in the ListBoxLogEvent item collection. It's 
+     * likely GOING TO BREAK if that's not true.
+     * 
+     */
+    /// <summary>
+    /// Displays the log of active debug processes to the user
+    /// </summary>
     public partial class InsightLogger_ActiveLogDialog : Form
     {
-        ChooseLogFormat ChooseLogFormat = new ChooseLogFormat();
+        /// <summary>
+        /// Current log display format for the listbox items. To update that list use <see cref="SetDisplayLogFormat(LogEntry.StringOutFormat)"/>
+        /// </summary>
+        LogEntry.StringOutFormat DisplayLogFormat = LogEntry.StringOutFormat.PassThru;
+        #region general log and gui function
+        /// <summary>
+        /// Set the display log format and trigger update on the list items.
+        /// </summary>
+        /// <param name="displayLogFormat"></param>
+        void SetDisplayLogFormat(LogEntry.StringOutFormat displayLogFormat)
+        {
+            DisplayLogFormat = displayLogFormat;
+            for (int step = 0; step < ListBoxLogEvent.Items.Count; step++)
+            {
+                LogEntry Unpack = (LogEntry)ListBoxLogEvent.Items[step];
+                //((LogEntry) = ChooseLogFormat.DisplayedLogFormat;
+                Unpack.Format = DisplayLogFormat;
+                ListBoxLogEvent.Items[step] = ListBoxLogEvent.Items[step];
+            }
+        }
+
+        /// <summary>
+        /// Export all entries in the listbox log display to this stream
+        /// </summary>
+        /// <param name="Target"></param>
+        void ExportLog(Stream Target)
+        {
+            ExportLogFormat(Target, LogHandler.CurrentFormat);
+        }
+
+        /// <summary>
+        /// Export all entries in the listbox log display to this stream with the specific format
+        /// </summary>
+        /// <param name="Target"></param>
+        /// <param name="For"></param>
+        void ExportLogFormat(Stream Target, LogFormat For)
+        {
+            CommonLogFormatExportor(Target, For, ListBoxLogEvent.Items.GetEnumerator());
+        }
+
+
+        /// <summary>
+        /// Write the Selected Log entries in the listbox to the target
+        /// </summary>
+        /// <param name="Target">where to write</param>
+        void ExportSelectedLog(Stream Target)
+        {
+            ExportSelectedLogFormat(Target, LogHandler.CurrentFormat);
+        }
+
+        /// <summary>
+        /// Write the Selected Log entries in the listbox to the target with the specific logformat
+        /// </summary>
+        /// <param name="Target">where to write</param>
+        /// <param name="For">format</param>
+        void ExportSelectedLogFormat(Stream Target, LogFormat For)
+        {
+            CommonLogFormatExportor(Target, For, ListBoxLogEvent.SelectedItems.GetEnumerator());
+        }
+
+
+        /// <summary>
+        /// THe Varous ExportXXXXLog converge here
+        /// </summary>
+        /// <param name="Target">where to write</param>
+        /// <param name="For">format</param>
+        /// <param name="Stuff">enumerator of what to write. IMPORTANT MUST BE direct enumoration of a collection of <see cref="LogEntry"/> </param>
+        void CommonLogFormatExportor(Stream Target, LogFormat For, System.Collections.IEnumerator? Stuff)
+        {
+            LogHandler.ExportSelectedLogViaEnumerator(Target, For, Stuff);
+        }
+
+
+
+
+        #endregion
+        /// <summary>
+        /// Dialog to let use pick a different log format to display as
+        /// </summary>
+        readonly ChooseLogFormat ChooseLogFormat = new ChooseLogFormat();
+        /// <summary>
+        /// The log we work with
+        /// </summary>
         public readonly LogCollector LogHandler = new LogCollector();
         /// <summary>
         /// Deleage to extend export format. Used by routines such as <see cref="SaveAllLogAsTextFile(string)"/>
@@ -93,8 +188,9 @@ namespace InsightLogger
         /// <param name="msg">msg to add</param>
         private void PostLogThingMsgTimeStamp(string Timestamp, string msg)
         {
-            ListBoxLogEvent.Items.Add(new LogEntry(msg));
-            this.LogHandler.AddLog(Timestamp, msg);
+            var Entry = new LogEntry(msg, ChooseLogFormat.DisplayedLogFormat);
+            ListBoxLogEvent.Items.Add(Entry);
+            this.LogHandler.AddLog(Timestamp, Entry);
         }
 
         /// <summary>
@@ -115,8 +211,9 @@ namespace InsightLogger
         /// <remarks>Note that this routine makes its own copy of the struct</remarks>
         public void PostLogThingDebugEventMsg(string Timestamp, DebugEvent Instance)
         {
-            ListBoxLogEvent.Items.Add(new LogEntry(Instance));
-            this.LogHandler.AddLog(Timestamp, Instance);
+            var Entry = new LogEntry(Instance, ChooseLogFormat.DisplayedLogFormat);
+            ListBoxLogEvent.Items.Add(Entry);
+            LogHandler.AddLog(Timestamp, Entry);
         }
 
 
@@ -172,6 +269,11 @@ namespace InsightLogger
 
         }
 
+        /// <summary>
+        /// The tick event juts checks if the pause event processing flag is set and calls <see cref="InsightProcess.PulseDebugEventThead"/> if it's clear
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TimerPulseDebugEventKick_Tick(object sender, EventArgs e)
         {
             if (!this.CheckBoxStopNextEvent.Checked)
@@ -179,6 +281,11 @@ namespace InsightLogger
         }
 
 
+        /// <summary>
+        /// Update the tick wait time and reset to safe files if output of range
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void vScrollBar1_Scroll(object sender, ScrollEventArgs e)
         {
 
@@ -209,6 +316,11 @@ namespace InsightLogger
 
         }
 
+        /// <summary>
+        /// init form. Begin the tick rate value from the textbox 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void InsightLogger_ActiveLogDialog_VisibleChanged(object sender, EventArgs e)
         {
             if (Visible)
@@ -225,6 +337,11 @@ namespace InsightLogger
             }
         }
 
+        /// <summary>
+        /// Attempt to convert the tickrate textbox to a number and cancel event if it cant
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TextBoxEventLogTimerMilli_Validating(object sender, CancelEventArgs e)
         {
             try
@@ -243,11 +360,21 @@ namespace InsightLogger
 
         }
 
+        /// <summary>
+        /// Show the dialog to select target to save the entire log
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ButtonSaveAll_Click(object sender, EventArgs e)
         {
             SaveFileDialogAllEntriesExport.ShowDialog(this);
         }
 
+        /// <summary>
+        /// Event processor for the dialog to save the entire log
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SaveFileDialogAllEntriesExport_FileOk(object sender, CancelEventArgs e)
         {
             //SaveAllLogAsTextFile(SaveFileDialogAllEntriesExport.FileName);
@@ -268,30 +395,283 @@ namespace InsightLogger
 
         }
 
+        /// <summary>
+        /// Show dialog to select a new *DISPLAY* log format. Note that this does not effect the exported log format
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ButtonReinterpretLog_Click(object sender, EventArgs e)
         {
             ChooseLogFormat.ShowDialog(this);
             if (ChooseLogFormat.DialogResult == DialogResult.OK)
             {
-
+                SetDisplayLogFormat(ChooseLogFormat.DisplayedLogFormat);
             }
+            return;
         }
 
+
+        /// <summary>
+        /// event file ok for saving selected events
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ButtonSelectedLogSave_Click(object sender, EventArgs e)
         {
 
             SaveFileDialogSelectedEvents.ShowDialog(this);
-            
+
 
         }
 
+        /// <summary>
+        /// Save the selected events to the chosen file
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SaveFileDialogSelectedEvents_FileOk(object sender, CancelEventArgs e)
         {
             using (Stream s = File.OpenWrite(SaveFileDialogSelectedEvents.FileName))
             {
-                var SelectedStuff = ListBoxLogEvent.SelectedItems.GetEnumerator();
+                ExportSelectedLog(s);
+            }
+        }
 
-                LogHandler.TestExportedSelectedLog(s,  SelectedStuff);
+        /// <summary>
+        /// Set our tool top to show what listbox item we're hovering over
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ListBoxLogEvent_MouseMove(object sender, MouseEventArgs e)
+        {
+            var Index = ListBoxLogEvent.IndexFromPoint(e.Location);
+            if ((Index >= 0) && (Index < ListBoxLogEvent.Items.Count))
+            {
+                //if (ListBoxLogEvent.SelectedItems.Contains(ListBoxLogEvent.Items[Index]))
+                {
+                    ToolTipLogEntryViewHint.SetToolTip(ListBoxLogEvent, ListBoxLogEvent.Items[Index].ToString());
+
+                }
+            }
+            else
+            {
+                ToolTipLogEntryViewHint.RemoveAll();
+            }
+        }
+
+        private void ListBoxLogEvent_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void chooseDisppToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void chooseFriendlyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SetDisplayLogFormat(LogEntry.StringOutFormat.FriendlyEnglish);
+        }
+
+        private void chooseJSONToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SetDisplayLogFormat(LogEntry.StringOutFormat.JSON);
+        }
+
+        private void choosePassThruToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SetDisplayLogFormat(LogEntry.StringOutFormat.PassThru);
+        }
+
+        private void logAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            LogHandler.SetLogAllEvents();
+        }
+
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void logSettingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void logNoneToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void debugEventToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
+        {
+            if (LogHandler.LogTheseEvents[DebugEventType.CreateThreadEvent] == true)
+            {
+                logCreateThreadToolStripMenuItem.Checked = true;
+            }
+            else
+            {
+                logCreateThreadToolStripMenuItem.Checked = false;
+            }
+            if (LogHandler.LogTheseEvents[DebugEventType.CreateProcessEvent] == true)
+            {
+                logCreateProcessToolStripMenuItem.Checked = true;
+            }
+            else
+            {
+                logCreateProcessToolStripMenuItem.Checked = false;
+            }
+
+            if (LogHandler.LogTheseEvents[DebugEventType.ExceptionEvent] == true)
+            {
+
+            }
+
+
+            if (LogHandler.LogTheseEvents[DebugEventType.ExitProcessEvent] == true)
+            {
+                logExitProcessEventToolStripMenuItem.Checked = true;
+            }
+            else
+            {
+                logExitProcessEventToolStripMenuItem.Checked = false;
+            }
+
+            if (LogHandler.LogTheseEvents[DebugEventType.ExitThreadEvent] == true)
+            {
+                logExitThreadEventToolStripMenuItem.Checked = true;
+            }
+            else
+            {
+                logCreateThreadToolStripMenuItem.Checked = false;
+            }
+
+
+            if (LogHandler.LogTheseEvents[DebugEventType.LoadDllEvent] == true)
+            {
+                loadLoadDllEventToolStripMenuItem.Checked = true;
+            }
+            else
+            {
+                loadLoadDllEventToolStripMenuItem.Checked = false;
+            }
+
+
+            if (LogHandler.LogTheseEvents[DebugEventType.OutputDebugString] == true)
+            {
+                logDebugStringEventToolStripMenuItem.Checked = true;
+            }
+            else
+            {
+                logDebugStringEventToolStripMenuItem.Checked = false;
+            }
+
+
+            if (LogHandler.LogTheseEvents[DebugEventType.RipEvent] == true)
+            {
+                logDebugStringEventToolStripMenuItem.Checked = true;
+            }
+            else
+            {
+                logDebugStringEventToolStripMenuItem.Checked = false;
+            }
+
+            if (LogHandler.LogTheseEvents[DebugEventType.UnloadDllEvent] == true)
+            {
+                loadUnloadDllEventToolStripMenuItem.Checked = true;
+            }
+            else
+            {
+                loadUnloadDllEventToolStripMenuItem.Checked = false;
+            }
+        }
+
+        private void exportAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog_PassThru_SelectedExport.ShowDialog(this);
+        }
+
+        private void exportAsJSONToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog_JSON_SelectedEntryExport.ShowDialog(this);
+        }
+
+        private void exportAsSimpleEnglishToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog_SimpleEnglish_SelectedExport.ShowDialog(this);
+        }
+
+        private void exportAsPassThruToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog_PassThru_ExportAll.ShowDialog(this);
+        }
+
+        private void exportSelectedLogToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void SaveFileDialogJSON_SelectExport_FileOk(object sender, CancelEventArgs e)
+        {
+            using (Stream s = File.Open(SaveFileDialog_JSON_SelectedEntryExport.FileName, FileMode.OpenOrCreate, FileAccess.Write))
+            {
+                ExportSelectedLogFormat(s, LogHandler.LogFormatJson);
+            }
+        }
+
+        private void SaveFileDialog_ExportSelectedSimpleEnglish_FileOk(object sender, CancelEventArgs e)
+        {
+            using (Stream s = File.Open(SaveFileDialog_SimpleEnglish_SelectedExport.FileName, FileMode.OpenOrCreate, FileAccess.Write))
+            {
+                ExportSelectedLogFormat(s, new LogFormatFriendlyEnglish());
+            }
+        }
+
+        private void SaveFileDialog_PassThruSelectExport_FileOk(object sender, CancelEventArgs e)
+        {
+
+        }
+
+        private void SaveFileDialog_PassThru_ExportAll_FileOk(object sender, CancelEventArgs e)
+        {
+            using (Stream s = File.Open(SaveFileDialog_PassThru_ExportAll.FileName, FileMode.OpenOrCreate, FileAccess.Write))
+            {
+                ExportLogFormat(s, LogHandler.LogFormatPassThru);
+            }
+        }
+
+        private void SaveFileDialog_SimpleEnglish_ExportAll_FileOk(object sender, CancelEventArgs e)
+        {
+            using (Stream s = File.Open(SaveFileDialog_SimpleEnglish_ExportAll.FileName, FileMode.OpenOrCreate, FileAccess.Write))
+            {
+                ExportLogFormat(s, new LogFormatFriendlyEnglish());
+            }
+        }
+
+        private void SaveFileDialog_JSON_ExportAll_FileOk(object sender, CancelEventArgs e)
+        {
+            using (Stream s = File.Open(SaveFileDialog_JSON_ExportAll.FileName, FileMode.OpenOrCreate, FileAccess.Write))
+            {
+                ExportLogFormat(s, LogHandler.LogFormatJson);
+            }
+        }
+
+        private void exportAsJSONToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog_JSON_ExportAll.ShowDialog(this);
+        }
+
+        private void exportAsBasicEnglishToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog_SimpleEnglish_ExportAll.ShowDialog(this);
+        }
+
+        private void SaveFileDialog_PassThru_SelectedExport_FileOk(object sender, CancelEventArgs e)
+        {
+            using (Stream s = File.Open(SaveFileDialog_PassThru_SelectedExport.FileName, FileMode.OpenOrCreate, FileAccess.Write))
+            {
+                ExportSelectedLogFormat(s, LogHandler.LogFormatPassThru);
             }
         }
     }

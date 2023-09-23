@@ -12,6 +12,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using InsightSheath.Debugging;
+using InsightSheath.Win32Struct;
 using Microsoft.VisualBasic;
 using Windows.Devices.Haptics;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -242,7 +243,7 @@ namespace InsightLogger
             debugEventStringBuilder.AddItem(nameof(E.OutputString),  EscapeProtectionJSON(E.OutputString));
                 return debugEventStringBuilder.ToString();
         }
-        public override string ConvertTostring(DebugEvent E)
+        public override string ConvertToString(DebugEvent E)
         {
             
 
@@ -250,7 +251,7 @@ namespace InsightLogger
             {
                 case DebugEventType.CreateProcessEvent:
                     return CreateProcessEventToString(E.GetDebugEventCreateProcessInfo());
-                case DebugEventType.CreateTheadEvent:
+                case DebugEventType.CreateThreadEvent:
                     return CreateThreadEventToString(E.GetDebugEventCreateThreadInfo());
                 case DebugEventType.ExitProcessEvent:
                     return ExitProcessEventToString(E.GetEventExitProcessInfo());
@@ -271,12 +272,142 @@ namespace InsightLogger
         }
     }
 
+    public class LogFormatFriendlyEnglish: LogFormat
+    {
+        public override string ConvertToString(string message)
+        {
+            return message;
+        }
+        public override string ConvertToString (DebugEvent E)
+        {
+            StringBuilder ret = new StringBuilder();
+            string bitness;
+            if (E.IsEventFrom32BitProcess)
+            {
+                bitness = "x86";
+            }
+            else
+            {
+                bitness = "x64";
+            }
+            switch (E.EventType)
+            {
+                case DebugEventType.CreateProcessEvent:
+                    ret.AppendFormat("Welcome Process #{0}, {1} bit executable sourced from location \"{2}\"", E.ProcessID, bitness, E.GetDebugEventCreateProcessInfo().ImageName);
+                    break;
+                case DebugEventType.CreateThreadEvent:
+                    {
+                        var Env = E.GetDebugEventCreateThreadInfo();
+                        ret.AppendFormat("{0}-bit Process #{1} created thread #{2}. Entry Point location {3:X}", bitness, Env.ProcessID, Env.ThreadID, Env.ThreadStartAddress);
+                        break;
+                    }
+                case DebugEventType.ExitProcessEvent:
+                    {
+                        var Env = E.GetEventExitProcessInfo();
+                        ret.AppendFormat("{0}-bit Process #{1} exited with return code of {2}", bitness, Env.ProcessID, Env.ThreadID, Env.ExitCode);
+                        break;
+                    }
+                case DebugEventType.ExitThreadEvent:
+                    {
+                        var Env = E.GetEventExitThreadInfo();
+                        ret.AppendFormat("{0}-bit Process #{1} Thread #{2} exited with return code of {3}", bitness, Env.ProcessID, Env.ThreadID, Env.ExitCode);
+                        break;
+                    }
+                case DebugEventType.LoadDllEvent:
+                    {
+                        var Env = E.GetDebugEventLoadDll();
+                        ret.AppendFormat("{0}-bit Process #{1} Thread #{2} loaded a Dll from \"{3}\" and it was loaded at address {4:X}", bitness, Env.ProcessID, Env.ThreadID, Env.ImageName, Env.DllBaseAddress);
+                        break;
+                    }
+                case DebugEventType.UnloadDllEvent:
+                    {
+                        var Env = E.GetDebugEventUnloadDllInfo();
+                        ret.AppendFormat("{0}-bit Process #{1} Thread #{2} removed a Dll from its memory. Base address is {3}", bitness, E.ProcessID, E.ThreadID, Env.BaseOfDll);
+                        break;
+                    }
+                case DebugEventType.OutputDebugString:
+                    {
+                        var Env = E.GetDebugEventStringInfo();
+                        ret.AppendFormat("{0}-bit Process #{1} Thread #{2} send this message to the debugger: \"{3}\"", bitness, E.ProcessID, E.ThreadID, Env.OutputString);
+                        break;
+                    }
+                case DebugEventType.RipEvent:
+                    {
+                        var Env = E.GetDebugEventRipInfo();
+                        ret.AppendFormat("{0}-bit Process #{1} Thread #{2} died outside of debugger control: ", bitness, E.ProcessID, E.ThreadID);
+                        ret.AppendFormat("Error code is {0} (express has hex 0x{0:h}");
+                        switch (Env.ErrorType)
+                        {
+                            case RipErrorType.SleNoType:
+                                break;
+                            default:
+                                ret.Append(" and the system classed it as this type: ");
+                                ret.Append(Enum.GetName(typeof(RipErrorType), Env.ErrorType)); break;
+                        }
+                        break;
+                    }
+                case DebugEventType.ExceptionEvent:
+                    {
+                        // TODO: The Telemetry data
+                        var env = E.GetDebugEventExceptionInfo();
+                        ret.AppendFormat("{0}-bit Process #{1} Thread #{2} had ", bitness, E.ProcessID, E.ThreadID);
+
+                        if (env.IsFirstChanceException)
+                        {
+                            ret.Append("a first-chance exception it's not seen before.");
+                        }
+                        else
+                        {
+                            ret.Append("an exception that it prevously sent back to the program to deal with.");
+                        }
+
+                        ret.AppendFormat("Exception code (0x{0:X}), ", env.ExceptionCode_as_int);
+                        ret.AppendFormat("Possible Type (derived from code): ({0}), ", Enum.GetName(typeof(DebugExceptionTypes), env.ExceptionCode));
+                        if (bitness == "x64")
+                        {
+                            ret.AppendFormat("Address of Exception (0x{0}),", env.ExceptionAddress64);
+                        }
+                        else
+                        {
+                            ret.AppendFormat("Address of Exception (0x{0}),", env.ExceptionAddress32);
+                        }
+
+                        ret.Append("Exception Arguments: ");
+                        if (env.ExceptionParameterCount > 0)
+                        {
+                            var Args = env.ExceptionParameter64;
+                            ret.Append("[");
+                            for (int step = 0; step < Args.Length;step++)
+                            {
+                                ret.Append(Args[step].ToString());
+                                if (!(step == (Args.Length - 1)))
+                                {
+                                    ret.Append(",");
+                                }
+
+                            }
+                            ret.Append("]");
+                        }
+                        else
+                        {
+                            ret.Append("NONE");
+                        }
+                        
+
+
+                        break;
+                    }
+
+            }
+            return ret.ToString();
+        }
+    }
     /// <summary>
     /// This class just passes thru the various ToString() calls. 
     /// </summary>
     public class LogFormatPassThru: LogFormat
     {
-        public override string ConvertTostring(DebugEvent E)
+        public override string ConvertToString(DebugEvent E)
         {
             return E.ToString();
         }
@@ -286,32 +417,55 @@ namespace InsightLogger
         }
     }
     /// <summary>
-    /// How to use
+    /// Base LogFormat Class
     /// </summary>
     public abstract class LogFormat
     {
+        /// <summary>
+        /// This is called at the begining of outputing an array of log entries. Use it to emit what you need to indicate your file format
+        /// </summary>
+        /// <returns>Returns the string needed. Note that default <see cref="PreLog"/> is just an empty string</returns>
         public virtual string PreLog()
         {
             return string.Empty;
         }
 
+        /// <summary>
+        /// This is called when done outputing an array of log entries. Use it to properly 'close'/ finish your file format
+        /// </summary>
+        /// <returns>Returns the string needed. Note that default <see cref="PostLog"/> is just an empty string</returns>
         public virtual string PostLog()
         {
             return string.Empty;
         }
+
+        /// <summary>
+        /// This is called to wrap a string into a format usable for the target log format. 
+        /// </summary>
+        /// <param name="message">message to convert</param>
+        /// <returns></returns>
+        /// <remarks>You should take care to ensure everything is escaped/checked ok so your format doesn't break</remarks>
         public abstract string ConvertToString(string message);
 
-        public abstract string ConvertTostring(DebugEvent E);
+        /// <summary>
+        /// This is called to wrap a <see cref="DebugEvent"/> into a format usable for the target log format. 
+        /// </summary>
+        /// <param name="E">The event to convert</param>
+        /// <returns></returns>
+        /// <remarks>You should take care to ensure everything is escaped/checked ok so your format doesn't break</remarks>
+        public abstract string ConvertToString(DebugEvent E);
 
     }
+
+    
     /// <summary>
-    /// Used to store events in <see cref="LogCollector"/>
+    /// Used to store single entries  in <see cref="LogCollector"/>
     /// </summary>
     public class LogEntry
     {
 
         /// <summary>
-        /// Convert a string entry to JSON.  virtual to let user modify if needed
+        /// Convert a string entry to a JSON
         /// </summary>
         /// <returns></returns>
         public static string StringAsJsonItem(string BaseMessage)
@@ -332,13 +486,21 @@ namespace InsightLogger
             /// </summary>
             JSON = 1,
             /// <summary>
-            /// Entries should be xported as friendly messages if possible
+            /// Entries should be exported as friendly English messages if possible
             /// </summary>
-            Friendly = 2
+            FriendlyEnglish = 2
         }
 
-        public StringOutFormat Format;
+        /// <summary>
+        /// Control the results of the <see cref="ToString"/> routine
+        /// </summary>
+        public StringOutFormat Format = StringOutFormat.PassThru;
 
+        /// <summary>
+        /// Convert this <see cref="LogEntry"/> to the string format dictated by <see cref="Format"/>
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public override string ToString()
         {
             switch (Format)
@@ -357,34 +519,94 @@ namespace InsightLogger
                     }
                     break;
                 case StringOutFormat.PassThru:
+                    return Thing.ToString();
+                case StringOutFormat.FriendlyEnglish:
+                    switch (Contents)
+                    {
+                        case ContentsType.SimpleString:
+                            return Thing.ToString();
+                        case ContentsType.DebugEvent:
+                            {
+                                LogFormatFriendlyEnglish needed = new();
+                                return needed.ConvertToString(Thing as DebugEvent);
+                                break;
+                            }
+                    }
+                    break;
                 default:
                     return Thing.ToString();
             }
             throw new NotImplementedException();
         }
-        public ContentsType Contents;
+
+        /// <summary>
+        /// What's in this entry
+        /// </summary>
+        public ContentsType Contents = ContentsType.None;
+
+        /// <summary>
+        /// The box that contains the entry.
+        /// </summary>
         public object Thing;
 
+        /// <summary>
+        /// Init this entry to contain a simple string
+        /// </summary>
+        /// <param name="msg">string to contain</param>
         public LogEntry(string msg)
         {
             Contents = ContentsType.SimpleString;
             Thing = msg;
         }
+        public LogEntry(string msg, StringOutFormat StringControl)
+        {
+            Contents = ContentsType.SimpleString;
+            Thing = msg;
+            Format = StringControl;
+        }
 
+
+
+        /// <summary>
+        /// Init this entry to contain a debug event
+        /// </summary>
+        /// <param name="e">event to contain</param>
         public LogEntry(DebugEvent e)
         {
             Contents = ContentsType.DebugEvent;
             Thing = e.MakeCopy();
         }
+
+        public LogEntry(DebugEvent e, StringOutFormat StringControl)
+        {
+            Contents = ContentsType.DebugEvent;
+            Thing = e.MakeCopy();
+            Format = StringControl;
+        }
+        /// <summary>
+        /// The possible things this <see cref="LogEntry"/> class can contain
+        /// </summary>
         public enum ContentsType
         {
+            /// <summary>
+            /// NO DEFINE
+            /// </summary>
             None = 0,
+            /// <summary>
+            /// <see cref="Thing"/> is a <see cref="InsightSheath.Debugging.DebugEvent"/>.
+            /// </summary>
             DebugEvent,
+            /// <summary>
+            /// <see cref="Thing"/> is a <see cref="string"/>.
+            /// </summary>
             SimpleString,
         }
     }
 
 
+    /// <summary>
+    /// Collect Log Entries and control how to output them to streams
+    /// </summary>
     public class LogCollector
     {
         public LogCollector()
@@ -393,15 +615,18 @@ namespace InsightLogger
             CurrentFormat = LogFormatJson;
         }
 
-        
-
-        private void WriteString(Stream Target, string Data)
+        /// <summary>
+        /// Writes the string to the target in <see cref="Encoding.UTF8"/> format
+        /// </summary>
+        /// <param name="Target">STream to write too</param>
+        /// <param name="Data">data to write</param>
+        private static void WriteString(Stream Target, string Data)
         {
             byte[] bytes = Encoding.UTF8.GetBytes(Data);
             Target.Write(bytes, 0, bytes.Length);
         }
         /// <summary>
-        /// This format outputs has a seroes of JSON objects.
+        /// This format outputs has a series of JSON objects.
         /// </summary>
         public readonly LogFormatJson LogFormatJson = new();
         /// <summary>
@@ -410,7 +635,7 @@ namespace InsightLogger
         public readonly LogFormatPassThru LogFormatPassThru = new();
 
         /// <summary>
-        /// Log Collector outputs beased on whatever is set here.
+        /// Log Collector outputs beased on whatever is set here. If Null, defaults to <see cref="LogFormatPassThru"/>
         /// </summary>
         public LogFormat CurrentFormat = null;
         /// <summary>
@@ -418,60 +643,75 @@ namespace InsightLogger
         /// </summary>
         public Dictionary<DebugEventType, bool> LogTheseEvents = new Dictionary<DebugEventType, bool>();
 
+        /// <summary>
+        /// NOT IMPLEMENTED YET. Target goal is let user indicate if this is a white list or black list and if the bool enables logging
+        /// </summary>
         public Dictionary<int, bool> LogTheseExceptions = new Dictionary<int, bool>();
 
+        public void SetLogNoEvents()
+        {
+            for (int step = 1; step < 10; step++)
+            {
+                LogTheseEvents[(DebugEventType)step] = false;
+            }
+        }
 
         /// <summary>
         /// Enable logging for all the possibe <see cref="DebugEventType"/>
         /// </summary>
         public void SetLogAllEvents()
         {
-            for (int step=0;step < 9;step++)
+            for (int step = 1; step < 10; step++)
             {
                 LogTheseEvents[(DebugEventType)step] = true;
             }
         }
 
+
         /// <summary>
-        /// Export based on the current format to this strema. If <see cref="CurrentFormat"/> is null, export as <see cref="LogFormatPassThru"/>
+        /// Export the log to the target
         /// </summary>
-        /// <param name="Target"></param>
-        public void ExportLog(Stream Target)
+        /// <param name="s"></param>
+        public void ExportLog(Stream s)
         {
-            if (this.CurrentFormat == null)
-            {
-                ExportLog(Target, LogFormatPassThru, Entries.Keys);
-            }
-            else
-            {
-                ExportLog(Target, CurrentFormat, Entries.Keys);
-            }
-        }
-
-
-        public void TestExportedSelectedLog(Stream Target, IEnumerator Entries)
-        {
-            if (this.CurrentFormat == null)
-            {
-                TestExportedSelectedLog(Target, LogFormatPassThru, Entries);
-            }
-            else
-            {
-                TestExportedSelectedLog(Target, CurrentFormat, Entries);
-            }
-        }
-        public void TestExportedSelectedLog(Stream Target, LogFormat Format, IEnumerator Entries)
-        {
+            LogFormat TargetFormat;
             if (CurrentFormat == null)
-            {
+                TargetFormat = LogFormatPassThru;
+            else
+                TargetFormat = CurrentFormat;
+            ExportSelectedLogViaKeys(s, TargetFormat, Entries.Keys.GetEnumerator(), Entries);
+        }
 
-            }
-            WriteString(Target, Format.PreLog());
-            Entries.MoveNext();
-            //for (int step =0; step <Entries.Keys.Count;step++)
-            for (LogEntry Entry = (LogEntry)Entries.Current; ;)
+        /// <summary>
+        /// Export the selected log items
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="selectedStuff">should come from a direct list / array / ect of <see cref="LogEntry"/></param>
+        public void ExportSelectedLog(Stream s, IEnumerator selectedStuff)
+        {
+            LogFormat TargetFormat;
+            if (CurrentFormat == null)
+                TargetFormat = LogFormatPassThru;
+            else
+                TargetFormat = CurrentFormat;
+            ExportSelectedLogViaEnumerator(s, TargetFormat, selectedStuff);
+        }
+        void ExportSelectedLogViaKeys(Stream Target, LogFormat Format, IEnumerator Keys, Dictionary<string, LogEntry> UseMe)
+        {
+            if (Target == null)
+                throw new ArgumentNullException(nameof(Target));
+
+            if (Format == null)
             {
-                //var Entry = Entries.ElementAt(step);
+                throw new ArgumentNullException(nameof(Format));
+            }
+
+            WriteString(Target, Format.PreLog());
+            Keys.MoveNext();
+            
+            for (; ; )
+            {
+                LogEntry Entry = UseMe[(string)Keys.Current];
 
                 switch (Entry.Contents)
                 {
@@ -482,7 +722,7 @@ namespace InsightLogger
                         }
                     case LogEntry.ContentsType.DebugEvent:
                         {
-                            WriteString(Target, Format.ConvertTostring((DebugEvent)Entry.Thing));
+                            WriteString(Target, Format.ConvertToString((DebugEvent)Entry.Thing));
                             break;
                         }
                     default:
@@ -490,8 +730,9 @@ namespace InsightLogger
                         break;
                 }
 
-                if (Entries.MoveNext() == true)
-                //if (step != Entries.Count - 1)
+
+
+                if (Keys.MoveNext() == true)
                 {
                     WriteString(Target, ",\r\n");
                 }
@@ -499,87 +740,46 @@ namespace InsightLogger
                 {
                     break;
                 }
-
             }
             WriteString(Target, Format.PostLog());
         }
 
-
-        
-
-
-
-        public void ExportedSelectedLog(Stream Target, LogFormat Format, List<LogEntry> Items)
-        {
-            WriteString(Target, Format.PreLog());
-            //for (int step =0; step <Entries.Keys.Count;step++)
-            for (int step = 0; step < Items.Count; step++)
-            {
-                var Entry = Entries.ElementAt(step);
-
-                switch (Entry.Value.Contents)
-                {
-                    case LogEntry.ContentsType.SimpleString:
-                        {
-                            WriteString(Target, Format.ConvertToString(Entry.Value.Thing.ToString()));
-                            break;
-                        }
-                    case LogEntry.ContentsType.DebugEvent:
-                        {
-                            WriteString(Target, Format.ConvertTostring((DebugEvent)Entry.Value.Thing));
-                            break;
-                        }
-                    default:
-                    case LogEntry.ContentsType.None:
-                        break;
-                }
-
-                if (step != Entries.Count - 1)
-                {
-                    WriteString(Target, ",\r\n");
-                }
-
-            }
-            WriteString(Target, Format.PostLog());
-        }
-
-        public void ExportSelectedLog(Stream Target, List<LogEntry> Items)
-        {
-            if (CurrentFormat == null)
-            {
-                ExportedSelectedLog(Target, LogFormatPassThru, Items);
-            }
-            else
-            {
-                ExportedSelectedLog(Target, CurrentFormat, Items);
-            }
-        }
 
 
         /// <summary>
-        /// Export the passed log entries
+        /// Export via an enumerator. Enumerator should be direct LogEntries
         /// </summary>
         /// <param name="Target"></param>
         /// <param name="Format"></param>
-
-        public void ExportLog(Stream Target, LogFormat Format, Dictionary<string, LogEntry>.KeyCollection Keys)
+        /// <param name="Entries"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        public void ExportSelectedLogViaEnumerator(Stream Target, LogFormat Format, IEnumerator Entries)
         {
-            WriteString(Target,Format.PreLog());
-            //for (int step =0; step <Entries.Keys.Count;step++)
-            for (int step = 0; step < Keys.Count; step++)
-            {
-                var Entry = Entries.ElementAt(step);
+            if (Target == null)
+                throw new ArgumentNullException(nameof(Target));
 
-                switch (Entry.Value.Contents)
+            if (Format == null)
+            {
+                throw new ArgumentNullException(nameof(Format));
+            }
+
+            WriteString(Target, Format.PreLog());
+            Entries.MoveNext();
+            //for (int step =0; step <Entries.Keys.Count;step++)
+            for (; ;)
+            {
+                LogEntry Entry = (LogEntry)Entries.Current;
+
+                switch (Entry.Contents)
                 {
                     case LogEntry.ContentsType.SimpleString:
                         {
-                            WriteString(Target, Format.ConvertToString(Entry.Value.Thing.ToString()));
+                            WriteString(Target, Format.ConvertToString(Entry.Thing.ToString()));
                             break;
                         }
                     case LogEntry.ContentsType.DebugEvent:
                         {
-                            WriteString(Target, Format.ConvertTostring((DebugEvent)Entry.Value.Thing));
+                            WriteString(Target, Format.ConvertToString((DebugEvent)Entry.Thing));
                             break;
                         }
                     default:
@@ -587,18 +787,84 @@ namespace InsightLogger
                         break;
                 }
 
-                if (step != Entries.Count-1)
+
+
+                if (Entries.MoveNext() == true)
                 {
                     WriteString(Target, ",\r\n");
                 }
-
+                else
+                {
+                    break;
+                }
             }
             WriteString(Target, Format.PostLog());
         }
+        
+
+        /// <summary>
+        ///  Export via a list of entries
+        /// </summary>
+        /// <param name="Target"></param>
+        /// <param name="Format"></param>
+        /// <param name="Entries"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        
+        void ExportLogList(Stream Target, LogFormat Format, List<LogEntry> Entries)
+        {
+            if (Target == null)
+                throw new ArgumentNullException(nameof(Target));
+
+            if (Format == null)
+            {
+                throw new ArgumentNullException(nameof(Format));
+            }
+
+            WriteString(Target, Format.PreLog());
+            for (int step =0; step <Entries.Count;step++)
+            {
+
+                LogEntry Entry;
+                Entry = this.Entries.ElementAt(step).Value;
+       
+
+                switch (Entry.Contents)
+                {
+                    case LogEntry.ContentsType.SimpleString:
+                        {
+                            WriteString(Target, Format.ConvertToString(Entry.Thing.ToString()));
+                            break;
+                        }
+                    case LogEntry.ContentsType.DebugEvent:
+                        {
+                            WriteString(Target, Format.ConvertToString((DebugEvent)Entry.Thing));
+                            break;
+                        }
+                    default:
+                    case LogEntry.ContentsType.None:
+                        break;
+                }
+
+                
+                    if (!(step < this.Entries.Count))
+                    {
+                        break;
+                    }
+                
+
+            }
+            WriteString(Target, Format.PostLog());
+
+        }
+
+      
+
+
+
+
+
 
         
-        
-       
 
         /// <summary>
         /// The system stores entries indexed by a key. In practice, using Tick value of <see cref="DateTime.Now"/> likely will be fine
@@ -615,8 +881,13 @@ namespace InsightLogger
             Entries.Add(Timestamp, new LogEntry(Msg));
         }
 
+        public void AddLog(string Timestamp, LogEntry Entry)
+        {
+            Entries.Add(Timestamp, Entry);
+        }
+
         /// <summary>
-        /// Log this debug event. Drops it if the said event has an entry in <see cref="LogTheseEvents"/> and clear
+        /// Log this debug event. Discards the event if the said event has an entry in <see cref="LogTheseEvents"/> and it's not set to <see cref="true"/>
         /// </summary>
         /// <param name="Timestamp"></param>
         /// <param name="e"></param>
