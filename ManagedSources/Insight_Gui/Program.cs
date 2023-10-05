@@ -134,6 +134,19 @@ namespace FileSandBox_GUI
                             var data = test.GetIoDeviceExceptionType();
                             switch (data)
                             {
+                                case IoDeviceTelemetryReaderExtensions.NotificationType.ReadFile:
+                                    {
+                                        var Info = test.GetReadFileSettings();
+
+
+                                        Info.SetLastErrorValue(0);
+                                        
+                                        Info.PerformAction();
+
+                                        InsightProcess.SetDebugEventCallbackResponse(ContStat, DebugContState.DebugContinueState);
+
+                                        break;
+                                    }
                                 case IoDeviceTelemetryReaderExtensions.NotificationType.CreateFile:
                                     {
                                         /*
@@ -168,6 +181,7 @@ namespace FileSandBox_GUI
                                          *          
                                          */
                                         var Info = test.GetCreateFileSettings();
+                                        break;
                                         if (Info.DesiredAccess.HasFlag(AccessMasks.GenericRead))
                                         {
                                             if (!Info.FileName.ToLower().EndsWith(".txt"))

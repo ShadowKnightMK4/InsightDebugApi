@@ -2758,6 +2758,17 @@
             </summary>
             <remarks>IMPORTANT! This is accessing unmanaged memory outside of C#'s GC. The InsightAPI.dll does deal with given  and receiving native pointers etc and there will be times you'll need to do that with a separate process. </remarks>
         </member>
+        <member name="M:InsightSheath.MemoryNative.RemoteWriteBuffer(System.IntPtr,System.IntPtr,System.UInt32,System.IntPtr,System.UInt32)">
+            <summary>
+            Write a Chunk of memory from us to a target process
+            </summary>
+            <param name="TargetProcess">handle valid in our process that points to the process to write do <see cref="M:InsightSheath.HelperRoutines.OpenProcessForVirtualMemory(System.UInt32)"/></param>
+            <param name="SourceBufferInOurMemory">a pointer to a block of virtual memory in the unmanaged space of our process</param>
+            <param name="SourceSize">how many byts to write to this location</param>
+            <param name="TargetBufferInTargetProcess">pointer to a block of virtual memory to write too</param>
+            <param name="TargetSize">how big is the target</param>
+            <returns>returns true if it worked and false if not</returns>
+        </member>
         <member name="M:InsightSheath.MemoryNative.Peek4(System.IntPtr)">
             <summary>
             Read a 4 byte value from unmanaged memory
@@ -3435,6 +3446,17 @@
             Internal Class.  Imports the Poke/Peek routines for both remote and local
             </summary>
         </member>
+        <member name="M:InsightSheath.NativeImports.MemoryNativeInternal.RemoteWriteBuffer(System.IntPtr,System.IntPtr,System.UInt32,System.IntPtr,System.UInt32)">
+            <summary>
+            Write a chunk of memory from our process to the target
+            </summary>
+            <param name="TargetProcessHandle"></param>
+            <param name="SourceBufferInOurProcess"></param>
+            <param name="SourceSize"></param>
+            <param name="TargetBufferInTargetProcess"></param>
+            <param name="TargetSize"></param>
+            <returns></returns>
+        </member>
         <member name="M:InsightSheath.NativeImports.MemoryNativeInternal.Peek4(System.IntPtr)">
             <summary>
             return a 4 DWORD value from a local unmanaged memory location
@@ -3947,42 +3969,78 @@
             </summary>
             <param name="ReturnValue"></param>
         </member>
-        <member name="T:InsightSheath.Telemetry.IoDeviceTelemetyCreateFile">
+        <member name="M:InsightSheath.Telemetry.IoDeviceTelemetryReadFile.PerformAction(InsightSheath.Telemetry.IoDeviceTelemetryReadFile.PerformActionCallBack)">
+            <summary>
+            Do the thing from our process and inject results into the target. 
+            </summary>
+            <remarks>You still need to mark if the process handled it or not to notify that it should leave the changes alone</remarks>
+        </member>
+        <member name="F:InsightSheath.Telemetry.IoDeviceTelemetryReadFile.ReturnValuePtr">
+            <summary>
+            This a pointer to a value to control return
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Telemetry.IoDeviceTelemetryReadFile.SourceFileHandle">
+            <summary>
+            THis is the handle the debugged process is requesting to read from/
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Telemetry.IoDeviceTelemetryReadFile.TargetBuffer">
+            <summary>
+            This is the buffer the debugged process is requesting to read into.
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Telemetry.IoDeviceTelemetryReadFile.BytesToRead">
+            <summary>
+            This is how many bytes the debugged process wants to read
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Telemetry.IoDeviceTelemetryReadFile.BytesRead">
+            <summary>
+            This is the pointer (if set) to the 4 byte size containing what will be how many bytes read.
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Telemetry.IoDeviceTelemetryReadFile.OverlappedStruct">
+            <summary>
+            This is the poitner (if set) to an overlapped structure
+            </summary>
+        </member>
+        <member name="T:InsightSheath.Telemetry.IoDeviceTelemetryCreateFile">
             <summary>
             This structure contains data from an exception generated via CreateFileA/W.
             </summary>
         </member>
-        <member name="F:InsightSheath.Telemetry.IoDeviceTelemetyCreateFile.FileName">
+        <member name="F:InsightSheath.Telemetry.IoDeviceTelemetryCreateFile.FileName">
             <summary>
             Name of the file the debugged process is trying to open
             </summary>
         </member>
-        <member name="F:InsightSheath.Telemetry.IoDeviceTelemetyCreateFile.DesiredAccess">
+        <member name="F:InsightSheath.Telemetry.IoDeviceTelemetryCreateFile.DesiredAccess">
             <summary>
             Desired access for the target file
             </summary>
         </member>
-        <member name="F:InsightSheath.Telemetry.IoDeviceTelemetyCreateFile.SharedMode">
+        <member name="F:InsightSheath.Telemetry.IoDeviceTelemetryCreateFile.SharedMode">
             <summary>
             Will the debugged process try to open for sharing?
             </summary>
         </member>
-        <member name="F:InsightSheath.Telemetry.IoDeviceTelemetyCreateFile.SecurityAttrib">
+        <member name="F:InsightSheath.Telemetry.IoDeviceTelemetryCreateFile.SecurityAttrib">
             <summary>
             Debugged process 's requested security attributes (IMPORTANT! this points to virtual memory in **THAT** process, not yours.)
             </summary>
         </member>
-        <member name="F:InsightSheath.Telemetry.IoDeviceTelemetyCreateFile.CreateDisposition">
+        <member name="F:InsightSheath.Telemetry.IoDeviceTelemetryCreateFile.CreateDisposition">
             <summary>
             Creation disposition
             </summary>
         </member>
-        <member name="F:InsightSheath.Telemetry.IoDeviceTelemetyCreateFile.FlagsAndAttributes">
+        <member name="F:InsightSheath.Telemetry.IoDeviceTelemetryCreateFile.FlagsAndAttributes">
             <summary>
             Flags and attributes
             </summary>
         </member>
-        <member name="F:InsightSheath.Telemetry.IoDeviceTelemetyCreateFile.TemplateFile">
+        <member name="F:InsightSheath.Telemetry.IoDeviceTelemetryCreateFile.TemplateFile">
             <summary>
             Template file that's usually (but NOT always) null.
             </summary>
@@ -4020,6 +4078,16 @@
         <member name="F:InsightSheath.Telemetry.IoDeviceTelemetryReaderExtensions.NotificationType.NtOpenFile">
             <summary>
             TODO:: A Lower Level NtOpen file call.
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Telemetry.IoDeviceTelemetryReaderExtensions.NotificationType.WriteFile">
+            <summary>
+            TODO: WriteFile
+            </summary>
+        </member>
+        <member name="F:InsightSheath.Telemetry.IoDeviceTelemetryReaderExtensions.NotificationType.ReadFile">
+            <summary>
+            
             </summary>
         </member>
         <member name="M:InsightSheath.Telemetry.IoDeviceTelemetryReaderExtensions.GetIoDeviceExceptionType(InsightSheath.Debugging.DebugEventExceptionInfo)">
@@ -4343,6 +4411,25 @@
             <param name="Access">Choose your access parameters</param>
             <param name="CopyAccess">set to true to ignore <see cref="!:Access"/> and take the current permissions from the handle for the new one too</param>
             <param name="TargetProcess">Target remote process to pick from</param>
+            <param name="AllowInherit">Allow spawned processes to inherit</param>
+            <returns></returns>
+        </member>
+        <member name="M:InsightSheath.HelperRoutines.CopyHandleFromRemote(System.UInt32,System.IntPtr)">
+            <summary>
+            Copy a handle
+            </summary>
+            <param name="ProcessID"></param>
+            <param name="SourceHandle"></param>
+            <returns></returns>
+        </member>
+        <member name="M:InsightSheath.HelperRoutines.CopyHandleFromRemote(System.IntPtr,System.IntPtr,System.UInt32,System.Boolean,System.Boolean)">
+            <summary>
+            Copy a Handle from a remote process to you. Don't forget to close it.
+            </summary>
+            <param name="SourceProcess">Process to copy from</param>
+            <param name="TargetHandle">by value handle to copy to your process to access the same resource</param>
+            <param name="Access">Choose your access parameters</param>
+            <param name="CopyAccess">set to true to ignore <see cref="!:Access"/> and take the current permissions from the handle for the new one too</param>
             <param name="AllowInherit">Allow spawned processes to inherit</param>
             <returns></returns>
         </member>

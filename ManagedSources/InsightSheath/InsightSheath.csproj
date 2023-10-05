@@ -9,6 +9,7 @@
     <PackageOutputPath>$(SolutionDir)code\Managed\$(Configuration)\$(Platform_Actual)</PackageOutputPath>
     <PlatformTarget>x64</PlatformTarget>
     <AnalysisLevel>latest</AnalysisLevel>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

@@ -36,6 +36,13 @@ namespace RemoteStructureRoutine
 		}
 		return FALSE;
 	}
+
+	BOOL WINAPI RemoteWriteBuffer(HANDLE Target, VOID* Source, DWORD  SourceSize, VOID* TargetLocation, DWORD TargetSize)
+	{
+		BOOL result =  WriteProcessMemory(Target, Source, TargetLocation, SourceSize, NULL);
+		DWORD lasterr = GetLastError();
+		return result;
+	}
 	BOOL WINAPI RemotePoke8(HANDLE Process, ULONG64 Value, VOID* RemoteLocation) noexcept
 	{
 		return RemotePokeCommon(Process, Value, RemoteLocation, sizeof(ULONGLONG));

@@ -42,6 +42,8 @@
             ToolStripMenuItemDetourDllSetting = new System.Windows.Forms.ToolStripMenuItem();
             exceptionSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             OpenFileDialogSelectExe = new System.Windows.Forms.OpenFileDialog();
+            telemetryDLLSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            ioDeviceTrackingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ContextMenuStripSpecialSettings.SuspendLayout();
             SuspendLayout();
             // 
@@ -115,9 +117,9 @@
             // ContextMenuStripSpecialSettings
             // 
             ContextMenuStripSpecialSettings.ImageScalingSize = new System.Drawing.Size(24, 24);
-            ContextMenuStripSpecialSettings.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { ToolStripMenuItemLogAdjustShow, ToolStripMenuItemEnvEdit, ToolStripMenuItemDetourDllSetting, exceptionSettingsToolStripMenuItem });
+            ContextMenuStripSpecialSettings.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { ToolStripMenuItemLogAdjustShow, ToolStripMenuItemEnvEdit, ToolStripMenuItemDetourDllSetting, exceptionSettingsToolStripMenuItem, telemetryDLLSettingsToolStripMenuItem });
             ContextMenuStripSpecialSettings.Name = "ContextMenuStripSpecialSettings";
-            ContextMenuStripSpecialSettings.Size = new System.Drawing.Size(319, 132);
+            ContextMenuStripSpecialSettings.Size = new System.Drawing.Size(319, 197);
             ContextMenuStripSpecialSettings.Opening += ContextMenuStripSpecialSettings_Opening;
             // 
             // ToolStripMenuItemLogAdjustShow
@@ -155,6 +157,19 @@
             OpenFileDialogSelectExe.ShowHiddenFiles = true;
             OpenFileDialogSelectExe.FileOk += OpenFileDialogSelectExe_FileOk;
             // 
+            // telemetryDLLSettingsToolStripMenuItem
+            // 
+            telemetryDLLSettingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { ioDeviceTrackingToolStripMenuItem });
+            telemetryDLLSettingsToolStripMenuItem.Name = "telemetryDLLSettingsToolStripMenuItem";
+            telemetryDLLSettingsToolStripMenuItem.Size = new System.Drawing.Size(318, 32);
+            telemetryDLLSettingsToolStripMenuItem.Text = "Telemetry DLL Settings";
+            // 
+            // ioDeviceTrackingToolStripMenuItem
+            // 
+            ioDeviceTrackingToolStripMenuItem.Name = "ioDeviceTrackingToolStripMenuItem";
+            ioDeviceTrackingToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            ioDeviceTrackingToolStripMenuItem.Text = "IoDeviceTracking";
+            // 
             // LoggerRunDialog
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
@@ -190,5 +205,7 @@
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemDetourDllSetting;
         private System.Windows.Forms.OpenFileDialog OpenFileDialogSelectExe;
         private System.Windows.Forms.ToolStripMenuItem exceptionSettingsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem telemetryDLLSettingsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ioDeviceTrackingToolStripMenuItem;
     }
 }

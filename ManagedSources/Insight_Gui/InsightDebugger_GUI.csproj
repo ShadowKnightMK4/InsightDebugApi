@@ -16,6 +16,7 @@
     <PlatformTarget>x64</PlatformTarget>
     <BaseOutputPath>$(SolutionDir)code\Managed\$(Configuration)\$(ProjectName)$(Platform_Actual)</BaseOutputPath>
     <BaseIntermediateOutputPath>$(SolutionDir)BuildFolder\Managed\$(ProjectName)$(Configuration)\$(Platform_Actual)</BaseIntermediateOutputPath>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

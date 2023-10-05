@@ -12,6 +12,18 @@ namespace InsightSheath.NativeImports
     /// </summary>
     internal static class MemoryNativeInternal
     {
+
+        /// <summary>
+        /// Write a chunk of memory from our process to the target
+        /// </summary>
+        /// <param name="TargetProcessHandle"></param>
+        /// <param name="SourceBufferInOurProcess"></param>
+        /// <param name="SourceSize"></param>
+        /// <param name="TargetBufferInTargetProcess"></param>
+        /// <param name="TargetSize"></param>
+        /// <returns></returns>
+        [DllImport("InsightAPI.dll", CallingConvention= CallingConvention.Winapi, SetLastError =true, EntryPoint ="RemoteWriteBuffer")]
+        public static extern bool RemoteWriteBuffer(IntPtr TargetProcessHandle, IntPtr SourceBufferInOurProcess, uint SourceSize, IntPtr TargetBufferInTargetProcess, uint TargetSize);
         /// <summary>
         /// return a 4 DWORD value from a local unmanaged memory location
         /// </summary>

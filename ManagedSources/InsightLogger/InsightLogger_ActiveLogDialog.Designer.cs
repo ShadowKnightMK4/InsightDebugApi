@@ -44,7 +44,7 @@
             CheckBoxStopNextEvent = new System.Windows.Forms.CheckBox();
             ButtonReinterpretLog = new System.Windows.Forms.Button();
             ToolTipLogEntryViewHint = new System.Windows.Forms.ToolTip(components);
-            menuStrip1 = new System.Windows.Forms.MenuStrip();
+            MenuStripActiveLogWindow = new System.Windows.Forms.MenuStrip();
             fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             closeThisToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             logSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -86,7 +86,7 @@
             SaveFileDialog_PassThru_ExportAll = new System.Windows.Forms.SaveFileDialog();
             SaveFileDialog_SimpleEnglish_ExportAll = new System.Windows.Forms.SaveFileDialog();
             SaveFileDialog_JSON_ExportAll = new System.Windows.Forms.SaveFileDialog();
-            menuStrip1.SuspendLayout();
+            MenuStripActiveLogWindow.SuspendLayout();
             SuspendLayout();
             // 
             // ListBoxLogEvent
@@ -107,7 +107,7 @@
             // 
             // ButtonSelectedLogSave
             // 
-            ButtonSelectedLogSave.Location = new System.Drawing.Point(1611, 23);
+            ButtonSelectedLogSave.Location = new System.Drawing.Point(1473, 63);
             ButtonSelectedLogSave.Name = "ButtonSelectedLogSave";
             ButtonSelectedLogSave.Size = new System.Drawing.Size(202, 34);
             ButtonSelectedLogSave.TabIndex = 1;
@@ -117,7 +117,7 @@
             // 
             // ButtonSaveAll
             // 
-            ButtonSaveAll.Location = new System.Drawing.Point(1611, 63);
+            ButtonSaveAll.Location = new System.Drawing.Point(1476, 103);
             ButtonSaveAll.Name = "ButtonSaveAll";
             ButtonSaveAll.Size = new System.Drawing.Size(202, 34);
             ButtonSaveAll.TabIndex = 2;
@@ -168,7 +168,7 @@
             // 
             // button1
             // 
-            button1.Location = new System.Drawing.Point(1611, 103);
+            button1.Location = new System.Drawing.Point(1476, 300);
             button1.Name = "button1";
             button1.Size = new System.Drawing.Size(206, 34);
             button1.TabIndex = 7;
@@ -199,15 +199,15 @@
             ButtonReinterpretLog.UseVisualStyleBackColor = true;
             ButtonReinterpretLog.Click += ButtonReinterpretLog_Click;
             // 
-            // menuStrip1
+            // MenuStripActiveLogWindow
             // 
-            menuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
-            menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { fileToolStripMenuItem, logSettingsToolStripMenuItem, debugEventsToolStripMenuItem });
-            menuStrip1.Location = new System.Drawing.Point(0, 0);
-            menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new System.Drawing.Size(1825, 33);
-            menuStrip1.TabIndex = 10;
-            menuStrip1.Text = "menuStrip1";
+            MenuStripActiveLogWindow.ImageScalingSize = new System.Drawing.Size(24, 24);
+            MenuStripActiveLogWindow.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { fileToolStripMenuItem, logSettingsToolStripMenuItem, debugEventsToolStripMenuItem });
+            MenuStripActiveLogWindow.Location = new System.Drawing.Point(0, 0);
+            MenuStripActiveLogWindow.Name = "MenuStripActiveLogWindow";
+            MenuStripActiveLogWindow.Size = new System.Drawing.Size(1825, 33);
+            MenuStripActiveLogWindow.TabIndex = 10;
+            MenuStripActiveLogWindow.Text = "menuStrip1";
             // 
             // fileToolStripMenuItem
             // 
@@ -498,14 +498,14 @@
             Controls.Add(ButtonSaveAll);
             Controls.Add(ButtonSelectedLogSave);
             Controls.Add(ListBoxLogEvent);
-            Controls.Add(menuStrip1);
-            MainMenuStrip = menuStrip1;
+            Controls.Add(MenuStripActiveLogWindow);
+            MainMenuStrip = MenuStripActiveLogWindow;
             Name = "InsightLogger_ActiveLogDialog";
             Text = "InsightLogger - Active Log";
             Load += InsightLogger_ActiveLogDialog_Load;
             VisibleChanged += InsightLogger_ActiveLogDialog_VisibleChanged;
-            menuStrip1.ResumeLayout(false);
-            menuStrip1.PerformLayout();
+            MenuStripActiveLogWindow.ResumeLayout(false);
+            MenuStripActiveLogWindow.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -527,7 +527,7 @@
         private System.Windows.Forms.CheckBox CheckBoxStopNextEvent;
         private System.Windows.Forms.Button ButtonReinterpretLog;
         private System.Windows.Forms.ToolTip ToolTipLogEntryViewHint;
-        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.MenuStrip MenuStripActiveLogWindow;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem logSettingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem chooseDisppToolStripMenuItem;

@@ -11,6 +11,14 @@ using InsightSheath.Debugging;
 using InsightSheath.Win32Struct;
 using InsightSheath.Win32Struct.Remote;
 using InsightSheath.Telemetry.General;
+using System.Diagnostics;
+using Windows.UI.Notifications;
+using Windows.Networking.Sockets;
+using Windows.ApplicationModel.Background;
+using Windows.Foundation;
+using System.Runtime.CompilerServices;
+using System.Globalization;
+using Microsoft.Win32.SafeHandles;
 
 namespace InsightSheath.Telemetry
 {
@@ -346,12 +354,129 @@ namespace InsightSheath.Telemetry
 
     
 
+    public class IoDeviceTelemetryReadFile: IoDeviceTelememtryExceptionCommonValues
+    {
+        public IoDeviceTelemetryReadFile(uint dwProcessId, 
+            uint dwThread, 
+            long ReadFileHandle, 
+            long BufferPt, 
+            uint BytesToRead, 
+            long BytesRead,
+            long OverlappedPt, 
+            IntPtr ErrorPtr,
+            IntPtr ReturnValPtr,
+            MachineType Type): base(dwProcessId, dwThread, nint.Zero, ErrorPtr, Type)
+        {
+            TargetBuffer = new IntPtr(BufferPt);
+            this.BytesToRead = BytesToRead;
+            this.BytesRead = new IntPtr(BytesRead);
+            this.OverlappedStruct = new IntPtr(OverlappedPt);
+            this.SourceFileHandle = new IntPtr(ReadFileHandle);
+            this.ReturnValuePtr =  ReturnValPtr;
+        }
+
+        
+        public delegate void PerformActionCallBack();
+        public void PerformAction()
+        {
+            PerformAction(null);
+        }
+        /// <summary>
+        /// Do the thing from our process and inject results into the target. 
+        /// </summary>
+        /// <remarks>You still need to mark if the process handled it or not to notify that it should leave the changes alone</remarks>
+        unsafe void PerformAction(PerformActionCallBack Callback)
+        {
+
+            //IntPtr OurFileHandle = IntPtr.Zero;
+            SafeFileHandle OurFileHandle;
+            IntPtr UnmanagedBuffer = IntPtr.Zero;
+            IntPtr OurTargetProcess = IntPtr.Zero;
+            try
+            {
+                OurTargetProcess = HelperRoutines.OpenProcessForHandleDuplicating(this.ProcessId);
+                try
+                {
+                    OurFileHandle = new SafeFileHandle(HelperRoutines.CopyHandleFromRemote(OurTargetProcess, this.SourceFileHandle, 0, true, false), true);
+                    try
+                    {
+                        UnmanagedBuffer = Marshal.AllocHGlobal((int)this.BytesToRead);
+                        using (FileStream s = new FileStream(OurFileHandle, FileAccess.Read))
+                        {
+
+                            using (UnmanagedMemoryStream WriteMe = new UnmanagedMemoryStream((byte*)UnmanagedBuffer.ToPointer(), this.BytesToRead, this.BytesToRead, FileAccess.ReadWrite))
+                            {
+
+                                for (int step = 0; step < this.BytesToRead; step++)
+                                {
+                                    int b = s.ReadByte();
+                                    WriteMe.WriteByte((byte)b);
+                                }
+                                bool result = MemoryNative.RemoteWriteBuffer(OurTargetProcess, UnmanagedBuffer, this.BytesToRead, this.TargetBuffer, BytesToRead);
+                                if (result == false)
+                                {
+                                    throw new InvalidOperationException(Marshal.GetLastPInvokeErrorMessage());
+                                }
+                                if (BytesRead != 0)
+                                {
+                                    MemoryNative.RemotePoke4(OurTargetProcess, (uint)BytesRead, BytesRead);
+                                }
+
+                            }
+                        }
+                    }
+                    finally
+                    {
+                        Marshal.FreeHGlobal(UnmanagedBuffer);
+                    }
+                }
+                finally
+                {
+                    //HelperRoutines.CloseHandle(OurFileHandle);
+                }
+            }
+            finally
+            {
+                HelperRoutines.CloseHandle(OurTargetProcess);
+            }
+              
+        }
+
+        /// <summary>
+        /// This a pointer to a value to control return
+        /// </summary>
+        public IntPtr ReturnValuePtr;
+        /// <summary>
+        /// THis is the handle the debugged process is requesting to read from/
+        /// </summary>
+        public IntPtr SourceFileHandle;
+        /// <summary>
+        /// This is the buffer the debugged process is requesting to read into.
+        /// </summary>
+        public IntPtr TargetBuffer;
+        /// <summary>
+        /// This is how many bytes the debugged process wants to read
+        /// </summary>
+        public uint BytesToRead;
+
+        /// <summary>
+        /// This is the pointer (if set) to the 4 byte size containing what will be how many bytes read.
+        /// </summary>
+        public IntPtr BytesRead;
+
+
+        /// <summary>
+        /// This is the poitner (if set) to an overlapped structure
+        /// </summary>
+        public IntPtr OverlappedStruct;
+
+    }
     /// <summary>
     /// This structure contains data from an exception generated via CreateFileA/W.
     /// </summary>
-    public class IoDeviceTelemetyCreateFile: IoDeviceTelememtryExceptionCommonValues
+    public class IoDeviceTelemetryCreateFile: IoDeviceTelememtryExceptionCommonValues
     {
-        public IoDeviceTelemetyCreateFile(uint dwProcess, uint dwThread, IntPtr HandlePtr, IntPtr ErrorPtr, MachineType Type): base(dwProcess, dwThread, HandlePtr, ErrorPtr, Type)
+        public IoDeviceTelemetryCreateFile(uint dwProcess, uint dwThread, IntPtr HandlePtr, IntPtr ErrorPtr, MachineType Type): base(dwProcess, dwThread, HandlePtr, ErrorPtr, Type)
         {
             FileName = null;
             DesiredAccess = AccessMasks.NoAccess;
@@ -418,6 +543,13 @@ namespace InsightSheath.Telemetry
 
         //const uint ExceptionSubType = 0;
         //const uint LastError_Ptr = 1;
+
+        const uint ReadFile_Handle = 2;
+        const uint ReadFile_RemoteBuffer = 3;
+        const uint ReadFile_BytesToRead = 4;
+        const uint ReadFile_BytesThatWereRead = 5;
+        const uint ReadFile_OverlappedPtr = 6;
+        const uint ReadFile_ReturnValPtr = 7;
 
 
         /* if exception is NotificationType.CreateFile */
@@ -491,7 +623,22 @@ namespace InsightSheath.Telemetry
             /// <summary>
             /// TODO:: A Lower Level NtOpen file call.
             /// </summary>
-            NtOpenFile =5
+            NtOpenFile =5,
+
+            /// <summary>
+            /// TODO: WriteFile
+            /// </summary>
+            WriteFile = 6,
+
+            /// <summary>
+            /// 
+            /// </summary>
+            ReadFile = 7,
+            
+            NtWriteFile = 8,
+            NtReadFile = 9
+
+
         }
 
         /// <summary>
@@ -504,7 +651,7 @@ namespace InsightSheath.Telemetry
             return (NotificationType)that.ExceptionParameter64[GeneralTelemetry.ExceptionSubType];
         }
 
- 
+
         /// <summary>
         /// This retrieves data generated from an exception that matches the IoDevice exception type and was triggered from <see cref="NotificationType.NtCreateFile"/>
         /// </summary>
@@ -526,10 +673,10 @@ namespace InsightSheath.Telemetry
             }
             try
             {
-                ret = new IoDeviceTelemetryNtCreateFile(that.ProcessID, that.ThreadID, new IntPtr((long)arguments[NtCreateFile_ReturnHandle]), new IntPtr((long)arguments[GeneralTelemetry.LastError_Ptr]), Type) ;
-//                ret.ReturnValue = new IntPtr((long)arguments[LastError_Ptr]);
-  //              ret.FileOutHandle = new IntPtr((long)arguments[NtCreateFile_ReturnHandle]);
-                ret.DesiredAccess = (AccessMasks) arguments[NtCreateFile_DesiredAccess];
+                ret = new IoDeviceTelemetryNtCreateFile(that.ProcessID, that.ThreadID, new IntPtr((long)arguments[NtCreateFile_ReturnHandle]), new IntPtr((long)arguments[GeneralTelemetry.LastError_Ptr]), Type);
+                //                ret.ReturnValue = new IntPtr((long)arguments[LastError_Ptr]);
+                //              ret.FileOutHandle = new IntPtr((long)arguments[NtCreateFile_ReturnHandle]);
+                ret.DesiredAccess = (AccessMasks)arguments[NtCreateFile_DesiredAccess];
                 if (arguments[NtCreateFile_ObjectAttributes] == 0)
                 {
                     ret.ObjectAttributes = null;
@@ -543,9 +690,9 @@ namespace InsightSheath.Telemetry
                     }
                     else
                     {
-                        ret.ObjectAttributes = null; 
+                        ret.ObjectAttributes = null;
                     }
-                    
+
                 }
                 if (arguments[NtCreateFile_AllocationSize] != 0)
                 {
@@ -555,10 +702,10 @@ namespace InsightSheath.Telemetry
                 {
                     ret.AllocationSize = new LARGE_INTEGER();
                 }
-                ret.FileAttributes = (FileAttributes) arguments[NtCreateFile_FileAttributs];
-                ret.ShareAccess = (FileShare) arguments[NtCreateFile_ShareAccess];
-                
-                ret.CreateDisposition = (NtCreationDisposition) arguments[NtCreateFile_CreateDisposition];
+                ret.FileAttributes = (FileAttributes)arguments[NtCreateFile_FileAttributs];
+                ret.ShareAccess = (FileShare)arguments[NtCreateFile_ShareAccess];
+
+                ret.CreateDisposition = (NtCreationDisposition)arguments[NtCreateFile_CreateDisposition];
                 ret.CreationOptions = (uint)arguments[NtCreateFile_CreateOptions];
                 ret.EaBuffer = new IntPtr((long)arguments[NtCreateFile_EaBuffer]);
                 ret.EaSize = arguments[NtCreateFile_EaLength];
@@ -571,15 +718,51 @@ namespace InsightSheath.Telemetry
             }
         }
 
+        public static IoDeviceTelemetryReadFile GetReadFileSettings(this DebugEventExceptionInfo that)
+        {
+            MachineType type;
+            IoDeviceTelemetryReadFile ret;
+            var Arguments = that.ExceptionParameter64;
+            IntPtr Handle = HelperRoutines.OpenProcessForVirtualMemory(that.ProcessID);
+            try
+            {
+                if (that.IsEventFrom32BitProcess)
+                {
+                    type = MachineType.MachineI386;
+                }
+                else
+                {
+                    type = MachineType.MachineAmd64;
+                }
+
+                ret = new IoDeviceTelemetryReadFile(that.ProcessID,
+                    
+                    that.ThreadID,
+                    (long)Arguments[ReadFile_Handle],
+                    (long) Arguments[ReadFile_RemoteBuffer],
+                    (uint)Arguments[ReadFile_BytesToRead],
+                    (long)Arguments[ReadFile_BytesThatWereRead], 
+                    (long)Arguments[ReadFile_OverlappedPtr],
+                    (nint) Arguments[GeneralTelemetry.LastError_Ptr],
+                    (nint) Arguments[ReadFile_ReturnValPtr],
+                    type);
+
+            }
+            finally
+            {
+                HelperRoutines.CloseHandle(Handle);
+            }
+            return ret;
+        }
         /// <summary>
         /// Only valid if <see cref="GetIoDeviceExceptionType(DebugEventExceptionInfo)"/> returns an instead of <see cref="NotificationType.CreateFile"/> containing the arguments passed to CreateFileA or W.
         /// </summary>
         /// <param name="that"></param>
         /// <returns></returns>
-        public static IoDeviceTelemetyCreateFile GetCreateFileSettings(this DebugEventExceptionInfo that)
+        public static IoDeviceTelemetryCreateFile GetCreateFileSettings(this DebugEventExceptionInfo that)
         {
             MachineType type;
-            IoDeviceTelemetyCreateFile ret;
+            IoDeviceTelemetryCreateFile ret;
             var Arguments = that.ExceptionParameter64;
             IntPtr Handle = HelperRoutines.OpenProcessForVirtualMemory(that.ProcessID);
 
@@ -593,7 +776,7 @@ namespace InsightSheath.Telemetry
                 {
                     type = MachineType.MachineAmd64;
                 }
-                ret = new IoDeviceTelemetyCreateFile(that.ProcessID, that.ThreadID, (IntPtr)Arguments[CreateFile_OvrridePtr], (IntPtr)Arguments[GeneralTelemetry.LastError_Ptr], type)
+                ret = new IoDeviceTelemetryCreateFile(that.ProcessID, that.ThreadID, (IntPtr)Arguments[CreateFile_OvrridePtr], (IntPtr)Arguments[GeneralTelemetry.LastError_Ptr], type)
                 {
                     FileName = RemoteStructure.RemoteReadString(Handle, new IntPtr((long)Arguments[CreateFile_FilenamePtr]), Arguments[CreateFile_FileNameCharLen]),
                     DesiredAccess = (AccessMasks)Arguments[CreateFile_DesiredAccess],

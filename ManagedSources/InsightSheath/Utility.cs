@@ -63,6 +63,46 @@ namespace InsightSheath
         {
             return NativeMethods.DuplicateHandleIntoTarget(CurrentHandle, Access, CopyAccess, TargetProcess, AllowInherit);
         }
+
+        /// <summary>
+        /// Copy a handle
+        /// </summary>
+        /// <param name="ProcessID"></param>
+        /// <param name="SourceHandle"></param>
+        /// <returns></returns>
+        public static IntPtr CopyHandleFromRemote(uint ProcessID, IntPtr SourceHandle)
+        {
+            IntPtr HandleOfProcess = IntPtr.Zero;
+            IntPtr ret = IntPtr.Zero;
+            try
+            {
+                HandleOfProcess = HelperRoutines.OpenProcessForHandleDuplicating(ProcessID);
+                if (HandleOfProcess !=  IntPtr.Zero)
+                {
+                    ret = CopyHandleFromRemote(HandleOfProcess, SourceHandle, 0, true, false);
+                    
+                }
+            }
+            finally
+            {
+                if (HandleOfProcess != IntPtr.Zero)
+                    NativeMethods.CloseHandle(HandleOfProcess);
+            }
+            return ret;
+        }
+        /// <summary>
+        /// Copy a Handle from a remote process to you. Don't forget to close it.
+        /// </summary>
+        /// <param name="SourceProcess">Process to copy from</param>
+        /// <param name="TargetHandle">by value handle to copy to your process to access the same resource</param>
+        /// <param name="Access">Choose your access parameters</param>
+        /// <param name="CopyAccess">set to true to ignore <see cref="Access"/> and take the current permissions from the handle for the new one too</param>
+        /// <param name="AllowInherit">Allow spawned processes to inherit</param>
+        /// <returns></returns>
+        public static IntPtr CopyHandleFromRemote(IntPtr SourceProcess, IntPtr TargetHandle, uint Access, bool CopyAccess, bool AllowInherit)
+        {
+            return NativeMethods.DuplicateHandleFromRemote(SourceProcess, TargetHandle, Access, CopyAccess, AllowInherit);
+        }
         /// <summary>
         /// Get a Process's name via its handle.Handle needs PROCESSS_QUERY_INFOMRATION and VM_READ rights.
         /// </summary>

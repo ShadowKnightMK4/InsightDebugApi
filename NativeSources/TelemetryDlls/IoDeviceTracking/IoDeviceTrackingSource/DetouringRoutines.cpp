@@ -98,6 +98,16 @@ bool DetourTargetRoutines()
 			return false;
 		}
 
+		OriginalReadFile = (ReadFilePtr)GetProcAddress(Kernel32, ReadFile_StringA);
+		if (OriginalReadFile == 0)
+		{
+#ifdef _DEBUG
+			OutputDebugString_GetProcFail(TRUE, ReadFile_StringW, kernel32_StringW);
+#endif
+			return false;
+
+		}
+
 		detour = DetourTransactionBegin();
 		if (detour != 0)
 		{
@@ -205,6 +215,16 @@ bool DetourTargetRoutines()
 #endif
 			return false;
 		}
+
+		detour = DetourAttach((PVOID*)&OriginalReadFile, DetouredReadFile);
+		if (detour != 0)
+		{
+#ifdef _DEBUG
+			OutputDebugString_ErrorFailedToAttach(detour, L"ReadFile", OriginalReadFile, DetouredReadFile);
+#endif
+			return false;
+		}
+
 		detour = DetourTransactionCommit();
 		if (detour != 0)
 		{

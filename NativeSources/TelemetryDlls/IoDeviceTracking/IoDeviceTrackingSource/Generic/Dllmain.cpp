@@ -4,6 +4,7 @@
 #include "detours.h"
 #include "TelemetrySupport.h"
 
+
 /*
 * You have these options in the build config settings to define to modify this template
 *

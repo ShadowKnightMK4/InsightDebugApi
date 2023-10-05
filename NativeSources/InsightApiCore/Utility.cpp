@@ -59,6 +59,20 @@ BOOL WINAPI AskForDebugPriv() noexcept
 }
 
 
+HANDLE WINAPI CopyHandleFromRemote(HANDLE SourceOfCurrentHandle, HANDLE CurrentHandle, DWORD Access, DWORD CopyAccess, BOOL Inherit)
+{
+	HANDLE ret = 0;
+	DWORD Arg = 0;
+	if (CopyAccess)
+	{
+		Arg = DUPLICATE_SAME_ACCESS;
+	}
+	if (DuplicateHandle(SourceOfCurrentHandle, CurrentHandle, GetCurrentProcess(), &ret, Access, Inherit, Arg))
+	{
+		return ret;
+	}
+	return 0;
+}
 HANDLE WINAPI RemoteHandleDup(HANDLE CurrentHandle, DWORD Access, BOOL CopyAccess, HANDLE RemoteProcess, BOOL Inherit) noexcept
 {
 	HANDLE ret = 0;

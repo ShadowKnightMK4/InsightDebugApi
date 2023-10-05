@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Media.Protection.PlayReady;
 
 namespace InsightSheath.NativeImports
 {
@@ -57,7 +58,26 @@ namespace InsightSheath.NativeImports
         [DllImport("InsightApi.dll", EntryPoint = "UtilDuplicateHandleIntoTarget", CallingConvention= CallingConvention.Winapi,SetLastError =true)]
         public static extern IntPtr DuplicateHandleIntoTarget(IntPtr CurrentHandle, UInt32 Access, bool CopyAccess, IntPtr TargetProcess, bool Inherit);
 
-
+        //public static extern IntPtr //UtlDuplicateHandleFromRemote
+        /*
+         * 
+HANDLE WINAPI CopyHandleFromRemote(HANDLE SourceOfCurrentHandle, HANDLE CurrentHandle, DWORD Access, DWORD CopyAccess, BOOL Inherit)
+{
+	HANDLE ret = 0;
+	DWORD Arg = 0;
+	if (CopyAccess)
+	{
+		Arg = DUPLICATE_SAME_ACCESS;
+	}
+	if (DuplicateHandle(SourceOfCurrentHandle, CurrentHandle, GetCurrentProcess(), &ret, Access, Inherit, Arg))
+	{
+		return ret;
+	}
+	return 0;
+}
+         */
+        [DllImport("InsightApi.dll", EntryPoint = "UtlDuplicateHandleFromRemote", CallingConvention = CallingConvention.Winapi, SetLastError = true)]
+        public static extern IntPtr DuplicateHandleFromRemote(IntPtr SourceOfHandle, IntPtr Handle, uint Access, bool CopyAccess, bool Inherit);
 
         [DllImport("InsightApi.Dll", CallingConvention = CallingConvention.Winapi, EntryPoint = "UtilGetPEMachineTypeW")]
         public static extern MachineType GetPEMachineType([MarshalAs(UnmanagedType.LPWStr)]string Str);

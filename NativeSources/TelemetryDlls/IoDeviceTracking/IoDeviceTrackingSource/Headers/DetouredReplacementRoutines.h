@@ -85,3 +85,11 @@ HANDLE WINAPI DetouredCreateFileTransactedW(
 	 //		      PIO_STATUS_BLOCK   IoStatusBlock,
 	 ULONG              ShareAccess,
 	 ULONG              OpenOptions);
+
+
+ BOOL WINAPI DetouredReadFile(
+	 HANDLE       hFile,
+	 LPVOID       lpBuffer,
+	 DWORD        nNumberOfBytesToRead,
+	 LPDWORD      lpNumberOfBytesRead,
+	 LPOVERLAPPED lpOverlapped);

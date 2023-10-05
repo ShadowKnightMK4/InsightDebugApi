@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using InsightSheath.Debugging.Process;
 using InsightSheath.Debugging;
+using Windows.Devices.Printers.Extensions;
+
 namespace InsightSheath
 {
     /// <summary>
@@ -14,6 +16,20 @@ namespace InsightSheath
     /// <remarks>IMPORTANT! This is accessing unmanaged memory outside of C#'s GC. The InsightAPI.dll does deal with given  and receiving native pointers etc and there will be times you'll need to do that with a separate process. </remarks>
     public static class MemoryNative
     {
+
+        /// <summary>
+        /// Write a Chunk of memory from us to a target process
+        /// </summary>
+        /// <param name="TargetProcess">handle valid in our process that points to the process to write do <see cref="HelperRoutines.OpenProcessForVirtualMemory(uint)"/></param>
+        /// <param name="SourceBufferInOurMemory">a pointer to a block of virtual memory in the unmanaged space of our process</param>
+        /// <param name="SourceSize">how many byts to write to this location</param>
+        /// <param name="TargetBufferInTargetProcess">pointer to a block of virtual memory to write too</param>
+        /// <param name="TargetSize">how big is the target</param>
+        /// <returns>returns true if it worked and false if not</returns>
+        public static bool RemoteWriteBuffer(IntPtr TargetProcess, IntPtr SourceBufferInOurMemory, uint SourceSize, IntPtr TargetBufferInTargetProcess, uint TargetSize)
+        {
+            return MemoryNativeInternal.RemoteWriteBuffer(TargetProcess, SourceBufferInOurMemory, SourceSize, TargetBufferInTargetProcess, TargetSize);
+        }
         /// <summary>
         /// Read a 4 byte value from unmanaged memory
         /// </summary>

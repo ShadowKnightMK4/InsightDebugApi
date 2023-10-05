@@ -54,7 +54,7 @@ namespace InsightLogger
         /// <summary>
         /// Export all entries in the listbox log display to this stream
         /// </summary>
-        /// <param name="Target"></param>
+        /// <param name="Target">where to write</param>
         void ExportLog(Stream Target)
         {
             ExportLogFormat(Target, LogHandler.CurrentFormat);
@@ -63,8 +63,8 @@ namespace InsightLogger
         /// <summary>
         /// Export all entries in the listbox log display to this stream with the specific format
         /// </summary>
-        /// <param name="Target"></param>
-        /// <param name="For"></param>
+        /// <param name="Target">where to write</param>
+        /// <param name="For">format</param>
         void ExportLogFormat(Stream Target, LogFormat For)
         {
             CommonLogFormatExportor(Target, For, ListBoxLogEvent.Items.GetEnumerator());
@@ -111,7 +111,7 @@ namespace InsightLogger
         /// </summary>
         readonly ChooseLogFormat ChooseLogFormat = new ChooseLogFormat();
         /// <summary>
-        /// The log we work with
+        /// The log we work with and display to user
         /// </summary>
         public readonly LogCollector LogHandler = new LogCollector();
         /// <summary>
@@ -186,6 +186,7 @@ namespace InsightLogger
         /// </summary>
         /// <param name="Timestamp">string to index the entry. </param>
         /// <param name="msg">msg to add</param>
+        /// <remarks>We're updating both our <see cref="LogHandler"/> and the <see cref="ListBoxLogEvent"/></remarks>
         private void PostLogThingMsgTimeStamp(string Timestamp, string msg)
         {
             var Entry = new LogEntry(msg, ChooseLogFormat.DisplayedLogFormat);
@@ -469,6 +470,11 @@ namespace InsightLogger
 
         }
 
+        /// <summary>
+        /// Event to set display log format to friendly english
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void chooseFriendlyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SetDisplayLogFormat(LogEntry.StringOutFormat.FriendlyEnglish);

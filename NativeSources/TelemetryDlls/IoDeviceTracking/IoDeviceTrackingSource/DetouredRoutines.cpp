@@ -266,6 +266,8 @@ DWORD WINAPI __NtCreateFile_alert(
 
 }
 
+// EXCEPTION_TYPE (0) = EXCEPTION_ARG_TYPE] = ARG_TYPE_READFILE
+// LAST ERROR _PTR (1) = EXCEPTION_LAST_ERROR
 #define RF_HFILE (2)
 #define RF_READBUFFER (3)
 #define RF_BYTESTOREAD (4)
@@ -274,14 +276,14 @@ DWORD WINAPI __NtCreateFile_alert(
 #define RF_RETURNVALPTR (7)
 
 /*
-* Alert routine for ReadFile.
+* Alert routine for ReadFile to give information to 
 * This breaks the usually mold because there's more things to interact with.
 * Debugger gets the args (as normal).   Debugger has points to perform the read itself, last error value and return value.
 * 
 * IMPORTANT! Debugger should set return value if wanting to indicate it handled the request. If that's not done, request is handled in the local process
 * 
 */
-DWORD WINAPI __ReadFile_alert(
+DWORD WINAPI __ReadFile_alert_PreLoad(
 	HANDLE hFile,
 	LPVOID lpBuffer,
 	DWORD  nNumberOfBytesToRead,
@@ -297,7 +299,8 @@ DWORD WINAPI __ReadFile_alert(
 	ExceptionArgs[EXCEPTION_ARG_TYPE] = ARG_TYPE_READFILE;
 	ExceptionArgs[EXCEPTION_LAST_ERROR] = (ULONG_PTR)LastErrorPtr;
 	ExceptionArgs[RF_HFILE] = (ULONG_PTR)hFile;
-	ExceptionArgs[RF_BYTESREAD] = (ULONG_PTR)nNumberOfBytesToRead;
+	ExceptionArgs[RF_READBUFFER] = (ULONG_PTR)lpBuffer;
+	ExceptionArgs[RF_BYTESTOREAD] = (ULONG_PTR)nNumberOfBytesToRead;
 	ExceptionArgs[RF_BYTESREAD] = (ULONG_PTR)lpNumberOfBytesToRead;
 	ExceptionArgs[RF_OVERLAPPED] = (ULONG_PTR)lpOverlapped;
 	ExceptionArgs[RF_RETURNVALPTR] = (ULONG_PTR)ReturnValuePtr;
@@ -728,7 +731,8 @@ BOOL __stdcall DetouredCloseHandle(HANDLE hObject)
 		   *lpNumberOfBytesRead = 0;
 	   }
 
-	   DWORD branch = __ReadFile_alert(hFile, lpBuffer, nNumberOfBytesToRead, lpNumberOfBytesRead, lpOverlapped, (BOOL*)&ReturnValue, &LastError);
+	   OutputDebugString(L"CallingReadFile");
+	   DWORD branch = __ReadFile_alert_PreLoad(hFile, lpBuffer, nNumberOfBytesToRead, lpNumberOfBytesRead, lpOverlapped, (BOOL*)&ReturnValue, &LastError);
 	  
 	   /* DEAR FUTURE ME:  This if statement should check if the return value's been set (not the 2 value) or the number of bytes read is not null and has been set*/
 	
@@ -736,22 +740,35 @@ BOOL __stdcall DetouredCloseHandle(HANDLE hObject)
 	   {
 		   if (*lpNumberOfBytesRead != 0)
 		   {
+			   OutputDebugString(L"ReadFile Overritten via different bytes  read");
 			   Overritten = true;
 		   }
+		   else
+		   { 
+			   OutputDebugString(L"ReadFile NOT Overritten via different bytes  read");
+		   }
 	   }
+	   
 
 	   if ((INT)ReturnValue != 20002)
 	   {
+		   OutputDebugString(L"ReadFile Overritten via different return value");
 		   Overritten = true;
+	   }
+	   else
+	   {
+		   OutputDebugString(L"ReadFile Overritten NOT via different bytes  read");
 	   }
 
 	   if (Overritten)
 	   {
+		   OutputDebugString(L"ReadFile set last error and returned return value. Did not call it");
 		   SetLastError(LastError);
 		   return (BOOL)ReturnValue;
 	   }
 	   else
 	   {
+		   OutputDebugString(L"Fallback to pass thru");
 		   return OriginalReadFile(hFile, lpBuffer, nNumberOfBytesToRead, lpNumberOfBytesRead, lpOverlapped);
 	   }
   
